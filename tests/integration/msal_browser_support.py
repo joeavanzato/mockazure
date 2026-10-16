@@ -6,7 +6,7 @@ import msal
 import requests
 
 
-def msal_browser_probe(base, tenant_id, ca_file, admin_token):
+def msal_browser_probe(base, tenant_id, ca_file, admin_token, restart=None):
     with requests.Session() as transport:
         transport.verify = str(ca_file)
         transport.trust_env = False
@@ -59,4 +59,46 @@ def msal_browser_probe(base, tenant_id, ca_file, admin_token):
             timeout=10,
         )
         assert me.status_code == 200 and me.json()["userPrincipalName"] == "reader@lab.test"
-        return sdk, result
+
+        device = sdk.initiate_device_flow(scopes=["User.Read"])
+        assert "device_code" in device, device.get("error")
+        response = transport.get(
+            base + "/device", params={"user_code": device["user_code"]}, timeout=10
+        )
+        fields = {
+            name: unescape(re.search(r'name="' + name + r'" value="([^"]*)"', response.text)[1])
+            for name in ("transaction", "csrf")
+        }
+        for path, data in (
+            ("/login", {"username": "reader@lab.test", "password": "local-password-987"}),
+            ("/consent", {"decision": "approve"}),
+            ("/mfa", {"decision": "complete"}),
+        ):
+            response = transport.post(base + path, data={**fields, **data}, timeout=10)
+            assert response.status_code == 200
+        if restart:
+            restart()
+        device_result = sdk.acquire_token_by_device_flow(device)
+        assert "access_token" in device_result, device_result.get("error")
+        accounts = sdk.get_accounts()
+        assert accounts
+        renewed = sdk.acquire_token_silent_with_error(
+            ["User.Read"], accounts[0], force_refresh=True
+        )
+        assert renewed and "access_token" in renewed, renewed.get("error") if renewed else None
+        sessions = transport.get(
+            base + f"/_mock/tenants/{tenant_id}/identity/sessions",
+            headers={"Authorization": "Bearer " + admin_token},
+            timeout=10,
+        ).json()["items"]
+        for row in sessions:
+            response = transport.delete(
+                base + f"/_mock/tenants/{tenant_id}/identity/sessions/" + row["id"],
+                headers={"Authorization": "Bearer " + admin_token},
+                timeout=10,
+            )
+            assert response.status_code == 200
+        revoked = sdk.acquire_token_silent_with_error(
+            ["User.Read"], accounts[0], force_refresh=True
+        )
+        assert revoked and revoked["error"] == "invalid_grant"

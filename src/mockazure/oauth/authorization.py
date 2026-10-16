@@ -20,7 +20,7 @@ from mockazure.oauth.errors import OAuthError
 from mockazure.oauth.forms import read_form
 from mockazure.oauth.models import AuthorizationTransaction
 from mockazure.oauth.scopes import OIDC, granted_scopes, parse_scopes, require_grants
-from mockazure.oauth.sessions import clock, digest, new_session, token_response
+from mockazure.oauth.sessions import clock, digest, new_session, record_outcome, token_response
 
 router = APIRouter()
 COOKIE = "__Host-mockazure-flow"
@@ -150,7 +150,7 @@ async def browser_transaction(request, fields, session, stage, now):
     ):
         raise OAuthError("invalid_request", "Invalid browser transaction or CSRF token")
     app = await local_app(session, row.tenant_id, str(row.client_id))
-    if row.redirect_uri not in app.redirect_uris:
+    if not row.device_id and row.redirect_uri not in app.redirect_uris:
         raise OAuthError("invalid_request", "Callback registration changed")
     return row, app
 
@@ -228,6 +228,11 @@ async def consent(request: Request):
         await current_user(row, session)
         if fields.get("decision") == "deny":
             row.stage = "denied"
+            if row.device_id:
+                from mockazure.oauth.device import complete_device
+
+                return await complete_device(row, session, now, approved=False)
+            record_outcome(session, row, "authorization_code", now, "access_denied")
             return pages.callback(row, {"error": "access_denied"})
         if fields.get("decision") != "approve":
             raise OAuthError("invalid_request", "Choose allow or deny")
@@ -245,11 +250,20 @@ async def mfa(request: Request):
         decision = fields.get("decision")
         if decision == "deny":
             row.stage, row.mfa = "denied", "denied"
+            if row.device_id:
+                from mockazure.oauth.device import complete_device
+
+                return await complete_device(row, session, now, approved=False)
+            record_outcome(session, row, "authorization_code", now, "access_denied")
             return pages.callback(row, {"error": "access_denied"})
         if decision not in ("complete", "skip"):
             raise OAuthError("invalid_request", "Choose a simulated MFA outcome")
         row.mfa = "completed" if decision == "complete" else "not_performed"
         row.stage = "authorized"
+        if row.device_id:
+            from mockazure.oauth.device import complete_device
+
+            return await complete_device(row, session, now, approved=True)
         raw = secrets.token_urlsafe(48)
         row.code_hash, row.code_expires_at = digest(raw), now + timedelta(seconds=300)
         return pages.callback(row, {"code": raw})
@@ -283,6 +297,7 @@ async def redeem_code(fields, tenant, request, session, now):
     user = await current_user(row, session)
     await require_grants(session, row)
     row.consumed_at = now
+    record_outcome(session, row, "authorization_code", now, "success")
     login_session = await new_session(row, session, now)
     return await token_response(
         login_session, user, session, request.app.state.settings, now, nonce=row.nonce

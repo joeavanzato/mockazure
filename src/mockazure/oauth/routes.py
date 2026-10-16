@@ -11,10 +11,11 @@ from mockazure.identity.tokens import issue_access_token
 from mockazure.identity.types import PrincipalContext
 from mockazure.oauth.authorization import redeem_code
 from mockazure.oauth.client_auth import authenticate_client
+from mockazure.oauth.device import redeem_device_code
 from mockazure.oauth.discovery import resolve_tenant
 from mockazure.oauth.errors import OAuthError
 from mockazure.oauth.forms import read_form
-from mockazure.oauth.sessions import clock
+from mockazure.oauth.sessions import clock, refresh_session
 
 router = APIRouter()
 
@@ -22,6 +23,16 @@ router = APIRouter()
 @router.post("/{tenant}/oauth2/v2.0/token")
 async def token(tenant: str, request: Request):
     fields = await read_form(request)
+    if fields.get("grant_type") in (
+        "refresh_token",
+        "urn:ietf:params:oauth:grant-type:device_code",
+    ):
+        handler = refresh_session if fields["grant_type"] == "refresh_token" else redeem_device_code
+        async with request.app.state.database.sessions.begin() as session:
+            result = await handler(fields, tenant, request, session, clock(request))
+        if isinstance(result, OAuthError):
+            raise result
+        return JSONResponse(result, headers={"Cache-Control": "no-store", "Pragma": "no-cache"})
     if fields.get("grant_type") == "authorization_code":
         async with request.app.state.database.sessions.begin() as session:
             result = await redeem_code(fields, tenant, request, session, clock(request))

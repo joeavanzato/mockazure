@@ -91,3 +91,116 @@ async def token_response(login, user, session, settings, now, *, nonce="", scope
         )
         result["refresh_token"] = raw
     return result
+
+
+def record_outcome(session, identity, flow, now, result):
+    from uuid import uuid4
+
+    from mockazure.oauth.device_models import AuthenticationOutcome
+
+    session.add(
+        AuthenticationOutcome(
+            tenant_id=identity.tenant_id,
+            client_id=identity.client_id,
+            user_id=getattr(identity, "user_id", None),
+            flow=flow,
+            timestamp=now,
+            correlation_id=uuid4(),
+            result=result,
+            mfa=getattr(identity, "mfa", "not_performed"),
+        )
+    )
+
+
+async def refresh_session(fields, tenant, request, session, now):
+    from sqlalchemy import select
+
+    from mockazure.oauth.authorization import current_user, delegated_client, invalid_grant
+    from mockazure.oauth.discovery import resolve_tenant
+    from mockazure.oauth.errors import OAuthError
+    from mockazure.oauth.scopes import parse_scopes, require_grants
+
+    handle = await session.get(RefreshHandle, digest(fields.get("refresh_token", "")))
+    if not handle or handle.expires_at <= now:
+        raise invalid_grant()
+    row = await session.scalar(
+        select(LoginSession).where(LoginSession.id == handle.session_id).with_for_update()
+    )
+    if (
+        not row
+        or row.revoked_at
+        or row.expires_at <= now
+        or str(row.client_id) != fields.get("client_id")
+    ):
+        raise invalid_grant()
+    if tenant not in ("common", "organizations"):
+        if (await resolve_tenant(session, tenant)).id != row.tenant_id:
+            raise invalid_grant()
+    app = await delegated_client(session, row.tenant_id, fields, request, now)
+    scopes = row.scopes
+    if fields.get("scope"):
+        resource, scopes = parse_scopes(fields["scope"], app, request.app.state.settings.endpoints)
+        if resource != row.resource or not set(scopes) <= set(row.scopes):
+            raise OAuthError("invalid_scope", "Refresh cannot add resources or scopes")
+    user = await current_user(row, session)
+    await require_grants(session, row)
+    record_outcome(session, row, "refresh_token", now, "success")
+    return await token_response(row, user, session, request.app.state.settings, now, scopes=scopes)
+
+
+async def cleanup_expired(session, tenant_id, now, limit=500):
+    """Bounded tenant-scoped cleanup, ordered children before parents."""
+    from sqlalchemy import delete, or_, select
+
+    from mockazure.oauth.device_models import DeviceAuthorization
+    from mockazure.oauth.models import AuthorizationTransaction
+
+    if not 1 <= limit <= 1000:
+        raise ValueError("Cleanup limit must be between 1 and 1000")
+    for model, key in (
+        (RefreshHandle, RefreshHandle.digest),
+        (AuthorizationTransaction, AuthorizationTransaction.id),
+    ):
+        expired = (
+            select(key)
+            .where(model.tenant_id == tenant_id, model.expires_at <= now)
+            .order_by(model.expires_at)
+            .limit(limit)
+            .with_for_update(skip_locked=True)
+        )
+        if model is AuthorizationTransaction:
+            expired = expired.where(
+                or_(
+                    AuthorizationTransaction.code_expires_at.is_(None),
+                    AuthorizationTransaction.code_expires_at <= now,
+                )
+            )
+        await session.execute(delete(model).where(key.in_(expired)))
+    live_browser = select(AuthorizationTransaction.device_id).where(
+        AuthorizationTransaction.device_id.is_not(None)
+    )
+    expired_devices = (
+        select(DeviceAuthorization.id)
+        .where(
+            DeviceAuthorization.tenant_id == tenant_id,
+            DeviceAuthorization.expires_at <= now,
+            DeviceAuthorization.id.not_in(live_browser),
+        )
+        .limit(limit)
+        .with_for_update(skip_locked=True)
+    )
+    await session.execute(
+        delete(DeviceAuthorization).where(DeviceAuthorization.id.in_(expired_devices))
+    )
+    live_handles = select(RefreshHandle.session_id)
+    expired_sessions = (
+        select(LoginSession.id)
+        .where(
+            LoginSession.tenant_id == tenant_id,
+            LoginSession.expires_at <= now,
+            LoginSession.id.not_in(live_handles),
+        )
+        .limit(limit)
+        .with_for_update(skip_locked=True)
+    )
+    await session.execute(delete(LoginSession).where(LoginSession.id.in_(expired_sessions)))

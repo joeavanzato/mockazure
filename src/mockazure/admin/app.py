@@ -12,10 +12,12 @@ from mockazure.admin.errors import AdminError, error_response
 from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.routes import router
+from mockazure.admin.session_routes import router as session_router
 from mockazure.config import Settings
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
 from mockazure.oauth.authorization import router as authorization_router
+from mockazure.oauth.device import router as device_router
 from mockazure.oauth.discovery import router as discovery_router
 from mockazure.oauth.errors import OAuthError, oauth_error_response
 from mockazure.oauth.routes import router as oauth_router
@@ -128,10 +130,12 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     app.include_router(router)
     app.include_router(job_router)
+    app.include_router(session_router)
     app.include_router(identity_router)
     app.include_router(discovery_router)
     app.include_router(oauth_router)
     app.include_router(authorization_router)
+    app.include_router(device_router)
     app.include_router(graph_router, prefix="/v1.0")
     app.include_router(graph_router, prefix="/beta")
     return app

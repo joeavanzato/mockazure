@@ -165,11 +165,34 @@ def test_identity_cli_over_https_keeps_secrets_in_output_file(database, settings
                 )
             from tests.integration.msal_browser_support import msal_browser_probe
 
+            def restart_api():
+                nonlocal process
+                arguments = process.args
+                process.terminate()
+                process.wait(timeout=15)
+                process = subprocess.Popen(arguments, stdout=log, stderr=log, env=environment)
+                with httpx.Client(
+                    verify=ssl.create_default_context(cafile=str(files.ca_cert_file)),
+                    trust_env=False,
+                ) as readiness:
+                    for _ in range(100):
+                        try:
+                            if (
+                                readiness.get(f"https://localhost:{port}/_mock/ready").status_code
+                                == 200
+                            ):
+                                return
+                        except httpx.HTTPError:
+                            pass
+                        time.sleep(0.1)
+                raise AssertionError("API did not restart")
+
             msal_browser_probe(
                 f"https://localhost:{port}",
                 tenant_id,
                 files.ca_cert_file,
                 files.admin_token_file.read_text().strip(),
+                restart=restart_api,
             )
             rotated = cli("identity", "rotate-keys")
             assert rotated.returncode == 0, rotated.stderr

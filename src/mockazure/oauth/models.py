@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, ForeignKeyConstraint, String, UniqueConstraint
+from sqlalchemy import DateTime, ForeignKey, ForeignKeyConstraint, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -23,6 +23,7 @@ class AuthorizationTransaction(Base):
     tenant_id: Mapped[UUID]
     client_id: Mapped[UUID]
     user_id: Mapped[UUID | None]
+    device_id: Mapped[UUID | None] = mapped_column(ForeignKey("oauth_devices.id"))
     common: Mapped[bool] = mapped_column(default=False)
     redirect_uri: Mapped[str] = mapped_column(String(2048))
     scopes: Mapped[list] = mapped_column(JSONB)

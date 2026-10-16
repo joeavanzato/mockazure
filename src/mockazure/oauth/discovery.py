@@ -45,7 +45,12 @@ async def metadata(tenant: str, request: Request):
         "subject_types_supported": ["pairwise"],
         "id_token_signing_alg_values_supported": ["RS256"],
         "token_endpoint_auth_methods_supported": ["client_secret_post", "private_key_jwt"],
-        "grant_types_supported": ["client_credentials", "authorization_code"],
+        "grant_types_supported": [
+            "client_credentials",
+            "authorization_code",
+            "refresh_token",
+            "urn:ietf:params:oauth:grant-type:device_code",
+        ],
         "scopes_supported": ["openid", "profile", "email", "offline_access"],
     }
 
