@@ -7,8 +7,9 @@ services:
       POSTGRES_USER: mockazure
       POSTGRES_DB: mockazure_test_control
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
-    volumes:
-      - ./.runtime/test-postgres:/var/lib/postgresql
+    # Disposable test databases; avoid Windows bind-mount startup latency.
+    tmpfs:
+      - /var/lib/postgresql:rw,size=2g
     secrets: [db_password]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U mockazure -d mockazure_test_control"]

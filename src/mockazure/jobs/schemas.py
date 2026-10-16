@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Literal
 from uuid import UUID
 
@@ -32,8 +33,23 @@ class JobView(BaseModel):
 
 
 @dataclass(frozen=True)
-class ClaimedJob:
+class JobClaim:
     id: UUID
+    tenant_id: UUID
+    kind: str
     owner: UUID
     attempt: int
-    payload: ExportSnapshot
+    epoch: int
+    lease_until: datetime
+    payload: dict
+
+
+@dataclass(frozen=True)
+class JobResult:
+    state: str
+    result: dict | None
+    error_code: str | None
+
+
+# Existing Python imports keep working; the internal claim is now kind-aware.
+ClaimedJob = JobClaim

@@ -122,25 +122,25 @@ Modify db/job_model.py, db/alembic/env.py and outcome/outbox models only for dec
   ProjectionReceipt, EvidenceCursor, RiskActionCutoff. Composite tenant constraints;
   UUID version keys and indexed family/time/user/app/type; job claim_epoch and source dedupe key.
 
-- [ ] Write test_upgrade_m3a_preserves_state_and_pending_sources: migrate populated010
+- [x] Write test_upgrade_m3a_preserves_state_and_pending_sources: migrate populated010
   with current user/group/delta handle, pending directory facts and M2 outcome/export job.
   Existing IDs, secrets/grants and nextLink remain usable; no retroactive fabricated rows.
   assert directory_cursor_after == directory_cursor_before; assert legacy_export.payload == before.
-- [ ] Write test_publication_commit_order_and_rollback: hold tenant A publication lock,
+- [x] Write test_publication_commit_order_and_rollback: hold tenant A publication lock,
   ensure competing publisher cannot expose higher revision first; rollback leaves no
   observation/version/receipt. assert not await visible_record_ids(tenant_a).
-- [ ] Write test_tenant_constraints_and_replay_receipt: cross-tenant links fail;
+- [x] Write test_tenant_constraints_and_replay_receipt: cross-tenant links fail;
   same source replay keeps IDs/count; deleting expired views then replay does not resurrect.
   assert second.record_ids == first.record_ids; assert second.already_applied.
-- [ ] Write test_clock_is_separate: fixed evidence clock advances while token and cursor
+- [x] Write test_clock_is_separate: fixed evidence clock advances while token and cursor
   expiry use wall time; rewind rejected. Assert no OAuth clock value changes.
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_evidence_storage.py -q.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_evidence_storage.py -q.
   Expected RED: missing011/schema/interfaces or invariant failures.
-- [ ] Implement the named schema/interfaces, explicit public validators and source/receipt
+- [x] Implement the named schema/interfaces, explicit public validators and source/receipt
   uniqueness. Migration preserves existing tables/data and defaults, never reprovisions tenants.
-- [ ] Run that file plus tests/integration/test_graph_directory_storage.py,
+- [x] Run that file plus tests/integration/test_graph_directory_storage.py,
   test_identity_upgrade.py and test_jobs.py; expected all PASS.
-- [ ] Commit: feat(evidence): add tenant-scoped observations and publication history.
+- [x] Commit: feat(evidence): add tenant-scoped observations and publication history.
 
 ## Task 2: Typed jobs and fenced, duplicate-safe projection
 
@@ -157,22 +157,22 @@ tests/integration/test_evidence_worker.py. Modify jobs/{schemas,repository,worke
 - claim_job returns JobClaim; dispatch_job(database:Database,claim:JobClaim,wall_now:datetime)
   ->JobResult. Existing run_one(database,owner,now)->bool remains the worker boundary.
 
-- [ ] Write test_mixed_jobs_keep_export_contract: an export and evidence job both finish;
+- [x] Write test_mixed_jobs_keep_export_contract: an export and evidence job both finish;
   old export API still returns ExportSnapshot, evidence job there is404.
-- [ ] Write test_worker_takeover_and_atomic_receipt: kill a worker after claim and before
+- [x] Write test_worker_takeover_and_atomic_receipt: kill a worker after claim and before
   commit; another worker takes expired lease. assert visible_count == 1 and receipts == 1.
-- [ ] Write test_retry_epoch_and_reset_fence: old claim cannot finish after retry or reset,
+- [x] Write test_retry_epoch_and_reset_fence: old claim cannot finish after retry or reset,
   even if attempt numbers repeat. assert stale_result.state == "stale".
-- [ ] Write test_failure_classes_and_scanner_repair: transactionally persisted but unenqueued
+- [x] Write test_failure_classes_and_scanner_repair: transactionally persisted but unenqueued
   source gets one job; transient retry1s/2s then fails at3; malformed schema fails once
   with sanitized error; tenantB proceeds despite poisoned tenantA source.
-- [ ] Run pytest tests/integration/test_evidence_worker.py -q; expected RED from export-only dispatch.
-- [ ] Implement kind registry, row-lock fence/lease checks and atomic publish/receipt/
+- [x] Run pytest tests/integration/test_evidence_worker.py -q; expected RED from export-only dispatch.
+- [x] Implement kind registry, row-lock fence/lease checks and atomic publish/receipt/
   acknowledgement/completion. Drain and background worker will call this same dispatcher.
   No external I/O in projection. Add bounded scanner to worker loop without starving exports.
-- [ ] Run new tests plus tests/integration/test_jobs.py test_worker_processes.py test_exports.py;
+- [x] Run new tests plus tests/integration/test_jobs.py test_worker_processes.py test_exports.py;
   expected PASS, including process-interruption tests.
-- [ ] Commit: feat(jobs): dispatch fenced evidence projections alongside exports.
+- [x] Commit: feat(jobs): dispatch fenced evidence projections alongside exports.
 
 ## Task 3: Directory operations produce historically correct audits
 
