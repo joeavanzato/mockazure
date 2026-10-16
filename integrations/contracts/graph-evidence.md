@@ -1,6 +1,6 @@
 # M3B evidence, licence and managed-identity contract
 
-**Status:** Proposed implementation contract, 2026-10-16; no runtime capability claimed.
+**Status:** Approved implementation contract, 2026-10-16; implementation in progress.
 Part of the [M3B implementation plan](../../docs/superpowers/plans/2026-10-16-mockazure-evidence.md).
 Microsoft endpoint facts and deliberate local modeling choices are distinguished below.
 Existing M2/M3A contracts remain unchanged unless a specific extension is listed.
@@ -88,12 +88,12 @@ authorization contract.
 
 All resources include id and @odata.type. Explicit field allowlists:
 - Sign-in common: createdDateTime, userId, userDisplayName, userPrincipalName, appId,
-  appDisplayName, resourceId, resourceDisplayName, ipAddress, clientAppUsed, correlationId,
+  appDisplayName, servicePrincipalId, servicePrincipalName, resourceId, resourceDisplayName, ipAddress, clientAppUsed, correlationId,
   isInteractive, status{errorCode,failureReason,additionalDetails}, conditionalAccessStatus,
   riskDetail, riskLevelAggregated, riskLevelDuringSignIn, riskState, riskEventTypes_v2,
   deviceDetail{deviceId,displayName,operatingSystem,browser,isCompliant,isManaged,trustType},
   location{city,state,countryOrRegion,geoCoordinates{latitude,longitude,altitude}}.
-- Beta additionally: signInEventTypes, servicePrincipalId, servicePrincipalName,
+- Beta additionally: signInEventTypes,
   authenticationProtocol, authenticationRequirement, authenticationDetails. Details accept
   only authenticationStepDateTime, authenticationMethod, authenticationMethodDetail,
   succeeded, authenticationStepResultDetail, authenticationStepRequirement.
@@ -101,7 +101,7 @@ All resources include id and @odata.type. Explicit field allowlists:
   loggedByService, result, resultReason, operationType, initiatedBy{user,app},
   targetResources, additionalDetails. User actor: id,displayName,userPrincipalName,ipAddress;
   app actor: appId,displayName,servicePrincipalId,servicePrincipalName. Target:
-  id,displayName,type,userPrincipalName,groupType,modifiedProperties{name,oldValue,newValue}.
+  id,displayName,type,userPrincipalName,groupType,modifiedProperties{displayName,oldValue,newValue}.
 - Risky user: userDisplayName,userPrincipalName,isDeleted,isProcessing,riskLevel,riskState,
   riskDetail,riskLastUpdatedDateTime.
 - Detection: userId,userDisplayName,userPrincipalName,riskEventType,riskLevel,riskState,
@@ -219,7 +219,7 @@ updates get receipts with zero provider projections. [S16]
 | refresh successful issuance | nonInteractiveUser | 0 |
 | client credentials successful issuance | servicePrincipal | 0 |
 | local managed identity successful issuance | managedIdentity | 0 |
-| known-tenant invalid username/password | interactiveUser | 50126, including unknown user with null userId |
+| known-tenant invalid username/password | interactiveUser | 50126, including unknown user with empty-string userId |
 | disabled/deleted known user | flow's user type | 50057 / 50034 |
 | explicit consent refusal | interactiveUser | 65004 |
 | explicit simulated MFA refusal | interactiveUser | 50074 |
@@ -402,3 +402,20 @@ Sources reviewed 2026-10-16; local modeling choices above are normative for Mock
 - [S16: audit activities](https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-audit-activities)
 - [S17: authentication errors](https://learn.microsoft.com/en-us/entra/identity-platform/reference-error-codes)
 - [S18: managed-identity hosting protocol](https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity)
+
+## Pinned structural authority
+
+Implementation uses the actual Microsoft Graph CSDL from
+[microsoftgraph/msgraph-metadata](https://github.com/microsoftgraph/msgraph-metadata/tree/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas),
+revision34b8e9c29032c82352a6fd7138be0a864a842bb2, schemas/v1.0-Prod.csdl.
+The full source SHA-256 is286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0.
+The separately extracted beta schema has its own source path/hash in the bundled reference.
+This structural authority supersedes earlier handwritten field assumptions; REST operation
+documentation still governs authorization, available record types and query behavior.
+
+Concrete corrections: modifiedProperty uses displayName; v1.0 signIn includes
+servicePrincipalId/servicePrincipalName; signIn.userId is nonnullable in both metadata
+versions, and beta servicePrincipalId is nonnullable too. Unknown/unapplicable required
+string identifiers use an empty string, never a fabricated UUID or null. Empty is a declared
+local representation of an unknown identity, not a claim that authentication resolved it.
+Internal nullable subject_id remains distinct from the wire property.

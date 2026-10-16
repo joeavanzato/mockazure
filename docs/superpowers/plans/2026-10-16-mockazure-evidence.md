@@ -10,7 +10,7 @@
 
 **Spec:** [Approved M3B design](../specs/2026-10-16-mockazure-evidence-design.md).
 **Normative appendix:** [M3B API and state contract](../../../integrations/contracts/graph-evidence.md), sections1–8; read with this plan.
-**Status:** Written for review after design approval, 2026-10-16. No M3B product implementation.
+**Status:** Approved by the user, 2026-10-16; Native implementation in progress.
 **Execution:** Native, already selected; main agent implements, one independent whole-change review.
 **Base:** merged main4a5fedb plus approved design406901f and this plan; create an isolated D: worktree at execution. No dependency on an unmerged M2/M3A PR.
 
@@ -28,7 +28,7 @@
 - Evidence cursor generation is independent of directory delta generation. No evidence delta in this increment.
 - PostgreSQL is the system of record. No SQLite, Redis or broker dependency.
 - Commit coherent increments, push, create/attach a reviewable PR against main. Never merge or force-push on the user's behalf.
-- No implementation until written-plan review. Retain Native without asking the execution-method question again.
+- Written plan approved. Retain Native; use actual Microsoft Graph REST v1.0 schemas as implementation authority.
 
 ## Review Focus
 
@@ -569,4 +569,4 @@ Implementation may refine internal code organization but must retain named cross
 interfaces or record a coherent interface adjustment for all consumers. No endpoint or
 client gate may be quietly converted to fixture-only behavior.
 
-Plan review is the next action. Native is retained; approval starts inline execution.
+Plan approved; Native execution is underway. Schema corrections are recorded in the execution ledger.

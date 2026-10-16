@@ -1,3 +1,4 @@
+import os
 from contextlib import contextmanager
 from pathlib import Path
 from uuid import uuid4
@@ -16,7 +17,10 @@ from mockazure.db.migrations import migrate
 def isolated_database_url():
     password = Path(".runtime/test-db.password").read_text().strip()
     name = "mockazure_test_" + uuid4().hex
-    url = make_url("postgresql+psycopg://mockazure@127.0.0.1:55433/" + name).set(password=password)
+    port = int(os.environ.get("MOCKAZURE_TEST_DB_PORT", "55433"))
+    url = make_url(f"postgresql+psycopg://mockazure@127.0.0.1:{port}/" + name).set(
+        password=password
+    )
     assert url.database.startswith("mockazure_test_")
     control = url.set(drivername="postgresql", database="mockazure_test_control").render_as_string(
         hide_password=False

@@ -4,3 +4,7 @@ Copyright 2026 MockAzure contributors (joeavanzato/mockazure).
 The non-executable reference/mockcloud source snapshot originated in the
 owner's VTW repository. See reference/provenance.json for its exact revision
 and file hashes. The runtime package is independently implemented.
+
+The bundled Graph structural schema references are derived from Microsoft
+Graph metadata, Copyright (c) 2018 Microsoft Graph, under the MIT License.
+See src/mockazure/providers/graph/schemas/LICENSE.metadata and README.md.
