@@ -123,7 +123,9 @@ SELECT md5(
   disabled_plans::text, ',' ORDER BY user_id,sku_id)
   FROM licensing_user_assignments WHERE tenant_id=:tenant),'') || '|' ||
  COALESCE((SELECT string_agg(id::text || ':' || COALESCE(deleted_at::text,''), ',' ORDER BY id)
-  FROM identity_users WHERE tenant_id=:tenant),'') || '|' ||
+  FROM identity_users u WHERE tenant_id=:tenant AND EXISTS(
+   SELECT 1 FROM evidence_sources s WHERE s.tenant_id=u.tenant_id AND s.kind='historical'
+   AND s.facts->>'orphaned_subject'='true' AND s.facts->>'subject_id'=u.id::text)),'') || '|' ||
  COALESCE((SELECT string_agg(sku_id::text || ':' || status || ':' || enabled::text || ':' ||
   service_plans::text, ',' ORDER BY sku_id) FROM licensing_skus WHERE tenant_id=:tenant),''))
 """),

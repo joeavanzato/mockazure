@@ -142,6 +142,7 @@ async def read_evidence(session, request):
     payload = disclosed_payload(request.family, access)
     conditions = [
         EvidenceVersion.tenant_id == request.context.tenant_id,
+        EvidenceVersion.generation == snapshot.generation,
         EvidenceVersion.family == request.family,
         EvidenceVersion.valid_from <= snapshot.revision,
         or_(EvidenceVersion.valid_to.is_(None), EvidenceVersion.valid_to > snapshot.revision),

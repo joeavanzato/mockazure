@@ -40,3 +40,9 @@ def list_skus(
     execute(
         config, lambda client: client.request("GET", f"/_mock/tenants/{tenant_id}/licensing/skus")
     )
+
+
+sku_app = typer.Typer()
+sku_app.command("put")(put_sku)
+sku_app.command("list")(list_skus)
+app.add_typer(sku_app, name="sku")

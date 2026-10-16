@@ -65,12 +65,16 @@ async def claim_job(
     owner: UUID,
     now: datetime,
     lease_seconds: int,
+    tenant_id: UUID | None = None,
+    kind: str | None = None,
 ) -> JobClaim | None:
     if not 1 <= lease_seconds <= 3600:
         raise ValueError("invalid job lease")
     await session.execute(
         update(Job)
         .where(
+            True if tenant_id is None else Job.tenant_id == tenant_id,
+            True if kind is None else Job.kind == kind,
             Job.state == "running",
             Job.attempts >= 3,
             Job.lease_until <= now,
@@ -85,11 +89,15 @@ async def claim_job(
         )
     )
     from mockazure.evidence.risk import unpublished_risk_not_due
+    from mockazure.evidence.sources import evidence_job_retired
 
     row = await session.scalar(
         select(Job)
         .where(
             ~unpublished_risk_not_due(now),
+            ~evidence_job_retired(),
+            True if tenant_id is None else Job.tenant_id == tenant_id,
+            True if kind is None else Job.kind == kind,
             Job.attempts < 3,
             or_(
                 and_(Job.state == "pending", Job.available_at <= now),

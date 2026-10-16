@@ -27,6 +27,10 @@ class EvidenceState(Base):
     source_revision: Mapped[int] = mapped_column(BigInteger, default=0)
     publication_revision: Mapped[int] = mapped_column(BigInteger, default=0)
     settings: Mapped[dict] = mapped_column(JSONB, default=dict)
+    legacy_directory_revision: Mapped[int] = mapped_column(
+        BigInteger, default=0, server_default="0"
+    )
+    legacy_auth_cutoff_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class EvidenceSource(Base):
@@ -85,10 +89,15 @@ class EvidenceVersion(Base):
                 "evidence_observations.record_id",
             ],
         ),
+        ForeignKeyConstraint(
+            ["tenant_id", "source_kind", "source_id"],
+            ["evidence_sources.tenant_id", "evidence_sources.kind", "evidence_sources.id"],
+        ),
         CheckConstraint("valid_from > 0 AND (valid_to IS NULL OR valid_to > valid_from)"),
         Index(
             "uq_evidence_current",
             "tenant_id",
+            "generation",
             "family",
             "record_id",
             unique=True,
@@ -102,6 +111,9 @@ class EvidenceVersion(Base):
     tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
     family: Mapped[str] = mapped_column(String(24), primary_key=True)
     record_id: Mapped[UUID] = mapped_column(primary_key=True)
+    generation: Mapped[UUID]
+    source_kind: Mapped[str] = mapped_column(String(40))
+    source_id: Mapped[UUID]
     valid_from: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     valid_to: Mapped[int | None] = mapped_column(BigInteger)
     event_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))

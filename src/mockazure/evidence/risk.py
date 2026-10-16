@@ -11,6 +11,7 @@ from mockazure.admin.errors import AdminError
 from mockazure.evidence.models import (
     EvidenceObservation,
     EvidenceSource,
+    EvidenceState,
     EvidenceVersion,
     RiskActionCutoff,
 )
@@ -228,7 +229,10 @@ def apply_risk_cutoff(payload, cutoff, *, occurred_at=None, source_revision=0, h
 
 async def current_version(session, tenant, family, identifier):
     return await session.scalar(
-        select(EvidenceVersion).where(
+        select(EvidenceVersion)
+        .join(EvidenceState, EvidenceState.tenant_id == EvidenceVersion.tenant_id)
+        .where(
+            EvidenceVersion.generation == EvidenceState.generation,
             EvidenceVersion.tenant_id == tenant,
             EvidenceVersion.family == family,
             EvidenceVersion.record_id == identifier,
@@ -249,6 +253,9 @@ async def version_payload(session, row, payload, revision):
     session.add(
         EvidenceVersion(
             tenant_id=row.tenant_id,
+            generation=row.generation,
+            source_kind=row.source_kind,
+            source_id=row.source_id,
             family=row.family,
             record_id=row.record_id,
             valid_from=revision,
@@ -499,7 +506,7 @@ async def apply_risk_action(session, actor, action, user_ids, now, correlation_i
                 payload = apply_risk_cutoff(
                     event.payload,
                     cutoff,
-                    occurred_at=event.event_time,
+                    occurred_at=original.occurred_at,
                     source_revision=source.source_revision,
                     historical=source.kind == "historical",
                 )

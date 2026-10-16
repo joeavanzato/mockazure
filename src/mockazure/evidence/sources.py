@@ -43,17 +43,17 @@ async def enqueue_projection(session: AsyncSession, ref: SourceRef) -> UUID:
     )
 
 
-async def scan_sources(session: AsyncSession, *, limit: int = 100) -> int:
+async def scan_sources(session: AsyncSession, *, limit: int = 100, tenant_id=None) -> int:
     if not 1 <= limit <= 1000:
         raise ValueError("Scanner limit must be 1..1000")
     from mockazure.evidence.directory_facts import scan_directory_outbox
 
-    captured = await scan_directory_outbox(session, limit)
+    captured = await scan_directory_outbox(session, limit, tenant_id)
     if captured == limit:
         return captured
     from mockazure.evidence.authentication import scan_authentication_outcomes
 
-    captured += await scan_authentication_outcomes(session, limit - captured)
+    captured += await scan_authentication_outcomes(session, limit - captured, tenant_id)
     if captured == limit:
         return captured
     queued = exists(
@@ -71,6 +71,7 @@ async def scan_sources(session: AsyncSession, *, limit: int = 100) -> int:
                 EvidenceState.tenant_id == EvidenceSource.tenant_id,
             )
             .where(
+                True if tenant_id is None else EvidenceSource.tenant_id == tenant_id,
                 EvidenceSource.acknowledged_at.is_(None),
                 EvidenceSource.generation == EvidenceState.generation,
                 ~queued,
@@ -86,3 +87,17 @@ async def scan_sources(session: AsyncSession, *, limit: int = 100) -> int:
             session, SourceRef(tenant_id=row.tenant_id, kind=row.kind, id=row.id)
         )
     return captured + len(rows)
+
+
+def evidence_job_retired():
+    return exists(
+        select(1)
+        .select_from(EvidenceSource)
+        .join(EvidenceState, EvidenceState.tenant_id == EvidenceSource.tenant_id)
+        .where(
+            Job.kind == "evidence.project",
+            Job.tenant_id == EvidenceSource.tenant_id,
+            Job.source_key == EvidenceSource.kind + ":" + cast(EvidenceSource.id, String),
+            EvidenceSource.generation != EvidenceState.generation,
+        )
+    )

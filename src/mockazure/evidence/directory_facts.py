@@ -211,7 +211,7 @@ def legacy_facts(row):
     ).model_dump(mode="json")
 
 
-async def capture_outbox(session, row):
+async def capture_outbox(session, row, *, legacy_scan=False):
     from mockazure.evidence.models import EvidenceSource
     from mockazure.evidence.repository import append_source, lock_state
     from mockazure.evidence.sources import enqueue_projection
@@ -221,6 +221,8 @@ async def capture_outbox(session, row):
         return ref
     facts = row.facts if row.facts.get("schema_version") == 2 else legacy_facts(row)
     state = await lock_state(session, row.tenant_id)
+    if legacy_scan and row.revision <= state.legacy_directory_revision:
+        return None
     settings = EvidenceSettings.model_validate(state.settings)
     await append_source(
         session,
@@ -235,8 +237,8 @@ async def capture_outbox(session, row):
     return ref
 
 
-async def scan_directory_outbox(session, limit):
-    from mockazure.evidence.models import EvidenceSource
+async def scan_directory_outbox(session, limit, tenant_id=None):
+    from mockazure.evidence.models import EvidenceSource, EvidenceState
 
     captured = exists(
         select(EvidenceSource.id).where(
@@ -248,11 +250,21 @@ async def scan_directory_outbox(session, limit):
     rows = list(
         await session.scalars(
             select(EvidenceOutbox)
-            .where(EvidenceOutbox.projected_at.is_(None), ~captured)
+            .where(
+                EvidenceOutbox.projected_at.is_(None),
+                ~captured,
+                True if tenant_id is None else EvidenceOutbox.tenant_id == tenant_id,
+                ~exists(
+                    select(1).where(
+                        EvidenceState.tenant_id == EvidenceOutbox.tenant_id,
+                        EvidenceState.legacy_directory_revision >= EvidenceOutbox.revision,
+                    )
+                ),
+            )
             .order_by(EvidenceOutbox.tenant_id, EvidenceOutbox.revision)
             .limit(limit)
         )
     )
     for row in rows:
-        await capture_outbox(session, row)
+        await capture_outbox(session, row, legacy_scan=True)
     return len(rows)

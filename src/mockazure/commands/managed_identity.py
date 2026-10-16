@@ -144,3 +144,10 @@ def update_host(
     except (ValueError, OSError):
         raise typer.BadParameter("Invalid host update file") from None
     execute(config, lambda client: client.update_managed_host(tenant_id, host_id, value))
+
+
+host_app = typer.Typer()
+host_app.command("create")(create_host)
+host_app.command("update")(update_host)
+host_app.command("rotate")(rotate_header)
+app.add_typer(host_app, name="host")

@@ -126,3 +126,77 @@ class AdminClient:
         return await self.request(
             "POST", f"/_mock/tenants/{tenant_id}/managed-identity-hosts/{host_id}/rotate-header"
         )
+
+    async def evidence_state(self, tenant_id):
+        return await self.request("GET", f"/_mock/tenants/{tenant_id}/evidence/state")
+
+    async def evidence_settings(self, tenant_id, patch=None):
+        return await self.request(
+            "PATCH" if patch is not None else "GET",
+            f"/_mock/tenants/{tenant_id}/evidence/settings",
+            **({"json": patch} if patch is not None else {}),
+        )
+
+    async def advance_evidence_clock(self, tenant_id, seconds):
+        return await self.request(
+            "POST", f"/_mock/tenants/{tenant_id}/evidence/clock/advance", json={"seconds": seconds}
+        )
+
+    async def drain_evidence(self, tenant_id, max_jobs=100):
+        return await self.request(
+            "POST", f"/_mock/tenants/{tenant_id}/evidence/drain", json={"max_jobs": max_jobs}
+        )
+
+    async def cleanup_evidence(self, tenant_id, max_rows=500):
+        return await self.request(
+            "POST", f"/_mock/tenants/{tenant_id}/evidence/cleanup", json={"max_rows": max_rows}
+        )
+
+    async def reset_evidence(self, tenant_id, expected_generation):
+        return await self.request(
+            "POST",
+            f"/_mock/tenants/{tenant_id}/evidence/reset",
+            json={"expected_generation": str(expected_generation)},
+        )
+
+    async def evidence_jobs(self, tenant_id, *, state=None, limit=50, continuation=None):
+        params = (
+            {"continuation": continuation}
+            if continuation
+            else {"limit": limit, **({"state": state} if state else {})}
+        )
+        return await self.request("GET", f"/_mock/tenants/{tenant_id}/evidence/jobs", params=params)
+
+    async def retry_evidence_job(self, tenant_id, job_id):
+        return await self.request(
+            "POST", f"/_mock/tenants/{tenant_id}/evidence/jobs/{job_id}/retry"
+        )
+
+    async def import_evidence(self, tenant_id, dataset):
+        return await self.request(
+            "POST",
+            f"/_mock/tenants/{tenant_id}/evidence/import",
+            content=dataset,
+            headers={"Content-Type": "application/json"},
+        )
+
+    async def observe_risk(self, tenant_id, observation):
+        return await self.request(
+            "POST",
+            f"/_mock/tenants/{tenant_id}/evidence/risk-observations",
+            content=observation,
+            headers={"Content-Type": "application/json"},
+        )
+
+    async def export_evidence(self, tenant_id, *, family=None, from_time=None, to_time=None):
+        params = {k: v for k, v in (("family", family), ("from", from_time), ("to", to_time)) if v}
+        try:
+            async with self.http.stream(
+                "GET", f"/_mock/tenants/{tenant_id}/evidence/export", params=params
+            ) as response:
+                if response.status_code != 200:
+                    raise AdminClientError(f"Evidence export failed (HTTP {response.status_code})")
+                async for chunk in response.aiter_bytes():
+                    yield chunk
+        except httpx.HTTPError:
+            raise AdminClientError("Evidence export connection failed") from None

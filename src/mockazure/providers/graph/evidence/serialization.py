@@ -3,7 +3,7 @@
 from sqlalchemy import and_, case, cast, exists, false, func, literal, or_, select
 from sqlalchemy.dialects.postgresql import JSONB
 
-from mockazure.evidence.models import EvidenceObservation, EvidenceSource, EvidenceVersion
+from mockazure.evidence.models import EvidenceSource, EvidenceVersion
 from mockazure.identity.models import User
 from mockazure.licensing.catalog import P2_PLAN
 from mockazure.licensing.models import SubscribedSku, UserLicense
@@ -41,20 +41,11 @@ def effective_p2():
         )
     )
     historical = exists(
-        select(1)
-        .select_from(EvidenceObservation)
-        .join(
-            EvidenceSource,
-            and_(
-                EvidenceSource.tenant_id == EvidenceObservation.tenant_id,
-                EvidenceSource.kind == EvidenceObservation.source_kind,
-                EvidenceSource.id == EvidenceObservation.source_id,
-            ),
-        )
-        .where(
-            EvidenceObservation.tenant_id == EvidenceVersion.tenant_id,
-            EvidenceObservation.family == EvidenceVersion.family,
-            EvidenceObservation.record_id == EvidenceVersion.record_id,
+        select(1).where(
+            EvidenceSource.tenant_id == EvidenceVersion.tenant_id,
+            EvidenceSource.kind == EvidenceVersion.source_kind,
+            EvidenceSource.id == EvidenceVersion.source_id,
+            EvidenceSource.generation == EvidenceVersion.generation,
             EvidenceSource.kind == "historical",
             EvidenceSource.facts["entitlement_snapshot"].as_string() == "P2",
         )

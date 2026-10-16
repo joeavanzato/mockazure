@@ -12,6 +12,7 @@ from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.directory_routes import router as directory_admin_router
 from mockazure.admin.errors import AdminError
 from mockazure.admin.errors import error_response as admin_error_response
+from mockazure.admin.evidence_routes import router as evidence_admin_router
 from mockazure.admin.graph_routes import router as graph_admin_router
 from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
@@ -187,6 +188,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         )
 
     app.include_router(router)
+    app.include_router(evidence_admin_router)
     app.include_router(job_router)
     app.include_router(licensing_admin_router)
     app.include_router(managed_identity_admin_router)

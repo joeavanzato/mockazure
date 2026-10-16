@@ -61,7 +61,17 @@ def validate_facts(value: SourceInput) -> None:
     if value.ref.kind == "historical":
         facts = value.facts
         if (
-            facts.keys() - {"family", "payload", "version"}
+            facts.keys()
+            - {
+                "family",
+                "payload",
+                "version",
+                "provenance",
+                "entitlement_snapshot",
+                "orphaned_subject",
+                "subject_id",
+                "sign_in_id",
+            }
             or not {"family", "payload"} <= facts.keys()
         ):
             raise ValueError("Historical source requires a public payload")
@@ -71,6 +81,22 @@ def validate_facts(value: SourceInput) -> None:
         if "appliedConditionalAccessPolicies" in facts["payload"]:
             raise ValueError("Conditional Access policy detail is not supported")
         UUID(facts["payload"]["id"])
+        if "provenance" in facts:
+            from mockazure.evidence.datasets import Provenance
+
+            Provenance.model_validate(facts["provenance"])
+        if facts.get("entitlement_snapshot") not in {None, "P1", "P2"}:
+            raise ValueError("Invalid historical entitlement")
+        if "orphaned_subject" in facts and type(facts["orphaned_subject"]) is not bool:
+            raise ValueError("Invalid orphan disclosure marker")
+        if facts.get("subject_id"):
+            subject = (
+                facts["payload"].get("userId")
+                if facts["family"] != "riskyUser"
+                else facts["payload"]["id"]
+            )
+            if facts["subject_id"] != subject:
+                raise ValueError("Historical subject mismatch")
     elif value.ref.kind in {"risk", "risk_action"}:
         from mockazure.evidence.risk import validate_risk_facts
 
@@ -204,18 +230,20 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         payload = await projection_payload(session, source, item)
         if (item.family, item.id) in existing_ids:
             current = await current_version(session, key[0], item.family, item.id)
-            current.valid_to = revision
-            await session.flush()
+            if current is not None:
+                current.valid_to = revision
+                await session.flush()
         types = item.payload.get("signInEventTypes", [])
         session.add(
             EvidenceVersion(
                 tenant_id=key[0],
+                generation=state.generation,
+                source_kind=key[1],
+                source_id=key[2],
                 family=item.family,
                 record_id=item.id,
                 valid_from=revision,
-                event_time=datetime.fromisoformat(payload["riskLastUpdatedDateTime"])
-                if item.family == "riskyUser" and payload.get("riskLastUpdatedDateTime")
-                else item.occurred_at,
+                event_time=projection_time(item.family, payload, item.occurred_at),
                 available_at=item.available_at,
                 subject_id=item.subject_id,
                 app_id=item.payload.get("appId"),
@@ -249,3 +277,13 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         )
     await session.flush()
     return PublishResult(revision=revision, record_ids=record_ids, already_applied=False)
+
+
+def projection_time(family, payload, fallback):
+    field = {
+        "signIn": "createdDateTime",
+        "directoryAudit": "activityDateTime",
+        "riskDetection": "detectedDateTime",
+        "riskyUser": "riskLastUpdatedDateTime",
+    }[family]
+    return datetime.fromisoformat(payload[field]) if payload.get(field) else fallback

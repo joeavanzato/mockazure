@@ -176,6 +176,12 @@ async def record_authentication(session, fact: AuthenticationFact) -> SourceRef:
     fact = AuthenticationFact.model_validate(fact.model_dump())
     ref = SourceRef(tenant_id=fact.tenant_id, kind="authentication", id=fact.attempt_id)
     state = await lock_state(session, fact.tenant_id)
+    if (
+        fact.legacy_incomplete
+        and state.legacy_auth_cutoff_at is not None
+        and fact.occurred_at <= state.legacy_auth_cutoff_at
+    ):
+        return ref
     settings = EvidenceSettings.model_validate(state.settings)
     await append_source(
         session,
@@ -210,7 +216,8 @@ async def annotate_failure(
     return error
 
 
-async def scan_authentication_outcomes(session, limit):
+async def scan_authentication_outcomes(session, limit, tenant_id=None):
+    from mockazure.evidence.models import EvidenceState
     from mockazure.oauth.device_models import AuthenticationOutcome
 
     captured = exists(
@@ -223,7 +230,17 @@ async def scan_authentication_outcomes(session, limit):
     rows = list(
         await session.scalars(
             select(AuthenticationOutcome)
-            .where(~captured)
+            .where(
+                ~captured,
+                True if tenant_id is None else AuthenticationOutcome.tenant_id == tenant_id,
+                ~exists(
+                    select(1).where(
+                        EvidenceState.tenant_id == AuthenticationOutcome.tenant_id,
+                        EvidenceState.legacy_auth_cutoff_at.is_not(None),
+                        AuthenticationOutcome.timestamp <= EvidenceState.legacy_auth_cutoff_at,
+                    )
+                ),
+            )
             .order_by(AuthenticationOutcome.timestamp, AuthenticationOutcome.id)
             .limit(limit)
         )
