@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, ForeignKey, ForeignKeyConstraint, String, UniqueConstraint
+from sqlalchemy import DateTime, ForeignKey, ForeignKeyConstraint, String, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -17,6 +17,9 @@ class User(Base):
     display_name: Mapped[str] = mapped_column(String(200))
     verifier: Mapped[str] = mapped_column(String(256))
     enabled: Mapped[bool] = mapped_column(default=True)
+    profile: Mapped[dict] = mapped_column(JSONB, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class Application(Base):
@@ -33,7 +36,10 @@ class Application(Base):
 
 class ServicePrincipal(Base):
     __tablename__ = "identity_service_principals"
-    __table_args__ = (UniqueConstraint("tenant_id", "client_id"),)
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "client_id"),
+        UniqueConstraint("tenant_id", "id"),
+    )
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), index=True)
     client_id: Mapped[UUID] = mapped_column(ForeignKey("identity_applications.client_id"))
