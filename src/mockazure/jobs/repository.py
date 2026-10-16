@@ -84,9 +84,12 @@ async def claim_job(
             updated_at=now,
         )
     )
+    from mockazure.evidence.risk import unpublished_risk_not_due
+
     row = await session.scalar(
         select(Job)
         .where(
+            ~unpublished_risk_not_due(now),
             Job.attempts < 3,
             or_(
                 and_(Job.state == "pending", Job.available_at <= now),

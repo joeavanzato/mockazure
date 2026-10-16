@@ -8,6 +8,10 @@ from mockazure.evidence.schemas import Projection, ProjectionBatch, SourceEnvelo
 
 def project_source(source: SourceEnvelope) -> ProjectionBatch:
     validate_facts(source)
+    if source.ref.kind in {"risk", "risk_action"}:
+        from mockazure.evidence.risk import project_risk
+
+        return project_risk(source)
     if source.ref.kind == "authentication":
         from mockazure.evidence.authentication import project_authentication
 

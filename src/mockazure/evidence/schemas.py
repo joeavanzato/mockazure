@@ -79,3 +79,18 @@ def aware(value: datetime) -> datetime:
     if value.tzinfo is None or value.utcoffset() is None:
         raise ValueError("Aware time required")
     return value
+
+
+class RiskObservation(StrictModel):
+    user_id: UUID
+    sign_in_id: UUID | None = None
+    event_type: Literal["generic", "anonymizedIPAddress", "unfamiliarFeatures", "leakedCredentials"]
+    level: Literal["low", "medium", "high"]
+    occurred_at: AwareDatetime
+    request_id: UUID
+
+
+class RiskObservationResult(StrictModel):
+    detection_id: UUID
+    user_id: UUID
+    revision: int

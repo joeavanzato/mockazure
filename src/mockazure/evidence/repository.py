@@ -71,6 +71,12 @@ def validate_facts(value: SourceInput) -> None:
         if "appliedConditionalAccessPolicies" in facts["payload"]:
             raise ValueError("Conditional Access policy detail is not supported")
         UUID(facts["payload"]["id"])
+    elif value.ref.kind in {"risk", "risk_action"}:
+        from mockazure.evidence.risk import validate_risk_facts
+
+        parsed = validate_risk_facts(value.ref.kind, value.facts)
+        if value.ref.kind == "risk" and parsed.input.request_id != value.ref.id:
+            raise ValueError("Risk observation request identity mismatch")
     elif value.ref.kind == "authentication":
         from mockazure.evidence.authentication import AuthenticationFact
 
@@ -166,13 +172,18 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
             record_ids=tuple(receipt.record_ids),
             already_applied=True,
         )
-    # Precheck all IDs before writing; constraint remains a second defence.
+    # Risk aggregation alone can version an existing riskyUser observation.
+    existing_ids = set()
     for item in batch.items:
         if await session.get(EvidenceObservation, (key[0], item.family, item.id)):
-            raise ValueError("Evidence record ID conflict")
+            if source.ref.kind != "risk" or item.family != "riskyUser":
+                raise ValueError("Evidence record ID conflict")
+            existing_ids.add((item.family, item.id))
     state.publication_revision += 1
     revision = state.publication_revision
     for item in batch.items:
+        if (item.family, item.id) in existing_ids:
+            continue
         session.add(
             EvidenceObservation(
                 tenant_id=key[0],
@@ -187,7 +198,14 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
             )
         )
     await session.flush()
+    from mockazure.evidence.risk import current_version, projection_payload, publish_linked_risk
+
     for item in batch.items:
+        payload = await projection_payload(session, source, item)
+        if (item.family, item.id) in existing_ids:
+            current = await current_version(session, key[0], item.family, item.id)
+            current.valid_to = revision
+            await session.flush()
         types = item.payload.get("signInEventTypes", [])
         session.add(
             EvidenceVersion(
@@ -195,14 +213,18 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
                 family=item.family,
                 record_id=item.id,
                 valid_from=revision,
-                event_time=item.occurred_at,
+                event_time=datetime.fromisoformat(payload["riskLastUpdatedDateTime"])
+                if item.family == "riskyUser" and payload.get("riskLastUpdatedDateTime")
+                else item.occurred_at,
                 available_at=item.available_at,
                 subject_id=item.subject_id,
                 app_id=item.payload.get("appId"),
                 event_type=types[0] if types else None,
-                payload=item.payload,
+                payload=payload,
             )
         )
+    await session.flush()
+    await publish_linked_risk(session, source, revision)
     record_ids = tuple(item.id for item in batch.items)
     session.add(
         ProjectionReceipt(

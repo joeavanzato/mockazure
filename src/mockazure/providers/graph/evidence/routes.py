@@ -13,6 +13,10 @@ from mockazure.providers.graph.query.contracts import unsupported
 
 def router_for(version):
     router = APIRouter(prefix="/" + version)
+    if version == "v1.0":
+        from mockazure.providers.graph.evidence.risk_actions import register_risk_actions
+
+        register_risk_actions(router)
 
     def register(family, path):
         async def handle(request: Request, record_id: str | None = None):
