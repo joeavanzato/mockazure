@@ -1,6 +1,6 @@
 # MockAzure M3A: Stateful Directory, Query and Delta Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (- [ ]) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (- [x]) syntax for tracking.
 
 **Goal:** Make real Graph clients read and mutate a persistent local user/group directory, including reliable paging and incremental synchronization.
 
@@ -9,9 +9,9 @@
 **Tech Stack:** Existing Python >=3.12, FastAPI, SQLAlchemy 2, psycopg 3, Alembic, PostgreSQL 18, cryptography, Pydantic, HTTPX, Typer and pytest. Preserve MSAL 1.39.0 and msgraph-sdk 1.64.0; add Microsoft.Graph.Users and Microsoft.Graph.Groups 2.35.1 to the client manifest with verified dependencies and hashes.
 
 **Spec:** [Approved overall design](../specs/2026-10-16-mockazure-design.md) and [proposed M3 delivery map](../specs/2026-10-16-mockazure-stateful-graph.md).
-**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–8 complete; Task 9 qualification running, final review pending.
+**Status:** Completed 2026-10-16; all nine Native implementation tasks and independent review fixes verified. 197 unit/integration tests, one acceptance gate and 14 qualification checks passed. See the execution and rulings records for evidence and documented adjustments.
 **Execution preference:** Native, already selected. Main agent implements; one independent whole-change review before delivery.
-**Baseline:** Merged M2 tree a3074f69b16f7abcc76dff93de518c722c159348. Promote M2 to main through the integration PR before basing the implementation PR on main. Do not silently discard M2 or merge on the user's behalf.
+**Baseline:** Merged M2 tree a3074f69b16f7abcc76dff93de518c722c159348. M2 integration PR #3 remains the prerequisite for merging. Recorded delivery adjustment: publish M3A as a draft targeting main while #3 is open; its comparison includes M2 until that integration lands. Do not merge on the user's behalf.
 
 ## Global Constraints
 
@@ -104,14 +104,14 @@ Source paths in that map are relative to src/mockazure unless prefixed with tool
 
 **Interfaces:** DirectoryKind = Literal["user","group"]; DirectoryObject(kind: DirectoryKind, id: UUID, tenant_id: UUID, properties: dict); DirectoryChange(revision: int, kind: DirectoryKind, object_id: UUID, changed_fields: frozenset[str], removed: bool). Produce async reserve_revision(session: AsyncSession, tenant_id: UUID) -> int and async record_change(session: AsyncSession, change: DirectoryChange, before: DirectoryObject | None, after: DirectoryObject | None, facts: dict) -> None. Public facts have an explicit allowlist and schema version; never accept raw request bodies.
 
-- [ ] Write test_upgrade_and_tenant_constraints: migrate a populated M2 database, assert existing user/client IDs and credential validation survive; cross-tenant membership/owner inserts raise IntegrityError; foreign-tenant objects are absent from reads.
-- [ ] Write test_commit_order_and_atomic_history: hold transaction A's revision lock, assert B cannot publish a later watermark first; rollback A leaves no history/outbox/object change; successful write creates exactly one operation outbox row. Assert serialized history/outbox has no verifier/password/token fields.
+- [x] Write test_upgrade_and_tenant_constraints: migrate a populated M2 database, assert existing user/client IDs and credential validation survive; cross-tenant membership/owner inserts raise IntegrityError; foreign-tenant objects are absent from reads.
+- [x] Write test_commit_order_and_atomic_history: hold transaction A's revision lock, assert B cannot publish a later watermark first; rollback A leaves no history/outbox/object change; successful write creates exactly one operation outbox row. Assert serialized history/outbox has no verifier/password/token fields.
 Core assertions: `assert after_user.id == before_user.id`; `assert not later_commit.done()` while A holds the lock; `assert (object_count, history_count, outbox_count) == before_counts` after rollback.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_directory_storage.py -q; expect missing schema/interfaces or failed invariants.
-- [ ] Implement typed profile columns plus JSONB for declared extras; preserve User identity IDs and add deleted_at. Add groups, tenant-constrained relationships, revision/history/outbox and continuation-state tables, indexes for tenant/kind/revision/object and relationship traversal. Backfill existing public users at a committed baseline revision. Connect existing administrative user create/enable updates to record_change immediately, so subsequent read/query tasks do not lose post-migration administrative writes. Task 5 later consolidates these hooks into the shared mutation service.
-- [ ] Populate the contract matrix from official endpoint docs linked below: exact app/delegated alternatives, supported roles, field-level rules and resource/default property shapes. Document local limits beside Microsoft behavior; resolve discrepancies against the endpoint-specific source, not broad permission names.
-- [ ] Run the storage tests and tests/integration/test_identity_upgrade.py; expect all pass. Commit as feat(graph): add tenant-scoped directory history and upgrade.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_directory_storage.py -q; expect missing schema/interfaces or failed invariants.
+- [x] Implement typed profile columns plus JSONB for declared extras; preserve User identity IDs and add deleted_at. Add groups, tenant-constrained relationships, revision/history/outbox and continuation-state tables, indexes for tenant/kind/revision/object and relationship traversal. Backfill existing public users at a committed baseline revision. Connect existing administrative user create/enable updates to record_change immediately, so subsequent read/query tasks do not lose post-migration administrative writes. Task 5 later consolidates these hooks into the shared mutation service.
+- [x] Populate the contract matrix from official endpoint docs linked below: exact app/delegated alternatives, supported roles, field-level rules and resource/default property shapes. Document local limits beside Microsoft behavior; resolve discrepancies against the endpoint-specific source, not broad permission names.
+- [x] Run the storage tests and tests/integration/test_identity_upgrade.py; expect all pass. Commit as feat(graph): add tenant-scoped directory history and upgrade.
 
 ## Task 2: Resource reads and operation-specific authorization
 
@@ -119,28 +119,28 @@ Core assertions: `assert after_user.id == before_user.id`; `assert not later_com
 
 **Interfaces:** Produce GraphOperation(version: str, resource: str, method: str, fields: frozenset[str]); async authorize_directory(session: AsyncSession, context: PrincipalContext, operation: GraphOperation, target_id: UUID | None) -> None; serialize_object(obj: DirectoryObject, fields: tuple[str,...] | None, readable_fields: frozenset[str]) -> dict. Consume Task 1 objects and existing principal()/GraphError. Model permission alternatives as OR of required sets, with all members of a set required.
 
-- [ ] Write test_directory_reads_share_identity: a user created through existing admin APIs is returned by ID and encoded UPN, /me matches it, organization remains compatible and missing/wrong-tenant IDs return the same 404.
-- [ ] Write test_permission_matrix using every contract row: read-basic yields only allowed data, User.Read cannot list users, wrong audience is 401 and absent scope is 403. For relationship reads without member-type permission, assert ID/type retained and protected requested properties null.
-- [ ] Write test_sensitive_permission_conjunction: either half of the accountEnabled requirement is denied, both grant authorization for ordinary targets; role-restricted delegated operations still require their role.
+- [x] Write test_directory_reads_share_identity: a user created through existing admin APIs is returned by ID and encoded UPN, /me matches it, organization remains compatible and missing/wrong-tenant IDs return the same 404.
+- [x] Write test_permission_matrix using every contract row: read-basic yields only allowed data, User.Read cannot list users, wrong audience is 401 and absent scope is 403. For relationship reads without member-type permission, assert ID/type retained and protected requested properties null.
+- [x] Write test_sensitive_permission_conjunction: either half of the accountEnabled requirement is denied, both grant authorization for ordinary targets; role-restricted delegated operations still require their role.
 Core assertions: `assert list_as_user_read.status_code == 403`; `assert wrong_audience.status_code == 401`; `assert limited_member['displayName'] is None`; `assert half_permission.status_code == 403`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_directory_reads.py -q; expect unsupported routes/permissions.
-- [ ] Implement read handlers and serializers with explicit v1.0/beta registrations, existing error/request-ID conventions and no secret model serialization. Keep read permissions separate from mutation target checks; extend the evaluator without weakening M2 callers.
-- [ ] Run this test file plus tests/integration/test_identity_graph.py and tests/integration/test_identity_authorization.py; expect pass. Commit as feat(graph): expose permission-checked directory reads.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_directory_reads.py -q; expect unsupported routes/permissions.
+- [x] Implement read handlers and serializers with explicit v1.0/beta registrations, existing error/request-ID conventions and no secret model serialization. Keep read permissions separate from mutation target checks; extend the evaluator without weakening M2 callers.
+- [x] Run this test file plus tests/integration/test_identity_graph.py and tests/integration/test_identity_authorization.py; expect pass. Commit as feat(graph): expose permission-checked directory reads.
 
 ## Task 3: Typed query execution and bounded relationships
 **Files:** Create src/mockazure/providers/graph/query/{__init__,ast,parser,contracts,compiler}.py; tests/unit/test_graph_query_parser.py; tests/integration/test_graph_query.py. Modify directory/repository.py and providers/graph/directory.py.
 
 **Interfaces:** Produce QuerySpec(filter: FilterNode | None, select: tuple[str,...] | None, order: tuple[OrderTerm,...], top: int | None, count: bool, expand: tuple[ExpandSpec,...]); parse_query(items: list[tuple[str,str]], contract: QueryContract, consistency: str | None) -> QuerySpec; compile_filter(node: FilterNode, contract: QueryContract) -> ColumnElement[bool]. AST nodes are Field/Literal/Compare/Boolean/In/Any/StartsWith; contracts bind fields to typed SQL columns/expressions. Produce async read_page(session, tenant_id: UUID, kind: DirectoryKind, query: QuerySpec, snapshot: int, after: tuple | None, limit: int) -> DirectoryPage(items: list[DirectoryObject], last_key: tuple | None, has_more: bool, total: int | None).
 
-- [ ] Write test_typed_filters_and_bounds: eq/ne/null/booleans/time ranges/in/any and apostrophe escaping produce expected IDs; Unicode survives; malicious field paths, duplicate options, depth 17, >256 nodes and >100 in-values yield 400. SQL compilation contains bound parameters, not interpolated literals.
-- [ ] Write test_advanced_query_contract: filter+order requires the contract's eventual/count combination; ordinary count without header is omitted; /$count without header fails; authorized count matches the filtered collection.
-- [ ] Write test_relationship_bounds: a nested group graph with a cycle terminates, deduplicates transitive IDs and remains tenant-scoped; 21-member expansion fails explicitly; pageable members returns all 21. Unsupported collection operators and nested expansions fail.
+- [x] Write test_typed_filters_and_bounds: eq/ne/null/booleans/time ranges/in/any and apostrophe escaping produce expected IDs; Unicode survives; malicious field paths, duplicate options, depth 17, >256 nodes and >100 in-values yield 400. SQL compilation contains bound parameters, not interpolated literals.
+- [x] Write test_advanced_query_contract: filter+order requires the contract's eventual/count combination; ordinary count without header is omitted; /$count without header fails; authorized count matches the filtered collection.
+- [x] Write test_relationship_bounds: a nested group graph with a cycle terminates, deduplicates transitive IDs and remains tenant-scoped; 21-member expansion fails explicitly; pageable members returns all 21. Unsupported collection operators and nested expansions fail.
 Core assertions: `assert depth_17.status_code == 400`; `assert filtered_ids == expected_ids`; `assert len(transitive_ids) == len(set(transitive_ids))`; `assert '@odata.count' not in ordinary_without_header.json()`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/unit/test_graph_query_parser.py tests/integration/test_graph_query.py -q; expect missing parser/compiler.
-- [ ] Implement recursive-descent parsing and parameterized SQL compilation with resource-specific allowlists. Apply filtering/projection/order/count/paging in SQL; recursive CTE traversal must be cycle-safe. Never fetch an entire tenant to filter/sort in Python.
-- [ ] Run both test files; inspect EXPLAIN for a 5,000-user selected/filter query and verify bounded result fetches. Commit as feat(graph): compile bounded directory queries to PostgreSQL.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/unit/test_graph_query_parser.py tests/integration/test_graph_query.py -q; expect missing parser/compiler.
+- [x] Implement recursive-descent parsing and parameterized SQL compilation with resource-specific allowlists. Apply filtering/projection/order/count/paging in SQL; recursive CTE traversal must be cycle-safe. Never fetch an entire tenant to filter/sort in Python.
+- [x] Run both test files; inspect EXPLAIN for a 5,000-user selected/filter query and verify bounded result fetches. Commit as feat(graph): compile bounded directory queries to PostgreSQL.
 
 ## Task 4: Stable continuation pages across replicas
 
@@ -148,14 +148,14 @@ Core assertions: `assert depth_17.status_code == 400`; `assert filtered_ids == e
 
 **Interfaces:** Produce CursorBinding(tenant_id: UUID, generation: UUID, version: str, resource: str, client_id: UUID, subject_id: UUID | None, token_kind: str, permissions_hash: str); CursorState(binding: CursorBinding, query: QuerySpec, lower_revision: int | None, upper_revision: int, last_key: tuple | None, kind: Literal["page","delta"], expires_at: datetime); async issue_cursor(session, state: CursorState) -> str and async resolve_cursor(session, token: str, binding: CursorBinding, now: datetime) -> CursorState. Resolve rejects mismatches and expired/unknown handles with route-appropriate GraphError.
 
-- [ ] Write test_paging_snapshot_under_mutation: traverse 5,000 users while another connection inserts, renames and deletes users; assert returned IDs/order/properties match the initial snapshot exactly with no duplicate/missing IDs, and a fresh query sees changes.
-- [ ] Write test_cursor_restart_and_binding: issue on API A, resume on B and after restart; tampered token, changed query, other tenant/client/user/version and changed permission fingerprint fail. Repeating the same valid link returns the same page.
-- [ ] Write test_history_cleanup_preserves_live_boundary: a live snapshot older than an object's latest version remains readable after cleanup; expired handle fails and another tenant's cursor is unaffected by generation invalidation.
+- [x] Write test_paging_snapshot_under_mutation: traverse 5,000 users while another connection inserts, renames and deletes users; assert returned IDs/order/properties match the initial snapshot exactly with no duplicate/missing IDs, and a fresh query sees changes.
+- [x] Write test_cursor_restart_and_binding: issue on API A, resume on B and after restart; tampered token, changed query, other tenant/client/user/version and changed permission fingerprint fail. Repeating the same valid link returns the same page.
+- [x] Write test_history_cleanup_preserves_live_boundary: a live snapshot older than an object's latest version remains readable after cleanup; expired handle fails and another tenant's cursor is unaffected by generation invalidation.
 Core assertions: `assert collected_ids == snapshot_ids`; `assert len(set(collected_ids)) == 5000`; `assert page_from_replica_b == page_from_replica_a`; `assert forged.status_code == 400`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_paging.py -q; expect missing continuations or snapshot failures.
-- [ ] Implement hashed opaque handles and configured-profile nextLinks. Store immutable cursor context in PostgreSQL; make cap and token-size validation bounded. Reauthorize before reading snapshot data and retain history required by live handles.
-- [ ] Run paging tests; expect pass. Commit as feat(graph): persist snapshot-bound continuation pages.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_paging.py -q; expect missing continuations or snapshot failures.
+- [x] Implement hashed opaque handles and configured-profile nextLinks. Store immutable cursor context in PostgreSQL; make cap and token-size validation bounded. Reauthorize before reading snapshot data and retain history required by live handles.
+- [x] Run paging tests; expect pass. Commit as feat(graph): persist snapshot-bound continuation pages.
 
 ## Task 5: Shared lifecycle and relationship mutations
 
@@ -163,14 +163,14 @@ Core assertions: `assert collected_ids == snapshot_ids`; `assert len(set(collect
 
 **Interfaces:** Produce DirectoryCommand(kind: DirectoryKind, action: Literal["create","update","delete","add_member","remove_member"], target_id: UUID | None, values: dict); async mutate_directory(session: AsyncSession, tenant_id: UUID, command: DirectoryCommand, actor: PrincipalContext | AdminActor, now: datetime) -> MutationResult(object: DirectoryObject | None, revision: int, outbox_id: UUID). AdminActor is a distinct trusted internal type, never constructible from a provider request. Produce parse_local_reference(value: str, allowed_graph_origins: frozenset[str], tenant_id: UUID) -> UUID; it parses/validates but never fetches a URL.
 
-- [ ] Write test_user_lifecycle_auth_effects: authorized create returns 201 and local login succeeds; profile PATCH returns 204 and changes both reads and history; disable/delete blocks subsequent login/refresh and protected use according to existing live-state enforcement. No password appears in response/outbox/export.
-- [ ] Write test_mutation_atomicity_and_references: invalid password/UPN domain, cross-tenant member, malformed/external $ref and duplicate membership fail with zero partial object/history/outbox changes; concurrent duplicate membership has one relationship and one success. Removing /$ref removes only membership, never the referenced user.
-- [ ] Write test_bounded_write_profile: force-change-password=true, privileged user target, dynamic/role-assignable/M365 groups and unknown fields fail explicitly; ordinary user deletion yields 204 and subsequent read 404. Validate combined initial owner/member cap and type-specific read permission requirements.
+- [x] Write test_user_lifecycle_auth_effects: authorized create returns 201 and local login succeeds; profile PATCH returns 204 and changes both reads and history; disable/delete blocks subsequent login/refresh and protected use according to existing live-state enforcement. No password appears in response/outbox/export.
+- [x] Write test_mutation_atomicity_and_references: invalid password/UPN domain, cross-tenant member, malformed/external $ref and duplicate membership fail with zero partial object/history/outbox changes; concurrent duplicate membership has one relationship and one success. Removing /$ref removes only membership, never the referenced user.
+- [x] Write test_bounded_write_profile: force-change-password=true, privileged user target, dynamic/role-assignable/M365 groups and unknown fields fail explicitly; ordinary user deletion yields 204 and subsequent read 404. Validate combined initial owner/member cap and type-specific read permission requirements.
 Core assertions: `assert created.status_code == 201`; `assert patched.status_code == 204`; `assert deleted.status_code == 204`; `assert read_deleted.status_code == 404`; `assert user_still_exists_after_remove_ref is True`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_mutations.py -q; expect unsupported writes or missing shared-state behavior.
-- [ ] Implement command validation, operation/property/target authorization and transactional mutation/history/outbox writes. Retain soft-deleted users and membership history; exclude them from active authentication/reads. Preserve referential integrity and documented group-owner creation rules. Route admin identity user creates/updates through the same history-producing service without duplicating revisions.
-- [ ] Run mutation tests and existing identity session/token/admin tests; expect pass. Commit as feat(graph): persist authorized directory mutations and evidence outbox.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_mutations.py -q; expect unsupported writes or missing shared-state behavior.
+- [x] Implement command validation, operation/property/target authorization and transactional mutation/history/outbox writes. Retain soft-deleted users and membership history; exclude them from active authentication/reads. Preserve referential integrity and documented group-owner creation rules. Route admin identity user creates/updates through the same history-producing service without duplicating revisions.
+- [x] Run mutation tests and existing identity session/token/admin tests; expect pass. Commit as feat(graph): persist authorized directory mutations and evidence outbox.
 
 ## Task 6: User/group delta and resynchronization
 
@@ -178,14 +178,14 @@ Core assertions: `assert created.status_code == 201`; `assert patched.status_cod
 
 **Interfaces:** Produce DeltaRequest(select: tuple[str,...] | None, token: str | None); parse_delta(items: list[tuple[str,str]]) -> DeltaRequest; async read_delta(session, context: PrincipalContext, binding: CursorBinding, request: DeltaRequest, now: datetime) -> DeltaPage(value: list[dict], next_link: str | None, delta_link: str | None). Consume Task 4 cursors; exactly one link type is returned per successful page.
 
-- [ ] Write test_delta_rounds_and_selection: initial round covers all active IDs; a later round returns selected-property updates, creation and @removed tombstones, excludes updates only to unselected fields, and does not lose a commit occurring during enumeration. An unchanged round returns an empty value and a valid deltaLink.
-- [ ] Write test_group_membership_delta: add/remove members appears as members@delta with documented removal shape, is absent when unselected, and a 1,001-change group is delivered across bounded repeated group records without lost references.
-- [ ] Write test_delta_contract_and_expiry: both route spellings work; top/orderby/expand/filter are rejected; malformed/cross-tenant/version tokens fail; expiry yields 410, error.code=syncStateNotFound and a local Location containing empty $deltatoken; reinitialize and obtain complete current state.
+- [x] Write test_delta_rounds_and_selection: initial round covers all active IDs; a later round returns selected-property updates, creation and @removed tombstones, excludes updates only to unselected fields, and does not lose a commit occurring during enumeration. An unchanged round returns an empty value and a valid deltaLink.
+- [x] Write test_group_membership_delta: add/remove members appears as members@delta with documented removal shape, is absent when unselected, and a 1,001-change group is delivered across bounded repeated group records without lost references.
+- [x] Write test_delta_contract_and_expiry: both route spellings work; top/orderby/expand/filter are rejected; malformed/cross-tenant/version tokens fail; expiry yields 410, error.code=syncStateNotFound and a local Location containing empty $deltatoken; reinitialize and obtain complete current state.
 Core assertions: `assert unchanged.json()['value'] == []`; `assert '@odata.deltaLink' in unchanged.json()`; `assert expired.status_code == 410`; `assert expired.json()['error']['code'] == 'syncStateNotFound'`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_delta.py -q; expect unsupported delta routes.
-- [ ] Implement fixed upper/lower revision rounds, selected-field change detection, membership chunks and bounded tombstones. Record user/group deletion as @removed with reason=deleted, and membership removal as the member ID with @removed.reason=deleted. Confirm these fixtures against the linked directory delta docs; do not borrow mailbox/drive-specific behavior.
-- [ ] Run delta and paging tests; expect pass. Commit as feat(graph): implement persistent user and group delta.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_delta.py -q; expect unsupported delta routes.
+- [x] Implement fixed upper/lower revision rounds, selected-field change detection, membership chunks and bounded tombstones. Record user/group deletion as @removed with reason=deleted, and membership removal as the member ID with @removed.reason=deleted. Confirm these fixtures against the linked directory delta docs; do not borrow mailbox/drive-specific behavior.
+- [x] Run delta and paging tests; expect pass. Commit as feat(graph): implement persistent user and group delta.
 
 ## Task 7: Read batching, shared throttling and controlled retry faults
 
@@ -193,14 +193,14 @@ Core assertions: `assert unchanged.json()['value'] == []`; `assert '@odata.delta
 
 **Interfaces:** Produce async consume_budget(session, tenant_id: UUID, client_id: UUID, resource: str, now: datetime, limit: int, window_seconds: int) -> int | None (None permits, integer Retry-After denies). Produce async dispatch_batch(request: Request, items: list[dict], context: PrincipalContext) -> list[dict]. Reuse authenticated provider execution internally without outbound HTTP or trusting arbitrary batch URLs.
 
-- [ ] Write test_batch_contract: up to 20 independent GETs yield individually authorized status/body/headers keyed by ID; bad individual requests do not gain privileges; 21 items, duplicate IDs, dependsOn, non-GET and absolute/foreign URLs are explicitly rejected.
-- [ ] Write test_shared_limit_and_retry: two replicas share a per-tenant/client/resource budget; request beyond configured test limit returns 429 and positive Retry-After, retry after expiry succeeds; another tenant remains unaffected.
-- [ ] Write test_fault_scope_and_no_partial_write: an opt-in admin-created next-read 429 fault is tenant/client/resource scoped, consumed atomically once and survives restart; no default fault exists and no provider caller can install one.
+- [x] Write test_batch_contract: up to 20 independent GETs yield individually authorized status/body/headers keyed by ID; bad individual requests do not gain privileges; 21 items, duplicate IDs, dependsOn, non-GET and absolute/foreign URLs are explicitly rejected.
+- [x] Write test_shared_limit_and_retry: two replicas share a per-tenant/client/resource budget; request beyond configured test limit returns 429 and positive Retry-After, retry after expiry succeeds; another tenant remains unaffected.
+- [x] Write test_fault_scope_and_no_partial_write: an opt-in admin-created next-read 429 fault is tenant/client/resource scoped, consumed atomically once and survives restart; no default fault exists and no provider caller can install one.
 Core assertions: `assert over_limit.status_code == 429`; `assert int(over_limit.headers['Retry-After']) > 0`; `assert after_window.status_code == 200`; `assert len(batch.json()['responses']) == 20`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_batch_limits.py -q; expect missing batch/limits.
-- [ ] Implement PostgreSQL shared fixed-window budgets; default 600 directory requests/minute per tenant/client, configurable and documented as a local profile. Batch subrequests each consume budget and can individually return 429. Expose fault controls through the authenticated admin plane only. Expose POST /_mock/tenants/{id}/graph/faults with client_id, resource and kind=next_read_429, bounded to one outstanding fault per tuple. Add a sanitized Graph JSON body parser with a 1 MiB request limit before batch dispatch; directory import has its separate 10 MiB administrative limit.
-- [ ] Run this test file and boundary regressions; expect pass. Commit as feat(graph): add bounded batch and shared throttling.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_batch_limits.py -q; expect missing batch/limits.
+- [x] Implement PostgreSQL shared fixed-window budgets; default 600 directory requests/minute per tenant/client, configurable and documented as a local profile. Batch subrequests each consume budget and can individually return 429. Expose fault controls through the authenticated admin plane only. Expose POST /_mock/tenants/{id}/graph/faults with client_id, resource and kind=next_read_429, bounded to one outstanding fault per tuple. Add a sanitized Graph JSON body parser with a 1 MiB request limit before batch dispatch; directory import has its separate 10 MiB administrative limit.
+- [x] Run this test file and boundary regressions; expect pass. Commit as feat(graph): add bounded batch and shared throttling.
 
 ## Task 8: Safe directory datasets and persistence tooling
 
@@ -208,13 +208,13 @@ Core assertions: `assert over_limit.status_code == 429`; `assert int(over_limit.
 
 **Interfaces:** Produce DirectoryDataset(schema_version: Literal[1], users: list[PublicUser], groups: list[PublicGroup], relationships: list[PublicRelationship], provenance: dict); async import_directory(session, tenant_id: UUID, dataset: DirectoryDataset, mode: Literal["create"]) -> ImportResult(objects: int, relationships: int, revision: int). PublicUser/Profile types use the Task 1 public field allowlist and never contain credentials. An imported user without separate administrative credential provisioning cannot authenticate.
 
-- [ ] Write test_directory_dataset_roundtrip: export/import a bounded fixture, assert IDs/public fields/relationships/provenance match, no secrets and no login for imported users lacking credentials. Existing M1 tenant-export jobs remain readable and executable.
-- [ ] Write test_import_atomicity_and_limits: invalid foreign references, duplicate IDs, unsupported schema version, unknown fields and oversize body fail without partial import; ordinary shareable data cannot restore sessions/keys. An imported change appears in Graph and delta with import provenance.
+- [x] Write test_directory_dataset_roundtrip: export/import a bounded fixture, assert IDs/public fields/relationships/provenance match, no secrets and no login for imported users lacking credentials. Existing M1 tenant-export jobs remain readable and executable.
+- [x] Write test_import_atomicity_and_limits: invalid foreign references, duplicate IDs, unsupported schema version, unknown fields and oversize body fail without partial import; ordinary shareable data cannot restore sessions/keys. An imported change appears in Graph and delta with import provenance.
 Core assertions: `assert roundtrip_public_ids == original_public_ids`; `assert imported_user_login.status_code == 400`; `assert counts_after_invalid_import == counts_before_import`; `assert secret_field_names.isdisjoint(exported_keys)`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_datasets.py -q; expect missing import/export fields.
-- [ ] Implement authenticated POST /_mock/tenants/{id}/directory/import and GET /_mock/tenants/{id}/directory/export and CLI mockazure directory import --tenant-id UUID --file PATH. Import is create-only with a 10 MiB/10,000-object local limit and atomic validation; no silent overwrite. Provide CLI mockazure directory export --tenant-id UUID --output PATH. Stream the versioned directory dataset at a fixed revision through bounded queries without loading all tenant objects at once. Keep the existing M1 tenant-only export endpoint/job backward compatible and document the distinct formats.
-- [ ] Run dataset tests and tests/integration/test_exports.py tests/integration/test_jobs.py; expect pass. Commit as feat(graph): add safe directory datasets and exports.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/integration/test_graph_datasets.py -q; expect missing import/export fields.
+- [x] Implement authenticated POST /_mock/tenants/{id}/directory/import and GET /_mock/tenants/{id}/directory/export and CLI mockazure directory import --tenant-id UUID --file PATH. Import is create-only with a 10 MiB/10,000-object local limit and atomic validation; no silent overwrite. Provide CLI mockazure directory export --tenant-id UUID --output PATH. Stream the versioned directory dataset at a fixed revision through bounded queries without loading all tenant objects at once. Keep the existing M1 tenant-only export endpoint/job backward compatible and document the distinct formats.
+- [x] Run dataset tests and tests/integration/test_exports.py tests/integration/test_jobs.py; expect pass. Commit as feat(graph): add safe directory datasets and exports.
 
 ## Task 9: Real clients, isolated deployment and delivery evidence
 
@@ -222,13 +222,13 @@ Core assertions: `assert roundtrip_public_ids == original_public_ids`; `assert i
 
 **Interfaces:** prepare_graph.py builds only project-local M3 configuration/fixtures and prints no secrets. verify_graph.py --report work/graph-directory-report.json qualifies the exact source/package fingerprint, returns nonzero on any required gate and emits a sanitized versioned report with per-probe results. Client scripts consume the existing endpoint/auth configuration schema plus explicit fixture IDs; no real-service defaults.
 
-- [ ] Write acceptance expectations before the verifier: actual Python and PowerShell SDKs must create a user/group, enumerate pages, mutate membership/profile, observe delta and delete; returned IDs/fields must equal fixture expectations, not just nonempty output. Both app-only and delegated modes have success and denial probes.
-- [ ] Acquire Users/Groups 2.35.1 and declared dependencies in the separate preparation step, pin archive hashes and verify complete extracted trees using existing manifest checks. Preserve M2 pins. Run preparation integrity tests; do not download at compatibility-test time.
-- [ ] Run the new acceptance gates against a disposable M3 test instance before adding verifier/client support; expect missing verification interfaces. Do not test new writes against preserved M2. Record the RED result and its actual cause.
-- [ ] Implement M3 native and Docker setup on distinct available ports/volumes, isolated client networking and the verifier. Include 5,000-user paging with concurrent mutations, two API replicas, API/PostgreSQL restart, continuation/delta reuse, rejected cross-tenant references, 429 recovery and no runtime Internet reachability. Exercise clean wheel install as well as source/container execution. Use a dedicated new database; never upgrade preserved M1/M2 databases.
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/unit tests/integration -q, then .venv/Scripts/python.exe -m pytest tests/acceptance/test_graph_distribution.py -q, .venv/Scripts/python.exe tools/verify_graph.py --report work/graph-directory-report.json, .venv/Scripts/ruff.exe check ., .venv/Scripts/python.exe tools/check_package.py and git diff --check. Require all exit 0; record exact commands, profile, counts, durations, fingerprints and limitations. Do not run pytest suites concurrently.
-- [ ] Record that A's evidence outbox is pending B, collector evidence gates remain B, and C security surfaces are unimplemented. Add one independent whole-change review under Native, resolve findings, rerun affected checks and regenerate qualification after runtime changes.
-- [ ] Commit as test(graph): qualify persistent directory SDK workflows. Push and create an implementation PR targeting main once the M2 integration prerequisite is met; attach it to this chat. No automatic merge.
+- [x] Write acceptance expectations before the verifier: actual Python and PowerShell SDKs must create a user/group, enumerate pages, mutate membership/profile, observe delta and delete; returned IDs/fields must equal fixture expectations, not just nonempty output. Both app-only and delegated modes have success and denial probes.
+- [x] Acquire Users/Groups 2.35.1 and declared dependencies in the separate preparation step, pin archive hashes and verify complete extracted trees using existing manifest checks. Preserve M2 pins. Run preparation integrity tests; do not download at compatibility-test time.
+- [x] Run the new acceptance gates against a disposable M3 test instance before adding verifier/client support; expect missing verification interfaces. Do not test new writes against preserved M2. Record the RED result and its actual cause.
+- [x] Implement M3 native and Docker setup on distinct available ports/volumes, isolated client networking and the verifier. Include 5,000-user paging with concurrent mutations, two API replicas, API/PostgreSQL restart, continuation/delta reuse, rejected cross-tenant references, 429 recovery and no runtime Internet reachability. Exercise clean wheel install as well as source/container execution. Use a dedicated new database; never upgrade preserved M1/M2 databases.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/unit tests/integration -q, then .venv/Scripts/python.exe -m pytest tests/acceptance/test_graph_distribution.py -q, .venv/Scripts/python.exe tools/verify_graph.py --report work/graph-directory-report.json, .venv/Scripts/ruff.exe check ., .venv/Scripts/python.exe tools/check_package.py and git diff --check. Require all exit 0; record exact commands, profile, counts, durations, fingerprints and limitations. Do not run pytest suites concurrently.
+- [x] Record that A's evidence outbox is pending B, collector evidence gates remain B, and C security surfaces are unimplemented. Add one independent whole-change review under Native, resolve findings, rerun affected checks and regenerate qualification after runtime changes.
+- [x] Commit as test(graph): qualify persistent directory SDK workflows. Push and create an implementation PR targeting main; publish as a draft with dependency #3 while the M2 integration prerequisite remains open, per the recorded delivery adjustment; attach it to this chat. No automatic merge.
 
 ## References and self-review
 

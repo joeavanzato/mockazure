@@ -145,3 +145,53 @@ Final: fixed nullable in-list semantics — null-only comparison failed with an 
 result, then null-only/mixed/non-null PostgreSQL queries passed in 5.43s.
 All four findings are addressed in one fix pass; full expanded suite and regenerated
 runtime qualification are now running. No second review is requested.
+
+Final: Ruling: Publish the completed M3A change as a draft PR targeting main while M2 integration PR #3 remains open. This preserves the approved target and makes the work reviewable without merging for the user. Cost: the draft comparison includes prerequisite M2 changes until #3 merges; mark ready after that integration.
+
+
+## Completed verification after review fixes
+
+All four Important findings were reproduced RED and fixed GREEN in one pass.
+The complete expanded unit/integration suite passed 197/197 in 514.30s:
+.venv/Scripts/python.exe -m pytest tests/unit tests/integration -q
+The one warning is MSAL's existing recommendation to use form_post.
+
+The final acceptance gate passed 1/1 in 6.45s:
+.venv/Scripts/python.exe -m pytest tests/acceptance/test_graph_distribution.py -q
+
+After rebuilding the wheel and isolated M3 image, the verifier passed all 14 checks
+and all three real SDK profiles in both application and delegated modes in 172.57s:
+.venv/Scripts/python.exe tools/verify_graph.py --report work/graph-directory-report.json
+
+This post-review report supersedes the pre-review qualification above.
+Qualified at: 2026-10-16T20:29:55.206746+00:00
+Source commit: fb81c88f391437a5000dfe35b006bab4ee9b2111
+Source fingerprint: bbcf96e200899fae5ff09ed8b639a36e2e75242d7ffa18da2802b1bb027f6adf
+Wheel SHA-256: 31c109b1ff2b2cc17eeead71b17a756e7878bbf0ba2f8e46d55923c72731c88a
+Manifest SHA-256: 46589d4b1bc89c7456a710cbc45fe664bea0c55b68e4869a570e5d5dbb33cc7c
+Lock SHA-256: ccbec428f8204ed3ef3a7536dcbc080c25611f27a14433f8f0a0f39265c90cfb
+Runtime image: sha256:7e3843ef503be14efd2337f72606bfbb59bc761a986ddfabdcad98ba7df6a21a
+
+Ruff, package provenance/distribution boundaries and git diff --check passed.
+Only documentation changed after these runtime checks; the qualified source
+fingerprint remains unchanged. Network isolation checks passed for native Python,
+container Python and container PowerShell; no real tenant was used.
+
+Final: fixed deleted hidden-group historical disclosure — expansion/delta
+reproductions RED to GREEN, full suite 197/197.
+Final: fixed imported Guest provider writes — atomic rejection/admin separation
+reproduction RED to GREEN, full suite 197/197.
+Final: fixed malformed filter error shaping — six collection/count/batch
+reproductions RED to GREEN, full suite 197/197.
+Final: fixed nullable in-list semantics — PostgreSQL null/mixed/non-null comparison
+reproduction RED to GREEN, full suite 197/197.
+Final: minor (deferred): none.
+
+Tasks 1–9 implementation, verification and independent review are complete.
+Publication follows the recorded draft-PR adjustment while prerequisite PR #3 is open.
+Audit/evidence projection and collector gates remain M3B; broader security
+administration remains M3C. Large-scale throughput is not established by the
+functional 5,000-user qualification.
+
+All execution decisions and their costs are preserved in
+[the complete rulings record](graph-directory-rulings.md).
