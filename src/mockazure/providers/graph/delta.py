@@ -288,6 +288,10 @@ async def read_delta(
 
 
 def register_delta(router, version):
+    @router.get("/users/delta()")
+    @router.get("/users/microsoft.graph.delta()")
+    @router.get("/groups/delta()")
+    @router.get("/groups/microsoft.graph.delta()")
     @router.get("/users/delta")
     @router.get("/users/microsoft.graph.delta")
     @router.get("/groups/delta")

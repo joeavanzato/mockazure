@@ -63,6 +63,10 @@ def register_writes(router, version):
             async with request.app.state.database.sessions.begin() as session:
                 context = await principal(request, session)
                 values = {} if request.method == "DELETE" else await read_json(request)
+                if not membership and "@odata.type" in values:
+                    if values["@odata.type"] != "#microsoft.graph." + kind:
+                        invalid("Type annotation does not match the directory resource")
+                    values = {key: value for key, value in values.items() if key != "@odata.type"}
                 settings = request.app.state.settings
                 origins = frozenset(
                     [
