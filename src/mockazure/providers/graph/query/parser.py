@@ -25,13 +25,13 @@ TOKEN = re.compile(
 
 
 class FilterParser:
-    def __init__(self, value: str):
+    def __init__(self, value: str, *, max_bytes: int = 8192):
         try:
             size = len(value.encode("utf-8"))
         except UnicodeError:
             unsupported("Filter must be valid UTF-8 text")
-        if size > 8192:
-            unsupported("Filter exceeds 8 KiB")
+        if size > max_bytes:
+            unsupported("Filter exceeds its byte limit")
         self.tokens, self.index, self.nodes = [], 0, 0
         position = 0
         while position < len(value):

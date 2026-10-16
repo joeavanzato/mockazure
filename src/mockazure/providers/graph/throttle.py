@@ -10,7 +10,12 @@ from mockazure.providers.graph.probes import principal
 
 
 async def consume_budget(session, tenant_id, client_id, resource, now, limit, window_seconds):
-    if resource not in {"users", "groups"} or limit < 1 or not 1 <= window_seconds <= 3600:
+    if (
+        resource
+        not in {"users", "groups", "signIn", "directoryAudit", "riskDetection", "riskyUser"}
+        or limit < 1
+        or not 1 <= window_seconds <= 3600
+    ):
         raise ValueError("Invalid directory budget")
     start = datetime.fromtimestamp(
         math.floor(now.timestamp() / window_seconds) * window_seconds, UTC
@@ -38,9 +43,18 @@ RETURNING used,window_start
 
 async def enforce_directory_budget(request):
     parts = request.url.path.split("/")
-    if len(parts) < 3 or parts[1] not in {"v1.0", "beta"} or parts[2] not in {"users", "groups"}:
+    if len(parts) < 3 or parts[1] not in {"v1.0", "beta"}:
         return
-    resource = parts[2]
+    from mockazure.providers.graph.evidence.contracts import PATHS
+
+    resource = next(
+        (family for family, path in PATHS.items() if "/".join(parts[2:4]) == path), None
+    )
+    evidence = resource is not None
+    if not evidence:
+        if parts[2] not in {"users", "groups"}:
+            return
+        resource = parts[2]
     now = getattr(request.app.state, "clock", lambda: datetime.now(UTC))()
     async with request.app.state.database.sessions.begin() as session:
         context = await principal(request, session)
@@ -51,8 +65,8 @@ async def enforce_directory_budget(request):
             context.client_id,
             resource,
             now,
-            settings.graph_directory_request_limit,
-            settings.graph_directory_window_seconds,
+            600 if evidence else settings.graph_directory_request_limit,
+            60 if evidence else settings.graph_directory_window_seconds,
         )
         if retry is None and request.method == "GET":
             retry = await session.scalar(
@@ -65,6 +79,6 @@ RETURNING retry_after
             )
     # The counter and one-shot fault commit even though this request is denied.
     if retry is not None:
-        error = GraphError(429, "TooManyRequests", "Directory request limit reached; retry later")
+        error = GraphError(429, "TooManyRequests", "Graph request limit reached; retry later")
         error.headers["Retry-After"] = str(retry)
         raise error

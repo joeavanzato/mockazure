@@ -5,7 +5,7 @@ from uuid import uuid4
 import httpx
 
 from mockazure.admin.app import create_app
-from tests.integration.graph_support import graph_client, headers_for
+from tests.integration.graph_support import graph_client, headers_for, registered_app
 from tests.integration.test_graph_mutations import WRITE, user_body
 
 
@@ -86,7 +86,9 @@ async def test_shared_limit_and_batch_retry(database, settings):
                     },
                 )
             ).json()["id"]
-            other_headers = await headers_for(database, settings, other, app, None, WRITE)
+            other_headers = await headers_for(
+                database, settings, other, await registered_app(first, other), None, WRITE
+            )
             assert (await second.get("/v1.0/users", headers=other_headers)).status_code == 200
             now += timedelta(seconds=61)
             assert (await second.get("/v1.0/users", headers=headers)).status_code == 200

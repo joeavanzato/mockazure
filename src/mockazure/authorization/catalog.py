@@ -14,6 +14,10 @@ CATALOG = (
     *(
         PermissionDefinition("graph", name, kind, True)
         for name in (
+            "AuditLog.Read.All",
+            "IdentityRiskyUser.Read.All",
+            "IdentityRiskyUser.ReadWrite.All",
+            "IdentityRiskEvent.Read.All",
             "Organization.Read.All",
             "Organization.ReadWrite.All",
             "LicenseAssignment.Read.All",
@@ -54,6 +58,14 @@ def permission(resource: str, kind: str, name: str) -> PermissionDefinition:
     raise ValueError("Unsupported permission for resource and permission kind")
 
 
-GRAPH_LICENSING_ROLES = frozenset({
-    "Guest Inviter", "License Administrator", "Dynamics 365 Business Central Administrator",
-})
+GRAPH_LICENSING_ROLES = frozenset(
+    {
+        "Guest Inviter",
+        "License Administrator",
+        "Dynamics 365 Business Central Administrator",
+    }
+)
+
+GRAPH_EVIDENCE_ROLES = frozenset(
+    {"Reports Reader", "Security Reader", "Security Operator", "Security Administrator"}
+)
