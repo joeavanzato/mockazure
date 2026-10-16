@@ -17,7 +17,8 @@ async def test_provider_and_oauth_global_error_envelopes(database, settings):
 async def test_capabilities_describe_supported_identity_and_probes(database, settings):
     async with identity_client(database, settings) as (client, *_):
         response = (await client.get("/_mock/capabilities")).json()
-        assert response["milestone"] == 2
+        assert response["milestone"] == 3
+        assert response["delivery"] == "A"
         assert set(response["authentication_flows"]) == {
             "client_credentials",
             "authorization_code_pkce",
@@ -25,4 +26,6 @@ async def test_capabilities_describe_supported_identity_and_probes(database, set
             "refresh_token",
         }
         assert "graph.organization.read" in response["provider_operations"]
+        assert "graph.directory.delta" in response["provider_operations"]
+        assert "directory.import" in response["admin_operations"]
         assert "graph.auditLogs.signIns" not in response["provider_operations"]

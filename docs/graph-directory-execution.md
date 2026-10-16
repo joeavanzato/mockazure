@@ -72,3 +72,38 @@ Ruling: Version-one datasets form a closed user/group graph, with no credential 
 Ruling: Preserve dataset provenance in the import outbox record (source/description/seed/generator scalar fields) and export the latest import provenance at the snapshot. This avoids adding a second metadata store; cost is that mixed imports report the latest dataset provenance rather than per-object lineage.
 Ruling: Round-trip ID preservation is verified in a fresh database because identity object IDs remain globally unique within an instance. Cost is no same-instance clone with unchanged IDs; collisions fail atomically.
 Public datasets are fixtures, not identity/authorization backups: credentials, sessions, grants, roles and private operational flags are not restored. Administrative import is create-only, limited to 10 MiB/10,000 combined users and groups; relationships must reference included objects. Graph writes remain independent of this fixture format.
+
+## Task 9: real-client qualification (in progress)
+Acceptance failed on missing tools.verify_graph after isolated M3 readiness and
+5,000-user provisioning. Users/Groups 2.35.1 archives and complete trees are pinned;
+six preparation-integrity tests passed. Actual Python SDK paging reached user creation
+and exposed its @odata.type annotation. A regression failed with HTTP 400, then passed
+after validating matching annotations and adding generated delta() aliases.
+Capability metadata regression failed at milestone 2, then three wire/capability tests
+passed in 8.76s. One intervening test attempt hit PostgreSQL recovery, which completed;
+the subsequent run passed without a database reset.
+Ruling: Support validated generated SDK type annotations and function-call delta aliases.
+Cost is a few equivalent accepted wire forms, with no new resource or mutation scope.
+Ruling: Use the genuine PowerShell generated delta cmdlet for bootstrap, then its
+Invoke-MgGraphRequest for opaque links because this pinned cmdlet exposes no delta-link
+parameter. Cost is a documented client workflow detail rather than generated-only traversal.
+
+Both real SDK workflows passed application/delegated user/group lifecycle, 5,000-user
+paging, membership delta, deletion and permission denial. The Python Kiota parser
+materializes UUID-looking untyped delta values as UUID objects; the harness compares
+their canonical string IDs, preserving exact identity checks.
+Native qualification passed snapshot/replay across replicas, API and PostgreSQL restart,
+delta resume, foreign reference rejection, wrong audience, shared one-shot 429 and
+clean-wheel CLI export. The final run also injects 429 before the generated Python
+SDK read to verify its default retry middleware without a harness retry wrapper.
+The first complete suite had 186 passes and one stale M1/M2 capability/users-501
+assertion in 403.95s. That test now preserves old operations as a subset, expects
+unauthenticated users to return 401, and keeps the unknown-provider-route 501 check.
+Full-suite rerun is in progress.
+
+Final isolated qualification passed: 14 runtime checks, three client profiles, both application/delegated modes for each. Qualified at 2026-10-16T20:15:12.719853+00:00.
+Source fingerprint: 595c88500f500abc39179b93ae226d9fe52919dd50f0390d1166d8ee9b8a30c6
+Wheel SHA-256: 34880eb5c6d8e146c0469acfbc999450cf9731ecec4fbb9d241dac35649c89a8
+Manifest SHA-256: 46589d4b1bc89c7456a710cbc45fe664bea0c55b68e4869a570e5d5dbb33cc7c
+Runtime image: sha256:cb23e7576f481a8b62140f8101b1f810857a014e087e781ec228d0a14d4b3601
+Ruff, package provenance/distribution boundaries and whitespace checks passed. Final regression rerun and independent review are pending.

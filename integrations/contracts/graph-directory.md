@@ -69,3 +69,8 @@ POST /_mock/tenants/{id}/directory/import accepts schema_version=1, users, group
 GET /_mock/tenants/{id}/directory/export streams a fixed revision in 500-record chunks. Object IDs remain globally unique in an instance; restoration with the same IDs requires an empty destination for those identities. Service-principal owners require the later C dataset extension; export currently returns UnsupportedDatasetReference instead of silently losing them.
 These are public fixtures, not identity or authorization backups. Grants, roles, sessions, credentials and internal operational flags are omitted. Existing tenant.export jobs retain their metadata-only schema.
 CLI commands: mockazure directory import --tenant-id UUID --file PATH --config PATH; mockazure directory export --tenant-id UUID --output PATH --config PATH; mockazure directory cleanup --tenant-id UUID --config PATH. Output never overwrites an existing file. Cleanup is also POST /_mock/tenants/{id}/directory/cleanup and retains history required by unexpired state links.
+
+Generated SDK writes may include @odata.type exactly matching #microsoft.graph.user
+or #microsoft.graph.group for that route; it is validated and removed before the
+domain mutation. Mismatched type annotations fail. Delta accepts delta,
+microsoft.graph.delta and their parenthesized function-call aliases.

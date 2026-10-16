@@ -87,6 +87,30 @@
       "extracted": "collectors/Microsoft-Extractor-Suite",
       "dependencies": [],
       "probe": "integrations/contracts/connections.md"
+    },
+    {
+      "name": "Microsoft.Graph.Users",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Users/2.35.1",
+      "sha256": "89cc7cd23d5bc27fef046a094778d9e8cdfcdd7ee6522ae25d6c58cb247e55ed",
+      "archive": "Microsoft.Graph.Users-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Users/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-directory.md"
+    },
+    {
+      "name": "Microsoft.Graph.Groups",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Groups/2.35.1",
+      "sha256": "b5cda04bb686275a50ddbda54db6e27c87b569f7015b7f49e552a1616b55603a",
+      "archive": "Microsoft.Graph.Groups-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Groups/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-directory.md"
     }
   ],
   "python": {

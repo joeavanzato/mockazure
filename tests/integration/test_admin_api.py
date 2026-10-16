@@ -59,15 +59,19 @@ async def test_auth_routes_paging_host_and_errors(database, settings, tenant_pay
         assert (await client.get(f"/_mock/tenants/{uuid4()}", headers=headers)).status_code == 404
         assert (await client.get("/_mock/unknown", headers=headers)).status_code == 404
         assert (await client.delete("/_mock/tenants", headers=headers)).status_code == 405
-        assert (await client.get("/_mock/capabilities", headers=headers)).json()[
+        operations = (await client.get("/_mock/capabilities", headers=headers)).json()[
             "provider_operations"
-        ] == [
+        ]
+        assert {
             "graph.organization.read",
             "graph.me.read",
             "exchange.organization.read",
             "arm.subscriptions.list",
-        ]
-        response = await client.get("/v1.0/users")
+            "graph.users.lifecycle",
+            "graph.directory.delta",
+        } <= set(operations)
+        assert (await client.get("/v1.0/users")).status_code == 401
+        response = await client.get("/v1.0/not-implemented")
         assert response.status_code == 501
         assert response.json()["error"]["code"] == "MockAzureOperationNotImplemented"
         assert (

@@ -50,3 +50,23 @@ Connect-MockAzure rejects differing login/Graph endpoints before credential
 access; switching instances requires a fresh PowerShell process. Final
 qualification and acceptance verify the complete executed module/collector trees
 against their archives, including unexpected files and sibling module versions.
+
+## M3A directory qualification
+
+| Client/profile | Exercised behavior |
+| --- | --- |
+| MSAL 1.39.0 + Graph Python 1.64.0, native and container | App-only and authorization-code delegated create/read/page/update/member/delta/delete, missing-permission denial |
+| Graph PowerShell Users/Groups/Authentication 2.35.1, container | Same lifecycle in both modes, generated group delta bootstrap and opaque delta-link traversal |
+| Clean wheel native API, two replicas | 5,000-user snapshot under mutation, continuation replay, API/PG restart, delta resume, tenant/audience rejection, shared one-shot 429/retry |
+| Isolated clients | DNS/IPv4/IPv6 external connection probes fail; native Python audit guard limits API/client processes to loopback |
+
+The Python SDK emits matching @odata.type annotations and delta() routes; both
+are accepted. Mismatched type annotations fail. PowerShell's generated delta
+cmdlet returns objects without exposing a delta-link parameter, so continuation
+rounds use Microsoft's Invoke-MgGraphRequest. These remain real local HTTP requests,
+not replacement cmdlets. PowerShell receives explicit locally acquired tokens;
+its native credential acquisition is not claimed.
+
+Run tools/verify_graph.py only against the dedicated M3 stack. Its versioned report
+binds results to the current source fingerprint, wheel, lockfile, pinned client
+archives/trees and running image. Full collection gates remain M3B.
