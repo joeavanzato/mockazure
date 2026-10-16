@@ -181,3 +181,36 @@ def set_enabled(
             json={"enabled": enabled},
         ),
     )
+
+
+@app.command("initialize")
+def initialize(config: Path = typer.Option(DEFAULT_CONFIG)):
+    """Explicitly initialize persistent OAuth keys; preserve existing identity."""
+    from sqlalchemy.exc import SQLAlchemyError
+
+    from mockazure.asyncio_support import run
+    from mockazure.config import load_settings
+    from mockazure.db.engine import close_database, create_database
+    from mockazure.identity.keys import initialize_identity
+
+    async def operation():
+        settings = load_settings(config)
+        database = create_database(settings)
+        try:
+            return await initialize_identity(settings, database)
+        finally:
+            await close_database(database)
+
+    try:
+        kid = run(operation())
+    except (ValueError, OSError, SQLAlchemyError):
+        typer.echo(
+            "Identity initialization failed; check schema and wrapping key backup.", err=True
+        )
+        raise typer.Exit(1) from None
+    typer.echo(json.dumps({"kid": kid}))
+
+
+@app.command("rotate-keys")
+def rotate_keys(config: Path = typer.Option(DEFAULT_CONFIG)):
+    execute(config, lambda client: client.request("POST", "/_mock/identity/keys/rotate"))

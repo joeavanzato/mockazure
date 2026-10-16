@@ -11,10 +11,17 @@ requires-python = ">=3.12"
 license = "Apache-2.0"
 authors = [{name = "MockAzure contributors"}]
 dependencies = [
-  "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "pydantic>=2.10,<3",
-  "pydantic-settings>=2.8,<3", "sqlalchemy>=2.0,<2.1",
-  "psycopg[binary]>=3.2,<4", "alembic>=1.15,<2",
-  "cryptography>=44", "typer>=0.15,<1", "httpx>=0.28,<1",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "pydantic>=2.10,<3",
+  "pydantic-settings>=2.8,<3",
+  "sqlalchemy>=2.0,<2.1",
+  "psycopg[binary]>=3.2,<4",
+  "alembic>=1.15,<2",
+  "cryptography>=44",
+  "typer>=0.15,<1",
+  "httpx>=0.28,<1",
+  "pyjwt[crypto]>=2.10,<3",
 ]
 
 [project.scripts]

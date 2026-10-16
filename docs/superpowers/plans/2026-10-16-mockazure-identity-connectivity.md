@@ -10,7 +10,7 @@
 
 **Spec:** ../specs/2026-10-16-mockazure-design.md (accepted), especially sections 6, 7, 11, 13 and milestone 2 in section 14.
 
-**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–2 complete.
+**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–3 complete.
 **Execution preference:** Native, carried forward from the user's selection: main agent implements; one independent whole-change review at the end.
 **Starting point:** Foundation commit 3b659f1805f861de7dfa93e35ec64d367c20aba3. PR #1 remains unmerged as of planning. Do not start from the documentation-only remote main or merge PR #1 implicitly.
 
@@ -153,12 +153,12 @@ These are MockAzure's initial supported profile, not claims that all Microsoft t
 - OAuthError(error: str, description: str, status: int = 400).
 - POST /{tenant}/oauth2/v2.0/token accepts client_credentials and a single resource/.default; JSON response token_type=Bearer, expires_in, access_token; never refresh_token for this flow.
 
-- [ ] **Step 1: Write tests for local discovery/JWKS, secret and certificate clients, rotated keys and signed token validation.** Assert `response.status_code == 200`, `"refresh_token" not in response.json()`, roles contain only granted application permissions, and forged/expired/wrong-audience/ID tokens receive 401 at validation.
-- [ ] **Step 2: Add table-driven invalid-assertion tests:** bad signature, unknown key, wrong iss/sub/aud, absent jti, future nbf, expired or excessive validity, duplicate jti on two workers, none/HS256 algorithms. Assert only one concurrent replay insert succeeds.
-- [ ] **Step 3: Run targeted tests to confirm failures; implement keys, bounded forms and token endpoint.** Cap form bodies at 64 KiB and reject repeated security-relevant fields. Use library JOSE primitives with algorithm allowlists, not hand-written signature encoding. Return invalid_client/invalid_scope/unsupported_grant_type according to the supported contract.
-- [ ] **Step 4: Implement explicit wrapping-key initialization/rotation administration and readiness checks.** Existing instances get an explicit identity initialization step; ordinary startup must not create or replace missing material.
-- [ ] **Step 5: Run tests, then authenticate a pinned MSAL Python confidential client against local metadata.** Explicitly disable external instance discovery or provide verified local metadata; assert an actual request succeeds and wrong secret fails.
-- [ ] **Step 6: Commit:** feat: add persistent signing identity and app-only OAuth.
+- [x] **Step 1: Write tests for local discovery/JWKS, secret and certificate clients, rotated keys and signed token validation.** Assert `response.status_code == 200`, `"refresh_token" not in response.json()`, roles contain only granted application permissions, and forged/expired/wrong-audience/ID tokens receive 401 at validation.
+- [x] **Step 2: Add table-driven invalid-assertion tests:** bad signature, unknown key, wrong iss/sub/aud, absent jti, future nbf, expired or excessive validity, duplicate jti on two workers, none/HS256 algorithms. Assert only one concurrent replay insert succeeds.
+- [x] **Step 3: Run targeted tests to confirm failures; implement keys, bounded forms and token endpoint.** Cap form bodies at 64 KiB and reject repeated security-relevant fields. Use library JOSE primitives with algorithm allowlists, not hand-written signature encoding. Return invalid_client/invalid_scope/unsupported_grant_type according to the supported contract.
+- [x] **Step 4: Implement explicit wrapping-key initialization/rotation administration and readiness checks.** Existing instances get an explicit identity initialization step; ordinary startup must not create or replace missing material.
+- [x] **Step 5: Run tests, then authenticate a pinned MSAL Python confidential client against local metadata.** Explicitly disable external instance discovery or provide verified local metadata; assert an actual request succeeds and wrong secret fails.
+- [x] **Step 6: Commit:** feat: add persistent signing identity and app-only OAuth.
 
 ## Task 4: Permission-enforced Graph probes and early Exchange feasibility
 

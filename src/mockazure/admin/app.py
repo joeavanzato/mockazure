@@ -15,6 +15,9 @@ from mockazure.admin.routes import router
 from mockazure.config import Settings
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
+from mockazure.oauth.discovery import router as discovery_router
+from mockazure.oauth.errors import OAuthError, oauth_error_response
+from mockazure.oauth.routes import router as oauth_router
 from mockazure.tenants.repository import TenantConflict
 
 
@@ -70,6 +73,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         response.headers["x-request-id"] = request.state.request_id
         return response
 
+    @app.exception_handler(OAuthError)
+    async def oauth_error(request, error):
+        return oauth_error_response(request, error)
+
     @app.exception_handler(IdentityError)
     async def identity_error(request, error):
         return error_response(request, error.status, error.code, error.message)
@@ -115,4 +122,6 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(router)
     app.include_router(job_router)
     app.include_router(identity_router)
+    app.include_router(discovery_router)
+    app.include_router(oauth_router)
     return app

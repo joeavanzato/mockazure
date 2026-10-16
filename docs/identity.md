@@ -1,0 +1,125 @@
+# Local identity and authentication
+
+Milestone 2 implementation is in progress. App-only OAuth and identity
+administration are implemented on this branch; SDK/collector qualification and
+delegated flows must not be inferred from their presence.
+
+Run database migrations before explicitly initializing OAuth identity:
+
+```powershell
+mockazure db upgrade --config .runtime/instance/native.json
+mockazure identity initialize --config .runtime/instance/native.json
+```
+
+Initialization creates identity.wrap in the configured instance directory and an
+encrypted RSA signing key in PostgreSQL. Repeating initialization preserves the
+same identity. Startup does not replace missing wrapping material. A previously
+initialized instance without its correct wrapping key fails readiness and token
+issuance. Foundation-only instances remain administratively usable before this
+explicit initialization.
+
+The CA/server TLS keys and OAuth signing keys are separate. Back up PostgreSQL
+and the instance directory together. Tenant metadata exports are not identity
+backups and contain no credentials, grants, sessions or private keys.
+
+## Provisioning
+
+Create a tenant through the existing tenant command. Identity input comes from
+JSON files; avoid putting passwords or client secrets on command lines.
+
+A user input file contains upn, display_name, password and optional enabled.
+The UPN must use the local tenant's registered domain. Application input:
+
+```json
+{
+  "display_name": "Local collector",
+  "client_mode": "confidential",
+  "required_permissions": [
+    {
+      "resource": "graph",
+      "kind": "application",
+      "permissions": ["Organization.Read.All"]
+    }
+  ]
+}
+```
+
+Commands:
+
+```text
+mockazure identity create-user TENANT_ID --input user.json --config CONFIG
+mockazure identity create-application TENANT_ID --input app.json --config CONFIG
+mockazure identity issue-secret TENANT_ID CLIENT_ID --output secret.json --config CONFIG
+mockazure identity register-certificate TENANT_ID CLIENT_ID --certificate client.pem --config CONFIG
+mockazure identity set-grant TENANT_ID GRANT_ID --input grant.json --config CONFIG
+mockazure identity revoke-grant TENANT_ID GRANT_ID --config CONFIG
+mockazure identity revoke-credential TENANT_ID CREDENTIAL_ID --config CONFIG
+mockazure identity list TENANT_ID users --config CONFIG
+mockazure identity list TENANT_ID applications --config CONFIG
+```
+
+Grant JSON contains client_id, resource, kind, permissions and optional user_id.
+The grant cannot exceed the application's configured permissions. Application
+permissions and delegated scopes are distinct. New applications receive a
+separate local service-principal record. Cross-tenant grants are constrained in
+PostgreSQL as well as in the API.
+
+Issued secrets appear once in the protected output file; the CLI prints only
+credential metadata. It refuses to overwrite an existing file. Credential and
+password verification uses bounded salted scrypt; list responses never expose
+their verifiers. Register public RSA certificates of at least 2048 bits, never
+client private keys.
+
+## App-only protocol
+
+Discovery: GET /TENANT/v2.0/.well-known/openid-configuration.
+JWKS: GET /TENANT/discovery/v2.0/keys.
+Token: POST /TENANT/oauth2/v2.0/token, form URL-encoded.
+
+Send grant_type=client_credentials, client_id, scope=RESOURCE/.default and either
+client_secret or client_assertion plus the JWT-bearer client_assertion_type.
+Registered certificate assertions support RS256 and PS256 with x5t or x5t#S256.
+Signature, client iss/sub, exact local token-endpoint audience, validity and jti
+replay checks apply. Assertions have a maximum 600-second validity window; replay
+state is durable and shared across replicas.
+
+Resources are explicitly mapped independently of network endpoints. For example,
+https://graph.microsoft.com/.default requests the Graph audience while all
+requests still target local HTTPS. An unknown resource cannot initiate forwarding.
+
+Access tokens last 3600 seconds with 60 seconds of validation clock tolerance.
+The M2 JWT profile uses the at+jwt header type to distinguish access tokens from
+ID tokens, a local issuer, tenant/client/object IDs and separate roles/scp
+claims. This is a declared local token profile, not byte-for-byte reproduction of
+every Microsoft access-token version. App-only grants never return refresh tokens.
+
+Revoke a credential to stop subsequent issuance. Existing access-token claims are
+not rewritten. Resource-specific authorization rules determine access; full
+conditional-access enforcement belongs to milestone 3.
+
+Rotate signing keys with:
+
+```text
+mockazure identity rotate-keys --config CONFIG
+```
+
+Previously issued tokens remain verifiable through their expiry plus clock
+tolerance. The old public keys remain in JWKS for that window. Private keys never
+appear in JWKS, ordinary exports or diagnostic output.
+
+## Client boundaries
+
+Pinned versions, source revisions and artifact hashes are in
+integrations/manifest.json and uv.lock. Acquisition is separate from offline
+qualification. Use tools/prepare_clients.py --verify to verify acquired archives
+without network requests.
+
+The current PowerShell client image is PowerShell 7.5.0. Python and PowerShell
+qualification containers block external DNS, IPv4 and IPv6. The native Python
+test harness independently blocks nonlocal sockets.
+
+ExchangeOnlineManagement 3.11.0 normalizes a custom ConnectionUri to scheme and
+hostname, dropping its port. Its bootstrap therefore needs HTTPS port 443 within
+the isolated client network. The development harness will provide that endpoint
+without changing host DNS, trust stores or existing services. Full Exchange
+connection qualification is not yet complete.

@@ -1,9 +1,11 @@
+from datetime import UTC, datetime
 from uuid import UUID
 
 from fastapi import APIRouter, Query, Request, Response
 
 from mockazure.admin.errors import AdminError
 from mockazure.db.migrations import schema_is_current
+from mockazure.identity.keys import SigningKeyStore, identity_ready, read_wrapping_key
 from mockazure.tenants.repository import create_tenant, get_tenant, list_tenants
 from mockazure.tenants.schemas import TenantCreate, TenantPage, TenantView
 
@@ -19,6 +21,8 @@ async def health():
 async def ready(request: Request):
     if not await schema_is_current(request.app.state.database):
         raise AdminError(503, "NotReady", "Database or schema is not ready")
+    if not await identity_ready(request.app.state.settings, request.app.state.database):
+        raise AdminError(503, "IdentityNotReady", "Identity wrapping material is unavailable")
     return {"status": "ready"}
 
 
@@ -67,3 +71,19 @@ async def tenant_get(tenant_id: UUID, request: Request):
     if tenant is None:
         raise AdminError(404, "TenantNotFound", "Tenant not found")
     return tenant
+
+
+@router.post("/identity/keys/rotate")
+async def rotate_identity_keys(request: Request):
+    settings = request.app.state.settings
+    try:
+        wrapping = read_wrapping_key(settings.data_dir)
+        async with request.app.state.database.sessions.begin() as session:
+            key = await SigningKeyStore(session, wrapping, settings.endpoints).rotate(
+                datetime.now(UTC)
+            )
+            return {"kid": key.kid}
+    except ValueError:
+        raise AdminError(
+            503, "IdentityNotReady", "Identity wrapping material is unavailable"
+        ) from None
