@@ -248,19 +248,19 @@ Configuration-only use is preferred. Passing an emulator-issued token through a 
 - Report includes source commit, package hash, dependency/image versions, UTC timestamp, probe outcomes, restart/rotation results and isolation evidence; it excludes credentials and raw tokens.
 - Capabilities list each supported auth flow, resource operation, permission and explicit limitation, not simply "Microsoft authentication supported."
 
-- [ ] **Step 1: Add acceptance assertions for required report fields and successful qualification outcomes.** Missing/stale manifest inputs, skipped client probes or a failed isolation check fail the gate; no existence-only report check.
-- [ ] **Step 2: Verify two API replicas against one PostgreSQL instance.** Acquire tokens on one and validate on the other; concurrently redeem a code, rotate keys, refresh and revoke sessions. Restart API/worker/DB containers and verify credentials, grants, sessions and key identity remain intact.
-- [ ] **Step 3: Test distribution parity.** Build/install a clean wheel, initialize native and Docker instances, migrate an M1-only DB explicitly, run both auth modes and provider probes. Verify CA and wrapping-key volume paths survive recreation. Native HTTPS and CLI work without changing machine trust.
-- [ ] **Step 4: Run required verification once the implementation settles.**
+- [x] **Step 1: Add acceptance assertions for required report fields and successful qualification outcomes.** Missing/stale manifest inputs, skipped client probes or a failed isolation check fail the gate; no existence-only report check.
+- [x] **Step 2: Verify two API replicas against one PostgreSQL instance.** Acquire tokens on one and validate on the other; concurrently redeem a code, rotate keys, refresh and revoke sessions. Restart API/worker/DB containers and verify credentials, grants, sessions and key identity remain intact.
+- [x] **Step 3: Test distribution parity.** Build/install a clean wheel, initialize native and Docker instances, migrate an M1-only DB explicitly, run both auth modes and provider probes. Verify CA and wrapping-key volume paths survive recreation. Native HTTPS and CLI work without changing machine trust.
+- [x] **Step 4: Run required verification once the implementation settles.**
   - .venv/Scripts/python.exe -m pytest tests/unit tests/integration -q
   - .venv/Scripts/ruff.exe check src tests tools integrations
-  - .venv/Scripts/python.exe tools/verify_identity.py --config .runtime/m2/native.json --client-manifest integrations/manifest.json --report work/identity-report.json
+  - .venv/Scripts/python.exe tools/verify_identity.py --config .runtime/m2/instance/native.json --client-manifest integrations/manifest.json --report work/identity-report.json
   - .venv/Scripts/python.exe -m pytest tests/acceptance/test_identity_distribution.py -q
   - Re-run the existing foundation live verifier and acceptance checks using their documented dedicated instance arguments; preserve running M1 services.
   - Build wheel/sdist and run tools/check_package.py using its existing documented interface.
   All required suites must pass; unavailable PostgreSQL/Docker/client probes are reported as incomplete, not skipped success.
-- [ ] **Step 5: Update capabilities, operational backup/restore guidance and compatibility documentation.** Document key/secret/session lifecycle, real-flow versus token-injection support, exact unsupported policy/auth features, observed SDK limitations and later milestone boundaries.
-- [ ] **Step 6: Commit the verified increment, run one independent whole-change review under Native execution, resolve findings and rerun affected verification.** Record decisions and results in docs/identity-execution.md, then push and attach the implementation PR. Preserve the M1 dependency explicitly if its PR is still open.
+- [x] **Step 5: Update capabilities, operational backup/restore guidance and compatibility documentation.** Document key/secret/session lifecycle, real-flow versus token-injection support, exact unsupported policy/auth features, observed SDK limitations and later milestone boundaries.
+- [x] **Step 6: Commit the verified increment, run one independent whole-change review under Native execution, resolve findings and rerun affected verification.** Record decisions and results in docs/identity-execution.md, then push and attach the implementation PR. Preserve the M1 dependency explicitly if its PR is still open.
 
 ## Deliberate limits and feasibility decisions
 
