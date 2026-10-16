@@ -1,0 +1,63 @@
+name: mockazure-foundation
+x-application: &application
+  image: mockazure:local
+  build: .
+  volumes:
+    - ./.runtime/instance:/instance:ro
+  networks: [internal]
+services:
+  db:
+    image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    environment:
+      POSTGRES_USER: mockazure
+      POSTGRES_DB: mockazure
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    volumes:
+      - ./.runtime/postgres:/var/lib/postgresql
+    secrets: [db_password]
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mockazure -d mockazure"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  migrate:
+    <<: *application
+    command: ["db", "upgrade", "--config", "/instance/container.json"]
+    depends_on:
+      db: {condition: service_healthy}
+  api:
+    <<: *application
+    command: ["serve", "--config", "/instance/container.json"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import ssl,urllib.request; urllib.request.urlopen('https://localhost:8443/_mock/ready',context=ssl.create_default_context(cafile='/instance/ca.pem'),timeout=3)"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  worker:
+    <<: *application
+    command: ["worker", "--config", "/instance/container.json"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+  ingress:
+    image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
+    volumes:
+      - ./deploy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports:
+      - "127.0.0.1:${MOCKAZURE_API_PORT:-8443}:8443"
+      - "127.0.0.1:${MOCKAZURE_DB_PORT:-55432}:5432"
+    networks: [internal, ingress]
+    depends_on:
+      api: {condition: service_healthy}
+      db: {condition: service_healthy}
+secrets:
+  db_password:
+    file: ./.runtime/db.password
+networks:
+  internal:
+    internal: true
+  ingress:
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"

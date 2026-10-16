@@ -1,0 +1,6 @@
+MockAzure
+Copyright 2026 MockAzure contributors (joeavanzato/mockazure).
+
+The non-executable reference/mockcloud source snapshot originated in the
+owner's VTW repository. See reference/provenance.json for its exact revision
+and file hashes. The runtime package is independently implemented.

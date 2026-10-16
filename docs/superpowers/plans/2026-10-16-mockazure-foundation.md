@@ -10,7 +10,7 @@
 
 **Spec:** D:\projects\mockazure\docs\superpowers\specs\2026-10-16-mockazure-design.md
 
-**Status:** Ready for review. No implementation tasks have been executed.
+**Status:** Implemented and verified: 50 tests pass, live qualification passes, and all independent-review findings are resolved. See docs/foundation-execution.md.
 
 ## Global Constraints
 
@@ -95,12 +95,12 @@ Dependency caches and managed Python installations use project-local UV_CACHE_DI
 - Importer accepts --source PATH --ref REF --output PATH; its fixed allowlist is the four files in spec section 2.
 - provenance.json format: schema_version=1, source_revision (full Git SHA), and files with source_path, destination_path, sha256 and git_blob_id. Do not include machine credentials or environment data.
 
-- [ ] **Step 1: Inspect the destination status/instructions and preserve all existing work.** Confirm the only intended starting content is design documentation. Read source bytes only using git show at a resolved revision; do not execute any legacy module or recursively enumerate/copy its directory.
-- [ ] **Step 2: Implement the importer and copy the four allowlisted tracked blobs.** Preserve exact bytes beneath reference/mockcloud/, retaining their source-relative layout. Refuse an existing conflicting destination. Record provenance. The source repository is read-only.
-- [ ] **Step 3: Create the package and development configuration.** Use src layout and an explicit package include rule. Add Apache-2.0 text and a project NOTICE identifying the project and source origin without inventing third-party authorship. Use the account/project name for attribution pending any later preferred copyright wording.
-- [ ] **Step 4: Establish reproducible tooling.** Declare runtime dependencies from the Tech Stack and a dev group containing test/lint/build requirements. Lock compatible releases with uv; select CPython 3.12 and record container digests when images are acquired. Ignore .runtime/, work/, .venv/, generated certificates, caches and build outputs. Exclude reference/ from Ruff, pytest discovery and both wheel/sdist packaging so the preserved snapshot is never reformatted, imported or executed.
-- [ ] **Step 5: Verify package/provenance boundaries.** Run uv build, inspect wheel and sdist entries, and install the wheel into a clean project-local environment. Confirm mockazure --version and python -m mockazure --version print 0.1.0.dev0. Confirm the wheel contains no reference source, tests, runtime files or credentials. Recompute imported hashes against the manifest.
-- [ ] **Step 6: Commit the independently installable package and source provenance.** Stage only explicit intended paths; commit message: build: establish standalone MockAzure package and source provenance.
+- [x] **Step 1: Inspect the destination status/instructions and preserve all existing work.** Confirm the only intended starting content is design documentation. Read source bytes only using git show at a resolved revision; do not execute any legacy module or recursively enumerate/copy its directory.
+- [x] **Step 2: Implement the importer and copy the four allowlisted tracked blobs.** Preserve exact bytes beneath reference/mockcloud/, retaining their source-relative layout. Refuse an existing conflicting destination. Record provenance. The source repository is read-only.
+- [x] **Step 3: Create the package and development configuration.** Use src layout and an explicit package include rule. Add Apache-2.0 text and a project NOTICE identifying the project and source origin without inventing third-party authorship. Use the account/project name for attribution pending any later preferred copyright wording.
+- [x] **Step 4: Establish reproducible tooling.** Declare runtime dependencies from the Tech Stack and a dev group containing test/lint/build requirements. Lock compatible releases with uv; select CPython 3.12 and record container digests when images are acquired. Ignore .runtime/, work/, .venv/, generated certificates, caches and build outputs. Exclude reference/ from Ruff, pytest discovery and both wheel/sdist packaging so the preserved snapshot is never reformatted, imported or executed.
+- [x] **Step 5: Verify package/provenance boundaries.** Run uv build, inspect wheel and sdist entries, and install the wheel into a clean project-local environment. Confirm mockazure --version and python -m mockazure --version print 0.1.0.dev0. Confirm the wheel contains no reference source, tests, runtime files or credentials. Recompute imported hashes against the manifest.
+- [x] **Step 6: Commit the independently installable package and source provenance.** Stage only explicit intended paths; commit message: build: establish standalone MockAzure package and source provenance.
 
 No artificial unit tests are needed for copying or static packaging. The build/install checks establish the deliverable.
 
@@ -121,7 +121,7 @@ No artificial unit tests are needed for copying or static packaging. The build/i
 
 Configuration defaults: native listen 127.0.0.1:8443; admin base https://localhost:8443; pool_size=5 and pool_max_overflow=5 per process. Require an explicit PostgreSQL DSN; accept postgresql:// and postgresql+psycopg://, normalizing to the psycopg dialect. Do not fall back to a remote service or SQLite. Settings accept MOCKAZURE_ overrides and a selected local JSON config; environment overrides file values. Resolve relative paths against the selected configuration file's parent, never the process working directory. Derived token/certificate paths stay under data_dir. Default allowed hosts include localhost, 127.0.0.1 and configured service aliases.
 
-- [ ] **Step 1: Write failing tests for required inputs, reuse and certificate identity.** Include these assertions:
+- [x] **Step 1: Write failing tests for required inputs, reuse and certificate identity.** Include these assertions:
 ~~~python
 assert load_settings(config).listen_port == 8443
 assert "secret-password" not in repr(load_settings(config))
@@ -136,12 +136,12 @@ assert leaf_issuer_matches_ca
 ~~~
 Also test concurrent initializers produce one complete credential set; malformed/partial files fail without replacement; expired or mismatched leaf certificates request explicit renewal; paths with spaces work.
 
-- [ ] **Step 2: Run uv run pytest tests/unit/test_config.py tests/unit/test_bootstrap.py tests/unit/test_tls.py -q and observe failures caused by missing behaviour.**
-- [ ] **Step 3: Implement settings and file initialization.** Create files atomically using exclusive creation and a cross-process initialization lock. Avoid import-time side effects. Store only a local configured DSN; mask it in logs/errors. Do not put raw secrets in exceptions or normal command output.
-- [ ] **Step 4: Implement certificates and local commands.** Generate an instance CA and server certificate using cryptography. Include localhost, 127.0.0.1 and configured service aliases; require ServerAuth, CA constraints and appropriate key usage. Retain the CA private key for leaf renewal. Use a 365-day leaf and 10-year CA validity, with five minutes of clock skew. Do not automatically trust or rotate the CA.
-- [ ] **Step 5: Add mockazure init and mockazure cert renew commands.** init writes configuration and prints only paths/nonsecret endpoints; accept DSN through an environment/config input rather than requiring it on a visible command line. Missing inputs exit 2; configuration corruption exits nonzero with an actionable message.
-- [ ] **Step 6: Run the focused tests and a real HTTPS certificate-verification check against the generated CA.** Confirm renewal preserves the CA fingerprint and replaces only the leaf/key as requested.
-- [ ] **Step 7: Commit:** feat: add project-local initialization and TLS.
+- [x] **Step 2: Run uv run pytest tests/unit/test_config.py tests/unit/test_bootstrap.py tests/unit/test_tls.py -q and observe failures caused by missing behaviour.**
+- [x] **Step 3: Implement settings and file initialization.** Create files atomically using exclusive creation and a cross-process initialization lock. Avoid import-time side effects. Store only a local configured DSN; mask it in logs/errors. Do not put raw secrets in exceptions or normal command output.
+- [x] **Step 4: Implement certificates and local commands.** Generate an instance CA and server certificate using cryptography. Include localhost, 127.0.0.1 and configured service aliases; require ServerAuth, CA constraints and appropriate key usage. Retain the CA private key for leaf renewal. Use a 365-day leaf and 10-year CA validity, with five minutes of clock skew. Do not automatically trust or rotate the CA.
+- [x] **Step 5: Add mockazure init and mockazure cert renew commands.** init writes configuration and prints only paths/nonsecret endpoints; accept DSN through an environment/config input rather than requiring it on a visible command line. Missing inputs exit 2; configuration corruption exits nonzero with an actionable message.
+- [x] **Step 6: Run the focused tests and a real HTTPS certificate-verification check against the generated CA.** Confirm renewal preserves the CA fingerprint and replaces only the leaf/key as requested.
+- [x] **Step 7: Commit:** feat: add project-local initialization and TLS.
 
 ## Task 3: PostgreSQL schema and persistent tenants
 
@@ -161,7 +161,7 @@ Also test concurrent initializers produce one complete credential set; malformed
 
 Validation: slug is lowercase ASCII [a-z0-9-], 1–63 characters, no leading/trailing hyphen; domain is lowercased ASCII DNS form, no scheme/path, maximum 253 characters; display_name is trimmed, nonempty, maximum 200 characters. Licence strings are nonempty bounded labels, deduplicated. Reject unknown input properties. Tenant IDs are server-created UUIDs; revision starts at 1.
 
-- [ ] **Step 1: Write failing PostgreSQL tests.** Test initial migration and repeat migration, two tenants with distinct IDs, duplicate slug/domain conflicts and data retrieval after disposing/recreating the engine:
+- [x] **Step 1: Write failing PostgreSQL tests.** Test initial migration and repeat migration, two tenants with distinct IDs, duplicate slug/domain conflicts and data retrieval after disposing/recreating the engine:
 ~~~python
 a = await create_tenant(session, tenant_a)
 b = await create_tenant(session, tenant_b)
@@ -173,12 +173,12 @@ assert [x.id for x in await list_tenants(new_session, after=None, limit=1)] == [
 ~~~
 Test concurrent inserts of the same slug yield one success and one TenantConflict. Test Unicode display names, invalid domains, oversized inputs and independent tenant data.
 
-- [ ] **Step 2: Start the isolated PostgreSQL test service and run uv run pytest tests/integration/test_migrations.py tests/integration/test_tenants.py -q.** Missing schema/functions must fail visibly. Refuse a test DSN whose database name lacks the mockazure_test_ prefix.
-- [ ] **Step 3: Implement the engine and initial Alembic migration.** Store UUID IDs, unique normalized slug/domain, bounded display name, JSONB licence list, integer revision and timezone-aware created_at. Use parameterized queries, bounded pools and explicit transaction ownership in callers.
-- [ ] **Step 4: Serialize migration execution with a PostgreSQL advisory lock held on the migration connection.** A second migration runner waits and rechecks. API processes check readiness but do not run migrations automatically. Define mockazure db upgrade and db status commands using this implementation.
-- [ ] **Step 5: Implement repositories and test serialization.** List tenants in UUID order with after/limit (default 100, maximum 500 at the HTTP layer). Convert unique-constraint violations to TenantConflict without disclosing SQL/DSN content. Verify async psycopg execution on native Windows.
-- [ ] **Step 6: Run the focused tests and a two-process migration check.** Both migration commands exit 0 with one schema version; recreated connections read identical rows.
-- [ ] **Step 7: Commit:** feat: persist tenants with PostgreSQL migrations.
+- [x] **Step 2: Start the isolated PostgreSQL test service and run uv run pytest tests/integration/test_migrations.py tests/integration/test_tenants.py -q.** Missing schema/functions must fail visibly. Refuse a test DSN whose database name lacks the mockazure_test_ prefix.
+- [x] **Step 3: Implement the engine and initial Alembic migration.** Store UUID IDs, unique normalized slug/domain, bounded display name, JSONB licence list, integer revision and timezone-aware created_at. Use parameterized queries, bounded pools and explicit transaction ownership in callers.
+- [x] **Step 4: Serialize migration execution with a PostgreSQL advisory lock held on the migration connection.** A second migration runner waits and rechecks. API processes check readiness but do not run migrations automatically. Define mockazure db upgrade and db status commands using this implementation.
+- [x] **Step 5: Implement repositories and test serialization.** List tenants in UUID order with after/limit (default 100, maximum 500 at the HTTP layer). Convert unique-constraint violations to TenantConflict without disclosing SQL/DSN content. Verify async psycopg execution on native Windows.
+- [x] **Step 6: Run the focused tests and a two-process migration check.** Both migration commands exit 0 with one schema version; recreated connections read identical rows.
+- [x] **Step 7: Commit:** feat: persist tenants with PostgreSQL migrations.
 
 ## Task 4: Authenticated management HTTP and CLI
 
@@ -208,7 +208,7 @@ M1 endpoint contract:
 
 Except health/readiness, management endpoints require Bearer admin.token. This is a local administrative interface, not an Entra authority. Unknown provider paths can return their explicit unsupported error without disclosing tenant data; no request is forwarded.
 
-- [ ] **Step 1: Write failing HTTP/authentication tests.**
+- [x] **Step 1: Write failing HTTP/authentication tests.**
 ~~~python
 assert (await client.get("/_mock/tenants")).status_code == 401
 created = await client.post("/_mock/tenants", headers=admin_headers, json=tenant_payload)
@@ -219,12 +219,12 @@ assert (await client.get("/v1.0/users")).status_code == 501
 ~~~
 Test invalid token, malformed UUID, duplicate tenant, unknown properties, bounded list paging, hostile Host, database unavailable and out-of-date schema. No response/log may contain the raw token, DSN password, SQL statement or stack trace.
 
-- [ ] **Step 2: Run uv run pytest tests/unit/test_admin_auth.py tests/unit/test_admin_client.py tests/integration/test_admin_api.py -q and observe missing behaviour failures.**
-- [ ] **Step 3: Implement the ASGI lifespan, error handlers and HTTP routes.** Own one engine per process and dispose it on shutdown. Trust only configured Host values; construct Location from admin_base_url. Disable default docs/openapi endpoints unless explicitly made authenticated.
-- [ ] **Step 4: Implement the management client and tenant CLI.** Commands: mockazure tenant create --slug --display-name --domain; tenant list; tenant show ID; capabilities; health. Client reads the token file, verifies TLS with ca_file and rejects redirects to a different origin. Commands emit JSON for machine-readable results; non-success responses exit nonzero.
-- [ ] **Step 5: Implement mockazure serve --config PATH using Uvicorn and generated certificate paths.** Default native bind stays 127.0.0.1. Docker can explicitly bind 0.0.0.0 while publishing only loopback host ports.
-- [ ] **Step 6: Run focused tests, then create/retrieve a tenant through the live CLI over HTTPS.** Verify wrong CA fails. Capture outputs under work/ and redact credentials.
-- [ ] **Step 7: Commit:** feat: expose authenticated tenant administration.
+- [x] **Step 2: Run uv run pytest tests/unit/test_admin_auth.py tests/unit/test_admin_client.py tests/integration/test_admin_api.py -q and observe missing behaviour failures.**
+- [x] **Step 3: Implement the ASGI lifespan, error handlers and HTTP routes.** Own one engine per process and dispose it on shutdown. Trust only configured Host values; construct Location from admin_base_url. Disable default docs/openapi endpoints unless explicitly made authenticated.
+- [x] **Step 4: Implement the management client and tenant CLI.** Commands: mockazure tenant create --slug --display-name --domain; tenant list; tenant show ID; capabilities; health. Client reads the token file, verifies TLS with ca_file and rejects redirects to a different origin. Commands emit JSON for machine-readable results; non-success responses exit nonzero.
+- [x] **Step 5: Implement mockazure serve --config PATH using Uvicorn and generated certificate paths.** Default native bind stays 127.0.0.1. Docker can explicitly bind 0.0.0.0 while publishing only loopback host ports.
+- [x] **Step 6: Run focused tests, then create/retrieve a tenant through the live CLI over HTTPS.** Verify wrong CA fails. Capture outputs under work/ and redact credentials.
+- [x] **Step 7: Commit:** feat: expose authenticated tenant administration.
 
 ## Task 5: Durable tenant exports and worker recovery
 
@@ -256,7 +256,7 @@ Additional management routes:
 - GET /_mock/tenants/{id}/jobs/{job_id}/result -> 200 ExportSnapshot on success; 409 JobNotReady otherwise.
 - POST /_mock/tenants/import -> 201 TenantView from schema_version=1; optional replacement metadata allows a new unique slug/domain. Always create a new ID; never overwrite an existing tenant. Conflict=409, invalid version/data=422.
 
-- [ ] **Step 1: Write failing tests for two workers, consistent snapshots and fencing.**
+- [x] **Step 1: Write failing tests for two workers, consistent snapshots and fencing.**
 ~~~python
 assert first_claim.id != second_claim.id
 assert await finish_export(session, stale_claim, snapshot) is False
@@ -267,12 +267,12 @@ assert imported.domain == replacement.domain
 ~~~
 Also test reclaim after worker interruption, terminal failure after three attempts, no duplicate logical result, rollback of invalid imports and wrong-tenant status/result reads returning 404.
 
-- [ ] **Step 2: Run uv run pytest tests/integration/test_jobs.py tests/integration/test_exports.py -q and observe missing behaviour failures.**
-- [ ] **Step 3: Implement migration and job repository.** Keep leases and payload/results in PostgreSQL. Completion/failure performs a conditional update using the full claim identity. A poll may reap an expired final-attempt lease into failed; do not leave it running forever.
-- [ ] **Step 4: Implement export/import and the worker.** Export validated M1 tenant metadata only. Worker command mockazure worker --config PATH polls with a bounded idle delay and exits cleanly on interruption. No OAuth/cloud credentials or network calls are needed.
-- [ ] **Step 5: Add tenant export ID, tenant import FILE and job show TENANT_ID JOB_ID CLI commands.** Export can wait with an explicit timeout or return the job ID; file output must be an explicit path. Imports reject extra sensitive fields rather than silently retaining them.
-- [ ] **Step 6: Run focused tests plus two worker processes against live PostgreSQL.** Stop one after claiming a job, let its lease expire, and verify another finishes exactly one result. Recreate API/worker processes and retrieve the same export.
-- [ ] **Step 7: Commit:** feat: add durable tenant export jobs and import.
+- [x] **Step 2: Run uv run pytest tests/integration/test_jobs.py tests/integration/test_exports.py -q and observe missing behaviour failures.**
+- [x] **Step 3: Implement migration and job repository.** Keep leases and payload/results in PostgreSQL. Completion/failure performs a conditional update using the full claim identity. A poll may reap an expired final-attempt lease into failed; do not leave it running forever.
+- [x] **Step 4: Implement export/import and the worker.** Export validated M1 tenant metadata only. Worker command mockazure worker --config PATH polls with a bounded idle delay and exits cleanly on interruption. No OAuth/cloud credentials or network calls are needed.
+- [x] **Step 5: Add tenant export ID, tenant import FILE and job show TENANT_ID JOB_ID CLI commands.** Export can wait with an explicit timeout or return the job ID; file output must be an explicit path. Imports reject extra sensitive fields rather than silently retaining them.
+- [x] **Step 6: Run focused tests plus two worker processes against live PostgreSQL.** Stop one after claiming a job, let its lease expire, and verify another finishes exactly one result. Recreate API/worker processes and retrieve the same export.
+- [x] **Step 7: Commit:** feat: add durable tenant export jobs and import.
 
 ## Task 6: Docker/native parity and milestone qualification
 
@@ -291,7 +291,7 @@ Also test reclaim after worker interruption, terminal failure after three attemp
 
 Use a dedicated .runtime/test-postgres mount and separate Compose project name for tests. Never use compose down -v or recursive filesystem deletion on unverified paths. Any test cleanup resolves an absolute path and verifies it remains within the intended project test directory. Windows bind-mount permission or performance problems must be reported; do not silently relocate data to an unrelated Docker volume.
 
-- [ ] **Step 1: Write failing acceptance assertions and the verification report schema.** Require:
+- [x] **Step 1: Write failing acceptance assertions and the verification report schema.** Require:
 ~~~python
 assert report["tls_verified"] is True
 assert report["tenant_survived_recreate"] is True
@@ -304,11 +304,11 @@ assert report["wheel_install_passed"] is True
 ~~~
 The report contains outcomes and public fingerprints, never raw secrets or token hashes.
 
-- [ ] **Step 2: Run the new acceptance tests and record the missing deployment behaviour.** Infrastructure acquisition failures are prerequisites to resolve, not successful expected test failures.
-- [ ] **Step 3: Implement image and Compose startup.** Build the wheel once, install it into the runtime image, configure health/readiness and a migration dependency. The worker waits for the completed schema. Pin base images by resolved digest. Ensure packaged Alembic resources are present.
-- [ ] **Step 4: Implement the verifier and network isolation.** Use real HTTPS with CA verification, two API processes on separate local ports, and two workers sharing the database. Block nonlocal network use in native tests; enforce isolation at the container network layer for container tests. Assert attempted external calls are failures, not successes that happen to return no data.
-- [ ] **Step 5: Document both startup paths.** Include PowerShell and Git Bash commands, project-local cache/data paths, configuration/token/certificate filenames, explicit certificate trust instructions, migrations, export/import, backup requirements and troubleshooting. A fresh Docker-only user must be able to build the image, run its init --compose command with the project mounted at /project, and then start Compose without installing Python/uv on Windows. Generate relative data_dir paths so native config is valid on the host and container config is valid at its mounted location. Native users run the same initialization via the installed CLI. Explain that M1 provider APIs are not yet implemented.
-- [ ] **Step 6: Execute final verification from the project root.**
+- [x] **Step 2: Run the new acceptance tests and record the missing deployment behaviour.** Infrastructure acquisition failures are prerequisites to resolve, not successful expected test failures.
+- [x] **Step 3: Implement image and Compose startup.** Build the wheel once, install it into the runtime image, configure health/readiness and a migration dependency. The worker waits for the completed schema. Pin base images by resolved digest. Ensure packaged Alembic resources are present.
+- [x] **Step 4: Implement the verifier and network isolation.** Use real HTTPS with CA verification, two API processes on separate local ports, and two workers sharing the database. Block nonlocal network use in native tests; enforce isolation at the container network layer for container tests. Assert attempted external calls are failures, not successes that happen to return no data.
+- [x] **Step 5: Document both startup paths.** Include PowerShell and Git Bash commands, project-local cache/data paths, configuration/token/certificate filenames, explicit certificate trust instructions, migrations, export/import, backup requirements and troubleshooting. A fresh Docker-only user must be able to build the image, run its init --compose command with the project mounted at /project, and then start Compose without installing Python/uv on Windows. Generate relative data_dir paths so native config is valid on the host and container config is valid at its mounted location. Native users run the same initialization via the installed CLI. Explain that M1 provider APIs are not yet implemented.
+- [x] **Step 6: Execute final verification from the project root.**
 ~~~text
 uv sync --locked
 uv run ruff check .
@@ -322,7 +322,7 @@ git diff --check
 ~~~
 Generate .runtime/compose.env as part of init using the final paths/ports; no source-project env file is read. The verifier includes a controlled database container recreation using the same bind mount, then confirms state. Use a clean wheel environment for package verification rather than an editable install.
 
-- [ ] **Step 7: Inspect the diff and tracked file list, commit and push.** Confirm no .runtime/, work/, credentials or unrelated files are tracked. Commit message: feat: ship verified Docker and native foundation. Push the branch using authenticated GitHub access without exposing a token.
+- [x] **Step 7: Inspect the diff and tracked file list, commit and push.** Confirm no .runtime/, work/, credentials or unrelated files are tracked. Commit message: feat: ship verified Docker and native foundation. Push the branch using authenticated GitHub access without exposing a token.
 
 ## Self-review and requirement coverage
 

@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mockazure"
+version = "0.1.0.dev0"
+description = "Local, stateful Microsoft cloud API emulation"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+authors = [{name = "MockAzure contributors"}]
+dependencies = [
+  "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "pydantic>=2.10,<3",
+  "pydantic-settings>=2.8,<3", "sqlalchemy>=2.0,<2.1",
+  "psycopg[binary]>=3.2,<4", "alembic>=1.15,<2",
+  "cryptography>=44", "typer>=0.15,<1", "httpx>=0.28,<1",
+]
+
+[project.scripts]
+mockazure = "mockazure.cli:app"
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=1", "ruff>=0.11", "build>=1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mockazure"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--basetemp=work/pytest"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["reference", ".runtime", "work"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
