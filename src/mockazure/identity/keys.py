@@ -47,6 +47,9 @@ class SigningKeyStore:
             ) from None
 
     async def active_key(self, now: datetime) -> SigningKey:
+        # All signers hold a shared lock until their issuing transaction commits.
+        # Retirement cannot overtake a token signed with the previous active key.
+        await self.session.execute(text(f"SELECT pg_advisory_xact_lock_shared({KEY_LOCK})"))
         row = await self.session.scalar(select(SigningKey).where(SigningKey.retired_at.is_(None)))
         if row is None:
             raise ValueError("Identity has not been initialized")
@@ -65,6 +68,9 @@ class SigningKeyStore:
 
     async def rotate(self, now: datetime) -> SigningKey:
         await self.session.execute(text(f"SELECT pg_advisory_xact_lock({KEY_LOCK})"))
+        # A queued caller's timestamp predates the last issuer; take the clock
+        # after the exclusive lock. Retain injected future clocks used in tests.
+        now = max(now, datetime.now(UTC))
         active = await self.session.scalar(
             select(SigningKey).where(SigningKey.retired_at.is_(None))
         )

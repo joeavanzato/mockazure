@@ -54,7 +54,8 @@ M1; provider 501 applies only to operations outside this explicit M2 list:
 
 No users collection, auditLogs, generic OData/expand/delta, mailbox evidence,
 Activity Logs, Defender, Purview or conditional-access engine is advertised yet.
-Exchange app access currently uses the local Exchange.ManageAsApp grant; full
-Exchange RBAC scopes and service-principal role modelling remain future work.
+Exchange app access requires both Exchange.ManageAsApp and a tenant-owned
+Global Reader or Global Administrator service-principal role. Both module download
+and command invocation enforce the role. Full Exchange RBAC scopes remain future work.
 The subscription Reader model is intentionally bounded; no arbitrary ARM policy
 or resource-action engine is implied. See compatibility.md and identity.md.

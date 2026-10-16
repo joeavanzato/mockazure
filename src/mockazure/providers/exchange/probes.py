@@ -16,6 +16,7 @@ ORGANIZATION = OperationRequirement(
     frozenset({"Exchange.ManageAsApp"}),
     frozenset({"Exchange.Manage"}),
     frozenset({"Global Administrator", "Global Reader"}),
+    application_roles=frozenset({"Global Administrator", "Global Reader"}),
 )
 
 

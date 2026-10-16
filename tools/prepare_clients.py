@@ -15,10 +15,25 @@ def beneath(root: Path, relative: str) -> Path:
     return target
 
 
+def verify_tree(root: Path, expected: dict[Path, str]) -> None:
+    actual = set()
+    for path in root.rglob("*"):
+        if path.is_symlink() or path.is_junction():
+            raise ValueError("Extracted client links are unsupported")
+        if path.is_file():
+            actual.add(path.resolve())
+    if actual != set(expected):
+        raise ValueError("Extracted client file inventory mismatch")
+    for path, digest in expected.items():
+        if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise ValueError("Extracted client content mismatch")
+
+
 def prepare(manifest: Path, output: Path, *, verify_only: bool = False) -> None:
     data = json.loads(manifest.read_text(encoding="utf-8"))
     if data["schema_version"] != 1:
         raise ValueError("Unsupported client manifest")
+    trees: dict[Path, dict[Path, str]] = {}
     for item in data["artifacts"]:
         archive = beneath(output, item["archive"])
         if not archive.exists():
@@ -34,17 +49,27 @@ def prepare(manifest: Path, output: Path, *, verify_only: bool = False) -> None:
             raw = archive.read_bytes()
         if hashlib.sha256(raw).hexdigest() != item["sha256"]:
             raise ValueError("Client SHA256 mismatch")
-        if verify_only:
-            continue
-        archive.write_bytes(raw)
+        if not verify_only:
+            archive.write_bytes(raw)
         target = beneath(output, item["extracted"])
+        # Verify the complete mounted tree, including unpinned sibling versions
+        # that PowerShell's module discovery could select automatically.
+        tree = beneath(output, target.relative_to(output.resolve()).parts[0])
+        expected = trees.setdefault(tree, {})
         with zipfile.ZipFile(archive) as bundle:
             for member in bundle.infolist():
-                beneath(target, member.filename)
+                path = beneath(target, member.filename)
                 if member.external_attr >> 16 & 0o170000 == 0o120000:
                     raise ValueError("Archive symlinks are unsupported")
-            bundle.extractall(target)
-    print(f"Verified {len(data['artifacts'])} pinned client archives")
+                if not member.is_dir():
+                    if path in expected:
+                        raise ValueError("Duplicate extracted client path")
+                    expected[path] = hashlib.sha256(bundle.read(member)).hexdigest()
+            if not verify_only:
+                bundle.extractall(target)
+    for tree, expected in trees.items():
+        verify_tree(tree, expected)
+    print(f"Verified {len(data['artifacts'])} pinned client archives and extracted trees")
 
 
 if __name__ == "__main__":

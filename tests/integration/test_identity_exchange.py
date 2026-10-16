@@ -55,6 +55,16 @@ async def test_exchange_bootstrap_and_command_permissions(database, settings):
             },
         )
         headers["Authorization"] = "Bearer " + await token()
+        command = {"CmdletInput": {"CmdletName": "Get-OrganizationConfig", "Parameters": {}}}
+        invoke_url = f"/adminapi/v2.0/{tenant}/InvokeCommand"
+        # API consent alone must not grant operational Exchange access.
+        assert (await client.get(endpoint, headers=headers)).status_code == 403
+        assert (await client.post(invoke_url, headers=headers, json=command)).status_code == 403
+        role_url = base + f"/applications/{app['client_id']}/roles"
+        assert (await client.put(role_url + "/Directory Readers")).status_code == 200
+        assert (await client.get(endpoint, headers=headers)).status_code == 403
+        assert (await client.put(role_url + "/Global Reader")).status_code == 200
+        assert (await client.put(role_url + "/Global Reader")).status_code == 200
         response = await client.get(endpoint, headers=headers)
         assert response.status_code == 200, response.text
         module = response.json()["value"][0]
@@ -90,3 +100,21 @@ async def test_exchange_bootstrap_and_command_permissions(database, settings):
                 headers={**headers, "Authorization": "Bearer " + graph_token["access_token"]},
             )
         ).status_code == 401
+
+        assert (await client.delete(role_url + "/Global Reader")).status_code == 200
+        assert (await client.get(endpoint, headers=headers)).status_code == 403
+        assert (await client.post(invoke_url, headers=headers, json=command)).status_code == 403
+        other = (
+            await client.post(
+                "/_mock/tenants",
+                json={
+                    "slug": "other",
+                    "display_name": "Other",
+                    "domain": "other.test",
+                    "licences": [],
+                },
+            )
+        ).json()["id"]
+        assert (
+            await client.put(role_url.replace(tenant, other) + "/Global Reader")
+        ).status_code == 404

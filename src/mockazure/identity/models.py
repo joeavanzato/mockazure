@@ -97,3 +97,16 @@ class DirectoryRole(Base):
     tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
     user_id: Mapped[UUID] = mapped_column(primary_key=True)
     role: Mapped[str] = mapped_column(String(80), primary_key=True)
+
+
+class ServicePrincipalRole(Base):
+    __tablename__ = "identity_service_principal_roles"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "client_id"],
+            ["identity_service_principals.tenant_id", "identity_service_principals.client_id"],
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    client_id: Mapped[UUID] = mapped_column(primary_key=True)
+    role: Mapped[str] = mapped_column(String(80), primary_key=True)

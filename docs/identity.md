@@ -189,3 +189,26 @@ Restoring the database without its wrapping key cannot restore signing ability.
 See compatibility.md for exact client acquisition boundaries. Exchange connection
 qualification is complete for the one approved discovery command; broad Exchange,
 Graph, ARM evidence collection and conditional-access policies remain later work.
+
+## Operational role and qualification boundaries
+
+For the implemented Exchange Get-OrganizationConfig operation, application consent
+alone is insufficient. Assign a tenant-owned service-principal role with
+PUT /_mock/tenants/{tenant}/identity/applications/{client}/roles/Global%20Reader
+(or Global%20Administrator); DELETE the same URL to revoke it. The API permission
+and persisted role are checked independently at module download and invocation.
+Directory Readers is not sufficient. This is a bounded role gate, not mailbox
+scope/RBAC parity. The standard M2 provisioning command assigns Global Reader.
+
+The separation follows Microsoft's [app-only Exchange role guidance](https://learn.microsoft.com/en-us/powershell/exchange/app-only-auth-powershell-v2).
+Certificate enrollment stores only canonical public certificate PEM, even when
+a caller accidentally includes other PEM blocks. Signing transactions share a
+PostgreSQL advisory lock; rotation takes it exclusively and timestamps retirement
+after acquisition so already issued tokens retain their verification window.
+
+Client preparation and final acceptance compare every extracted module/collector
+file to its pinned archive and reject missing, modified, or unexpected files,
+including unpinned module versions. No upstream collector edits are permitted.
+Connect-MockAzure rejects an existing Graph environment whose login or Graph
+endpoint differs from the supplied profile before reading credentials. Use a new
+PowerShell process to change profiles.

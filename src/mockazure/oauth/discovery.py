@@ -32,10 +32,15 @@ async def metadata(tenant: str, request: Request):
     if tenant not in ("common", "organizations"):
         async with request.app.state.database.sessions() as session:
             tenant = str((await resolve_tenant(session, tenant)).id)
-    issuer_tenant = "{tenantid}" if tenant in ("common", "organizations") else tenant
+    canonical = request.app.state.settings.endpoints
+    issuer = (
+        canonical.login + "/{tenantid}/v2.0"
+        if tenant in ("common", "organizations")
+        else canonical.issuer(tenant)
+    )
     base = f"{profile.login}/{tenant}"
     return {
-        "issuer": request.app.state.settings.endpoints.issuer(issuer_tenant),
+        "issuer": issuer,
         "authorization_endpoint": f"{base}/oauth2/v2.0/authorize",
         "token_endpoint": f"{base}/oauth2/v2.0/token",
         "device_authorization_endpoint": f"{base}/oauth2/v2.0/devicecode",

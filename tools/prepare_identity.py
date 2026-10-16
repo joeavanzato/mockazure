@@ -190,6 +190,7 @@ def provision_connections():
             result.raise_for_status()
             return result.json()
 
+        put(base + f"/applications/{probe['client_id']}/roles/Global Reader", {})
         provisioned = state / "connection-provisioning.json"
         if provisioned.exists():
             extra = json.loads(provisioned.read_text())

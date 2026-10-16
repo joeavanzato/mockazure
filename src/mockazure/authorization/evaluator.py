@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from sqlalchemy import select
 
-from mockazure.identity.models import DirectoryRole, User
+from mockazure.identity.models import DirectoryRole, ServicePrincipalRole, User
 from mockazure.identity.types import PrincipalContext
 
 
@@ -13,6 +13,7 @@ class OperationRequirement:
     delegated_permissions: frozenset[str]
     user_roles: frozenset[str] = frozenset()
     access_rule: str = "tenant"
+    application_roles: frozenset[str] = frozenset()
 
 
 class AuthorizationDenied(Exception):
@@ -23,6 +24,17 @@ async def authorize(context: PrincipalContext, operation: OperationRequirement, 
     if context.token_kind == "application":
         if not context.permissions & operation.application_permissions:
             raise AuthorizationDenied("Application permission is required")
+        if operation.application_roles:
+            roles = set(
+                await session.scalars(
+                    select(ServicePrincipalRole.role).where(
+                        ServicePrincipalRole.tenant_id == context.tenant_id,
+                        ServicePrincipalRole.client_id == context.client_id,
+                    )
+                )
+            )
+            if not roles & operation.application_roles:
+                raise AuthorizationDenied("Service principal operational role is required")
         return
     if not context.permissions & operation.delegated_permissions:
         raise AuthorizationDenied("Delegated permission is required")

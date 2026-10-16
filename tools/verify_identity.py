@@ -44,6 +44,8 @@ def source_fingerprint():
         ROOT / "pyproject.toml",
         ROOT / "uv.lock",
         ROOT / "Dockerfile",
+        ROOT / "integrations/Dockerfile.python",
+        ROOT / "deploy/haproxy-m2.cfg",
         ROOT / "compose.m2.yaml",
         ROOT / "compose.clients.yaml",
         ROOT / "compose.clients.m2.yaml",
@@ -373,6 +375,7 @@ def main():
         ("powershell", "Test-ArmBootstrap.ps1", "arm-bootstrap.json"),
         ("powershell", "Test-CollectorConnections.ps1", "collectors.json"),
         ("powershell", "Test-DeniedConnections.ps1", "denied-connections.json"),
+        ("powershell", "Test-ProfileSwitch.ps1", "profile-switch.json"),
     ]
     for language, script, output in scripts:
         if script == "Test-DelegatedConnection.ps1":

@@ -7,7 +7,14 @@ from sqlalchemy import delete, select
 from sqlalchemy.exc import IntegrityError
 
 from mockazure.authorization.catalog import DIRECTORY_ROLES
-from mockazure.identity.models import Application, DirectoryRole, Grant, User
+from mockazure.identity.models import (
+    Application,
+    DirectoryRole,
+    Grant,
+    ServicePrincipal,
+    ServicePrincipalRole,
+    User,
+)
 from mockazure.identity.repository import (
     IdentityError,
     IdentityRepository,
@@ -142,6 +149,44 @@ async def revoke_role(tenant_id: UUID, user_id: UUID, role: str, request: Reques
                 DirectoryRole.tenant_id == tenant_id,
                 DirectoryRole.user_id == user_id,
                 DirectoryRole.role == role,
+            )
+        )
+    return {"revoked": True}
+
+
+async def require_service_principal(repo, tenant_id, client_id):
+    found = await repo.session.scalar(
+        select(ServicePrincipal.id).where(
+            ServicePrincipal.tenant_id == tenant_id, ServicePrincipal.client_id == client_id
+        )
+    )
+    if found is None:
+        raise IdentityError(404, "IdentityNotFound", "Service principal not found in tenant")
+
+
+@router.put("/applications/{client_id}/roles/{role}")
+async def assign_application_role(tenant_id: UUID, client_id: UUID, role: str, request: Request):
+    if role not in DIRECTORY_ROLES:
+        raise IdentityError(422, "UnsupportedRole", "Directory role is not supported")
+    async with transaction(request, tenant_id) as repo:
+        await require_service_principal(repo, tenant_id, client_id)
+        existing = await repo.session.get(ServicePrincipalRole, (tenant_id, client_id, role))
+        if existing is None:
+            repo.session.add(
+                ServicePrincipalRole(tenant_id=tenant_id, client_id=client_id, role=role)
+            )
+    return {"assigned": True}
+
+
+@router.delete("/applications/{client_id}/roles/{role}")
+async def revoke_application_role(tenant_id: UUID, client_id: UUID, role: str, request: Request):
+    async with transaction(request, tenant_id) as repo:
+        await require_service_principal(repo, tenant_id, client_id)
+        await repo.session.execute(
+            delete(ServicePrincipalRole).where(
+                ServicePrincipalRole.tenant_id == tenant_id,
+                ServicePrincipalRole.client_id == client_id,
+                ServicePrincipalRole.role == role,
             )
         )
     return {"revoked": True}

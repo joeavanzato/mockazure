@@ -2,10 +2,12 @@ import json
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
+from tools.prepare_clients import prepare
 from tools.verify_identity import ROOT, sha, source_fingerprint
 
 
 def test_current_identity_distribution_qualification():
+    prepare(ROOT / "integrations/manifest.json", ROOT / "work/vendor", verify_only=True)
     path = Path("work/identity-report.json")
     assert path.is_file(), "Run tools/verify_identity.py against the dedicated M2 deployment"
     report = json.loads(path.read_text())
@@ -29,6 +31,7 @@ def test_current_identity_distribution_qualification():
         "powershell/arm-bootstrap.json",
         "powershell/collectors.json",
         "powershell/denied-connections.json",
+        "powershell/profile-switch.json",
     }
     assert set(report["probes"]) == required
     for name, probe in report["probes"].items():

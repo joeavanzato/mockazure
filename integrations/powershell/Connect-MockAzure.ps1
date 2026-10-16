@@ -9,7 +9,14 @@ function Connect-MockAzure {
     $env:SSL_CERT_FILE = $config.ca_file
     Import-Module Microsoft.Graph.Authentication -RequiredVersion 2.35.1
     Import-Module Microsoft.Graph.Identity.DirectoryManagement -RequiredVersion 2.35.1
-    if (-not (Get-MgEnvironment -Name MockAzure -ErrorAction SilentlyContinue)) {
+    $environment = Get-MgEnvironment -Name MockAzure -ErrorAction SilentlyContinue
+    if ($environment -and (
+        $environment.AzureADEndpoint.TrimEnd('/') -ne $config.endpoints.login.TrimEnd('/') -or
+        $environment.GraphEndpoint.TrimEnd('/') -ne $config.endpoints.graph.TrimEnd('/')
+    )) {
+        throw 'MockAzure endpoint profile mismatch. Start a fresh PowerShell process for a different profile.'
+    }
+    if (-not $environment) {
         Add-MgEnvironment -Name MockAzure -AzureADEndpoint $config.endpoints.login -GraphEndpoint $config.endpoints.graph | Out-Null
     }
     if ($Mode -eq 'Application') {

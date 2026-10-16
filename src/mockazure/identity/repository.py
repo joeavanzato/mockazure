@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 from uuid import UUID
 
 from cryptography import x509
-from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -106,7 +106,9 @@ class IdentityRepository:
                     raise ValueError()
                 if not cert.not_valid_before_utc <= datetime.now(UTC) < cert.not_valid_after_utc:
                     raise ValueError()
-                row.public_certificate = data.public_certificate
+                row.public_certificate = cert.public_bytes(serialization.Encoding.PEM).decode(
+                    "ascii"
+                )
                 row.thumbprint = cert.fingerprint(hashes.SHA256()).hex()
                 row.expires_at = min(row.expires_at, cert.not_valid_after_utc)
             except ValueError:
