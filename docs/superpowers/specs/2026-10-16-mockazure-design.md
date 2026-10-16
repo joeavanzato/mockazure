@@ -1,7 +1,7 @@
 # MockAzure: Microsoft cloud API emulation and simulation
 
 Date: 2026-10-16
-Status: Design accepted. Milestone 1 implemented; final qualification and review in progress.
+Status: Design accepted. Milestone 1 implemented, reviewed and verified. Provider milestones remain planned.
 Project: D:\projects\mockazure
 Remote: https://github.com/joeavanzato/mockazure
 Licence: Apache-2.0
@@ -269,4 +269,4 @@ Additional primary references:
 
 The agreed product decisions are broad Microsoft API emulation, evidence-collection priority, stateful operational behaviour, both authentication modes, PostgreSQL, durable state, Docker-first/native parity, optional fixtures, explicit fidelity limits, both collector families as release gates, and Apache-2.0.
 
-This written specification makes those decisions concrete, including proposed first-release operation families, enforcement boundaries and scale qualification targets. Review it before detailed implementation planning. Written approval leads to a milestone-1 implementation plan with its own review and execution-method choice. No application code has been written as part of this specification.
+This written specification makes those decisions concrete, including proposed first-release operation families, enforcement boundaries and scale qualification targets. Review it before detailed implementation planning. Written approval leads to a milestone-1 implementation plan with its own review and execution-method choice. Milestone 1 has since been implemented under the approved foundation plan; its execution and review record is in docs/foundation-execution.md.

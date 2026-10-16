@@ -3,6 +3,7 @@ from pathlib import Path
 from alembic import command
 from alembic.config import Config
 from alembic.script import ScriptDirectory
+from alembic.util import CommandError
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -24,7 +25,7 @@ def migrate(database_url: str) -> None:
             config = configuration()
             config.attributes["connection"] = connection
             command.upgrade(config, "head")
-    except SQLAlchemyError:
+    except (SQLAlchemyError, CommandError):
         raise ValueError(
             "Database migration failed; check PostgreSQL availability and schema"
         ) from None

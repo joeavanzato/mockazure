@@ -15,6 +15,8 @@ class TenantCreate(BaseModel):
     @field_validator("display_name", mode="before")
     @classmethod
     def trim_display(cls, value):
+        if isinstance(value, str) and "\x00" in value:
+            raise ValueError("display name cannot contain NUL characters")
         return value.strip() if isinstance(value, str) else value
 
     @field_validator("domain")
@@ -32,7 +34,7 @@ class TenantCreate(BaseModel):
     @classmethod
     def licence_labels(cls, values):
         labels = [value.strip() for value in values]
-        if any(not value or len(value) > 100 for value in labels):
+        if any(not value or len(value) > 100 or "\x00" in value for value in labels):
             raise ValueError("licences must contain nonempty labels of at most 100 characters")
         return list(dict.fromkeys(labels))
 

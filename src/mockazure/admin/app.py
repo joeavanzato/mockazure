@@ -1,3 +1,4 @@
+import re
 from contextlib import asynccontextmanager
 from uuid import uuid4
 
@@ -25,7 +26,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             if database is None:
                 await close_database(app.state.database)
 
-    app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
+    app = FastAPI(
+        lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None, redirect_slashes=False
+    )
     app.state.settings = settings
     if database is not None:
         app.state.database = database
@@ -34,8 +37,16 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     async def boundary(request: Request, call_next):
         request.state.request_id = str(uuid4())
         try:
-            host = request.headers.get("host", "").split(":")[0].lower()
-            if host not in settings.allowed_hosts:
+            authorities = request.headers.getlist("host")
+            authority = authorities[0].lower() if len(authorities) == 1 else ""
+            parsed = re.fullmatch(
+                r"([a-z0-9](?:[a-z0-9.-]*[a-z0-9])?)(?::([0-9]{1,5}))?", authority
+            )
+            if (
+                parsed is None
+                or parsed[1] not in settings.allowed_hosts
+                or (parsed[2] is not None and not 1 <= int(parsed[2]) <= 65535)
+            ):
                 return error_response(request, 400, "InvalidHost", "Host is not configured")
             if request.url.path.startswith("/_mock") and request.url.path not in (
                 "/_mock/health",
