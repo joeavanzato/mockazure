@@ -6,7 +6,7 @@ from fastapi import APIRouter, Query, Request
 from sqlalchemy import delete, select
 from sqlalchemy.exc import IntegrityError
 
-from mockazure.authorization.catalog import DIRECTORY_ROLES
+from mockazure.authorization.catalog import DIRECTORY_ROLES, GRAPH_LICENSING_ROLES
 from mockazure.identity.models import (
     Application,
     DirectoryRole,
@@ -131,7 +131,7 @@ async def revoke_grant(tenant_id: UUID, grant_id: UUID, request: Request):
 
 @router.put("/users/{user_id}/roles/{role}")
 async def assign_role(tenant_id: UUID, user_id: UUID, role: str, request: Request):
-    if role not in DIRECTORY_ROLES | GRAPH_DIRECTORY_ROLES:
+    if role not in DIRECTORY_ROLES | GRAPH_DIRECTORY_ROLES | GRAPH_LICENSING_ROLES:
         raise IdentityError(422, "UnsupportedRole", "Directory role is not supported")
     async with transaction(request, tenant_id) as repo:
         await repo.owned(User, tenant_id, user_id)
@@ -167,7 +167,7 @@ async def require_service_principal(repo, tenant_id, client_id):
 
 @router.put("/applications/{client_id}/roles/{role}")
 async def assign_application_role(tenant_id: UUID, client_id: UUID, role: str, request: Request):
-    if role not in DIRECTORY_ROLES | GRAPH_DIRECTORY_ROLES:
+    if role not in DIRECTORY_ROLES | GRAPH_DIRECTORY_ROLES | GRAPH_LICENSING_ROLES:
         raise IdentityError(422, "UnsupportedRole", "Directory role is not supported")
     async with transaction(request, tenant_id) as repo:
         await require_service_principal(repo, tenant_id, client_id)

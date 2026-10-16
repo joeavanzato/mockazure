@@ -22,7 +22,7 @@ def schema(version: str) -> dict:
 def validate_payload(version: str, resource: str, payload: dict, *, partial: bool = False) -> None:
     types = schema(version)["types"]
 
-    def check(kind, value, nullable=True, depth=0):
+    def check(kind, value, nullable=True, depth=0, max_chars=16384):
         if depth > 16:
             raise ValueError("Graph payload nesting limit exceeded")
         if value is None:
@@ -36,7 +36,7 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
                 check(kind[11:-1], item, False, depth + 1)
             return
         if kind == "Edm.String":
-            if not isinstance(value, str) or len(value) > 16384 or "\0" in value:
+            if not isinstance(value, str) or len(value) > max_chars or "\0" in value:
                 raise ValueError("Graph string required")
             try:
                 value.encode("utf-8")
@@ -92,6 +92,11 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
                 if field == "@odata.type":
                     continue
                 prop = fields[field]
-                check(prop["type"], item, prop["nullable"], depth + 1)
+                limit = (
+                    4 * 1024 * 1024
+                    if name == "modifiedProperty" and field in {"oldValue", "newValue"}
+                    else 16384
+                )
+                check(prop["type"], item, prop["nullable"], depth + 1, limit)
 
     check(resource, payload, False)

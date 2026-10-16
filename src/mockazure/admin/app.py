@@ -15,6 +15,7 @@ from mockazure.admin.errors import error_response as admin_error_response
 from mockazure.admin.graph_routes import router as graph_admin_router
 from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
+from mockazure.admin.licensing_routes import router as licensing_admin_router
 from mockazure.admin.routes import router
 from mockazure.admin.session_routes import router as session_router
 from mockazure.config import Settings
@@ -29,6 +30,7 @@ from mockazure.providers.arm.probes import router as arm_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.graph.directory import router_for
 from mockazure.providers.graph.errors import GraphError, graph_error_response
+from mockazure.providers.graph.licensing import router as licensing_graph_router
 from mockazure.providers.graph.probes import router as graph_router
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
@@ -169,6 +171,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     app.include_router(router)
     app.include_router(job_router)
+    app.include_router(licensing_admin_router)
+    app.include_router(licensing_graph_router)
     app.include_router(arm_admin_router)
     app.include_router(arm_router)
     app.include_router(session_router)

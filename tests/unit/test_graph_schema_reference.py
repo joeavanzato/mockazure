@@ -50,3 +50,28 @@ def test_directory_schema_nested_shapes_and_required_fields():
     ]:
         with pytest.raises(ValueError):
             validate_payload("v1.0", "directoryAudit", valid | patch)
+
+
+def test_large_license_differences_are_typed_json_strings():
+    import json
+
+    from mockazure.providers.graph.schema_reference import validate_payload
+
+    value = json.dumps(
+        [
+            {
+                "servicePlanId": "eec0eb4f-6444-4f95-aba0-50c24d67f998",
+                "assignedDateTime": "2026-10-16T12:00:00+00:00",
+                "capabilityStatus": "Enabled",
+                "service": None,
+            }
+        ]
+        * 201
+    )
+    assert len(value) > 16384
+    for version in ("v1.0", "beta"):
+        validate_payload(
+            version,
+            "modifiedProperty",
+            {"displayName": "assignedPlans", "oldValue": "[]", "newValue": value},
+        )

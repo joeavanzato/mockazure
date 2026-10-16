@@ -42,6 +42,7 @@ USER_PROFILE = frozenset(
         "department",
         "officeLocation",
         "preferredLanguage",
+        "usageLocation",
     }
 )
 USER_UPDATE = USER_PROFILE | {"displayName", "accountEnabled", "mailNickname"}
@@ -113,6 +114,11 @@ def validate_values(command):
         )
     ):
         invalid("businessPhones supports at most one bounded phone value")
+    if "usageLocation" in values:
+        from mockazure.licensing.catalog import COUNTRIES
+
+        if values["usageLocation"] not in COUNTRIES:
+            invalid("usageLocation must be an assigned ISO3166 alpha-2 code")
     if "accountEnabled" in values and type(values["accountEnabled"]) is not bool:
         invalid("accountEnabled must be boolean")
     if command.kind == "group" and command.action == "create":
@@ -419,6 +425,9 @@ async def mutate_directory(
     elif command.action == "delete":
         row.deleted_at = now
         if command.kind == "user":
+            from mockazure.licensing.service import release_user
+
+            await release_user(session, tenant_id, row.id)
             row.enabled = False
         edges = list(
             await session.scalars(

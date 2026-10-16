@@ -21,3 +21,7 @@ Open types are closed to declared properties for evidence ingestion: arbitrary
 extension bags, credentials and executable content are not accepted. Metadata
 can include fields not yet described on a resource page; metadata determines
 structural types while REST endpoint documentation determines operation behavior.
+
+The local validator bounds ordinary strings to16KiB and encoded audit oldValue/newValue
+strings to4MiB. These are local ingestion limits, not CSDL constraints. Audit differences
+need the larger bound to represent a valid user with several large licensed plan sets.

@@ -222,25 +222,25 @@ admin/client.py, cli.py, evidence/projectors.py.
   with tenant_tier Free/P1/P2,user_plan_ids:frozenset[UUID],fingerprint:str.
 - Consumes Task3 audit facts; uses existing directory revision/version/change services.
 
-- [ ] Write test_license_api_read_write_matrix: all appendix1 permission/role alternatives,
+- [x] Write test_license_api_read_write_matrix: all appendix1 permission/role alternatives,
   denied app licenseDetails, foreign users, usageLocation write, subscriber read projection.
-- [ ] Write test_assignment_updates_inventory_delta_and_entitlements: add/update plans/remove
+- [x] Write test_assignment_updates_inventory_delta_and_entitlements: add/update plans/remove
   produces matching assignedLicenses/assignedPlans, consumedUnits, selected-user delta and
   one Change user license audit. assert repeated_noop.delta == [].
-- [ ] Write test_last_seat_concurrency_and_delete_release: two users race one seat, exactly
+- [x] Write test_last_seat_concurrency_and_delete_release: two users race one seat, exactly
   one succeeds; deleting winner releases it; SKU shrink below consumption fails.
-- [ ] Write test_assignment_atomic_validation: invalid location/SKU/disabled plan/duplicate/
+- [x] Write test_assignment_atomic_validation: invalid location/SKU/disabled plan/duplicate/
   conflicting add-remove/privileged target leaves all counters/versions/facts unchanged.
   P2 disabled on one SKU but enabled on another retains effective P2.
-- [ ] Run pytest tests/integration/test_graph_licensing.py -q; expected RED unsupported routes.
-- [ ] Implement direct assignments and usageLocation with fixed country catalog; lock
+- [x] Run pytest tests/integration/test_graph_licensing.py -q; expected RED unsupported routes.
+- [x] Implement direct assignments and usageLocation with fixed country catalog; lock
   DirectoryState then affected SKUs by UUID. Tie deletes to seat release without duplicate
   outbox revisions. Provider response200 includes licensed user fields. Never issue app
   permission merely by assigning a licence. Preserve datasetv1 through explicit old field
   projection; document that it omits new licence/usage fields rather than breaking import.
-- [ ] Run new tests plus test_graph_mutations.py,test_graph_delta.py,test_graph_datasets.py
+- [x] Run new tests plus test_graph_mutations.py,test_graph_delta.py,test_graph_datasets.py
   and test_identity_authorization.py; expected PASS.
-- [ ] Commit: feat(graph): enforce persistent direct licence assignments.
+- [x] Commit: feat(graph): enforce persistent direct licence assignments.
 
 ## Task 5: Live authentication captures durable success and denial
 

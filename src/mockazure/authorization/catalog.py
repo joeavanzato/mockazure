@@ -15,6 +15,9 @@ CATALOG = (
         PermissionDefinition("graph", name, kind, True)
         for name in (
             "Organization.Read.All",
+            "Organization.ReadWrite.All",
+            "LicenseAssignment.Read.All",
+            "LicenseAssignment.ReadWrite.All",
             "Directory.Read.All",
             "Directory.ReadWrite.All",
             "User.Read.All",
@@ -49,3 +52,8 @@ def permission(resource: str, kind: str, name: str) -> PermissionDefinition:
         if (entry.resource, entry.kind, entry.name) == (resource, kind, name):
             return entry
     raise ValueError("Unsupported permission for resource and permission kind")
+
+
+GRAPH_LICENSING_ROLES = frozenset({
+    "Guest Inviter", "License Administrator", "Dynamics 365 Business Central Administrator",
+})

@@ -85,3 +85,14 @@ class AdminClient:
                 },
             )
         )
+
+    async def upsert_sku(self, tenant_id: UUID, value):
+        from mockazure.licensing.schemas import SkuView
+
+        return SkuView.model_validate(
+            await self.request(
+                "PUT",
+                f"/_mock/tenants/{tenant_id}/licensing/skus/{value.sku_id}",
+                json=value.model_dump(mode="json", exclude={"sku_id"}),
+            )
+        )

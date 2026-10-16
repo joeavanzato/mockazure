@@ -419,3 +419,8 @@ versions, and beta servicePrincipalId is nonnullable too. Unknown/unapplicable r
 string identifiers use an empty string, never a fabricated UUID or null. Empty is a declared
 local representation of an unknown identity, not a claim that authentication resolved it.
 Internal nullable subject_id remains distinct from the wire property.
+
+## Dataset compatibility note
+Directory dataset version1 continues to export only its original fields. It deliberately
+omits usageLocation, assignedLicenses and assignedPlans; licensing inventory and assignments
+are separately administered and are not restored by a version1 directory import.
