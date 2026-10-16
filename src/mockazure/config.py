@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     allowed_hosts: tuple[str, ...] = ("localhost", "127.0.0.1")
     service_endpoints: EndpointProfile | None = None
     client_profiles: dict[str, EndpointProfile] = Field(default_factory=dict)
+    graph_directory_request_limit: int = Field(default=600, ge=1, le=10000000)
+    graph_directory_window_seconds: int = Field(default=60, ge=1, le=3600)
     pool_size: int = Field(default=5, ge=1, le=100)
     pool_max_overflow: int = Field(default=5, ge=0, le=100)
 

@@ -11,6 +11,7 @@ from mockazure.admin.arm_routes import router as arm_admin_router
 from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.errors import AdminError
 from mockazure.admin.errors import error_response as admin_error_response
+from mockazure.admin.graph_routes import router as graph_admin_router
 from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.routes import router
@@ -28,6 +29,7 @@ from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.graph.directory import router_for
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.probes import router as graph_router
+from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
 
 
@@ -100,7 +102,12 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                     )
                     response.headers["WWW-Authenticate"] = "Bearer"
                     return response
+            await enforce_directory_budget(request)
             response = await call_next(request)
+        except GraphError as error:
+            response = graph_error_response(request, error)
+        except SQLAlchemyError:
+            response = error_response(request, 503, "DatabaseUnavailable", "Database is not ready")
         except Exception:
             # Do not propagate raw exception messages into ASGI logs or responses.
             response = error_response(
@@ -165,6 +172,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(arm_router)
     app.include_router(session_router)
     app.include_router(identity_router)
+    app.include_router(graph_admin_router)
     app.include_router(discovery_router)
     app.include_router(oauth_router)
     app.include_router(authorization_router)

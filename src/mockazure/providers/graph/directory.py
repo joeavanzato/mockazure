@@ -107,6 +107,9 @@ def router_for(version: str) -> APIRouter:
     from mockazure.providers.graph.delta import register_delta
 
     register_delta(router, version)
+    from mockazure.providers.graph.batch import register_batch
+
+    register_batch(router)
 
     @router.get("/users/$count")
     @router.get("/groups/$count")

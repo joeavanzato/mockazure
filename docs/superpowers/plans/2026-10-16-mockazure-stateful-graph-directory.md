@@ -9,7 +9,7 @@
 **Tech Stack:** Existing Python >=3.12, FastAPI, SQLAlchemy 2, psycopg 3, Alembic, PostgreSQL 18, cryptography, Pydantic, HTTPX, Typer and pytest. Preserve MSAL 1.39.0 and msgraph-sdk 1.64.0; add Microsoft.Graph.Users and Microsoft.Graph.Groups 2.35.1 to the client manifest with verified dependencies and hashes.
 
 **Spec:** [Approved overall design](../specs/2026-10-16-mockazure-design.md) and [proposed M3 delivery map](../specs/2026-10-16-mockazure-stateful-graph.md).
-**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–6 complete; Task 7 next.
+**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–7 complete; Task 8 next.
 **Execution preference:** Native, already selected. Main agent implements; one independent whole-change review before delivery.
 **Baseline:** Merged M2 tree a3074f69b16f7abcc76dff93de518c722c159348. Promote M2 to main through the integration PR before basing the implementation PR on main. Do not silently discard M2 or merge on the user's behalf.
 
