@@ -1,13 +1,21 @@
 """Commit-ordered public revisions. Callers own transaction commit/rollback."""
 
+import hashlib
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import select, update
+from sqlalchemy import BigInteger, delete, func, select, text, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from mockazure.directory.models import DirectoryEntry, DirectoryState, EvidenceOutbox, ObjectVersion
+from mockazure.directory.models import (
+    Continuation,
+    DirectoryEntry,
+    DirectoryState,
+    EvidenceOutbox,
+    ObjectVersion,
+    RelationVersion,
+)
 from mockazure.directory.types import FACT_FIELDS, PUBLIC_FIELDS, DirectoryChange, DirectoryObject
 
 
@@ -110,3 +118,53 @@ async def current_revision(session: AsyncSession, tenant_id: UUID) -> int:
         )
         or 0
     )
+
+
+async def lock_history(session: AsyncSession, tenant_id: UUID, *, exclusive=False) -> None:
+    # Shared readers do not serialize each other or block domain mutations.
+    # Cleanup alone takes the exclusive side, so it cannot prune an uncommitted new cursor.
+    key = int.from_bytes(
+        hashlib.sha256(b"mockazure-history-v1" + tenant_id.bytes).digest()[:8], "big", signed=True
+    )
+    sql = (
+        "SELECT pg_advisory_xact_lock(:key)"
+        if exclusive
+        else "SELECT pg_advisory_xact_lock_shared(:key)"
+    )
+    await session.execute(text(sql), {"key": key})
+
+
+async def prune_history(session: AsyncSession, tenant_id: UUID, now: datetime) -> dict:
+    await lock_history(session, tenant_id, exclusive=True)
+    expired = await session.execute(
+        delete(Continuation).where(
+            Continuation.tenant_id == tenant_id, Continuation.expires_at <= now
+        )
+    )
+    lower = Continuation.state["lower_revision"].astext.cast(BigInteger)
+    upper = Continuation.state["upper_revision"].astext.cast(BigInteger)
+    floor = await session.scalar(
+        select(func.min(func.coalesce(lower, upper))).where(
+            Continuation.tenant_id == tenant_id,
+            Continuation.expires_at > now,
+        )
+    )
+    if floor is None:
+        floor = await current_revision(session, tenant_id)
+    versions = await session.execute(
+        delete(ObjectVersion).where(
+            ObjectVersion.tenant_id == tenant_id,
+            ObjectVersion.valid_to <= floor,
+        )
+    )
+    relations = await session.execute(
+        delete(RelationVersion).where(
+            RelationVersion.tenant_id == tenant_id,
+            RelationVersion.valid_to <= floor,
+        )
+    )
+    return {
+        "expired_handles": expired.rowcount,
+        "object_versions": versions.rowcount,
+        "relationship_versions": relations.rowcount,
+    }

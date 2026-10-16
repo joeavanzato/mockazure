@@ -33,3 +33,10 @@ Initial query checks failed on missing parser/routes. The plan's duplicate unit/
 Verification: 29 combined parser/query/read tests passed in 69.94s; an additional real PostgreSQL any/escaped-startswith check passed in 7.64s. A new ne/header test failed, then all 19 parser tests passed in 1.12s after enforcing the advanced-query requirement. Ruff and whitespace checks passed.
 The 5,000-user probe selected the expected ID/fields and EXPLAIN showed bounded Limit/index access. Nested-group cycles terminate and deduplicate in SQL. Hidden-membership traversal/expansion regression failed with 200 before the fix and now denies missing Member.Read.Hidden; protected filter fields cannot be inferred with a basic profile permission.
 Ruling: A literal false SQL keyword does not require a bound parameter; the parser test now checks parameterization for user-supplied text/values without mistaking a safe SQL boolean constant for interpolation.
+
+## Task 4: persisted snapshot pages
+Four new paging tests failed before implementation, then passed in 33.33s. Two additional tenant-generation and delegated-user boundary checks passed in 22.41s. Changed-file Ruff and whitespace checks passed.
+The 5,000-user traversal survives concurrent creates/renames/deletes, replicas, pool restart and replay. Cleanup retains the oldest live boundary and coordinates with readers.
+Ruling: A deterministic HMAC child handle keyed by the predecessor makes replay produce the identical nextLink without storing raw bearer handles. The issue_cursor interface adds an optional predecessor; cost if wrong is a cursor compatibility change.
+Ruling: Shared advisory transaction locks coordinate readers with exclusive cleanup without serializing readers; cost is cleanup waiting on long readers.
+Ruling: Versioned relationship paging and snapshot-bound expansion finish in Task 5 alongside relationship writes; current Task 4 verification covers object collection pages. Cost is a temporary development dependency, not a released limitation.

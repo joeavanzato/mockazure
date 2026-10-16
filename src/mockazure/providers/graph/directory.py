@@ -1,15 +1,24 @@
 """Graph directory HTTP contracts; domain writes are added separately."""
 
+from dataclasses import replace
+from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
 from fastapi import APIRouter, Request
 from sqlalchemy import select
 from starlette.responses import PlainTextResponse
 
-from mockazure.directory.history import current_revision
+from mockazure.directory.history import current_revision, lock_history
 from mockazure.directory.models import Group
 from mockazure.directory.repository import public_object, read_page
 from mockazure.identity.models import User
+from mockazure.providers.graph.continuations import (
+    CursorState,
+    binding_for,
+    issue_cursor,
+    resolve_cursor,
+    state_link,
+)
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.permissions import (
     GraphOperation,
@@ -121,18 +130,38 @@ def router_for(version: str) -> APIRouter:
     async def collection(request: Request):
         kind = "user" if request.url.path.endswith("/users") else "group"
         resource = kind + "s"
-        async with request.app.state.database.sessions() as session:
+        async with request.app.state.database.sessions.begin() as session:
             context = await principal(request, session)
             await authorize_directory(
                 session, context, GraphOperation(version, resource, "GET"), None
             )
-            query = authorized_query(request, context, version, kind)
-            snapshot = await current_revision(session, context.tenant_id)
+            await lock_history(session, context.tenant_id)
+            binding = await binding_for(session, context, version, resource)
+            items = list(request.query_params.multi_items())
+            now = datetime.now(UTC)
+            predecessor = request.query_params.get("$skiptoken")
+            if predecessor is not None:
+                if len(items) != 1:
+                    unsupported("Continuation requests cannot change query options")
+                state = await resolve_cursor(session, predecessor, binding, now)
+                if state.kind != "page":
+                    unsupported("Expected a page continuation")
+                query = state.query
+            else:
+                query = authorized_query(request, context, version, kind)
+                snapshot = await current_revision(session, context.tenant_id)
+                state = CursorState(
+                    binding, query, None, snapshot, None, "page", now + timedelta(hours=1)
+                )
             page = await read_page(
-                session, context.tenant_id, kind, query, snapshot, None, min(query.top or 100, 999)
+                session,
+                context.tenant_id,
+                kind,
+                query,
+                state.upper_revision,
+                state.last_key,
+                min(query.top or 100, 999),
             )
-            if page.has_more:
-                unsupported("Paged collection support is pending")
             value = []
             for obj in page.items:
                 data = serialize_object(obj, query.select, readable_fields(context, kind, obj.id))
@@ -141,6 +170,11 @@ def router_for(version: str) -> APIRouter:
             result = {"@odata.context": context_url(request, resource), "value": value}
             if query.count:
                 result["@odata.count"] = page.total
+            if page.has_more:
+                token = await issue_cursor(
+                    session, replace(state, last_key=page.last_key), predecessor=predecessor
+                )
+                result["@odata.nextLink"] = state_link(request, version, resource, token)
             return result
 
     @router.get("/users/{object_id}")
