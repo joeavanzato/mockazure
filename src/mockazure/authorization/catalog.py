@@ -13,9 +13,30 @@ CATALOG = (
     PermissionDefinition("graph", "User.Read", "delegated", False),
     *(
         PermissionDefinition("graph", name, kind, True)
-        for name in ("Organization.Read.All", "Directory.Read.All")
+        for name in (
+            "Organization.Read.All",
+            "Directory.Read.All",
+            "Directory.ReadWrite.All",
+            "User.Read.All",
+            "User.ReadWrite.All",
+            "User.ReadUpdate.All",
+            "User.Create",
+            "User.EnableDisableAccount.All",
+            "GroupMember.Read.All",
+            "GroupMember.ReadBasic.All",
+            "GroupMember.ReadWrite.All",
+            "Group.ReadBasic.All",
+            "Group.Read.All",
+            "Group.ReadWrite.All",
+            "Member.Read.Hidden",
+            "Application.Read.All",
+            "Application.ReadWrite.All",
+        )
         for kind in ("application", "delegated")
     ),
+    PermissionDefinition("graph", "User.ReadBasic.All", "delegated", False),
+    PermissionDefinition("graph", "User.ReadWrite", "delegated", False),
+    PermissionDefinition("graph", "Group.Create", "application", True),
     PermissionDefinition("exchange", "Exchange.ManageAsApp", "application", True),
     PermissionDefinition("exchange", "Exchange.Manage", "delegated", True),
     PermissionDefinition("arm", "user_impersonation", "delegated", True),

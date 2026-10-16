@@ -22,3 +22,8 @@ The migration retains identity IDs and credentials; public object history and ou
 - Continue from the verified M2 tree while PR #3 is open; the final implementation PR waits for integration into main.
 - Existing admin UPNs can have local parts longer than Graph mailNickname; only the newly derived nickname is truncated. Authentication identifiers remain unchanged.
 - Existing Alembic env.py needs no new model imports: the migration uses frozen DDL, not live metadata to create tables.
+
+## Task 2: resource reads and authorization
+Five route/permission tests failed on missing directory operations. Reads, restricted relationship projections and operation-specific authorization then passed alongside M2 regressions. Additional real OAuth provisioning failed on the missing User.Read.All catalog entry; after adding the directory catalog it reached the shared /me projection and exposed the old narrow projection. Both are fixed.
+Final run: 11 directory-read/identity-Graph/authorization tests passed in 63.11 seconds; changed-file Ruff and whitespace checks passed.
+Ruling: Keep the existing M2 generic evaluator stable and put directory-specific conjunctions, property checks and target ownership rules in Graph permissions. This avoids expanding unrelated provider permissions; future shared consumers can extract the predicate without changing the contract.

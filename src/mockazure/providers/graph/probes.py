@@ -6,10 +6,17 @@ from sqlalchemy import select
 from mockazure.authorization.catalog import DIRECTORY_ROLES
 from mockazure.authorization.evaluator import AuthorizationDenied, OperationRequirement, authorize
 from mockazure.db.models import Tenant
+from mockazure.directory.repository import public_object
 from mockazure.identity.models import User
 from mockazure.identity.tokens import validate_access_token
 from mockazure.oauth.errors import OAuthError
 from mockazure.providers.graph.errors import GraphError
+from mockazure.providers.graph.permissions import (
+    GraphOperation,
+    authorize_directory,
+    readable_fields,
+)
+from mockazure.providers.graph.serialization import selected_fields, serialize_object
 
 router = APIRouter()
 ORGANIZATION = OperationRequirement(
@@ -90,15 +97,17 @@ async def me(request: Request, response: Response):
         context = await principal(request, session)
         if context.token_kind == "application":
             raise GraphError(400, "BadRequest", "/me requires delegated authentication")
-        await permitted(context, ME, session)
+        await authorize_directory(
+            session,
+            context,
+            GraphOperation(request.url.path.split("/")[1], "users", "GET"),
+            context.subject_id,
+        )
         user = await session.scalar(
             select(User).where(User.tenant_id == context.tenant_id, User.id == context.subject_id)
         )
-        data = {
-            "id": str(user.id),
-            "displayName": user.display_name,
-            "userPrincipalName": user.upn,
-            "mail": None,
-        }
+        data = serialize_object(
+            public_object(user), selected_fields(request), readable_fields(context, "user", user.id)
+        )
         response.headers["request-id"] = request.state.request_id
-        return {"@odata.context": context_url(request, "users/$entity"), **project(request, data)}
+        return {"@odata.context": context_url(request, "users/$entity"), **data}
