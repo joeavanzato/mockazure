@@ -1,0 +1,28 @@
+name: mockazure-foundation-tests
+services:
+  db:
+    image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    environment:
+      POSTGRES_USER: mockazure
+      POSTGRES_DB: mockazure_test_control
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    ports:
+      - "127.0.0.1:55433:5432"
+    volumes:
+      - ./.runtime/test-postgres:/var/lib/postgresql
+    secrets:
+      - db_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mockazure -d mockazure_test_control"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    networks: [isolated]
+secrets:
+  db_password:
+    file: ./.runtime/test-db.password
+networks:
+  isolated:
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: 'false'
+
