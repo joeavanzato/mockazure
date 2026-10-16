@@ -3,7 +3,7 @@ from pathlib import Path
 
 import typer
 
-from mockazure.bootstrap import initialize_instance
+from mockazure.bootstrap import initialize_compose, initialize_instance
 from mockazure.config import load_settings
 from mockazure.tls import renew_leaf
 
@@ -14,8 +14,22 @@ def init(
     data_dir: Path = typer.Option(Path(".runtime/instance")),
     advertised_host: str = "localhost",
     port: int = 8443,
+    compose: bool = False,
+    project_dir: Path = typer.Option(Path(".")),
+    db_port: int = 55432,
 ):
     """Initialize local credentials. Set MOCKAZURE_DATABASE_URL first."""
+    if compose:
+        try:
+            files = initialize_compose(project_dir, api_port=port, db_port=db_port)
+        except (ValueError, OSError):
+            typer.echo(
+                "Compose initialization failed; check ports and existing instance files.", err=True
+            )
+            raise typer.Exit(2) from None
+        typer.echo(f"Configuration: {files.config_file}\nCA: {files.ca_cert_file}")
+        return
+
     database_url = os.environ.get("MOCKAZURE_DATABASE_URL")
     if not database_url:
         raise typer.BadParameter("Set MOCKAZURE_DATABASE_URL to a PostgreSQL connection URL")
@@ -49,11 +63,11 @@ def serve(config: Path = typer.Option(Path(".runtime/instance/native.json"))):
 
     from mockazure.admin.app import create_app
     from mockazure.asyncio_support import run
-    from mockazure.tls import ensure_tls
+    from mockazure.tls import validate_tls
 
     try:
         settings = load_settings(config)
-        files = ensure_tls(settings.data_dir, settings.allowed_hosts)
+        files = validate_tls(settings.data_dir, settings.allowed_hosts)
         server = uvicorn.Server(
             uvicorn.Config(
                 create_app(settings),

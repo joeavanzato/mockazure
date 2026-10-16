@@ -71,3 +71,57 @@ def initialize_instance(
             write_private(files.config_file, (json.dumps(config, indent=2) + "\n").encode())
         ensure_tls(data_dir, settings.allowed_hosts)
     return files
+
+
+def initialize_compose(
+    project_dir: Path, *, api_port: int = 8443, db_port: int = 55432
+) -> InstanceFiles:
+    project_dir = project_dir.resolve()
+    if not 1 <= api_port <= 65535 or not 1 <= db_port <= 65535 or api_port == db_port:
+        raise ValueError("Compose ports must be distinct valid TCP ports")
+    runtime = project_dir / ".runtime"
+    instance = runtime / "instance"
+    password_file = runtime / "db.password"
+    environment_file = runtime / "compose.env"
+    container_file = instance / "container.json"
+    native_file = instance / "native.json"
+    with file_lock(runtime, ".compose.lock"):
+        present = [
+            p.exists() for p in (password_file, environment_file, container_file, native_file)
+        ]
+        if any(present) and not all(present):
+            raise ValueError("Partial Compose initialization; restore missing files")
+        if all(present):
+            password = password_file.read_text().strip()
+            if not re.fullmatch(r"[A-Za-z0-9_-]{43}", password):
+                raise ValueError("Invalid database credential file")
+        else:
+            password = secrets.token_urlsafe(32)
+            write_private(password_file, (password + "\n").encode())
+        files = initialize_instance(
+            instance,
+            database_url=f"postgresql://mockazure:{password}@127.0.0.1:{db_port}/mockazure",
+            advertised_host="localhost",
+            port=api_port,
+        )
+        settings = load_settings(files.config_file, {})
+        container = settings.model_dump(mode="json")
+        container.update(
+            data_dir=".",
+            listen_host="0.0.0.0",
+            listen_port=8443,
+            database_url=f"postgresql+psycopg://mockazure:{password}@db:5432/mockazure",
+        )
+        expected = {
+            container_file: (json.dumps(container, indent=2) + "\n").encode(),
+            environment_file: (
+                f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
+            ).encode(),
+        }
+        for path, content in expected.items():
+            if path.exists():
+                if path.read_bytes() != content:
+                    raise ValueError("Compose configuration differs; inspect the existing settings")
+            else:
+                write_private(path, content)
+    return files

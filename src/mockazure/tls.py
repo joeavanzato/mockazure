@@ -178,3 +178,11 @@ def renew_leaf(data_dir: Path, hosts: tuple[str, ...]) -> CertificateFiles:
         new_leaf(files, ca, key, hosts, replace=True)
         validate_leaf(files, ca, hosts)
         return files
+
+
+def validate_tls(data_dir: Path, hosts: tuple[str, ...]) -> CertificateFiles:
+    """Validate existing credentials without writing to shared runtime mounts."""
+    files = paths(data_dir.resolve())
+    ca, _ = load_ca(files)
+    validate_leaf(files, ca, hosts)
+    return files

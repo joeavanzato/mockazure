@@ -1,0 +1,15 @@
+.git
+.gitignore
+.worktrees
+.superpowers
+.runtime
+.venv
+work
+dist
+reference
+tests
+docs
+__pycache__
+*.env
+*.pem
+*.key
