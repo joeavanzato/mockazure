@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from pathlib import Path
 from uuid import uuid4
 
@@ -11,8 +12,8 @@ from mockazure.db.engine import close_database, create_database
 from mockazure.db.migrations import migrate
 
 
-@pytest.fixture
-def database_url():
+@contextmanager
+def isolated_database_url():
     password = Path(".runtime/test-db.password").read_text().strip()
     name = "mockazure_test_" + uuid4().hex
     url = make_url("postgresql+psycopg://mockazure@127.0.0.1:55433/" + name).set(password=password)
@@ -29,6 +30,12 @@ def database_url():
             connection.execute(
                 sql.SQL("DROP DATABASE {} WITH (FORCE)").format(sql.Identifier(name))
             )
+
+
+@pytest.fixture
+def database_url():
+    with isolated_database_url() as url:
+        yield url
 
 
 @pytest.fixture
