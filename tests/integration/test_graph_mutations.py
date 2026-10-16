@@ -317,3 +317,17 @@ async def test_graph_write_body_and_reference_boundaries(database, settings):
                 {"group_id": group, "object_id": str(user), "relation": "member", "removed": True}
             ]
             assert not list(await session.scalars(select(DirectoryRelation)))
+
+
+async def test_patch_rejects_properties_outside_approved_profile(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        headers = await headers_for(database, settings, tenant, app, None, WRITE)
+        before = await counts(database)
+        for fields in [
+            {"userPrincipalName": "renamed@contoso.test"},
+            {"mobilePhone": "12345"},
+            {"businessPhones": ["12345"]},
+        ]:
+            response = await client.patch(f"/v1.0/users/{user}", headers=headers, json=fields)
+            assert response.status_code == 400, response.text
+            assert await counts(database) == before

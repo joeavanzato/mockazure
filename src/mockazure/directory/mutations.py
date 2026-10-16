@@ -41,12 +41,10 @@ USER_PROFILE = frozenset(
         "jobTitle",
         "department",
         "officeLocation",
-        "mobilePhone",
-        "businessPhones",
         "preferredLanguage",
     }
 )
-USER_UPDATE = USER_PROFILE | {"displayName", "accountEnabled", "userPrincipalName", "mailNickname"}
+USER_UPDATE = USER_PROFILE | {"displayName", "accountEnabled", "mailNickname"}
 GROUP_UPDATE = frozenset({"displayName", "description", "mailNickname"})
 GROUP_CREATE = GROUP_UPDATE | {
     "mailEnabled",
@@ -90,7 +88,11 @@ def validate_values(command):
     if command.action in {"delete", "add_member", "remove_member"}:
         return
     allowed = (
-        (USER_UPDATE | {"passwordProfile"} if command.action == "create" else USER_UPDATE)
+        (
+            USER_UPDATE | {"passwordProfile", "userPrincipalName"}
+            if command.action == "create"
+            else USER_UPDATE
+        )
         if command.kind == "user"
         else (GROUP_CREATE if command.action == "create" else GROUP_UPDATE)
     )
@@ -351,15 +353,6 @@ async def mutate_directory(
                     changed.add(relation + "s")
         changed.update(public_object(row).properties)
     elif command.action == "update":
-        if command.kind == "user" and "userPrincipalName" in values:
-            try:
-                normalized = UserCreate.upn_valid(values["userPrincipalName"])
-            except (ValueError, AttributeError, TypeError):
-                invalid("Invalid userPrincipalName")
-            tenant = await session.get(Tenant, tenant_id)
-            if len(normalized) > 320 or normalized.split("@")[1] != tenant.domain.lower():
-                invalid("UPN domain is not owned by tenant")
-            row.upn = normalized
         if "displayName" in values:
             row.display_name = values["displayName"]
         if command.kind == "user":
