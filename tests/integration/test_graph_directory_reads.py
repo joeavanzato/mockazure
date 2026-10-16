@@ -12,11 +12,13 @@ from tests.integration.graph_support import (
     graph_client,
     headers_for,
     persisted_group,
+    seed_relation_versions,
 )
 
 
 async def test_directory_reads_share_identity(database, settings):
     async with graph_client(database, settings) as (client, tenant, app, user_id):
+        await seed_relation_versions(database, tenant)
         headers = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         for version in ("v1.0", "beta"):
             collection = await client.get(f"/{version}/users", headers=headers)
@@ -34,6 +36,7 @@ async def test_directory_reads_share_identity(database, settings):
                 assert response.json()["id"] == str(user_id)
             missing = await client.get(f"/{version}/users/{uuid4()}", headers=headers)
             assert missing.status_code == 404
+        await seed_relation_versions(database, tenant)
         self_headers = await headers_for(
             database, settings, tenant, app, user_id, {"User.Read"}, "delegated"
         )
@@ -46,6 +49,7 @@ async def test_directory_reads_share_identity(database, settings):
 
 async def test_read_permissions_basic_profiles_and_audience(database, settings):
     async with graph_client(database, settings) as (client, tenant, app, user_id):
+        await seed_relation_versions(database, tenant)
         basic = await headers_for(
             database, settings, tenant, app, user_id, {"User.ReadBasic.All"}, "delegated"
         )
@@ -58,6 +62,7 @@ async def test_read_permissions_basic_profiles_and_audience(database, settings):
                 database, settings, tenant, app, user_id, permissions, "delegated"
             )
             assert (await client.get("/v1.0/users", headers=header)).status_code == 403
+        await seed_relation_versions(database, tenant)
         wrong = await headers_for(
             database,
             settings,
@@ -84,6 +89,7 @@ async def test_relationships_limit_member_information(database, settings):
                     tenant_id=tenant, group_id=group_id, object_id=user_id, relation="member"
                 )
             )
+        await seed_relation_versions(database, tenant)
         headers = await headers_for(database, settings, tenant, app, None, {"GroupMember.Read.All"})
         response = await client.get(
             f"/v1.0/groups/{group_id}/members?$select=id,displayName", headers=headers
@@ -93,6 +99,7 @@ async def test_relationships_limit_member_information(database, settings):
         assert member["id"] == str(user_id)
         assert member["@odata.type"] == "#microsoft.graph.user"
         assert member["displayName"] is None
+        await seed_relation_versions(database, tenant)
         full = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         response = await client.get(f"/v1.0/groups/{group_id}/members", headers=full)
         assert response.json()["value"][0]["displayName"] == "Directory Reader"
@@ -118,6 +125,7 @@ async def test_foreign_user_is_indistinguishable_from_missing(database, settings
                 },
             )
         ).json()["id"]
+        await seed_relation_versions(database, tenant)
         headers = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         first = await client.get(f"/v1.0/users/{foreign}", headers=headers)
         missing = await client.get(f"/v1.0/users/{uuid4()}", headers=headers)
@@ -203,6 +211,7 @@ async def test_graph_permission_catalog_drives_real_oauth_and_me_projection(data
         async with database.sessions.begin() as session:
             row = await session.get(User, user_id)
             row.profile = {"givenName": "Shared profile"}
+        await seed_relation_versions(database, tenant)
         own = await headers_for(
             database, settings, tenant, app, user_id, {"User.Read"}, "delegated"
         )

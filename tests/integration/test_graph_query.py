@@ -5,7 +5,12 @@ from sqlalchemy import insert, text
 
 from mockazure.directory.models import DirectoryEntry, DirectoryRelation, ObjectVersion
 from mockazure.identity.models import User
-from tests.integration.graph_support import graph_client, headers_for, persisted_group
+from tests.integration.graph_support import (
+    graph_client,
+    headers_for,
+    persisted_group,
+    seed_relation_versions,
+)
 
 
 async def add_users(database, tenant, names):
@@ -66,6 +71,7 @@ async def add_users(database, tenant, names):
 async def test_query_results_projection_count_and_escaped_literals(database, settings):
     async with graph_client(database, settings) as (client, tenant, app, _):
         rows = await add_users(database, tenant, ["O'Brien", "李", "ordinary", "x' or true"])
+        await seed_relation_versions(database, tenant)
         headers = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         response = await client.get(
             "/v1.0/users",
@@ -133,6 +139,7 @@ async def test_transitive_cycles_and_expansion_boundaries(database, settings):
                         tenant_id=tenant, group_id=first.id, object_id=row["id"], relation="member"
                     )
                 )
+        await seed_relation_versions(database, tenant)
         headers = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         response = await client.get(f"/v1.0/groups/{ids[0]}/transitiveMembers", headers=headers)
         assert response.status_code == 200, response.text
@@ -152,6 +159,7 @@ async def test_transitive_cycles_and_expansion_boundaries(database, settings):
 async def test_selected_query_is_bounded_at_5000_users(database, settings):
     async with graph_client(database, settings) as (client, tenant, app, _):
         rows = await add_users(database, tenant, [f"Person{i:05}" for i in range(5000)])
+        await seed_relation_versions(database, tenant)
         headers = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         response = await client.get(
             "/v1.0/users",
@@ -183,6 +191,7 @@ async def test_selected_query_is_bounded_at_5000_users(database, settings):
 
 async def test_queries_cannot_infer_hidden_fields_or_expand_hidden_members(database, settings):
     async with graph_client(database, settings) as (client, tenant, app, user_id):
+        await seed_relation_versions(database, tenant)
         basic = await headers_for(
             database, settings, tenant, app, user_id, {"User.ReadBasic.All"}, "delegated"
         )
@@ -205,11 +214,13 @@ async def test_queries_cannot_infer_hidden_fields_or_expand_hidden_members(datab
                     tenant_id=tenant, group_id=hidden_id, object_id=user_id, relation="member"
                 )
             )
+        await seed_relation_versions(database, tenant)
         full = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         nested = await client.get(f"/v1.0/groups/{parent_id}/transitiveMembers", headers=full)
         assert nested.status_code == 403
         expanded = await client.get(f"/v1.0/groups/{hidden_id}?$expand=members", headers=full)
         assert expanded.status_code == 403
+        await seed_relation_versions(database, tenant)
         allowed = await headers_for(
             database, settings, tenant, app, None, {"Directory.Read.All", "Member.Read.Hidden"}
         )
@@ -245,6 +256,7 @@ async def test_array_any_and_startswith_execute_as_bound_sql(database, settings)
             )
             wanted = str(row.id)
             await persisted_group(session, tenant, "A12literal")
+        await seed_relation_versions(database, tenant)
         headers = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
         for expression in (
             "groupTypes/any(t: t eq 'Unified' or t eq 'DynamicMembership')",

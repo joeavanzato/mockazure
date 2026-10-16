@@ -43,6 +43,7 @@ async def authorize(context: PrincipalContext, operation: OperationRequirement, 
             User.tenant_id == context.tenant_id,
             User.id == context.subject_id,
             User.enabled.is_(True),
+            User.deleted_at.is_(None),
         )
     )
     if user is None:

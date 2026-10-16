@@ -10,9 +10,6 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from mockazure.db.models import Tenant
-from mockazure.directory.history import record_change, reserve_revision
-from mockazure.directory.repository import public_object
-from mockazure.directory.types import DirectoryChange
 from mockazure.identity.credentials import hash_secret
 from mockazure.identity.models import Application, Credential, Grant, ServicePrincipal, User
 from mockazure.identity.types import ApplicationCreate, CredentialCreate, GrantCreate, UserCreate
@@ -63,28 +60,31 @@ class IdentityRepository:
         return row
 
     async def create_user(self, tenant_id: UUID, data: UserCreate) -> User:
-        tenant = await self.tenant(tenant_id)
-        if data.upn.split("@")[1] != tenant.domain.lower():
-            raise IdentityError(422, "InvalidUPN", "UPN domain is not owned by tenant")
-        revision = await reserve_revision(self.session, tenant_id)
-        row = User(
-            tenant_id=tenant_id,
-            upn=data.upn,
-            display_name=data.display_name,
-            enabled=data.enabled,
-            verifier=await asyncio.to_thread(hash_secret, data.password.get_secret_value()),
-        )
-        self.session.add(row)
-        await self.session.flush()
-        obj = public_object(row)
-        await record_change(
+        from mockazure.directory.mutations import AdminActor, DirectoryCommand, mutate_directory
+
+        await self.tenant(tenant_id)
+        result = await mutate_directory(
             self.session,
-            DirectoryChange(revision, "user", row.id, frozenset(obj.properties)),
-            None,
-            obj,
-            {"operation": "create", "provenance": "administration"},
+            tenant_id,
+            DirectoryCommand(
+                "user",
+                "create",
+                None,
+                {
+                    "displayName": data.display_name,
+                    "userPrincipalName": data.upn,
+                    "mailNickname": data.upn.partition("@")[0][:64],
+                    "accountEnabled": data.enabled,
+                    "passwordProfile": {
+                        "password": data.password.get_secret_value(),
+                        "forceChangePasswordNextSignIn": False,
+                    },
+                },
+            ),
+            AdminActor(),
+            datetime.now(UTC),
         )
-        return row
+        return await self.session.get(User, result.object.id)
 
     async def create_application(self, tenant_id: UUID, data: ApplicationCreate) -> Application:
         await self.tenant(tenant_id)
@@ -179,17 +179,18 @@ class IdentityRepository:
         await self.session.flush()
 
     async def set_enabled(self, tenant_id: UUID, object_id: UUID, enabled: bool, model=User):
-        revision = await reserve_revision(self.session, tenant_id) if model is User else None
+        if model is User:
+            from mockazure.directory.mutations import AdminActor, DirectoryCommand, mutate_directory
+
+            await mutate_directory(
+                self.session,
+                tenant_id,
+                DirectoryCommand("user", "update", object_id, {"accountEnabled": enabled}),
+                AdminActor(),
+                datetime.now(UTC),
+            )
+            return await self.session.get(User, object_id)
         row = await self.owned(model, tenant_id, object_id)
-        before = public_object(row) if model is User else None
         row.enabled = enabled
         await self.session.flush()
-        if before is not None and before.properties["accountEnabled"] != enabled:
-            await record_change(
-                self.session,
-                DirectoryChange(revision, "user", row.id, frozenset({"accountEnabled"})),
-                before,
-                public_object(row),
-                {"operation": "update", "provenance": "administration"},
-            )
         return row

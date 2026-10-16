@@ -49,6 +49,7 @@ FACT_FIELDS = frozenset(
         "correlation_id",
         "provenance",
         "target_ids",
+        "relationships",
     }
 )
 

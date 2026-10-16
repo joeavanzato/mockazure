@@ -57,3 +57,5 @@ User/group delta accepts select and state links only in A. Unsupported top/order
 ## Evidence and qualification boundary
 
 M3A commits a sanitized durable evidence outbox with each mutation. Projection into directoryAudits belongs to M3B. Original Hawk/MES collection and policy-enforcement checks remain B/C. A's completion report must prove actual SDK results, restart/replica continuity, tenant isolation, 5,000-user paging and 429 handling. No scenario is required for normal operation.
+
+Relationship collections support select/top and snapshot-bound opaque continuations. Expanded members have an explicit 20-edge limit and share the parent collection snapshot. Group lifecycle, membership and ordinary user changes produce immutable public differences/edge facts for the pending M3B projector; they do not yet produce directoryAudits.

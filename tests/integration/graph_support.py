@@ -62,3 +62,36 @@ async def persisted_group(session, tenant_id, name="Investigators"):
         {"operation": "create", "provenance": "test-fixture"},
     )
     return row
+
+
+async def seed_relation_versions(database, tenant):
+    """Complete history for older tests deliberately constructing current edge fixtures."""
+    from sqlalchemy import select
+
+    from mockazure.directory.history import current_revision
+    from mockazure.directory.models import DirectoryRelation, RelationVersion
+
+    async with database.sessions.begin() as session:
+        revision = await current_revision(session, tenant)
+        for edge in await session.scalars(
+            select(DirectoryRelation).where(DirectoryRelation.tenant_id == tenant)
+        ):
+            found = await session.scalar(
+                select(RelationVersion.valid_from).where(
+                    RelationVersion.tenant_id == tenant,
+                    RelationVersion.group_id == edge.group_id,
+                    RelationVersion.object_id == edge.object_id,
+                    RelationVersion.relation == edge.relation,
+                    RelationVersion.valid_to.is_(None),
+                )
+            )
+            if found is None:
+                session.add(
+                    RelationVersion(
+                        tenant_id=tenant,
+                        group_id=edge.group_id,
+                        object_id=edge.object_id,
+                        relation=edge.relation,
+                        valid_from=revision,
+                    )
+                )

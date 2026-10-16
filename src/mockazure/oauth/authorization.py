@@ -57,8 +57,7 @@ async def delegated_client(session, tenant_id, fields, request, now):
             session,
             tenant_id,
             fields,
-            f"{profile.login}/"
-            f"{request.path_params['tenant']}/oauth2/v2.0/token",
+            f"{profile.login}/{request.path_params['tenant']}/oauth2/v2.0/token",
             now,
         )
     elif fields.get("client_secret") or fields.get("client_assertion"):
@@ -168,6 +167,7 @@ async def login(request: Request):
         if (
             not user
             or not user.enabled
+            or user.deleted_at is not None
             or not await asyncio.to_thread(verify_secret, fields.get("password", ""), user.verifier)
         ):
             raise OAuthError("access_denied", "Local username or password is invalid")
@@ -216,7 +216,12 @@ async def consent_to_scopes(row, session):
 
 async def current_user(row, session):
     user = await session.get(User, row.user_id)
-    if not user or not user.enabled or user.tenant_id != row.tenant_id:
+    if (
+        not user
+        or not user.enabled
+        or user.deleted_at is not None
+        or user.tenant_id != row.tenant_id
+    ):
         raise invalid_grant()
     return user
 

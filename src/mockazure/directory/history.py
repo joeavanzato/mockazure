@@ -34,12 +34,11 @@ async def reserve_revision(session: AsyncSession, tenant_id: UUID) -> int:
     )
 
 
-async def record_change(
+async def record_object_version(
     session: AsyncSession,
     change: DirectoryChange,
     before: DirectoryObject | None,
     after: DirectoryObject | None,
-    facts: dict,
 ) -> None:
     obj = after or before
     if obj is None or change.kind not in PUBLIC_FIELDS:
@@ -56,8 +55,6 @@ async def record_change(
             or value.properties.get("id") != str(value.id)
         ):
             raise ValueError("History accepts matching public objects only")
-    if not facts.keys() <= FACT_FIELDS:
-        raise ValueError("Evidence accepts public facts only")
     if change.removed != (after is None):
         raise ValueError("Removal and public state disagree")
     entry = {
@@ -99,13 +96,29 @@ async def record_change(
             else None,
         )
     )
+    await session.flush()
+
+
+async def record_change(session, change, before, after, facts) -> None:
+    if not facts.keys() <= FACT_FIELDS:
+        raise ValueError("Evidence accepts public facts only")
+    await record_object_version(session, change, before, after)
+    obj = after or before
+    # Store immutable public differences so later evidence projection survives history cleanup.
+    differences = {
+        name: {
+            "before": before.properties.get(name) if before else None,
+            "after": after.properties.get(name) if after else None,
+        }
+        for name in sorted(change.changed_fields & PUBLIC_FIELDS[change.kind])
+    }
     session.add(
         EvidenceOutbox(
             tenant_id=obj.tenant_id,
             object_id=obj.id,
             kind=obj.kind,
             revision=change.revision,
-            facts={"schema_version": 1, **facts},
+            facts={"schema_version": 1, **facts, "modified_properties": differences},
         )
     )
     await session.flush()
