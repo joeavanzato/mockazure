@@ -91,3 +91,23 @@ Exchange bootstrap, ARM discovery, or either collector connection gate.
 
 Assembly inspection additionally established GET {NewEXOModuleBaseUri}/{tenant}/EXOModuleFile?Version=3.11.0, with bearer authorization and CommandName/SkipLoadingFormatData headers. The successful response is a value array containing fileName, fileContent and exportedCmdlets. The client writes and imports the returned .psm1, then binds TokenProviderObjectId and ConnectionContextObjectId. Task 4 must determine the configured base URI and verify this sequence live. This is downloaded executable command transport, not a JSON resource-list response. Inspection used project-local ILSpy 9.1.0.7988; derived third-party source remains ignored under work/.
 AppSettings.GetAcquireTokenEndpoint in the pinned Exchange assembly retains scheme and hostname but drops custom ports. ConnectionContext.NewEXOModuleBaseUri appends /AdminApi/v1.0, so the actual bootstrap target is GET https://HOST/AdminApi/v1.0/TENANT/EXOModuleFile?Version=3.11.0. Provide port 443 inside the isolated harness; do not rewrite production host DNS.
+
+## Live bootstrap contracts (2026-10-16)
+
+Exchange 3.11.0 now completes the real EXOModuleFile import and invokes the returned
+Get-OrganizationConfig proxy. The user explicitly approved this bounded server
+proxy adjustment. Its fixed POST /adminapi/v2.0/{tenant}/InvokeCommand request uses
+CmdletInput.CmdletName and an empty Parameters object. Both download and invocation
+check an Exchange-audience token and permissions. The proxy gets authorization
+through ConnectionContextFactory.GetCurrentConnectionContext(...).GetAuthHeader(),
+which the pinned assembly explicitly exposes for generated server modules. It
+contains no token or credentials. Organization fields come from stored tenant state.
+
+Az.Accounts 4.0.2 Connect-AzAccount with explicit local ARM token requests
+GET /subscriptions?api-version=2021-01-01. The isolated request currently returns
+501. Implement bounded subscription discovery from provisioned PostgreSQL rows and
+explicit subscription Reader assignments; no invented subscriptions or resource
+operations. Files: providers/arm/models.py, probes.py, admin/arm_routes.py and
+migration 007_arm_discovery.py. Azure subscription response fields are documented
+at https://learn.microsoft.com/en-us/rest/api/resources/subscriptions/list .
+Additional paths will be recorded only if observed or explicitly exercised.

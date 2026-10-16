@@ -52,11 +52,12 @@ async def local_app(session, tenant_id, client_id):
 async def delegated_client(session, tenant_id, fields, request, now):
     app = await local_app(session, tenant_id, fields.get("client_id", ""))
     if app.client_mode == "confidential":
+        profile = request.app.state.settings.advertised_endpoints(request.headers.get("host", ""))
         await authenticate_client(
             session,
             tenant_id,
             fields,
-            f"{request.app.state.settings.endpoints.login}/"
+            f"{profile.login}/"
             f"{request.path_params['tenant']}/oauth2/v2.0/token",
             now,
         )

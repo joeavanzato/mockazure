@@ -50,11 +50,12 @@ async def token(tenant: str, request: Request):
     now = datetime.now(UTC)
     async with request.app.state.database.sessions.begin() as session:
         tenant_row = await resolve_tenant(session, tenant)
+        profile = settings.advertised_endpoints(request.headers.get("host", ""))
         app, sp = await authenticate_client(
             session,
             tenant_row.id,
             fields,
-            f"{settings.endpoints.login}/{tenant}/oauth2/v2.0/token",
+            f"{profile.login}/{tenant}/oauth2/v2.0/token",
             now,
         )
         grants = await session.scalars(

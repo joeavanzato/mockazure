@@ -28,14 +28,14 @@ async def resolve_tenant(session, name: str) -> Tenant:
 
 @router.get("/{tenant}/v2.0/.well-known/openid-configuration")
 async def metadata(tenant: str, request: Request):
-    profile = request.app.state.settings.endpoints
+    profile = request.app.state.settings.advertised_endpoints(request.headers.get("host", ""))
     if tenant not in ("common", "organizations"):
         async with request.app.state.database.sessions() as session:
             tenant = str((await resolve_tenant(session, tenant)).id)
     issuer_tenant = "{tenantid}" if tenant in ("common", "organizations") else tenant
     base = f"{profile.login}/{tenant}"
     return {
-        "issuer": f"{profile.login}/{issuer_tenant}/v2.0",
+        "issuer": request.app.state.settings.endpoints.issuer(issuer_tenant),
         "authorization_endpoint": f"{base}/oauth2/v2.0/authorize",
         "token_endpoint": f"{base}/oauth2/v2.0/token",
         "device_authorization_endpoint": f"{base}/oauth2/v2.0/devicecode",
@@ -75,7 +75,7 @@ async def jwks(tenant: str, request: Request):
 
 @router.get("/common/discovery/instance")
 async def instance(request: Request, authorization_endpoint: str = "", api_version: str = "1.1"):
-    profile = request.app.state.settings.endpoints
+    profile = request.app.state.settings.advertised_endpoints(request.headers.get("host", ""))
     parsed = urlsplit(authorization_endpoint)
     expected = urlsplit(profile.login)
     parts = parsed.path.strip("/").split("/")

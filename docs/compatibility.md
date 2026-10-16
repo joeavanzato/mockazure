@@ -1,0 +1,46 @@
+# Identity and connection compatibility
+
+Pinned acquisition: integrations/manifest.json and uv.lock. Runtime qualification
+uses compose.clients.yaml plus compose.clients.m2.yaml on an internal-only network.
+External DNS and direct IPv4/IPv6 checks pass for Python and PowerShell after the
+M2 API, database and ingress are present. No upstream service fallback exists.
+
+| Client | Demonstrated path | Boundary |
+| --- | --- | --- |
+| MSAL Python 1.39.0 | Native client credentials, authorization code/S256, device flow and silent refresh | Explicit local authority, instance discovery disabled, local CA |
+| Graph Python SDK 1.64.0 | Organization and signed-in user reads; permission denial | Local base URL and allowed host; standard SDK middleware retained |
+| Graph PowerShell 2.35.1 | Get-MgOrganization with application, authorization-code and device tokens; permission denial | Explicit local token plus custom environment; native secret acquisition failed in isolation |
+| Invoke-MgGraphRequest 2.35.1 | Local /me with delegated tokens | Explicit Authorization header required for the custom host |
+| ExchangeOnlineManagement 3.11.0 | Connect-ExchangeOnline, actual command-module download, Get-OrganizationConfig; ungranted app rejected | Explicit local Exchange token, local port 443; approved server-generated HTTP proxy |
+| Az.Accounts 4.0.2 | Connect-AzAccount and Get-AzSubscription with provisioned inventory | Explicit local ARM token/custom environment; Reader assignment controls visibility |
+| Hawk a44536f2b4225dd8ea2e463db88d5db40cfac8c7 | Original Test-GraphConnection and Test-EXOConnection | Pre-established local SDK contexts; selected functions only |
+| MES 47565f7842784cd3667ff630e3dccb49fa3408ed | Original Connect-M365 and Connect-AzureAZ | Endpoint/token parameters forwarded unchanged; versionCheck update lookup moved to preparation |
+
+PowerShell 7.5.0 and all imported modules are pinned in the manifest. This table
+does not qualify full collection workflows, Hawk's default reconnect fallback,
+Exchange native credential acquisition, or Azure native authority acquisition.
+
+The Exchange proxy contains a fixed Get-OrganizationConfig function which uses
+the Microsoft module's current connection context to make a real local HTTP
+request. It returns PostgreSQL tenant state after audience, tenant and permission
+checks. It does not embed tokens or return a canned organization. Additional
+Exchange commands are explicitly rejected. See identity-exchange-bootstrap-decision.md.
+
+Graph Python's /me request requires the standard URL-replacement middleware.
+Passing a bare custom HTTPX client omits that middleware and sends an internal
+SDK placeholder path; the qualification harness now preserves the standard chain.
+
+Use mockazure client-config --tenant UUID --client UUID --profile host|container
+--output FILE --config CONFIG to export a non-secret connection profile.
+Configure client_profiles.host and client_profiles.container explicitly; both
+retain service_endpoints.login as the canonical issuer. Only configured authorities
+select profiles. Host and forwarding headers never become generated destinations.
+
+Connect-MockAzure.ps1 establishes a real Graph context. Application mode obtains a
+local client-credentials token. Device/AuthorizationCode mode accepts a protected
+token file produced by an actual local MSAL flow; it does not claim native Graph
+PowerShell acquisition. The qualification Python script automates local lab user
+forms using its dedicated test-user file; ordinary clients can use the browser UI.
+
+Reports and lab credentials remain ignored under .runtime/clients. Do not share
+token files. The API, CA, host trust stores and production DNS remain separate.

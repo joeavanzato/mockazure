@@ -60,7 +60,8 @@ async def permitted(context, operation, session):
 
 def context_url(request, resource):
     version = request.url.path.split("/")[1]
-    return f"{request.app.state.settings.endpoints.graph}/{version}/$metadata#{resource}"
+    profile = request.app.state.settings.advertised_endpoints(request.headers.get("host", ""))
+    return f"{profile.graph}/{version}/$metadata#{resource}"
 
 
 @router.get("/organization")
