@@ -7,13 +7,57 @@ from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException
 
+from mockazure.admin.arm_routes import router as arm_admin_router
 from mockazure.admin.auth import verify_admin_token
-from mockazure.admin.errors import AdminError, error_response
+from mockazure.admin.directory_routes import router as directory_admin_router
+from mockazure.admin.errors import AdminError
+from mockazure.admin.errors import error_response as admin_error_response
+from mockazure.admin.graph_routes import router as graph_admin_router
+from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.routes import router
+from mockazure.admin.session_routes import router as session_router
 from mockazure.config import Settings
 from mockazure.db.engine import Database, close_database, create_database
+from mockazure.identity.repository import IdentityError
+from mockazure.oauth.authorization import router as authorization_router
+from mockazure.oauth.device import router as device_router
+from mockazure.oauth.discovery import router as discovery_router
+from mockazure.oauth.errors import OAuthError, oauth_error_response
+from mockazure.oauth.routes import router as oauth_router
+from mockazure.providers.arm.probes import router as arm_router
+from mockazure.providers.exchange.probes import router as exchange_router
+from mockazure.providers.graph.directory import router_for
+from mockazure.providers.graph.errors import GraphError, graph_error_response
+from mockazure.providers.graph.probes import router as graph_router
+from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
+
+
+def error_response(request, status, code, message):
+    path = request.url.path
+    if (
+        path.startswith(("/v1.0/", "/beta/", "/adminapi/", "/AdminApi/"))
+        or path == "/subscriptions"
+    ):
+        if status == 422:
+            status, code = 400, "InvalidRequest"
+        return graph_error_response(request, GraphError(status, code, message))
+    if (
+        "/oauth2/" in path
+        or "/discovery/" in path
+        or "/.well-known/" in path
+        or path in ("/login", "/consent", "/mfa", "/device")
+    ):
+        oauth_code = (
+            "temporarily_unavailable"
+            if status == 503
+            else ("server_error" if status >= 500 else "invalid_request")
+        )
+        return oauth_error_response(
+            request, OAuthError(oauth_code, message, 400 if status == 422 else status)
+        )
+    return admin_error_response(request, status, code, message)
 
 
 def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
@@ -59,7 +103,12 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                     )
                     response.headers["WWW-Authenticate"] = "Bearer"
                     return response
+            await enforce_directory_budget(request)
             response = await call_next(request)
+        except GraphError as error:
+            response = graph_error_response(request, error)
+        except SQLAlchemyError:
+            response = error_response(request, 503, "DatabaseUnavailable", "Database is not ready")
         except Exception:
             # Do not propagate raw exception messages into ASGI logs or responses.
             response = error_response(
@@ -67,6 +116,18 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             )
         response.headers["x-request-id"] = request.state.request_id
         return response
+
+    @app.exception_handler(GraphError)
+    async def graph_error(request, error):
+        return graph_error_response(request, error)
+
+    @app.exception_handler(OAuthError)
+    async def oauth_error(request, error):
+        return oauth_error_response(request, error)
+
+    @app.exception_handler(IdentityError)
+    async def identity_error(request, error):
+        return error_response(request, error.status, error.code, error.message)
 
     @app.exception_handler(AdminError)
     async def admin_error(request, error):
@@ -108,4 +169,19 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     app.include_router(router)
     app.include_router(job_router)
+    app.include_router(arm_admin_router)
+    app.include_router(arm_router)
+    app.include_router(session_router)
+    app.include_router(identity_router)
+    app.include_router(graph_admin_router)
+    app.include_router(directory_admin_router)
+    app.include_router(discovery_router)
+    app.include_router(oauth_router)
+    app.include_router(authorization_router)
+    app.include_router(device_router)
+    app.include_router(graph_router, prefix="/v1.0")
+    app.include_router(graph_router, prefix="/beta")
+    app.include_router(router_for("v1.0"))
+    app.include_router(router_for("beta"))
+    app.include_router(exchange_router)
     return app

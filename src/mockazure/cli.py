@@ -1,7 +1,7 @@
 import typer
 
 from mockazure import __version__
-from mockazure.commands import database, jobs, local, tenants
+from mockazure.commands import clients, database, directory, identity, jobs, local, tenants
 
 app = typer.Typer(no_args_is_help=True, invoke_without_command=True, pretty_exceptions_enable=False)
 
@@ -28,3 +28,9 @@ app.add_typer(jobs.app, name="job")
 app.command()(jobs.worker)
 tenants.app.command("export")(jobs.export)
 tenants.app.command("import")(jobs.import_file)
+
+app.add_typer(identity.app, name="identity")
+
+app.command()(clients.client_config)
+
+app.add_typer(directory.app, name="directory")

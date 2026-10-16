@@ -3,11 +3,15 @@
 MockAzure is a general-purpose Microsoft cloud API emulator focused on evidence
 collection and realistic stateful interactions.
 
-**Current milestone: foundation.** It provides HTTPS administration, persistent
-tenant metadata in PostgreSQL, and durable tenant export/import jobs.
-**Entra authentication, Graph, Exchange, and ARM APIs are not implemented yet.**
-Provider requests return an explicit HTTP 501. Collector compatibility and
-large-dataset throughput have not been qualified.
+**Current milestone: M3A, stateful Graph directory.** Local Entra authentication
+and permission checks support user/static-security-group lifecycle, memberships,
+bounded OData queries, stable paging, delta, read-only batches and shared throttling.
+PostgreSQL stores state, history and continuation handles across API restarts.
+
+Evidence projection and collector collection gates remain M3B; broader security
+administration remains M3C. Exchange and ARM currently expose the bounded M2
+connection surfaces. See [directory contracts](integrations/contracts/graph-directory.md)
+and [qualification](docs/graph-directory-execution.md).
 
 ## Docker quick start (PowerShell)
 
@@ -81,3 +85,36 @@ See [operations and verification](docs/foundation.md), the
 Apache-2.0. The authorized four-file source baseline is preserved only under
 `reference/`, with exact Git revision and hashes in `reference/provenance.json`.
 It is not imported or shipped in the package.
+
+Identity/connectivity (M2) now includes persistent local OAuth, Graph organization
+and user probes, an Exchange connection bootstrap, and ARM subscription discovery.
+See [identity operations](docs/identity.md), [exact compatibility](docs/compatibility.md)
+and [capabilities](docs/capabilities.md). These are connection gates, not complete
+Microsoft cloud or collector-workflow coverage.
+
+## Isolated M3 directory qualification
+
+Preparation downloads only pinned public dependencies; runtime uses local endpoints.
+The M3 stack uses its own database, CA and ports 48443/55435. Native verification
+temporarily uses 48444/48445 and never changes host trust, DNS or hosts files.
+
+~~~powershell
+python tools/prepare_clients.py --manifest integrations/manifest.json --output work/vendor
+python tools/prepare_graph.py
+docker network create --internal --subnet 10.231.74.0/24 mockazure-m3-clients-isolated
+$sourceFingerprint = python -c "from tools.verify_graph import source_fingerprint; print(source_fingerprint())"
+docker build --build-arg "MOCKAZURE_SOURCE_FINGERPRINT=$sourceFingerprint" -t mockazure:graph .
+docker build -f integrations/Dockerfile.python -t mockazure:graph-python-clients .
+docker compose -f compose.m3.yaml up -d
+python tools/prepare_graph.py --provision
+python -m build
+python tools/verify_graph.py --report work/graph-directory-report.json
+~~~
+
+Run from an environment installed with the locked development and client groups.
+Create the isolated network once; on later runs verify it remains internal.
+Qualification uses actual MSAL/Graph Python and Microsoft Graph PowerShell
+Users/Groups 2.35.1. It exercises application and delegated modes, 5,000-user
+paging, two API replicas, API/PostgreSQL restart, delta reuse and rejected access.
+This is a functional dataset qualification, not a throughput or scale SLA.
+Generated credentials/reports stay ignored under .runtime/m3 and work.
