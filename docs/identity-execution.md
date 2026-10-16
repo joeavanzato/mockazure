@@ -206,3 +206,9 @@ Final: fixed Exchange operational roles — test_exchange_bootstrap_and_command_
 Final: fixed executed client integrity — test_offline_verification_checks_executed_tree (modified/missing/unexpected/sibling-version) RED→GREEN; suite 121/121.
 Final: fixed launcher endpoint-profile mismatch — real pinned Test-ProfileSwitch.ps1 RED→GREEN, rejecting login and Graph mismatch before credential reads; suite 121/121.
 Final post-review regression: 121 unit/integration tests passed in 464.77s; one existing MSAL query-response-mode advisory. Ruff, whitespace, wheel/sdist provenance checks passed. Fresh live qualification is running against the rebuilt source-fingerprinted M2 image.
+
+Live requalification exposed an overbroad harness edit: delegated code/device/refresh
+through common passed, but the two app-only negative cases had also been moved to
+common. Restored explicit tenant authority for client credentials; the provider
+implementation and its passing 121-test suite were unchanged. The corrected real
+client probe and full distribution qualification are rerun below.

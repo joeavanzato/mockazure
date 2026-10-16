@@ -129,7 +129,8 @@ loads the approved Get-OrganizationConfig proxy and invokes the local API.
 Authorization-code/S256, device authorization and refresh are implemented locally.
 Registered redirects must be local HTTPS or native HTTP loopback callbacks. They
 match exactly; no wildcard or dynamic-port matching is advertised. Common and
-organizations routes resolve local registrations/users only. Interactive sign-in
+organizations routes resolve local registrations/users for delegated flows only.
+Client-credentials requests use an explicit tenant authority. Interactive sign-in
 is required for each browser authorization; silent browser SSO is not implemented.
 
 Login, consent and simulated MFA use persistent transactions with a Secure,

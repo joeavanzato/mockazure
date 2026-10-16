@@ -130,7 +130,7 @@ async def main():
             client_credential=json.loads(Path(config["negative_secret_file"]).read_text())[
                 "secret"
             ],
-            authority=config["endpoints"]["login"] + "/common",
+            authority=config["endpoints"]["login"] + "/" + config["tenant_id"],
             validate_authority=False,
             instance_discovery=False,
             http_client=transport,
@@ -140,7 +140,7 @@ async def main():
         invalid = msal.ConfidentialClientApplication(
             config["client_id"],
             client_credential="invalid-local-credential",
-            authority=config["endpoints"]["login"] + "/common",
+            authority=config["endpoints"]["login"] + "/" + config["tenant_id"],
             validate_authority=False,
             instance_discovery=False,
             http_client=transport,
