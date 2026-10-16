@@ -9,6 +9,7 @@ from mockazure.commands import (
     jobs,
     licensing,
     local,
+    managed_identity,
     tenants,
 )
 
@@ -45,3 +46,5 @@ app.command()(clients.client_config)
 app.add_typer(directory.app, name="directory")
 
 app.add_typer(licensing.app, name="licensing")
+
+app.add_typer(managed_identity.app, name="managed-identity")

@@ -63,6 +63,12 @@ ASSIGN_ROLES = frozenset(
 
 
 async def authorize_licensing(session, context, operation, target_id=None):
+    from mockazure.authorization.evaluator import AuthorizationDenied, require_current_identity
+
+    try:
+        await require_current_identity(context, session)
+    except AuthorizationDenied:
+        deny()
     if operation == "details" and context.token_kind != "delegated":
         deny()
     allowed = {"skus": SKU_READ, "details": DETAIL_READ, "assign": ASSIGN}[operation]

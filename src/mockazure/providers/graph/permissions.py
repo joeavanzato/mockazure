@@ -83,6 +83,12 @@ async def authorize_directory(
     operation: GraphOperation,
     target_id: UUID | None,
 ) -> None:
+    from mockazure.authorization.evaluator import AuthorizationDenied, require_current_identity
+
+    try:
+        await require_current_identity(context, session)
+    except AuthorizationDenied:
+        deny()
     if operation.version not in {"v1.0", "beta"}:
         raise GraphError(400, "Request_UnsupportedQuery", "API version is not supported")
     delegated = context.token_kind == "delegated"

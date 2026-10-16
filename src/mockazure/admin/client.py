@@ -96,3 +96,33 @@ class AdminClient:
                 json=value.model_dump(mode="json", exclude={"sku_id"}),
             )
         )
+
+    async def create_managed_identity(self, tenant_id, value):
+        from mockazure.managed_identity.schemas import ManagedIdentityView
+
+        return ManagedIdentityView.model_validate(
+            await self.request(
+                "POST",
+                f"/_mock/tenants/{tenant_id}/managed-identities",
+                json=value.model_dump(mode="json"),
+            )
+        )
+
+    async def create_managed_host(self, tenant_id, value):
+        return await self.request(
+            "POST",
+            f"/_mock/tenants/{tenant_id}/managed-identity-hosts",
+            json=value.model_dump(mode="json"),
+        )
+
+    async def update_managed_host(self, tenant_id, host_id, value):
+        return await self.request(
+            "PATCH",
+            f"/_mock/tenants/{tenant_id}/managed-identity-hosts/{host_id}",
+            json=value.model_dump(mode="json", exclude_unset=True),
+        )
+
+    async def rotate_managed_host_header(self, tenant_id, host_id):
+        return await self.request(
+            "POST", f"/_mock/tenants/{tenant_id}/managed-identity-hosts/{host_id}/rotate-header"
+        )

@@ -3,6 +3,7 @@ from alembic import context
 from mockazure.db.models import Base
 from mockazure.evidence import models as evidence_models  # noqa: F401
 from mockazure.licensing import models as licensing_models  # noqa: F401
+from mockazure.managed_identity import models as managed_identity_models  # noqa: F401
 
 connection = context.config.attributes["connection"]
 context.configure(connection=connection, target_metadata=Base.metadata)

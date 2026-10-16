@@ -13,7 +13,11 @@ from mockazure.oauth.errors import OAuthError
 
 
 async def issue_access_token(
-    context: PrincipalContext, now: datetime, keys: SigningKeyStore
+    context: PrincipalContext,
+    now: datetime,
+    keys: SigningKeyStore,
+    *,
+    managed_resource_id: str | None = None,
 ) -> str:
     key = await keys.active_key(now)
     claims = {
@@ -29,6 +33,10 @@ async def issue_access_token(
         "exp": int(now.timestamp()) + TOKEN_SECONDS,
         "ver": "2.0",
     }
+    if managed_resource_id is not None:
+        if context.token_kind != "application" or not managed_resource_id.startswith("/"):
+            raise ValueError("Invalid managed identity context")
+        claims["xms_mirid"] = managed_resource_id
     if context.token_kind == "application":
         claims.update(idtyp="app", roles=sorted(context.permissions))
     else:
