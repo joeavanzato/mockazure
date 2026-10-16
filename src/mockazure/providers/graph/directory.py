@@ -104,6 +104,9 @@ def router_for(version: str) -> APIRouter:
     if version not in {"v1.0", "beta"}:
         raise ValueError("Unsupported Graph version")
     router = APIRouter(prefix=f"/{version}")
+    from mockazure.providers.graph.delta import register_delta
+
+    register_delta(router, version)
 
     @router.get("/users/$count")
     @router.get("/groups/$count")

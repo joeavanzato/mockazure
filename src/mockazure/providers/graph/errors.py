@@ -6,12 +6,13 @@ from starlette.responses import JSONResponse
 class GraphError(Exception):
     def __init__(self, status: int, code: str, message: str):
         self.status, self.code, self.message = status, code, message
+        self.headers = {}
         super().__init__(message)
 
 
 def graph_error_response(request, error: GraphError):
     request_id = request.state.request_id
-    headers = {"request-id": request_id}
+    headers = {"request-id": request_id, **error.headers}
     if error.status == 401:
         headers["WWW-Authenticate"] = 'Bearer error="invalid_token"'
     return JSONResponse(

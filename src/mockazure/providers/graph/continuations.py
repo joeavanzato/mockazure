@@ -21,6 +21,12 @@ from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.query import ast
 from mockazure.providers.graph.query.ast import QuerySpec
 
+
+class MissingCursor(GraphError):
+    def __init__(self):
+        super().__init__(400, "Request_UnsupportedQuery", "Continuation state is unavailable")
+
+
 NODE_TYPES = {
     kind.__name__: kind
     for kind in (
@@ -182,7 +188,7 @@ async def resolve_cursor(session, token: str, binding: CursorBinding, now: datet
         )
     )
     if row is None:
-        invalid()
+        raise MissingCursor()
     try:
         state = decode_state(row.state)
     except (ValueError, TypeError, KeyError):
@@ -193,10 +199,12 @@ async def resolve_cursor(session, token: str, binding: CursorBinding, now: datet
     if state.binding != binding or current_generation != binding.generation:
         invalid()
     if row.expires_at <= now:
-        if state.kind == "delta":
-            raise GraphError(
+        if state.kind == "delta" or state.binding.resource.endswith("/delta"):
+            error = GraphError(
                 410, "syncStateNotFound", "Delta state expired; restart synchronization"
             )
+            error.cursor_query = state.query
+            raise error
         raise GraphError(
             400, "Request_UnsupportedQuery", "Directory page expired; restart collection"
         )
