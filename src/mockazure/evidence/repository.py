@@ -71,6 +71,12 @@ def validate_facts(value: SourceInput) -> None:
         if "appliedConditionalAccessPolicies" in facts["payload"]:
             raise ValueError("Conditional Access policy detail is not supported")
         UUID(facts["payload"]["id"])
+    elif value.ref.kind == "authentication":
+        from mockazure.evidence.authentication import AuthenticationFact
+
+        fact = AuthenticationFact.model_validate(value.facts)
+        if fact.tenant_id != value.ref.tenant_id or fact.attempt_id != value.ref.id:
+            raise ValueError("Authentication source identity mismatch")
     elif value.ref.kind == "directory":
         from mockazure.evidence.directory_facts import validate_directory_facts
 

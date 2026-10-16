@@ -93,23 +93,45 @@ async def token_response(login, user, session, settings, now, *, nonce="", scope
     return result
 
 
-def record_outcome(session, identity, flow, now, result):
-    from uuid import uuid4
+async def record_outcome(session, identity, flow, now, result, *, request):
+    from uuid import UUID, uuid5
 
+    from mockazure.evidence.authentication import make_fact, record_authentication
     from mockazure.oauth.device_models import AuthenticationOutcome
 
+    attempt_id = (
+        UUID(request.state.request_id)
+        if flow == "refresh_token"
+        else uuid5(identity.id, flow + ":" + result)
+    )
+    mfa = getattr(identity, "mfa", "not_performed")
+    fact = await make_fact(
+        session,
+        request,
+        identity.tenant_id,
+        identity.client_id,
+        getattr(identity, "user_id", None),
+        flow,
+        now,
+        resource=getattr(identity, "resource", None),
+        mfa=mfa,
+        attempt_id=attempt_id,
+        error_code=0 if result == "success" else (50074 if mfa == "denied" else 65004),
+    )
     session.add(
         AuthenticationOutcome(
+            id=attempt_id,
             tenant_id=identity.tenant_id,
             client_id=identity.client_id,
             user_id=getattr(identity, "user_id", None),
             flow=flow,
             timestamp=now,
-            correlation_id=uuid4(),
+            correlation_id=fact.correlation_id,
             result=result,
-            mfa=getattr(identity, "mfa", "not_performed"),
+            mfa=mfa,
         )
     )
+    await record_authentication(session, fact)
 
 
 async def refresh_session(fields, tenant, request, session, now):
@@ -142,9 +164,9 @@ async def refresh_session(fields, tenant, request, session, now):
         resource, scopes = parse_scopes(fields["scope"], app, request.app.state.settings.endpoints)
         if resource != row.resource or not set(scopes) <= set(row.scopes):
             raise OAuthError("invalid_scope", "Refresh cannot add resources or scopes")
-    user = await current_user(row, session)
+    user = await current_user(row, session, request=request, flow="refresh_token", now=now)
     await require_grants(session, row)
-    record_outcome(session, row, "refresh_token", now, "success")
+    await record_outcome(session, row, "refresh_token", now, "success", request=request)
     return await token_response(row, user, session, request.app.state.settings, now, scopes=scopes)
 
 

@@ -116,7 +116,7 @@ async def device_page(request: Request, user_code: str = ""):
         return response
 
 
-async def complete_device(row, session, now, *, approved):
+async def complete_device(row, session, now, *, approved, request):
     device = await session.scalar(
         select(DeviceAuthorization).where(DeviceAuthorization.id == row.device_id).with_for_update()
     )
@@ -124,7 +124,14 @@ async def complete_device(row, session, now, *, approved):
         raise OAuthError("invalid_request", "Device authorization is no longer pending")
     device.status = "approved" if approved else "denied"
     device.tenant_id, device.user_id, device.mfa = row.tenant_id, row.user_id, row.mfa
-    record_outcome(session, row, "device_approval", now, "success" if approved else "access_denied")
+    await record_outcome(
+        session,
+        row,
+        "device_approval",
+        now,
+        "success" if approved else "access_denied",
+        request=request,
+    )
     return pages.page(
         "Device sign-in",
         "<p>"
@@ -160,10 +167,10 @@ async def redeem_device_code(fields, tenant, request, session, now):
     row.last_poll = now
     if row.status == "pending":
         return OAuthError("authorization_pending", "Local user approval is pending")
-    user = await current_user(row, session)
+    user = await current_user(row, session, request=request, flow="device_code", now=now)
     await require_grants(session, row)
     login = await new_session(row, session, now)
     result = await token_response(login, user, session, request.app.state.settings, now)
     row.status = "consumed"
-    record_outcome(session, row, "device_code", now, "success")
+    await record_outcome(session, row, "device_code", now, "success", request=request)
     return result

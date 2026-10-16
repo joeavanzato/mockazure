@@ -20,7 +20,7 @@ def denied():
     return OAuthError("invalid_client", "Client authentication failed", 401)
 
 
-async def authenticate_client(session, tenant_id, fields, token_endpoint, now):
+async def authenticate_client(session, tenant_id, fields, token_endpoint, now, *, request=None):
     try:
         client_id = UUID(fields.get("client_id", ""))
     except (ValueError, TypeError):
@@ -31,8 +31,30 @@ async def authenticate_client(session, tenant_id, fields, token_endpoint, now):
             ServicePrincipal.tenant_id == tenant_id, ServicePrincipal.client_id == client_id
         )
     )
-    if not app or not sp or not app.enabled or not sp.enabled or app.client_mode != "confidential":
+    if not app or not sp or app.client_mode != "confidential":
         raise denied()
+
+    async def classified(code):
+        error = denied()
+        if request is not None:
+            from mockazure.evidence.authentication import annotate_failure
+
+            error = await annotate_failure(
+                error,
+                session,
+                request,
+                tenant_id,
+                client_id,
+                None,
+                "client_credentials",
+                now,
+                error_code=code,
+                resource=getattr(request.state, "auth_resource", None),
+            )
+        return error
+
+    if not app.enabled or not sp.enabled:
+        raise await classified(7000112)
     secret, assertion = fields.get("client_secret"), fields.get("client_assertion")
     if bool(secret) == bool(assertion):
         raise denied()
@@ -52,7 +74,21 @@ async def authenticate_client(session, tenant_id, fields, token_endpoint, now):
                 verify_secret, secret, credential.verifier
             ):
                 return app, sp
-        raise denied()
+        inactive = list(
+            await session.scalars(
+                select(Credential).where(
+                    Credential.client_id == client_id,
+                    Credential.tenant_id == app.tenant_id,
+                    Credential.kind == "secret",
+                )
+            )
+        )
+        for credential in inactive:
+            if await asyncio.to_thread(verify_secret, secret, credential.verifier):
+                if credential.revoked_at is None and credential.expires_at <= now:
+                    raise await classified(7000222)
+                raise denied()
+        raise await classified(7000215)
     if fields.get("client_assertion_type") != (
         "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
     ):
@@ -84,7 +120,7 @@ async def authenticate_client(session, tenant_id, fields, token_endpoint, now):
                 matched = certificate.public_key()
                 break
         if matched is None:
-            raise ValueError()
+            raise await classified(700027)
         claims = jwt.decode(
             assertion,
             matched,
@@ -112,6 +148,8 @@ async def authenticate_client(session, tenant_id, fields, token_endpoint, now):
             type(claims["iat"]) is not int or claims["iat"] > now.timestamp() + 60
         ):
             raise ValueError()
+    except (jwt.InvalidSignatureError, jwt.InvalidKeyError):
+        raise await classified(700027) from None
     except (jwt.PyJWTError, ValueError, TypeError, KeyError):
         raise denied() from None
     try:

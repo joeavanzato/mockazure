@@ -51,6 +51,11 @@ async def scan_sources(session: AsyncSession, *, limit: int = 100) -> int:
     captured = await scan_directory_outbox(session, limit)
     if captured == limit:
         return captured
+    from mockazure.evidence.authentication import scan_authentication_outcomes
+
+    captured += await scan_authentication_outcomes(session, limit - captured)
+    if captured == limit:
+        return captured
     queued = exists(
         select(Job.id).where(
             Job.tenant_id == EvidenceSource.tenant_id,

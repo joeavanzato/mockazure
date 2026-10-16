@@ -48,6 +48,7 @@ async def token(tenant: str, request: Request):
     except ValueError:
         raise OAuthError("invalid_scope", "Resource audience is not configured") from None
     now = datetime.now(UTC)
+    request.state.auth_resource = resource.service
     async with request.app.state.database.sessions.begin() as session:
         tenant_row = await resolve_tenant(session, tenant)
         profile = settings.advertised_endpoints(request.headers.get("host", ""))
@@ -57,6 +58,7 @@ async def token(tenant: str, request: Request):
             fields,
             f"{profile.login}/{tenant}/oauth2/v2.0/token",
             now,
+            request=request,
         )
         grants = await session.scalars(
             select(Grant).where(
@@ -79,6 +81,21 @@ async def token(tenant: str, request: Request):
             raise OAuthError(
                 "temporarily_unavailable", "Local identity is not ready", 503
             ) from None
+        from mockazure.evidence.authentication import make_fact, record_authentication
+
+        await record_authentication(
+            session,
+            await make_fact(
+                session,
+                request,
+                tenant_row.id,
+                app.client_id,
+                None,
+                "client_credentials",
+                now,
+                resource=resource.service,
+            ),
+        )
         return JSONResponse(
             {"token_type": "Bearer", "expires_in": TOKEN_SECONDS, "access_token": access_token},
             headers={"Cache-Control": "no-store", "Pragma": "no-cache"},

@@ -257,24 +257,24 @@ evidence/sources.py and evidence/projectors.py.
 - Produces project_authentication(source:SourceEnvelope)->ProjectionBatch.
 - Consumes Task1/2 source and job interfaces; appendix5 defines exact terminal mapping.
 
-- [ ] Write test_live_auth_types_and_single_device_success: actual code/device/refresh/client
+- [x] Write test_live_auth_types_and_single_device_success: actual code/device/refresh/client
   credentials flows yield interactive/noninteractive/servicePrincipal as mapped; device
   approval+redemption has one interactive success, replay adds none.
-- [ ] Write test_denial_survives_rollback_without_oauth_state: wrong password, disabled user,
+- [x] Write test_denial_survives_rollback_without_oauth_state: wrong password, disabled user,
   consent/MFA refusal and known invalid client secret keep one classified failure despite
   rollback; assert new_sessions == new_grants == new_tokens == 0.
-- [ ] Write test_unknown_and_internal_failures_not_fabricated: malformed/unknown tenant,
+- [x] Write test_unknown_and_internal_failures_not_fabricated: malformed/unknown tenant,
   CSRF/code/refresh-handle, device polling and signing failure do not create success logs.
   Inject failure persistence outage: assert response.status_code == 503.
-- [ ] Write test_legacy_device_outcomes_not_double_counted and test_common_authority_tenant:
+- [x] Write test_legacy_device_outcomes_not_double_counted and test_common_authority_tenant:
   map only known tenant/subject, including null subject for tenant-local unknown username.
   Capture bounded trusted IP/correlation; secrets and raw usernames beyond limits rejected.
-- [ ] Run pytest tests/integration/test_evidence_authentication.py -q; expected RED.
-- [ ] Implement explicit result/failure classification instead of catching all exceptions
+- [x] Run pytest tests/integration/test_evidence_authentication.py -q; expected RED.
+- [x] Implement explicit result/failure classification instead of catching all exceptions
   into audit success. Preserve existing OAuth wire errors, consent grants and session logic.
   Stable attempt IDs are server-controlled; client correlation does not deduplicate attempts.
-- [ ] Run new tests and all tests/integration/test_identity_*.py; expected PASS.
-- [ ] Commit: feat(identity): persist authentication evidence across success and denial.
+- [x] Run new tests and all tests/integration/test_identity_*.py; expected PASS.
+- [x] Commit: feat(identity): persist authentication evidence across success and denial.
 
 ## Task 6: Real managed-identity hosting and SDK token acquisition
 

@@ -59,6 +59,7 @@ async def delegated_client(session, tenant_id, fields, request, now):
             fields,
             f"{profile.login}/{request.path_params['tenant']}/oauth2/v2.0/token",
             now,
+            request=request,
         )
     elif fields.get("client_secret") or fields.get("client_assertion"):
         raise OAuthError("invalid_client", "Public clients must not send credentials", 401)
@@ -160,7 +161,10 @@ async def login(request: Request):
     fields, now = await read_form(request), clock(request)
     async with request.app.state.database.sessions.begin() as session:
         row, app = await browser_transaction(request, fields, session, "login", now)
-        query = select(User).where(User.upn == fields.get("username", "").strip().lower())
+        username = fields.get("username", "").strip().lower()
+        if not username or len(username) > 320:
+            raise OAuthError("invalid_request", "Username exceeds the supported bounds")
+        query = select(User).where(User.upn == username)
         if not row.common:
             query = query.where(User.tenant_id == row.tenant_id)
         user = await session.scalar(query)
@@ -170,7 +174,41 @@ async def login(request: Request):
             or user.deleted_at is not None
             or not await asyncio.to_thread(verify_secret, fields.get("password", ""), user.verifier)
         ):
-            raise OAuthError("access_denied", "Local username or password is invalid")
+            from mockazure.evidence.authentication import annotate_failure
+
+            error = OAuthError("access_denied", "Local username or password is invalid")
+            target_tenant = user.tenant_id if user else row.tenant_id
+            binding = await session.scalar(
+                select(ServicePrincipal).where(
+                    ServicePrincipal.tenant_id == target_tenant,
+                    ServicePrincipal.client_id == app.client_id,
+                    ServicePrincipal.enabled.is_(True),
+                )
+            )
+            if binding is not None:
+                code = (
+                    50126
+                    if user is None
+                    else (
+                        50034
+                        if user.deleted_at is not None
+                        else (50057 if not user.enabled else 50126)
+                    )
+                )
+                error = await annotate_failure(
+                    error,
+                    session,
+                    request,
+                    target_tenant,
+                    app.client_id,
+                    user.id if user else None,
+                    "device_code" if row.device_id else "authorization_code",
+                    now,
+                    error_code=code,
+                    resource=row.resource,
+                    attempted_upn=username,
+                )
+            raise error
         await local_app(session, user.tenant_id, str(app.client_id))
         row.tenant_id, row.user_id, row.stage = user.tenant_id, user.id, "consent"
         return pages.form(row, fields["csrf"], "consent", app.display_name)
@@ -214,7 +252,7 @@ async def consent_to_scopes(row, session):
         await session.flush()
 
 
-async def current_user(row, session):
+async def current_user(row, session, *, request=None, flow="authorization_code", now=None):
     user = await session.get(User, row.user_id)
     if (
         not user
@@ -222,7 +260,28 @@ async def current_user(row, session):
         or user.deleted_at is not None
         or user.tenant_id != row.tenant_id
     ):
-        raise invalid_grant()
+        error = invalid_grant()
+        if (
+            request is not None
+            and row.user_id
+            and (user is None or user.tenant_id == row.tenant_id)
+        ):
+            from mockazure.evidence.authentication import annotate_failure
+
+            error = await annotate_failure(
+                error,
+                session,
+                request,
+                row.tenant_id,
+                row.client_id,
+                row.user_id,
+                flow,
+                now,
+                error_code=50034 if user is None or user.deleted_at else 50057,
+                resource=row.resource,
+                mfa=row.mfa,
+            )
+        raise error
     return user
 
 
@@ -231,14 +290,16 @@ async def consent(request: Request):
     fields, now = await read_form(request), clock(request)
     async with request.app.state.database.sessions.begin() as session:
         row, app = await browser_transaction(request, fields, session, "consent", now)
-        await current_user(row, session)
+        await current_user(row, session, request=request, now=now)
         if fields.get("decision") == "deny":
             row.stage = "denied"
             if row.device_id:
                 from mockazure.oauth.device import complete_device
 
-                return await complete_device(row, session, now, approved=False)
-            record_outcome(session, row, "authorization_code", now, "access_denied")
+                return await complete_device(row, session, now, approved=False, request=request)
+            await record_outcome(
+                session, row, "authorization_code", now, "access_denied", request=request
+            )
             return pages.callback(row, {"error": "access_denied"})
         if fields.get("decision") != "approve":
             raise OAuthError("invalid_request", "Choose allow or deny")
@@ -252,15 +313,17 @@ async def mfa(request: Request):
     fields, now = await read_form(request), clock(request)
     async with request.app.state.database.sessions.begin() as session:
         row, _ = await browser_transaction(request, fields, session, "mfa", now)
-        await current_user(row, session)
+        await current_user(row, session, request=request, now=now)
         decision = fields.get("decision")
         if decision == "deny":
             row.stage, row.mfa = "denied", "denied"
             if row.device_id:
                 from mockazure.oauth.device import complete_device
 
-                return await complete_device(row, session, now, approved=False)
-            record_outcome(session, row, "authorization_code", now, "access_denied")
+                return await complete_device(row, session, now, approved=False, request=request)
+            await record_outcome(
+                session, row, "authorization_code", now, "access_denied", request=request
+            )
             return pages.callback(row, {"error": "access_denied"})
         if decision not in ("complete", "skip"):
             raise OAuthError("invalid_request", "Choose a simulated MFA outcome")
@@ -269,7 +332,7 @@ async def mfa(request: Request):
         if row.device_id:
             from mockazure.oauth.device import complete_device
 
-            return await complete_device(row, session, now, approved=True)
+            return await complete_device(row, session, now, approved=True, request=request)
         raw = secrets.token_urlsafe(48)
         row.code_hash, row.code_expires_at = digest(raw), now + timedelta(seconds=300)
         return pages.callback(row, {"code": raw})
@@ -300,10 +363,10 @@ async def redeem_code(fields, tenant, request, session, now):
     )
     if not hmac.compare_digest(row.challenge, challenge):
         raise invalid_grant()
-    user = await current_user(row, session)
+    user = await current_user(row, session, request=request, now=now)
     await require_grants(session, row)
     row.consumed_at = now
-    record_outcome(session, row, "authorization_code", now, "success")
+    await record_outcome(session, row, "authorization_code", now, "success", request=request)
     login_session = await new_session(row, session, now)
     return await token_response(
         login_session, user, session, request.app.state.settings, now, nonce=row.nonce

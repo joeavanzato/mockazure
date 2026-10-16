@@ -125,6 +125,21 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     @app.exception_handler(OAuthError)
     async def oauth_error(request, error):
+        fact = getattr(error, "authentication_fact", None)
+        if fact is not None:
+            from mockazure.evidence.authentication import record_authentication_failure
+
+            try:
+                await record_authentication_failure(request.app.state.database, fact)
+            except (SQLAlchemyError, ValueError, TimeoutError):
+                return oauth_error_response(
+                    request,
+                    OAuthError(
+                        "temporarily_unavailable",
+                        "Authentication evidence storage is unavailable",
+                        503,
+                    ),
+                )
         return oauth_error_response(request, error)
 
     @app.exception_handler(IdentityError)
