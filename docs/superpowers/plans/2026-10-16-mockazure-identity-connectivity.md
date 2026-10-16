@@ -10,7 +10,7 @@
 
 **Spec:** ../specs/2026-10-16-mockazure-design.md (accepted), especially sections 6, 7, 11, 13 and milestone 2 in section 14.
 
-**Status:** Proposed implementation plan; no M2 product code written.
+**Status:** Approved 2026-10-16; Native implementation in progress. Task 1 complete.
 **Execution preference:** Native, carried forward from the user's selection: main agent implements; one independent whole-change review at the end.
 **Starting point:** Foundation commit 3b659f1805f861de7dfa93e35ec64d367c20aba3. PR #1 remains unmerged as of planning. Do not start from the documentation-only remote main or merge PR #1 implicitly.
 
@@ -116,12 +116,12 @@ These are MockAzure's initial supported profile, not claims that all Microsoft t
 - prepare_clients.py --output work/vendor --manifest integrations/manifest.json acquires pinned artifacts; --verify only checks hashes, with no network.
 - Manifest schema_version=1; entries include source URL, immutable revision/version, SHA256, dependency graph, runtime version, intended probe and supported endpoint switches.
 
-- [ ] **Step 1: Capture exact stable client versions and source revisions.** Inspect real connection wrappers and imported dependencies; record bootstrap requests, auth version/audience, SDK authority discovery, URL construction and supported overrides. Pin release versions/commit SHAs and content hashes, never latest at test time. Include actual command names for Hawk/MES connectivity and Exchange module bootstrap in connections.md.
-- [ ] **Step 2: Add endpoint validation and isolation tests.** Assert `resolve_resource("https://graph.microsoft.com", profile).service == "graph"`; assert unknown aliases fail and cannot trigger HTTP. Assert credentials/query/fragment/unsupported path in service origins fail. Hostile Host and X-Forwarded-Host cannot change issuer or callbacks.
-- [ ] **Step 3: Run the new unit file and record expected missing-module failures.** Use .venv/Scripts/python.exe -m pytest tests/unit/test_identity_endpoints.py -q.
-- [ ] **Step 4: Implement endpoint types/settings and prepare the pinned clients.** Preserve existing M1 config defaults. Keep package caches/module paths under work/vendor or .runtime; acquisition runs separately from qualification.
-- [ ] **Step 5: Prove runtime isolation before authentication.** Client containers have only the internal network, local DNS aliases and per-container CA trust. Block public IP as well as hostname access, including IPv6 when enabled; record failed external DNS/direct-socket probes for Python and PowerShell/.NET. No inherited proxy may bypass this. A client unable to execute within this boundary is explicitly unqualified.
-- [ ] **Step 6: Verify endpoint tests and artifact hashes; commit.** Commit message: build: pin isolated Microsoft client connection contracts.
+- [x] **Step 1: Capture exact stable client versions and source revisions.** Inspect real connection wrappers and imported dependencies; record bootstrap requests, auth version/audience, SDK authority discovery, URL construction and supported overrides. Pin release versions/commit SHAs and content hashes, never latest at test time. Include actual command names for Hawk/MES connectivity and Exchange module bootstrap in connections.md.
+- [x] **Step 2: Add endpoint validation and isolation tests.** Assert `resolve_resource("https://graph.microsoft.com", profile).service == "graph"`; assert unknown aliases fail and cannot trigger HTTP. Assert credentials/query/fragment/unsupported path in service origins fail. Hostile Host and X-Forwarded-Host cannot change issuer or callbacks.
+- [x] **Step 3: Run the new unit file and record expected missing-module failures.** Use .venv/Scripts/python.exe -m pytest tests/unit/test_identity_endpoints.py -q.
+- [x] **Step 4: Implement endpoint types/settings and prepare the pinned clients.** Preserve existing M1 config defaults. Keep package caches/module paths under work/vendor or .runtime; acquisition runs separately from qualification.
+- [x] **Step 5: Prove runtime isolation before authentication.** Client containers have only the internal network, local DNS aliases and per-container CA trust. Block public IP as well as hostname access, including IPv6 when enabled; record failed external DNS/direct-socket probes for Python and PowerShell/.NET. No inherited proxy may bypass this. A client unable to execute within this boundary is explicitly unqualified.
+- [x] **Step 6: Verify endpoint tests and artifact hashes; commit.** Commit message: build: pin isolated Microsoft client connection contracts.
 
 ## Task 2: Persistent identity administration and permission catalog
 

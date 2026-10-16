@@ -10,6 +10,8 @@ from urllib.parse import urlsplit
 from pydantic import AnyHttpUrl, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from mockazure.endpoints import EndpointProfile
+
 
 def validate_host(value: str) -> str:
     value = value.lower()
@@ -28,6 +30,7 @@ class Settings(BaseSettings):
     listen_port: int = Field(default=8443, ge=1, le=65535)
     admin_base_url: AnyHttpUrl = "https://localhost:8443"
     allowed_hosts: tuple[str, ...] = ("localhost", "127.0.0.1")
+    service_endpoints: EndpointProfile | None = None
     pool_size: int = Field(default=5, ge=1, le=100)
     pool_max_overflow: int = Field(default=5, ge=0, le=100)
 
@@ -76,6 +79,13 @@ class Settings(BaseSettings):
         return tuple(dict.fromkeys(validate_host(host) for host in value))
 
     @property
+    def endpoints(self) -> EndpointProfile:
+        if self.service_endpoints is not None:
+            return self.service_endpoints
+        origin = str(self.admin_base_url).rstrip("/")
+        return EndpointProfile(**{name: origin for name in EndpointProfile.model_fields})
+
+    @property
     def token_file(self) -> Path:
         return self.data_dir / "admin.token"
 
@@ -94,7 +104,11 @@ def load_settings(config_file: Path, environ: Mapping[str, str] | None = None) -
             if key.startswith("MOCKAZURE_"):
                 name = key.removeprefix("MOCKAZURE_").lower()
                 if name in Settings.model_fields:
-                    values[name] = json.loads(value) if name == "allowed_hosts" else value
+                    values[name] = (
+                        json.loads(value)
+                        if name in ("allowed_hosts", "service_endpoints")
+                        else value
+                    )
         values["data_dir"] = (config_file.parent / values["data_dir"]).resolve()
         return Settings(**values)
     except (ValueError, KeyError, TypeError, OSError):

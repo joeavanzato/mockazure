@@ -1,0 +1,48 @@
+name: mockazure-m2-clients
+services:
+  powershell:
+    image: mcr.microsoft.com/powershell@sha256:042240d57ec9e47e511033b92625a8d95875ee5860af3015992c248b58a8be81
+    entrypoint: ["pwsh", "-NoLogo", "-NoProfile", "-File"]
+    command: ["/project/integrations/powershell/Test-NetworkBoundary.ps1"]
+    working_dir: /project
+    environment:
+      PSModulePath: /project/work/vendor/modules:/opt/microsoft/powershell/7/Modules
+      POWERSHELL_TELEMETRY_OPTOUT: "1"
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      HTTP_PROXY: ""
+      HTTPS_PROXY: ""
+      ALL_PROXY: ""
+      NO_PROXY: "*"
+    volumes:
+      - ./:/project:ro
+      - ./.runtime/clients/powershell-state:/state
+      - ./.runtime/clients/powershell-root:/root
+      - ./.runtime/clients/powershell-tmp:/tmp
+    dns: [127.0.0.1]
+    networks: [isolated]
+  python:
+    image: python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+    entrypoint: ["python"]
+    command: ["/project/integrations/python/network_boundary.py"]
+    working_dir: /project
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      HTTP_PROXY: ""
+      HTTPS_PROXY: ""
+      ALL_PROXY: ""
+      NO_PROXY: "*"
+    volumes:
+      - ./:/project:ro
+      - ./.runtime/clients/python-state:/state
+      - ./.runtime/clients/python-root:/root
+      - ./.runtime/clients/python-tmp:/tmp
+    dns: [127.0.0.1]
+    networks: [isolated]
+networks:
+  isolated:
+    name: mockazure-m2-clients-isolated
+    internal: true
+
+    ipam:
+      config:
+        - subnet: ${MOCKAZURE_CLIENT_SUBNET:-10.231.72.0/24}

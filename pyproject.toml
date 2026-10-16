@@ -21,6 +21,10 @@ dependencies = [
 mockazure = "mockazure.cli:app"
 
 [dependency-groups]
+clients = [
+    "msal==1.39.0",
+    "msgraph-sdk==1.64.0",
+]
 dev = ["pytest>=8", "pytest-asyncio>=1", "ruff>=0.11", "build>=1"]
 
 [tool.hatch.build.targets.wheel]
