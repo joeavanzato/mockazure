@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "source_revision": "fbcaecb2c5f9b9c4daaa11ceb5da223e66a2c09b",
+  "files": [
+    {
+      "source_path": "lab/mockcloud/server.py",
+      "destination_path": "mockcloud/lab/mockcloud/server.py",
+      "sha256": "ab7799777fa6d2d7bcad5ce544629e20069afb7603bf4b547913ee6255b28a17",
+      "git_blob_id": "61bd3383714d6fd9c6cbc963861a8bd60d0bf8f8"
+    },
+    {
+      "source_path": "lab/mockcloud/certs.py",
+      "destination_path": "mockcloud/lab/mockcloud/certs.py",
+      "sha256": "596b5732ff83a6755d3671c87eb7aa00078f4e7eed039aef2bbf0e9c7a8d1fb3",
+      "git_blob_id": "b4d69709103bdd6692b40a4351d74fbe5a771f1e"
+    },
+    {
+      "source_path": "lab/mockcloud/__main__.py",
+      "destination_path": "mockcloud/lab/mockcloud/__main__.py",
+      "sha256": "0456c97af8ee8897fbd57893ff2cc6144e5772c4c969b7ce5f0d88f6e676b797",
+      "git_blob_id": "7597f09f50910f9df716ecf863ce1bdf6ce35e9f"
+    },
+    {
+      "source_path": "tools/synth/cloud.py",
+      "destination_path": "mockcloud/tools/synth/cloud.py",
+      "sha256": "8d28b9f3ac78b9535d3f7051253cd74d92c7e59a56d24af4512dbc51dd0b14a1",
+      "git_blob_id": "eb74508a875931cf804682e515d565cdf63b0cc7"
+    }
+  ]
+}
