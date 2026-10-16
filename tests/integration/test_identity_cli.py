@@ -163,6 +163,14 @@ def test_identity_cli_over_https_keeps_secrets_in_output_file(database, settings
                     ]
                     == "invalid_client"
                 )
+            from tests.integration.msal_browser_support import msal_browser_probe
+
+            msal_browser_probe(
+                f"https://localhost:{port}",
+                tenant_id,
+                files.ca_cert_file,
+                files.admin_token_file.read_text().strip(),
+            )
             rotated = cli("identity", "rotate-keys")
             assert rotated.returncode == 0, rotated.stderr
             assert json.loads(rotated.stdout)["kid"] != first_kid

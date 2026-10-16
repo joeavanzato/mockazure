@@ -1,4 +1,4 @@
-# Exchange bootstrap design adjustment — awaiting decision
+# Exchange bootstrap design adjustment — approved 2026-10-16
 
 The isolated ExchangeOnlineManagement 3.11.0 probe reached MockAzure with a
 validated local Exchange token. Its next request was
@@ -15,5 +15,5 @@ operations or upstream fallback are included. Test missing grants, wrong audienc
 wrong tenant, and actual module import plus command invocation.
 
 This adjusts the approved plan's prohibition on a hand-written replacement for
-the downloaded service command. Until approved, the Exchange compatibility gate
-remains incomplete. Identity and Graph work can proceed independently.
+the downloaded service command. The user approved this bounded adjustment. The Exchange compatibility gate
+remains incomplete until the real module and API probes pass. Identity and Graph work can proceed independently.

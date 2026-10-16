@@ -9,10 +9,12 @@ from mockazure.identity.keys import TOKEN_SECONDS, SigningKeyStore, read_wrappin
 from mockazure.identity.models import Grant
 from mockazure.identity.tokens import issue_access_token
 from mockazure.identity.types import PrincipalContext
+from mockazure.oauth.authorization import redeem_code
 from mockazure.oauth.client_auth import authenticate_client
 from mockazure.oauth.discovery import resolve_tenant
 from mockazure.oauth.errors import OAuthError
 from mockazure.oauth.forms import read_form
+from mockazure.oauth.sessions import clock
 
 router = APIRouter()
 
@@ -20,6 +22,10 @@ router = APIRouter()
 @router.post("/{tenant}/oauth2/v2.0/token")
 async def token(tenant: str, request: Request):
     fields = await read_form(request)
+    if fields.get("grant_type") == "authorization_code":
+        async with request.app.state.database.sessions.begin() as session:
+            result = await redeem_code(fields, tenant, request, session, clock(request))
+        return JSONResponse(result, headers={"Cache-Control": "no-store", "Pragma": "no-cache"})
     if fields.get("grant_type") != "client_credentials":
         raise OAuthError("unsupported_grant_type", "This authorization grant is not supported")
     requested = fields.get("scope", "").split()
