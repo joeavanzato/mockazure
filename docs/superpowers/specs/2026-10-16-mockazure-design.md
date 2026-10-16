@@ -1,7 +1,7 @@
 # MockAzure: Microsoft cloud API emulation and simulation
 
 Date: 2026-10-16
-Status: Proposed design for written review. Conversational direction is agreed; implementation has not started.
+Status: Design accepted for implementation planning. Implementation has not started.
 Project: D:\projects\mockazure
 Remote: https://github.com/joeavanzato/mockazure
 Licence: Apache-2.0
