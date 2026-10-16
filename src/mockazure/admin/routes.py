@@ -29,8 +29,26 @@ async def ready(request: Request):
 @router.get("/capabilities")
 async def capabilities():
     return {
-        "milestone": 1,
-        "provider_operations": [],
+        "milestone": 2,
+        "authentication_flows": [
+            "client_credentials",
+            "authorization_code_pkce",
+            "device_code",
+            "refresh_token",
+        ],
+        "provider_operations": [
+            "graph.organization.read",
+            "graph.me.read",
+            "exchange.organization.read",
+            "arm.subscriptions.list",
+        ],
+        "limitations": [
+            "Local identities only; no upstream fallback",
+            "No conditional-access engine, general OData, delta or evidence collection yet",
+            "Exchange command proxy qualified only with module 3.11.0",
+            "ARM discovery api-version 2021-01-01; explicit Reader assignments only",
+            "Tenant exports remain metadata-only",
+        ],
         "admin_operations": [
             "tenant.create",
             "tenant.get",
@@ -39,6 +57,15 @@ async def capabilities():
             "tenant.import",
             "job.get",
             "job.result",
+            "identity.users",
+            "identity.applications",
+            "identity.credentials",
+            "identity.grants",
+            "identity.directory_roles",
+            "identity.sessions",
+            "identity.signing_keys.rotate",
+            "arm.subscriptions",
+            "arm.reader_assignments",
         ],
     }
 

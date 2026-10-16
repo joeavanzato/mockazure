@@ -1,8 +1,8 @@
 # Local identity and authentication
 
-Milestone 2 implementation is in progress. App-only OAuth and identity
-administration are implemented on this branch; SDK/collector qualification and
-delegated flows must not be inferred from their presence.
+The M2 profile includes app-only and delegated OAuth, persistent identity
+administration, and the bounded SDK/collector connection contracts described in
+compatibility.md. See identity-execution.md for verification and review evidence.
 
 Run database migrations before explicitly initializing OAuth identity:
 
@@ -120,6 +120,72 @@ test harness independently blocks nonlocal sockets.
 
 ExchangeOnlineManagement 3.11.0 normalizes a custom ConnectionUri to scheme and
 hostname, dropping its port. Its bootstrap therefore needs HTTPS port 443 within
-the isolated client network. The development harness will provide that endpoint
-without changing host DNS, trust stores or existing services. Full Exchange
-connection qualification is not yet complete.
+the isolated client network. The dedicated harness provides that endpoint
+without changing host DNS, trust stores or foundation services. The real module
+loads the approved Get-OrganizationConfig proxy and invokes the local API.
+
+## Delegated flows and sessions
+
+Authorization-code/S256, device authorization and refresh are implemented locally.
+Registered redirects must be local HTTPS or native HTTP loopback callbacks. They
+match exactly; no wildcard or dynamic-port matching is advertised. Common and
+organizations routes resolve local registrations/users only. Interactive sign-in
+is required for each browser authorization; silent browser SSO is not implemented.
+
+Login, consent and simulated MFA use persistent transactions with a Secure,
+HttpOnly, SameSite cookie and CSRF checks. Device approvals use the same forms.
+User consent can grant configured User.Read; admin-required scopes need a local
+Global Administrator or management preconsent. Simulated MFA is visibly a lab
+outcome, not a conditional-access engine or real second factor.
+
+Codes expire after 300 seconds and redeem once across replicas. Device requests
+expire after 900 seconds; initial polling is five seconds, with durable slow_down
+increments of five seconds. Access and ID tokens last 3,600 seconds. Refresh
+handles are hashed and bound to a session with an absolute 24-hour deadline.
+Concurrent refresh succeeds; older handles remain valid until that deadline or
+session revocation. Refresh checks enabled identities and current consent again.
+GET/DELETE /_mock/tenants/{tenant}/identity/sessions lists metadata/revokes sessions.
+Existing access tokens retain their claims until expiry, subject to supported
+resource-side user/role checks. No universal instantaneous access-token revocation
+is claimed. Authentication successes and consent/MFA denial outcomes are persisted
+without raw credentials; full audit/sign-in projection belongs to M3.
+
+## Reproduce the dedicated M2 lab
+
+Use a project-local Python environment with the locked dev/client dependencies.
+All commands below run from the checkout. They create only .runtime/m2 and client
+state; the original foundation runtime stays separate.
+
+```powershell
+python tools/prepare_identity.py
+python tools/prepare_clients.py --output work/vendor
+# Create the isolated network and prove it before enabling clients.
+docker compose -f compose.clients.yaml run --rm powershell
+# Build the runtime and Python client images.
+docker build -t mockazure:identity .
+docker build -f integrations/Dockerfile.python -t mockazure:identity-python-clients .
+docker compose -f compose.m2.yaml up -d --wait
+python tools/prepare_identity.py --provision
+```
+
+For final qualification, build a clean wheel with uv build. Compute
+source_fingerprint() from tools.verify_identity and pass it as Docker build argument
+MOCKAZURE_SOURCE_FINGERPRINT, then recreate M2 with docker compose up -d --wait.
+The verifier rejects an image built from a different source fingerprint.
+
+```powershell
+python tools/verify_identity.py --config .runtime/m2/instance/native.json --client-manifest integrations/manifest.json --report work/identity-report.json
+pytest tests/acceptance/test_identity_distribution.py -q
+```
+
+The verifier creates a clean offline wheel environment, starts a native API replica,
+checks concurrent code/refresh and rotation, restarts only the M2 database/API,
+and reruns every pinned SDK/collector/isolation probe. It leaves sanitized reports
+under work and synthetic credentials under .runtime/clients. Ordinary tenant
+exports still contain tenant metadata only. For operational recovery, preserve a
+coordinated PostgreSQL backup plus identity.wrap, TLS files and the admin credential.
+Restoring the database without its wrapping key cannot restore signing ability.
+
+See compatibility.md for exact client acquisition boundaries. Exchange connection
+qualification is complete for the one approved discovery command; broad Exchange,
+Graph, ARM evidence collection and conditional-access policies remain later work.

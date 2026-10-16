@@ -110,7 +110,7 @@ async def main():
         )
         device = sdk.initiate_device_flow(["User.Read", "Organization.Read.All"])
         assert "device_code" in device, device.get("error")
-        # Browser uses its configured internal alias; the advertised verification URI is for the host.
+        # Use the internal alias; the advertised verification URI is for host browsers.
         approve(
             transport, config["endpoints"]["login"] + "/device?user_code=" + device["user_code"]
         )

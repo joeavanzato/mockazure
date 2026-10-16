@@ -9,7 +9,8 @@ from starlette.exceptions import HTTPException
 
 from mockazure.admin.arm_routes import router as arm_admin_router
 from mockazure.admin.auth import verify_admin_token
-from mockazure.admin.errors import AdminError, error_response
+from mockazure.admin.errors import AdminError
+from mockazure.admin.errors import error_response as admin_error_response
 from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.routes import router
@@ -27,6 +28,32 @@ from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.probes import router as graph_router
 from mockazure.tenants.repository import TenantConflict
+
+
+def error_response(request, status, code, message):
+    path = request.url.path
+    if (
+        path.startswith(("/v1.0/", "/beta/", "/adminapi/", "/AdminApi/"))
+        or path == "/subscriptions"
+    ):
+        if status == 422:
+            status, code = 400, "InvalidRequest"
+        return graph_error_response(request, GraphError(status, code, message))
+    if (
+        "/oauth2/" in path
+        or "/discovery/" in path
+        or "/.well-known/" in path
+        or path in ("/login", "/consent", "/mfa", "/device")
+    ):
+        oauth_code = (
+            "temporarily_unavailable"
+            if status == 503
+            else ("server_error" if status >= 500 else "invalid_request")
+        )
+        return oauth_error_response(
+            request, OAuthError(oauth_code, message, 400 if status == 422 else status)
+        )
+    return admin_error_response(request, status, code, message)
 
 
 def create_app(settings: Settings, database: Database | None = None) -> FastAPI:

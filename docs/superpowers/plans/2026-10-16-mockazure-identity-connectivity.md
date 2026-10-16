@@ -1,6 +1,6 @@
 # MockAzure Milestone 2: Identity and Connectivity Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Connect real Microsoft SDKs and the two selected collector families to local, persistent Microsoft authentication with enforced permissions and no real-service fallback.
 
@@ -172,12 +172,12 @@ These are MockAzure's initial supported profile, not claims that all Microsoft t
 - Organization fields: id, displayName, verifiedDomains; additional implemented fields only from persisted tenant state. User.Read delegated gets the documented basic organization projection. Broader reads enforce the documented operation's applicable permission/role requirements.
 - $select only for these fixed fields; other query options fail explicitly. No general OData engine in M2.
 
-- [ ] **Step 1: Write an authorization matrix test.** App Organization.Read.All succeeds; absent application permission fails 403; delegated User.Read reads own /me/basic organization only; application token on /me fails; Exchange/ARM-audience tokens fail 401. Changing tenant identifiers never exposes another tenant.
-- [ ] **Step 2: Run failures, implement requirements and provider-specific responses.** Keep management authentication independent and preserve M1 Host/error regressions.
-- [ ] **Step 3: Run real Python Graph SDK and PowerShell Get-MgOrganization with locally issued tokens and configured service roots.** Verify response IDs/fields, not merely connection success.
-- [ ] **Step 4: Attempt the real pinned ExchangeOnlineManagement bootstrap immediately.** Supply a local resource token and supported endpoint switches from Task 1; capture sanitized HTTP method/path/status/request sequence. Implement only documented/source-established bootstrap contracts and authorization needed for a real connection and one harmless discovery/probe command identified in that contract. No mailbox evidence implementation yet.
-- [ ] **Step 5: Resolve or report transport restrictions.** Endpoint/auth adapters may establish context but cannot replace service cmdlets or suppress permission failures. If the module insists on unconfigurable upstream transport or unsupported bootstrap, publish concrete evidence and request a design adjustment before substituting a transport. Do not mark this gate passed.
-- [ ] **Step 6: Verify focused tests and actual supported probes; commit:** feat: enforce provider permissions and qualify app-only connections.
+- [x] **Step 1: Write an authorization matrix test.** App Organization.Read.All succeeds; absent application permission fails 403; delegated User.Read reads own /me/basic organization only; application token on /me fails; Exchange/ARM-audience tokens fail 401. Changing tenant identifiers never exposes another tenant.
+- [x] **Step 2: Run failures, implement requirements and provider-specific responses.** Keep management authentication independent and preserve M1 Host/error regressions.
+- [x] **Step 3: Run real Python Graph SDK and PowerShell Get-MgOrganization with locally issued tokens and configured service roots.** Verify response IDs/fields, not merely connection success.
+- [x] **Step 4: Attempt the real pinned ExchangeOnlineManagement bootstrap immediately.** Supply a local resource token and supported endpoint switches from Task 1; capture sanitized HTTP method/path/status/request sequence. Implement only documented/source-established bootstrap contracts and authorization needed for a real connection and one harmless discovery/probe command identified in that contract. No mailbox evidence implementation yet.
+- [x] **Step 5: Resolve or report transport restrictions.** Endpoint/auth adapters may establish context but cannot replace service cmdlets or suppress permission failures. If the module insists on unconfigurable upstream transport or unsupported bootstrap, publish concrete evidence and request a design adjustment before substituting a transport. Do not mark this gate passed.
+- [x] **Step 6: Verify focused tests and actual supported probes; commit:** feat: enforce provider permissions and qualify app-only connections.
 
 ## Task 5: Delegated authorization code, PKCE and consent
 
@@ -192,12 +192,12 @@ These are MockAzure's initial supported profile, not claims that all Microsoft t
 - GET authorize creates a persisted transaction; local GET/POST /login, /consent and /mfa forms operate on its opaque handle. POST token with grant_type=authorization_code validates client authentication for confidential clients.
 - Identity administration can assign supported directory roles and revoke sessions; these operations require the management credential.
 
-- [ ] **Step 1: Test the browser transaction end to end through HTTP.** Assert state is returned unchanged to the validated callback, PKCE S256 verifier binds redemption, ID token nonce matches, consented delegated scopes use scp rather than roles, and no refresh token appears without offline_access.
-- [ ] **Step 2: Test rejection paths.** Invalid/external callback stays on the local server; missing/wrong CSRF fails; HTML in displayName is escaped; denied consent returns access_denied to a previously validated callback; ordinary user cannot grant admin-required scopes. Disabled users/clients and changed redirect registrations fail. A second code redemption on another API instance returns invalid_grant.
-- [ ] **Step 3: Run targeted tests and observe failures.** Implement state transitions and atomic single-use redemption, then add minimal rendered forms using escaped values and explicit form actions. Codes are hashed in storage; transaction state cannot be chosen or altered by the browser.
-- [ ] **Step 4: Implement persistent user and administrator consent.** Restrict approvals to permissions configured for the client and resource. Support preconsent through management and browser consent by a qualified local administrator. Admin-consent route/parameters are included only where the pinned SDK requires them; no grant-all shortcut.
-- [ ] **Step 5: Run an MSAL Python public-client authorization-code/PKCE exchange.** The browser or scripted HTTP test must actually authenticate and consent locally; do not fabricate a code. Test explicit simulated MFA success/denial and record its limited meaning.
-- [ ] **Step 6: Commit:** feat: add delegated PKCE sign-in and persistent consent.
+- [x] **Step 1: Test the browser transaction end to end through HTTP.** Assert state is returned unchanged to the validated callback, PKCE S256 verifier binds redemption, ID token nonce matches, consented delegated scopes use scp rather than roles, and no refresh token appears without offline_access.
+- [x] **Step 2: Test rejection paths.** Invalid/external callback stays on the local server; missing/wrong CSRF fails; HTML in displayName is escaped; denied consent returns access_denied to a previously validated callback; ordinary user cannot grant admin-required scopes. Disabled users/clients and changed redirect registrations fail. A second code redemption on another API instance returns invalid_grant.
+- [x] **Step 3: Run targeted tests and observe failures.** Implement state transitions and atomic single-use redemption, then add minimal rendered forms using escaped values and explicit form actions. Codes are hashed in storage; transaction state cannot be chosen or altered by the browser.
+- [x] **Step 4: Implement persistent user and administrator consent.** Restrict approvals to permissions configured for the client and resource. Support preconsent through management and browser consent by a qualified local administrator. Admin-consent route/parameters are included only where the pinned SDK requires them; no grant-all shortcut.
+- [x] **Step 5: Run an MSAL Python public-client authorization-code/PKCE exchange.** The browser or scripted HTTP test must actually authenticate and consent locally; do not fabricate a code. Test explicit simulated MFA success/denial and record its limited meaning.
+- [x] **Step 6: Commit:** feat: add delegated PKCE sign-in and persistent consent.
 
 ## Task 6: Device authorization, refresh and session revocation
 
@@ -213,12 +213,12 @@ These are MockAzure's initial supported profile, not claims that all Microsoft t
 - POST token supports urn:ietf:params:oauth:grant-type:device_code and refresh_token; device code is bound to issuing client and tenant.
 - Management GET /_mock/tenants/{tenant_id}/identity/sessions lists metadata only; DELETE /sessions/{id} revokes the session and all refresh handles.
 
-- [ ] **Step 1: Test pending, slow_down, approval, denial and expiry using an injected clock.** Fast polling increases the stored interval by five seconds; assert authorization_pending before approval, slow_down on early repeat, authorization_declined on denial, expired_token after the deadline and invalid_grant after successful redemption. Both replicas must see the same state.
-- [ ] **Step 2: Test refresh and revocation.** Concurrent valid refreshes succeed consistently; wrong client/tenant fails; absolute expiry never extends; removing consent/grants prevents minting removed scopes; requesting extra unconsented scopes fails. Revocation blocks every handle without pretending to erase existing access-token claims.
-- [ ] **Step 3: Run failures; implement locking/compare-and-set transitions, hashed handles and bounded polling.** Retain token digests until their required replay/expiry windows end. Cleanup is bounded, tenant-safe and never deletes live session/key data.
-- [ ] **Step 4: Persist minimal authentication outcome records.** Store tenant/client/user IDs where known, flow, timestamp, correlation ID, result and simulated-MFA result; omit raw secrets/codes/tokens and unbounded untrusted descriptions. These support later Graph sign-in projection; do not advertise Graph auditLog endpoints in M2.
-- [ ] **Step 5: Verify the real MSAL device-flow poller and silent token acquisition/refresh against local HTTP.** Restart an API between approval and redemption; confirm results and revoked-session behavior survive.
-- [ ] **Step 6: Commit:** feat: persist device authorization and revocable delegated sessions.
+- [x] **Step 1: Test pending, slow_down, approval, denial and expiry using an injected clock.** Fast polling increases the stored interval by five seconds; assert authorization_pending before approval, slow_down on early repeat, authorization_declined on denial, expired_token after the deadline and invalid_grant after successful redemption. Both replicas must see the same state.
+- [x] **Step 2: Test refresh and revocation.** Concurrent valid refreshes succeed consistently; wrong client/tenant fails; absolute expiry never extends; removing consent/grants prevents minting removed scopes; requesting extra unconsented scopes fails. Revocation blocks every handle without pretending to erase existing access-token claims.
+- [x] **Step 3: Run failures; implement locking/compare-and-set transitions, hashed handles and bounded polling.** Retain token digests until their required replay/expiry windows end. Cleanup is bounded, tenant-safe and never deletes live session/key data.
+- [x] **Step 4: Persist minimal authentication outcome records.** Store tenant/client/user IDs where known, flow, timestamp, correlation ID, result and simulated-MFA result; omit raw secrets/codes/tokens and unbounded untrusted descriptions. These support later Graph sign-in projection; do not advertise Graph auditLog endpoints in M2.
+- [x] **Step 5: Verify the real MSAL device-flow poller and silent token acquisition/refresh against local HTTP.** Restart an API between approval and redemption; confirm results and revoked-session behavior survive.
+- [x] **Step 6: Commit:** feat: persist device authorization and revocable delegated sessions.
 
 ## Task 7: Real SDK and collector connection qualification
 
@@ -230,12 +230,12 @@ These are MockAzure's initial supported profile, not claims that all Microsoft t
 - CLI mockazure client-config --tenant ID --client ID --profile host|container --output PATH writes this format.
 - Probe result schema_version=1: client/version/revision, flow, request-contract ID, expected object IDs, actual IDs, allowed/denied outcome, isolation result and capability limitations. No bearer values or raw credential-bearing captures.
 
-- [ ] **Step 1: Test configuration generation.** Assert every transport endpoint is configured locally, no real-tenant default exists, profile choice changes reachable endpoints without changing token identity, and exports contain no secret.
-- [ ] **Step 2: Run failures; implement commands and launchers.** Use Graph custom environments and explicit local authority metadata. If a client requires endpoint/auth adaptation, retain its original collection code, version the adapter and document the precise changed boundary.
-- [ ] **Step 3: Complete app-only and delegated SDK matrix.** Python MSAL/Graph and Graph PowerShell must make actual authorized and denied requests. Test expiration, wrong audience and removed grants at the appropriate issuance/resource boundary. Pin every imported module, not just top-level packages.
-- [ ] **Step 4: Exercise Hawk and MES connection wrappers.** Graph must establish a context and return the correct organization; Exchange must complete actual module command loading and its Task 4 probe. For MES, configure and exercise Az.Accounts plus the exact ARM connection discovery requests identified in Task 1. Support only the needed ARM discovery routes, persisted tenant/subscription fields and api-versions; do not fabricate subscription inventory or advertise Activity Logs.
-- [ ] **Step 5: Prove no fallback.** Remove a required permission and supply an invalid local credential; each client must fail locally. Capture permitted destination records; verify external DNS and direct connection attempts cannot leave the isolated network. Python-only socket monkeypatching is insufficient evidence for PowerShell.
-- [ ] **Step 6: Record the exact compatibility matrix and commit:** test: qualify local SDK and collector authentication paths.
+- [x] **Step 1: Test configuration generation.** Assert every transport endpoint is configured locally, no real-tenant default exists, profile choice changes reachable endpoints without changing token identity, and exports contain no secret.
+- [x] **Step 2: Run failures; implement commands and launchers.** Use Graph custom environments and explicit local authority metadata. If a client requires endpoint/auth adaptation, retain its original collection code, version the adapter and document the precise changed boundary.
+- [x] **Step 3: Complete app-only and delegated SDK matrix.** Python MSAL/Graph and Graph PowerShell must make actual authorized and denied requests. Test expiration, wrong audience and removed grants at the appropriate issuance/resource boundary. Pin every imported module, not just top-level packages.
+- [x] **Step 4: Exercise Hawk and MES connection wrappers.** Graph must establish a context and return the correct organization; Exchange must complete actual module command loading and its Task 4 probe. For MES, configure and exercise Az.Accounts plus the exact ARM connection discovery requests identified in Task 1. Support only the needed ARM discovery routes, persisted tenant/subscription fields and api-versions; do not fabricate subscription inventory or advertise Activity Logs.
+- [x] **Step 5: Prove no fallback.** Remove a required permission and supply an invalid local credential; each client must fail locally. Capture permitted destination records; verify external DNS and direct connection attempts cannot leave the isolated network. Python-only socket monkeypatching is insufficient evidence for PowerShell.
+- [x] **Step 6: Record the exact compatibility matrix and commit:** test: qualify local SDK and collector authentication paths.
 
 Configuration-only use is preferred. Passing an emulator-issued token through a documented SDK parameter is allowed, but the matrix must distinguish it from native SDK acquisition through a custom authority. Do not claim the latter based on the former.
 

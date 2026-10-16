@@ -61,7 +61,12 @@ async def test_auth_routes_paging_host_and_errors(database, settings, tenant_pay
         assert (await client.delete("/_mock/tenants", headers=headers)).status_code == 405
         assert (await client.get("/_mock/capabilities", headers=headers)).json()[
             "provider_operations"
-        ] == []
+        ] == [
+            "graph.organization.read",
+            "graph.me.read",
+            "exchange.organization.read",
+            "arm.subscriptions.list",
+        ]
         response = await client.get("/v1.0/users")
         assert response.status_code == 501
         assert response.json()["error"]["code"] == "MockAzureOperationNotImplemented"
