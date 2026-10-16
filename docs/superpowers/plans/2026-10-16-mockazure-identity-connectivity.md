@@ -10,7 +10,7 @@
 
 **Spec:** ../specs/2026-10-16-mockazure-design.md (accepted), especially sections 6, 7, 11, 13 and milestone 2 in section 14.
 
-**Status:** Approved 2026-10-16; Native implementation in progress. Task 1 complete.
+**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–2 complete.
 **Execution preference:** Native, carried forward from the user's selection: main agent implements; one independent whole-change review at the end.
 **Starting point:** Foundation commit 3b659f1805f861de7dfa93e35ec64d367c20aba3. PR #1 remains unmerged as of planning. Do not start from the documentation-only remote main or merge PR #1 implicitly.
 
@@ -135,12 +135,12 @@ These are MockAzure's initial supported profile, not claims that all Microsoft t
 - Management routes under /_mock/tenants/{tenant_id}/identity: POST/GET users, applications; POST applications/{client_id}/credentials; DELETE credentials/{credential_id}; PUT/DELETE grants/{grant_id}; PATCH users/{id} and applications/{client_id} for enabled state. Bounded UUID pagination for lists.
 - New credentials/password provisioning reads request body or protected input/file, not command-line arguments that expose secrets in process listings.
 
-- [ ] **Step 1: Add tests for create/list/revoke, same-tenant foreign keys, duplicate UPN/client identity and hashed credentials.** Assert wrong-tenant grant insertion fails at DB constraint level, `verify_secret(wrong, digest) is False`, list responses contain neither password nor digest, and management bearer cannot be omitted.
-- [ ] **Step 2: Run these unit/integration files against the dedicated PostgreSQL test service; observe failures.**
-- [ ] **Step 3: Implement indexed relational state and administrative commands.** Users have tenant/id/UPN/displayName/enabled/password verifier; apps have public/confidential mode, redirect allowlist and configured resource permissions; service principals and grants carry composite tenant ownership. Add directory-role assignments for supported probe rules. Limit all submitted strings/collections and reject embedded NUL.
-- [ ] **Step 4: Populate the minimum operation-driven permission catalog.** Graph User.Read delegated; Organization.Read.All and supported Directory.Read.All alternatives in each applicable kind; additional permissions only for the pinned connection contract. Exchange and ARM permissions remain distinct. Unsupported grants fail explicitly.
-- [ ] **Step 5: Verify migration from 002, fresh install, credential revocation and permission administration through real HTTPS/CLI.** Re-run M1 export tests to prove no secret leakage.
-- [ ] **Step 6: Commit:** feat: persist local identities credentials and grants.
+- [x] **Step 1: Add tests for create/list/revoke, same-tenant foreign keys, duplicate UPN/client identity and hashed credentials.** Assert wrong-tenant grant insertion fails at DB constraint level, `verify_secret(wrong, digest) is False`, list responses contain neither password nor digest, and management bearer cannot be omitted.
+- [x] **Step 2: Run these unit/integration files against the dedicated PostgreSQL test service; observe failures.**
+- [x] **Step 3: Implement indexed relational state and administrative commands.** Users have tenant/id/UPN/displayName/enabled/password verifier; apps have public/confidential mode, redirect allowlist and configured resource permissions; service principals and grants carry composite tenant ownership. Add directory-role assignments for supported probe rules. Limit all submitted strings/collections and reject embedded NUL.
+- [x] **Step 4: Populate the minimum operation-driven permission catalog.** Graph User.Read delegated; Organization.Read.All and supported Directory.Read.All alternatives in each applicable kind; additional permissions only for the pinned connection contract. Exchange and ARM permissions remain distinct. Unsupported grants fail explicitly.
+- [x] **Step 5: Verify migration from 002, fresh install, credential revocation and permission administration through real HTTPS/CLI.** Re-run M1 export tests to prove no secret leakage.
+- [x] **Step 6: Commit:** feat: persist local identities credentials and grants.
 
 ## Task 3: Discovery, signing keys and app-only OAuth
 

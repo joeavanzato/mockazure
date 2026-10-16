@@ -9,10 +9,12 @@ from starlette.exceptions import HTTPException
 
 from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.errors import AdminError, error_response
+from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.routes import router
 from mockazure.config import Settings
 from mockazure.db.engine import Database, close_database, create_database
+from mockazure.identity.repository import IdentityError
 from mockazure.tenants.repository import TenantConflict
 
 
@@ -68,6 +70,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         response.headers["x-request-id"] = request.state.request_id
         return response
 
+    @app.exception_handler(IdentityError)
+    async def identity_error(request, error):
+        return error_response(request, error.status, error.code, error.message)
+
     @app.exception_handler(AdminError)
     async def admin_error(request, error):
         return error_response(request, error.status, error.code, error.message)
@@ -108,4 +114,5 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     app.include_router(router)
     app.include_router(job_router)
+    app.include_router(identity_router)
     return app
