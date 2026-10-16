@@ -74,3 +74,9 @@ Generated SDK writes may include @odata.type exactly matching #microsoft.graph.u
 or #microsoft.graph.group for that route; it is validated and removed before the
 domain mutation. Mismatched type annotations fail. Delta accepts delta,
 microsoft.graph.delta and their parenthesized function-call aliases.
+
+Historical membership reads retain hidden-membership checks after group deletion
+and consider both current and snapshot traversal. Provider writes reject imported
+Guest/non-Member targets; trusted administrative identity controls remain separate.
+Nullable in-lists include null matches consistently with eq null. NUL text and
+oversized numeric filter literals fail with Graph-shaped 400 errors before SQL.

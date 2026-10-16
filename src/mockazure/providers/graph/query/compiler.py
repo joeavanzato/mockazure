@@ -29,8 +29,9 @@ def typed_value(value, field: FieldContract):
             if value.tzinfo is None:
                 raise ValueError()
         elif field.data_type == "string":
-            if not isinstance(value, str):
+            if not isinstance(value, str) or "\x00" in value:
                 raise ValueError()
+            value.encode("utf-8")
         else:
             raise ValueError()
         return value
@@ -73,7 +74,13 @@ def compile_filter(node, contract: QueryContract, variables=None) -> ColumnEleme
         }[node.op](value)
     if isinstance(node, In):
         spec, column = field(node.field.name, "in")
-        return column.in_([typed_value(value.value, spec) for value in node.values])
+        values = [typed_value(value.value, spec) for value in node.values]
+        non_null = [value for value in values if value is not None]
+        if len(non_null) == len(values):
+            return column.in_(non_null)
+        if not non_null:
+            return column.is_(None)
+        return or_(column.in_(non_null), column.is_(None))
     if isinstance(node, StartsWith):
         spec, column = field(node.field.name, "startswith")
         value = typed_value(node.value.value, spec)

@@ -33,22 +33,24 @@ def relation_ids(tenant_id, parent_id, resource, snapshot=None):
     conditions = (model.tenant_id == tenant_id, model.relation == relation, *temporal)
     base = select(target.label("id")).where(source == parent_id, *conditions)
     if resource.startswith("transitive"):
-        tree = base.cte("directory_tree", recursive=True)
+        tree = base.cte(recursive=True)
         tree = tree.union(select(target).join(tree, source == tree.c.id).where(*conditions))
         return select(tree.c.id).where(tree.c.id != parent_id)
     return base
 
 
-async def authorize_membership_visibility(session, context, parent_id, resource):
+async def authorize_membership_visibility(session, context, parent_id, resource, snapshot=None):
     if resource == "owners" or "Member.Read.Hidden" in context.permissions:
         return
-    # Current operational authorization, independent of the page's historical contents.
+    # Check current policy for every group in both the live and historical traversal.
+    # Soft deletion must not erase hidden-membership protection for retained edges.
     ids = relation_ids(context.tenant_id, parent_id, resource)
+    if snapshot is not None:
+        ids = ids.union(relation_ids(context.tenant_id, parent_id, resource, snapshot))
     hidden = await session.scalar(
         select(Group.id)
         .where(
             Group.tenant_id == context.tenant_id,
-            Group.deleted_at.is_(None),
             Group.profile["visibility"].as_string() == "HiddenMembership",
             or_(
                 Group.id == parent_id,
@@ -75,7 +77,7 @@ class RelationshipPage:
 async def relationship_page(
     session, context, version, parent_id, resource, fields, snapshot, after=None, limit=100
 ):
-    await authorize_membership_visibility(session, context, parent_id, resource)
+    await authorize_membership_visibility(session, context, parent_id, resource, snapshot)
     ids = relation_ids(context.tenant_id, parent_id, resource, snapshot)
     statement = (
         select(DirectoryEntry, ObjectVersion.properties)

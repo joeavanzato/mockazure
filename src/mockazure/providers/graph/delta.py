@@ -113,7 +113,7 @@ def eligible_edges(tenant, lower, upper, group_id=None):
 
 
 async def member_chunk(session, context, group, lower, upper, after, limit):
-    await authorize_membership_visibility(session, context, group, "members")
+    await authorize_membership_visibility(session, context, group, "members", upper)
     conditions = eligible_edges(context.tenant_id, lower, upper, group)
     if after:
         conditions.append(RelationVersion.object_id > UUID(after))

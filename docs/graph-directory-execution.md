@@ -107,3 +107,41 @@ Wheel SHA-256: 34880eb5c6d8e146c0469acfbc999450cf9731ecec4fbb9d241dac35649c89a8
 Manifest SHA-256: 46589d4b1bc89c7456a710cbc45fe664bea0c55b68e4869a570e5d5dbb33cc7c
 Runtime image: sha256:cb23e7576f481a8b62140f8101b1f810857a014e087e781ec228d0a14d4b3601
 Ruff, package provenance/distribution boundaries and whitespace checks passed. Final regression rerun and independent review are pending.
+
+## Independent final review
+One fresh gpt-6-astra reviewer inspected fa3540f..8d8d533 in read-only passes.
+No Critical or Minor findings. Four Important findings enter one TDD fix pass:
+deleted hidden-group historical member disclosure; imported Guest write boundary;
+malformed NUL/oversized numeric filters; nullable in-list result semantics.
+All four grades are retained based on their effect on callers.
+
+Final: Ruling: Service-principal owner fields remain live in A because no supported A
+route mutates those projected fields. M3C must version them before adding writes.
+Cost if wrong: future SP changes could violate relationship snapshot replay.
+Final: Ruling: Audit projection, collector evidence, conditional access and broader
+security administration remain explicitly M3B/C. Cost: A cannot validate those workflows.
+Final: Ruling: Issued access-token permission claims retain the parent design's semantics;
+grant changes do not rewrite existing token claims. Current subject/role checks remain.
+Cost: grant revocation is not immediate token-permission revocation.
+Final: Ruling: Functional 5,000-user qualification does not establish 100,000-user or
+million-evidence-record throughput. Cost: scale targets need the later measured gate.
+Final: Ruling: Fidelity claims stay within the documented contract and public references;
+real-tenant testing remains separately scoped. Cost: unmodeled service differences can remain.
+Final: minor (deferred): none.
+
+The pre-review complete regression suite passed 187 tests in 492.24s.
+Final: fixed deleted hidden-group disclosure — expansion and delta reproductions
+failed with 200 before the fix, then passed with 403 while authorized historical
+reads remained intact. Combined hidden traversal checks: 3 passed in 8.87s.
+Current and snapshot recursive traversals use independent anonymous CTE names;
+the existing nested-hidden test caught their initial name collision before correction.
+Final: fixed imported Guest provider writes — PATCH returned 204 before the fix;
+atomic rejection/admin separation regression passed in 3.47s.
+Final: fixed malformed filter errors — NUL produced 503 and oversized integers 500;
+all six collection/count/batch cases now return Graph 400 (25.05s).
+The count probes were corrected to supply only the supported filter option, so
+they reproduce the literal failure rather than an unrelated option rejection.
+Final: fixed nullable in-list semantics — null-only comparison failed with an empty
+result, then null-only/mixed/non-null PostgreSQL queries passed in 5.43s.
+All four findings are addressed in one fix pass; full expanded suite and regenerated
+runtime qualification are now running. No second review is requested.

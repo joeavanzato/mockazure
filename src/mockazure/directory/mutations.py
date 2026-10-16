@@ -260,6 +260,8 @@ async def mutate_directory(
             if row.profile.get("_anonymous"):
                 invalid("Anonymous Group.Create groups are not modifiable in this profile")
             static_group(row)
+        elif provider and row.profile.get("userType", "Member") != "Member":
+            invalid("Writes to non-Member user targets are outside this profile")
         elif provider and await session.scalar(
             select(DirectoryRole.role)
             .where(DirectoryRole.tenant_id == tenant_id, DirectoryRole.user_id == row.id)

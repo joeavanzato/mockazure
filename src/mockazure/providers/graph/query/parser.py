@@ -26,7 +26,11 @@ TOKEN = re.compile(
 
 class FilterParser:
     def __init__(self, value: str):
-        if len(value.encode("utf-8")) > 8192:
+        try:
+            size = len(value.encode("utf-8"))
+        except UnicodeError:
+            unsupported("Filter must be valid UTF-8 text")
+        if size > 8192:
             unsupported("Filter exceeds 8 KiB")
         self.tokens, self.index, self.nodes = [], 0, 0
         position = 0
@@ -63,7 +67,12 @@ class FilterParser:
         if kind == "string":
             result = value[1:-1].replace("''", "'")
         elif kind == "number":
-            result = int(value)
+            if len(value.lstrip("-")) > 20:
+                unsupported("Numeric literal exceeds its local size limit")
+            try:
+                result = int(value)
+            except ValueError:
+                unsupported("Invalid numeric literal")
         elif kind == "date":
             result = value
         elif value in {"true", "false", "null"}:
