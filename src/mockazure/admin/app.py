@@ -18,6 +18,8 @@ from mockazure.identity.repository import IdentityError
 from mockazure.oauth.discovery import router as discovery_router
 from mockazure.oauth.errors import OAuthError, oauth_error_response
 from mockazure.oauth.routes import router as oauth_router
+from mockazure.providers.graph.errors import GraphError, graph_error_response
+from mockazure.providers.graph.probes import router as graph_router
 from mockazure.tenants.repository import TenantConflict
 
 
@@ -73,6 +75,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         response.headers["x-request-id"] = request.state.request_id
         return response
 
+    @app.exception_handler(GraphError)
+    async def graph_error(request, error):
+        return graph_error_response(request, error)
+
     @app.exception_handler(OAuthError)
     async def oauth_error(request, error):
         return oauth_error_response(request, error)
@@ -124,4 +130,6 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(identity_router)
     app.include_router(discovery_router)
     app.include_router(oauth_router)
+    app.include_router(graph_router, prefix="/v1.0")
+    app.include_router(graph_router, prefix="/beta")
     return app

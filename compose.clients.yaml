@@ -6,7 +6,7 @@ services:
     command: ["/project/integrations/powershell/Test-NetworkBoundary.ps1"]
     working_dir: /project
     environment:
-      PSModulePath: /project/work/vendor/modules:/opt/microsoft/powershell/7/Modules
+      PSModulePath: /vendor/modules:/opt/microsoft/powershell/7/Modules
       POWERSHELL_TELEMETRY_OPTOUT: "1"
       DOTNET_CLI_TELEMETRY_OPTOUT: "1"
       HTTP_PROXY: ""
@@ -14,7 +14,9 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./:/project:ro
+      - ./integrations:/project/integrations:ro
+      - ./work/vendor/modules:/vendor/modules:ro
+      - ./work/vendor/collectors:/vendor/collectors:ro
       - ./.runtime/clients/powershell-state:/state
       - ./.runtime/clients/powershell-root:/root
       - ./.runtime/clients/powershell-tmp:/tmp
@@ -32,7 +34,9 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./:/project:ro
+      - ./integrations:/project/integrations:ro
+      - ./work/vendor/modules:/vendor/modules:ro
+      - ./work/vendor/collectors:/vendor/collectors:ro
       - ./.runtime/clients/python-state:/state
       - ./.runtime/clients/python-root:/root
       - ./.runtime/clients/python-tmp:/tmp

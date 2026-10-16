@@ -1,0 +1,9 @@
+FROM python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
+WORKDIR /dependencies
+RUN pip install --no-cache-dir uv==0.12.1
+COPY pyproject.toml uv.lock README.md LICENSE NOTICE ./
+RUN uv export --quiet --frozen --group clients --no-dev --no-emit-project --format requirements-txt -o clients.txt \
+    && uv venv /opt/clients \
+    && uv pip install --python /opt/clients/bin/python --require-hashes -r clients.txt
+ENV PATH="/opt/clients/bin:$PATH" PYTHONDONTWRITEBYTECODE=1
+ENTRYPOINT ["python"]
