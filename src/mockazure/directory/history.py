@@ -1,7 +1,7 @@
 """Commit-ordered public revisions. Callers own transaction commit/rollback."""
 
 import hashlib
-from datetime import datetime
+from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import BigInteger, delete, func, select, text, update
@@ -99,7 +99,7 @@ async def record_object_version(
     await session.flush()
 
 
-async def record_change(session, change, before, after, facts) -> None:
+async def record_change(session, change, before, after, facts, *, occurred_at=None) -> None:
     if not facts.keys() <= FACT_FIELDS:
         raise ValueError("Evidence accepts public facts only")
     await record_object_version(session, change, before, after)
@@ -112,16 +112,23 @@ async def record_change(session, change, before, after, facts) -> None:
         }
         for name in sorted(change.changed_fields & PUBLIC_FIELDS[change.kind])
     }
-    session.add(
-        EvidenceOutbox(
-            tenant_id=obj.tenant_id,
-            object_id=obj.id,
-            kind=obj.kind,
-            revision=change.revision,
-            facts={"schema_version": 1, **facts, "modified_properties": differences},
-        )
+    from mockazure.evidence.clock import evidence_now
+    from mockazure.evidence.directory_facts import capture_outbox
+
+    captured_time = await evidence_now(session, obj.tenant_id, occurred_at or datetime.now(UTC))
+    row = EvidenceOutbox(
+        tenant_id=obj.tenant_id,
+        object_id=obj.id,
+        kind=obj.kind,
+        revision=change.revision,
+        occurred_at=captured_time,
+        facts=facts
+        if facts.get("schema_version") == 2
+        else {"schema_version": 1, **facts, "modified_properties": differences},
     )
+    session.add(row)
     await session.flush()
+    await capture_outbox(session, row)
 
 
 async def current_revision(session: AsyncSession, tenant_id: UUID) -> int:

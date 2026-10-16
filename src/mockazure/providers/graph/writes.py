@@ -109,6 +109,7 @@ def register_writes(router, version):
                     DirectoryCommand(kind, action, target, values),
                     context,
                     datetime.now(UTC),
+                    correlation_id=UUID(request.state.request_id),
                 )
                 if action != "create":
                     return Response(status_code=204)

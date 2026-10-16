@@ -186,23 +186,23 @@ Modify directory/{types,history,mutations}.py and evidence/projectors.py.
   correlation_id:UUID,relationships:list[dict])->dict in directory_facts.py.
 - Produces project_directory(source:SourceEnvelope)->ProjectionBatch in projectors.py.
 
-- [ ] Write test_directory_audit_mapping: create/update/enable/disable/delete and membership
+- [x] Write test_directory_audit_mapping: create/update/enable/disable/delete and membership
   operations produce appendix5 activity names, exact actor/targets and JSON-string differences.
   assert len(audits_for(source_id)) == 1; assert audit["result"] == "success".
-- [ ] Write test_rename_delete_history_cleanup_keeps_event_labels: rename actor/target after
+- [x] Write test_rename_delete_history_cleanup_keeps_event_labels: rename actor/target after
   mutation, prune directory history, then project; old values/labels still match original facts.
-- [ ] Write test_import_admin_and_noop_origins: directory import acknowledged with zero audit;
+- [x] Write test_import_admin_and_noop_origins: directory import acknowledged with zero audit;
   admin create has empty initiatedBy plus internal provenance; unchanged PATCH has no audit.
   Failed/rolled-back Graph mutation has neither success audit nor changed public state.
-- [ ] Write test_legacy_pending_fact_adapter: old facts preserve known IDs/differences but
+- [x] Write test_legacy_pending_fact_adapter: old facts preserve known IDs/differences but
   do not attach current names or guess app/user actor kind; two scans remain idempotent.
-- [ ] Run pytest tests/integration/test_evidence_directory.py -q; expected RED.
-- [ ] Implement v2 facts and explicit activity map. Preserve directory outbox provenance used
+- [x] Run pytest tests/integration/test_evidence_directory.py -q; expected RED.
+- [x] Implement v2 facts and explicit activity map. Preserve directory outbox provenance used
   by existing datasets. Capture request correlation at source; scrub fields before persistence.
   No extra membership audit for implicit deletion cascade or initial group members.
-- [ ] Run new file, test_graph_mutations.py, test_graph_delta.py and test_graph_datasets.py;
+- [x] Run new file, test_graph_mutations.py, test_graph_delta.py and test_graph_datasets.py;
   expected PASS and no credential material in recursively serialized facts/audits.
-- [ ] Commit: feat(evidence): project committed directory changes into audit history.
+- [x] Commit: feat(evidence): project committed directory changes into audit history.
 
 ## Task 4: Stored licences and real Graph assignment effects
 

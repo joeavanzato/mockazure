@@ -46,6 +46,11 @@ async def enqueue_projection(session: AsyncSession, ref: SourceRef) -> UUID:
 async def scan_sources(session: AsyncSession, *, limit: int = 100) -> int:
     if not 1 <= limit <= 1000:
         raise ValueError("Scanner limit must be 1..1000")
+    from mockazure.evidence.directory_facts import scan_directory_outbox
+
+    captured = await scan_directory_outbox(session, limit)
+    if captured == limit:
+        return captured
     queued = exists(
         select(Job.id).where(
             Job.tenant_id == EvidenceSource.tenant_id,
@@ -68,11 +73,11 @@ async def scan_sources(session: AsyncSession, *, limit: int = 100) -> int:
             .order_by(
                 EvidenceSource.occurred_at, EvidenceSource.tenant_id, EvidenceSource.source_revision
             )
-            .limit(limit)
+            .limit(limit - captured)
         )
     )
     for row in rows:
         await enqueue_projection(
             session, SourceRef(tenant_id=row.tenant_id, kind=row.kind, id=row.id)
         )
-    return len(rows)
+    return captured + len(rows)

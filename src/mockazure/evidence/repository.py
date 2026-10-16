@@ -5,7 +5,7 @@ import json
 from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -71,6 +71,10 @@ def validate_facts(value: SourceInput) -> None:
         if "appliedConditionalAccessPolicies" in facts["payload"]:
             raise ValueError("Conditional Access policy detail is not supported")
         UUID(facts["payload"]["id"])
+    elif value.ref.kind == "directory":
+        from mockazure.evidence.directory_facts import validate_directory_facts
+
+        validate_directory_facts(value.facts)
     else:
         raise ValueError("Unknown evidence source kind")
 
@@ -137,7 +141,7 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         if key in identities:
             raise ValueError("Duplicate projection identity")
         identities.add(key)
-    if batch.receipt_status != "projected" and batch.items:
+    if batch.receipt_status == "suppressed" and batch.items:
         raise ValueError("Suppressed sources cannot publish records")
     state = await lock_state(session, batch.source.tenant_id)
     source = await load_source(session, batch.source)
@@ -207,5 +211,13 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
     )
     row = await session.get(EvidenceSource, key)
     row.acknowledged_at = datetime.now(UTC)
+    if batch.source.kind == "directory":
+        from mockazure.directory.models import EvidenceOutbox
+
+        await session.execute(
+            update(EvidenceOutbox)
+            .where(EvidenceOutbox.tenant_id == key[0], EvidenceOutbox.id == key[2])
+            .values(projected_at=row.acknowledged_at)
+        )
     await session.flush()
     return PublishResult(revision=revision, record_ids=record_ids, already_applied=False)
