@@ -331,3 +331,18 @@ async def test_patch_rejects_properties_outside_approved_profile(database, setti
             response = await client.patch(f"/v1.0/users/{user}", headers=headers, json=fields)
             assert response.status_code == 400, response.text
             assert await counts(database) == before
+
+
+async def test_group_create_without_owners_retains_anonymous_restriction(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, _):
+        create = await headers_for(database, settings, tenant, app, None, {"Group.Create"})
+        created = await client.post("/v1.0/groups", headers=create, json=group_body("Anonymous"))
+        assert created.status_code == 201, created.text
+        group = created.json()["id"]
+        full = await headers_for(database, settings, tenant, app, None, WRITE)
+        response = await client.patch(
+            f"/v1.0/groups/{group}", headers=full, json={"description": "Must remain anonymous"}
+        )
+        assert response.status_code == 400, response.text
+        visible = await client.get(f"/v1.0/groups/{group}", headers=full)
+        assert visible.status_code == 200 and "_anonymous" not in visible.text

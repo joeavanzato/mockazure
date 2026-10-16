@@ -257,6 +257,8 @@ async def mutate_directory(
         row = await active_object(session, tenant_id, command.kind, command.target_id)
         before = public_object(row)
         if command.kind == "group":
+            if row.profile.get("_anonymous"):
+                invalid("Anonymous Group.Create groups are not modifiable in this profile")
             static_group(row)
         elif provider and await session.scalar(
             select(DirectoryRole.role)
@@ -325,6 +327,13 @@ async def mutate_directory(
                     invalid(
                         "Explicit self ownership during delegated group creation is unsupported"
                     )
+            if (
+                provider
+                and actor.token_kind == "application"
+                and not bindings["owner"]
+                and not actor.permissions & {"Group.ReadWrite.All", "Directory.ReadWrite.All"}
+            ):
+                row.profile = {**row.profile, "_anonymous": True}
             for relation, identifiers in bindings.items():
                 for identifier in identifiers:
                     kind, target = await reference_target(session, tenant_id, identifier, relation)
