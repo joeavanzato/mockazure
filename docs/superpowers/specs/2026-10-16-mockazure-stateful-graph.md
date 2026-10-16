@@ -80,6 +80,12 @@ Microsoft Extractor Suite 47565f7842784cd3667ff630e3dccb49fa3408ed queries beta 
 
 Expected output IDs/fields must come from fixtures and runtime actions, not from a substitute collector. The reported 429 retry result must describe what each original client actually does. A client failure is a compatibility finding, not permission to alter its collection algorithm.
 
+## Optional real-service reference checks
+
+The user has offered an application in a dedicated test tenant for checking real Graph queries. This is a useful future fidelity input, not a prerequisite for M3A and not a change to the emulator's no-upstream runtime boundary.
+
+Before using it, agree the exact test tenant, read-only routes, permissions and retained output. Run reference queries through a separate explicitly invoked harness; never through provider fallback or the ordinary offline qualification suite. Compare normalized response/error/query behavior and keep only sanitized contract fixtures with provenance. No application credentials or raw tenant exports belong in Git. Writes, permission changes and policy enforcement experiments require a separately agreed test scope.
+
 ## Review and execution
 
 The first executable plan is [M3A directory/query/delta](../plans/2026-10-16-mockazure-stateful-graph-directory.md). Review that plan together with this map. The detailed B and C plans will be written against the interfaces delivered by A; no approval here implicitly approves implementation of unspecified B/C details.
