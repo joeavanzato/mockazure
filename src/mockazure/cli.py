@@ -1,7 +1,7 @@
 import typer
 
 from mockazure import __version__
-from mockazure.commands import database, local
+from mockazure.commands import database, local, tenants
 
 app = typer.Typer(no_args_is_help=True, invoke_without_command=True, pretty_exceptions_enable=False)
 
@@ -18,3 +18,8 @@ app.command()(local.init)
 app.add_typer(local.cert, name="cert")
 
 app.add_typer(database.app, name="db")
+
+app.command()(local.serve)
+app.add_typer(tenants.app, name="tenant")
+app.command()(tenants.capabilities)
+app.command()(tenants.health)

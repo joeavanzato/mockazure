@@ -41,3 +41,32 @@ def renew(config: Path = typer.Option(Path(".runtime/instance/native.json"))):
         typer.echo("Renewal failed; check configuration and CA files.", err=True)
         raise typer.Exit(2) from None
     typer.echo(f"Renewed: {files.server_cert}")
+
+
+def serve(config: Path = typer.Option(Path(".runtime/instance/native.json"))):
+    """Serve the management API over instance-owned HTTPS."""
+    import uvicorn
+
+    from mockazure.admin.app import create_app
+    from mockazure.asyncio_support import run
+    from mockazure.tls import ensure_tls
+
+    try:
+        settings = load_settings(config)
+        files = ensure_tls(settings.data_dir, settings.allowed_hosts)
+        server = uvicorn.Server(
+            uvicorn.Config(
+                create_app(settings),
+                host=settings.listen_host,
+                port=settings.listen_port,
+                ssl_certfile=str(files.server_cert),
+                ssl_keyfile=str(files.server_key),
+                proxy_headers=False,
+                access_log=False,
+                log_level="warning",
+            )
+        )
+        run(server.serve())
+    except (ValueError, OSError):
+        typer.echo("Server startup failed; check configuration and certificate files.", err=True)
+        raise typer.Exit(2) from None

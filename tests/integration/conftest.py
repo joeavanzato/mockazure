@@ -42,4 +42,3 @@ async def database(settings):
     database = create_database(settings)
     yield database
     await close_database(database)
-
