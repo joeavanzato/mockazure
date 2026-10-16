@@ -1,6 +1,6 @@
 # MockAzure M3B: Evidence and collector output design
 
-Status: Proposed for written review, 2026-10-16. No M3B product code has been written.
+Status: Design approved by the user, 2026-10-16. The detailed implementation plan is proposed for review; no M3B product code has been written.
 Baseline: main at 4a5fedb81ac200d22e4ec767bba1143926fe303c, containing merged M2 and M3A.
 Parent: [Stateful Graph delivery map](2026-10-16-mockazure-stateful-graph.md).
 Execution preference remains Native; implementation requires its detailed plan.
@@ -372,5 +372,5 @@ Primary references:
 - [Dismiss user risk](https://learn.microsoft.com/en-us/graph/api/riskyuser-dismiss?view=graph-rest-1.0)
 - [App Service managed-identity protocol](https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity)
 
-Written design review is the next stage. Approval advances to the detailed M3B plan;
+The design is approved. Review the [detailed M3B implementation plan](../plans/2026-10-16-mockazure-evidence.md) before implementation;
 the prior Native execution preference is retained.

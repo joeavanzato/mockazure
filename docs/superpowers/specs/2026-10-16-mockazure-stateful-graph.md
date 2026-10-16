@@ -1,6 +1,6 @@
 # MockAzure M3: Stateful Graph delivery map
 
-**Status:** M3A completed and merged to main in PR #4 at 4a5fedb on 2026-10-16. M3B written design is proposed for review; M3C remains planned.
+**Status:** M3A completed and merged to main in PR #4 at 4a5fedb on 2026-10-16. M3B design is approved and its implementation plan is proposed for review; M3C remains planned.
 **Parent specification:** [Approved product design](2026-10-16-mockazure-design.md), especially sections 6–10 and 13–14.
 **Execution:** Native: the main agent implements, with one independent whole-change review at each implementation PR boundary.
 
@@ -94,4 +94,4 @@ Approval of A retains Native execution and authorizes its implementation, verifi
 
 ## M3B design follow-up
 
-The [M3B evidence design](2026-10-16-mockazure-evidence-design.md) develops the next increment. The user clarified that missing endpoints should be implemented or simulated where necessary for realistic API calls. B therefore includes a working local managed-identity token profile, direct user licence assignment and risky-user confirmation/dismissal, with persistent effects and evidence. Historical imports supplement these live flows. The written design remains subject to review before its detailed implementation plan.
+The [M3B evidence design](2026-10-16-mockazure-evidence-design.md) develops the next increment. The user clarified that missing endpoints should be implemented or simulated where necessary for realistic API calls. B therefore includes a working local managed-identity token profile, direct user licence assignment and risky-user confirmation/dismissal, with persistent effects and evidence. Historical imports supplement these live flows. The written design is approved. Its [detailed implementation plan](../plans/2026-10-16-mockazure-evidence.md) and API contract are ready for review before Native implementation.
