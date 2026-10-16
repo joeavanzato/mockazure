@@ -8,6 +8,7 @@ from starlette.exceptions import HTTPException
 
 from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.errors import AdminError, error_response
+from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.routes import router
 from mockazure.config import Settings
 from mockazure.db.engine import Database, close_database, create_database
@@ -95,4 +96,5 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         )
 
     app.include_router(router)
+    app.include_router(job_router)
     return app

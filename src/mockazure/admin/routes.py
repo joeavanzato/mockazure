@@ -27,7 +27,15 @@ async def capabilities():
     return {
         "milestone": 1,
         "provider_operations": [],
-        "admin_operations": ["tenant.create", "tenant.get", "tenant.list"],
+        "admin_operations": [
+            "tenant.create",
+            "tenant.get",
+            "tenant.list",
+            "tenant.export",
+            "tenant.import",
+            "job.get",
+            "job.result",
+        ],
     }
 
 

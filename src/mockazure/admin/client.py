@@ -4,6 +4,7 @@ from uuid import UUID
 
 import httpx
 
+from mockazure.jobs.schemas import ExportSnapshot, JobView
 from mockazure.tenants.schemas import TenantCreate, TenantPage, TenantView
 
 
@@ -55,3 +56,32 @@ class AdminClient:
         if after is not None:
             params["after"] = str(after)
         return TenantPage.model_validate(await self.request("GET", "/_mock/tenants", params=params))
+
+    async def enqueue_export(self, tenant_id: UUID) -> JobView:
+        return JobView.model_validate(
+            await self.request("POST", f"/_mock/tenants/{tenant_id}/exports")
+        )
+
+    async def get_job(self, tenant_id: UUID, job_id: UUID) -> JobView:
+        return JobView.model_validate(
+            await self.request("GET", f"/_mock/tenants/{tenant_id}/jobs/{job_id}")
+        )
+
+    async def get_export_result(self, tenant_id: UUID, job_id: UUID) -> ExportSnapshot:
+        return ExportSnapshot.model_validate(
+            await self.request("GET", f"/_mock/tenants/{tenant_id}/jobs/{job_id}/result")
+        )
+
+    async def import_tenant(
+        self, snapshot: ExportSnapshot, replacement: TenantCreate | None = None
+    ) -> TenantView:
+        return TenantView.model_validate(
+            await self.request(
+                "POST",
+                "/_mock/tenants/import",
+                json={
+                    "snapshot": snapshot.model_dump(mode="json"),
+                    "replacement": replacement.model_dump(mode="json") if replacement else None,
+                },
+            )
+        )
