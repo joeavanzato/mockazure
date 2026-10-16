@@ -11,6 +11,8 @@ RUN uv export --quiet --frozen --no-dev --no-emit-project --format requirements-
 
 FROM python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1
 COPY --from=build /opt/venv /opt/venv
+ARG MOCKAZURE_SOURCE_FINGERPRINT=unqualified
+LABEL org.mockazure.source-fingerprint=$MOCKAZURE_SOURCE_FINGERPRINT
 ENV PATH="/opt/venv/bin:$PATH" PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /project
 ENTRYPOINT ["mockazure"]

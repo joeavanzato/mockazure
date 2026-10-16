@@ -81,3 +81,9 @@ See [operations and verification](docs/foundation.md), the
 Apache-2.0. The authorized four-file source baseline is preserved only under
 `reference/`, with exact Git revision and hashes in `reference/provenance.json`.
 It is not imported or shipped in the package.
+
+Identity/connectivity (M2) now includes persistent local OAuth, Graph organization
+and user probes, an Exchange connection bootstrap, and ARM subscription discovery.
+See [identity operations](docs/identity.md), [exact compatibility](docs/compatibility.md)
+and [capabilities](docs/capabilities.md). These are connection gates, not complete
+Microsoft cloud or collector-workflow coverage.
