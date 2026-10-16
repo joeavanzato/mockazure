@@ -9,7 +9,7 @@
 **Tech Stack:** Existing Python >=3.12, FastAPI, SQLAlchemy 2, psycopg 3, Alembic, PostgreSQL 18, cryptography, Pydantic, HTTPX, Typer and pytest. Preserve MSAL 1.39.0 and msgraph-sdk 1.64.0; add Microsoft.Graph.Users and Microsoft.Graph.Groups 2.35.1 to the client manifest with verified dependencies and hashes.
 
 **Spec:** [Approved overall design](../specs/2026-10-16-mockazure-design.md) and [proposed M3 delivery map](../specs/2026-10-16-mockazure-stateful-graph.md).
-**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–2 complete; Task 3 next.
+**Status:** Approved 2026-10-16; Native implementation in progress. Tasks 1–3 complete; Task 4 next.
 **Execution preference:** Native, already selected. Main agent implements; one independent whole-change review before delivery.
 **Baseline:** Merged M2 tree a3074f69b16f7abcc76dff93de518c722c159348. Promote M2 to main through the integration PR before basing the implementation PR on main. Do not silently discard M2 or merge on the user's behalf.
 
@@ -129,7 +129,7 @@ Core assertions: `assert list_as_user_read.status_code == 403`; `assert wrong_au
 - [ ] Run this test file plus tests/integration/test_identity_graph.py and tests/integration/test_identity_authorization.py; expect pass. Commit as feat(graph): expose permission-checked directory reads.
 
 ## Task 3: Typed query execution and bounded relationships
-**Files:** Create src/mockazure/providers/graph/query/{__init__,ast,parser,contracts,compiler}.py; tests/unit/test_graph_query.py; tests/integration/test_graph_query.py. Modify directory/repository.py and providers/graph/directory.py.
+**Files:** Create src/mockazure/providers/graph/query/{__init__,ast,parser,contracts,compiler}.py; tests/unit/test_graph_query_parser.py; tests/integration/test_graph_query.py. Modify directory/repository.py and providers/graph/directory.py.
 
 **Interfaces:** Produce QuerySpec(filter: FilterNode | None, select: tuple[str,...] | None, order: tuple[OrderTerm,...], top: int | None, count: bool, expand: tuple[ExpandSpec,...]); parse_query(items: list[tuple[str,str]], contract: QueryContract, consistency: str | None) -> QuerySpec; compile_filter(node: FilterNode, contract: QueryContract) -> ColumnElement[bool]. AST nodes are Field/Literal/Compare/Boolean/In/Any/StartsWith; contracts bind fields to typed SQL columns/expressions. Produce async read_page(session, tenant_id: UUID, kind: DirectoryKind, query: QuerySpec, snapshot: int, after: tuple | None, limit: int) -> DirectoryPage(items: list[DirectoryObject], last_key: tuple | None, has_more: bool, total: int | None).
 
@@ -138,7 +138,7 @@ Core assertions: `assert list_as_user_read.status_code == 403`; `assert wrong_au
 - [ ] Write test_relationship_bounds: a nested group graph with a cycle terminates, deduplicates transitive IDs and remains tenant-scoped; 21-member expansion fails explicitly; pageable members returns all 21. Unsupported collection operators and nested expansions fail.
 Core assertions: `assert depth_17.status_code == 400`; `assert filtered_ids == expected_ids`; `assert len(transitive_ids) == len(set(transitive_ids))`; `assert '@odata.count' not in ordinary_without_header.json()`.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/unit/test_graph_query.py tests/integration/test_graph_query.py -q; expect missing parser/compiler.
+- [ ] Run .venv/Scripts/python.exe -m pytest tests/unit/test_graph_query_parser.py tests/integration/test_graph_query.py -q; expect missing parser/compiler.
 - [ ] Implement recursive-descent parsing and parameterized SQL compilation with resource-specific allowlists. Apply filtering/projection/order/count/paging in SQL; recursive CTE traversal must be cycle-safe. Never fetch an entire tenant to filter/sort in Python.
 - [ ] Run both test files; inspect EXPLAIN for a 5,000-user selected/filter query and verify bounded result fetches. Commit as feat(graph): compile bounded directory queries to PostgreSQL.
 
