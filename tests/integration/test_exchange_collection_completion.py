@@ -195,6 +195,29 @@ async def test_exchange_permission_evidence_is_not_authority_and_scopes_revalida
         assert (
             await command(client, tenant, headers, "Get-MailboxPermission", {"Identity": other_id})
         ).status_code == 403
+        # Enumeration filters both mailbox authority and trustee before ResultSize.
+        data = fixture(user)
+        denied_row = dict(
+            data["recipient_permissions"][0], id=str(uuid4()), mailbox_user_id=other_id
+        )
+        unrelated = dict(
+            data["recipient_permissions"][0], id=str(uuid4()), Trustee="someone@contoso.test"
+        )
+        data["recipient_permissions"] = [denied_row, unrelated, data["recipient_permissions"][0]]
+        imported = await client.put(f"/_mock/tenants/{tenant}/mail/collectionState", json=data)
+        assert imported.status_code == 200, imported.text
+        enumerated = await command(
+            client,
+            tenant,
+            headers,
+            "Get-RecipientPermission",
+            {"Trustee": "AUDITOR@CONTOSO.TEST", "ResultSize": "1"},
+        )
+        assert enumerated.status_code == 200, enumerated.text
+        rows = enumerated.json()["value"]
+        assert len(rows) == 1
+        assert rows[0]["Identity"] == "reader@contoso.test"
+        assert rows[0]["Trustee"] == "auditor@contoso.test"
         assert (
             await client.delete(f"/_mock/tenants/{tenant}/mail/grants/{grant.json()['id']}")
         ).status_code == 204
