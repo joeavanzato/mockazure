@@ -25,7 +25,7 @@ class Job(Base):
         UniqueConstraint("tenant_id", "id", name="uq_jobs_tenant_id"),
         CheckConstraint("state IN ('pending','running','succeeded','failed')"),
         CheckConstraint("attempts BETWEEN 0 AND 3"),
-        Index("ix_jobs_claim", "state", "available_at"),
+        Index("ix_jobs_claim", "state", "available_at", "id"),
         Index(
             "uq_jobs_source",
             "tenant_id",

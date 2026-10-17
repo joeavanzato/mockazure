@@ -89,9 +89,10 @@ async def test_expired_job_fence_and_pin_release_rollback_together(database, set
         assert await count(database, EvidenceCursor) == 1
 
 
-def test_upgrade_034_adds_only_maintenance_indexes(settings):
+def test_upgrade_034_preserves_maintenance_indexes(settings):
     import psycopg
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import create_engine
     from sqlalchemy.engine import make_url
 
@@ -109,7 +110,10 @@ def test_upgrade_034_adds_only_maintenance_indexes(settings):
     migrate(url)
     plain = make_url(url).set(drivername="postgresql").render_as_string(hide_password=False)
     with psycopg.connect(plain) as connection:
-        assert connection.execute("SELECT version_num FROM alembic_version").fetchone() == ("035",)
+        expected_head = ScriptDirectory.from_config(configuration()).get_current_head()
+        assert connection.execute("SELECT version_num FROM alembic_version").fetchone() == (
+            expected_head,
+        )
         names = {
             r[0]
             for r in connection.execute(

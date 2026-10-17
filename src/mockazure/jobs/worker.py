@@ -28,6 +28,24 @@ async def run_one(database: Database, *, owner: UUID, now: datetime) -> bool:
     return True
 
 
+async def run_cycle(database: Database, *, owner: UUID, now: datetime) -> bool:
+    from mockazure.evidence.bulk import run_historical_batch
+
+    started = monotonic()
+    worked = await run_one(database, owner=owner, now=now)
+    try:
+        bulk = await run_historical_batch(
+            database,
+            owner=owner,
+            now=now + timedelta(seconds=monotonic() - started),
+        )
+    except (SQLAlchemyError, ValueError, TypeError, KeyError):
+        # Rollback the optional fast path. The ordinary dispatcher owns retries
+        # and terminal classification; it is always serviced first next cycle.
+        bulk = 0
+    return worked or bool(bulk)
+
+
 async def serve_worker(database: Database):
     stopped = False
 
@@ -40,7 +58,7 @@ async def serve_worker(database: Database):
     try:
         while not stopped:
             try:
-                worked = await run_one(database, owner=owner, now=datetime.now(timezone.utc))
+                worked = await run_cycle(database, owner=owner, now=datetime.now(timezone.utc))
             except SQLAlchemyError:
                 worked = False
             if not worked:

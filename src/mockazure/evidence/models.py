@@ -43,6 +43,9 @@ class EvidenceSource(Base):
             "source_revision",
             postgresql_where=text("acknowledged_at IS NULL"),
         ),
+        Index(
+            "ix_evidence_source_key", "tenant_id", text("((kind || ':'::varchar) || id::varchar)")
+        ),
         CheckConstraint("available_at >= occurred_at AND source_revision > 0"),
     )
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), primary_key=True)
