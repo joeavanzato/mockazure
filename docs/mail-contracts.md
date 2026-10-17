@@ -365,11 +365,23 @@ original module state initialization as well as function/type declarations. The 
 suppressed operations remain telemetry and module-level update/UI entry points.
 Both Graph and Exchange service calls go to the isolated local runtime.
 
-The Hawk inbox fixture has three visible rules, with one rule combining suspicious
-forwarding/deletion actions, plus a persisted sweep rule and a hidden rule tested
-separately through Get-InboxRule -IncludeHidden. Hawk's original investigation
-serializer appends one JSON document per suspicious rule; multiple suspicious
-rules in a single invocation would produce invalid JSON. The qualification does
-not claim that upstream output combination. Every output produced by the
-qualified invocation must parse and match canonical state; malformed JSON is
-never accepted, repaired, or silently skipped. Fixtures are restored afterward.
+Final review supersedes the prior single-suspicious-rule qualification ruling.
+The required Hawk case retains three forwarding rules, including one deletion
+action, plus sweep and hidden-rule coverage. Original Hawk's investigation
+serializer appends a complete JSON document per suspicious rule. Those invalid
+outputs remain failing required artifacts, without a new waiver or repair.
+
+Historical trace and UAL timestamp fields are compared against independent
+fixture instants, including all supported UAL output formats. Original PowerShell
+CSV formatting is interpreted only in the explicitly UTC/en-US qualification
+container. Missing timestamps, time shifts and lost microseconds fail. Original
+MES trace CSV loses fractional seconds and therefore remains a required failure.
+All original source/output hashes and failed files are retained. Every fixture
+mutation is restored afterward.
+
+Qualified Exchange rule identities resolve their mailbox prefix within the
+tenant and must match an explicit Mailbox. Mismatch returns400; missing/foreign
+prefix returns404. Equivalent UUID/UPN/SMTP/alias identities remain supported.
+Mutating Exchange rule commands lock the mailbox before reading/merging and
+refresh ORM rule state under that lock; Graph and Exchange share the same order
+and immutable version/fact history.

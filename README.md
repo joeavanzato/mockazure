@@ -9,9 +9,11 @@ inbox/sweep rules, message traces and durable audit queries use persisted
 PostgreSQL state and permission checks. Original Microsoft clients and selected
 Hawk/Microsoft Extractor Suite workflows make real local HTTP requests.
 
-M4's original collector output checks cover 44 application/delegated success and
-denial cases. The final combined runtime qualification and independent review
-are recorded in [mail execution](docs/mail-execution.md). See the
+M4's required collector gate remains **unresolved**: original Hawk investigation
+JSON is malformed for multiple suspicious rules, and original MES trace CSV
+drops fractional seconds. These failures are retained without new waivers.
+The repaired API and its tests are documented in
+[mail execution](docs/mail-execution.md) and [final review](docs/mail-review.md). See the
 [mail contract](docs/mail-contracts.md), [capability matrix](docs/capabilities.md)
 and [compatibility boundaries](docs/compatibility.md) for the exact supported
 operations and limitations. Mailbox settings do not execute mail delivery.
