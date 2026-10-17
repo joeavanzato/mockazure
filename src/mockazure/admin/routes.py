@@ -30,12 +30,13 @@ async def ready(request: Request):
 async def capabilities():
     return {
         "milestone": 3,
-        "delivery": "A",
+        "delivery": "B",
         "authentication_flows": [
             "client_credentials",
             "authorization_code_pkce",
             "device_code",
             "refresh_token",
+            "managed_identity",
         ],
         "provider_operations": [
             "graph.organization.read",
@@ -47,12 +48,18 @@ async def capabilities():
             "graph.directory.snapshot_paging",
             "graph.directory.delta",
             "graph.batch.read_only",
+            "graph.auditLogs.signIns",
+            "graph.auditLogs.directoryAudits",
+            "graph.identityProtection.riskDetections",
+            "graph.identityProtection.riskyUsers",
+            "graph.identityProtection.riskyUsers.actions",
+            "graph.licensing",
             "exchange.organization.read",
             "arm.subscriptions.list",
         ],
         "limitations": [
             "Local identities only; no upstream fallback",
-            "Bounded directory queries; no conditional-access engine or evidence collection",
+            "Bounded queries; no conditional-access engine or proprietary risk scoring",
             "Exchange command proxy qualified only with module 3.11.0",
             "ARM discovery api-version 2021-01-01; explicit Reader assignments only",
             "Tenant exports remain metadata-only; directory datasets are separate public fixtures",
@@ -78,6 +85,17 @@ async def capabilities():
             "directory.export",
             "directory.cleanup",
             "graph.read_faults",
+            "licensing.inventory",
+            "managed_identity.identities",
+            "managed_identity.hosts",
+            "evidence.import",
+            "evidence.export",
+            "evidence.settings",
+            "evidence.clock",
+            "evidence.reset",
+            "evidence.cleanup",
+            "evidence.jobs",
+            "evidence.risk_observations",
         ],
     }
 

@@ -18,14 +18,15 @@ async def test_capabilities_describe_supported_identity_and_probes(database, set
     async with identity_client(database, settings) as (client, *_):
         response = (await client.get("/_mock/capabilities")).json()
         assert response["milestone"] == 3
-        assert response["delivery"] == "A"
+        assert response["delivery"] == "B"
         assert set(response["authentication_flows"]) == {
             "client_credentials",
             "authorization_code_pkce",
             "device_code",
             "refresh_token",
+            "managed_identity",
         }
         assert "graph.organization.read" in response["provider_operations"]
         assert "graph.directory.delta" in response["provider_operations"]
         assert "directory.import" in response["admin_operations"]
-        assert "graph.auditLogs.signIns" not in response["provider_operations"]
+        assert "graph.auditLogs.signIns" in response["provider_operations"]
