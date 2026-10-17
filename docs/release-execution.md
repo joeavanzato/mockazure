@@ -17,3 +17,15 @@ M4 four collector-output failures remain release blockers. No new waivers, auto 
 registry publication or M7. Report actual results even if release_ready remains false.
 
 Ledger .superpowers/sdd/2026-10-17-mockazure-release/progress.md.
+
+Task2 active at d339453: explicit configuration for five fresh M6 profiles and combined
+fail-closed readiness.57 report/collector/transport tests pass. First ARM profile runs
+on46443/55450, networks110/111 with fresh secrets and20verifiedpublicarchives.
+Full five-suite execution is sequenced after Task3/4 tooling because source fingerprints
+include that tooling; no mandatory gate is omitted. Tests/logs remain underwork/release.
+
+Task2 first-profile proof: d339453 passed17runtime/3SDKprofiles/8MES cases205.182s.
+M6 ARM services stopped; its fresh state persists. Combined report honestly false.
+CLI blocked exit0 regression fixed toexit2; final source-bound five-suite run remains
+Task5. Task3 proceeds to measured scale on new synthetic tenants in M6-owned ARM
+runtime (not predecessor M5). No current final release acceptance is claimed.

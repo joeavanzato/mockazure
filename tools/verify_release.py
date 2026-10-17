@@ -338,6 +338,8 @@ def main():
         flush=True,
     )
 
+    raise SystemExit(0 if report["release_ready"] else 2)
+
 
 if __name__ == "__main__":
     main()

@@ -101,3 +101,26 @@ def test_release_compose_configuration_cannot_reference_predecessor_state(monkey
         assert profile.runtime_dir in text and profile.project in text
     assert "external: true" in Path(profile.clients_compose).read_text(encoding="utf-8")
     assert profile.internal_subnet.startswith("10.231.")
+
+
+def test_cli_returns_nonzero_for_an_incomplete_release(monkeypatch):
+    import sys
+
+    from tools import verify_release
+
+    monkeypatch.setenv("MOCKAZURE_QUALIFICATION_PROFILE", "")
+    monkeypatch.setenv("UV_CACHE_DIR", "work/test-cache")
+    monkeypatch.setattr(sys, "argv", ["verify_release"])
+    monkeypatch.setattr(verify_release, "run", lambda *args, **kwargs: 0)
+    monkeypatch.setattr(
+        verify_release,
+        "run_suites",
+        lambda *args: {
+            "qualification_ready": False,
+            "release_ready": False,
+            "failed_gates": ["suite m4"],
+        },
+    )
+    with pytest.raises(SystemExit) as stopped:
+        verify_release.main()
+    assert stopped.value.code == 2

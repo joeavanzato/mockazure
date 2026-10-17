@@ -71,9 +71,11 @@ booleans; returns readiness plus failures, never infers success from process exi
   code, parameterize paths/ports/images rather than cloning collectors.
 - [ ] Initialize fresh own runtime(s), clean wheel environment and public vendor cache verified
   against pinned manifest. Check native loopback guard and container internal-network boundary.
-- [ ] Run current candidate evidence/security/mail/ARM original-client/collector suites and
-  relevant identity/directory checks; collect every result despite known output failures.
-  Verify cross-surface native mutation/evidence, two API/workers, restart,429/503 and lease cases.
+- [ ] Run the current ARM original-client/collector profile to prove fresh runtime plumbing.
+  Run allfive current-source directory/evidence/security/mail/ARM suites in Task5 after
+  scale/artifact tooling stabilizes, retaining every output failure and every existing
+  mutation/evidence, replica/restart,429/503 and lease check. This avoids stale intermediate
+  attestations; it does not remove any mandatory suite.
 - [ ] Commit feat: qualify release candidates in isolated runtime profiles.
 
 ### Task 3: Deterministic scale and recovery qualification
@@ -125,8 +127,10 @@ release-review,overnight-execution}.md; spec/plan; release reports.
 **Interfaces:** Consumes current-source gates and artifacts; produces bounded final status,
 attached feature PR stacked on M5 and disabled overnight continuation after work is finished.
 
-- [ ] Run full unit/integration suite, Ruff/diff, schema/archive provenance and current-byte
-  candidate acceptance; rerun gates after any source-changing fix.
+- [ ] Run allfive current-source directory/evidence/security/mail/ARM original-client suites
+  using the Task2 profile runner, retaining all actual collector failures. Run full
+  unit/integration suite, Ruff/diff, schema/archive provenance and current-byte candidate
+  acceptance; rerun affected gates after any source-changing fix.
 - [ ] Dispatch exactly one fresh final reviewer with spec/plan/ledger/range and five Review
   Focus items. Regrade, fix Important/Critical in one RED-to-GREEN pass, record every ruling.
 - [ ] Update actual capabilities, unsupported behaviors, failure reproductions and measured
