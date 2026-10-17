@@ -26,6 +26,8 @@ class Application(Base):
     __tablename__ = "identity_applications"
     __table_args__ = (UniqueConstraint("tenant_id", "client_id"),)
     client_id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    object_id: Mapped[UUID] = mapped_column(unique=True, default=uuid4)
+    profile: Mapped[dict] = mapped_column(JSONB, default=dict)
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), index=True)
     display_name: Mapped[str] = mapped_column(String(200))
     client_mode: Mapped[str] = mapped_column(String(20))
@@ -44,6 +46,7 @@ class ServicePrincipal(Base):
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), index=True)
     client_id: Mapped[UUID] = mapped_column(ForeignKey("identity_applications.client_id"))
     enabled: Mapped[bool] = mapped_column(default=True)
+    profile: Mapped[dict] = mapped_column(JSONB, default=dict)
 
 
 class Credential(Base):
