@@ -17,6 +17,7 @@ from mockazure.admin.graph_routes import router as graph_admin_router
 from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.licensing_routes import router as licensing_admin_router
+from mockazure.admin.mail_routes import router as mail_admin_router
 from mockazure.admin.managed_identity_routes import router as managed_identity_admin_router
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
@@ -31,10 +32,13 @@ from mockazure.oauth.errors import OAuthError, oauth_error_response
 from mockazure.oauth.routes import router as oauth_router
 from mockazure.providers.arm.probes import router as arm_router
 from mockazure.providers.exchange.probes import router as exchange_router
+from mockazure.providers.exchange.routes import router as exchange_compiled_router
+from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
 from mockazure.providers.graph.directory import router_for
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
+from mockazure.providers.graph.mail_routes import router_for as mail_router_for
 from mockazure.providers.graph.probes import router as graph_router
 from mockazure.providers.graph.security.grant_routes import router_for as grant_router_for
 from mockazure.providers.graph.security.method_routes import router_for as method_router_for
@@ -194,6 +198,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             "Method not allowed" if error.status_code == 405 else "Resource not found",
         )
 
+    app.include_router(mail_admin_router)
     app.include_router(router)
     app.include_router(evidence_admin_router)
     app.include_router(job_router)
@@ -227,7 +232,12 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(grant_router_for("beta"))
     app.include_router(security_router_for("v1.0"))
     app.include_router(security_router_for("beta"))
+    app.include_router(audit_query_router_for("v1.0"))
+    app.include_router(audit_query_router_for("beta"))
+    app.include_router(mail_router_for("v1.0"))
+    app.include_router(mail_router_for("beta"))
     app.include_router(router_for("v1.0"))
     app.include_router(router_for("beta"))
     app.include_router(exchange_router)
+    app.include_router(exchange_compiled_router)
     return app

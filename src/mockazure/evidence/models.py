@@ -64,7 +64,9 @@ class EvidenceObservation(Base):
             ["tenant_id", "source_kind", "source_id"],
             ["evidence_sources.tenant_id", "evidence_sources.kind", "evidence_sources.id"],
         ),
-        CheckConstraint("family IN ('signIn','directoryAudit','riskDetection','riskyUser')"),
+        CheckConstraint(
+            "family IN ('signIn','directoryAudit','riskDetection','riskyUser','auditLogRecord')"
+        ),
         CheckConstraint("available_at >= occurred_at"),
     )
     tenant_id: Mapped[UUID] = mapped_column(primary_key=True)

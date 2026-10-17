@@ -324,7 +324,7 @@ async def test_patch_rejects_properties_outside_approved_profile(database, setti
         headers = await headers_for(database, settings, tenant, app, None, WRITE)
         before = await counts(database)
         for fields in [
-            {"userPrincipalName": "renamed@contoso.test"},
+            {"userPrincipalName": "renamed@unverified.test"},
             {"mobilePhone": "12345"},
             {"businessPhones": ["12345"]},
         ]:

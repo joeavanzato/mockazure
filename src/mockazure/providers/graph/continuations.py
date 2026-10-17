@@ -173,7 +173,9 @@ async def issue_cursor(session, state: CursorState, *, predecessor: str | None =
     return token
 
 
-async def resolve_cursor(session, token: str, binding: CursorBinding, now: datetime) -> CursorState:
+async def resolve_cursor(
+    session, token: str, binding: CursorBinding, now: datetime, *, expired_status=400
+) -> CursorState:
     def invalid():
         raise GraphError(
             400, "Request_UnsupportedQuery", "Continuation is invalid for this request"
@@ -206,7 +208,7 @@ async def resolve_cursor(session, token: str, binding: CursorBinding, now: datet
             error.cursor_query = state.query
             raise error
         raise GraphError(
-            400, "Request_UnsupportedQuery", "Directory page expired; restart collection"
+            expired_status, "Request_UnsupportedQuery", "Page expired; restart collection"
         )
     return state
 

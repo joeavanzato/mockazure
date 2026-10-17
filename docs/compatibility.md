@@ -120,3 +120,26 @@ namespace-qualified action names, which share the same server authorization and
 mutation paths as unqualified REST actions. Registered method descriptors do not
 claim physical MFA/SSPR/passwordless capabilities. Current grant changes affect
 new issuance/refresh; existing access-token claims retain their lifetime semantics.
+
+## M4 mail and audit qualification boundary
+
+The required gate has44 original application/delegated success/denial cases.
+Final review invalidated the earlier shaped-fixture acceptance: all three
+forwarding rules must remain visible to Hawk, and all historical evidence
+timestamps must match independently generated instants.
+
+Original Hawk appends separate JSON documents for multiple suspicious rules.
+Original MES trace CSV formats DateTime values without fractional seconds.
+Both remain required failures, with original artifacts/hashes preserved; no new
+waiver is granted. JSON/CSV/JSONL/SOF-ELK UAL checks require exact CreationTime
+and, where present,createdDateTime. The container explicitly uses UTC/en-US;
+equivalent date representations are accepted, missing precision is not.
+See [execution](mail-execution.md), [review](mail-review.md) and the current
+[source-bound report](mail-verification.json). A report with passed:false is
+evidence of an unresolved gate, not a qualified milestone.
+
+Pinned clients:MSAL1.39.0,Graph Python1.64.0,Azure Identity1.26.0,Graph PowerShell
+2.35.1 andExchangeOnlineManagement3.11.0. Graph Security2.35.1 has no generated UAL
+cmdlets, so original Invoke-MgGraphRequest is used. PowerShell receives local
+tokens; native credential acquisition is not claimed. The Exchange bootstrap
+remains the documented fixed local HTTP proxy boundary.

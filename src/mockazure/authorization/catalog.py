@@ -11,11 +11,23 @@ class PermissionDefinition:
 
 CATALOG = (
     PermissionDefinition("graph", "User.Read", "delegated", False),
+    *(
+        PermissionDefinition("graph", name, kind, kind == "application")
+        for name in ("MailboxSettings.Read", "MailboxSettings.ReadWrite")
+        for kind in ("application", "delegated")
+    ),
     PermissionDefinition("graph", "Directory.AccessAsUser.All", "delegated", True),
     *(
         PermissionDefinition("graph", name, kind, True)
         for name in (
             "AuditLog.Read.All",
+            "AuditLogsQuery.Read.All",
+            "AuditLogsQuery-CRM.Read.All",
+            "AuditLogsQuery-Endpoint.Read.All",
+            "AuditLogsQuery-Entra.Read.All",
+            "AuditLogsQuery-Exchange.Read.All",
+            "AuditLogsQuery-OneDrive.Read.All",
+            "AuditLogsQuery-SharePoint.Read.All",
             "IdentityRiskyUser.Read.All",
             "IdentityRiskyUser.ReadWrite.All",
             "IdentityRiskEvent.Read.All",

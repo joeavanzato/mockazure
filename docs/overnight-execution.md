@@ -16,17 +16,17 @@ User direction (2026-10-16 America/New_York): continue M3C, M4, M5 and all later
 - A scheduled continuation needs the Codex host available; it is not an external unattended build service.
 
 ## Ordered milestone queue
+
 | Milestone | Deliverable | State |
 | --- | --- | --- |
-| M3C | Applications/SPs/devices/owners; credentials, permission grants, directory roles, authentication-method inspection; enforced/report-only Conditional Access; audit effects | Implementing in .worktrees/security on feat/security-administration; tasks 1–8 implemented; real-client/collector qualification and final review next |
-| M4 | Mailbox configuration/forwarding, inbox and sweep rules, message trace, durable Graph UAL query/poll/download, original Hawk/MES workflows | Queued after qualified M3C |
-| M5 | ARM inventory and selected state changes, inherited scoped RBAC, Activity Logs and original MES export | Queued after qualified M4 |
-| M6 | Combined workflows, package/CLI/Docker parity, restart/fault/multi-worker checks, small/5,000-user and 100,000-user/1,000,000-evidence scale profiles, measured results and release artifacts | Queued after qualified M5 |
+| M3C | Security administration, permissions and policy | Qualified; PR7 open for user merge |
+| M4 | Mail/Exchange, traces, durable UAL, original collectors | API fixes committed; mandatory original Hawk JSON and MES trace precision gates unresolved; draft PR |
+| M5 | ARM inventory, selected mutations, inherited RBAC, Activity Logs and MES export | Design/plan prepared; continue from repaired M4 code while carrying its output blockers |
+| M6 | Combined workflows, package/CLI/Docker parity, cleanup, restart/fault checks, small/5,000-user and100,000-user/1,000,000-evidence scale, release artifacts | Queued; combined release acceptance must retain all unresolved gates |
 
-Each new milestone reads its predecessor's ledger and verified interfaces. The M3B baseline is 316 passing unit/integration tests,25 runtime checks,3SDKprofiles and20accepted collector cases(14strict,6documented MES limitations). Those results are historical baseline, not proof of new changes.
-
-Latest checkpoint: M3C implementation and final review fixes are qualified.
-522 unit/integration tests;20 runtime gates;three SDK profiles;20 original
-collector cases. Final reports are in docs/security-verification.json.
-M4 design/plan drafts are prepared; start its own branch/runtime after publishing
-the M3C PR. M5/M6 remain queued and the hourly continuation stays active.
+Each milestone consumes its predecessor's actual verified interfaces and current
+failure record. Earlier all-green shaped M4 reports are historical and superseded
+by final review. No new collector-output waiver is inferred from overnight
+delegation. Continuing independent implementation is distinct from claiming
+acceptance or merging. M4 final reviewer findings/dispositions are in
+[mail-review.md](mail-review.md). The hourly continuation remains active.

@@ -1,8 +1,10 @@
 from alembic import context
 
+from mockazure.auditlog import models as auditlog_models  # noqa: F401
 from mockazure.db.models import Base
 from mockazure.evidence import models as evidence_models  # noqa: F401
 from mockazure.licensing import models as licensing_models  # noqa: F401
+from mockazure.mail import models as mail_models  # noqa: F401
 from mockazure.managed_identity import models as managed_identity_models  # noqa: F401
 from mockazure.security import models as security_models  # noqa: F401
 

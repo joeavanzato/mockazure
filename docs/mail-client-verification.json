@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "qualified_at": "2026-10-17T08:01:06.175852+00:00",
+  "started_at": "2026-10-17T07:59:02.066352+00:00",
+  "source_fingerprint": "83ccb95fa0fe6560e91fadb8269b6cbf35bfaed021d22236affe3dd307cc58d0",
+  "source_commit": "0ca6f7460d36ab1badfe365d18f15762acb63d91",
+  "manifest_sha256": "6255e24e573672630e78bdceb7f801108a53ce8d909c20629559929476957be6",
+  "lock_sha256": "e844544c90bf724a27a24b42cc3200da549d009244c67bd3c7a4487a978c355f",
+  "wheel_sha256": "d5ecca60894928e7f7782cdae881fffc5ba2892dc11a16f3340aaec6c6da8053",
+  "runtime_image_id": "sha256:b9ac2c77ae57d7612a9ef9d8777328195f8371772c0a9358871f4a23afda2a20",
+  "client_image_ids": {
+    "python": "sha256:36deb060798d96d7c0c0a88fb81a501b0dfdf67940a091715b30972c18d5c7aa",
+    "powershell": "sha256:4be726730a1f69796dfc86d2531ddbdf662bebbaa4edc47c4111c2463fe32b9a"
+  },
+  "checks": {
+    "clean_wheel_install": true,
+    "runtime_package_bytes": true,
+    "api_restart": true,
+    "postgres_restart": true,
+    "audit_pending_restart": true,
+    "worker_restart": true,
+    "two_workers": true,
+    "two_api_replicas": true,
+    "audit_snapshot_resume": true,
+    "rule_snapshot_resume": true,
+    "tenant_isolation": true,
+    "role_denied": true,
+    "page_reauthorization": true,
+    "licence_denied": true,
+    "native_evidence": true,
+    "fault_retry": true,
+    "native_network_blocked": true,
+    "container_python_network_blocked": true,
+    "container_powershell_network_blocked": true
+  },
+  "clients": {
+    "native_python": {
+      "passed": true,
+      "modes": {
+        "application": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        }
+      },
+      "versions": {
+        "msal": "1.39.0",
+        "msgraph-sdk": "1.64.0",
+        "azure-identity": "1.26.0"
+      }
+    },
+    "container_python": {
+      "passed": true,
+      "modes": {
+        "application": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        }
+      },
+      "versions": {
+        "msal": "1.39.0",
+        "msgraph-sdk": "1.64.0",
+        "azure-identity": "1.26.0"
+      }
+    },
+    "container_powershell": {
+      "passed": true,
+      "client": "Microsoft Graph PowerShell 2.35.1",
+      "modes": {
+        "application": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        }
+      }
+    }
+  },
+  "exchange": {
+    "passed": true,
+    "version": "3.11.0",
+    "modes": {
+      "application": {
+        "Get-EXOMailbox": true,
+        "Get-EXOMailboxStatistics": true,
+        "Get-EXOMailboxFolderStatistics": true,
+        "Get-EXOCasMailbox": true,
+        "ArchiveStatistics": true,
+        "CommandLifecycle": true,
+        "TraceAndDetail": true
+      },
+      "delegated": {
+        "Get-EXOMailbox": true,
+        "Get-EXOMailboxStatistics": true,
+        "Get-EXOMailboxFolderStatistics": true,
+        "Get-EXOCasMailbox": true,
+        "ArchiveStatistics": true,
+        "CommandLifecycle": true,
+        "TraceAndDetail": true
+      }
+    }
+  },
+  "passed": true,
+  "total_seconds": 124.154,
+  "limitations": [
+    "PowerShell uses local tokens; Python uses real MSAL authentication flows.",
+    "Mailbox configuration and audit evidence do not simulate mail delivery.",
+    "5,000-user qualification is not a throughput SLA."
+  ]
+}

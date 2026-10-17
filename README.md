@@ -3,20 +3,22 @@
 MockAzure is a general-purpose Microsoft cloud API emulator focused on evidence
 collection and realistic stateful interactions.
 
-**Current development milestone: M3B, stateful evidence APIs.** Local Entra
-authentication and permission checks support directory lifecycle and Graph sign-in,
-directory-audit and Identity Protection evidence, licensing operations and App
-Service managed identity. PostgreSQL retains state, immutable observations and
-snapshot continuations across API restarts.
+**Current development milestone: M4, Exchange and Unified Audit Log.** Local
+Entra authentication, Graph directory/security operations, mailbox configuration,
+inbox/sweep rules, message traces and durable audit queries use persisted
+PostgreSQL state and permission checks. Original Microsoft clients and selected
+Hawk/Microsoft Extractor Suite workflows make real local HTTP requests.
 
-The SDK qualification has passed and the independent review fixes pass regression
-tests. Original collector checks expose an upstream MES audit JSON serialization
-defect; the complete milestone acceptance gate remains open. See the
-[evidence contract](integrations/contracts/graph-evidence.md),
-[evidence operations](docs/evidence.md) and
-[execution record](docs/evidence-execution.md).
-Broader security administration remains M3C. Exchange and ARM retain the bounded
-M2 connection surfaces.
+M4's required collector gate remains **unresolved**: original Hawk investigation
+JSON is malformed for multiple suspicious rules, and original MES trace CSV
+drops fractional seconds. These failures are retained without new waivers.
+The repaired API and its tests are documented in
+[mail execution](docs/mail-execution.md) and [final review](docs/mail-review.md). See the
+[mail contract](docs/mail-contracts.md), [capability matrix](docs/capabilities.md)
+and [compatibility boundaries](docs/compatibility.md) for the exact supported
+operations and limitations. Mailbox settings do not execute mail delivery.
+ARM currently retains M2 discovery; scoped Azure management and Activity Logs
+follow in M5, with combined release/scale qualification in M6.
 
 ## Docker quick start (PowerShell)
 

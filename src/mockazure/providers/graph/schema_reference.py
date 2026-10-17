@@ -24,6 +24,35 @@ def schema(version: str) -> dict:
 def validate_payload(version: str, resource: str, payload: dict, *, partial: bool = False) -> None:
     types = schema(version)["types"]
 
+    def dynamic(value, depth):
+        if depth > 16:
+            raise ValueError("Graph audit dictionary nesting limit exceeded")
+        if value is None or type(value) is bool:
+            return
+        if type(value) is int:
+            if not -(2**63) <= value < 2**63:
+                raise ValueError("Graph audit integer out of range")
+        elif type(value) is float:
+            if not math.isfinite(value):
+                raise ValueError("Graph audit dictionary requires finite numbers")
+        elif isinstance(value, str):
+            check("Edm.String", value, depth=depth)
+        elif isinstance(value, list):
+            if len(value) > 10000:
+                raise ValueError("Graph audit collection limit exceeded")
+            for item in value:
+                dynamic(item, depth + 1)
+        elif isinstance(value, dict):
+            if len(value) > 10000:
+                raise ValueError("Graph audit dictionary limit exceeded")
+            for key, item in value.items():
+                check("Edm.String", key, False, depth, 256)
+                if key.startswith("@") or "@" in key:
+                    raise ValueError("Dynamic audit annotations are unsupported")
+                dynamic(item, depth + 1)
+        else:
+            raise ValueError("Graph audit dictionary requires JSON values")
+
     def check(kind, value, nullable=True, depth=0, max_chars=16384):
         if depth > 16:
             raise ValueError("Graph payload nesting limit exceeded")
@@ -104,14 +133,17 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
                     raise ValueError("Graph type annotation mismatch")
                 name, contract = derived, types[derived]
             fields = contract["properties"]
-            if value.keys() - fields.keys() - {"@odata.type"}:
-                raise ValueError("Undeclared Graph property")
+            extra = value.keys() - fields.keys() - {"@odata.type"}
+            if extra:
+                if name not in {"security.auditRecordTypeDictionary", "security.defaultAuditData"}:
+                    raise ValueError("Undeclared Graph property")
+                dynamic({key: value[key] for key in extra}, depth + 1)
             if "@odata.type" in value and value["@odata.type"] != f"#microsoft.graph.{name}":
                 raise ValueError("Graph type annotation mismatch")
             if not partial and set(contract["required"]) - value.keys():
                 raise ValueError("Missing required Graph property")
             for field, item in value.items():
-                if field == "@odata.type":
+                if field == "@odata.type" or field in extra:
                     continue
                 prop = fields[field]
                 limit = (

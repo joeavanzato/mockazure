@@ -75,9 +75,22 @@ def validate_facts(value: SourceInput) -> None:
             or not {"family", "payload"} <= facts.keys()
         ):
             raise ValueError("Historical source requires a public payload")
-        if facts["family"] not in {"signIn", "directoryAudit", "riskDetection", "riskyUser"}:
+        if facts["family"] not in {
+            "signIn",
+            "directoryAudit",
+            "riskDetection",
+            "riskyUser",
+            "auditLogRecord",
+        }:
             raise ValueError("Unsupported evidence family")
-        validate_payload(facts.get("version", "v1.0"), facts["family"], facts["payload"])
+        if facts["family"] == "auditLogRecord":
+            from mockazure.mail.audit_schemas import validate_audit_record
+
+            validate_audit_record(
+                facts["payload"], tenant=value.ref.tenant_id, occurred_at=value.occurred_at
+            )
+        else:
+            validate_payload(facts.get("version", "v1.0"), facts["family"], facts["payload"])
         UUID(facts["payload"]["id"])
         if "provenance" in facts:
             from mockazure.evidence.datasets import Provenance
@@ -107,6 +120,10 @@ def validate_facts(value: SourceInput) -> None:
         fact = AuthenticationFact.model_validate(value.facts)
         if fact.tenant_id != value.ref.tenant_id or fact.attempt_id != value.ref.id:
             raise ValueError("Authentication source identity mismatch")
+    elif value.ref.kind == "mail":
+        from mockazure.mail.facts import validate_mail_facts
+
+        validate_mail_facts(value.facts)
     elif value.ref.kind == "security":
         from mockazure.security.audit import validate_security_facts
 
@@ -189,7 +206,14 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         raise ValueError("Missing projection source")
     version = source.facts.get("version", "v1.0") if source.ref.kind == "historical" else "beta"
     for item in batch.items:
-        validate_payload(version, item.family, item.payload)
+        if item.family == "auditLogRecord":
+            from mockazure.mail.audit_schemas import validate_audit_record
+
+            validate_audit_record(
+                item.payload, tenant=batch.source.tenant_id, occurred_at=item.occurred_at
+            )
+        else:
+            validate_payload(version, item.family, item.payload)
     if batch.generation != state.generation or source.generation != state.generation:
         raise ValueError("Stale evidence generation")
     key = (batch.source.tenant_id, batch.source.kind, batch.source.id)
@@ -291,5 +315,6 @@ def projection_time(family, payload, fallback):
         "directoryAudit": "activityDateTime",
         "riskDetection": "detectedDateTime",
         "riskyUser": "riskLastUpdatedDateTime",
+        "auditLogRecord": "createdDateTime",
     }[family]
     return datetime.fromisoformat(payload[field]) if payload.get(field) else fallback

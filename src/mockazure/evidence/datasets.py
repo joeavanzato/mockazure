@@ -82,6 +82,11 @@ NESTED = {
 
 
 def validate_public_payload(version, family, payload):
+    if family == "auditLogRecord":
+        from mockazure.mail.audit_schemas import validate_audit_record
+
+        validate_audit_record(payload)
+        return
     validate_payload(version, family, payload)
     if payload.keys() - public_fields(version, family) - {"@odata.type"}:
         raise ValueError("Property is outside the declared evidence profile")
@@ -195,12 +200,19 @@ class EvidenceRecord(StrictModel):
             raise ValueError("Availability precedes occurrence")
         if self.sign_in_id and self.family != "riskDetection":
             raise ValueError("Only detections may link a sign-in")
+        if self.family == "auditLogRecord":
+            from mockazure.mail.audit_schemas import validate_audit_record
+
+            validate_audit_record(self.payload, occurred_at=self.occurred_at)
         subject = self.subject_id()
         if subject:
             UUID(subject)
         return self
 
     def subject_id(self):
+        if self.family == "auditLogRecord":
+            # UAL actors include systems and service principals, not only directory users.
+            return None
         return (
             self.payload["id"] if self.family == "riskyUser" else self.payload.get("userId") or None
         )
@@ -232,6 +244,18 @@ class EvidenceExportQuery(StrictModel):
 
 async def import_evidence(session, tenant_id, dataset):
     dataset = EvidenceDataset.model_validate(dataset.model_dump())
+    for record in dataset.records:
+        if record.family == "auditLogRecord":
+            from mockazure.mail.audit_schemas import validate_audit_record
+
+            try:
+                validate_audit_record(
+                    record.payload, tenant=tenant_id, occurred_at=record.occurred_at
+                )
+            except ValueError:
+                raise AdminError(
+                    422, "InvalidAuditTenant", "Audit organization must match the tenant"
+                ) from None
     state = await lock_state(session, tenant_id)
     subjects = {UUID(record.subject_id()) for record in dataset.records if record.subject_id()}
     known = {
@@ -481,7 +505,7 @@ async def export_evidence(session_factory, tenant_id, query):
                 record = EvidenceRecord(
                     family=row.family,
                     api_version=source.facts.get(
-                        "version", "v1.0" if source.kind == "security" else "beta"
+                        "version", "v1.0" if source.kind in {"security", "mail"} else "beta"
                     ),
                     payload=row.payload,
                     occurred_at=observation.occurred_at,
