@@ -4,6 +4,7 @@ import argparse
 import json
 import secrets
 import ssl
+import sys
 from pathlib import Path
 from uuid import UUID, uuid5
 
@@ -14,7 +15,13 @@ from mockazure.files import write_private
 from mockazure.tls import renew_leaf
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m5"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m5")
+RUNTIME = ROOT / PROFILE.text(".runtime/m5")
 INSTANCE = RUNTIME / "instance"
 NAMESPACE = UUID("1bcfc9ba-f878-4396-b1b8-7402c4e357da")
 CONTAINER = {
@@ -22,9 +29,9 @@ CONTAINER = {
     "graph": "https://graph.mockazure.test",
     "exchange": "https://outlook.mockazure.test",
     "arm": "https://management.mockazure.test",
-    "browser_login": "https://localhost:36443",
+    "browser_login": PROFILE.text("https://localhost:36443"),
 }
-HOST = {name: "https://localhost:36443" for name in CONTAINER}
+HOST = {name: PROFILE.text("https://localhost:36443") for name in CONTAINER}
 
 
 def save(path, data):
@@ -40,7 +47,13 @@ def initialize():
     if not (INSTANCE / "native.json").exists():
         import socket
 
-        for port in (36443, 55444, 36444, 36445, 36446):
+        for port in (
+            PROFILE.port(36443),
+            PROFILE.port(55444),
+            PROFILE.port(36444),
+            PROFILE.port(36445),
+            PROFILE.port(36446),
+        ):
             with socket.socket() as probe:
                 probe.bind(("127.0.0.1", port))
     RUNTIME.mkdir(parents=True, exist_ok=True)
@@ -50,9 +63,11 @@ def initialize():
     password = secret.read_text(encoding="utf-8").strip()
     files = initialize_instance(
         INSTANCE,
-        database_url=f"postgresql://mockazure_m5:{password}@127.0.0.1:55444/mockazure_m5",
+        database_url=PROFILE.text(
+            f"postgresql://mockazure_m5:{password}@127.0.0.1:55444/mockazure_m5"
+        ),
         advertised_host="localhost",
-        port=36443,
+        port=PROFILE.port(36443),
     )
     config = json.loads(files.config_file.read_text(encoding="utf-8"))
     aliases = [
@@ -69,7 +84,7 @@ def initialize():
         service_endpoints=CONTAINER,
         client_profiles={"host": HOST, "container": CONTAINER},
         managed_identity_listen_host="127.0.0.1",
-        managed_identity_listen_port=36446,
+        managed_identity_listen_port=PROFILE.port(36446),
     )
     save(files.config_file, config)
     config.update(
@@ -77,7 +92,9 @@ def initialize():
         listen_port=8443,
         managed_identity_listen_host="0.0.0.0",
         managed_identity_listen_port=8080,
-        database_url=f"postgresql+psycopg://mockazure_m5:{password}@db:5432/mockazure_m5",
+        database_url=PROFILE.text(
+            f"postgresql+psycopg://mockazure_m5:{password}@db:5432/mockazure_m5"
+        ),
     )
     if not (INSTANCE / "container.json").exists():
         renew_leaf(INSTANCE, aliases)
@@ -86,7 +103,7 @@ def initialize():
         for folder in ("state", "root", "tmp"):
             (RUNTIME / "clients" / f"{language}-{folder}").mkdir(parents=True, exist_ok=True)
     (RUNTIME / "api-state").mkdir(exist_ok=True)
-    print("M5 configuration ready under .runtime/m5; credentials retained locally")
+    print(PROFILE.text("M5 configuration ready under .runtime/m5; credentials retained locally"))
 
 
 def checked(response, expected=200):
@@ -323,7 +340,7 @@ def provision():
             config = {
                 "schema_version": 1,
                 **public_state,
-                "endpoints": {name: "https://localhost:36444" for name in CONTAINER}
+                "endpoints": {name: PROFILE.text("https://localhost:36444") for name in CONTAINER}
                 if native
                 else CONTAINER,
                 "ca_file": (INSTANCE / "ca.pem").as_posix() if native else "/certs/ca.pem",

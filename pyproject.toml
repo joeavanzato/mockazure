@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.27"]
+requires = ["hatchling==1.32.4"]
 build-backend = "hatchling.build"
 
 [project]
@@ -42,7 +42,7 @@ dev = ["pytest>=8", "pytest-asyncio>=1", "ruff>=0.11", "build>=1"]
 packages = ["src/mockazure"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE"]
+include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/build-requirements.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

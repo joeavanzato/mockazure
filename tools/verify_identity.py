@@ -24,6 +24,8 @@ import httpx
 from mockazure.config import load_settings
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 CLIENT_COMPOSE = [
     "docker",
     "compose",
@@ -43,6 +45,7 @@ def source_fingerprint():
     files = [
         ROOT / "pyproject.toml",
         ROOT / "uv.lock",
+        ROOT / "build-requirements.txt",
         ROOT / "Dockerfile",
         ROOT / "integrations/Dockerfile.python",
         ROOT / "deploy/haproxy-m2.cfg",
@@ -50,14 +53,9 @@ def source_fingerprint():
         ROOT / "compose.clients.yaml",
         ROOT / "compose.clients.m2.yaml",
     ]
-    for folder in ("src", "integrations", "tools"):
-        files.extend(
-            p
-            for p in (ROOT / folder).rglob("*")
-            if p.is_file()
-            and "__pycache__" not in p.parts
-            and p.suffix in {".py", ".ps1", ".json", ".yaml", ".md"}
-        )
+    from tools.source_inputs import qualification_files
+
+    files.extend(qualification_files(ROOT))
     digest = hashlib.sha256()
     for path in sorted(files):
         digest.update(path.relative_to(ROOT).as_posix().encode())

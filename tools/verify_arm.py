@@ -2,10 +2,17 @@
 
 import hashlib
 import re
+import sys
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m5")
 RUNTIME_CHECKS = frozenset(
     {
         "clean_wheel_install",
@@ -61,21 +68,17 @@ def source_fingerprint(root=ROOT):
             "NOTICE",
             "pyproject.toml",
             "uv.lock",
+            "build-requirements.txt",
             "Dockerfile",
             "integrations/Dockerfile.python",
-            "compose.m5.yaml",
-            "compose.clients.m5.yaml",
-            "deploy/haproxy-m5.cfg",
+            PROFILE.text("compose.m5.yaml"),
+            PROFILE.text("compose.clients.m5.yaml"),
+            PROFILE.text("deploy/haproxy-m5.cfg"),
         )
     }
-    for folder in ("src", "integrations", "tools"):
-        files.update(
-            p
-            for p in (root / folder).rglob("*")
-            if p.is_file()
-            and "__pycache__" not in p.parts
-            and p.suffix in {".py", ".ps1", ".json", ".yaml", ".md", ".html"}
-        )
+    from tools.source_inputs import qualification_files
+
+    files.update(qualification_files(root))
     digest = hashlib.sha256()
     for path in sorted(files):
         digest.update(path.relative_to(root).as_posix().encode())
@@ -130,7 +133,7 @@ def validate_report(report, *, root=ROOT):
         "Az.Resources": "7.8.0",
     }
     validate_hashes(report["collector"]["source_hashes"], root / "work/vendor")
-    validate_hashes(report["collector"]["output_hashes"], root / ".runtime/m5")
+    validate_hashes(report["collector"]["output_hashes"], root / PROFILE.text(".runtime/m5"))
 
 
 def main():
@@ -167,7 +170,9 @@ def main():
     )
     started = datetime.now(UTC)
     fingerprint = source_fingerprint()
-    image = json.loads(command(["docker", "image", "inspect", "mockazure:arm"], "image"))[0]
+    image = json.loads(
+        command(["docker", "image", "inspect", PROFILE.text("mockazure:arm")], "image")
+    )[0]
     assert image["Config"]["Labels"]["org.mockazure.source-fingerprint"] == fingerprint, (
         "Rebuild M5 image for the current source fingerprint"
     )
@@ -189,7 +194,7 @@ def main():
         )
     network = json.loads(
         command(
-            ["docker", "network", "inspect", "mockazure-m5-clients-isolated"],
+            ["docker", "network", "inspect", PROFILE.text("mockazure-m5-clients-isolated")],
             "network",
         )
     )[0]
@@ -258,7 +263,7 @@ def main():
     config = json.loads((state / "native-state/client.json").read_text(encoding="utf-8"))
     checks = {"clean_wheel_install": True, "runtime_package_bytes": True}
     clients = {}
-    replicas = [Replica(python, port) for port in (36444, 36445)]
+    replicas = [Replica(python, port) for port in (PROFILE.port(36444), PROFILE.port(36445))]
     for replica in replicas:
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", replica.port))

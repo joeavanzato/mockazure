@@ -7,7 +7,7 @@ from uuid import UUID, uuid5
 
 import httpx
 
-from tools.prepare_mail import RUNTIME, save
+from tools.prepare_mail import PROFILE, RUNTIME, save
 
 NAMESPACE = UUID("5ec17a09-e799-442b-a9e5-268ad1f296af")
 
@@ -36,7 +36,7 @@ def prepare():
     when = datetime.fromisoformat(fixture["time"])
     base = f"/_mock/tenants/{state['tenant_id']}"
     with httpx.Client(
-        base_url="https://localhost:34443",
+        base_url=PROFILE.text("https://localhost:34443"),
         trust_env=False,
         timeout=60,
         verify=ssl.create_default_context(cafile=str(RUNTIME / "instance/ca.pem")),

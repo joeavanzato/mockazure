@@ -4,6 +4,7 @@ import argparse
 import json
 import secrets
 import ssl
+import sys
 from pathlib import Path
 from uuid import UUID, uuid4, uuid5
 
@@ -14,7 +15,13 @@ from mockazure.files import write_private
 from mockazure.tls import renew_leaf
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m3"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m3")
+RUNTIME = ROOT / PROFILE.text(".runtime/m3")
 INSTANCE = RUNTIME / "instance"
 NAMESPACE = UUID("744c395a-2a8f-4c3c-8a9b-1dbd3a09c054")
 PERMISSIONS = [
@@ -30,9 +37,9 @@ CONTAINER = {
     "graph": "https://graph.mockazure.test",
     "exchange": "https://outlook.mockazure.test",
     "arm": "https://management.mockazure.test",
-    "browser_login": "https://localhost:48443",
+    "browser_login": PROFILE.text("https://localhost:48443"),
 }
-HOST = {name: "https://localhost:48443" for name in CONTAINER}
+HOST = {name: PROFILE.text("https://localhost:48443") for name in CONTAINER}
 
 
 def save(path, data):
@@ -52,9 +59,11 @@ def initialize():
     password = secret.read_text().strip()
     files = initialize_instance(
         INSTANCE,
-        database_url=f"postgresql://mockazure_m3:{password}@127.0.0.1:55435/mockazure_m3",
+        database_url=PROFILE.text(
+            f"postgresql://mockazure_m3:{password}@127.0.0.1:55435/mockazure_m3"
+        ),
         advertised_host="localhost",
-        port=48443,
+        port=PROFILE.port(48443),
     )
     config = json.loads(files.config_file.read_text())
     aliases = [
@@ -74,7 +83,9 @@ def initialize():
     config.update(
         listen_host="0.0.0.0",
         listen_port=8443,
-        database_url=f"postgresql+psycopg://mockazure_m3:{password}@db:5432/mockazure_m3",
+        database_url=PROFILE.text(
+            f"postgresql+psycopg://mockazure_m3:{password}@db:5432/mockazure_m3"
+        ),
     )
     if not (INSTANCE / "container.json").exists():
         renew_leaf(INSTANCE, aliases)
@@ -83,7 +94,7 @@ def initialize():
         for folder in ("state", "root", "tmp"):
             (RUNTIME / "clients" / f"{language}-{folder}").mkdir(parents=True, exist_ok=True)
     (RUNTIME / "api-state").mkdir(exist_ok=True)
-    print("M3 configuration ready under .runtime/m3; credentials retained locally")
+    print(PROFILE.text("M3 configuration ready under .runtime/m3; credentials retained locally"))
 
 
 def checked(response, expected=200):
@@ -293,7 +304,7 @@ def provision():
             config = {
                 "schema_version": 1,
                 **public_state,
-                "endpoints": {name: "https://localhost:48444" for name in CONTAINER}
+                "endpoints": {name: PROFILE.text("https://localhost:48444") for name in CONTAINER}
                 if native
                 else CONTAINER,
                 "ca_file": (INSTANCE / "ca.pem").as_posix() if native else "/certs/ca.pem",

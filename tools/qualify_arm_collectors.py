@@ -3,10 +3,17 @@
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m5"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m5")
+RUNTIME = ROOT / PROFILE.text(".runtime/m5")
 
 
 def validate_cases(cases):
@@ -119,7 +126,7 @@ def qualify_collectors():
                         "docker",
                         "compose",
                         "-f",
-                        "compose.clients.m5.yaml",
+                        PROFILE.text("compose.clients.m5.yaml"),
                         "run",
                         "--rm",
                         "powershell",

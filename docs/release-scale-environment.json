@@ -1,0 +1,31 @@
+{
+  "source_commit": "bf64b4e2ae09defdae83a6d306d777fc97bf6667",
+  "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+  "recorded_at": "2026-10-17T13:42:00Z",
+  "host": "Windows 10 with Docker Desktop",
+  "docker": {"cpus": 20, "memory_bytes": 33520742400},
+  "runtime": {
+    "profile": "m6-arm",
+    "api_replicas": 2,
+    "workers": 2,
+    "postgres_major": 18,
+    "postgres_storage": "owned Windows bind mount",
+    "shared_buffers_bytes": 134217728,
+    "work_mem_bytes": 4194304,
+    "maintenance_work_mem_bytes": 67108864,
+    "max_connections": 100,
+    "synchronous_commit": "on"
+  },
+  "concurrent_work": [
+    "Independent M6 original-client qualification",
+    "User-owned VTW and unrelated services left untouched"
+  ],
+  "operational_contracts": {
+    "access_token_seconds": 3600,
+    "evidence_snapshot_seconds": 3600,
+    "native_transport": "local HTTPS with explicit owned CA",
+    "database_stop_grace_seconds": 120,
+    "database_start_period_seconds": 180
+  },
+  "interpretation": "Measured local behavior under the recorded configuration; not a production Azure throughput claim."
+}

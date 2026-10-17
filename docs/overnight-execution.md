@@ -22,11 +22,11 @@ User direction (2026-10-16 America/New_York): continue M3C, M4, M5 and all later
 | M3C | Security administration, permissions and policy | Qualified; PR7 open for user merge |
 | M4 | Mail/Exchange, traces, durable UAL, original collectors | API fixes committed; mandatory original Hawk JSON and MES trace precision gates unresolved; draft PR |
 | M5 | ARM inventory, selected mutations, inherited RBAC, Activity Logs and MES export | Qualified17 runtime/3SDK profiles/8MES cases; review fixes complete; M4 blockers retained |
-| M6 | Combined workflows, package/CLI/Docker parity, cleanup, restart/fault checks, small/5,000-user and100,000-user/1,000,000-evidence scale, release artifacts | Design/plan prepared; Native execution follows M5; combined release acceptance retains all unresolved gates |
+| M6 | Combined workflows, package/CLI/Docker parity, cleanup, restart/fault checks, small/5,000-user and100,000-user/1,000,000-evidence scale, release artifacts | Implementation and measured qualification handed off in draft PR10; small/medium and artifacts pass; M4 and million-record failures block release |
 
 Each milestone consumes its predecessor's actual verified interfaces and current
 failure record. Earlier all-green shaped M4 reports are historical and superseded
 by final review. No new collector-output waiver is inferred from overnight
 delegation. Continuing independent implementation is distinct from claiming
 acceptance or merging. M4 final reviewer findings/dispositions are in
-[mail-review.md](mail-review.md). The hourly continuation remains active.
+[mail-review.md](mail-review.md). The overnight execution reached the M6 blocked handoff. Final gate details are in [release-execution.md](release-execution.md); no further milestone is defined. The hourly continuation is now PAUSED; final exports and draft PR10 are updated.

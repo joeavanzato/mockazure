@@ -8,7 +8,7 @@ from uuid import UUID, uuid5
 
 import httpx
 
-from tools.prepare_arm import RUNTIME, save
+from tools.prepare_arm import PROFILE, RUNTIME, save
 
 NAMESPACE = UUID("55860348-84f3-49a0-a36c-55c6761c7578")
 
@@ -74,7 +74,7 @@ def prepare():
     }
     save(RUNTIME / "arm-fixture.json", fixture)
     with httpx.Client(
-        base_url="https://localhost:36443",
+        base_url=PROFILE.text("https://localhost:36443"),
         trust_env=False,
         timeout=120,
         verify=ssl.create_default_context(cafile=str(RUNTIME / "instance/ca.pem")),

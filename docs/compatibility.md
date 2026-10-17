@@ -162,3 +162,23 @@ describes local transport boundaries and exact invocation coverage.
 schema/archive manifests, images, wheel and output artifacts.
 [Execution](arm-execution.md) records final-review status and unresolved gates.
 M4's four original collector failures remain combined-release blockers.
+
+
+## M6 combined candidate qualification
+
+Current-source original Graph, evidence, security, mail/Exchange and ARM outcomes
+are recorded in [release-execution.md](release-execution.md) and
+[release-qualification.json](release-qualification.json). Historical milestone
+reports remain separate evidence.
+
+Reproducible wheel/sdist builds and clean native/Docker package parity passed.
+Small100/1000 and medium5000/50000 user/evidence profiles passed exact paging and
+restart checks. Large100000/1000000 failed at979000 acknowledged records on the
+recorded Windows bind-mount PostgreSQL runtime. The WAL writer reported Cannot
+allocate memory; the underlying allocation failure is unresolved. No production
+throughput claim or large-scale acceptance follows from the smaller passes.
+
+M4's four original output failures remain mandatory blockers. The original M3B
+MES audit JSON exception is the only waiver. An ARM setup/worker failure and its
+unchanged recovery/retry are preserved in [release-arm-recovery.json](release-arm-recovery.json).
+The candidate remains a development artifact; no registry publication occurred.

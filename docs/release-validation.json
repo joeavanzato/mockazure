@@ -1,0 +1,46 @@
+{
+  "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+  "unit_regression": {
+    "passed": 386,
+    "log": "work/release/final-unit-regression.log"
+  },
+  "integration_regression": {
+    "passed": 403,
+    "log": "work/release/full-regression.log",
+    "note": "Broad run had755passes and one stale unit fixture failure; fixture corrected and full final units passed. No product API changes in final harness fixes."
+  },
+  "handoff_regression": {
+    "passed": 86,
+    "seconds": 15.11,
+    "log": "work/release/handoff-tests.log"
+  },
+  "ruff": {
+    "passed": true,
+    "log": "work/release/final-ruff.log"
+  },
+  "strict_release_acceptance": {
+    "passed": false,
+    "failed_tests": 1,
+    "seconds": 2.66,
+    "failed_gates": [
+      "suite m4",
+      "scale large"
+    ],
+    "log": "work/release/strict-release-acceptance.log"
+  },
+  "arm_final": {
+    "passed": true,
+    "checks": 17,
+    "clients": 3,
+    "collectors": 8,
+    "seconds": 516.399999,
+    "setup_failure_retained": true
+  },
+  "review": {
+    "count": 1,
+    "important_findings": 4,
+    "fixed": 4,
+    "deferred_minors": 0
+  },
+  "release_ready": false
+}

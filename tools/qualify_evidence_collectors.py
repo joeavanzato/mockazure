@@ -3,6 +3,7 @@
 import json
 import ssl
 import subprocess
+import sys
 import time
 from pathlib import Path
 from uuid import uuid4
@@ -19,9 +20,15 @@ from evidence_collector_reports import (
 from prepare_evidence_collectors import seed
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m3b"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m3b")
+RUNTIME = ROOT / PROFILE.text(".runtime/m3b")
 STATE = RUNTIME / "clients/powershell-state"
-CLIENTS = ["docker", "compose", "-f", "compose.clients.m3b.yaml"]
+CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m3b.yaml")]
 
 
 def host(path):
@@ -224,7 +231,7 @@ def trace_rows():
 
 def admin():
     return httpx.Client(
-        base_url="https://localhost:51443",
+        base_url=PROFILE.text("https://localhost:51443"),
         verify=ssl.create_default_context(cafile=str(RUNTIME / "instance/ca.pem")),
         trust_env=False,
         timeout=180,
