@@ -2605,7 +2605,15 @@
               "line": 59,
               "command": "Get-OrganizationConfig",
               "surface": "exchange.mail",
-              "status": "implemented-profile-needs-parameter-check"
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-OrganizationConfig",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -2657,8 +2665,16 @@
               "parameters": [],
               "line": 65,
               "command": "Get-TransportRule",
-              "surface": null,
-              "status": "unmapped-review-required"
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-TransportRule",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -2684,8 +2700,16 @@
               "parameters": [],
               "line": 68,
               "command": "Get-TransportConfig",
-              "surface": null,
-              "status": "unmapped-review-required"
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-TransportConfig",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -13918,7 +13942,15 @@
               "line": 19,
               "command": "Get-OrganizationConfig",
               "surface": "exchange.mail",
-              "status": "implemented-profile-needs-parameter-check"
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-OrganizationConfig",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -19186,7 +19218,15 @@
               "line": 472,
               "command": "Get-OrganizationConfig",
               "surface": "exchange.mail",
-              "status": "implemented-profile-needs-parameter-check"
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-OrganizationConfig",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -19795,7 +19835,15 @@
               "line": 66,
               "command": "Get-OrganizationConfig",
               "surface": "exchange.mail",
-              "status": "implemented-profile-needs-parameter-check"
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-OrganizationConfig",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -28918,8 +28966,16 @@
               ],
               "line": 117,
               "command": "Get-MailboxPermission",
-              "surface": null,
-              "status": "unmapped-review-required"
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-MailboxPermission",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [],
@@ -28945,8 +29001,16 @@
               ],
               "line": 132,
               "command": "Get-RecipientPermission",
-              "surface": null,
-              "status": "unmapped-review-required"
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-RecipientPermission",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [],
@@ -33199,8 +33263,16 @@
               "parameters": [],
               "line": 14,
               "command": "Get-TransportRule",
-              "surface": null,
-              "status": "unmapped-review-required"
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-TransportRule",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -33337,8 +33409,16 @@
               "parameters": [],
               "line": 74,
               "command": "Get-TransportRule",
-              "surface": null,
-              "status": "unmapped-review-required"
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-TransportRule",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -33370,8 +33450,16 @@
               "parameters": [],
               "line": 78,
               "command": "Get-TransportRule",
-              "surface": null,
-              "status": "unmapped-review-required"
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check",
+              "operations": [
+                {
+                  "method": "POST",
+                  "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                  "command": "Get-TransportRule",
+                  "status": "implemented"
+                }
+              ]
             },
             {
               "parameters": [
@@ -40088,7 +40176,7 @@
     }
   },
   "next_gaps": [
-    "Exchange RemoteDomain and TransportConfig collector calls",
+    "Exchange RemoteDomain/AdminAuditLogConfig and compiled permission collector calls",
     "Mailbox messages and attachments",
     "SharePoint/OneDrive evidence and audit collectors",
     "Provider-specific Azure diagnostics and storage logs",

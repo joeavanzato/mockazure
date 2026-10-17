@@ -23,6 +23,11 @@ READER_COMMANDS = frozenset(
         "Get-EXOMailboxFolderStatistics",
         "Get-EXOCasMailbox",
         "Get-OrganizationConfig",
+        "Get-TransportConfig",
+        "Get-AcceptedDomain",
+        "Get-TransportRule",
+        "Get-MailboxPermission",
+        "Get-RecipientPermission",
     }
 )
 
@@ -46,7 +51,9 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
     await require_exchange_command(session, actor, operation, mailbox.user_id)
 
 
-async def require_exchange_command(session, actor, operation, mailbox_user_id=None):
+async def require_exchange_command(
+    session, actor, operation, mailbox_user_id=None, *, tenant_wide=False
+):
     """None checks command availability for bootstrap; data reads still scope every mailbox."""
     if operation != "Get-OrganizationConfig":
         settings = await session.get(MailSettings, actor.tenant_id)
@@ -97,6 +104,8 @@ async def require_exchange_command(session, actor, operation, mailbox_user_id=No
             )
         ]
     )
+    if tenant_wide:
+        scope.append(ExchangeCommandGrant.mailbox_user_id.is_(None))
     permitted = await session.scalar(
         select(ExchangeCommandGrant.id)
         .where(

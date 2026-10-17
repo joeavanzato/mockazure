@@ -86,6 +86,7 @@ try {
   $source=($declarations | ForEach-Object {$_.Extent.Text}) -join [Environment]::NewLine
   $scriptPath=switch($case.function){
    'Get-MailboxRules' {'Scripts/Get-Rules.ps1'}
+   'Get-TransportRules' {'Scripts/Get-Rules.ps1'}
    'Get-MailboxRulesGraph' {'Scripts/Get-Rules.ps1'}
    'Get-MessageTraceLog' {'Scripts/Get-MessageTraceLog.ps1'}
    'Get-UALGraph' {'Scripts/Get-UALGraph.ps1'}
@@ -115,6 +116,7 @@ try {
     $parameters.UserIds=@($config.mailbox_upn)
     $parameters.StartDate=$config.mail_fixture.trace_start;$parameters.EndDate=$config.mail_fixture.trace_end
    }
+   'Get-TransportRules' {}
    default {$parameters.UserIds=$config.mailbox_upn}
   }
   & $case.function @parameters
