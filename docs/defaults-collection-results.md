@@ -1,7 +1,7 @@
 # Defaults and collection evidence qualification
 
 Runtime source: 5dc6dabaa12b886a8c03b406d53873757353c9c0.
-Later changes in this PR only correct the nullable test fixture, documentation and CI timeout.
+Later changes in this PR correct the nullable test fixture, documentation and CI tooling.
 This is a local development candidate; no package registry publication.
 
 ## Changes
@@ -66,3 +66,8 @@ Azure provider diagnostics, Defender hunting and wider Purview coverage remain e
 See [the supported contract](collection-evidence.md) and [default recovery rules](default-runtime.md).
 
 Machine-readable evidence: [qualification record](defaults-collection-verification.json).
+
+CI follow-up: pytest runs through the Python module entry point so repository helpers
+remain importable. On POSIX hosts, the Docker bootstrap runs under the caller UID/GID;
+private files retain mode 0600 and remain readable by the host verification process.
+The initial Linux CI failures remain visible in the PR check history.
