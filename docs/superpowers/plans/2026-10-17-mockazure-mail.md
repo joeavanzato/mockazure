@@ -78,11 +78,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes Tasks1-3 canonical state. Produces invoke_command(session, actor, name: str, parameters: dict, now) -> list[dict]; fixed_proxy_source(command_names: tuple[str,...], endpoint: str) -> str. Real compiled Get-EXO* routes discovered via unchanged pinned module calls and implemented as server transports.
 
-- [ ] Write focused failing tests: test_exchange_configuration_and_rules asserts real state across Get/Set-Mailbox, inbox and sweep lifecycle, IncludeHidden, scoped owner/admin access and Global Reader denial for inbox rules. test_proxy_has_only_declared_operations runs real module requests and ensures data/command parameters cannot become executable code. test_compiled_exo_reads verifies mailbox/statistics/folders/CAS/archive through the original module, not replacement functions. Unsupported parameters error instead of silently succeeding.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_exchange_mail.py tests/unit/test_exchange_proxy_source.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_exchange_configuration_and_rules asserts real state across Get/Set-Mailbox, inbox and sweep lifecycle, IncludeHidden, scoped owner/admin access and Global Reader denial for inbox rules. test_proxy_has_only_declared_operations runs real module requests and ensures data/command parameters cannot become executable code. test_compiled_exo_reads verifies mailbox/statistics/folders/CAS/archive through the original module, not replacement functions. Unsupported parameters error instead of silently succeeding.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_exchange_mail.py tests/unit/test_exchange_proxy_source.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 5: Implement trace and trace-detail query contracts
 
@@ -90,11 +90,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes mailbox scopes and operation contracts. Produces query_trace(session, actor, parameters: dict, now) -> list[dict] and query_trace_detail(session, actor, parameters: dict, now) -> list[dict]. Indexed immutable trace/recipient/detail rows, administrative import with provenance.
 
-- [ ] Write focused failing tests: test_trace_window_defaults_and_limits tests90day retention/default48hours/max10day range/default1000/max5000. test_trace_received_recipient_continuation traverses5001+ records with equal timestamps and recipient ties without losses/repeats. test_trace_filters_and_scopes covers sender/recipient/status/MessageId/IP/traceID, exact detail events, unauthorized callers and foreign IDs. test_trace_throttle asserts429/Retry-After and recovery.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_exchange_trace.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_trace_window_defaults_and_limits tests90day retention/default48hours/max10day range/default1000/max5000. test_trace_received_recipient_continuation traverses5001+ records with equal timestamps and recipient ties without losses/repeats. test_trace_filters_and_scopes covers sender/recipient/status/MessageId/IP/traceID, exact detail events, unauthorized callers and foreign IDs. test_trace_throttle asserts429/Retry-After and recovery.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_exchange_trace.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 6: Project native mailbox and rule changes into UAL
 
@@ -102,11 +102,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes immutable Task2-4 facts, existing SourceEnvelope/fenced projectors, Task1 security.auditLogRecord schema. Produces record_mail_audit(session, actor, operation, target, before, after, now) -> None and project_mail(source: SourceEnvelope) -> ProjectionBatch. Adds auditLogRecord family with tenant/source uniqueness and proper export/import contracts.
 
-- [ ] Write focused failing tests: test_native_mail_audit_atomicity requires committed config/rule change and exact valid auditData/operation/user/object/service fields, no fact on rollback/no-op, no credentials or auth headers. test_mail_audit_replay_and_rename proves retry idempotency and immutable actor/target facts. test_historical_ual_import_export preserves provenance, tenancy, schema and timestamps. Worker/API restart preserves eventual publication.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_mail_audit.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_native_mail_audit_atomicity requires committed config/rule change and exact valid auditData/operation/user/object/service fields, no fact on rollback/no-op, no credentials or auth headers. test_mail_audit_replay_and_rename proves retry idempotency and immutable actor/target facts. test_historical_ual_import_export preserves provenance, tenancy, schema and timestamps. Worker/API restart preserves eventual publication.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_mail_audit.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 7: Build durable Graph UAL query jobs and record paging
 
@@ -114,11 +114,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes Task6 retained audit observations and existing JobClaim/lease/fence protocol. Produces create_query(session, actor, body: dict, now) -> dict; process_audit_query(database, claim: JobClaim, wall_now) -> JobResult; get_query/session list/records helpers with current authorization and SQL materialization.
 
-- [ ] Write focused failing tests: test_query_create_poll_records exercises server-owned enum statuses, serviceFilter normalization/conflict rejection, exact filters and immutable results. test_query_workload_permissions ensures scoped permissions cannot read other services' metadata/results and old AuditLog.Read.All is insufficient. test_query_restart_lease_retention_races proves one winner, stale worker fencing, pending-source retention pins, retry/failure states, API/worker/PostgreSQL restart, stable1001+ record pages and410 expiry. Unknown options, pending/failed access and invalid time windows return explicit errors.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_audit_queries.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_query_create_poll_records exercises server-owned enum statuses, serviceFilter normalization/conflict rejection, exact filters and immutable results. test_query_workload_permissions ensures scoped permissions cannot read other services' metadata/results and old AuditLog.Read.All is insufficient. test_query_restart_lease_retention_races proves one winner, stale worker fencing, pending-source retention pins, retry/failure states, API/worker/PostgreSQL restart, stable1001+ record pages and410 expiry. Unknown options, pending/failed access and invalid time windows return explicit errors.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_audit_queries.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 8: Qualify real SDK/module workflows and package/runtime parity
 
@@ -126,11 +126,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes Tasks1-7 implemented surfaces. Produces source-bound work/mail-report.json with literal pass gates, exact versions, fingerprints, wheel/image hashes and per-profile checks. New own .runtime/m4, network/ports selected by actual probes; never reuse another runtime's credentials or modify host settings.
 
-- [ ] Write focused failing tests: test_mail_report_fails_closed rejects missing/stale/false/fabricated checks and identity hashes. Run real MSAL+Graph SDK native clean-wheel and container Python, real Graph PowerShell/EXO application/delegated flows. Require two API replicas/workers, restart persistence, network guards, denied scopes/roles/licences, page reauthorization, fault retry and actual native evidence. No altered original service module or compiled Get-EXO replacement.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/unit/test_mail_report.py tests/acceptance/test_mail_distribution.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_mail_report_fails_closed rejects missing/stale/false/fabricated checks and identity hashes. Run real MSAL+Graph SDK native clean-wheel and container Python, real Graph PowerShell/EXO application/delegated flows. Require two API replicas/workers, restart persistence, network guards, denied scopes/roles/licences, page reauthorization, fault retry and actual native evidence. No altered original service module or compiled Get-EXO replacement.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/unit/test_mail_report.py tests/acceptance/test_mail_distribution.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 9: Qualify original Hawk and MES output workflows
 

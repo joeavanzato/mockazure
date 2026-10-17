@@ -23,7 +23,11 @@ Native execution plan; no second review is scheduled.
    original MES trace CSV loses fractional seconds.
 
 The original reviewed historical all-green reports are superseded for acceptance.
-A final post-fix source-bound runtime report and full regression are pending.
+Post-fix regression:594passed619.02s. Source-bound runtime:19checks,3Graph
+profiles and real Exchange checks passed;40/44 original cases passed. Four
+required Hawk/MES cases failed exactly as described; strict acceptance remains
+failed. Full report:mail-verification.json. One review/fix pass is finished;
+Task10 acceptance remains unresolved, so the draft PR is not ready to merge.
 
 Delegated decision: continue independent M5/M6 work from the repaired API branch,
 while publishing M4 only as a draft with its unresolved collector gates explicit.
