@@ -36,6 +36,7 @@ from mockazure.providers.graph.evidence.routes import router_for as evidence_rou
 from mockazure.providers.graph.licensing import router as licensing_graph_router
 from mockazure.providers.graph.probes import router as graph_router
 from mockazure.providers.graph.security.grant_routes import router_for as grant_router_for
+from mockazure.providers.graph.security.role_routes import router_for as role_router_for
 from mockazure.providers.graph.security.routes import router_for as security_router_for
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
@@ -209,6 +210,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(graph_router, prefix="/beta")
     app.include_router(evidence_router_for("v1.0"))
     app.include_router(evidence_router_for("beta"))
+    app.include_router(role_router_for("v1.0"))
+    app.include_router(role_router_for("beta"))
     app.include_router(grant_router_for("v1.0"))
     app.include_router(grant_router_for("beta"))
     app.include_router(security_router_for("v1.0"))

@@ -85,3 +85,23 @@ differences. They publish through Graph and export/reimport under the same schem
 version. Failed mutations do not add successful audit records. The collector JSON
 limitation already accepted for original MES is unchanged; no additional
 qualification exception has been introduced.
+"
+## Directory roles
+
+Role definitions expose official built-in template identifiers and identity fields.
+Role assignments use canonical user/service-principal roles with tenant scope
+\`/\`; custom role permissions, scoped assignments and PIM remain unsupported.
+Requests for unsupported definition properties fail explicitly. Modern assignment
+writes require RoleManagement.ReadWrite.Directory and, for delegated callers,
+Privileged Role Administrator or Global Administrator. Reads enforce the documented
+operation-specific permissions and roles.
+
+Legacy directoryRoles includes activated roles even when no member remains.
+Member results disclose only id/type without the corresponding object read
+permission. Modern role assignments support bounded principal or roleDefinition
+expansion; collection snapshots preserve page contents and query bindings.
+
+Sources: [role definitions](https://learn.microsoft.com/en-us/graph/api/rbacapplication-list-roledefinitions?view=graph-rest-1.0),
+[role assignments](https://learn.microsoft.com/en-us/graph/api/rbacapplication-list-roleassignments?view=graph-rest-1.0),
+[legacy members](https://learn.microsoft.com/en-us/graph/api/directoryrole-list-members?view=graph-rest-1.0),
+[official role templates](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference).

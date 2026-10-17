@@ -87,7 +87,9 @@ async def security_collection(request, session, actor, kind, query, *, source=No
             for term in query.order
         ]
         payload = source.c.payload
-        for expansion in query.expand:
+        for expansion in (
+            query.expand if kind in {"application", "servicePrincipal", "device"} else ()
+        ):
             payload = payload.op("||")(document(**{expansion.field: owner_payloads(source, actor)}))
         # SQL owns materialization; there is no all-rows Python list or giant JSON aggregate.
         await session.execute(
@@ -122,8 +124,15 @@ async def security_collection(request, session, actor, kind, query, *, source=No
     for row in rows[:size]:
         payload = row.payload
         value.append(serialize_security(payload, query))
+    context = {
+        "unifiedRoleDefinition": "roleManagement/directory/roleDefinitions",
+        "unifiedRoleAssignment": "roleManagement/directory/roleAssignments",
+        "directoryRoleMember": "directoryObjects",
+    }.get(kind, request.url.path.split("/")[-1])
+    if kind == "unifiedRoleAssignment" and query.expand:
+        context += "(" + ",".join(expansion.field + "()" for expansion in query.expand) + ")"
     response = {
-        "@odata.context": context_url(request, request.url.path.split("/")[-1]),
+        "@odata.context": context_url(request, context),
         "value": value,
     }
     if query.count:

@@ -8,6 +8,12 @@ def serialize_security(payload, query=None):
         result["keyCredentials"] = [dict(item, key=None) for item in result["keyCredentials"]]
     for expansion in query.expand if query else ():
         values = payload.get(expansion.field, [])
+        if isinstance(values, dict):
+            result[expansion.field] = (
+                {key: values.get(key) for key in expansion.select}
+                if expansion.select else values
+            )
+            continue
         if len(values) > 100:
             from mockazure.providers.graph.query.contracts import unsupported
 

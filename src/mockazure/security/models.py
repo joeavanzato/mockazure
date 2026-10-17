@@ -57,3 +57,9 @@ class GrantRoleMetadata(Base):
     )
     permission: Mapped[str] = mapped_column(String(200), primary_key=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class RoleActivation(Base):
+    __tablename__ = "security_role_activations"
+    tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), primary_key=True)
+    role: Mapped[str] = mapped_column(String(80), primary_key=True)

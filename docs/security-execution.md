@@ -53,13 +53,22 @@ Preserve existing worktrees and runtimes.
      work/task4-regression.log. Diagnostic stack dumps were slow CLI tests,
      not failures. No DB test run remains active.
 
+5. Directory-role management:
+   - Canonical user/service-principal roles govern existing Graph/Exchange checks.
+   - Official template IDs, tenant-scoped assignments, permission/role checks,
+     bounded principal/definition expansion and stable snapshots.
+   - Legacy activated roles persist after their last assignment is removed;
+     member disclosure follows the caller's directory-object permissions.
+   - Role mutation audits publish and export under Graph v1.0.
+   - Affected unit/integration regression: 255 passed in 169.34s.
+     Log: work/task5-regression.log. Ruff and diff checks pass.
+
 ## Next work
 
-Task 5: directory-role definitions/assignments and legacy directoryRoles member
-views. Official role template IDs are saved to work/references/role-templates.json.
-Task 4 base was 8189d26c98a68448ddac4b6ff029a8b6e3ee1f13; run task-done if the ledger
-does not yet record its completion, then task-start5. Tasks 6–10 cover methods,
-policy persistence/enforcement, real-client qualification and final review/PR.
+Task 6: authentication-method inventory. Tasks 7–10 cover policy persistence,
+enforcement, real-client qualification and final review/PR.
+Task 5 base was c50db82987ffb0795f96dd10b046c0e61d071512; run task-done if the
+ledger does not record completion before starting Task 6.
 M3C is not qualified yet. See docs/security-contracts.md for implemented bounds.
 
 ## Verification and continuation

@@ -9,6 +9,16 @@ from mockazure.providers.graph.query.contracts import FieldContract, QueryContra
 from mockazure.providers.graph.query.parser import parse_query, selection
 
 FIELDS = {
+    "unifiedRoleDefinition": {"id", "templateId", "displayName", "isBuiltIn", "isEnabled"},
+    "unifiedRoleAssignment": {
+        "id",
+        "principalId",
+        "roleDefinitionId",
+        "directoryScopeId",
+        "appScopeId",
+    },
+    "directoryRole": {"id", "displayName", "roleTemplateId"},
+    "directoryRoleMember": {"id", "@odata.type", "displayName", "userPrincipalName", "appId"},
     "oAuth2PermissionGrant": {
         "id",
         "clientId",
@@ -86,7 +96,15 @@ def contract_for(kind, version):
         if "consentType" in fields:
             fields["consentType"] = FieldContract("consentType", "string", frozenset({"eq"}))
         return QueryContract(version, kind, kind, fields, frozenset({"id"}))
-    for name in {"id", "appId", "deviceId"} & fields.keys():
+    for name in {
+        "id",
+        "appId",
+        "deviceId",
+        "templateId",
+        "roleTemplateId",
+        "principalId",
+        "roleDefinitionId",
+    } & fields.keys():
         fields[name] = FieldContract(name, "uuid", frozenset({"eq", "ne", "in"}))
     for name in {
         "displayName",
@@ -95,9 +113,17 @@ def contract_for(kind, version):
         "trustType",
     } & fields.keys():
         fields[name] = FieldContract(name, "string", frozenset({"eq", "ne", "in", "startswith"}))
-    for name in {"accountEnabled", "isCompliant", "isManaged"} & fields.keys():
+    for name in {
+        "accountEnabled",
+        "isCompliant",
+        "isManaged",
+        "isBuiltIn",
+        "isEnabled",
+    } & fields.keys():
         fields[name] = FieldContract(name, "bool", frozenset({"eq", "ne"}))
-    return QueryContract(version, kind, kind, fields, frozenset({"id", "displayName"}))
+    return QueryContract(
+        version, kind, kind, fields, frozenset({"id", "displayName"} & fields.keys())
+    )
 
 
 def parse_security_query(request, kind):
@@ -111,6 +137,19 @@ def parse_security_query(request, kind):
         request.headers.get("consistencylevel"),
     )
     if expand is not None:
+        if kind == "unifiedRoleAssignment":
+            match = re.fullmatch(r"(principal|roleDefinition)(?:\(\$select=([^()]+)\))?", expand)
+            if match is None:
+                unsupported("Only a bounded principal or roleDefinition expansion is supported")
+            names = (
+                {"id", "@odata.type", "displayName", "userPrincipalName", "appId"}
+                if match[1] == "principal"
+                else FIELDS["unifiedRoleDefinition"]
+            )
+            fields = selection(match[2], names) if match[2] else None
+            return replace(query, expand=(ExpandSpec(match[1], fields),))
+        if kind in {"directoryRole", "directoryRoleMember", "unifiedRoleDefinition"}:
+            unsupported("Role relationship expansion is outside this profile")
         if kind in {"oAuth2PermissionGrant", "appRoleAssignment"}:
             unsupported("Grant expansion is outside this profile")
         relation = "registeredOwners" if kind == "device" else "owners"

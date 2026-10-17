@@ -33,6 +33,7 @@ from mockazure.identity.types import (
     UserCreate,
 )
 from mockazure.providers.graph.permissions import GRAPH_DIRECTORY_ROLES
+from mockazure.security.roles import activate_role, role_ids
 
 router = APIRouter(prefix="/_mock/tenants/{tenant_id}/identity")
 
@@ -144,10 +145,12 @@ async def assign_role(tenant_id: UUID, user_id: UUID, role: str, request: Reques
         | GRAPH_DIRECTORY_ROLES
         | GRAPH_LICENSING_ROLES
         | GRAPH_EVIDENCE_ROLES
+        | frozenset(role_ids())
     ):
         raise IdentityError(422, "UnsupportedRole", "Directory role is not supported")
     async with transaction(request, tenant_id) as repo:
         await repo.owned(User, tenant_id, user_id)
+        await activate_role(repo.session, tenant_id, role)
         existing = await repo.session.get(DirectoryRole, (tenant_id, user_id, role))
         if existing is None:
             repo.session.add(DirectoryRole(tenant_id=tenant_id, user_id=user_id, role=role))
@@ -186,10 +189,12 @@ async def assign_application_role(tenant_id: UUID, client_id: UUID, role: str, r
         | GRAPH_DIRECTORY_ROLES
         | GRAPH_LICENSING_ROLES
         | GRAPH_EVIDENCE_ROLES
+        | frozenset(role_ids())
     ):
         raise IdentityError(422, "UnsupportedRole", "Directory role is not supported")
     async with transaction(request, tenant_id) as repo:
         await require_service_principal(repo, tenant_id, client_id)
+        await activate_role(repo.session, tenant_id, role)
         existing = await repo.session.get(ServicePrincipalRole, (tenant_id, client_id, role))
         if existing is None:
             repo.session.add(

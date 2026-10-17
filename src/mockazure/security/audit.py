@@ -70,7 +70,11 @@ async def record_security_audit(session, actor, operation, target, before, after
         "id": str(uuid5(source_id, "mockazure:security:directoryAudit")),
         "activityDateTime": when.isoformat(),
         "activityDisplayName": operation,
-        "category": "ApplicationManagement" if target["type"] != "Device" else "Device",
+        "category": "RoleManagement"
+        if target["type"] == "unifiedRoleAssignment"
+        else "ApplicationManagement"
+        if target["type"] != "Device"
+        else "Device",
         "correlationId": str(source_id),
         "loggedByService": "Core Directory",
         "result": "success",
