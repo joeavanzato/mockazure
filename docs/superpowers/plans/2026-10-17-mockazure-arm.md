@@ -109,10 +109,10 @@ Tools/integrations own real-client qualification, not production provider behavi
 **Files:** README.md; docs/{capabilities,compatibility,arm-execution,arm-decisions,overnight-execution}.md; plan; review report.
 **Interfaces:** Consumes Task1–6 evidence; produces bounded capability matrix, honest acceptance status and separate feature PR. M6 inherits current code plus unresolved predecessor gates.
 
-- [ ] Run full unit/integration suite in own PostgreSQL runtime; run current source-bound qualification and Ruff/diff/package/provenance checks. Expect all product tests PASS; retain any external collector defects as unresolved, never new waivers.
-- [ ] Dispatch exactly one fresh final reviewer with spec/plan/ledger/range and five Review Focus items; regrade, fix Important/Critical in one RED→GREEN pass and rerun affected/full gates. Ledger every ruling/deferred judgment.
-- [ ] Update capability discovery and source-bound docs, export ledger, commit/push feature branch, create/attach PR (draft if any mandatory gate unresolved). User merges.
-- [ ] Continue M6 package/parity/cleanup/scale/release preparation under existing authorization; do not publish packages or claim combined acceptance while a required predecessor gate fails.
+- [x] Run full unit/integration suite in own PostgreSQL runtime; run current source-bound qualification and Ruff/diff/package/provenance checks. Expect all product tests PASS; retain any external collector defects as unresolved, never new waivers.
+- [x] Dispatch exactly one fresh final reviewer with spec/plan/ledger/range and five Review Focus items; regrade, fix Important/Critical in one RED→GREEN pass and rerun affected/full gates. Ledger every ruling/deferred judgment.
+- [x] Update capability discovery and source-bound docs, export ledger, commit/push feature branch, create/attach PR (draft if any mandatory gate unresolved). User merges.
+- [x] Continue M6 package/parity/cleanup/scale/release preparation under existing authorization; do not publish packages or claim combined acceptance while a required predecessor gate fails.
 
 ## Plan self-review and adopted rulings
 

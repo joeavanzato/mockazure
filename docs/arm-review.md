@@ -18,7 +18,9 @@ in one consolidated regression-first fix pass; there is no second review.
 
 Before fixes: full unit/integration suite 675 passed in 668.75 seconds.
 Review regressions: three failures before fixes; ten passed in 11.80 seconds after.
-Current-source qualification is rerun after committing the fixes.
+Current-source qualification at a3a4d04 passed17 runtime checks,3SDK profiles and
+8originalMES cases in214.922 seconds. Affected83 product tests passed; acceptance
+was rerun after its premature concurrent invocation correctly rejected a running report.
 
 Declined judgments and rulings:
 - Encoded names, arbitrary providers/custom roles, other locales/versions and

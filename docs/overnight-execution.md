@@ -21,8 +21,8 @@ User direction (2026-10-16 America/New_York): continue M3C, M4, M5 and all later
 | --- | --- | --- |
 | M3C | Security administration, permissions and policy | Qualified; PR7 open for user merge |
 | M4 | Mail/Exchange, traces, durable UAL, original collectors | API fixes committed; mandatory original Hawk JSON and MES trace precision gates unresolved; draft PR |
-| M5 | ARM inventory, selected mutations, inherited RBAC, Activity Logs and MES export | Design/plan prepared; continue from repaired M4 code while carrying its output blockers |
-| M6 | Combined workflows, package/CLI/Docker parity, cleanup, restart/fault checks, small/5,000-user and100,000-user/1,000,000-evidence scale, release artifacts | Queued; combined release acceptance must retain all unresolved gates |
+| M5 | ARM inventory, selected mutations, inherited RBAC, Activity Logs and MES export | Qualified17 runtime/3SDK profiles/8MES cases; review fixes complete; M4 blockers retained |
+| M6 | Combined workflows, package/CLI/Docker parity, cleanup, restart/fault checks, small/5,000-user and100,000-user/1,000,000-evidence scale, release artifacts | Design/plan prepared; Native execution follows M5; combined release acceptance retains all unresolved gates |
 
 Each milestone consumes its predecessor's actual verified interfaces and current
 failure record. Earlier all-green shaped M4 reports are historical and superseded
