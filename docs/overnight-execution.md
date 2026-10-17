@@ -29,4 +29,4 @@ failure record. Earlier all-green shaped M4 reports are historical and supersede
 by final review. No new collector-output waiver is inferred from overnight
 delegation. Continuing independent implementation is distinct from claiming
 acceptance or merging. M4 final reviewer findings/dispositions are in
-[mail-review.md](mail-review.md). The overnight execution reached the M6 blocked handoff. Final gate details are in [release-execution.md](release-execution.md); no further milestone is defined. The hourly continuation is disabled after final exports/PR updates.
+[mail-review.md](mail-review.md). The overnight execution reached the M6 blocked handoff. Final gate details are in [release-execution.md](release-execution.md); no further milestone is defined. The hourly continuation is now PAUSED; final exports and draft PR10 are updated.

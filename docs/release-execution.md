@@ -101,3 +101,7 @@ The strict combined release test failed as required: exactly suite m4 and
 scale large remain blockers (one failed acceptance test,2.66s). Final
 validation details are in release-validation.json. No passing release claim
 is made. All source-bound proofs remain on fingerprint64e8af55c881ed05...
+
+## Continuation shutdown
+
+Overnight continuation continue-mockazure-m3c-through-m5 was set to PAUSED after final reports/exports and draft PR10 were updated. The idle M6 test database was stopped. No further milestone is queued; release blockers remain unchanged.
