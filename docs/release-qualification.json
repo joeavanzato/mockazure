@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+  "source_commit": "bf64b4e2ae09defdae83a6d306d777fc97bf6667",
+  "suites": {
+    "m3": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m3-report.json",
+      "failed_cases": [],
+      "report_sha256": "7854150f1c1d7e4a116683473432cc05ea37b8e724b51a288bfd102fc8ffce24",
+      "finished_at": "2026-10-17T13:34:39.354854+00:00"
+    },
+    "m3b": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m3b-report.json",
+      "failed_cases": [],
+      "report_sha256": "c3a270e94426ab5062d056c4c7d9e635866f3d2192d848706fe384e6fa5c50ca",
+      "finished_at": "2026-10-17T14:09:26.303853+00:00"
+    },
+    "m3c": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m3c-report.json",
+      "failed_cases": [],
+      "report_sha256": "a3ef2f69c34ce98fefa2daeb112570a85d4ac4041eb28eae3350710606daec3d",
+      "finished_at": "2026-10-17T14:15:13.927855+00:00"
+    },
+    "m4": {
+      "status": "failed",
+      "validated": false,
+      "exit_code": 1,
+      "report": "work/release/m4-report.json",
+      "failed_cases": [
+        "hawk_rules/application/allowed",
+        "hawk_rules/delegated/allowed",
+        "mes_trace/application/allowed",
+        "mes_trace/delegated/allowed"
+      ],
+      "error_type": "AssertionError",
+      "report_sha256": "ced95f2582447668bbadb7769740e91bed2eac89244c6b7a427434fc317c1110",
+      "finished_at": "2026-10-17T14:26:01.945355+00:00"
+    }
+  },
+  "scale": {
+    "small": {
+      "passed": true,
+      "users": 100,
+      "records": 1000,
+      "report": "work/release/scale-small-61009.json",
+      "report_sha256": "61e629c927352874e5f8596dd33c9474deecafd948dbdd8d72e03919b3468f56"
+    },
+    "medium": {
+      "passed": true,
+      "users": 5000,
+      "records": 50000,
+      "report": "work/release/scale-medium-62006.json",
+      "report_sha256": "2ac2162b78414a650d40e27a2b076bb77cc7f20ce44739cd2f54c33df68b68c3"
+    }
+  },
+  "artifacts": {
+    "passed": true,
+    "reproducible": true,
+    "parity": true,
+    "report": "work/release/artifacts.json",
+    "report_sha256": "002ae9aef71695d82c3aa439da7c5b1cfd06de621259a0eb5a1dde65267dba61"
+  },
+  "qualified_at": "2026-10-17T14:26:08.901856+00:00",
+  "release_ready": false,
+  "qualification_ready": false,
+  "failed_gates": [
+    "suite m4",
+    "suite m5",
+    "scale large"
+  ]
+}

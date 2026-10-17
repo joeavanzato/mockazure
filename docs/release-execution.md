@@ -86,3 +86,19 @@ M3B is running. Do not treat these partial results as final release acceptance.
 
 The verified candidate archives and manifest are exported under the projectless
 outputs/mockazure-m6-bf64b4e directory; README explicitly labels acceptance blocked.
+
+## First four current-source suites completed
+
+M3 passed14runtime checks/3client profiles. M3B passed25runtime checks/3client
+profiles and20collector acceptance cases (14strict;6existing MES audit JSON
+exceptions), total2026.487seconds. M3C passed20runtime/3client profiles and
+20/20collectors, total290.464seconds. M4 passed19runtime checks,3Graph profiles
+and realExchange checks;40/44collectors passed. Its four original Hawk inbox-rule
+JSON/MES trace precision failures remain mandatory blockers, total559.034seconds.
+
+Completed small/medium and artifact proofs are attached and revalidated in
+work/release/qualification.json; docs/release-qualification.json is its current
+checkpoint. Remaining gates: suiteM4(blocked), suiteM5(pending after scale), and
+large scale(running). Original-suite process10632 is finished. Scale23010 remains
+active. Candidatebuild11333 is finished. Do not rerun completed current-source
+suites without a source-changing fix.
