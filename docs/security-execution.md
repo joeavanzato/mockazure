@@ -81,14 +81,24 @@ Preserve existing worktrees and runtimes.
    - Affected unit/integration regression: 287 passed in 130.79s.
      Log: work/task7-regression.log. Ruff and diff checks pass.
 
+8. Conditional Access enforcement and immutable decision evidence:
+   - Current policy evaluation at login, consent, MFA, code/device redemption and refresh.
+   - Transitive group/exclusion matching, actual peer IPv4/IPv6, persisted client category.
+   - Block precedence, enforced MFA, report-only/disabled behavior and licence fail-closed.
+   - Attempt-time decision evidence, current reader permission/role omission, enum preference.
+   - Fresh-instance evidence import/reexport and pending-flow policy changes verified.
+   - Full regression:455 passed and one old all-null client category assertion failed;
+     the assertion now verifies exact known categories. Focused rerun:15 passed in29.43s; work/task8-final.log. Ruff and diff checks pass.
+
 ## Next work
 
-Task 8: enforce Conditional Access across delegated OAuth and publish immutable
-decision evidence with permission-based disclosure. Tasks 9–10 qualify real clients
-and perform final review/PR. Task 7 base was
-7a2efc22892fec45b79ca1cd83d6d5e37a565f9e; run task-done if the ledger does not
-record completion before starting Task 8. M3C is not qualified yet.
-See docs/security-contracts.md for implemented bounds.
+Task9: qualify real MSAL/Graph Python and PowerShell plus original security
+collectors on isolated .runtime/m3c. Task10: final regression, independent review
+and PR. Task8 base was ac54770747639b18276bfeeacbf4c1c780501274;
+run task-done if the native ledger does not yet record completion.
+M3C is not qualified yet. See docs/security-contracts.md for implemented bounds.
+Read work/security-qualification-notes.md for source-inspected collector dependencies
+and candidate unused ports; it is preparation, not acceptance evidence.
 
 ## Verification and continuation
 

@@ -52,6 +52,14 @@ def router_for(version):
                         context, version, family, query, token, profile.graph, now, target
                     ),
                 )
+            if (
+                family == "signIn"
+                and "include-unknown-enum-members" not in request.headers.get("prefer", "").lower()
+            ):
+                for value in page.value:
+                    for policy in value.get("appliedConditionalAccessPolicies", []):
+                        if policy.get("result", "").startswith("reportOnly"):
+                            policy["result"] = "unknownFutureValue"
             if record_id is not None:
                 if not page.value:
                     raise GraphError(404, "Request_ResourceNotFound", "Evidence resource not found")

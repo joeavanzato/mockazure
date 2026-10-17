@@ -59,6 +59,8 @@ def disclosed_payload(family, access):
         return raw
     detailed = effective_p2() if access.redaction == "P2" else false()
     if family == "signIn":
+        if not access.conditional_access:
+            raw = raw.op("-")("appliedConditionalAccessPolicies")
         # A v1.0 import can positively identify an interactive user event without
         # beta-only signInEventTypes. Normalize once for both filtering and output;
         # false/null cannot distinguish noninteractive users from workload identities.

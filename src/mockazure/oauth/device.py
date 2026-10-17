@@ -169,6 +169,9 @@ async def redeem_device_code(fields, tenant, request, session, now):
         return OAuthError("authorization_pending", "Local user approval is pending")
     user = await current_user(row, session, request=request, flow="device_code", now=now)
     await require_grants(session, row)
+    from mockazure.security.evaluation import enforce_policies
+
+    await enforce_policies(session, request, row, user, "device_code", now)
     login = await new_session(row, session, now)
     result = await token_response(login, user, session, request.app.state.settings, now)
     row.status = "consumed"

@@ -43,6 +43,7 @@ class AuthorizationTransaction(Base):
 
 
 class LoginSession(Base):
+    client_app_type: Mapped[str] = mapped_column(String(40), default="browser")
     __tablename__ = "oauth_sessions"
     __table_args__ = (
         UniqueConstraint("tenant_id", "id"),

@@ -55,6 +55,7 @@ class EvidenceAccess:
     subject_id: UUID | None
     entitlement_fingerprint: str
     redaction: str
+    conditional_access: bool = False
 
 
 def denied(message="Permission and supported role are required"):
@@ -137,4 +138,20 @@ SELECT md5(
             separators=(",", ":"),
         ).encode()
     ).hexdigest()
-    return EvidenceAccess(subject, fingerprint, entitlement.tenant_tier)
+    ca_details = bool(
+        context.permissions
+        & {"Policy.Read.All", "Policy.Read.ConditionalAccess", "Policy.ReadWrite.ConditionalAccess"}
+    ) and (
+        context.token_kind == "application"
+        or bool(
+            roles
+            & {
+                "Global Administrator",
+                "Global Reader",
+                "Security Administrator",
+                "Security Reader",
+                "Conditional Access Administrator",
+            }
+        )
+    )
+    return EvidenceAccess(subject, fingerprint, entitlement.tenant_tier, ca_details)

@@ -79,10 +79,11 @@ type. All types have fixed validated schemas; unknown controlled-injection types
 Historical import can use unknownFutureValue, without arbitrary privileged properties.
 This bounded type catalog avoids claiming Microsoft's risk engine. [S4][S10]
 
-No appliedConditionalAccessPolicies or invented device/geolocation claims are emitted
-for generated events in B. conditionalAccessStatus=notApplied reflects the absence of
-enforcement. Imported CA policy details are rejected until C provides the property
-authorization contract.
+M3B generated events used conditionalAccessStatus=notApplied without applied-policy
+details. M3C captures actual local Conditional Access evaluation and admits schema-validated
+historical policy details. Their disclosure requires the policy permission and delegated
+role checks documented in docs/security-contracts.md. Device/geolocation facts remain
+unknown when no authoritative local input exists.
 
 ## 3. Read schemas and query contracts
 

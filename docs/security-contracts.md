@@ -186,3 +186,40 @@ Sources: [policy creation](https://learn.microsoft.com/en-us/graph/api/condition
 [named-location creation](https://learn.microsoft.com/graph/api/conditionalaccessroot-post-namedlocations?view=graph-rest-1.0),
 [IP location update](https://learn.microsoft.com/en-us/graph/api/ipnamedlocation-update?view=graph-rest-1.0),
 [grant controls](https://learn.microsoft.com/en-us/graph/api/resources/conditionalaccessgrantcontrols?view=graph-rest-1.0).
+
+## Conditional Access enforcement and evidence
+
+Delegated login, consent, MFA completion/skip, authorization-code redemption,
+device approval/redemption and refresh evaluate the current stored policies.
+The tenant security lock spans the final decision and token/evidence commit.
+Transitive group membership and explicit exclusions determine user targeting;
+resource appIds determine the requested service. The client category is the
+persisted registration profile: public/device clients are mobile/desktop,
+confidential authorization-code clients are browser. This is a declared local
+classification, not user-agent inference. Refresh preserves the session category.
+
+IP location matching uses the actual connection peer, including IPv4/IPv6.
+Forwarded headers do not override it. If a relevant location cannot be evaluated
+or the required licence is removed, a matching enabled policy fails closed.
+Across enabled policies, block wins; MFA requires the local flow's completed
+outcome. Enrolled method descriptors alone never satisfy MFA. Report-only
+policies record results without enforcing; disabled policies never apply.
+A new policy is effective at redemption/refresh even for a pending older flow.
+
+Sign-in facts capture the decision at the attempt, including policy ID/name,
+controls, result and aggregate status. Later policy edits cannot rewrite it.
+Block uses evidence code 53003, incomplete required MFA uses 50076, and explicit
+MFA denial retains 50074. OAuth wire errors remain their declared local profile.
+ClientAppUsed now reflects the known client category for delegated attempts;
+unknown/app-only categories remain null.
+
+Applied-policy details require Policy.Read.All, Policy.Read.ConditionalAccess
+or Policy.ReadWrite.ConditionalAccess, plus an authorized delegated reader role
+where applicable. The entire property is omitted before filtering/serialization
+for unauthorized readers; collection and item reads use the same rule.
+Report-only evolving enum members require Prefer: include-unknown-enum-members;
+otherwise their public result is unknownFutureValue. Native evidence exports
+preserve the original full decisions and can be imported into a separate instance.
+
+Sources: [sign-in list and disclosure](https://learn.microsoft.com/en-us/graph/api/signin-list?view=graph-rest-1.0),
+[applied policy results](https://learn.microsoft.com/en-us/graph/api/resources/appliedconditionalaccesspolicy?view=graph-rest-1.0).

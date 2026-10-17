@@ -316,6 +316,18 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Policy.Read.ConditionalAccess",
+      "kind": "application",
+      "id": "37730810-e9ba-4e46-b07e-8ca78d182097",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Policy.Read.ConditionalAccess",
+      "kind": "delegated",
+      "id": "633e0fce-8c58-4cfb-9495-12bbd5a24f7c",
+      "adminConsentRequired": false
+    },
+    {
       "name": "Policy.ReadWrite.ConditionalAccess",
       "kind": "application",
       "id": "01c0a623-fc9b-48e9-b794-0756f8e8f067",

@@ -78,8 +78,6 @@ def validate_facts(value: SourceInput) -> None:
         if facts["family"] not in {"signIn", "directoryAudit", "riskDetection", "riskyUser"}:
             raise ValueError("Unsupported evidence family")
         validate_payload(facts.get("version", "v1.0"), facts["family"], facts["payload"])
-        if "appliedConditionalAccessPolicies" in facts["payload"]:
-            raise ValueError("Conditional Access policy detail is not supported")
         UUID(facts["payload"]["id"])
         if "provenance" in facts:
             from mockazure.evidence.datasets import Provenance

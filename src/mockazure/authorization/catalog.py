@@ -61,6 +61,8 @@ CATALOG = (
         for suffix in ("Read", "ReadWrite", "Read.All", "ReadWrite.All")
         for kind in (("application", "delegated") if suffix.endswith(".All") else ("delegated",))
     ),
+    PermissionDefinition("graph", "Policy.Read.ConditionalAccess", "application", True),
+    PermissionDefinition("graph", "Policy.Read.ConditionalAccess", "delegated", False),
     PermissionDefinition("graph", "User.ReadBasic.All", "delegated", False),
     PermissionDefinition("graph", "User.ReadWrite", "delegated", False),
     PermissionDefinition("graph", "Group.Create", "application", True),
