@@ -3,8 +3,15 @@ from mockazure.admin.routes import capabilities
 
 async def test_security_capabilities_advertise_bounded_operational_surfaces():
     value = await capabilities()
-    assert value["milestone"] == 3 and value["delivery"] == "C"
+    assert value["milestone"] == 4 and value["delivery"] == "mail"
     assert {
+        "graph.mail.inboxRules",
+        "graph.security.auditLog.queries",
+        "exchange.mailbox.configuration",
+        "exchange.mailbox.statistics",
+        "exchange.inboxRules",
+        "exchange.sweepRules",
+        "exchange.messageTrace",
         "graph.applications.lifecycle",
         "graph.servicePrincipals.lifecycle",
         "graph.devices.lifecycle",

@@ -120,3 +120,27 @@ namespace-qualified action names, which share the same server authorization and
 mutation paths as unqualified REST actions. Registered method descriptors do not
 claim physical MFA/SSPR/passwordless capabilities. Current grant changes affect
 new issuance/refresh; existing access-token claims retain their lifetime semantics.
+
+## M4 mail and audit qualification boundary
+
+The original collector output gate has44 cases across application/delegated
+success and denial controls: Hawk forwarding/inbox/sweep/configuration, MES
+Exchange/Graph rules,5003-row message traces,1003-row historical UAL in JSON,
+CSV,JSONL andSOF-ELK, and exact native Set-Mailbox evidence in JSON. Every output
+file is parsed and checked; original source/output hashes are retained.
+Final source-bound runtime/SDK/module/collector acceptance is recorded in
+[mail execution](mail-execution.md) and [verification](mail-verification.json).
+
+Hawk's qualified inbox invocation uses three visible rules with one combined
+forwarding/deletion rule, a sweep rule, and a separately checked hidden rule.
+The upstream serializer's multiple-suspicious-rule JSON append combination is
+explicitly unqualified; malformed output never passes this gate.
+PowerShell case timestamps stay strings to preserve subsecond query boundaries.
+Only declared audit timestamp fields are compared as exact UTC values to account
+for equivalent trailing-zero formatting; a one-microsecond change fails.
+
+Pinned clients:MSAL1.39.0,Graph Python1.64.0,Azure Identity1.26.0,Graph PowerShell
+2.35.1 andExchangeOnlineManagement3.11.0. Graph Security2.35.1 has no generated UAL
+cmdlets, so the original Invoke-MgGraphRequest interface is used. PowerShell
+receives local tokens; native credential acquisition is not claimed. The
+Exchange bootstrap remains the documented fixed local HTTP proxy boundary.

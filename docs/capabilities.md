@@ -83,7 +83,7 @@ or complete Hawk/MES collection workflows.
 
 ## Milestone 3B additions
 
-M3B introduced delivery B; current discovery reports delivery C. The evidence contract is normative
+M3B introduced delivery B; current discovery reports milestone4, delivery mail. The evidence contract is normative
 for operation permissions, P1/P2 gates, delegated roles, query operators and caps.
 
 | Surface | Implemented behavior |
@@ -103,7 +103,7 @@ Final client qualification status is recorded in evidence-execution.md.
 
 ## Milestone 3C additions
 
-Capability discovery reports milestone 3, delivery C. Microsoft Graph v1.0 metadata
+M3C introduced milestone3, delivery C; those operations remain supported. Microsoft Graph v1.0 metadata
 and operation-specific permissions govern the profile; beta shares only declared
 compatible operations.
 
@@ -131,3 +131,24 @@ See [exact security contracts](security-contracts.md), [client qualification
 contract](../integrations/contracts/graph-security.md), [measured results](security-verification.json)
 and [execution decisions](security-decisions.md). Final review status is in
 [security execution](security-execution.md).
+
+## Milestone 4 additions
+
+Capability discovery reports milestone4, delivery mail.
+
+| Surface | Implemented behavior |
+| --- | --- |
+| Graph inbox rules | v1.0/beta bounded v1 contract; user/UPN/me list/item/create/update/delete; current permissions/ownership; hidden and read-only rules; immutable page versions |
+| Exchange mailbox configuration | Canonical recipient identities, forwarding precedence and persisted primary/archive/folder/CAS state; current role/command/recipient scopes |
+| Original Exchange commands | Fixed whitelisted HTTP proxies plus original compiled Get-EXOMailbox/statistics/folders/CAS routes; no replacement compiled cmdlets |
+| Inbox/sweep rules | Distinct persisted rule families, lifecycle and ordering; actual IncludeHidden command coverage |
+| Message trace/detail | Immutable imported rows, documented bounded date/filter profile, 5000-row continuation and shared 100-request/300-second throttling |
+| Graph UAL queries | Explicit AuditLogsQuery permissions, workload unions, Purview roles and Audit entitlement; durable create/list/get/status/records |
+| Audit evidence | Native mailbox mutations and declared historical input; immutable fenced projection; SQL materialized retained query results independent of source cleanup/reset |
+
+Rules cap at1000 per mailbox and100 per response page. Queries retain results for
+seven days; continuation handles last one hour. Unsupported query combinations
+fail explicitly. Expired result-row and rule-version storage cleanup is M6 work.
+No message delivery, full Exchange policy engine, eDiscovery or broader Purview
+service is implied. See [mail contracts](mail-contracts.md) and
+[measured qualification](mail-verification.json).

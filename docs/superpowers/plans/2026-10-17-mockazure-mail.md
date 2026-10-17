@@ -138,11 +138,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes pinned original collector/helper sources and Task8 actual SDK/module sessions. Produces output identity/field oracles, source/output hashes, exact successful/denied cases for the spec's seven collector functions. Add any discovered required API endpoint; preserve original source and behavior.
 
-- [ ] Write focused failing tests: test_mail_collector_oracles rejects omitted pages, wrong recipients/actions, malformed JSON, wrong UAL IDs, wrong trace continuation, denied artifact disclosure and non-literal pass values. Run original Hawk forwarding/inbox/configuration and MES mailbox rules/Graph rules/trace/UAL-v1 with nonempty expected records, both authentication modes supported by actual modules, and denied cases. Validate every produced CSV/JSON/text artifact against canonical state; no new failure waiver.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/unit/test_mail_collector_oracles.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_mail_collector_oracles rejects omitted pages, wrong recipients/actions, malformed JSON, wrong UAL IDs, wrong trace continuation, denied artifact disclosure and non-literal pass values. Run original Hawk forwarding/inbox/configuration and MES mailbox rules/Graph rules/trace/UAL-v1 with nonempty expected records, both authentication modes supported by actual modules, and denied cases. Validate every produced CSV/JSON/text artifact against canonical state; no new failure waiver.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/unit/test_mail_collector_oracles.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 10: Run full regression, one review and publish M4
 
