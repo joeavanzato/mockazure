@@ -15,8 +15,8 @@ a mandatory gate fails. The four M4 failures (Hawk multi-rule JSON and MES trace
 fractional precision, application/delegated) remain mandatory. The sole exception
 is the previously approved M3B original MES audit JSON defect.
 
-No changes to VTW, predecessor worktrees/runtimes, real tenants, system trust,
-DNS or firewall. Fresh runtime credentials and CA, no copied secret/untracked files.
+No changes to VTW, predecessor source/data, real tenants, system trust,
+DNS or firewall. User permits stopping older MockAzure services as needed. Fresh runtime credentials and CA, no copied secret/untracked files.
 Named public archives may be reused only after the pinned manifest verifies them.
 Use existing actual Graph v1.0, ARM and Exchange references and original collector
 source. No fake downloaded commands, output repair or shaped one-rule fixtures.

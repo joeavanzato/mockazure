@@ -16,7 +16,7 @@ pinned original Microsoft SDKs, Az/Exchange, Hawk and MES.
 **Spec:** docs/superpowers/specs/2026-10-17-mockazure-release-design.md
 
 ## Global Constraints
-- Own D:/projects/mockazure only; no VTW, predecessor state, real tenants or system trust/DNS/firewall changes.
+- Own D:/projects/mockazure only; no VTW, predecessor source/data changes, real tenants or system trust/DNS/firewall changes. User permits stopping older MockAzure services.
 - Native implementation, one fresh final reviewer for M6, one consolidated fix pass.
 - Fresh credentials/CA for own runtime; reuse only named manifest-verified public archives.
 - Actual Graph v1.0/ARM/Exchange references; original collector commands and strict output oracles.

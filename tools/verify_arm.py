@@ -76,14 +76,9 @@ def source_fingerprint(root=ROOT):
             PROFILE.text("deploy/haproxy-m5.cfg"),
         )
     }
-    for folder in ("src", "integrations", "tools"):
-        files.update(
-            p
-            for p in (root / folder).rglob("*")
-            if p.is_file()
-            and "__pycache__" not in p.parts
-            and p.suffix in {".py", ".ps1", ".json", ".yaml", ".md", ".html"}
-        )
+    from tools.source_inputs import qualification_files
+
+    files.update(qualification_files(root))
     digest = hashlib.sha256()
     for path in sorted(files):
         digest.update(path.relative_to(root).as_posix().encode())

@@ -1,71 +1,68 @@
 # M6 execution checkpoint
 
 Branch feat/release-qualification in D:/projects/mockazure/.worktrees/release.
-Base 0e637743bf64119a0e468bd6220385e6020157c0 (M5 PR9). Native implementation.
-Tasks 1, 2 and 4 complete; Task3 final measurements and Task5 remain active.
-No M6 final review has been dispatched. Exactly one fresh review remains required.
+Base0e637743bf64119a0e468bd6220385e6020157c0 (M5 PR9). Native implementation.
+Tasks1,2,4 are complete. Task3 final measurement and Task5 handoff remain active.
 
-## Current work
+## Consolidated review is finished
 
-The bounded maintenance implementation, scale generator/runner and reproducible
-candidate builder are committed. Tuning at571578b passed small100/1000 and
-medium5000/50000 with exact concurrent coverage and worker/API restarts.
-Measured tuning is retained in release-scale.md/json.
+The sole M6 reviewer covered0e63774..04e263b and returned four important findings,
+all confirmed and fixed in one regression-first pass. No second review.
+See release-review.md and release-decisions.md.
 
-Candidate97f594992a074bbeb74e26c07d24f3bf37117622 built identical wheel/sdist pairs,
-and clean native/Docker package, capability and migration parity passed.
-Strict artifact acceptance passed1test0.93s. That proof is historical after the
-following release-compose readiness correction; rebuild before final acceptance.
+- Shared fingerprints cover all packaged resource suffixes and native network guard.
+  Artifact validation additionally checks currentHEAD and actual working input bytes.
+- Every directory/evidence reader retains a first-page continuation across one
+  synchronized API restart, with validated per-reader capture/resumption proof.
+- Original-suite budgets use measured headroom:1800/5400/3600/5400/3600seconds.
+- All six M6 databases require TCP readiness,180second startup grace and120second
+  shutdown grace. The initial Graph socket readiness race and ARM~75second
+  recovery are retained as failed-attempt evidence.
 
-Current-source qualification first found the preserved M2 port38443 conflict.
-M6Graph now uses47443..47446, PostgreSQL55446. It then exposed PostgreSQL's
-initialization-server health race: pg_isready over a Unix socket marked healthy
-at13:10:57UTC, before TCP was available at13:11:06UTC. Migration failed and a
-repeat after initialization passed. All five M6 compose health checks now require
--h127.0.0.1. RED regression confirmed the missing TCP guard;20affected tests pass.
+Full product regression completed755passed and one stale unit fixture failure in
+1688.47seconds. That fixture omitted the new build lock and is fixed. Fresh final
+complete unit regression passed386tests in14.17seconds. Product API code did not
+change during review fixes. Earlier focused cleanup/batch/race tests passed.
 
-Full unit/integration run started12:56UTC and continues in
-work/release/full-regression.log. Its early unit failure was a stale test fixture
-omitting build-requirements.txt; corrected fixture and metadata hash regression
-pass5tests. Product API code did not change during that run.
+## Fresh final qualification
 
-Interrupted original-suite and scale reports are retained under
-work/release/before-port-fix-* and before-health-fix-*.
-Small61006 and61007 passed at older source fingerprints; medium62003/62004
-interrupted, never counted as passing. Large63001 has not started.
-Next fresh scale seeds: small61008, medium62005, large63001.
+Interrupted owned M6 runtime directories were moved, without deletion, into
+.runtime/m6-attempts-before-final-review-fixes. M3B inspection confirmed5001live
+seed users, including one leftover temporary user after interruption; final
+qualification must use new clean instances, not weaken the expected5000count.
 
-## Runtime ownership and authorization
+Next scale seeds are small61009, medium62006 and large63002. Earlier completed
+small/medium tuning is historical; failed/interrupted reports remain in
+work/release/before-{port,health,review}-fix-* and individual profile journals.
+The previous large63001 attempt failed during runtime setup before importing data.
 
-User explicitly authorized stopping M2 and older MockAzure instances as needed.
-Idle predecessor MockAzure containers have been stopped, with all containers and
-volumes retained. VTW and unrelated containers were untouched. This supersedes
-the earlier instruction to preserve running predecessor services, but does not
-authorize deleting their data or changing their source.
+Final source must be committed before candidate build and all current-source runs.
+Run m3/m3b/m3c/m4 independently of scale; run originalm5 only after scale because
+both own the same M6ARM runtime. The final large target remains100000users and
+1000000records,10800second outer budget and3600second post-import publication
+budget. Missing/partial/timeout results remain blockers.
 
-Own testPostgreSQL55445 remains active. M6 suite ports:
+M6 profile ports:
 Graph47443/PG55446, evidence40443/55447, security42443/55448,
-mail44443/55449, ARM46443/55450. Native offsets+1/+2; managed identity+3.
-All state is under .runtime/m6-*. Fresh own credentials and CA; no public tenants.
+mail44443/55449, ARM46443/55450. Native offsets+1/+2, managed identity+3.
+Own testPostgreSQL55445. Fresh credentials/CA; no real tenants or host trust/DNS edits.
 
-## Remaining sequence
+## Acceptance and handoff
 
-Commit the health fix; rebuild the candidate; restart all current-source proofs.
-Run original m3/m3b/m3c/m4 independently of scale. Run m5 original only after
-scale ends because it shares the M6ARM runtime. Large remains100000users and
-1000000records, with10800s outer and3600s post-import publication budgets.
-Timeout, missing coverage or any failed mandatory case blocks release_ready.
+Rebuild wheel/sdist twice from committed Git bytes and verify native/Docker package
+parity. Attach the actual three final scale reports and candidate artifact manifest
+to the five-suite aggregate; run strict acceptance and provenance checks.
+The four M4 original collector-output failures remain mandatory blockers.
+The existing M3B original MES audit JSON exception is the sole waiver.
 
-Attach the actual three scale reports and candidate artifact manifest to the
-five-suite aggregate. Run full regression, Ruff/diff, provenance and strict
-acceptance. The four M4 collector-output failures remain mandatory blockers;
-the M3B original MES audit JSON exception is the only waiver.
+Publish measured reports and safe candidate artifacts, export the execution ledger,
+commit/push and create/attach the M6 PR stacked on M5. Draft if blocked.
+No registry publication, automatic merge, second review or M7.
+Disable the existing overnight heartbeat only after all feasible defined work and
+artifacts are delivered.
 
-Dispatch exactly one fresh final reviewer with spec/plan/ledger and five Review
-Focus items, then one consolidated regression-first fix pass. Rerun affected
-proofs. Export decisions/review, commit/push, create and attach the M6 feature PR
-stacked on M5 (draft if blocked). No automatic merge or registry publication.
-Disable the existing overnight heartbeat only after all feasible work and
-artifacts are delivered. No M7 is defined.
+User explicitly authorized stopping old MockAzure services as needed. Idle
+predecessor containers are stopped; source/data retained. VTW/unrelated containers
+were untouched.
 
 Ledger: .superpowers/sdd/2026-10-17-mockazure-release/progress.md.

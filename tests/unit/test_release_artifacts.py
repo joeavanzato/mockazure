@@ -175,7 +175,9 @@ def test_build_tool_lock_participates_in_candidate_fingerprint(tmp_path):
     assert source_fingerprint(tmp_path) != first
 
 
-@pytest.mark.parametrize("changed", ["status", "parity", "package_hashes", "probes"])
+@pytest.mark.parametrize(
+    "changed", ["status", "parity", "package_hashes", "probes", "source_bytes"]
+)
 def test_forged_completion_and_parity_are_rejected(tmp_path, monkeypatch, changed):
     import hashlib
 
@@ -184,6 +186,11 @@ def test_forged_completion_and_parity_are_rejected(tmp_path, monkeypatch, change
     source = {"src/" + name: body for name, body in PACKAGE.items()}
     source.update({"README.md": b"readme", "LICENSE": b"Apache", "NOTICE": b"notice"})
     monkeypatch.setattr(builder, "source_objects", lambda *args: source)
+    monkeypatch.setattr(builder, "git", lambda *args: b"b" * 40)
+    for name, contents in source.items():
+        target = tmp_path / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(contents)
     hashes = {name: hashlib.sha256(body).hexdigest() for name, body in PACKAGE.items()}
     values = {
         "schema_version": 1,
@@ -193,6 +200,7 @@ def test_forged_completion_and_parity_are_rejected(tmp_path, monkeypatch, change
         "parity": True,
         "source_fingerprint": "a" * 64,
         "source_commit": "b" * 40,
+        "source_hashes": {name: hashlib.sha256(body).hexdigest() for name, body in source.items()},
         "package_hashes": hashes,
         "sdist_hashes": {name: hashlib.sha256(body).hexdigest() for name, body in source.items()},
         "probes": {
@@ -228,7 +236,9 @@ def test_forged_completion_and_parity_are_rejected(tmp_path, monkeypatch, change
             }
         )
     assert builder.validate_artifact_report(values, tmp_path, "a" * 64)
-    if changed == "status":
+    if changed == "source_bytes":
+        (tmp_path / "src/mockazure/__init__.py").write_bytes(b"changed shipped bytes")
+    elif changed == "status":
         values[changed] = "running"
     elif changed == "parity":
         values[changed] = 1

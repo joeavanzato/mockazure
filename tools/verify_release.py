@@ -18,6 +18,8 @@ from tools.release_report import failed_cases, release_readiness, source_fingerp
 ROOT = Path(__file__).resolve().parents[1]
 LOGS = ROOT / "work/release"
 UV = shutil.which("uv") or str(Path.home() / ".local/bin/uv.exe")
+# M3B's measured original-client run takes 2842.423s; retain bounded headroom.
+SUITE_TIMEOUTS = {"m3": 1800, "m3b": 5400, "m3c": 3600, "m4": 5400, "m5": 3600}
 
 
 def save(path, value):
@@ -328,7 +330,7 @@ def run_suites(output, stages):
             code = run(
                 [sys.executable, "tools/verify_" + profile.surface + ".py", "--report", path],
                 stage + "-qualification",
-                timeout=2400,
+                timeout=SUITE_TIMEOUTS[stage],
                 check=False,
             )
             entry["exit_code"] = code

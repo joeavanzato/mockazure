@@ -18,13 +18,20 @@ def valid():
         "published": 1000,
         "worker_restart": True,
         "api_restart": True,
+        "restart_boundary": {"started_ns": 20, "completed_ns": 30},
         "reads": [
             {
                 "family": family,
                 "caller": caller,
                 "count": count,
                 "id_sha256_xor": ("b" if family == "user" else "c") * 64,
-                "pages": 1,
+                "pages": 2,
+                "restart": {
+                    "captured_ns": 10,
+                    "resumed_ns": 40,
+                    "pages_before": 1,
+                    "pages_after": 1,
+                },
                 "seconds": 1,
                 "p95_seconds": 0.1,
             }
@@ -93,3 +100,21 @@ def test_scale_page_never_leaves_owned_https(monkeypatch, url):
     monkeypatch.setenv("MOCKAZURE_QUALIFICATION_PROFILE", "release")
     with pytest.raises((AssertionError, ValueError)):
         require_page_url(profile_for("m5"), url)
+
+
+@pytest.mark.parametrize("change", ["missing", "early_resume", "late_capture", "no_page_after"])
+def test_report_requires_every_reader_to_cross_restart(change):
+    from tools.benchmark_release import validate_profile
+
+    value = valid()
+    evidence = value["reads"][-1]
+    if change == "missing":
+        del evidence["restart"]
+    elif change == "early_resume":
+        evidence["restart"]["resumed_ns"] = 19
+    elif change == "late_capture":
+        evidence["restart"]["captured_ns"] = 31
+    else:
+        evidence["restart"]["pages_after"] = 0
+    with pytest.raises((AssertionError, KeyError)):
+        validate_profile(value, "a" * 64)

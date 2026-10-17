@@ -6,6 +6,7 @@ x-application: &application
   networks: [internal]
 services:
   db:
+    stop_grace_period: 120s
     init: true
     image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
     environment:
@@ -18,6 +19,7 @@ services:
     networks: [internal]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure_m6_security -d mockazure_m6_security"]
+      start_period: 180s
       interval: 2s
       timeout: 3s
       retries: 30

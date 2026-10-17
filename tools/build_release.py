@@ -219,6 +219,11 @@ def validate_artifact_report(report, root, fingerprint):
     assert report["schema_version"] == 1 and report["status"] == "complete"
     root = Path(root).resolve()
     source = source_objects(root, report["source_commit"])
+    current_commit = git(root, "rev-parse", "HEAD").decode().strip()
+    assert source_objects(root, current_commit) == source
+    # A saved fingerprint/commit cannot attest changed or missing current inputs.
+    assert all((root / name).read_bytes() == contents for name, contents in source.items())
+    assert report["source_hashes"] == {name: sha(value) for name, value in source.items()}
     package_hashes = {
         name.removeprefix("src/"): sha(value)
         for name, value in source.items()

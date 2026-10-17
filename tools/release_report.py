@@ -24,14 +24,9 @@ def source_fingerprint(root=ROOT):
         )
     }
     files.update(root.glob("compose*.yaml"))
-    for directory in ("src", "tools", "integrations", "deploy"):
-        files.update(
-            p
-            for p in (root / directory).rglob("*")
-            if p.is_file()
-            and "__pycache__" not in p.parts
-            and p.suffix in {".py", ".ps1", ".json", ".yaml", ".cfg", ".md"}
-        )
+    from tools.source_inputs import qualification_files
+
+    files.update(qualification_files(root))
     digest = hashlib.sha256()
     for path in sorted(files):
         digest.update(path.relative_to(root).as_posix().encode())
