@@ -44,3 +44,10 @@ Four mandatory M4 failures remain: Hawk multi-rule JSON and MES trace microsecon
 both authentication modes. No new waiver, merge or registry publication.
 
 Task ledger:.superpowers/sdd/2026-10-17-mockazure-arm/progress.md.
+
+
+Task6 final: source2ab92a9,17runtime checks,3client profiles and8originalMES cases
+passed198.385001s. Current report archived docs/arm-verification.json.
+Report/transport/acceptance tests6passed0.87s; Task6 ledger complete.
+Full unit/integration regression is in progress for Task7. One fresh final review
+has not yet run. This M5 qualification does not waive M4's four output failures.

@@ -41,45 +41,45 @@ Tools/integrations own real-client qualification, not production provider behavi
 **Files:** Create providers/arm/{contracts,scopes,errors}.py and data/{references,operations,roles}.json; tools/acquire_arm_contracts.py; tests/unit/test_arm_contracts.py; docs/arm-contracts.md; compose.test.m5.yaml.
 **Interfaces:** parse_scope(value:str)->ArmScope(tenant-independent canonical key,subscription_id,group,resource_parts,display_id,parent_keys); operation_contract(name,version)->dict; validate_arm_payload(type_name,payload,partial=False)->dict. ArmError(status,code,message,target=None) maps to ARM error body.
 
-- [ ] Write failing tests for exact API-version allowlists and official schema fields; scope case equivalence, segment inheritance, encoded separators/traversal rejection, nested resource pairs and malformed GUIDs. Assert scope(a) does not contain scope(ab).
-- [ ] Run pytest tests/unit/test_arm_contracts.py -q; expect missing contracts/scope behavior RED, correct fixture errors first.
-- [ ] Acquire exact official Azure/azure-rest-api-specs references and dependent schemas with revision/hash manifest; preserve licence/provenance. Implement schema validators, immutable role definitions and strict scope parser. Pin filter/date/action references before consumers use them.
-- [ ] Run focused tests, Ruff and reference hash verification; expect PASS.
-- [ ] Commit contracts, scope/error boundary and M5-only test runtime configuration.
+- [x] Write failing tests for exact API-version allowlists and official schema fields; scope case equivalence, segment inheritance, encoded separators/traversal rejection, nested resource pairs and malformed GUIDs. Assert scope(a) does not contain scope(ab).
+- [x] Run pytest tests/unit/test_arm_contracts.py -q; expect missing contracts/scope behavior RED, correct fixture errors first.
+- [x] Acquire exact official Azure/azure-rest-api-specs references and dependent schemas with revision/hash manifest; preserve licence/provenance. Implement schema validators, immutable role definitions and strict scope parser. Pin filter/date/action references before consumers use them.
+- [x] Run focused tests, Ruff and reference hash verification; expect PASS.
+- [x] Commit contracts, scope/error boundary and M5-only test runtime configuration.
 
 ### Task 2: Persist inventory and inherited RBAC with legacy compatibility
 
 **Files:** Modify providers/arm/models.py,admin/arm_routes.py,identity principal lookup; create providers/arm/{authorization,inventory}.py, migration030; tests/integration/test_arm_state.py and test_arm_authorization.py.
 **Interfaces:** resolve_scope(session,tenant,ArmScope)->owned entity; require_action(session,actor,scope,action)->None or ArmError; readable_scopes(session,actor,action)->SQL predicate; inventory_view(row,expand=())->dict; admin seed inputs use typed tenant ownership. Existing ReaderAssignment endpoints retain behavior through one canonical assignment table.
 
-- [ ] Test migration of legacy Reader grants/revocation, subscription/group/resource inheritance, tenant FKs, case uniqueness, local SP object versus client ID, disabled/deleted principals and transitive security groups/cycles.
-- [ ] Test Reader denied writes, Contributor denied RBAC changes, Owner allowed, User Access Administrator denied general writes; union permits another role's granted action despite Contributor notActions. Assert no Entra/Graph implicit access.
-- [ ] Run tests/integration/test_arm_state.py tests/integration/test_arm_authorization.py for behavioral RED.
-- [ ] Add canonical groups/resources/assignments, indexes and admin seed/bootstrap; implement current principal checks and SQL-access filters. Serialize group lifecycle, reject import into Deleting groups and enforce max1000/secret field validation.
-- [ ] Run focused plus tests/integration/test_identity_arm.py; verify legacy contract and isolation, then commit.
+- [x] Test migration of legacy Reader grants/revocation, subscription/group/resource inheritance, tenant FKs, case uniqueness, local SP object versus client ID, disabled/deleted principals and transitive security groups/cycles.
+- [x] Test Reader denied writes, Contributor denied RBAC changes, Owner allowed, User Access Administrator denied general writes; union permits another role's granted action despite Contributor notActions. Assert no Entra/Graph implicit access.
+- [x] Run tests/integration/test_arm_state.py tests/integration/test_arm_authorization.py for behavioral RED.
+- [x] Add canonical groups/resources/assignments, indexes and admin seed/bootstrap; implement current principal checks and SQL-access filters. Serialize group lifecycle, reject import into Deleting groups and enforce max1000/secret field validation.
+- [x] Run focused plus tests/integration/test_identity_arm.py; verify legacy contract and isolation, then commit.
 
 ### Task 3: ARM discovery, inventory, groups and tags
 
 **Files:** Modify providers/arm/probes.py and app router registration; create providers/arm/{inventory_routes,paging,operations}.py, migrations as needed; tests/integration/test_arm_inventory.py,test_arm_mutations.py,test_arm_delete_jobs.py.
 **Interfaces:** routes call Task2 require_action/resolve_scope; append_arm_fact(session,actor,operation,scope,before,after,now,correlation_id)->SourceRef; process_arm_delete(database,JobClaim,now)->JobResult; opaque nextLink uses existing Continuation storage with explicit binding.
 
-- [ ] Test exact tenants/subscriptions/group/inventory shapes, declared versions/filter/top/expand/tag omission, unsupported queries and caller-bound pages with current revocation.
-- [ ] Test RG PUT/PATCH location constraints, concurrent tag Merge/Replace/Delete (50 limit, case-insensitive keys/case-sensitive values), native facts atomic with state, no-op suppression.
-- [ ] Test DELETE202/poll lifecycle, lease loss, restart, repeated requests, deletion versus import/assignment race, no cross-group deletes and no false success on failed jobs.
-- [ ] Run new integration tests for RED.
-- [ ] Implement selected routes and durable deletion with final-state/evidence/job commit fencing, ARM errors/request IDs and local-only polling links. No catch-all provider success.
-- [ ] Run affected inventory, authorization, job and evidence regressions; commit.
+- [x] Test exact tenants/subscriptions/group/inventory shapes, declared versions/filter/top/expand/tag omission, unsupported queries and caller-bound pages with current revocation.
+- [x] Test RG PUT/PATCH location constraints, concurrent tag Merge/Replace/Delete (50 limit, case-insensitive keys/case-sensitive values), native facts atomic with state, no-op suppression.
+- [x] Test DELETE202/poll lifecycle, lease loss, restart, repeated requests, deletion versus import/assignment race, no cross-group deletes and no false success on failed jobs.
+- [x] Run new integration tests for RED.
+- [x] Implement selected routes and durable deletion with final-state/evidence/job commit fencing, ARM errors/request IDs and local-only polling links. No catch-all provider success.
+- [x] Run affected inventory, authorization, job and evidence regressions; commit.
 
 ### Task 4: Public role definitions and assignments
 
 **Files:** Create providers/arm/{rbac,rbac_routes}.py; tests/integration/test_arm_rbac.py; update docs/arm-contracts.md.
 **Interfaces:** role_view(definition,scope)->dict; assignment_view(row)->dict; mutate_assignment(session,actor,scope,assignment_id,body,operation,now)->result; uses Task2 authority and Task3 append_arm_fact.
 
-- [ ] Test actual roleDefinitionId/principalId/principalType shape, assignment PUT idempotency and conflicting immutable identity, duplicate concurrent grants, current transitive memberships, scope-restricted GET/list/DELETE and atScope()/principalId filters.
-- [ ] Test conditions/custom role writes/foreign principals rejected, Contributor self-elevation denied, Owner grant/revoke followed by denied continuation and operation polling.
-- [ ] Run tests/integration/test_arm_rbac.py for RED.
-- [ ] Implement public routes and full canonical integration with legacy admin Reader endpoints; emit native facts only for real changes.
-- [ ] Run all ARM tests plus affected directory membership/identity tests; commit.
+- [x] Test actual roleDefinitionId/principalId/principalType shape, assignment PUT idempotency and conflicting immutable identity, duplicate concurrent grants, current transitive memberships, scope-restricted GET/list/DELETE and atScope()/principalId filters.
+- [x] Test conditions/custom role writes/foreign principals rejected, Contributor self-elevation denied, Owner grant/revoke followed by denied continuation and operation polling.
+- [x] Run tests/integration/test_arm_rbac.py for RED.
+- [x] Implement public routes and full canonical integration with legacy admin Reader endpoints; emit native facts only for real changes.
+- [x] Run all ARM tests plus affected directory membership/identity tests; commit.
 
 ### Task 5: Immutable Activity Logs and SQL paging
 
@@ -97,12 +97,12 @@ Tools/integrations own real-client qualification, not production provider behavi
 **Files:** Create compose.m5.yaml,compose.clients.m5.yaml,deploy/haproxy-m5.cfg; tools/{prepare_arm,prepare_arm_evidence,verify_arm,qualify_arm_collectors}.py; integrations/{python/arm.py,powershell/Test-ArmManagement.ps1,powershell/Test-ArmCollectors.ps1,powershell/Arm-LocalTransport.ps1}; update manifest/uv.lock with pinned official client versions; tests/unit/test_arm_report.py; tests/acceptance/test_arm_distribution.py.
 **Interfaces:** verify_arm writes source/lock/schema/archive/wheel/image/output-bound report with literal success per runtime/client/collector case. Original Get-ActivityLogs source revision47565f7842784cd3667ff630e3dccb49fa3408ed unchanged.
 
-- [ ] Write RED report/oracle tests for missing fields, lost timestamps, missing/duplicate IDs, malformed arrays, denied disclosures and artifact hash/path escape.
-- [ ] Provision fresh own CA/config/database and deterministic1003 historical Activity events plus native changes; independently record expected IDs/times/scopes. Reuse only manifest-verified named public archives.
-- [ ] Pin actual Az.Resources and Python management SDK contracts; run app/delegated discovery, groups/tags/RBAC through original SDKs in local-only transport. Observe exact API-version/paths before adding source-backed compatibility routes.
-- [ ] Run original MES through discovered and explicit subscription paths, both auth modes, positive and denied cases; actual Get-AzAccessToken/Get-AzSubscription unchanged. Parse and verify every output artifact. No repaired exports or replaced cmdlets.
-- [ ] Run clean-wheel native/container, two-worker/API, restart/lease/fault and DNS/IPv4/IPv6 egress-denial checks; preserve failed reports and nonzero exit rather than lowering gates.
-- [ ] Run focused report/acceptance tests, archive measured result and commit.
+- [x] Write RED report/oracle tests for missing fields, lost timestamps, missing/duplicate IDs, malformed arrays, denied disclosures and artifact hash/path escape.
+- [x] Provision fresh own CA/config/database and deterministic1003 historical Activity events plus native changes; independently record expected IDs/times/scopes. Reuse only manifest-verified named public archives.
+- [x] Pin actual Az.Resources and Python management SDK contracts; run app/delegated discovery, groups/tags/RBAC through original SDKs in local-only transport. Observe exact API-version/paths before adding source-backed compatibility routes.
+- [x] Run original MES through discovered and explicit subscription paths, both auth modes, positive and denied cases; actual Get-AzAccessToken/Get-AzSubscription unchanged. Parse and verify every output artifact. No repaired exports or replaced cmdlets.
+- [x] Run clean-wheel native/container, two-worker/API, restart/lease/fault and DNS/IPv4/IPv6 egress-denial checks; preserve failed reports and nonzero exit rather than lowering gates.
+- [x] Run focused report/acceptance tests, archive measured result and commit.
 
 ### Task 7: Regression, one final review and M6 handoff
 

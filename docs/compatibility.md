@@ -143,3 +143,22 @@ Pinned clients:MSAL1.39.0,Graph Python1.64.0,Azure Identity1.26.0,Graph PowerShe
 cmdlets, so original Invoke-MgGraphRequest is used. PowerShell receives local
 tokens; native credential acquisition is not claimed. The Exchange bootstrap
 remains the documented fixed local HTTP proxy boundary.
+
+
+## M5 Azure management qualification boundary
+
+M5 passed17runtime gates, three real SDK profiles and eight original MES cases.
+Native/container Python uses MSAL1.39.0 and Azure management SDKs
+resource23.4.0/authorization4.0.0/monitor6.0.2. Container PowerShell uses
+Az.Accounts4.0.2/Az.Resources7.8.0 with local token login and original commands.
+Each allowed MES case validates1003historical Activity records and the captured
+native mutation snapshot; all fields, event identities and100ns instants must match.
+Denied cases prove403 and no exported records.
+
+Supported versions, scope compatibility and filter grammar are explicitly pinned
+in [ARM contracts](arm-contracts.md). [Client contract](../integrations/contracts/arm.md)
+describes local transport boundaries and exact invocation coverage.
+[Measured report](arm-verification.json) binds source, package metadata, lock,
+schema/archive manifests, images, wheel and output artifacts.
+[Execution](arm-execution.md) records final-review status and unresolved gates.
+M4's four original collector failures remain combined-release blockers.
