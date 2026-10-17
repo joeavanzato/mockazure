@@ -385,6 +385,9 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
                     deleted_ids.append(sp.id)
         else:
             await session.delete(row)
+        from mockazure.directory.organization import remove_collection_references
+
+        await remove_collection_references(session, actor.tenant_id, deleted_ids)
         await session.execute(
             delete(SecurityOwner).where(
                 SecurityOwner.tenant_id == actor.tenant_id,

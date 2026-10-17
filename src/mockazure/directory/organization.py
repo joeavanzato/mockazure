@@ -3,7 +3,7 @@
 from datetime import UTC, datetime
 from uuid import UUID, uuid5
 
-from sqlalchemy import delete, select
+from sqlalchemy import delete, or_, select
 
 from mockazure.db.models import Tenant
 from mockazure.directory.models import Group
@@ -171,8 +171,9 @@ async def replace_collection_state(session, tenant_id, body):
                         "principalType": kind,
                         "principalDisplayName": principal.display_name,
                         "resourceDisplayName": resource.get("displayName"),
-                        "createdDateTime": value.get("createdDateTime")
-                        or datetime.now(UTC).isoformat(),
+                        "createdDateTime": value.get(
+                            "createdDateTime", datetime.now(UTC).isoformat()
+                        ),
                     },
                 )
             )
@@ -215,3 +216,25 @@ async def replace_collection_state(session, tenant_id, body):
             session.add(DeviceUser(tenant_id=tenant_id, device_id=device, user_id=user))
     await session.flush()
     return await collection_state(session, tenant_id)
+
+
+async def remove_collection_references(session, tenant_id, identifiers):
+    """Remove fixture relationships atomically with their canonical targets."""
+    ids = tuple(identifiers)
+    text_ids = [str(value) for value in ids]
+    await session.execute(
+        delete(SecurityObject).where(
+            SecurityObject.tenant_id == tenant_id,
+            SecurityObject.kind == "principalAppRoleAssignment",
+            or_(
+                SecurityObject.properties["principalId"].as_string().in_(text_ids),
+                SecurityObject.properties["resourceId"].as_string().in_(text_ids),
+            ),
+        )
+    )
+    await session.execute(
+        delete(DeviceUser).where(
+            DeviceUser.tenant_id == tenant_id,
+            or_(DeviceUser.user_id.in_(ids), DeviceUser.device_id.in_(ids)),
+        )
+    )

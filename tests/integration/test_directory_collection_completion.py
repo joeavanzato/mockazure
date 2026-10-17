@@ -2,6 +2,8 @@
 
 from uuid import uuid4
 
+import pytest
+
 from mockazure.directory.models import DirectoryRelation
 from tests.integration.graph_support import (
     graph_client,
@@ -641,3 +643,177 @@ async def test_service_principal_owner_audit_preserves_target_without_granting_c
                 x["id"] == str(sp) and x["type"] == "ServicePrincipal" for x in facts["targets"]
             )
             assert await session.scalar(select(func.count()).select_from(Grant)) == consent_before
+
+
+async def test_review_registered_users_requires_delegated_directory_role(database, settings):
+    from sqlalchemy import delete
+
+    from mockazure.identity.models import DirectoryRole
+    from mockazure.security.models import SecurityObject
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        device = uuid4()
+        async with database.sessions.begin() as session:
+            session.add(SecurityObject(tenant_id=tenant, id=device, kind="device", properties={}))
+        headers = await headers_for(
+            database, settings, tenant, app, user, {"Device.Read.All"}, "delegated"
+        )
+        route = f"/v1.0/devices/{device}/registeredUsers"
+        assert (await client.get(route, headers=headers)).status_code == 403
+        for role in (
+            "Directory Readers",
+            "Global Reader",
+            "Intune Administrator",
+            "Windows 365 Administrator",
+            "Global Administrator",
+        ):
+            async with database.sessions.begin() as session:
+                session.add(DirectoryRole(tenant_id=tenant, user_id=user, role=role))
+            assert (await client.get(route, headers=headers)).status_code == 200
+            async with database.sessions.begin() as session:
+                await session.execute(
+                    delete(DirectoryRole).where(
+                        DirectoryRole.tenant_id == tenant, DirectoryRole.user_id == user
+                    )
+                )
+        assert (await client.get(route, headers=headers)).status_code == 403
+
+
+async def test_review_intune_can_manage_service_principal_group_owners(database, settings):
+    from sqlalchemy import select
+
+    from mockazure.identity.models import DirectoryRole, ServicePrincipal
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        async with database.sessions.begin() as session:
+            group = await persisted_group(session, tenant)
+            group_id = group.id
+            sp = await session.scalar(
+                select(ServicePrincipal.id).where(
+                    ServicePrincipal.tenant_id == tenant, ServicePrincipal.client_id == app
+                )
+            )
+            session.add(DirectoryRole(tenant_id=tenant, user_id=user, role="Intune Administrator"))
+        headers = await headers_for(
+            database, settings, tenant, app, user, {"Group.ReadWrite.All"}, "delegated"
+        )
+        path = f"/v1.0/groups/{group_id}/owners"
+        added = await client.post(
+            path + "/$ref",
+            headers=headers,
+            json={"@odata.id": settings.endpoints.graph + f"/v1.0/servicePrincipals/{sp}"},
+        )
+        assert added.status_code == 204, added.text
+        removed = await client.delete(path + f"/{sp}/$ref", headers=headers)
+        assert removed.status_code == 204, removed.text
+
+
+async def test_review_assignment_null_timestamp_is_preserved(database, settings):
+    from sqlalchemy import select
+
+    from mockazure.identity.models import ServicePrincipal
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        async with database.sessions() as session:
+            resource = await session.scalar(
+                select(ServicePrincipal.id).where(
+                    ServicePrincipal.tenant_id == tenant, ServicePrincipal.client_id == app
+                )
+            )
+        assignment = {
+            "id": str(uuid4()),
+            "principalId": str(user),
+            "resourceId": str(resource),
+            "appRoleId": str(uuid4()),
+            "createdDateTime": None,
+        }
+        assignment["appRoleId"] = "00000000-0000-0000-0000-000000000000"
+        path = f"/_mock/tenants/{tenant}/directory/collectionState"
+        imported = await client.put(path, json={"appRoleAssignments": [assignment]})
+        assert imported.status_code == 200, imported.text
+        assert imported.json()["appRoleAssignments"][0]["createdDateTime"] is None
+        exported = (await client.get(path)).json()
+        assert (await client.put(path, json=exported)).json() == exported
+        headers = await headers_for(database, settings, tenant, app, None, {"Directory.Read.All"})
+        graph = await client.get(f"/v1.0/users/{user}/appRoleAssignments", headers=headers)
+        assert graph.json()["value"][0]["createdDateTime"] is None
+
+
+@pytest.mark.parametrize(
+    "deleted_kind", ["user", "group", "servicePrincipal", "application", "device"]
+)
+async def test_review_deletion_keeps_collection_state_roundtrippable(
+    database, settings, deleted_kind
+):
+    from sqlalchemy import select
+
+    from mockazure.identity.models import Application, ServicePrincipal
+    from mockazure.security.models import SecurityObject
+    from tests.integration.graph_support import registered_app
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        from uuid import UUID
+
+        resource_app = UUID(await registered_app(client, tenant))
+        device = uuid4()
+        async with database.sessions.begin() as session:
+            group = await persisted_group(session, tenant)
+            group_id = group.id
+            resource = await session.scalar(
+                select(ServicePrincipal.id).where(
+                    ServicePrincipal.tenant_id == tenant, ServicePrincipal.client_id == resource_app
+                )
+            )
+            application = await session.get(Application, resource_app)
+            application_id = application.object_id
+            session.add(SecurityObject(tenant_id=tenant, id=device, kind="device", properties={}))
+        path = f"/_mock/tenants/{tenant}/directory/collectionState"
+        assignments = [
+            {
+                "id": str(uuid4()),
+                "principalId": str(principal),
+                "resourceId": str(resource),
+                "appRoleId": "00000000-0000-0000-0000-000000000000",
+            }
+            for principal in (user, group_id)
+        ]
+        imported = await client.put(
+            path,
+            json={
+                "appRoleAssignments": assignments,
+                "registeredUsers": [{"deviceId": str(device), "userId": str(user)}],
+            },
+        )
+        assert imported.status_code == 200, imported.text
+        headers = await headers_for(
+            database,
+            settings,
+            tenant,
+            app,
+            None,
+            {
+                "User.ReadWrite.All",
+                "Group.ReadWrite.All",
+                "Application.ReadWrite.All",
+                "Device.ReadWrite.All",
+                "Directory.Read.All",
+            },
+        )
+        routes = {
+            "user": f"users/{user}",
+            "group": f"groups/{group_id}",
+            "servicePrincipal": f"servicePrincipals/{resource}",
+            "application": f"applications/{application_id}",
+            "device": f"devices/{device}",
+        }
+        deleted = await client.delete("/v1.0/" + routes[deleted_kind], headers=headers)
+        assert deleted.status_code == 204, deleted.text
+        exported = (await client.get(path)).json()
+        restored = await client.put(path, json=exported)
+        assert restored.status_code == 200, restored.text
+        assert restored.json() == exported
+        expected_assignments = (
+            2 if deleted_kind == "device" else 1 if deleted_kind in {"user", "group"} else 0
+        )
+        assert len(exported["appRoleAssignments"]) == expected_assignments
+        assert len(exported["registeredUsers"]) == (0 if deleted_kind in {"user", "device"} else 1)

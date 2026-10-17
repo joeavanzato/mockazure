@@ -242,6 +242,10 @@ async def mutate_directory(
     validate_values(command)
     # Serialize all directory writes for this tenant; the returned watermark is commit ordered.
     revision = await reserve_revision(session, tenant_id)
+    if command.action == "delete":
+        from mockazure.security.repository import lock_security
+
+        await lock_security(session, tenant_id)
     provider = isinstance(actor, PrincipalContext)
     if provider:
         if actor.tenant_id != tenant_id:
@@ -443,7 +447,11 @@ async def mutate_directory(
             owned = await session.get(
                 DirectoryRelation, (tenant_id, row.id, actor.subject_id, "owner")
             )
-            if not owned and not roles & {"Groups Administrator", "Global Administrator"}:
+            if not owned and not roles & {
+                "Groups Administrator",
+                "Global Administrator",
+                "Intune Administrator",
+            }:
                 deny()
         if command.action.startswith("add_"):
             if relation == "member" and kind == "group":
@@ -487,6 +495,9 @@ async def mutate_directory(
         )
         changed.add(relation + "s")
     elif command.action == "delete":
+        from mockazure.directory.organization import remove_collection_references
+
+        await remove_collection_references(session, tenant_id, [row.id])
         row.deleted_at = now
         if command.kind == "user":
             from mockazure.licensing.service import release_user

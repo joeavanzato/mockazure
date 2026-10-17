@@ -26,6 +26,15 @@ READ = OperationRequirement(
         {"Device.Read.All", "Device.ReadWrite.All", "Directory.Read.All", "Directory.ReadWrite.All"}
     ),
     frozenset({"Device.Read.All", "Directory.Read.All", "Directory.ReadWrite.All"}),
+    frozenset(
+        {
+            "Directory Readers",
+            "Global Reader",
+            "Intune Administrator",
+            "Windows 365 Administrator",
+            "Global Administrator",
+        }
+    ),
 )
 WRITE = OperationRequirement(
     "graph",

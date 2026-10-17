@@ -375,6 +375,13 @@
           "Device.Read.All",
           "Directory.Read.All",
           "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Directory Readers",
+          "Global Reader",
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
         ]
       },
       "queryOptions": [
@@ -386,7 +393,8 @@
         "id/type/displayName/userPrincipalName projection; unreadable fields null"
       ],
       "tests": [
-        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip",
+        "tests/integration/test_directory_collection_completion.py::test_review_registered_users_requires_delegated_directory_role"
       ],
       "status": "implemented",
       "sourceSha256": "29e8f52701e7c2a653b4530fe9366cd789bd0d2453524cd32d8c6778c5941bd9",
@@ -447,6 +455,13 @@
           "Device.Read.All",
           "Directory.Read.All",
           "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Directory Readers",
+          "Global Reader",
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
         ]
       },
       "queryOptions": [
@@ -458,7 +473,8 @@
         "id/type/displayName/userPrincipalName projection; unreadable fields null"
       ],
       "tests": [
-        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip",
+        "tests/integration/test_directory_collection_completion.py::test_review_registered_users_requires_delegated_directory_role"
       ],
       "status": "implemented",
       "sourceSha256": "29e8f52701e7c2a653b4530fe9366cd789bd0d2453524cd32d8c6778c5941bd9",
