@@ -27,6 +27,7 @@ services:
     networks: [isolated]
   python:
     image: mockazure:mail-python-clients
+    pull_policy: never
     entrypoint: ["python"]
     command: ["/project/integrations/python/network_boundary.py"]
     working_dir: /project

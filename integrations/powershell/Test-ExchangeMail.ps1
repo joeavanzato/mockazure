@@ -2,18 +2,31 @@ $ErrorActionPreference = 'Stop'
 $config = Get-Content /state/client.json -Raw | ConvertFrom-Json
 $secret = (Get-Content $config.secret_file -Raw | ConvertFrom-Json).secret
 $env:SSL_CERT_FILE = $config.ca_file
-$result = [ordered]@{client='ExchangeOnlineManagement'; version='3.11.0'; connected=$false; checks=@()}
+$report = [ordered]@{passed=$false;version='3.11.0';modes=[ordered]@{}}
+foreach($mode in @('application','delegated')) {
+$result = [ordered]@{connected=$false;checks=@()}
 function Assert-Mail($condition, $message) { if (-not $condition) { throw $message } }
 try {
     [System.Reflection.Assembly]::LoadFrom("/vendor/dependencies/Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0/lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll") | Out-Null
     Import-Module ExchangeOnlineManagement -RequiredVersion 3.11.0
+    if($mode -eq 'application') {
     $token = Invoke-RestMethod -Method POST -Uri "$($config.endpoints.login)/$($config.tenant_id)/oauth2/v2.0/token" -Body @{
         grant_type='client_credentials'; client_id=$config.client_id; client_secret=$secret
         scope='https://outlook.office365.com/.default'
     }
-    Connect-ExchangeOnline -AccessToken $token.access_token -AppId $config.client_id -Organization $config.tenant_domain -ConnectionUri $config.endpoints.exchange -AzureADAuthorizationEndpointUri "$($config.endpoints.login)/organizations" -ShowBanner:$false -SkipLoadingFormatData -SkipLoadingCmdletHelp -DisableWAM -EnableErrorReporting:$false -LogDirectoryPath /state/exo-logs
+    } else { $token = Get-Content /state/exchange-delegated-token.json -Raw | ConvertFrom-Json }
+    $connect=@{
+        AccessToken=$token.access_token;ConnectionUri=$config.endpoints.exchange
+        AzureADAuthorizationEndpointUri="$($config.endpoints.login)/organizations"
+        ShowBanner=$false;SkipLoadingFormatData=$true;SkipLoadingCmdletHelp=$true
+        DisableWAM=$true;EnableErrorReporting=$false;LogDirectoryPath="/state/exo-logs"
+    }
+    if($mode -eq 'application'){$connect.AppId=$config.client_id;$connect.Organization=$config.tenant_domain}
+    else{$connect.UserPrincipalName=$config.mailbox_upn}
+    Connect-ExchangeOnline @connect
+
     $result.connected = $true
-    foreach ($name in @('Get-EXOMailbox','Get-EXOMailboxStatistics','Get-EXOMailboxFolderStatistics','Get-EXOCasMailbox','ArchiveStatistics','CommandLifecycle')) {
+    foreach ($name in @('Get-EXOMailbox','Get-EXOMailboxStatistics','Get-EXOMailboxFolderStatistics','Get-EXOCasMailbox','ArchiveStatistics','CommandLifecycle','TraceAndDetail')) {
         $check = [ordered]@{name=$name; passed=$false}
         try {
             switch ($name) {
@@ -38,6 +51,20 @@ try {
                     $rows = @(Get-EXOMailboxStatistics -Identity $config.mailbox_upn -Archive -ErrorAction Stop)
                     Assert-Mail ($rows.Count -eq 1 -and $rows[0].ItemCount -eq 3 -and $rows[0].IsArchiveMailbox -eq $true -and $rows[0].TotalItemSize.Value.ToBytes() -eq 2048) 'Archive statistics mismatch'
                 }
+                'TraceAndDetail' {
+                    $start=[datetime]::Parse($config.mail_fixture.trace_start).ToUniversalTime()
+                    $end=[datetime]::Parse($config.mail_fixture.trace_end).ToUniversalTime()
+                    $first=@(Get-MessageTraceV2 -StartDate $start -EndDate $end -ResultSize 5000)
+                    Assert-Mail ($first.Count -eq 5000) 'Trace first page mismatch'
+                    $last=$first[-1]
+                    $second=@(Get-MessageTraceV2 -StartDate $start -EndDate ([datetime]$last.Received) -StartingRecipientAddress $last.RecipientAddress -ResultSize 5000)
+                    $all=@($first)+@($second)
+                    Assert-Mail ($all.Count -eq 5003 -and @($all.MessageTraceId | Sort-Object -Unique).Count -eq 5003) 'Trace continuation mismatch'
+                    Assert-Mail (@($all | Where-Object {$_.MessageTraceId -notin $config.mail_fixture.trace_ids}).Count -eq 0) 'Trace identities mismatch'
+                    $detail=@(Get-MessageTraceDetailV2 -MessageTraceId $first[0].MessageTraceId -RecipientAddress $config.mailbox_upn -StartDate $start -EndDate $end)
+                    Assert-Mail ($detail.Count -eq 1 -and $detail[0].Event -eq 'DELIVER' -and $detail[0].Action -eq 'Delivered') 'Trace detail mismatch'
+                    $rows=$detail
+                }
                 'CommandLifecycle' {
                     $before = Get-Mailbox -Identity $config.mailbox_upn
                     Set-Mailbox -Identity $config.mailbox_upn -ForwardingSmtpAddress 'smtp:external@example.test'
@@ -58,7 +85,7 @@ try {
             }
             $check.passed = $true
             $check.count = $rows.Count
-            $rows | ConvertTo-Json -Depth 12 | Set-Content "/state/mail-$name.json"
+            $rows | ConvertTo-Json -Depth 12 | Set-Content "/state/mail-$mode-$name.json"
         } catch {
             $check.error_message = ([string]$_.Exception.Message).Replace([string]$token.access_token, "[token]").Replace([string]$secret, "[secret]")
             $check.error_type = $_.Exception.GetType().FullName
@@ -71,6 +98,15 @@ try {
     $result.error_type = $_.Exception.GetType().FullName
     $result.error_category = [string]$_.CategoryInfo.Category
 }
-$result | ConvertTo-Json -Depth 5 | Set-Content /state/exchange-mail.json
-$result | ConvertTo-Json -Depth 5
-if (-not $result.connected -or @($result.checks | Where-Object { -not $_.passed }).Count) { exit 1 }
+if ($result.connected) { Disconnect-ExchangeOnline -Confirm:$false | Out-Null }
+if (-not $result.connected -or @($result.checks | Where-Object { -not $_.passed }).Count) {
+    $result | ConvertTo-Json -Depth 5
+    exit 1
+}
+$checks=[ordered]@{}
+foreach($check in $result.checks){$checks[$check.name]=$check.passed}
+$report.modes[$mode]=$checks
+}
+$report.passed=$true
+$report | ConvertTo-Json -Depth 10 | Set-Content /state/exchange-mail.json
+$report | ConvertTo-Json -Depth 10
