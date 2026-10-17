@@ -68,6 +68,7 @@ def source_fingerprint(root=ROOT):
             "NOTICE",
             "pyproject.toml",
             "uv.lock",
+            "build-requirements.txt",
             "Dockerfile",
             "integrations/Dockerfile.python",
             PROFILE.text("compose.m5.yaml"),

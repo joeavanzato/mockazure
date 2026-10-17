@@ -228,7 +228,64 @@ def validate_release(report):
             validate_suite(stage, path)
         except (AssertionError, KeyError, ValueError, OSError):
             entry.update(status="failed", validated=False)
-    return release_readiness(report, source_fingerprint())
+    from tools.benchmark_release import validate_profile
+    from tools.build_release import validate_artifact_report
+
+    fingerprint = source_fingerprint()
+    for name, entry in report.get("scale", {}).items():
+        if entry.get("passed") is not True:
+            continue
+        try:
+            value = read_backing_report(entry)
+            assert value["name"] == name
+            validate_profile(value, fingerprint)
+            assert (entry["users"], entry["records"]) == (value["users"], value["records"])
+        except (AssertionError, KeyError, TypeError, ValueError, OSError):
+            entry.update(passed=False, status="failed")
+    entry = report.get("artifacts", {})
+    if entry.get("passed") is True:
+        try:
+            validate_artifact_report(read_backing_report(entry), ROOT, fingerprint)
+        except (AssertionError, KeyError, TypeError, ValueError, OSError):
+            entry.update(passed=False, parity=False)
+    return release_readiness(report, fingerprint)
+
+
+def read_backing_report(entry):
+    path = (ROOT / entry["report"]).resolve()
+    assert path.is_relative_to(LOGS.resolve()) and path.is_file()
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == entry["report_sha256"]
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def attach_extra_gates(report, scale_paths, artifact_path=None):
+    for path in scale_paths:
+        path = path.resolve()
+        assert path.is_relative_to(LOGS.resolve())
+        value = json.loads(path.read_text(encoding="utf-8"))
+        name = value["name"]
+        from tools.release_report import SCALE_TARGETS
+
+        assert name in SCALE_TARGETS
+        report.setdefault("scale", {})[name] = {
+            "passed": value.get("passed") is True,
+            "users": value["users"],
+            "records": value["records"],
+            "report": path.relative_to(ROOT).as_posix(),
+            "report_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
+    if artifact_path is not None:
+        path = artifact_path.resolve()
+        assert path.is_relative_to(LOGS.resolve())
+        value = json.loads(path.read_text(encoding="utf-8"))
+        report["artifacts"] = {
+            key: value.get(key) is True for key in ("passed", "reproducible", "parity")
+        } | {
+            "report": path.relative_to(ROOT).as_posix(),
+            "report_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
+    report.update(validate_release(report))
+    return report
 
 
 def run_suites(output, stages):
@@ -309,6 +366,8 @@ def main():
     parser.add_argument("--stages", nargs="+", choices=list(STAGES), default=list(STAGES))
     parser.add_argument("--reuse-public-archives", type=Path)
     parser.add_argument("--report", type=Path, default=LOGS / "qualification.json")
+    parser.add_argument("--scale-report", type=Path, nargs="*", default=[])
+    parser.add_argument("--artifact-report", type=Path)
     args = parser.parse_args()
     os.environ["MOCKAZURE_QUALIFICATION_PROFILE"] = "release"
     os.environ.setdefault("UV_CACHE_DIR", str(ROOT.parents[1] / ".runtime/uv-cache"))
@@ -331,6 +390,9 @@ def main():
         "python-client-image",
     )
     report = run_suites(output, args.stages)
+    if args.scale_report or args.artifact_report:
+        attach_extra_gates(report, args.scale_report, args.artifact_report)
+        save(output, report)
     print(
         json.dumps(
             {key: report[key] for key in ("qualification_ready", "release_ready", "failed_gates")}

@@ -45,6 +45,7 @@ def source_fingerprint():
         for name in (
             "pyproject.toml",
             "uv.lock",
+            "build-requirements.txt",
             "Dockerfile",
             "integrations/Dockerfile.python",
             PROFILE.text("compose.m3.yaml"),

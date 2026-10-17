@@ -29,3 +29,16 @@ M6 ARM services stopped; its fresh state persists. Combined report honestly fals
 CLI blocked exit0 regression fixed toexit2; final source-bound five-suite run remains
 Task5. Task3 proceeds to measured scale on new synthetic tenants in M6-owned ARM
 runtime (not predecessor M5). No current final release acceptance is claimed.
+
+Task3 tuning at571578b: small61005 passed all4exact traversals/restarts,
+1000records in8.863s includingrestart. Medium62002 passed5000users/50000records,
+186.570s pipeline (112.780s import), both100page evidence traversals161.49/161.41s,
+no retries/duplicates/missing records. PG database total587937471bytes,20CPU/32GiB
+Docker host. These are source-bound tuning proofs; allthree final profiles remain
+required after tooling is committed. Task3 remains open, large target unchanged.
+
+Task4 independent tooling started BASE571578b7cf004397d61ed03ca6665fe29d0f0528.
+13archive/source/stale-report tests REDmissingmodule thenGREEN13 in0.51s.
+Build environment lock resolved inwork/release/build-requirements.lock:
+build1.6.1,hatchling1.32.4 and alltransitives hash-pinned forWindows/Linux.
+Builder execution/parity and finalsource normalization remain unimplemented.

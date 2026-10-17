@@ -196,3 +196,29 @@ Create the network only once; verify its internal flag on subsequent runs.
 Runtime client profiles and generated credentials remain ignored project-local files.
 The verifier requires unchanged source bytes, pinned artifacts, clean-wheel parity,
 real client requests, exact collector files, denied access and restart persistence.
+
+## Exchange, Azure management and release qualification
+
+The Exchange/UAL milestone adds persisted mailbox, rule, trace and audit behavior,
+including the bounded Microsoft Exchange module bootstrap. Four original collector
+output checks remain blocked: Hawk inbox-rule JSON concatenation in both auth modes,
+and MES trace CSV timestamp precision in both modes. See
+[mail verification](docs/mail-verification.json) and [mail contracts](docs/mail-contracts.md).
+
+The Azure management milestone adds the declared subscription/resource-group/tag,
+RBAC, asynchronous group deletion and Activity Log profile. Its measured runtime,
+SDK and original MES cases pass; its stacked PR remains draft because the combined
+M4 blockers remain. See [ARM verification](docs/arm-verification.json) and
+[ARM contracts](docs/arm-contracts.md).
+
+M6 adds bounded storage maintenance, deterministic scale/recovery measurements,
+and reproducible candidate artifact tooling. Historical sign-in projection uses
+bounded atomic batches, individual receipts and generation/epoch fences; missing-job
+repair runs periodically. These changes do not promise production-cloud throughput.
+See [maintenance](docs/maintenance.md), [scale measurements](docs/release-scale.md),
+[build instructions](docs/release-build.md) and [execution status](docs/release-execution.md).
+
+A candidate artifact pass is separate from release acceptance. Every original-client
+suite and all three declared scale profiles must pass on the current source before
+release_ready can be true. The existing M3B MES audit JSON exception is the only
+accepted collector-output waiver. No package or image is published automatically.

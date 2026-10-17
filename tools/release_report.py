@@ -13,7 +13,15 @@ ROOT = Path(__file__).resolve().parents[1]
 def source_fingerprint(root=ROOT):
     files = {
         root / name
-        for name in ("pyproject.toml", "uv.lock", "Dockerfile", "README.md", "LICENSE", "NOTICE")
+        for name in (
+            "pyproject.toml",
+            "uv.lock",
+            "build-requirements.txt",
+            "Dockerfile",
+            "README.md",
+            "LICENSE",
+            "NOTICE",
+        )
     }
     files.update(root.glob("compose*.yaml"))
     for directory in ("src", "tools", "integrations", "deploy"):

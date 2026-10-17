@@ -124,3 +124,21 @@ def test_cli_returns_nonzero_for_an_incomplete_release(monkeypatch):
     with pytest.raises(SystemExit) as stopped:
         verify_release.main()
     assert stopped.value.code == 2
+
+
+@pytest.mark.parametrize("gate", ["scale", "artifacts"])
+def test_combined_validation_rejects_unbacked_extra_gate_flags(monkeypatch, gate):
+    from tools import verify_release
+
+    monkeypatch.setattr(verify_release, "source_fingerprint", lambda: "a" * 64)
+    value = {
+        "schema_version": 1,
+        "source_fingerprint": "a" * 64,
+        "qualified_at": datetime.now(UTC).isoformat(),
+        "suites": {},
+        "scale": {"small": {"passed": True, "users": 100, "records": 1000}},
+        "artifacts": {"passed": True, "reproducible": True, "parity": True},
+    }
+    verify_release.validate_release(value)
+    candidate = value[gate]["small"] if gate == "scale" else value[gate]
+    assert candidate["passed"] is False

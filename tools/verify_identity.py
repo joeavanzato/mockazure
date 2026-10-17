@@ -43,6 +43,7 @@ def source_fingerprint():
     files = [
         ROOT / "pyproject.toml",
         ROOT / "uv.lock",
+        ROOT / "build-requirements.txt",
         ROOT / "Dockerfile",
         ROOT / "integrations/Dockerfile.python",
         ROOT / "deploy/haproxy-m2.cfg",

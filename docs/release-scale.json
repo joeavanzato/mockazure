@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "status": "tuning-complete-final-qualification-pending",
+  "source_commit": "571578b7cf004397d61ed03ca6665fe29d0f0528",
+  "profiles": {
+    "small": {
+      "name": "small",
+      "seed": 61005,
+      "users": 100,
+      "records": 1000,
+      "source_fingerprint": "15bc2c37ee6267ca157cbc3cd0a5b10d2ba8a675bb3a5682e0af30b0014ade1c",
+      "started_at": "2026-10-17T12:31:26.481852+00:00",
+      "status": "complete",
+      "passed": true,
+      "imported": {
+        "users": 100,
+        "records": 1000
+      },
+      "published": 1000,
+      "worker_restart": true,
+      "api_restart": true,
+      "reads": [
+        {
+          "count": 100,
+          "id_sha256_xor": "d7f5aef644f34c5d666cf98f396f8383bd074d4087890053db91e865848ba2e3",
+          "coverage_bytes": 13,
+          "family": "user",
+          "caller": 0,
+          "pages": 2,
+          "seconds": 6.291848499968182,
+          "retries": 0,
+          "p50_seconds": 2.214163600001484,
+          "p95_seconds": 2.3484141000080854,
+          "max_seconds": 2.3484141000080854
+        },
+        {
+          "count": 100,
+          "id_sha256_xor": "d7f5aef644f34c5d666cf98f396f8383bd074d4087890053db91e865848ba2e3",
+          "coverage_bytes": 13,
+          "family": "user",
+          "caller": 1,
+          "pages": 2,
+          "seconds": 2.184799299982842,
+          "retries": 0,
+          "p50_seconds": 0.0465966000338085,
+          "p95_seconds": 2.1367886000080034,
+          "max_seconds": 2.1367886000080034
+        },
+        {
+          "count": 1000,
+          "id_sha256_xor": "0f4f4828f3eb0045253ebb7fc6d9dbfc973dd07f42361ff913431e07c71bf118",
+          "coverage_bytes": 125,
+          "family": "signIn",
+          "caller": 0,
+          "pages": 2,
+          "seconds": 2.470849899982568,
+          "retries": 0,
+          "p50_seconds": 0.23190819995943457,
+          "p95_seconds": 2.226217599993106,
+          "max_seconds": 2.226217599993106
+        },
+        {
+          "count": 1000,
+          "id_sha256_xor": "0f4f4828f3eb0045253ebb7fc6d9dbfc973dd07f42361ff913431e07c71bf118",
+          "coverage_bytes": 125,
+          "family": "signIn",
+          "caller": 1,
+          "pages": 2,
+          "seconds": 2.539421499997843,
+          "retries": 0,
+          "p50_seconds": 0.12836590001825243,
+          "p95_seconds": 2.397902700002305,
+          "max_seconds": 2.397902700002305
+        }
+      ],
+      "configuration": {
+        "profile": "m6-arm",
+        "api_replicas": 2,
+        "workers": 2,
+        "batch_size": 1000,
+        "postgres_major": 18,
+        "image_id": "sha256:b009ecfe371569ee5fe434055656ba210dd90dcce2a3096066f984353bea918f",
+        "runtime_fingerprint": "68d404889faccd1d56998de546326ff62a6a11e090e07bf5c8004844513a6ae7",
+        "docker": {
+          "cpus": 20,
+          "memory": 33520742400
+        }
+      },
+      "tenant_id": "abf7619d-41ed-4adb-a5e5-e3cc25c8c05f",
+      "users_import_seconds": 0.20148170000175014,
+      "records_import_seconds": 8.608801499998663,
+      "jobs": {
+        "succeeded": 1001
+      },
+      "database_bytes": 314177215,
+      "pipeline_seconds": 8.863220700004604,
+      "published_records_per_second": 112.82580382991937,
+      "completed_at": "2026-10-17T12:31:46.954853+00:00"
+    },
+    "medium": {
+      "name": "medium",
+      "seed": 62002,
+      "users": 5000,
+      "records": 50000,
+      "source_fingerprint": "15bc2c37ee6267ca157cbc3cd0a5b10d2ba8a675bb3a5682e0af30b0014ade1c",
+      "started_at": "2026-10-17T12:31:49.936854+00:00",
+      "status": "complete",
+      "passed": true,
+      "imported": {
+        "users": 5000,
+        "records": 50000
+      },
+      "published": 50000,
+      "worker_restart": true,
+      "api_restart": true,
+      "reads": [
+        {
+          "count": 5000,
+          "id_sha256_xor": "cf6c3d115074baf51729f32bac56736e3a885fb4f03eb95136307f317a9749bf",
+          "coverage_bytes": 625,
+          "family": "user",
+          "caller": 0,
+          "pages": 6,
+          "seconds": 9.241977899975609,
+          "retries": 0,
+          "p50_seconds": 0.08463719999417663,
+          "p95_seconds": 4.468884099973366,
+          "max_seconds": 4.468884099973366
+        },
+        {
+          "count": 5000,
+          "id_sha256_xor": "cf6c3d115074baf51729f32bac56736e3a885fb4f03eb95136307f317a9749bf",
+          "coverage_bytes": 625,
+          "family": "user",
+          "caller": 1,
+          "pages": 6,
+          "seconds": 5.736110099998768,
+          "retries": 0,
+          "p50_seconds": 0.14269509998848662,
+          "p95_seconds": 2.677866499987431,
+          "max_seconds": 2.677866499987431
+        },
+        {
+          "count": 50000,
+          "id_sha256_xor": "ba8cd37b75a2c7b40bfd5c71cb791fc655b819e3c91649176369f2a7d62ef86a",
+          "coverage_bytes": 6250,
+          "family": "signIn",
+          "caller": 0,
+          "pages": 100,
+          "seconds": 161.4942951000412,
+          "retries": 0,
+          "p50_seconds": 1.568012900010217,
+          "p95_seconds": 3.085262499982491,
+          "max_seconds": 6.9978482000296935
+        },
+        {
+          "count": 50000,
+          "id_sha256_xor": "ba8cd37b75a2c7b40bfd5c71cb791fc655b819e3c91649176369f2a7d62ef86a",
+          "coverage_bytes": 6250,
+          "family": "signIn",
+          "caller": 1,
+          "pages": 100,
+          "seconds": 161.41058070003055,
+          "retries": 0,
+          "p50_seconds": 1.5483512000064366,
+          "p95_seconds": 3.047629099979531,
+          "max_seconds": 4.943780200032052
+        }
+      ],
+      "configuration": {
+        "profile": "m6-arm",
+        "api_replicas": 2,
+        "workers": 2,
+        "batch_size": 1000,
+        "postgres_major": 18,
+        "image_id": "sha256:b009ecfe371569ee5fe434055656ba210dd90dcce2a3096066f984353bea918f",
+        "runtime_fingerprint": "68d404889faccd1d56998de546326ff62a6a11e090e07bf5c8004844513a6ae7",
+        "docker": {
+          "cpus": 20,
+          "memory": 33520742400
+        }
+      },
+      "tenant_id": "ec091332-5c49-4c4b-b45f-b9d683859819",
+      "users_import_seconds": 1.9241632000193931,
+      "records_import_seconds": 112.77992060000543,
+      "jobs": {
+        "succeeded": 50005
+      },
+      "database_bytes": 587937471,
+      "pipeline_seconds": 186.56992759997956,
+      "published_records_per_second": 267.99603045997793,
+      "completed_at": "2026-10-17T12:37:46.248855+00:00"
+    }
+  },
+  "large": {
+    "users": 100000,
+    "records": 1000000,
+    "passed": false,
+    "status": "pending-final-tooling"
+  }
+}
