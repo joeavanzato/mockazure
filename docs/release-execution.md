@@ -102,3 +102,15 @@ checkpoint. Remaining gates: suiteM4(blocked), suiteM5(pending after scale), and
 large scale(running). Original-suite process10632 is finished. Scale23010 remains
 active. Candidatebuild11333 is finished. Do not rerun completed current-source
 suites without a source-changing fix.
+
+## Large measurement finished; final ARM active
+
+Large63002 failed at 2026-10-17T14:35:02Z after 100000 users and 979000
+evidence imports were acknowledged. PostgreSQL WAL allocation failed with
+'Cannot allocate memory', followed by internal recovery and HTTP503.
+See release-scale.md/json and release-scale-failure.json. No exact large
+reader proof completed; it remains a mandatory blocker. Runtime state is
+retained under .runtime/m6-large-63002-failed. Scale session23010 is finished.
+Final ARM session60291 uses fresh .runtime/m6-arm state; do not restart it.
+Final handoff tests:86passed15.11s. Remaining work is final ARM, strict
+aggregate acceptance, safe exports/ledger, docs/PR update and heartbeat disable.

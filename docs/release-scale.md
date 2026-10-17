@@ -1,41 +1,62 @@
-# M6 scale measurements in progress
+# M6 scale measurements
 
-The declared profiles remain 100/1,000, 5,000/50,000 and
-100,000/1,000,000 users/sign-ins. No partial run counts as success.
+Candidate bf64b4e2ae09defdae83a6d306d777fc97bf6667 was measured on Windows 10
+with Docker Desktop, PostgreSQL 18 on an owned Windows bind mount, two API
+replicas and two workers. Imports used the administrative HTTP APIs and normal
+projection workers. Full reports, exact coverage digests and timings are in
+[release-scale.json](release-scale.json); runtime limits are in
+[release-scale-environment.json](release-scale-environment.json).
 
-The baseline small seed61002 passed exact concurrent paging and API/worker
-restarts: 1,000 publications in52.571s (19.022/s). The baseline medium seed62001
-imported all5,000users/50,000records in2.286s/38.210s, then failed its300s
-projection budget with460published. Both used normal API imports and workers.
-These historical measurements preceded the optimization and are not current
-candidate qualification.
+| Profile | Declared users / sign-ins | Outcome | Import and publication |
+| --- | --- | --- | --- |
+| Small, seed 61009 | 100 / 1,000 | Passed | 11.317 seconds; 88.363 records/second |
+| Medium, seed 62006 | 5,000 / 50,000 | Passed | 141.616 seconds; 353.067 records/second |
+| Large, seed 63002 | 100,000 / 1,000,000 | Failed during import | 100,000 users and 979,000 records acknowledged |
 
-Read-only PostgreSQL inspection found both workers spending1.36–1.48s in
-ordinary job selection. A source-key expression index and ordered claim index
-address repeated generation lookups. A bounded historical sign-in path preserves
-each source's own revision, receipt, original observation, risk cutoff, activity
-projection and atomic completion. It services ordinary jobs before each batch.
+Small and medium each completed four concurrent exact-coverage readers, two per
+resource family, with no read retries. Every reader held a continuation across
+the same API restart. Worker interruption was included. Both medium evidence
+readers collected all 50,000 records across 100 pages, in 239.519 and 240.110
+seconds, with p95 page latency approximately 3.09 seconds. Counts, identifiers,
+timestamps and duplicate/missing-record checks passed.
 
-The first batch experiment still joined the full backlog before LIMIT:
-EXPLAIN ANALYZE inspected53,000sources and took333.552ms for one selection;
-live selection also exceeded4.8s under contention. Selection now bounds jobs
-before loading at most100sources by their primary keys. Source-key separators
-are SQL constants so generic prepared plans can use the expression index.
-Retired-generation jobs are excluded before the bound.
+The large run started at 13:40:03 UTC and failed at 14:35:02 UTC on
+2026-10-17. PostgreSQL's WAL writer reported "Cannot allocate memory" while
+writing a WAL segment, aborted, and caused an internal database restart.
+The import received HTTP 503 during recovery. The container's OOMKilled flag
+was false; the underlying allocation failure has not been resolved. This is
+a measured failure of the recorded runtime, not proof of a universal capacity
+limit or a production Azure throughput claim.
 
-Seed61003's first optimized run was interrupted deliberately during diagnosis;
-its retained non-success report must never be presented as acceptance.
-Fresh measurements will follow the final bounded-selection implementation.
+The failed report's published=0 is an initialized value left before the
+post-import sampling phase; it must not be interpreted as zero actual
+publications. Exact large paging, publication cardinality and API-restart
+coverage did not complete. The million-record target remains a mandatory
+failed gate. No target reduction, output repair or waiver was applied.
 
-Verification so far: initial affected suite106pass and one fixed-head migration
-test failure; updated migration/scale/CLI gates38pass8.24s. Worker/recovery
-regressions23pass18.13s; generation-starvation regression RED0instead2, then
-all8batch recovery tests pass4.31s. Final full qualification remains pending.
+Sanitized diagnostics are in [release-scale-failure.json](release-scale-failure.json).
+The failed private runtime is retained locally under
+.runtime/m6-large-63002-failed; it is not part of any artifact or export.
+The independent final ARM qualification uses fresh owned state.
 
-The next live sample identified repair scans taking0.427s every worker cycle and
-ordinary claims taking0.261s under backlog. Repair now runs at most once per5s
-per worker (run_one retains immediate repair by default). Migration037 adds the
-ordered active queue index; constant predicates keep it usable by generic prepared
-plans. Recovery RED missing repair parameter thenGREEN25tests19.01s; index gate
-RED missing index thenGREEN27worker/ARM/recovery tests22.60s. Seed61004 was also
-interrupted during diagnosis and remains non-success. Further fresh runs follow.
+## Historical tuning
+
+Historical reports in [release-scale-tuning.json](release-scale-tuning.json)
+are separate from current candidate qualification. The baseline small run
+published 1,000 records in 52.571 seconds (19.022/second). Baseline medium
+imported 50,000 records, then exhausted its 300-second projection budget at
+460 publications.
+
+Measured job-selection and repair-scan costs justified bounded historical
+sign-in publication batches of at most 100, source-key and active-queue
+indexes, and repair scheduling at most once per five seconds per worker.
+Each source retains its receipt, immutable publication and revision.
+Generation checks, epoch fencing and rollback remain enforced; ordinary
+dispatch runs before each batch. Regression tests cover worker death, lease
+expiry, retry and generation isolation. Interrupted tuning attempts remain
+non-success records and are not release evidence.
+
+The recorded small/medium improvement does not establish success at the
+million-record target. Further large-scale work should first reproduce and
+resolve the WAL allocation failure, then rerun the complete declared target
+and exact paging checks under documented resource and storage settings.

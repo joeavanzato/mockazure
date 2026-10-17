@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-17T14:36:41.998355+00:00",
+  "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+  "profile": "large",
+  "seed": 63002,
+  "declared": {
+    "users": 100000,
+    "records": 1000000
+  },
+  "acknowledged_imports": {
+    "users": 100000,
+    "records": 979000
+  },
+  "error_type": "RuntimeError",
+  "http_status": 503,
+  "database_log": [
+    "db-1  | 2026-10-17 14:35:00.135 UTC [91] PANIC:  could not write to log file \"0000000100000001000000F5\" at offset 16105472, length 262144: Cannot allocate memory",
+    "db-1  | 2026-10-17 14:35:01.486 UTC [7] LOG:  WAL writer process (PID 91) was terminated by signal 6: Aborted",
+    "db-1  | 2026-10-17 14:35:02.101 UTC [7] LOG:  all server processes terminated; reinitializing",
+    "db-1  | 2026-10-17 14:35:27.776 UTC [14916] LOG:  redo starts at 1/DD56F688"
+  ],
+  "container_oom_killed": false,
+  "conclusion": "PostgreSQL WAL write returned Cannot allocate memory and its WAL writer aborted. PostgreSQL restarted internally and rejected connections during recovery.",
+  "limits": "Underlying allocation failure is unresolved. Container OOMKilled=false does not establish that host or bind-mount memory was sufficient. The report's published=0 is an initialized value, not a post-failure count. No exact large paging/restart proof completed.",
+  "disposition": "Retain failed gate and private runtime state; run independent ARM qualification with fresh owned state. No reduced target, repaired output, host changes, or acceptance waiver."
+}
