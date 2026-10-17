@@ -8,6 +8,7 @@ import os
 import re
 import secrets
 import subprocess
+import sys
 import time
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -15,9 +16,15 @@ from urllib.parse import parse_qs, urlsplit
 import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m5"
-COMPOSE = ["docker", "compose", "-f", "compose.m5.yaml"]
-CLIENTS = ["docker", "compose", "-f", "compose.clients.m5.yaml"]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m5")
+RUNTIME = ROOT / PROFILE.text(".runtime/m5")
+COMPOSE = ["docker", "compose", "-f", PROFILE.text("compose.m5.yaml")]
+CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m5.yaml")]
 
 
 def command(args, label, *, env=None, timeout=300):
@@ -375,7 +382,7 @@ def runtime_checks(client, config, a, b):
 def capture_native_activity(config):
     import ssl
 
-    base = "https://localhost:36443"
+    base = PROFILE.text("https://localhost:36443")
     for _ in range(120):
         pending = command(
             [
@@ -385,9 +392,9 @@ def capture_native_activity(config):
                 "db",
                 "psql",
                 "-U",
-                "mockazure_m5",
+                PROFILE.text("mockazure_m5"),
                 "-d",
-                "mockazure_m5",
+                PROFILE.text("mockazure_m5"),
                 "-tAc",
                 "SELECT count(*) FROM jobs WHERE state IN ('pending','running')",
             ],

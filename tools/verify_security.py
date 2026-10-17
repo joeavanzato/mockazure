@@ -3,10 +3,17 @@
 import hashlib
 import json
 import re
+import sys
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m3c")
 RUNTIME_CHECKS = frozenset(
     {
         "clean_wheel_install",
@@ -67,9 +74,9 @@ def source_fingerprint(root=ROOT):
             "uv.lock",
             "Dockerfile",
             "integrations/Dockerfile.python",
-            "compose.m3c.yaml",
-            "compose.clients.m3c.yaml",
-            "deploy/haproxy-m3c.cfg",
+            PROFILE.text("compose.m3c.yaml"),
+            PROFILE.text("compose.clients.m3c.yaml"),
+            PROFILE.text("deploy/haproxy-m3c.cfg"),
         )
     }
     for folder in ("src", "integrations", "tools"):
@@ -136,8 +143,8 @@ def validate_report(report, *, root=ROOT):
             assert path.is_relative_to((root / "work/vendor").resolve())
             assert digest == sha(path)
         for relative, digest in result["output_hashes"].items():
-            path = (root / ".runtime/m3c" / relative).resolve()
-            assert path.is_relative_to((root / ".runtime/m3c").resolve())
+            path = (root / PROFILE.text(".runtime/m3c") / relative).resolve()
+            assert path.is_relative_to((root / PROFILE.text(".runtime/m3c")).resolve())
             assert digest == sha(path)
     assert json.loads((root / "integrations/manifest.json").read_text())["schema_version"] == 1
 
@@ -171,7 +178,9 @@ def main():
     assert output.is_relative_to(ROOT / "work")
     started = datetime.now(UTC)
     fingerprint = source_fingerprint()
-    image = json.loads(command(["docker", "image", "inspect", "mockazure:security"], "image"))[0]
+    image = json.loads(
+        command(["docker", "image", "inspect", PROFILE.text("mockazure:security")], "image")
+    )[0]
     assert image["Config"]["Labels"]["org.mockazure.source-fingerprint"] == fingerprint, (
         "Rebuild M3C image for the current source fingerprint"
     )
@@ -193,7 +202,7 @@ def main():
         )
     network = json.loads(
         command(
-            ["docker", "network", "inspect", "mockazure-m3c-clients-isolated"],
+            ["docker", "network", "inspect", PROFILE.text("mockazure-m3c-clients-isolated")],
             "network",
         )
     )[0]
@@ -261,7 +270,7 @@ def main():
     config = json.loads((state / "native-state/client.json").read_text())
     checks = {"clean_wheel_install": True, "runtime_package_bytes": True}
     clients = {}
-    replicas = [Replica(python, port) for port in (32444, 32445)]
+    replicas = [Replica(python, port) for port in (PROFILE.port(32444), PROFILE.port(32445))]
     for replica in replicas:
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", replica.port))

@@ -7,9 +7,15 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m4")
 if __package__ in (None, ""):
     sys.path.insert(0, str(ROOT))
-RUNTIME = ROOT / ".runtime/m4"
+RUNTIME = ROOT / PROFILE.text(".runtime/m4")
 FUNCTIONS = {
     "hawk_forwarding": ("hawk", "Get-HawkUserEmailForwarding"),
     "hawk_rules": ("hawk", "Get-HawkUserInboxRule"),
@@ -66,7 +72,7 @@ def validate_collector_hashes(results, root):
     for result in results.values():
         for field, base in (
             ("source_hashes", root / "work/vendor"),
-            ("output_hashes", root / ".runtime/m4"),
+            ("output_hashes", root / PROFILE.text(".runtime/m4")),
         ):
             assert result[field], "Missing artifact hashes"
             base = base.resolve()
@@ -94,7 +100,7 @@ def run_collectors():
     admin = (RUNTIME / "instance/admin.token").read_text().strip()
     stamp = str(time.time_ns())
     with httpx.Client(
-        base_url="https://localhost:34443",
+        base_url=PROFILE.text("https://localhost:34443"),
         trust_env=False,
         timeout=60,
         verify=ssl.create_default_context(cafile=str(RUNTIME / "instance/ca.pem")),
@@ -278,7 +284,7 @@ def run_collectors():
                     "docker",
                     "compose",
                     "-f",
-                    "compose.clients.m4.yaml",
+                    PROFILE.text("compose.clients.m4.yaml"),
                     "run",
                     "--rm",
                     "powershell",

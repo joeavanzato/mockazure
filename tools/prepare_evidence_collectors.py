@@ -3,6 +3,7 @@
 import copy
 import json
 import ssl
+import sys
 import time
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -11,7 +12,13 @@ from uuid import UUID, uuid5
 import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m3b"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m3b")
+RUNTIME = ROOT / PROFILE.text(".runtime/m3b")
 NS = UUID("1c21fe2c-00e6-4325-913c-b49029ce7328")
 
 
@@ -121,7 +128,7 @@ def seed():
     EvidenceDataset.model_validate(dataset)
     base = f"/_mock/tenants/{config['tenant_id']}/evidence"
     with httpx.Client(
-        base_url="https://localhost:51443",
+        base_url=PROFILE.text("https://localhost:51443"),
         verify=ssl.create_default_context(cafile=str(RUNTIME / "instance/ca.pem")),
         trust_env=False,
         limits=httpx.Limits(max_keepalive_connections=0),

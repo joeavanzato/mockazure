@@ -8,6 +8,12 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m4")
 if __package__ in (None, ""):
     sys.path.insert(0, str(ROOT))
 RUNTIME_CHECKS = frozenset(
@@ -70,9 +76,9 @@ def source_fingerprint(root=ROOT):
             "uv.lock",
             "Dockerfile",
             "integrations/Dockerfile.python",
-            "compose.m4.yaml",
-            "compose.clients.m4.yaml",
-            "deploy/haproxy-m4.cfg",
+            PROFILE.text("compose.m4.yaml"),
+            PROFILE.text("compose.clients.m4.yaml"),
+            PROFILE.text("deploy/haproxy-m4.cfg"),
         )
     }
     for folder in ("src", "integrations", "tools"):
@@ -168,7 +174,9 @@ def main():
     assert output.is_relative_to(ROOT / "work")
     started = datetime.now(UTC)
     fingerprint = source_fingerprint()
-    image = json.loads(command(["docker", "image", "inspect", "mockazure:mail"], "image"))[0]
+    image = json.loads(
+        command(["docker", "image", "inspect", PROFILE.text("mockazure:mail")], "image")
+    )[0]
     assert image["Config"]["Labels"]["org.mockazure.source-fingerprint"] == fingerprint, (
         "Rebuild M4 image for the current source fingerprint"
     )
@@ -190,7 +198,7 @@ def main():
         )
     network = json.loads(
         command(
-            ["docker", "network", "inspect", "mockazure-m4-clients-isolated"],
+            ["docker", "network", "inspect", PROFILE.text("mockazure-m4-clients-isolated")],
             "network",
         )
     )[0]
@@ -258,7 +266,7 @@ def main():
     config = json.loads((state / "native-state/client.json").read_text())
     checks = {"clean_wheel_install": True, "runtime_package_bytes": True}
     clients = {}
-    replicas = [Replica(python, port) for port in (34444, 34445)]
+    replicas = [Replica(python, port) for port in (PROFILE.port(34444), PROFILE.port(34445))]
     for replica in replicas:
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", replica.port))
@@ -344,7 +352,9 @@ def main():
         )[0]["Id"]
         assert current == client_images[name]
     exchange_config = dict(config)
-    exchange_config["endpoints"] = {name: "https://localhost:34443" for name in config["endpoints"]}
+    exchange_config["endpoints"] = {
+        name: PROFILE.text("https://localhost:34443") for name in config["endpoints"]
+    }
     exchange_config_path = state / "native-state/exchange-client.json"
     exchange_config_path.write_text(json.dumps(exchange_config))
     command(

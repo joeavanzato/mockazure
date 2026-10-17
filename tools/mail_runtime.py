@@ -8,6 +8,7 @@ import os
 import re
 import secrets
 import subprocess
+import sys
 import time
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -15,9 +16,15 @@ from urllib.parse import parse_qs, urlsplit
 import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m4"
-COMPOSE = ["docker", "compose", "-f", "compose.m4.yaml"]
-CLIENTS = ["docker", "compose", "-f", "compose.clients.m4.yaml"]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m4")
+RUNTIME = ROOT / PROFILE.text(".runtime/m4")
+COMPOSE = ["docker", "compose", "-f", PROFILE.text("compose.m4.yaml")]
+CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m4.yaml")]
 
 
 def command(args, label, *, env=None, timeout=300):

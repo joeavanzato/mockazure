@@ -5,6 +5,7 @@ import hashlib
 import json
 import secrets
 import ssl
+import sys
 from pathlib import Path
 from uuid import UUID, uuid4, uuid5
 
@@ -15,7 +16,13 @@ from mockazure.files import write_private
 from mockazure.tls import renew_leaf
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m4"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m4")
+RUNTIME = ROOT / PROFILE.text(".runtime/m4")
 INSTANCE = RUNTIME / "instance"
 NAMESPACE = UUID("1bcfc9ba-f878-4396-b1b8-7402c4e357da")
 PERMISSIONS = [
@@ -53,9 +60,9 @@ CONTAINER = {
     "graph": "https://graph.mockazure.test",
     "exchange": "https://outlook.mockazure.test",
     "arm": "https://management.mockazure.test",
-    "browser_login": "https://localhost:34443",
+    "browser_login": PROFILE.text("https://localhost:34443"),
 }
-HOST = {name: "https://localhost:34443" for name in CONTAINER}
+HOST = {name: PROFILE.text("https://localhost:34443") for name in CONTAINER}
 
 
 def save(path, data):
@@ -71,7 +78,13 @@ def initialize():
     if not (INSTANCE / "native.json").exists():
         import socket
 
-        for port in (34443, 55442, 34444, 34445, 34446):
+        for port in (
+            PROFILE.port(34443),
+            PROFILE.port(55442),
+            PROFILE.port(34444),
+            PROFILE.port(34445),
+            PROFILE.port(34446),
+        ):
             with socket.socket() as probe:
                 probe.bind(("127.0.0.1", port))
     RUNTIME.mkdir(parents=True, exist_ok=True)
@@ -81,9 +94,11 @@ def initialize():
     password = secret.read_text().strip()
     files = initialize_instance(
         INSTANCE,
-        database_url=f"postgresql://mockazure_m4:{password}@127.0.0.1:55442/mockazure_m4",
+        database_url=PROFILE.text(
+            f"postgresql://mockazure_m4:{password}@127.0.0.1:55442/mockazure_m4"
+        ),
         advertised_host="localhost",
-        port=34443,
+        port=PROFILE.port(34443),
     )
     config = json.loads(files.config_file.read_text())
     aliases = [
@@ -100,7 +115,7 @@ def initialize():
         service_endpoints=CONTAINER,
         client_profiles={"host": HOST, "container": CONTAINER},
         managed_identity_listen_host="127.0.0.1",
-        managed_identity_listen_port=34446,
+        managed_identity_listen_port=PROFILE.port(34446),
     )
     save(files.config_file, config)
     config.update(
@@ -108,7 +123,9 @@ def initialize():
         listen_port=8443,
         managed_identity_listen_host="0.0.0.0",
         managed_identity_listen_port=8080,
-        database_url=f"postgresql+psycopg://mockazure_m4:{password}@db:5432/mockazure_m4",
+        database_url=PROFILE.text(
+            f"postgresql+psycopg://mockazure_m4:{password}@db:5432/mockazure_m4"
+        ),
     )
     if not (INSTANCE / "container.json").exists():
         renew_leaf(INSTANCE, aliases)
@@ -117,7 +134,7 @@ def initialize():
         for folder in ("state", "root", "tmp"):
             (RUNTIME / "clients" / f"{language}-{folder}").mkdir(parents=True, exist_ok=True)
     (RUNTIME / "api-state").mkdir(exist_ok=True)
-    print("M4 configuration ready under .runtime/m4; credentials retained locally")
+    print(PROFILE.text("M4 configuration ready under .runtime/m4; credentials retained locally"))
 
 
 def checked(response, expected=200):
@@ -356,7 +373,7 @@ def provision():
             config = {
                 "schema_version": 1,
                 **public_state,
-                "endpoints": {name: "https://localhost:34444" for name in CONTAINER}
+                "endpoints": {name: PROFILE.text("https://localhost:34444") for name in CONTAINER}
                 if native
                 else CONTAINER,
                 "ca_file": (INSTANCE / "ca.pem").as_posix() if native else "/certs/ca.pem",
@@ -376,7 +393,7 @@ def provision():
 def provision_mail():
     state = json.loads((RUNTIME / "provisioning.json").read_text())
     with httpx.Client(
-        base_url="https://localhost:34443",
+        base_url=PROFILE.text("https://localhost:34443"),
         verify=ssl.create_default_context(cafile=str(RUNTIME / "instance/ca.pem")),
         headers={
             "Authorization": "Bearer " + (RUNTIME / "instance/admin.token").read_text().strip()

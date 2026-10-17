@@ -8,6 +8,7 @@ import os
 import re
 import secrets
 import subprocess
+import sys
 import time
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -16,9 +17,15 @@ from uuid import uuid4
 import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m3c"
-COMPOSE = ["docker", "compose", "-f", "compose.m3c.yaml"]
-CLIENTS = ["docker", "compose", "-f", "compose.clients.m3c.yaml"]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m3c")
+RUNTIME = ROOT / PROFILE.text(".runtime/m3c")
+COMPOSE = ["docker", "compose", "-f", PROFILE.text("compose.m3c.yaml")]
+CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m3c.yaml")]
 
 
 def command(args, label, *, env=None, timeout=300):
