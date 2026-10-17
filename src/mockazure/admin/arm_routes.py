@@ -196,3 +196,48 @@ async def role_revoke(
         await repo.session.delete(row)
         subscription.revision += 1
     return {"revoked": True}
+
+
+class ActivityReadFault(IdentityInput):
+    client_id: UUID
+    kind: Literal["next_read_429", "next_page_429"]
+    retry_after: int = Field(default=1, ge=1, le=300)
+
+
+@router.post("/{subscription_id}/activity-faults", status_code=201)
+async def activity_fault(
+    tenant_id: UUID, subscription_id: UUID, data: ActivityReadFault, request: Request
+):
+    from sqlalchemy import text
+
+    from mockazure.admin.errors import AdminError
+    from mockazure.identity.models import ServicePrincipal
+
+    async with transaction(request, tenant_id) as repo:
+        await lock_subscription(repo.session, tenant_id, subscription_id)
+        exists = await repo.session.scalar(
+            select(ServicePrincipal.id).where(
+                ServicePrincipal.tenant_id == tenant_id,
+                ServicePrincipal.client_id == data.client_id,
+                ServicePrincipal.deleted_at.is_(None),
+            )
+        )
+        if exists is None:
+            raise AdminError(404, "IdentityNotFound", "Local service principal not found")
+        added = await repo.session.scalar(
+            text("""
+INSERT INTO arm_read_faults(tenant_id,subscription_id,client_id,kind,retry_after)
+VALUES (:tenant,:subscription,:client,:kind,:retry)
+ON CONFLICT DO NOTHING RETURNING client_id
+"""),
+            dict(
+                tenant=tenant_id,
+                subscription=subscription_id,
+                client=data.client_id,
+                kind=data.kind,
+                retry=data.retry_after,
+            ),
+        )
+        if added is None:
+            raise AdminError(409, "FaultConflict", "An Activity fault is already pending")
+    return {"installed": True, "kind": data.kind}

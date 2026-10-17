@@ -1,5 +1,8 @@
 """Pinned Activity Logs filter grammar, compiled against indexed exact-time columns."""
 
+import re
+from datetime import UTC, datetime
+
 from sqlalchemy import and_
 
 from mockazure.evidence.models import EvidenceVersion as V
@@ -55,6 +58,12 @@ def compile_activity_filter(value):
         name, op, raw = term.left.name, term.op, term.right.value
         if name == "eventTimestamp" and op in {"ge", "le"} and op not in times:
             try:
+                # Pinned original MES interpolates en-US DateTime in its UTC process.
+                # Keep this compatibility grammar at the query boundary only.
+                if re.fullmatch(r"\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}", raw):
+                    raw = (
+                        datetime.strptime(raw, "%m/%d/%Y %H:%M:%S").replace(tzinfo=UTC).isoformat()
+                    )
                 ticks = instant(raw)[1]
             except ValueError:
                 invalid("Invalid Activity Logs timestamp")

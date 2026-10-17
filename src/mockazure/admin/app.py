@@ -102,6 +102,16 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     @app.middleware("http")
     async def boundary(request: Request, call_next):
         request.state.request_id = str(uuid4())
+        # Generated Az scope clients join "/{scope}" with an absolute ARM scope.
+        # Normalize that one leading slash only for these precise operation shapes;
+        # interior duplicate/encoded separators still fail canonical parsing.
+        if re.fullmatch(
+            r"(?i)//subscriptions/[^/]+(?:/[^/]+)*/providers/"
+            r"(microsoft\.resources/tags/default|"
+            r"microsoft\.authorization/(roledefinitions|roleassignments)(/[^/]+)?)",
+            request.scope["path"],
+        ):
+            request.scope["path"] = request.scope["path"][1:]
         arm_path = request.scope["path"].lower().split("/")[1] in {"subscriptions", "tenants"}
         request.state.arm_path = arm_path
         if arm_path:

@@ -55,6 +55,14 @@ async def group_write(request, scope, value, *, partial):
         if partial and not existing:
             raise ArmError(404, "ResourceGroupNotFound", "Resource group was not found")
         validate_arm_payload("ResourceGroupPatchable" if partial else "ResourceGroup", value)
+        if partial:
+            # Original Az.Resources serializes these published Patchable fields.
+            # A group cannot be renamed or have its read-only state overwritten.
+            if "name" in value and value["name"].lower() != scope.group.lower():
+                raise ValueError("Resource group name cannot change")
+            if value.get("properties", {}) != {}:
+                raise ValueError("Resource group properties are read-only")
+            value = {key: item for key, item in value.items() if key not in {"name", "properties"}}
         if set(value) - ({"tags", "managedBy"} if partial else {"location", "tags", "managedBy"}):
             raise ValueError("Unsupported writable resource group property")
         if not partial and (

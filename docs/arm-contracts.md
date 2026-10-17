@@ -184,3 +184,39 @@ and matching the actual original client. The older subscription Swagger marks
 nextLink required without a terminal-page representation; its illustrative
 examples use a placeholder continuation. This specific wire-profile correction
 is explicit rather than modifying the vendored schema or replacing SDK paging.
+
+
+## Observed original Azure client contracts
+
+Az.Resources7.8.0/Accounts4.0.2 uses resource groups2021-04-01,
+tags2024-07-01, and role definitions2022-05-01-preview. These later operations
+have their actual schemas and dependencies pinned at the same Azure REST revision;
+the operation catalogue records version-specific sources. Tag types are checked
+identical to2021 before sharing validation. Preview role definitions are validated
+against their own schema in regression tests. Other operations do not gain those
+versions implicitly.
+
+Original generated scope clients emit a double leading slash for tag and RBAC
+URLs. The HTTP boundary removes exactly one leading slash only for those known
+operation shapes. Interior duplicates, encoded separators, and unowned scopes
+remain rejected. Resource-group HEAD returns204/404 after current authorization.
+Original Set-AzResourceGroup sends its unchanged name and an empty properties
+object; both published Patchable fields are accepted, while rename attempts and
+provisioningState writes fail.
+
+Original MES Get-ActivityLogs at revision47565f7842784cd3667ff630e3dccb49fa3408ed
+interpolates UTC en-US dates as MM/dd/yyyy HH:mm:ss. Only this additional query
+literal grammar is accepted; imported EventData still requires explicit ISO8601
+instants and retains seven fractional digits. The original JSON output preserves
+all1003 seeded identities and exact timestamps. Its summary prints a CSV filename
+from a shared helper, but the actual Activity output is a JSON array in a .json
+file; qualification verifies the actual artifact.
+
+Local admin Activity fault injection is scoped to tenant/subscription/client,
+one-shot, durable across replicas, and returns ARM429 with Retry-After. A denied
+call neither consumes the fault nor masks its authorization error. It provides
+repeatable retry qualification; it is not a claim to reproduce Azure's dynamic
+service-wide quotas.
+
+Hash-bound derived role/operation metadata uses UTF-8 and canonical LF bytes.
+Vendored official files retain their original bytes.

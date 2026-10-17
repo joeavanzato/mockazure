@@ -165,13 +165,18 @@
     "operationId": "Tags_GetAtScope",
     "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
     "versions": [
-      "2021-04-01"
+      "2021-04-01",
+      "2024-07-01"
     ],
     "schema": "TagsResource",
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2021-04-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+      "2024-07-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2024-07-01/resources.json"
+    }
   },
   "tags.put": {
     "method": "PUT",
@@ -179,13 +184,18 @@
     "operationId": "Tags_CreateOrUpdateAtScope",
     "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
     "versions": [
-      "2021-04-01"
+      "2021-04-01",
+      "2024-07-01"
     ],
     "schema": "TagsResource",
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2021-04-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+      "2024-07-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2024-07-01/resources.json"
+    }
   },
   "tags.patch": {
     "method": "PATCH",
@@ -193,13 +203,18 @@
     "operationId": "Tags_UpdateAtScope",
     "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
     "versions": [
-      "2021-04-01"
+      "2021-04-01",
+      "2024-07-01"
     ],
     "schema": "TagsResource",
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2021-04-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+      "2024-07-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2024-07-01/resources.json"
+    }
   },
   "tags.delete": {
     "method": "DELETE",
@@ -207,13 +222,18 @@
     "operationId": "Tags_DeleteAtScope",
     "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
     "versions": [
-      "2021-04-01"
+      "2021-04-01",
+      "2024-07-01"
     ],
     "schema": null,
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2021-04-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+      "2024-07-01": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2024-07-01/resources.json"
+    }
   },
   "assignments.list": {
     "method": "GET",
@@ -279,13 +299,18 @@
     "operationId": "RoleDefinitions_List",
     "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
     "versions": [
-      "2022-04-01"
+      "2022-04-01",
+      "2022-05-01-preview"
     ],
     "schema": "RoleDefinitionListResult",
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2022-04-01": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
+      "2022-05-01-preview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json"
+    }
   },
   "definitions.get": {
     "method": "GET",
@@ -293,13 +318,18 @@
     "operationId": "RoleDefinitions_Get",
     "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
     "versions": [
-      "2022-04-01"
+      "2022-04-01",
+      "2022-05-01-preview"
     ],
     "schema": "RoleDefinition",
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2022-04-01": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
+      "2022-05-01-preview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json"
+    }
   },
   "activity.list": {
     "method": "GET",

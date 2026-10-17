@@ -15,6 +15,8 @@ BASE = f"https://raw.githubusercontent.com/Azure/azure-rest-api-specs/{REVISION}
 SOURCES = {
     "resources": "specification/resources/resource-manager/Microsoft.Resources/resources/"
     "stable/2021-04-01/resources.json",
+    "resources2024": "specification/resources/resource-manager/Microsoft.Resources/resources/"
+    "stable/2024-07-01/resources.json",
     "subscriptions": "specification/resources/resource-manager/Microsoft.Resources/subscriptions/"
     "stable/2021-01-01/subscriptions.json",
     "subscriptions2020": "specification/resources/resource-manager/"
@@ -23,6 +25,8 @@ SOURCES = {
     "Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
     "definitions": "specification/authorization/resource-manager/Microsoft.Authorization/"
     "Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
+    "definitionsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/"
+    "Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json",
     "activity": "specification/monitor/resource-manager/Microsoft.Insights/Insights/"
     "stable/2015-04-01/activityLogs_API.json",
 }
@@ -196,6 +200,33 @@ def build_metadata(manifest):
                 else [doc["info"]["version"]],
                 "schema": next((s for s in schemas if s), None),
                 "responses": sorted(op["responses"]),
+            }
+    # Original Az.Resources7.8 tag cmdlets use this later official version.
+    source = manifest["roots"]["resources2024"]
+    newer = json.loads((data / manifest["files"][source]["path"]).read_text(encoding="utf-8"))
+    older = json.loads(
+        (data / manifest["files"][manifest["roots"]["resources"]]["path"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    for name in ("TagsResource", "TagsPatchResource", "Tags"):
+        assert older["definitions"][name] == newer["definitions"][name]
+    for label, contract in operations.items():
+        if label.startswith("tags."):
+            op = newer["paths"][contract["path"]][contract["method"].lower()]
+            assert op["operationId"] == contract["operationId"]
+            contract["versions"].append("2024-07-01")
+            contract["version_sources"] = {"2021-04-01": contract["source"], "2024-07-01": source}
+    source = manifest["roots"]["definitionsPreview"]
+    preview = json.loads((data / manifest["files"][source]["path"]).read_text(encoding="utf-8"))
+    for label, contract in operations.items():
+        if label.startswith("definitions."):
+            op = preview["paths"][contract["path"]][contract["method"].lower()]
+            assert op["operationId"] == contract["operationId"]
+            contract["versions"].append("2022-05-01-preview")
+            contract["version_sources"] = {
+                "2022-04-01": contract["source"],
+                "2022-05-01-preview": source,
             }
     (data / "operations.json").write_text(
         json.dumps(operations, indent=2) + "\n", encoding="utf-8", newline="\n"

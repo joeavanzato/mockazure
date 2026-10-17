@@ -38,3 +38,29 @@ def test_activity_rejects_unsupported_filter(value):
 def test_activity_rejects_unsupported_selection(value):
     with pytest.raises(ArmError):
         selected_fields(value)
+
+
+def test_original_mes_utc_culture_filter_matches_iso():
+    culture = compile_activity_filter(
+        "eventTimestamp ge '10/07/2026 00:00:00' and eventTimestamp le '10/07/2026 23:59:59'"
+    ).compile()
+    iso = compile_activity_filter(
+        "eventTimestamp ge '2026-10-07T00:00:00Z' and eventTimestamp le '2026-10-07T23:59:59Z'"
+    ).compile()
+    assert culture.params == iso.params
+
+
+@pytest.mark.parametrize(
+    "date",
+    [
+        "07/10/26 00:00:00",
+        "13/07/2026 00:00:00",
+        "02/30/2026 00:00:00",
+        "10/07/2026 00:00:00+01:00",
+        "10/07/2026",
+        "10/07/2026 25:00:00",
+    ],
+)
+def test_mes_culture_filter_rejects_unobserved_and_invalid_forms(date):
+    with pytest.raises(ArmError):
+        compile_activity_filter("eventTimestamp ge '" + date + "'")

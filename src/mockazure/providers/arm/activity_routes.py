@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 from uuid import UUID
 
 from fastapi import APIRouter, Request
-from sqlalchemy import func, literal_column, or_, select, tuple_
+from sqlalchemy import func, literal_column, or_, select, text, tuple_
 
 from mockazure.evidence.models import EvidenceCursor
 from mockazure.evidence.models import EvidenceVersion as V
@@ -151,7 +151,7 @@ async def activity_logs(subscription: str, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         actor = await principal(request, session)
         profile = request.app.state.settings.advertised_endpoints(request.headers.get("host", ""))
-        return await read_activity(
+        result = await read_activity(
             session,
             actor,
             subscription,
@@ -161,3 +161,25 @@ async def activity_logs(subscription: str, request: Request):
             path=request.url.path,
             origin=profile.arm,
         )
+    # Commit the authorized snapshot first; the one-shot fault must survive its
+    # own 429 response and must never mask authorization failures.
+    async with request.app.state.database.sessions.begin() as session:
+        retry = await session.scalar(
+            text("""
+DELETE FROM arm_read_faults
+WHERE tenant_id=:tenant AND subscription_id=:subscription AND client_id=:client
+AND (kind='next_read_429' OR (kind='next_page_429' AND :continuation))
+RETURNING retry_after
+"""),
+            dict(
+                tenant=actor.tenant_id,
+                subscription=UUID(subscription),
+                client=actor.client_id,
+                continuation=token is not None,
+            ),
+        )
+    if retry is not None:
+        error = ArmError(429, "TooManyRequests", "ARM request limit reached; retry later")
+        error.headers["Retry-After"] = str(retry)
+        raise error
+    return result
