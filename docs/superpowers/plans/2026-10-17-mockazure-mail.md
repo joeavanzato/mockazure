@@ -54,11 +54,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes Task1 contracts/current authorization. Produces resolve_mailbox(session, tenant: UUID, identity: str) -> Mailbox; require_mailbox_access(session, actor, mailbox, operation: str) -> None; mutate_mailbox(session, actor, mailbox, changes: dict, now) -> dict. Tenant/user FK and mailbox GUID/SMTP unique constraints; configuration and facts atomic.
 
-- [ ] Write focused failing tests: test_mailbox_identity_and_scope verifies ID/UPN/GUID/SMTP resolution, tenant separation, ambiguous aliases, current role revocation and user tombstones. test_forwarding_mutation validates internal recipient versus SMTP address precedence and actual saved values. test_mailbox_statistics_derive_from_persisted_folders verifies mailbox/archive/CAS data does not fabricate an active archive or statistics. Seed/import only through authenticated management endpoints.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_mailbox_state.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_mailbox_identity_and_scope verifies ID/UPN/GUID/SMTP resolution, tenant separation, ambiguous aliases, current role revocation and user tombstones. test_forwarding_mutation validates internal recipient versus SMTP address precedence and actual saved values. test_mailbox_statistics_derive_from_persisted_folders verifies mailbox/archive/CAS data does not fabricate an active archive or statistics. Seed/import only through authenticated management endpoints.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_mailbox_state.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 3: Implement canonical Graph inbox rule lifecycle
 

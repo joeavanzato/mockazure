@@ -183,7 +183,7 @@ def test_mail_reference_manifest():
     sources = json.loads((ROOT / "src/mockazure/mail/data/references.json").read_text("utf-8"))[
         "sources"
     ]
-    assert len(sources) == 34
+    assert len(sources) == 35
     assert all(len(row["revision"]) == 40 and len(row["sha256"]) == 64 for row in sources)
     assert any(row["path"].endswith("Get-EXOCasMailbox.md") for row in sources)
     assert any(row["path"].endswith("security-auditlogquery-list-records.md") for row in sources)

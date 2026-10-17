@@ -12,7 +12,7 @@ come from Graph docs revision98a98cc88051a857c119a2e1bb61587633585284.
 The canonical permission catalog now includes both kinds of MailboxSettings.Read,
 MailboxSettings.ReadWrite, and all seven AuditLogsQuery permission families.
 
-mail/data/references.json pins34 public operation files by repository, revision,
+mail/data/references.json pins35 public operation files by repository, revision,
 path and SHA256, including Graph v1.0 resource/operation pages and18 Exchange
 commands at c5386f4fae7364d13ae8759abb6bbe1fc1be0dde. Public downloaded copies
 remain ignored research material; generated manifests contain no tenant data.
@@ -140,3 +140,25 @@ is an explicit emulator control until its broader mapping is implemented.
 Ordinary mailbox provisioning requires Exchange entitlement; explicitly provisioned
 shared mailboxes do not require a made-up personal E5 licence. Archive state and
 statistics must be real persisted input, never synthesized success for absent archives.
+
+
+## Canonical mailbox identity and provisioning
+
+M4 also pins the v1.0 user-update operation: cloud-managed UPN updates are
+normalized, restricted to the tenant's verified domain, and uniqueness checked
+under the existing serialized directory-write transaction. Mailbox GUID/SMTP
+remain stable after a UPN change, while current UPN/displayName are projected
+from the canonical user. Historical mail facts retain their captured identity.
+This extends the predecessor's intentionally narrower PATCH profile; its negative
+test now rejects an unverified-domain UPN instead of rejecting all UPN changes.
+
+The authenticated mail management PUT replaces declared mailbox provisioning
+state and folder inputs. Omitted CAS flags use the explicit local default enabled
+except SmtpClientAuthenticationDisabled=false. Empty folder input represents
+known zero imported content, not an invented nonempty mailbox. Existing forwarding
+settings persist across provisioning updates. Archive creation allocates a distinct
+GUID; absent archives fail statistics lookup.
+
+Mail configuration mutations append native facts to the shared immutable evidence
+source table in the same transaction. Task6 will add UAL projection, enqueueing and
+pending-source recovery before M4 qualification; Task2 alone does not claim UAL output.

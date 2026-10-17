@@ -203,6 +203,12 @@
       "revision": "98a98cc88051a857c119a2e1bb61587633585284",
       "path": "api-reference/v1.0/api/security-auditlogquery-list-records.md",
       "sha256": "12da2bc0aab5fbc47c4807f835c6031da482a689a9e0b1a16b26e09505403ec8"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/user-update.md",
+      "sha256": "f63b46f616b963d82339db1891c46975ea6da0e05461c65fe4a461d0c8cca2fa"
     }
   ]
 }

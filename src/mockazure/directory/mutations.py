@@ -1,6 +1,7 @@
 """Transactional directory commands shared by provider and trusted administration."""
 
 import asyncio
+import re
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Literal
@@ -45,7 +46,7 @@ USER_PROFILE = frozenset(
         "usageLocation",
     }
 )
-USER_UPDATE = USER_PROFILE | {"displayName", "accountEnabled", "mailNickname"}
+USER_UPDATE = USER_PROFILE | {"displayName", "accountEnabled", "mailNickname", "userPrincipalName"}
 GROUP_UPDATE = frozenset({"displayName", "description", "mailNickname"})
 GROUP_CREATE = GROUP_UPDATE | {
     "mailEnabled",
@@ -375,6 +376,26 @@ async def mutate_directory(
         if "displayName" in values:
             row.display_name = values["displayName"]
         if command.kind == "user":
+            if "userPrincipalName" in values:
+                name = values["userPrincipalName"].lower()
+                tenant = await session.get(Tenant, tenant_id)
+                if (
+                    re.fullmatch(r"[a-z0-9'._!#^~-]+@[a-z0-9.-]+", name) is None
+                    or tenant is None
+                    or name.partition("@")[2] != tenant.domain.lower()
+                    or row.profile.get("onPremisesSyncEnabled") is True
+                ):
+                    invalid("UPN must be a cloud-managed name in the tenant verified domain")
+                duplicate = await session.scalar(
+                    select(User.id).where(
+                        User.tenant_id == tenant_id,
+                        User.upn == name,
+                        User.id != row.id,
+                    )
+                )
+                if duplicate:
+                    raise IdentityError(409, "IdentityConflict", "UPN already belongs to a user")
+                row.upn = name
             if "accountEnabled" in values:
                 row.enabled = values["accountEnabled"]
             row.profile = {
