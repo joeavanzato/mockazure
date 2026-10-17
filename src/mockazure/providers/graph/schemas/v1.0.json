@@ -372,6 +372,7 @@
         "requiredResourceAccess",
         "tags"
       ],
+      "open": true,
       "base": "directoryObject"
     },
     "applicationEnforcedRestrictionsSessionControl": {
@@ -1111,7 +1112,8 @@
     },
     "customSecurityAttributeValue": {
       "properties": {},
-      "required": []
+      "required": [],
+      "open": true
     },
     "dateTimeTimeZone": {
       "properties": {
@@ -1283,6 +1285,7 @@
         "physicalIds",
         "systemLabels"
       ],
+      "open": true,
       "base": "directoryObject"
     },
     "deviceDetail": {
@@ -1392,6 +1395,7 @@
       "required": [
         "id"
       ],
+      "open": true,
       "base": "entity"
     },
     "directoryRole": {
@@ -1420,7 +1424,21 @@
       "required": [
         "id"
       ],
+      "open": true,
       "base": "directoryObject"
+    },
+    "emailAddress": {
+      "properties": {
+        "address": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "emailAuthenticationMethod": {
       "properties": {
@@ -1763,6 +1781,7 @@
         "resourceBehaviorOptions",
         "resourceProvisioningOptions"
       ],
+      "open": true,
       "base": "directoryObject"
     },
     "groupAccessType": {
@@ -1816,7 +1835,8 @@
           "nullable": true
         }
       },
-      "required": []
+      "required": [],
+      "open": true
     },
     "implicitGrantSettings": {
       "properties": {
@@ -1830,6 +1850,13 @@
         }
       },
       "required": []
+    },
+    "importance": {
+      "enum": [
+        "low",
+        "normal",
+        "high"
+      ]
     },
     "informationalUrl": {
       "properties": {
@@ -2082,6 +2109,239 @@
         },
         "workingHours": {
           "type": "graph.workingHours",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "messageActionFlag": {
+      "enum": [
+        "any",
+        "call",
+        "doNotForward",
+        "followUp",
+        "fyi",
+        "forward",
+        "noResponseNecessary",
+        "read",
+        "reply",
+        "replyToAll",
+        "review"
+      ]
+    },
+    "messageRule": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "actions": {
+          "type": "graph.messageRuleActions",
+          "nullable": true
+        },
+        "conditions": {
+          "type": "graph.messageRulePredicates",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "exceptions": {
+          "type": "graph.messageRulePredicates",
+          "nullable": true
+        },
+        "hasError": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isReadOnly": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "sequence": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "messageRuleActions": {
+      "properties": {
+        "assignCategories": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "copyToFolder": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "delete": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "forwardAsAttachmentTo": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "forwardTo": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "markAsRead": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "markImportance": {
+          "type": "graph.importance",
+          "nullable": true
+        },
+        "moveToFolder": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "permanentDelete": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "redirectTo": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "stopProcessingRules": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "messageRulePredicates": {
+      "properties": {
+        "bodyContains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "bodyOrSubjectContains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "categories": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "fromAddresses": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "hasAttachments": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "headerContains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "importance": {
+          "type": "graph.importance",
+          "nullable": true
+        },
+        "isApprovalRequest": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isAutomaticForward": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isAutomaticReply": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isEncrypted": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isMeetingRequest": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isMeetingResponse": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isNonDeliveryReport": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isPermissionControlled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isReadReceipt": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isSigned": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isVoicemail": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "messageActionFlag": {
+          "type": "graph.messageActionFlag",
+          "nullable": true
+        },
+        "notSentToMe": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "recipientContains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "senderContains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "sensitivity": {
+          "type": "graph.sensitivity",
+          "nullable": true
+        },
+        "sentCcMe": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "sentOnlyToMe": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "sentToAddresses": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "sentToMe": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "sentToOrCcMe": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "subjectContains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "withinSizeRange": {
+          "type": "graph.sizeRange",
           "nullable": true
         }
       },
@@ -2588,6 +2848,15 @@
         "redirectUris"
       ]
     },
+    "recipient": {
+      "properties": {
+        "emailAddress": {
+          "type": "graph.emailAddress",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "redirectUriSettings": {
       "properties": {
         "index": {
@@ -2898,6 +3167,674 @@
       "required": [],
       "base": "conditionalAccessSessionControl"
     },
+    "security.auditData": {
+      "properties": {
+        "dynamicProperties": {
+          "type": "microsoft.graph.security.auditRecordTypeDictionary",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.auditLogQuery": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "administrativeUnitIdFilters": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "approximateReturnedRecordCount": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "filterEndDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "filterStartDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "ipAddressFilters": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "isRecordCountLimitExceeded": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "keywordFilter": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "objectIdFilters": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "operationFilters": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "recordCountLimit": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "recordTypeFilters": {
+          "type": "Collection(microsoft.graph.security.auditLogRecordType)",
+          "nullable": true
+        },
+        "serviceFilters": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "status": {
+          "type": "microsoft.graph.security.auditLogQueryStatus",
+          "nullable": true
+        },
+        "userPrincipalNameFilters": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "isRecordCountLimitExceeded"
+      ],
+      "base": "entity"
+    },
+    "security.auditLogQueryStatus": {
+      "enum": [
+        "notStarted",
+        "running",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "unknownFutureValue"
+      ]
+    },
+    "security.auditLogRecord": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "administrativeUnits": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "auditData": {
+          "type": "microsoft.graph.security.auditData",
+          "nullable": true
+        },
+        "auditLogRecordType": {
+          "type": "microsoft.graph.security.auditLogRecordType",
+          "nullable": true
+        },
+        "clientIp": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "objectId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "organizationId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "service": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userType": {
+          "type": "microsoft.graph.security.auditLogUserType",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "security.auditLogRecordType": {
+      "enum": [
+        "ExchangeAdmin",
+        "ExchangeItem",
+        "ExchangeItemGroup",
+        "SharePoint",
+        "SyntheticProbe",
+        "SharePointFileOperation",
+        "OneDrive",
+        "AzureActiveDirectory",
+        "AzureActiveDirectoryAccountLogon",
+        "DataCenterSecurityCmdlet",
+        "ComplianceDLPSharePoint",
+        "Sway",
+        "ComplianceDLPExchange",
+        "SharePointSharingOperation",
+        "AzureActiveDirectoryStsLogon",
+        "SkypeForBusinessPSTNUsage",
+        "SkypeForBusinessUsersBlocked",
+        "SecurityComplianceCenterEOPCmdlet",
+        "ExchangeAggregatedOperation",
+        "PowerBIAudit",
+        "CRM",
+        "Yammer",
+        "SkypeForBusinessCmdlets",
+        "Discovery",
+        "MicrosoftTeams",
+        "ThreatIntelligence",
+        "MailSubmission",
+        "MicrosoftFlow",
+        "AeD",
+        "MicrosoftStream",
+        "ComplianceDLPSharePointClassification",
+        "ThreatFinder",
+        "Project",
+        "SharePointListOperation",
+        "SharePointCommentOperation",
+        "DataGovernance",
+        "Kaizala",
+        "SecurityComplianceAlerts",
+        "ThreatIntelligenceUrl",
+        "SecurityComplianceInsights",
+        "MIPLabel",
+        "WorkplaceAnalytics",
+        "PowerAppsApp",
+        "PowerAppsPlan",
+        "ThreatIntelligenceAtpContent",
+        "LabelContentExplorer",
+        "TeamsHealthcare",
+        "ExchangeItemAggregated",
+        "HygieneEvent",
+        "DataInsightsRestApiAudit",
+        "InformationBarrierPolicyApplication",
+        "SharePointListItemOperation",
+        "SharePointContentTypeOperation",
+        "SharePointFieldOperation",
+        "MicrosoftTeamsAdmin",
+        "HRSignal",
+        "MicrosoftTeamsDevice",
+        "MicrosoftTeamsAnalytics",
+        "InformationWorkerProtection",
+        "Campaign",
+        "DLPEndpoint",
+        "AirInvestigation",
+        "Quarantine",
+        "MicrosoftForms",
+        "ApplicationAudit",
+        "ComplianceSupervisionExchange",
+        "CustomerKeyServiceEncryption",
+        "OfficeNative",
+        "MipAutoLabelSharePointItem",
+        "MipAutoLabelSharePointPolicyLocation",
+        "MicrosoftTeamsShifts",
+        "SecureScore",
+        "MipAutoLabelExchangeItem",
+        "CortanaBriefing",
+        "Search",
+        "WDATPAlerts",
+        "PowerPlatformAdminDlp",
+        "PowerPlatformAdminEnvironment",
+        "MDATPAudit",
+        "SensitivityLabelPolicyMatch",
+        "SensitivityLabelAction",
+        "SensitivityLabeledFileAction",
+        "AttackSim",
+        "AirManualInvestigation",
+        "SecurityComplianceRBAC",
+        "UserTraining",
+        "AirAdminActionInvestigation",
+        "MSTIC",
+        "PhysicalBadgingSignal",
+        "TeamsEasyApprovals",
+        "AipDiscover",
+        "AipSensitivityLabelAction",
+        "AipProtectionAction",
+        "AipFileDeleted",
+        "AipHeartBeat",
+        "MCASAlerts",
+        "OnPremisesFileShareScannerDlp",
+        "OnPremisesSharePointScannerDlp",
+        "ExchangeSearch",
+        "SharePointSearch",
+        "PrivacyDataMinimization",
+        "LabelAnalyticsAggregate",
+        "MyAnalyticsSettings",
+        "SecurityComplianceUserChange",
+        "ComplianceDLPExchangeClassification",
+        "ComplianceDLPEndpoint",
+        "MipExactDataMatch",
+        "MSDEResponseActions",
+        "MSDEGeneralSettings",
+        "MSDEIndicatorsSettings",
+        "MS365DCustomDetection",
+        "MSDERolesSettings",
+        "MAPGAlerts",
+        "MAPGPolicy",
+        "MAPGRemediation",
+        "PrivacyRemediationAction",
+        "PrivacyDigestEmail",
+        "MipAutoLabelSimulationProgress",
+        "MipAutoLabelSimulationCompletion",
+        "MipAutoLabelProgressFeedback",
+        "DlpSensitiveInformationType",
+        "MipAutoLabelSimulationStatistics",
+        "LargeContentMetadata",
+        "Microsoft365Group",
+        "CDPMlInferencingResult",
+        "FilteringMailMetadata",
+        "CDPClassificationMailItem",
+        "CDPClassificationDocument",
+        "OfficeScriptsRunAction",
+        "FilteringPostMailDeliveryAction",
+        "CDPUnifiedFeedback",
+        "TenantAllowBlockList",
+        "ConsumptionResource",
+        "HealthcareSignal",
+        "DlpImportResult",
+        "CDPCompliancePolicyExecution",
+        "MultiStageDisposition",
+        "PrivacyDataMatch",
+        "FilteringDocMetadata",
+        "FilteringEmailFeatures",
+        "PowerBIDlp",
+        "FilteringUrlInfo",
+        "FilteringAttachmentInfo",
+        "CoreReportingSettings",
+        "ComplianceConnector",
+        "PowerPlatformLockboxResourceAccessRequest",
+        "PowerPlatformLockboxResourceCommand",
+        "CDPPredictiveCodingLabel",
+        "CDPCompliancePolicyUserFeedback",
+        "WebpageActivityEndpoint",
+        "OMEPortal",
+        "CMImprovementActionChange",
+        "FilteringUrlClick",
+        "MipLabelAnalyticsAuditRecord",
+        "FilteringEntityEvent",
+        "FilteringRuleHits",
+        "FilteringMailSubmission",
+        "LabelExplorer",
+        "MicrosoftManagedServicePlatform",
+        "PowerPlatformServiceActivity",
+        "ScorePlatformGenericAuditRecord",
+        "FilteringTimeTravelDocMetadata",
+        "Alert",
+        "AlertStatus",
+        "AlertIncident",
+        "IncidentStatus",
+        "Case",
+        "CaseInvestigation",
+        "RecordsManagement",
+        "PrivacyRemediation",
+        "DataShareOperation",
+        "CdpDlpSensitive",
+        "EHRConnector",
+        "FilteringMailGradingResult",
+        "PublicFolder",
+        "PrivacyTenantAuditHistoryRecord",
+        "AipScannerDiscoverEvent",
+        "EduDataLakeDownloadOperation",
+        "M365ComplianceConnector",
+        "MicrosoftGraphDataConnectOperation",
+        "MicrosoftPurview",
+        "FilteringEmailContentFeatures",
+        "PowerPagesSite",
+        "PowerAppsResource",
+        "PlannerPlan",
+        "PlannerCopyPlan",
+        "PlannerTask",
+        "PlannerRoster",
+        "PlannerPlanList",
+        "PlannerTaskList",
+        "PlannerTenantSettings",
+        "ProjectForTheWebProject",
+        "ProjectForTheWebTask",
+        "ProjectForTheWebRoadmap",
+        "ProjectForTheWebRoadmapItem",
+        "ProjectForTheWebProjectSettings",
+        "ProjectForTheWebRoadmapSettings",
+        "QuarantineMetadata",
+        "MicrosoftTodoAudit",
+        "TimeTravelFilteringDocMetadata",
+        "TeamsQuarantineMetadata",
+        "SharePointAppPermissionOperation",
+        "MicrosoftTeamsSensitivityLabelAction",
+        "FilteringTeamsMetadata",
+        "FilteringTeamsUrlInfo",
+        "FilteringTeamsPostDeliveryAction",
+        "MDCAssessments",
+        "MDCRegulatoryComplianceStandards",
+        "MDCRegulatoryComplianceControls",
+        "MDCRegulatoryComplianceAssessments",
+        "MDCSecurityConnectors",
+        "MDADataSecuritySignal",
+        "VivaGoals",
+        "FilteringRuntimeInfo",
+        "AttackSimAdmin",
+        "MicrosoftGraphDataConnectConsent",
+        "FilteringAtpDetonationInfo",
+        "PrivacyPortal",
+        "ManagedTenants",
+        "UnifiedSimulationMatchedItem",
+        "UnifiedSimulationSummary",
+        "UpdateQuarantineMetadata",
+        "MS365DSuppressionRule",
+        "PurviewDataMapOperation",
+        "FilteringUrlPostClickAction",
+        "IrmUserDefinedDetectionSignal",
+        "TeamsUpdates",
+        "PlannerRosterSensitivityLabel",
+        "MS365DIncident",
+        "FilteringDelistingMetadata",
+        "ComplianceDLPSharePointClassificationExtended",
+        "MicrosoftDefenderForIdentityAudit",
+        "SupervisoryReviewDayXInsight",
+        "DefenderExpertsforXDRAdmin",
+        "CDPEdgeBlockedMessage",
+        "HostedRpa",
+        "CdpContentExplorerAggregateRecord",
+        "CDPHygieneAttachmentInfo",
+        "CDPHygieneSummary",
+        "CDPPostMailDeliveryAction",
+        "CDPEmailFeatures",
+        "CDPHygieneUrlInfo",
+        "CDPUrlClick",
+        "CDPPackageManagerHygieneEvent",
+        "FilteringDocScan",
+        "TimeTravelFilteringDocScan",
+        "MAPGOnboard",
+        "VfamCreatePolicy",
+        "VfamUpdatePolicy",
+        "VfamDeletePolicy",
+        "M365DAAD",
+        "CdpColdCrawlStatus",
+        "PowerPlatformAdministratorActivity",
+        "Windows365CustomerLockbox",
+        "CdpResourceScopeChangeEvent",
+        "ComplianceCCExchangeExecutionResult",
+        "CdpOcrCostEstimatorRecord",
+        "CopilotInteraction",
+        "CdpOcrBillingRecord",
+        "ComplianceDLPApplications",
+        "UAMOperation",
+        "VivaLearning",
+        "VivaLearningAdmin",
+        "PurviewPolicyOperation",
+        "PurviewMetadataPolicyOperation",
+        "PeopleAdminSettings",
+        "CdpComplianceDLPExchangeClassification",
+        "CdpComplianceDLPSharePointClassification",
+        "FilteringBulkSenderInsightData",
+        "FilteringBulkThresholdInsightData",
+        "PrivacyOpenAccess",
+        "OWAAuth",
+        "ComplianceDLPApplicationsClassification",
+        "SharePointESignature",
+        "Dynamics365BusinessCentral",
+        "MeshWorlds",
+        "VivaPulseResponse",
+        "VivaPulseOrganizer",
+        "VivaPulseAdmin",
+        "VivaPulseReport",
+        "AIAppInteraction",
+        "ComplianceDLMExchange",
+        "ComplianceDLMSharePoint",
+        "ProjectForTheWebAssignedToMeSettings",
+        "CPSOperation",
+        "ComplianceDLPExchangeDiscovery",
+        "PurviewMCRecommendation",
+        "ComplianceDLPEndpointDiscovery",
+        "InsiderRiskScopedUserInsights",
+        "MicrosoftTeamsRetentionLabelAction",
+        "AadRiskDetection",
+        "AuditSearch",
+        "AuditRetentionPolicy",
+        "AuditConfig",
+        "Microsoft365BackupBackupPolicy",
+        "Microsoft365BackupRestoreTask",
+        "Microsoft365BackupRestoreItem",
+        "Microsoft365BackupBackupItem",
+        "URBACAssignment",
+        "URBACRole",
+        "URBACEnableState",
+        "IRMSecurityAlert",
+        "PurviewInsiderRiskCases",
+        "PurviewInsiderRiskAlerts",
+        "InsiderRiskScopedUsers",
+        "CdpConsumptionResource",
+        "CreateCopilotPlugin",
+        "UpdateCopilotPlugin",
+        "DeleteCopilotPlugin",
+        "EnableCopilotPlugin",
+        "DisableCopilotPlugin",
+        "CreateCopilotWorkspace",
+        "UpdateCopilotWorkspace",
+        "DeleteCopilotWorkspace",
+        "EnableCopilotWorkspace",
+        "DisableCopilotWorkspace",
+        "CreateCopilotPromptBook",
+        "UpdateCopilotPromptBook",
+        "DeleteCopilotPromptBook",
+        "EnableCopilotPromptBook",
+        "DisableCopilotPromptBook",
+        "UpdateCopilotSettings",
+        "P4AIAssessmentRecord",
+        "P4AIAssessmentLocationResultRecord",
+        "ConnectedAIAppInteraction",
+        "PrivaPrivacyConsentOperation",
+        "PrivaPrivacyAssessmentOperation",
+        "DataCatalogAccessRequests",
+        "ComplianceSettingsChange",
+        "DataSecurityInvestigation",
+        "TeamCopilotInteraction",
+        "IRMActivityAuditTrail",
+        "SharePointContentSecurityPolicy",
+        "CloudUpdateProfileConfig",
+        "CloudUpdateTenantConfig",
+        "CloudUpdateDeviceConfig",
+        "DefenderPreviewFeatures",
+        "DeviceDiscoverySettingsExclusion",
+        "DeviceDiscoverySettingsAuthenticatedScans",
+        "CriticalAssetManagementClassification",
+        "DeviceDiscoverySettings",
+        "USXWorkspaceOnboarding",
+        "VivaGlintAdvancedConfiguration",
+        "VivaGlintPulseProgram",
+        "VivaGlintPulseProgramRespondentRate",
+        "VivaGlintQuestion",
+        "VivaGlintRole",
+        "VivaGlintRubicon",
+        "VivaGlintSupportAccess",
+        "VivaGlintSystem",
+        "VivaGlintUser",
+        "VivaGlintUserGroup",
+        "VivaGlintFeedbackProgram",
+        "FabricAudit",
+        "TrainableClassifier",
+        "WebContentFiltering",
+        "NoisyAlertPolicy",
+        "OnDemandSharePointClassification",
+        "AIInteractionsExport",
+        "Microsoft365CopilotScheduledPrompt",
+        "PlacesDirectory",
+        "MDAAudit",
+        "OpticalCharacterRecognition",
+        "M365SearchSections",
+        "OfficeClientRestrictedModeAction",
+        "CrossTenantAccessPolicy",
+        "OutlookCopilotAutomation",
+        "VivaEngageNetworkAssociation",
+        "AppAdminActivity",
+        "AppSettingsAdminActivity",
+        "UniversalPrintPrintJob",
+        "SentinelNotebookOnLake",
+        "SentinelJob",
+        "SentinelGraph",
+        "SentinelKQLOnLake",
+        "SentinelPackage",
+        "VivaAmplifyOutlookSensitivityLabel",
+        "CopilotActions",
+        "AIInteractionsSubscription",
+        "AIInteractionsChangeNotification",
+        "FilteringMailMetadataExtended",
+        "SentinelLakeOnboarding",
+        "SentinelLakeDataOnboarding",
+        "OfficeRestrictedModeAction",
+        "CopilotForSecurityTrigger",
+        "CopilotAgentManagement",
+        "P4AIAssessmentFabricScannerRecord",
+        "PlannerGoal",
+        "PlannerGoalList",
+        "ThreatIntelligenceObject",
+        "ThreatIntelligenceExport",
+        "SubmissionAgenticGradingResult",
+        "AgentAdminActivity",
+        "DeployFeatureActivity",
+        "AgentSettingsAdminActivity",
+        "OrganizationalDataInM365",
+        "PlannerChatMessage",
+        "PlannerChatMessageList",
+        "SentinelAITool",
+        "M365ODSPAssetMetadata",
+        "AIExecuteTool",
+        "AIInvokeAgent",
+        "AIInferenceCall",
+        "CdpClassifierHealthRecord",
+        "SensitiveInfoRemediationAgentData",
+        "ComplianceDLPEnforcement",
+        "A365AIExecuteTool",
+        "A365AIInvokeAgent",
+        "A365AIInferenceCall",
+        "VivaEngageSegment",
+        "RTIOperationsAgent",
+        "ContentStoreMetadata",
+        "CCRAIPolicyViolation",
+        "PlannerPlanSensitivityLabel",
+        "MosAgentInfoRecord",
+        "A365AIRunSummary",
+        "UnifiedCatalogConceptAction",
+        "DefenderCaseManagement",
+        "CopilotForSecurityLogging",
+        "VivaEngageEvents",
+        "CallActivityEvent",
+        "SonarDetonationContentMetadata",
+        "UniversalPrintManagement",
+        "YammerUserHiding",
+        "Microsoft365BackupGranularBrowseTask",
+        "PurviewPostureAgent",
+        "MSDECustomCollection",
+        "SCPUsageEvent",
+        "SCPConfigurationEvent",
+        "MDCConfigurationEvent",
+        "MDCUsageEvent",
+        "A365SpanOutputs",
+        "PowerPlatformTenantIsolation",
+        "CDPDLMAIInteractionInsights",
+        "P4AIAssessmentCategoryRecord",
+        "SentinelLakeEncryption",
+        "AZFWNetworkRule",
+        "AZFWDnsQuery",
+        "AZFWApplicationRuleAggregation",
+        "TeamsEvalDataHubDataAccess",
+        "TeamsEvalDataHubPermissionChange",
+        "TeamsEvalDataHubAdminOperation",
+        "VivaGlintOrganizationalData",
+        "AlertSubmission",
+        "AlertSubmissionResultDetail",
+        "ComplianceSitGradingSharePoint",
+        "CompliancePolicyGradingSharePoint",
+        "AzureAISearchAudit",
+        "P4AIRiskScoreRecord",
+        "DragonCopilotAdmin",
+        "AISpanOutputs",
+        "EopSubmissionFeedEntity",
+        "SonarFileDetonationEntity",
+        "SonarSubmissionEntity",
+        "SonarUrlDetonationEntity",
+        "SubmissionEntity",
+        "SonarDetonationEntity",
+        "MicrosoftTeamsUserConcern",
+        "VivaGlintAgenticCampaign",
+        "MSPVectorSearchContentMetadata",
+        "FabricPolicy",
+        "SecurityCopilotAgentIdentityManagement",
+        "CopilotSessionSharing",
+        "DragonCopilotAccess",
+        "DragonCopilotClinicalData",
+        "DragonCopilotSession",
+        "MosAgentInfoRecordV2",
+        "SecurityDevelopmentLifecycleAILog",
+        "MDASH",
+        "DefenderSecurityForAIConfiguration",
+        "SparkCoreCustomLivePool",
+        "unknownFutureValue"
+      ]
+    },
+    "security.auditLogUserType": {
+      "enum": [
+        "Regular",
+        "Reserved",
+        "Admin",
+        "DcAdmin",
+        "System",
+        "Application",
+        "ServicePrincipal",
+        "CustomPolicy",
+        "SystemPolicy",
+        "PartnerTechnician",
+        "Guest",
+        "unknownFutureValue"
+      ]
+    },
+    "security.auditRecordTypeDictionary": {
+      "properties": {},
+      "required": [],
+      "open": true
+    },
+    "security.defaultAuditData": {
+      "properties": {
+        "dynamicProperties": {
+          "type": "microsoft.graph.security.auditRecordTypeDictionary",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "security.auditData"
+    },
+    "sensitivity": {
+      "enum": [
+        "normal",
+        "personal",
+        "private",
+        "confidential"
+      ]
+    },
     "servicePlanInfo": {
       "properties": {
         "appliesTo": {
@@ -3089,6 +4026,7 @@
         "servicePrincipalNames",
         "tags"
       ],
+      "open": true,
       "base": "directoryObject"
     },
     "servicePrincipalLockConfiguration": {
@@ -3384,6 +4322,19 @@
         "days",
         "hours"
       ]
+    },
+    "sizeRange": {
+      "properties": {
+        "maximumSize": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "minimumSize": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "spaApplication": {
       "properties": {
@@ -3937,6 +4888,7 @@
         "provisionedPlans",
         "proxyAddresses"
       ],
+      "open": true,
       "base": "directoryObject"
     },
     "userDefaultAuthenticationMethod": {
@@ -3971,6 +4923,7 @@
         }
       },
       "required": [],
+      "open": true,
       "base": "identity"
     },
     "userPrint": {
@@ -4122,7 +5075,8 @@
     },
     "webauthnAuthenticationExtensionsClientOutputs": {
       "properties": {},
-      "required": []
+      "required": [],
+      "open": true
     },
     "webauthnAuthenticatorAttestationResponse": {
       "properties": {

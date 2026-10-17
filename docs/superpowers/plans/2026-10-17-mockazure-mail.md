@@ -42,11 +42,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes pinned Graph metadata and permission references. Produces validate_mail_payload(kind: str, body: dict, partial: bool=False) -> dict and operation_requirement(name: str) -> OperationRequirement; resolve contextual CSDL aliases per schema.
 
-- [ ] Write focused failing tests: test_security_alias_is_namespace_local validates messageRule and security.auditLogQuery/auditLogRecord including self.* enums without mapping other schema aliases incorrectly. test_mail_permission_matrix checks exact application/delegated kinds and known official IDs; AuditLog.Read.All and ThreatIntelligence.Read.All do not grant UAL. test_rule_contract_status validates create201/update200/read-only fields. Record exact EXO role/parameter/license references and all resolution rulings.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/unit/test_mail_contracts.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_security_alias_is_namespace_local validates messageRule and security.auditLogQuery/auditLogRecord including self.* enums without mapping other schema aliases incorrectly. test_mail_permission_matrix checks exact application/delegated kinds and known official IDs; AuditLog.Read.All and ThreatIntelligence.Read.All do not grant UAL. test_rule_contract_status validates create201/update200/read-only fields. Record exact EXO role/parameter/license references and all resolution rulings.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/unit/test_mail_contracts.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 2: Persist mailboxes, scopes, folders and configuration
 

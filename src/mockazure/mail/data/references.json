@@ -1,0 +1,208 @@
+{
+  "sources": [
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-Mailbox.md",
+      "sha256": "701e0072758907dd9ab9eb29d652309ac1e19a58a9de7cc9c302fc4b38e4b1cd"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Set-Mailbox.md",
+      "sha256": "fd1c8f03605327e7a835ab5c8acaa7eff87dddab182c0ddf47bccbf84eb599d5"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-EXOMailbox.md",
+      "sha256": "5c172911dcc7930e930bb97df878ac656b9b9019fafe815b5e3cd71914271170"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-EXOMailboxStatistics.md",
+      "sha256": "99d29d719049b1343ef294493eb9b3491ae63fd260c29d3413a3f77a0dadceb1"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-EXOMailboxFolderStatistics.md",
+      "sha256": "c32db37cd2570ebc039f06893a2fcb69800ce016869c4dc2d7734a54bbf64b7c"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-EXOCasMailbox.md",
+      "sha256": "438b61c0b0ea7b975c6ffd31351a5503d02d4e80171d3627b426c9a0678372e7"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-InboxRule.md",
+      "sha256": "fa495848dfc17750432d7cbb26b814290f57a21afaedab9cbd923f9683d4fa21"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/New-InboxRule.md",
+      "sha256": "acac7e2c03873f526c6e40d5ec718e8113e7f146af0c6067d278e655120895ee"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Set-InboxRule.md",
+      "sha256": "2b9c0da9a2793f52443c17a3f759c5731a28f18921734bf504aeee02f462aed2"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Remove-InboxRule.md",
+      "sha256": "a48203685124716e335188c1aaa3da91dc6be3e82a3ca750cacd033b610c5f28"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Enable-InboxRule.md",
+      "sha256": "d8f3366f4a7bac3d2ebe9e6675eb71729ad1bb48d8f17368ba25b25090feb496"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Disable-InboxRule.md",
+      "sha256": "c14cfd79ac2217c219df43122e18b8c2a41e37311cc6140879f48d352815840b"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-SweepRule.md",
+      "sha256": "b3d80e5b4f515517d24410716effc17755c8caa2b715a7ba4cbddb3ace3d28fe"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/New-SweepRule.md",
+      "sha256": "32acf27d3f6e919be431494d4c349710bf238c1184563d8edd64c9001c18a256"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Set-SweepRule.md",
+      "sha256": "5d1994deeb727f5186cc8d42bec46db9fe21bf340e9d438af394c5105f896ce8"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Remove-SweepRule.md",
+      "sha256": "480ef58e14740b4e3987a980b8b7b3b1d06a0ed14c7e36d5d53ebf9465d06e76"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-MessageTraceV2.md",
+      "sha256": "0e3dbfa38cb782855c628ff8105e6ae836b9baf0e99245c67da9b19c7811f009"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-docs-powershell",
+      "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+      "path": "exchange/exchange-ps/ExchangePowerShell/Get-MessageTraceDetailV2.md",
+      "sha256": "9e361b25340f7e54955a8253e3ace93fb218d212071fecc76ce9a49c6ffbeaeb"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/resources/messagerule.md",
+      "sha256": "139ad3e05220012571e1e6707f4176c2f4e39bcd92aa2e97d51e684a56ffae10"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/resources/messageruleactions.md",
+      "sha256": "41310bf8e8c3f7a7761e34bc8d8b094486523cc806b0bfece93ce5fcfac336b0"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/resources/messagerulepredicates.md",
+      "sha256": "df464f64acf767ce4c256a39e1d25a836e7e7b3af2018652aecb33c2c371f06f"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/resources/security-auditlogquery.md",
+      "sha256": "da5e1a97e3f799782e32cc7d4cd93a01eaeaedc7d015542664efb985ed27cfce"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/resources/security-auditlogrecord.md",
+      "sha256": "b7ff08bce88f12cafd020b3f438a4df1d9dcb8147c031e88791ffbe172a21b8c"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/resources/security-auditdata.md",
+      "sha256": "eb83753433bf4dca15264a3ef98684596d016c2f95694956c675868b92223e0e"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/resources/security-defaultauditdata.md",
+      "sha256": "b33caad9cb798013a476e812062302a261c17c73cadb79d0561af78bd399a19e"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/mailfolder-list-messagerules.md",
+      "sha256": "40c99cb733f4c7c957918b072e1ce119ab48b5e147f60dd384fbb18a46a13f60"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/mailfolder-post-messagerules.md",
+      "sha256": "50ed7d7948ab3c6a63810f9d9258b9cef1f85b9bb473a6773a5f4a0cc77a4875"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/messagerule-get.md",
+      "sha256": "da1ed5bbf14b5a73017a6201c97a3c07e8984e43c8fc3940b29845a2cbf1da6b"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/messagerule-update.md",
+      "sha256": "ad4bc9d4e744b05f1e5fbacf3f4d60424617b5c392eade93d08913a9ea51a047"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/messagerule-delete.md",
+      "sha256": "7717cb13b7d68e10820700718a0ea85806256c2faff30829f8866d9b7423e412"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/security-auditcoreroot-post-auditlogqueries.md",
+      "sha256": "aa4a8acc7f86b8309c639c25a7c26728226f23968716e8473869d025f97632e5"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/security-auditcoreroot-list-auditlogqueries.md",
+      "sha256": "2c0657b9b6a46491456533a170098fd38bdc08385c74bff4ed2f2e939edc9c76"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/security-auditlogquery-get.md",
+      "sha256": "d691efabd6f5e741592ffb6d45c88b19470d308e3d86a7bac55a41a260503cd1"
+    },
+    {
+      "repository": "https://github.com/microsoftgraph/microsoft-graph-docs-contrib",
+      "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+      "path": "api-reference/v1.0/api/security-auditlogquery-list-records.md",
+      "sha256": "12da2bc0aab5fbc47c4807f835c6031da482a689a9e0b1a16b26e09505403ec8"
+    }
+  ]
+}

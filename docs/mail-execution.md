@@ -20,6 +20,8 @@ SDK profiles and20 original collector cases181.5455s. All five final reviewer
 findings were reproduced and fixed. PR:https://github.com/joeavanzato/mockazure/pull/7
 
 M4 environment:uv sync --frozen --all-groups --offline; Python3.12.13.
-Fresh unit baseline:210 passed10.43s. No product code differs from M3C yet.
-Next: Task1 pinned schemas and exact operation/permission contracts.
+Fresh unit baseline:210 passed10.43s. Task1 implemented pinned mailbox/UAL schema
+roots, contextual aliases, bounded audit dictionaries and canonical permissions.
+Validation:10 focused contracts0.46s;220 full unit tests8.15s.
+Next: Task2 persisted mailboxes, scopes, folders and configuration.
 M4 PostgreSQL/runtime ports and subnets must be probed before allocation.
