@@ -15,7 +15,7 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     secrets: [db_password]
     volumes:
-      - ./.runtime/m6-security/postgres:/var/lib/postgresql
+      - postgres-data:/var/lib/postgresql
     networks: [internal]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure_m6_security -d mockazure_m6_security"]
@@ -98,6 +98,10 @@ services:
 secrets:
   db_password:
     file: ./.runtime/m6-security/db.password
+volumes:
+  postgres-data:
+    labels:
+      org.mockazure.purpose: release-postgresql
 networks:
   internal:
     external: true

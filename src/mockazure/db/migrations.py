@@ -33,7 +33,7 @@ def migrate(database_url: str) -> None:
         engine.dispose()
 
 
-async def schema_is_current(database: Database) -> bool:
+async def schema_is_current(database: Database, *, raise_errors: bool = False) -> bool:
     try:
         async with database.engine.connect() as connection:
             exists = await connection.scalar(text("SELECT to_regclass('public.alembic_version')"))
@@ -46,4 +46,6 @@ async def schema_is_current(database: Database) -> bool:
             )
             return versions == [ScriptDirectory.from_config(configuration()).get_current_head()]
     except SQLAlchemyError:
+        if raise_errors:
+            raise
         return False
