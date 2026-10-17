@@ -142,7 +142,7 @@ def run_collectors(profile="original", labels=None):
     import ssl
     import subprocess
     import time
-    from datetime import UTC, datetime, timedelta
+    from datetime import UTC, datetime
 
     import httpx
 
