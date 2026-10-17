@@ -1,18 +1,29 @@
 # MockAzure M3B Evidence and Live API Simulation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (- [ ]) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development
+(recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use
+checkbox (- [x]) syntax for tracking.
 
-**Goal:** Make real local authentication, managed-identity, licence and risk API calls produce durable evidence that genuine SDKs and pinned Hawk/MES collectors can retrieve correctly.
+**Goal:** Make real local authentication, managed-identity, licence and risk API calls produce
+durable evidence that genuine SDKs and pinned Hawk/MES collectors can retrieve correctly.
 
-**Architecture:** Extend M3A facts and M2 authentication outcomes into a typed PostgreSQL projection pipeline with fenced jobs, immutable observations and versioned provider views. Reuse identity authorization and the query AST; add explicit evidence contracts, licence state and one complete managed-identity hosting protocol. Separate evidence time from authentication and continuation time.
+**Architecture:** Extend M3A facts and M2 authentication outcomes into a typed PostgreSQL
+projection pipeline with fenced jobs, immutable observations and versioned provider views. Reuse
+identity authorization and the query AST; add explicit evidence contracts, licence state and one
+complete managed-identity hosting protocol. Separate evidence time from authentication and
+continuation time.
 
-**Tech Stack:** Python >=3.12, existing FastAPI/SQLAlchemy2/psycopg3/Alembic/PostgreSQL18, cryptography/PyJWT, HTTPX, Typer, pytest. Keep MSAL1.39.0, msgraph-sdk1.64.0, Azure Identity1.26.0 and existing PowerShell pins.
+**Tech Stack:** Python >=3.12, existing FastAPI/SQLAlchemy2/psycopg3/Alembic/PostgreSQL18,
+cryptography/PyJWT, HTTPX, Typer, pytest. Keep MSAL1.39.0, msgraph-sdk1.64.0, Azure
+Identity1.26.0 and existing PowerShell pins.
 
 **Spec:** [Approved M3B design](../specs/2026-10-16-mockazure-evidence-design.md).
-**Normative appendix:** [M3B API and state contract](../../../integrations/contracts/graph-evidence.md), sections1–8; read with this plan.
-**Status:** Approved by the user, 2026-10-16; Native implementation in progress.
+**Normative appendix:** [M3B API and state
+contract](../../../integrations/contracts/graph-evidence.md), sections1–8; read with this plan.
+**Status:** Completed and qualified, 2026-10-16 (2026-10-17 UTC), with the explicitly approved MES JSON limitation.
 **Execution:** Native, already selected; main agent implements, one independent whole-change review.
-**Base:** merged main4a5fedb plus approved design406901f and this plan; create an isolated D: worktree at execution. No dependency on an unmerged M2/M3A PR.
+**Base:** merged main4a5fedb plus approved design406901f and this plan; create an isolated D:
+worktree at execution. No dependency on an unmerged M2/M3A PR.
 
 ## Global Constraints
 
@@ -21,7 +32,8 @@
 - No real Microsoft tenant traffic, upstream fallback or changes to host trust, DNS, hosts, firewall or profiles.
 - Public documentation and dependency acquisition remain separate from isolated runtime qualification.
 - Normal use requires no scenario. Historical imports are optional administrative inputs with provenance.
-- Missing endpoint implementations are work to complete when needed for the approved flows, not reasons for canned results or import-only substitutes.
+- Missing endpoint implementations are work to complete when needed for the approved flows, not
+reasons for canned results or import-only substitutes.
 - M3C policy/grant/role administration, M4 Exchange/UAL and M5 ARM remain separate; existing behavior stays a regression gate.
 - Evidence defaults: delay5s(0..3600), retention30days(1..3650), wall/fixed evidence clock, continuation1wall-clock hour.
 - Evidence imports:10MiB/10000 records; provider JSON:1MiB; strict public schema, no credentials/private keys/sessions.
@@ -36,7 +48,8 @@
 2. P2-to-P1 downgrade or self-only OR filter exposes hidden tenant/risk data through a continuation or predicate: Task7.
 3. One-seat concurrent assignment or deleted-user licence release drifts from Graph fields, delta or entitlement state: Task4.
 4. Browser/device success double-counts, or rollback erases a denied sign-in while committing partial OAuth state: Task5.
-5. Risk dismissal races a delayed sign-in projection and the old event reopens risk; original collector emits missing/duplicate/invalid files despite success output: Tasks8,11.
+5. Risk dismissal races a delayed sign-in projection and the old event reopens risk; original
+collector emits missing/duplicate/invalid files despite success output: Tasks8,11.
 
 ## File and responsibility map
 
@@ -294,27 +307,27 @@ config.py,cli.py,admin/app.py,admin/client.py and evidence/authentication.py.
 - CLI: mockazure managed-identity serve --config FILE; separate configured host/port.
   Shared identity rows use client_mode managed; ordinary secret/certificate creation rejects it.
 
-- [ ] Write test_host_protocol_matrix: system default and all four selectors, duplicate keys,
+- [x] Write test_host_protocol_matrix: system default and all four selectors, duplicate keys,
   conflicting selectors, wrong resource/version/header, disabled/unattached/foreign identity.
   assert app_only_secret_route_for_managed.status_code in (400,401).
-- [ ] Write test_managed_identity_sdk_end_to_end using installed genuine
+- [x] Write test_managed_identity_sdk_end_to_end using installed genuine
   azure.identity.ManagedIdentityCredential (no token mock): acquire, validate claims and use
   local Graph organization/users allowed and denied calls; exact managedIdentity evidence.
   A bad host header must produce an SDK exception with a nonempty sanitized description,
   using the host protocol statusCode/message fields rather than an empty SDK error.
-- [ ] Write test_header_rotation_and_detach_semantics: old header fails new acquisitions;
+- [x] Write test_header_rotation_and_detach_semantics: old header fails new acquisitions;
   existing tokens follow existing lifetime rules; system detach disables its SP, user detach
   affects only that host. Never disable another host's user-assigned identity.
-- [ ] Write test_no_fallback_and_secret_output: hostile resource URI never gets fetched;
+- [x] Write test_no_fallback_and_secret_output: hostile resource URI never gets fetched;
   managed header appears only in provisioned private file, never logs/public exports.
-- [ ] Run pytest tests/integration/test_managed_identity.py -q; expected RED.
-- [ ] Implement appendix6 and shared issuer/grants/subject checks, no second authentication
+- [x] Run pytest tests/integration/test_managed_identity.py -q; expected RED.
+- [x] Implement appendix6 and shared issuer/grants/subject checks, no second authentication
   store. Extend settings with explicit managed_identity_listen_host/port defaults127.0.0.1/49446;
   allow internal container binding only in its explicit config. JWT xms_mirid from persisted ID.
   Block client credential creation by managed mode in all relevant admin paths.
-- [ ] Run new tests and identity token/app-only/CLI regressions. Record actual wire contract
+- [x] Run new tests and identity token/app-only/CLI regressions. Record actual wire contract
   from Azure Identity1.26.0/MSAL1.39.0; do not change client to accommodate a fake response.
-- [ ] Commit: feat(identity): emulate local managed-identity token hosting.
+- [x] Commit: feat(identity): emulate local managed-identity token hosting.
 
 ## Task 7: Evidence reads, queries, masked projections and stable pages
 
@@ -336,29 +349,29 @@ authorization/catalog.py,admin/app.py.
 - Produces snapshot_evidence(session:Session,tenant_id:UUID,wall_now:datetime)->EvidenceSnapshot
   (generation,revision,evidence_time,retention_cutoff,expires_at) for Task9 exports.
 
-- [ ] Write test_routes_query_and_schema_matrix covering appendix1–3, beta explicit types,
+- [x] Write test_routes_query_and_schema_matrix covering appendix1–3, beta explicit types,
   v1interactive default, equal-time order, required fields and null unknowns.
-- [ ] Write test_sql_filters_match_original_mes_predicates: startsWith nested actor UPN,
+- [x] Write test_sql_filters_match_original_mes_predicates: startsWith nested actor UPN,
   targetResources/any with child paths, event-type any OR, quoting/Unicode/%/_ escaping;
   NUL/depth17/>256nodes/huge numeric/bad path fail Graph400. Parameterized SQL only.
-- [ ] Write test_self_scope_and_redaction_oracle: self OR foreign query returns self only;
+- [x] Write test_self_scope_and_redaction_oracle: self OR foreign query returns self only;
   P1 filter on riskLevelDuringSignIn eq high cannot reveal stored high risk; masked fields
   have matching serialization/query behavior. Role removal and licence downgrade deny or
   invalidate old continuation before reading snapshots.
-- [ ] Write test_evidence_snapshot_late_publish_and_risk_version: paginate10000 rows while
+- [x] Write test_evidence_snapshot_late_publish_and_risk_version: paginate10000 rows while
   adding backdated/delayed evidence and changing risk; exact original ID/property set remains.
   Concurrent committed publication ordering, replay across replica/restart and expiry verified.
-- [ ] Write test_evidence_batch_and_budget: mixed directory/evidence GETs each authorize;
+- [x] Write test_evidence_batch_and_budget: mixed directory/evidence GETs each authorize;
   separate600/60s per tenant/client/family fixed budgets, real Retry-After; fault next_read_429
   usable for each evidence family. No evidence write batches added.
-- [ ] Run new unit/integration files; expected RED.
-- [ ] Implement resource-specific SQL resolver using existing AST/startswith; version/cursor
+- [x] Run new unit/integration files; expected RED.
+- [x] Implement resource-specific SQL resolver using existing AST/startswith; version/cursor
   store independent of directory generations. Share hashing/serialization helpers without
   changing existing cursor schema. Add evidence resource allowlist to batch. Register all
   item/collection routes explicitly; wrong versions/methods remain explicit unsupported errors.
-- [ ] Run new tests plus test_graph_query.py,test_graph_paging.py,test_graph_batch_limits.py,
+- [x] Run new tests plus test_graph_query.py,test_graph_paging.py,test_graph_batch_limits.py,
   test_graph_review_regressions.py and test_graph_delta.py; expected PASS.
-- [ ] Commit: feat(graph): expose permission-checked evidence queries and snapshots.
+- [x] Commit: feat(graph): expose permission-checked evidence queries and snapshots.
 
 ## Task 8: Risk observations and real confirmation/dismissal actions
 
@@ -377,23 +390,23 @@ providers/graph/evidence/routes.py and authorization/catalog.py.
   Pure overlay function apply_risk_cutoff(payload:dict,cutoff:RiskActionCutoff|None)->dict
   is shared by late projection and current updates.
 
-- [ ] Write test_confirm_and_dismiss_visible_effects: actual POST204 changes user/detection/
+- [x] Write test_confirm_and_dismiss_visible_effects: actual POST204 changes user/detection/
   sign-in aggregate state according to appendix4 while preserving during-sign-in risk and
   original facts; snapshot pages remain at old versions; audit has public change facts.
-- [ ] Write test_delayed_projection_cannot_undo_dismissal: hold old sign-in projection,
+- [x] Write test_delayed_projection_cannot_undo_dismissal: hold old sign-in projection,
   dismiss, then complete it; old risk stays closed; a post-cutoff observation raises risk again.
-- [ ] Write test_risk_role_license_and_atomic_batch: P1, missing write scope, unsupported role,
+- [x] Write test_risk_role_license_and_atomic_batch: P1, missing write scope, unsupported role,
   foreign/unknown IDs, duplicate list/>100/body extras rejected with no partial state.
-- [ ] Write test_observation_idempotency_and_cross_links: same request+content gives same IDs;
+- [x] Write test_observation_idempotency_and_cross_links: same request+content gives same IDs;
   changed content409, mismatched user/sign-in or foreign subject fails. Risk does not alter
   conditional access/login before C.
-- [ ] Run pytest tests/integration/test_graph_risk_actions.py -q; expected RED.
-- [ ] Implement shared risk state service, indexed cutoffs/version overlay and append-only
+- [x] Run pytest tests/integration/test_graph_risk_actions.py -q; expected RED.
+- [x] Implement shared risk state service, indexed cutoffs/version overlay and append-only
   action sources. Do not synthesize a proprietary risk score or fabricate provider state
   merely to satisfy a collector's risky-record branch.
-- [ ] Run new tests plus test_graph_evidence_reads.py,test_evidence_worker.py and relevant
+- [x] Run new tests plus test_graph_evidence_reads.py,test_evidence_worker.py and relevant
   identity denial tests; expected PASS.
-- [ ] Commit: feat(graph): implement persistent risk confirmation and dismissal.
+- [x] Commit: feat(graph): implement persistent risk confirmation and dismissal.
 
 ## Task 9: Evidence administration, safe datasets and cleanup
 
@@ -412,25 +425,25 @@ jobs/repository.py and docs/evidence.md.
   and drain_evidence(database:Database,tenant_id:UUID,max_jobs:int=100)->DrainResult.
 - All administrative routes/CLI exactly appendix7; reuse Task2 dispatch.
 
-- [ ] Write test_dataset_roundtrip_and_conflict_atomicity: exact IDs/payload/provenance across
+- [x] Write test_dataset_roundtrip_and_conflict_atomicity: exact IDs/payload/provenance across
   fresh database, identical replay idempotent, late invalid row rolls back all records,
   >10MiB/>10000 rejected before import, secrets/unknown properties rejected.
-- [ ] Write test_export_stream_snapshot_under_change: mutate/cleanup during streaming;
+- [x] Write test_export_stream_snapshot_under_change: mutate/cleanup during streaming;
   stable exported IDs and bounded fetch size; disconnect releases or expires pin.
-- [ ] Write test_cleanup_retention_and_no_resurrection: fresh expired reads absent; active
+- [x] Write test_cleanup_retention_and_no_resurrection: fresh expired reads absent; active
   cursor still valid until wall expiry; physical cleanup then replay does not restore records.
-- [ ] Write test_reset_generation_and_retry_tenant_scope: evidence reset preserves directory,
+- [x] Write test_reset_generation_and_retry_tenant_scope: evidence reset preserves directory,
   delta,auth,licences; stale worker cannot publish old sources; future operations project;
   another tenant unchanged. Retry wrong kind/not-failed/cross-tenant fails.
-- [ ] Write test_cli_live_api_parity for settings/clock/import/export/drain/jobs/retry/cleanup/
+- [x] Write test_cli_live_api_parity for settings/clock/import/export/drain/jobs/retry/cleanup/
   reset and inventory/managed private provisioning; no direct DB bypass or secret stdout.
-- [ ] Run pytest tests/integration/test_evidence_operations.py -q; expected RED.
-- [ ] Implement admin/CLI and bounded cleanup/import/export. Retain projection receipts and
+- [x] Run pytest tests/integration/test_evidence_operations.py -q; expected RED.
+- [x] Implement admin/CLI and bounded cleanup/import/export. Retain projection receipts and
   action cutoffs while their observations/sources remain usable; make reset and scanner share
   generation locking. Incremental generation reset cleanup avoids unbounded request work.
-- [ ] Run new tests plus test_exports.py,test_jobs.py,test_graph_datasets.py and
+- [x] Run new tests plus test_exports.py,test_jobs.py,test_graph_datasets.py and
   test_identity_cli.py; expected PASS.
-- [ ] Commit: feat(evidence): add safe administration and dataset lifecycle.
+- [x] Commit: feat(evidence): add safe administration and dataset lifecycle.
 
 ## Task 10: Isolated deployment and genuine SDK qualification
 
@@ -447,32 +460,32 @@ Modify integrations/manifest.json,tools/prepare_clients.py and preparation unit 
   image ID, qualified_at, durations, checks, clients, collector output hashes/counts.
 - Python evidence client writes private local report; no printing tokens/headers.
 
-- [ ] Add acceptance expectations and preparation integrity tests before verifier exists.
+- [x] Add acceptance expectations and preparation integrity tests before verifier exists.
   Assert missing verifier/report fails, not a skip presented as a pass.
-- [ ] Acquire/pin Microsoft.Graph.Reports,Microsoft.Graph.Identity.SignIns,
+- [x] Acquire/pin Microsoft.Graph.Reports,Microsoft.Graph.Identity.SignIns,
   Microsoft.Graph.Users.Actions at2.35.1, preserving Authentication/Users/Groups/
   Identity.DirectoryManagement2.35.1 and all M2 pins. Verify archive SHA and entire
   extracted trees. Retain Azure Identity1.26.0 from lock/manifest, make client dependency
   explicit without changing version. Downloads only in preparation.
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/unit/test_prepare_clients.py -q;
+- [x] Run .venv/Scripts/python.exe -m pytest tests/unit/test_prepare_clients.py -q;
   new integrity/tamper tests should fail before preparation changes then pass after.
   Record actual acquisition hashes; never invent hashes in this plan.
-- [ ] Provision separate loopback ports49443 HTTPS,55436 PostgreSQL,49444/49445 replicas,
+- [x] Provision separate loopback ports49443 HTTPS,55436 PostgreSQL,49444/49445 replicas,
   49446 managed identity, subject to ownership/free-port checks. If occupied allocate the
   next free owned range and record it; never stop another instance. New internal networks
   select verified-free subnets, preserving existing networks. Persist all volumes underD:.
-- [ ] Run new acceptance on the ready isolated instance; expected RED missing verifier/client
+- [x] Run new acceptance on the ready isolated instance; expected RED missing verifier/client
   interfaces. Keep real API boot, not a fabricated report fixture.
-- [ ] Implement verifier and genuine SDK flows in both app/delegated modes where supported:
+- [x] Implement verifier and genuine SDK flows in both app/delegated modes where supported:
   sign-in/audit/risk reads, licensing add/remove, risk confirmation/dismissal; delegated-only
   licenseDetails and explicit app denial. ManagedIdentityCredential native+container
   acquires tokens, calls actual Graph and verifies resulting managedIdentity records.
-- [ ] Verify clean wheel/native CLI and container API, two API replicas/two workers,
+- [x] Verify clean wheel/native CLI and container API, two API replicas/two workers,
   network denial DNS/directIPv4/directIPv6, actual API/worker/PG restarts. Assert runtime
   package bytes match wheel/source fingerprint; no stale report success.
-- [ ] Run verifier SDK phase and acceptance applicable gates; expect all implemented SDK
+- [x] Run verifier SDK phase and acceptance applicable gates; expect all implemented SDK
   gates PASS, collector gates remain explicitly pending until Task11 (overall report not passed).
-- [ ] Commit: test(evidence): qualify isolated SDK and managed-identity workflows.
+- [x] Commit: test(evidence): qualify isolated SDK and managed-identity workflows.
 
 ## Task 11: Original Hawk and MES collection output gates
 
@@ -490,63 +503,63 @@ tests/acceptance/test_evidence_distribution.py and docs/compatibility.md.
 - Unit report parser rejects missing/duplicate/unexpected IDs, invalid JSON/CSV, wrong
   sentinel fields and source-hash drift.
 
-- [ ] Write failing parser tests with truncated, overwritten, concatenated JSON and duplicate
+- [x] Write failing parser tests with truncated, overwritten, concatenated JSON and duplicate
   file records; assert each produces passed=false rather than relying on process exit.
-- [ ] Run unit parser tests; expected RED before verification parser.
-- [ ] Load exact pinned collector functions/helpers. Hawk: Get-HawkUserEntraIDSignInLog,
+- [x] Run unit parser tests; expected RED before verification parser.
+- [x] Load exact pinned collector functions/helpers. Hawk: Get-HawkUserEntraIDSignInLog,
   Test-GraphConnection,Test-HawkGlobalObject,Initialize-HawkGlobalObject,Test-UserObject,
   Out-LogFile,Out-MultipleFileType and their original helper closure. MES: original module's
   Get-GraphEntraSignInLogs,Get-GraphEntraAuditLogs and date/auth/output/log/merge helpers.
   Preserve source hashes; no substituted collectors or serializers. Configure original
   telemetry opt-out; if unavailable, a named telemetry-only no-op records calls and sends
   nothing, matching the approved isolation boundary. No service call may be stubbed.
-- [ ] Implement local transport wrapper scoped to MES only; do not shadow generated
+- [x] Implement local transport wrapper scoped to MES only; do not shadow generated
   Get-MgAuditLogSignIn or global provider cmdlets. Existing local Graph context passes genuine
   connection probes. Reject any reconnect/default-public-authority attempt; record failure.
-- [ ] Run original Hawk with a recent explicit window and one user with >1000 interactive
+- [x] Run original Hawk with a recent explicit window and one user with >1000 interactive
   records, both risky/nonrisk; compare exact IDs and sentinel fields in CSV/JSON and
   investigation subset. Other users/type/time distractors must be absent.
-- [ ] Run original MES all four event types with >1000 records per type, directory audits
+- [x] Run original MES all four event types with >1000 records per type, directory audits
   >1000 records, equal timestamps, actor-prefix/target filters and empty case. Validate original
   JSON and SOF-ELK outputs independently, including MergeOutput. Use the literal query
   semantics for target OR, with an outside-window sentinel to expose that client behavior.
-- [ ] Inject persisted429 on a later page and verify actual SDK/collector retry plus full
+- [x] Inject persisted429 on a later page and verify actual SDK/collector retry plus full
   output IDs. Test permission/licence denial without silent empty-success qualification.
   No harness retry substitutes for collector retry. If upstream JSON concatenation or other
   output defect appears, preserve files/report and diagnose; do not change server query
   semantics, timestamps or page pacing to hide it. Report the concrete compatibility issue.
-- [ ] Run unit parser tests and full collector qualification in both configured auth modes;
+- [x] Run unit parser tests and full collector qualification in both configured auth modes;
   require all declared output gates, original source integrity and isolation checks PASS.
   A failing collector gate keeps the milestone incomplete until explicitly resolved.
-- [ ] Commit: test(collectors): validate original Graph evidence export contents.
+- [x] Commit: test(collectors): validate original Graph evidence export contents.
 
 ## Task 12: Complete regression, review and publish
 
 **Files:** Update README.md,docs/{capabilities,compatibility,evidence-execution}.md,
 this plan and integrations/contracts/graph-evidence.md status only after verification.
 
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/unit tests/integration -q.
+- [x] Run .venv/Scripts/python.exe -m pytest tests/unit tests/integration -q.
   Expected all PASS; do not run multiple pytest processes sharing work/pytest.
-- [ ] Build a clean wheel with the existing uv offline workflow; rebuild only
+- [x] Build a clean wheel with the existing uv offline workflow; rebuild only
   mockazure:evidence with current source fingerprint; restart only mockazure-m3b.
-- [ ] Run .venv/Scripts/python.exe tools/verify_evidence.py --report work/evidence-report.json.
+- [x] Run .venv/Scripts/python.exe tools/verify_evidence.py --report work/evidence-report.json.
   Require nativePython,containerPython,containerPowerShell SDK profiles; native/container
   managed identity; Hawk and MES modes/output gates; exact 5000-user/10000-evidence IDs;
   two replicas/workers; API/worker/PostgreSQL interruption; stable paging; ingestion delay/
   retention; 429; denied/cross-tenant/licence cases; clean wheel and blocked external network.
   Report source/manifest/lock/wheel hashes and image IDs with actual durations/counts.
-- [ ] Run .venv/Scripts/python.exe -m pytest tests/acceptance/test_evidence_distribution.py -q,
+- [x] Run .venv/Scripts/python.exe -m pytest tests/acceptance/test_evidence_distribution.py -q,
   .venv/Scripts/ruff.exe check ., .venv/Scripts/python.exe tools/check_package.py,
   and git diff --check; require exit0 and inspect output. Existing M1/M2/M3A regressions must
   pass from the new instance/code; do not mutate preserved instances to prove them.
-- [ ] Perform one independent whole-change review under Native, focused on the five failure
+- [x] Perform one independent whole-change review under Native, focused on the five failure
   classes and full approved scope. Reproduce accepted defects RED, fix, rerun affected
   checks/full suite and requalify if runtime/client source changes. No success claim based
   only on process exit or a stale report.
-- [ ] Record support boundaries, exact collector behavior, evidence IDs, complete decisions
+- [x] Record support boundaries, exact collector behavior, evidence IDs, complete decisions
   and costs, review outcomes and any blockers. No blanket "Graph compatible" or throughput
   claim beyond measured functional profile.
-- [ ] Commit final verification/docs, push and create a PR targeting main; attach it to this
+- [x] Commit final verification/docs, push and create a PR targeting main; attach it to this
   chat. User handles merge. Keep worktree/runtime for feedback and preserve decision records
   before removing only this plan's temporary execution workspace.
 
@@ -569,7 +582,9 @@ Implementation may refine internal code organization but must retain named cross
 interfaces or record a coherent interface adjustment for all consumers. No endpoint or
 client gate may be quietly converted to fixture-only behavior.
 
-Plan approved; Native execution is underway. Schema corrections are recorded in the execution ledger.
+Plan completed through Native execution and final qualification. Schema corrections, rulings and
+review disposition are preserved in docs/evidence-decisions.md; measured results are in
+docs/evidence-verification.json.
 
 ## Approved acceptance amendment — 2026-10-16
 

@@ -1,7 +1,7 @@
 # M3B execution decisions
 
 This records the execution ledger's decisions in order. The user accepted the narrow original MES audit JSON limitation;
-fresh final qualification remains required.
+final qualification passed with that limitation explicitly retained.
 
 1. Use a Git worktree under the user-owned D: repository because the desktop
    worktree tool targets the projectless C: workspace. Cost: no native worktree attachment.
@@ -70,6 +70,11 @@ fresh final qualification remains required.
     source defects could conceal loss; declared-fixture equality, strict output
     checks and independent SQL regressions mitigate this.
 
+26. Preserve the fingerprinted implementation contract exactly as qualified; record
+    final completion in the verification documentation. Cost: its historical
+    approval-status header remains stale if read alone; README, plan, compatibility
+    and verification documents provide the current status.
+
 ## Review disposition
 
 Four Important findings were accepted and reproduced: retention of current risky
@@ -95,4 +100,19 @@ the verified original append/merge defect qualify for the exception.
 A later runtime check also found native create/delete audit export rejecting
 string-valued JSON null as if it were a null resource property. Three regressions
 reproduced this and passed after correction. Actual resource ID nullability and
-validation of non-null audit values remain unchanged.
+validation of non-null audit values remain unchanged. The subsequent full
+suite passed 307 tests in 704.59 seconds; 26 focused report checks also passed.
+
+The final runtime pass exposed per-event source reads during risk dismissal,
+exceeding the TCP proxy timeout on the expanded retained dataset. The regression
+reproduced 45 fact reads for 20 linked events; a single joined read preserves
+current-generation scope, risk cutoffs, immutable originals and snapshots.
+All 13 focused risk checks passed in 52.98 seconds. Full regression and rebuilt qualification
+passed; no timeout or retry workaround was introduced.
+
+Final regression: 316 tests passed in 721.14 seconds, with one existing MSAL advisory.
+The final combined qualification passed all 25 runtime gates,
+three native/container SDK profiles in both authorization modes, and all 20 collector acceptance
+gates (14 strict passes; 6 explicitly accepted original MES audit JSON limitations). SDK/runtime
+checks took 581.622 seconds; the complete run took 2842.423 seconds. The report is bound to
+source, wheel, lockfile, manifest, original collector files, outputs and the running image.

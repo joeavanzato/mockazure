@@ -1,0 +1,326 @@
+{
+  "schema_version": 1,
+  "qualified_at": "2026-10-17T02:23:51.881853+00:00",
+  "started_at": "2026-10-17T01:36:29.458854+00:00",
+  "source_fingerprint": "95291e5ed2bb7134a038a0308f353292950d95a46100b596febea0b1905a2981",
+  "source_commit": "ed4f088a1c2cdc5c6ef84b5d5cb766ed7ad6b546",
+  "manifest_sha256": "b82974dffb18cfc70b3eaf1c42591f4db15bccfb8d2c63d70cb71b4b58315de9",
+  "lock_sha256": "e844544c90bf724a27a24b42cc3200da549d009244c67bd3c7a4487a978c355f",
+  "wheel_sha256": "eb62f6adc3277206b0b188784fd16c03f5289f90d5557097ddac0455fe40b17f",
+  "runtime_image_id": "sha256:7d36aa49a782238cc7f6c169db3880ae262917949fca6735e435a9d421d66f86",
+  "durations": {
+    "sdk_seconds": 581.622,
+    "total_seconds": 2842.422999
+  },
+  "passed": true,
+  "checks": {
+    "clean_wheel_install": true,
+    "runtime_package_bytes": true,
+    "snapshot_5000_concurrent_mutation": true,
+    "two_api_replicas": true,
+    "api_restart": true,
+    "postgres_restart": true,
+    "continuation_replay": true,
+    "delta_resume": true,
+    "cross_tenant_reference_denied": true,
+    "wrong_audience_denied": true,
+    "shared_429_recovery": true,
+    "live_ingestion_delay": true,
+    "live_retention": true,
+    "live_cleanup_snapshot": true,
+    "snapshot_10000_evidence": true,
+    "evidence_replica_replay": true,
+    "evidence_restart_replay": true,
+    "two_workers_restart": true,
+    "evidence_shared_429": true,
+    "evidence_wrong_audience": true,
+    "evidence_tenant_isolation": true,
+    "native_cli_dataset": true,
+    "native_network_blocked": true,
+    "container_python_network_blocked": true,
+    "container_powershell_network_blocked": true
+  },
+  "limitations": [
+    "PowerShell uses explicit local tokens; Python uses actual MSAL flows",
+    "PowerShell opaque delta traversal uses Invoke-MgGraphRequest",
+    "5,000-user functional qualification is not a throughput SLA",
+    "Evidence is a declared simulation; no proprietary risk scoring",
+    "M3BC security administration, broader Exchange and ARM remain later milestones",
+    "Original MES audit JSON append/merge defect accepted explicitly; strict failures remain visible and exact retrieval integrity is independently required"
+  ],
+  "report_sha256": "a5186e0c94d5cda3c6de7d58f5ee66e8cb75f27398ecc562c45f422eb9b1b235",
+  "clients": {
+    "native_python": {
+      "passed": true,
+      "client": "msgraph-sdk 1.64.0 / MSAL 1.39.0",
+      "modes": {
+        "application": {
+          "signIn_count": 6000,
+          "directoryAudit_count": 4000,
+          "exact_ids": true,
+          "risk_reads": true,
+          "confirm": true,
+          "dismiss": true,
+          "license_add_remove": true,
+          "license_details": false,
+          "license_details_app_denied": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "signIn_count": 6000,
+          "directoryAudit_count": 4000,
+          "exact_ids": true,
+          "risk_reads": true,
+          "confirm": true,
+          "dismiss": true,
+          "license_add_remove": true,
+          "license_details": true,
+          "license_details_app_denied": false,
+          "permission_denied": true
+        }
+      }
+    },
+    "container_python": {
+      "passed": true,
+      "client": "msgraph-sdk 1.64.0 / MSAL 1.39.0",
+      "modes": {
+        "application": {
+          "signIn_count": 6000,
+          "directoryAudit_count": 4000,
+          "exact_ids": true,
+          "risk_reads": true,
+          "confirm": true,
+          "dismiss": true,
+          "license_add_remove": true,
+          "license_details": false,
+          "license_details_app_denied": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "signIn_count": 6000,
+          "directoryAudit_count": 4000,
+          "exact_ids": true,
+          "risk_reads": true,
+          "confirm": true,
+          "dismiss": true,
+          "license_add_remove": true,
+          "license_details": true,
+          "license_details_app_denied": false,
+          "permission_denied": true
+        }
+      }
+    },
+    "container_powershell": {
+      "passed": true,
+      "client": "Microsoft Graph PowerShell 2.35.1",
+      "modes": {
+        "application": {
+          "signIn_count": 6000,
+          "directoryAudit_count": 4000,
+          "exact_ids": true,
+          "risk_reads": true,
+          "confirm": true,
+          "dismiss": true,
+          "license_add_remove": true,
+          "license_details": false,
+          "license_details_app_denied": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "signIn_count": 6000,
+          "directoryAudit_count": 4000,
+          "exact_ids": true,
+          "risk_reads": true,
+          "confirm": true,
+          "dismiss": true,
+          "license_add_remove": true,
+          "license_details": true,
+          "license_details_app_denied": false,
+          "permission_denied": true
+        }
+      }
+    }
+  },
+  "collectors": {
+    "status": "passed_with_known_limitations",
+    "accepted_limitations": {
+      "mes-json-page-append": [
+        "03-mes-application",
+        "05-mes-application",
+        "06-mes-application",
+        "13-mes-delegated",
+        "15-mes-delegated",
+        "16-mes-delegated"
+      ]
+    },
+    "profiles": {
+      "00-hawk-application": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 3304,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "01-mes-application": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 4405,
+        "valid_output_record_count": 8810,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "02-mes-application": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 4405,
+        "valid_output_record_count": 8810,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "03-mes-application": {
+        "strict_passed": false,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 4,
+        "known_limitation_accepted": true
+      },
+      "04-mes-application": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 2202,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "05-mes-application": {
+        "strict_passed": false,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 1,
+        "invalid_output_files": 3,
+        "known_limitation_accepted": true
+      },
+      "06-mes-application": {
+        "strict_passed": false,
+        "source_integrity": true,
+        "expected_id_count": 5173,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 9,
+        "known_limitation_accepted": true
+      },
+      "07-mes-application": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 0,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "08-mes-application": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "09-mes-application": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1102,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "10-hawk-delegated": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 3304,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "11-mes-delegated": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 4405,
+        "valid_output_record_count": 8810,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "12-mes-delegated": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 4405,
+        "valid_output_record_count": 8810,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "13-mes-delegated": {
+        "strict_passed": false,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 3,
+        "known_limitation_accepted": true
+      },
+      "14-mes-delegated": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 2202,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "15-mes-delegated": {
+        "strict_passed": false,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 2,
+        "known_limitation_accepted": true
+      },
+      "16-mes-delegated": {
+        "strict_passed": false,
+        "source_integrity": true,
+        "expected_id_count": 5175,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 9,
+        "known_limitation_accepted": true
+      },
+      "17-mes-delegated": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 0,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "18-mes-delegated": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1101,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      },
+      "19-mes-delegated": {
+        "strict_passed": true,
+        "source_integrity": true,
+        "expected_id_count": 1102,
+        "valid_output_record_count": 0,
+        "invalid_output_files": 0,
+        "known_limitation_accepted": false
+      }
+    }
+  },
+  "merged_pull_request": "https://github.com/joeavanzato/mockazure/pull/5",
+  "merge_commit": "c5d73e9c404aaf5ddbc16551141200af9791c1be",
+  "regression": {
+    "passed": 316,
+    "warnings": 1,
+    "seconds": 721.14
+  }
+}
