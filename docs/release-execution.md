@@ -1,3 +1,5 @@
+> Current stabilization results: [validated candidate and scope](stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
+
 # M6 execution and blocked release handoff
 
 Recorded 2026-10-17T14:58:50.466354+00:00. Implementation/source candidate:

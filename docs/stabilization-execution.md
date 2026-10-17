@@ -1,3 +1,5 @@
+> Current stabilization results: [validated candidate and scope](stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
+
 # Post-M6 stabilization
 
 Base: merged main916798f09041bec5c76155a8ccf2bbb355abcf13.
@@ -57,7 +59,7 @@ storage transition. The consolidated corrections require structured serializer
 failure codes, preserve profile/stamp-specific process logs and oracle inputs,
 checkpoint the original baseline before patched execution, and reject unsafe
 storage transitions. The five frozen-source client suites subsequently passed;
-full-scale qualification and final combined acceptance remain in progress.
+all three scale profiles and both final combined acceptance tests also passed.
 
 ## Fresh-runtime procedure for the bind-to-volume transition
 
@@ -102,7 +104,7 @@ The qualifier now waits until all expected audit IDs are visible before pinning
 the immutable restart-test snapshot. Product API behavior was unchanged. The
 failed attempt and its diagnosis are retained in stabilization-readiness.json.
 
-Current small and medium scale profiles passed exact coverage and restart checks.
-The large profile has imported all 100,000 users and 1,000,000 records and is
-waiting for normal publication. No large-profile pass or release-ready verdict
-is claimed here; final results will be recorded after all remaining gates pass.
+All three scale profiles passed exact coverage and restart checks, including
+all 100,000 users and 1,000,000 published records in the large profile. Both
+final acceptance tests passed and the combined release-ready verdict is true.
+See stabilization-results.md for measured timings and the qualified scope.

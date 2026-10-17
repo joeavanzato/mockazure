@@ -1,3 +1,5 @@
+> Current stabilization results: [validated candidate and scope](stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
+
 # Overnight execution: remaining MockAzure milestones
 
 User direction (2026-10-16 America/New_York): continue M3C, M4, M5 and all later defined milestones without routine approval pauses; make the most reasonable decisions and record them. This includes M6, the only defined milestone after M5. It does not invent M7 or broad Defender/Purview/Intune work.

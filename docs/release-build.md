@@ -1,3 +1,5 @@
+> Current stabilization results: [validated candidate and scope](stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
+
 # Building a MockAzure candidate
 
 Candidate builds use committed Git object bytes, an explicit source allowlist,

@@ -1,3 +1,5 @@
+> Current stabilization results: [validated candidate and scope](stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
+
 # M6 scale measurements
 
 Candidate bf64b4e2ae09defdae83a6d306d777fc97bf6667 was measured on Windows 10

@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "source_fingerprint": "c2b79a72bf82b1e56d2a6b49bd2f1c71cfabdbd92efab530e30a73e0b7a5a7ab",
+  "source_commit": "8c7287c381c33b2e7e2f53e756305cdb6b27d830",
+  "suites": {
+    "m4": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m4-report.json",
+      "failed_cases": [],
+      "report_sha256": "105d4ffabdac4c2f0150afc5a40fea6b837df749dfd300da25b4a2e81423a98e",
+      "finished_at": "2026-10-17T15:57:36.825828+00:00"
+    },
+    "m5": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m5-report.json",
+      "failed_cases": [],
+      "report_sha256": "06be44b2dab62c87a192c650591e3d0927f23cf101bf0fe1533bb1e8cb4c81e9",
+      "finished_at": "2026-10-17T16:05:13.684833+00:00"
+    },
+    "m3": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m3-report.json",
+      "failed_cases": [],
+      "report_sha256": "6119b1e12872cb00b8d1492d08e32e82f3396b8fda195c67b1eb00f77f191741",
+      "finished_at": "2026-10-17T16:11:18.142828+00:00"
+    },
+    "m3c": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m3c-report.json",
+      "failed_cases": [],
+      "report_sha256": "a8c1899dea8d90796916618fcb3b1e4420b260db5b2a5162eeb23b81ece6ac7f",
+      "finished_at": "2026-10-17T16:15:53.791827+00:00"
+    },
+    "m3b": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m3b-report.json",
+      "failed_cases": [],
+      "report_sha256": "09f8ea078052a70d48848e91b0ffd9aacb8b97d0b6f45f832423ace920af88c4",
+      "finished_at": "2026-10-17T16:42:04.245328+00:00"
+    }
+  },
+  "scale": {
+    "small": {
+      "passed": true,
+      "users": 100,
+      "records": 1000,
+      "report": "work/release/scale-small-71001.json",
+      "report_sha256": "30bf45c23d40a62460c1b38d69fd0d0d871644f7c1116e7b0ed3f83f14a1c68d"
+    },
+    "medium": {
+      "passed": true,
+      "users": 5000,
+      "records": 50000,
+      "report": "work/release/scale-medium-72001.json",
+      "report_sha256": "c37176f9d2276ea0af0b287e3aa178164b0779706d767f187d592afc891d2e90"
+    },
+    "large": {
+      "passed": true,
+      "users": 100000,
+      "records": 1000000,
+      "report": "work/release/scale-large-73001.json",
+      "report_sha256": "2c68df61a23b76d06d87a7f37335acef18300b1a7e7083f67393f55035f11b51"
+    }
+  },
+  "artifacts": {
+    "passed": true,
+    "reproducible": true,
+    "parity": true,
+    "report": "work/release/artifacts.json",
+    "report_sha256": "5cc458f908dc5a0f47bdec18cd1b371d20ad5bb5b2c9a73351c1da63ebb22f18"
+  },
+  "qualified_at": "2026-10-17T18:06:36.065330+00:00",
+  "release_ready": true,
+  "qualification_ready": true,
+  "failed_gates": []
+}

@@ -1,0 +1,81 @@
+{
+  "source_commit": "8c7287c381c33b2e7e2f53e756305cdb6b27d830",
+  "source_fingerprint": "c2b79a72bf82b1e56d2a6b49bd2f1c71cfabdbd92efab530e30a73e0b7a5a7ab",
+  "recorded_at": "2026-10-17T18:07:17.488326+00:00",
+  "broad_run": {
+    "passed": 811,
+    "integration_cases": 403,
+    "note": "Broad run preceded qualification-only corrections; runtime package unchanged."
+  },
+  "frozen_unit_and_serializer_run": {
+    "passed": 417,
+    "unit_cases": 411,
+    "serializer_cases": 6
+  },
+  "final_release_acceptance": {
+    "passed": 2
+  },
+  "lint": "passed",
+  "independent_review": "one consolidated pass; three P2 findings corrected",
+  "qualification": {
+    "qualification_ready": true,
+    "release_ready": true,
+    "failed_gates": []
+  },
+  "suites": {
+    "m4": {
+      "status": "passed",
+      "runtime_checks": 19
+    },
+    "m5": {
+      "status": "passed",
+      "runtime_checks": 17
+    },
+    "m3": {
+      "status": "passed",
+      "runtime_checks": 14
+    },
+    "m3c": {
+      "status": "passed",
+      "runtime_checks": 20
+    },
+    "m3b": {
+      "status": "passed",
+      "runtime_checks": 25
+    }
+  },
+  "collector_profile": "serialization-v1",
+  "upstream_mail_baseline": "Four known serialization failures and four denial passes, retained",
+  "previously_accepted_limitation": "M3B original MES audit JSON append/merge defect only",
+  "scale": {
+    "small": {
+      "users": 100,
+      "records": 1000,
+      "published": 1000,
+      "exact_readers": 4,
+      "passed": true,
+      "pipeline_seconds": 12.868496599956416,
+      "published_records_per_second": 77.70915524066633
+    },
+    "medium": {
+      "users": 5000,
+      "records": 50000,
+      "published": 50000,
+      "exact_readers": 4,
+      "passed": true,
+      "pipeline_seconds": 170.8223900999874,
+      "published_records_per_second": 292.70167669901775
+    },
+    "large": {
+      "users": 100000,
+      "records": 1000000,
+      "published": 1000000,
+      "exact_readers": 4,
+      "passed": true,
+      "pipeline_seconds": 2258.1587610999704,
+      "published_records_per_second": 442.83866007405544
+    }
+  },
+  "artifact_reproducibility": true,
+  "native_docker_parity": true
+}
