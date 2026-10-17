@@ -44,3 +44,5 @@ Task5 implements immutable trace/detail import, indexed filters, scope-aware rea
 232 affected unit/Exchange/migration regressions33.83s. Runtime migration027 and
 original trace client/collector qualification remain for the runtime gate.
 Task6 adds native UAL projection, bounded historical import/export, credential-field rejection and replay/restart recovery. Broad regression:302 passed168.97s; final bounds/privacy/schema/projection checks:21 passed7.07s. Next: Task7 durable Graph audit query jobs and retention-safe result paging.
+
+Task7 implements durable SQL UAL jobs/results, workload/Purview authorization, retained snapshots, lease fencing and opaque paging. Nine acceptance tests31.59s;255 affected regressions57.94s; original MES empty-filter fix4tests4.36s. Next: Task8 real clients and runtime parity, then original collectors and final review.

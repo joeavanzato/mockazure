@@ -136,3 +136,38 @@ async def import_traces(tenant_id: UUID, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         await tenant_required(session, tenant_id)
         return await import_trace(session, tenant_id, value)
+
+
+@router.put("/audit-roles/{user_id}/{role}")
+async def put_audit_role(tenant_id: UUID, user_id: UUID, role: str, request: Request):
+    from sqlalchemy.dialects.postgresql import insert
+
+    from mockazure.auditlog.models import AuditRole
+
+    if role not in {"Audit Logs", "View-Only Audit Logs"}:
+        raise AdminError(422, "InvalidAuditRole", "Unsupported Purview audit role")
+    async with request.app.state.database.sessions.begin() as session:
+        user = await session.get(User, user_id)
+        if user is None or user.tenant_id != tenant_id or user.deleted_at is not None:
+            raise AdminError(404, "UserNotFound", "Audit principal was not found")
+        await session.execute(
+            insert(AuditRole)
+            .values(tenant_id=tenant_id, user_id=user_id, role=role)
+            .on_conflict_do_nothing()
+        )
+        return {"user_id": str(user_id), "role": role}
+
+
+@router.delete("/audit-roles/{user_id}/{role}", status_code=204)
+async def delete_audit_role(tenant_id: UUID, user_id: UUID, role: str, request: Request):
+    from mockazure.auditlog.models import AuditRole
+
+    async with request.app.state.database.sessions.begin() as session:
+        await session.execute(
+            delete(AuditRole).where(
+                AuditRole.tenant_id == tenant_id,
+                AuditRole.user_id == user_id,
+                AuditRole.role == role,
+            )
+        )
+    return Response(status_code=204)

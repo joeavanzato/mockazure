@@ -5,6 +5,7 @@ from time import monotonic
 
 from sqlalchemy.exc import SQLAlchemyError
 
+from mockazure.auditlog.worker import process_audit_query
 from mockazure.db.engine import Database
 from mockazure.evidence.projection import process_projection
 from mockazure.jobs.repository import fail_job, finish_export
@@ -20,7 +21,11 @@ async def process_export(database: Database, claim: JobClaim, wall_now: datetime
     return JobResult("succeeded" if done else "stale", snapshot.model_dump(mode="json"), None)
 
 
-HANDLERS = {"tenant.export": process_export, "evidence.project": process_projection}
+HANDLERS = {
+    "tenant.export": process_export,
+    "evidence.project": process_projection,
+    "audit.query": process_audit_query,
+}
 
 
 async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult:
@@ -35,7 +40,9 @@ async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) 
     except SQLAlchemyError:
         code = "TransientError"
     except (ValueError, TypeError, KeyError):
-        code = "InvalidEvidenceSource" if claim.kind == "evidence.project" else "ExportFailed"
+        code = {"evidence.project": "InvalidEvidenceSource", "audit.query": "AuditQueryFailed"}.get(
+            claim.kind, "ExportFailed"
+        )
         terminal = True
     async with database.sessions.begin() as session:
         changed = await fail_job(

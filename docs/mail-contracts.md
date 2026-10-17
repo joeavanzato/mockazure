@@ -296,3 +296,49 @@ Indexed UAL service and operation dimensions are bounded to128 and256 characters
 respectively, preventing valid-looking imports from failing later on PostgreSQL
 index tuple limits. Tenant UUID comparison is case-insensitive while exported
 source payload text remains unchanged.
+
+## Durable Graph audit searches
+
+POST/GET /v1.0/security/auditLog/queries and query GET/records use the pinned
+security.auditLogQuery and security.auditLogRecord contracts. The beta alias
+exposes this same bounded v1.0 profile. The request status is ignored; persisted
+job state controls notStarted/running/succeeded/failed. Query IDs/count fields are
+read-only. serviceFilter is accepted as the documented singular alias; conflicting
+plural input fails. Record-type enum input accepts the documented lower-initial
+spelling and emits the pinned CSDL spelling.
+
+All query filters combine with AND; entries within each collection combine with OR.
+SQL predicates cover time, workload, operation, record type, UPN, client IP, object
+and administrative unit. Keyword is a case-insensitive literal substring over the
+workload auditData dictionary after removing Common-schema fields, with SQL wildcard
+characters escaped. It is not a full text search-language implementation. Text is
+bounded to1024 characters and filter lists to100 values. Missing times use the
+captured evidence clock's last24hours. Historical visibility is additionally
+bounded by the tenant's configured evidence retention and publication watermark.
+
+Audit Standard/Premium is checked on every operation. Delegated callers additionally
+need a distinct authenticated-management Purview Audit Logs/View-Only Audit Logs
+grant at /_mock/tenants/{tenant}/mail/audit-roles/{user}/{role}; Entra roles do not
+substitute. Workload permissions map Exchange, Entra, OneDrive, SharePoint, CRM,
+Endpoint to Exchange, AzureActiveDirectory, OneDrive, SharePoint, CRM, Endpoint
+respectively. Unknown workloads require AuditLogsQuery.Read.All. A scoped caller
+omitting service filters gets its authorized workload union. Query metadata/results
+require access to every requested workload; listing excludes inaccessible queries.
+
+Ruling: reuse the shared EvidenceCursor retention pin under EvidenceState locking
+rather than create a second cleanup protocol. Each pending query pins its captured
+generation/publication/time range; SQL INSERT SELECT materializes immutable results
+under the existing job epoch/lease fence. Post-insert lease loss rolls back the
+entire transaction. Successful results survive source cleanup and evidence reset.
+Failures remain explicit; no partially populated successful query.
+
+Local result lifetime is7days; page handles last1hour and cannot outlive the query.
+Expired query/page access is410. Cleanup of expired result rows is an M6 hardening
+task; expiry already denies reads. Server pages contain at most100 records, accepting
+$top1..1000 and $select. Unknown options fail. Continuations bind tenant, caller,
+permissions, API version and query, and replay the same ordered record page.
+List pages capture a creation-time bound but report current job statuses. Live
+database restart and original-client qualification remain separate runtime gates.
+
+Original MES submits serviceFilter as an empty string when unspecified. This
+normalizes to no filter; nonempty conflicting singular/plural values still fail.

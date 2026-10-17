@@ -33,6 +33,7 @@ from mockazure.oauth.routes import router as oauth_router
 from mockazure.providers.arm.probes import router as arm_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
+from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
 from mockazure.providers.graph.directory import router_for
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
@@ -231,6 +232,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(grant_router_for("beta"))
     app.include_router(security_router_for("v1.0"))
     app.include_router(security_router_for("beta"))
+    app.include_router(audit_query_router_for("v1.0"))
+    app.include_router(audit_query_router_for("beta"))
     app.include_router(mail_router_for("v1.0"))
     app.include_router(mail_router_for("beta"))
     app.include_router(router_for("v1.0"))

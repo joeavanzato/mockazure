@@ -1,5 +1,6 @@
 from alembic import context
 
+from mockazure.auditlog import models as auditlog_models  # noqa: F401
 from mockazure.db.models import Base
 from mockazure.evidence import models as evidence_models  # noqa: F401
 from mockazure.licensing import models as licensing_models  # noqa: F401
