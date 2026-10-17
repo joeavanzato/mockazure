@@ -9,6 +9,7 @@ from xml.etree import ElementTree as ET
 EDM = "{http://docs.oasis-open.org/odata/ns/edm}"
 ROOTS = (
     "user",
+    "userRegistrationDetails",
     "group",
     "signIn",
     "directoryAudit",

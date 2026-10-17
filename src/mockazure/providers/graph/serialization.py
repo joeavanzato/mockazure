@@ -27,7 +27,8 @@ def serialize_object(
         if fields is not None
         else tuple(name for name in DEFAULT_FIELDS[obj.kind] if name in readable_fields)
     )
-    if not set(chosen) <= PUBLIC_FIELDS[obj.kind]:
+    allowed = PUBLIC_FIELDS[obj.kind] | ({"signInActivity"} if obj.kind == "user" else set())
+    if not set(chosen) <= allowed:
         raise GraphError(400, "Request_UnsupportedQuery", "Selected field is not supported")
     return {key: obj.properties.get(key) if key in readable_fields else None for key in chosen}
 
@@ -41,4 +42,8 @@ def selected_fields(request) -> tuple[str, ...] | None:
     values = items[0][1].split(",")
     if not all(values) or len(values) != len(set(values)):
         raise GraphError(400, "Request_UnsupportedQuery", "Invalid selected fields")
-    return tuple(values)
+    canonical = {name.lower(): name for name in PUBLIC_FIELDS["user"] | {"signInActivity"}}
+    values = tuple(canonical.get(value.lower(), value) for value in values)
+    if len(set(values)) != len(values):
+        raise GraphError(400, "Request_UnsupportedQuery", "Duplicate selected fields")
+    return values

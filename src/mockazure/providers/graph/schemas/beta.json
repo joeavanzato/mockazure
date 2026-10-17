@@ -1760,6 +1760,17 @@
         "saturday"
       ]
     },
+    "defaultMfaMethodType": {
+      "enum": [
+        "none",
+        "mobilePhone",
+        "alternateMobilePhone",
+        "officePhone",
+        "microsoftAuthenticatorPush",
+        "softwareOneTimePasscode",
+        "unknownFutureValue"
+      ]
+    },
     "delegateMeetingMessageDeliveryOptions": {
       "enum": [
         "sendToDelegateAndInformationToPrincipal",
@@ -5681,6 +5692,18 @@
       ],
       "base": "directoryObject"
     },
+    "userDefaultAuthenticationMethod": {
+      "enum": [
+        "push",
+        "oath",
+        "voiceMobile",
+        "voiceAlternateMobile",
+        "voiceOffice",
+        "sms",
+        "none",
+        "unknownFutureValue"
+      ]
+    },
     "userIdentity": {
       "properties": {
         "displayName": {
@@ -5718,6 +5741,91 @@
         "others",
         "unknownFutureValue"
       ]
+    },
+    "userRegistrationDetails": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "defaultMfaMethod": {
+          "type": "graph.defaultMfaMethodType",
+          "nullable": true
+        },
+        "isAdmin": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isMfaCapable": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isMfaRegistered": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isPasswordlessCapable": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSsprCapable": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSsprEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSsprRegistered": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSystemPreferredAuthenticationMethodEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "lastUpdatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "methodsRegistered": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "systemPreferredAuthenticationMethods": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "userDisplayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "userPreferredMethodForSecondaryAuthentication": {
+          "type": "graph.userDefaultAuthenticationMethod",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "userType": {
+          "type": "graph.signInUserType",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "isMfaCapable",
+        "isMfaRegistered",
+        "isPasswordlessCapable",
+        "isSsprCapable",
+        "isSsprEnabled",
+        "isSsprRegistered",
+        "lastUpdatedDateTime",
+        "userDisplayName",
+        "userPrincipalName"
+      ],
+      "base": "entity"
     },
     "userSet": {
       "properties": {

@@ -9,6 +9,25 @@ from mockazure.providers.graph.query.contracts import FieldContract, QueryContra
 from mockazure.providers.graph.query.parser import parse_query, selection
 
 FIELDS = {
+    "userRegistrationDetails": {
+        "id",
+        "@odata.type",
+        "userPrincipalName",
+        "userDisplayName",
+        "userType",
+        "isAdmin",
+        "isMfaRegistered",
+        "isMfaCapable",
+        "isPasswordlessCapable",
+        "isSsprCapable",
+        "isSsprEnabled",
+        "isSsprRegistered",
+        "isSystemPreferredAuthenticationMethodEnabled",
+        "userPreferredMethodForSecondaryAuthentication",
+        "methodsRegistered",
+        "systemPreferredAuthenticationMethods",
+        "lastUpdatedDateTime",
+    },
     "conditionalAccessPolicy": {
         "id",
         "displayName",
@@ -110,7 +129,21 @@ FIELDS = {
 
 
 def contract_for(kind, version):
+    if kind == "userActivity":
+        from mockazure.providers.graph.query.contracts import contract_for as directory_contract
+
+        return directory_contract(version, "users")
     fields = {name: FieldContract(name, "string", frozenset()) for name in FIELDS[kind]}
+    if kind == "userRegistrationDetails":
+        for name in fields:
+            if name.startswith("is"):
+                fields[name] = FieldContract(name, "bool", frozenset({"eq"}))
+            elif name in {"userPrincipalName", "userDisplayName"}:
+                fields[name] = FieldContract(name, "string", frozenset({"eq", "startswith"}))
+        fields["methodsRegistered"] = FieldContract(
+            "methodsRegistered", "array", frozenset({"any"})
+        )
+        return QueryContract(version, kind, kind, fields, frozenset({"id"}))
     if kind in {"oAuth2PermissionGrant", "appRoleAssignment"}:
         for name in {"id", "clientId", "resourceId", "principalId", "appRoleId"} & fields.keys():
             fields[name] = FieldContract(name, "uuid", frozenset({"eq"}))
@@ -200,10 +233,24 @@ def resolve(source, field):
         return cast(value.as_string(), Uuid)
     if field.data_type == "bool":
         return value.as_boolean()
+    if field.data_type == "array":
+        return value
     return value.as_string()
 
 
 def filtered(source, query, contract):
     if query.filter is None:
         return True
-    return compile_filter(query.filter, contract, resolver=lambda field: resolve(source, field))
+
+    def resolver(field):
+        value = resolve(source, field)
+        if contract.kind == "userRegistrationDetails" and field.name in {
+            "userDisplayName",
+            "userPrincipalName",
+        }:
+            from sqlalchemy import func
+
+            return func.lower(value)
+        return value
+
+    return compile_filter(query.filter, contract, resolver=resolver)

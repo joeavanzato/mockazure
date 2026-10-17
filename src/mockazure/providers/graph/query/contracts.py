@@ -33,6 +33,8 @@ def contract_for(version: str, resource: str) -> QueryContract:
         name: FieldContract(name, "string", frozenset())
         for name in (USER_FIELDS if kind == "user" else GROUP_FIELDS)
     }
+    if kind == "user":
+        fields["signInActivity"] = FieldContract("signInActivity", "string", frozenset())
     string_names = (
         {
             "displayName",

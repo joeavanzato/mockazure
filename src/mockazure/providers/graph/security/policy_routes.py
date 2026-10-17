@@ -3,7 +3,7 @@
 from fastapi import APIRouter, Request, Response
 from starlette.responses import JSONResponse
 
-from mockazure.providers.graph.body import read_json
+from mockazure.providers.graph.body import read_json, typed_body
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import principal
 from mockazure.providers.graph.security.queries import parse_security_query
@@ -44,6 +44,8 @@ def router_for(version):
                         400, "Request_UnsupportedQuery", "Mutation query options are unsupported"
                     )
                 body = await read_json(request) if method != "DELETE" else None
+                if body is not None and kind == "conditionalAccessPolicy":
+                    body = typed_body(body, kind)
                 value = await mutate_policy(session, actor, kind, method, identifier, body)
                 if method == "POST":
                     return JSONResponse(value, status_code=201)

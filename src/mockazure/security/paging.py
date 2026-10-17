@@ -128,6 +128,7 @@ async def security_collection(request, session, actor, kind, query, *, source=No
         "unifiedRoleDefinition": "roleManagement/directory/roleDefinitions",
         "unifiedRoleAssignment": "roleManagement/directory/roleAssignments",
         "directoryRoleMember": "directoryObjects",
+        "userRegistrationDetails": "reports/authenticationMethods/userRegistrationDetails",
     }.get(kind, request.url.path.split("/")[-1])
     if kind == "unifiedRoleAssignment" and query.expand:
         context += "(" + ",".join(expansion.field + "()" for expansion in query.expand) + ")"

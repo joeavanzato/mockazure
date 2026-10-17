@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from starlette.responses import JSONResponse
 
-from mockazure.providers.graph.body import read_json
+from mockazure.providers.graph.body import read_json, typed_body
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import principal
 from mockazure.providers.graph.security.queries import parse_security_query
@@ -34,7 +34,9 @@ def router_for(version):
             if not read:
                 if request.query_params:
                     raise GraphError(400, "Request_UnsupportedQuery", "Write query is unsupported")
-                body = {} if request.method == "DELETE" else await read_json(request)
+                body = (
+                    {} if request.method == "DELETE" else typed_body(await read_json(request), kind)
+                )
             try:
                 async with request.app.state.database.sessions.begin() as session:
                     actor = await principal(request, session)

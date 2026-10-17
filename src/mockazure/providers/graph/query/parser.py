@@ -161,7 +161,8 @@ class FilterParser:
 
 
 def selection(value: str, allowed) -> tuple[str, ...]:
-    values = tuple(part.strip() for part in value.split(","))
+    canonical = {name.lower(): name for name in allowed}
+    values = tuple(canonical.get(part.strip().lower(), part.strip()) for part in value.split(","))
     if not all(values) or len(set(values)) != len(values) or not set(values) <= set(allowed):
         unsupported("Selected fields are not supported")
     return values

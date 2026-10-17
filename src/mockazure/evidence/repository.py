@@ -253,6 +253,10 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
                 payload=payload,
             )
         )
+    from mockazure.security.activity import record_activity
+
+    for item in batch.items:
+        await record_activity(session, key[0], item)
     await session.flush()
     await publish_linked_risk(session, source, revision)
     record_ids = tuple(item.id for item in batch.items)

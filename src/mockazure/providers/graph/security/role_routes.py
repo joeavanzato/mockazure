@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from starlette.responses import JSONResponse
 
-from mockazure.providers.graph.body import read_json
+from mockazure.providers.graph.body import read_json, typed_body
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import principal
 from mockazure.providers.graph.security.queries import parse_security_query
@@ -111,7 +111,7 @@ def router_for(version):
         if request.query_params:
             raise GraphError(400, "Request_UnsupportedQuery", "Write query is unsupported")
         identifier = request.path_params.get("identifier")
-        body = {} if identifier else await read_json(request)
+        body = {} if identifier else typed_body(await read_json(request), "unifiedRoleAssignment")
         try:
             async with request.app.state.database.sessions.begin() as session:
                 actor = await principal(request, session)

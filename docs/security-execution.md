@@ -92,7 +92,7 @@ Preserve existing worktrees and runtimes.
 
 ## Next work
 
-Task9: qualify real MSAL/Graph Python and PowerShell plus original security
+Task9 in progress: qualify real MSAL/Graph Python and PowerShell plus original security
 collectors on isolated .runtime/m3c. Task10: final regression, independent review
 and PR. Task8 base was ac54770747639b18276bfeeacbf4c1c780501274;
 run task-done if the native ledger does not yet record completion.
@@ -122,3 +122,23 @@ and candidate unused ports; it is preparation, not acceptance evidence.
 - https://learn.microsoft.com/en-us/graph/api/device-post-registeredowners?view=graph-rest-1.0
 - https://learn.microsoft.com/en-us/graph/api/device-update?view=graph-rest-1.0
 - https://learn.microsoft.com/en-us/graph/api/device-delete?view=graph-rest-1.0
+
+## Task 9 API closure checkpoint
+
+Original collector source required registration reports and user signInActivity.
+Both now use persisted tenant state and real authentication evidence; sign-in
+summaries survive evidence retention and paged selections remain stable.
+The registration descriptor profile explicitly disables physical MFA/passwordless/
+SSPR capability services, returning false for their non-nullable booleans rather
+than claiming enrolled descriptors can perform those challenges.
+
+Generated SDK root @odata.type annotations are accepted only when they match
+the resource type. Capitalized known user selections used by MES normalize to
+canonical fields without restricting unrelated licensing selection contracts.
+
+Verification: 365 affected unit/integration tests passed in 270.07s
+(work/task9-closure-regression2.log); seven SDK serialization cases and the
+licensing regression passed in the focused run. Ruff and diff checks pass.
+Qualification scripts and runtime gates remain unfinished; these results do not
+qualify M3C. Its own runtime uses HTTPS32443, PostgreSQL55440, planned native
+API32444/32445 and managed identity32446. No host networking settings changed.

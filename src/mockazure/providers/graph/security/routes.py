@@ -6,7 +6,7 @@ from fastapi import APIRouter, Request, Response
 from sqlalchemy.exc import IntegrityError
 
 from mockazure.authorization.evaluator import OperationRequirement
-from mockazure.providers.graph.body import read_json
+from mockazure.providers.graph.body import read_json, typed_body
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import context_url, permitted, principal, project
 from mockazure.providers.graph.security.queries import parse_security_query
@@ -86,6 +86,8 @@ def router_for(version):
                 raise GraphError(400, "Request_UnsupportedQuery", "Write query is unsupported")
             if body is None:
                 body = {} if request.method == "DELETE" else await read_json(request)
+            if operation in {"create", "update"}:
+                body = typed_body(body, kind)
             try:
                 async with request.app.state.database.sessions.begin() as session:
                     actor = await principal(request, session)
