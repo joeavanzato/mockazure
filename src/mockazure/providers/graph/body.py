@@ -45,3 +45,12 @@ async def read_json(request, limit=1024 * 1024):
         return value
     except (ValueError, UnicodeError, RecursionError):
         invalid("Invalid JSON object")
+
+
+def typed_body(body, kind):
+    """Accept the SDK's exact root discriminator without treating it as a property write."""
+    if not isinstance(body, dict):
+        invalid("A JSON object is required")
+    if "@odata.type" in body and body["@odata.type"] != "#microsoft.graph." + kind:
+        invalid("Graph type annotation mismatch")
+    return {key: value for key, value in body.items() if key != "@odata.type"}

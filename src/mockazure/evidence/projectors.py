@@ -16,6 +16,10 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
         from mockazure.evidence.authentication import project_authentication
 
         return project_authentication(source)
+    if source.ref.kind == "security":
+        from mockazure.security.audit import project_security
+
+        return project_security(source)
     if source.ref.kind == "directory":
         return project_directory(source)
     if source.ref.kind != "historical":

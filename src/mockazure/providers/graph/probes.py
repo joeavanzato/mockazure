@@ -109,5 +109,8 @@ async def me(request: Request, response: Response):
         data = serialize_object(
             public_object(user), selected_fields(request), readable_fields(context, "user", user.id)
         )
+        from mockazure.security.activity import add_activity
+
+        await add_activity(session, context, user.id, selected_fields(request), data)
         response.headers["request-id"] = request.state.request_id
         return {"@odata.context": context_url(request, "users/$entity"), **data}

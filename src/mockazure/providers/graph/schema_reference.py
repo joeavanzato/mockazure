@@ -4,6 +4,8 @@ Operation permissions, supported fields and query behavior are separate contract
 Open CSDL types are deliberately closed to declared fields for imported evidence.
 """
 
+import base64
+import binascii
 import json
 import math
 from datetime import datetime
@@ -42,6 +44,13 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
                 value.encode("utf-8")
             except UnicodeError:
                 raise ValueError("Graph string must be valid Unicode") from None
+        elif kind == "Edm.Binary":
+            if not isinstance(value, str) or len(value) > max_chars:
+                raise ValueError("Graph base64 string required")
+            try:
+                base64.b64decode(value, validate=True)
+            except (ValueError, binascii.Error):
+                raise ValueError("Invalid Graph base64 string") from None
         elif kind == "Edm.Boolean":
             if type(value) is not bool:
                 raise ValueError("Graph boolean required")
@@ -81,6 +90,19 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
                 return
             if not isinstance(value, dict):
                 raise ValueError("Graph object required")
+            annotation = value.get("@odata.type")
+            if annotation is not None and annotation != f"#microsoft.graph.{name}":
+                if not isinstance(annotation, str) or not annotation.startswith(
+                    "#microsoft.graph."
+                ):
+                    raise ValueError("Graph type annotation mismatch")
+                derived = annotation.removeprefix("#microsoft.graph.")
+                ancestor = derived
+                while ancestor in types and ancestor != name:
+                    ancestor = types[ancestor].get("base")
+                if ancestor != name:
+                    raise ValueError("Graph type annotation mismatch")
+                name, contract = derived, types[derived]
             fields = contract["properties"]
             if value.keys() - fields.keys() - {"@odata.type"}:
                 raise ValueError("Undeclared Graph property")

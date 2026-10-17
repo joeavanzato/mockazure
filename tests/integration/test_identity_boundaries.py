@@ -18,7 +18,7 @@ async def test_capabilities_describe_supported_identity_and_probes(database, set
     async with identity_client(database, settings) as (client, *_):
         response = (await client.get("/_mock/capabilities")).json()
         assert response["milestone"] == 3
-        assert response["delivery"] == "B"
+        assert response["delivery"] == "C"
         assert set(response["authentication_flows"]) == {
             "client_credentials",
             "authorization_code_pkce",

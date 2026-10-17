@@ -6,7 +6,7 @@ from uuid import UUID
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from mockazure.db.models import Tenant
@@ -49,7 +49,7 @@ class IdentityRepository:
         row = await self.session.scalar(
             select(model).where(model.tenant_id == tenant_id, key == object_id)
         )
-        if row is None:
+        if row is None or getattr(row, "deleted_at", None) is not None:
             raise IdentityError(404, "IdentityNotFound", "Identity not found in tenant")
         return row
 
@@ -175,6 +175,14 @@ class IdentityRepository:
             setattr(row, key, value)
         self.session.add(row)
         await self.session.flush()
+        from mockazure.security.models import GrantRoleMetadata
+
+        await self.session.execute(
+            delete(GrantRoleMetadata).where(
+                GrantRoleMetadata.grant_id == row.id,
+                GrantRoleMetadata.permission.not_in(row.permissions),
+            )
+        )
         return row
 
     async def revoke_credential(self, tenant_id: UUID, credential_id: UUID) -> None:

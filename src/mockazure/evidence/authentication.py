@@ -29,6 +29,8 @@ ERRORS = {
     50034: "User account no longer exists",
     65004: "User declined consent",
     50074: "User declined required authentication",
+    50076: "Conditional Access requires multi-factor authentication",
+    53003: "Access blocked by Conditional Access",
     7000215: "Invalid client secret",
     7000112: "Application is disabled",
     700027: "Client assertion validation failed",
@@ -82,6 +84,10 @@ class AuthenticationFact(StrictModel):
     client_snapshot: ClientSnapshot
     ip_address: str | None = Field(default=None, max_length=45)
     mfa: Literal["completed", "denied", "not_performed"] = "not_performed"
+    conditional_access_status: Literal["notApplied", "success", "failure"] = "notApplied"
+    conditional_access_results: tuple[dict, ...] = ()
+    client_app_type: Literal["browser", "mobileAppsAndDesktopClients"] | None = None
+    requires_mfa: bool = False
     legacy_incomplete: bool = False
 
     @model_validator(mode="after")
@@ -92,6 +98,10 @@ class AuthenticationFact(StrictModel):
             raise ValueError("Authentication subject mismatch")
         if self.ip_address:
             ip_address(self.ip_address)
+        from mockazure.providers.graph.schema_reference import validate_payload
+
+        for result in self.conditional_access_results:
+            validate_payload("v1.0", "appliedConditionalAccessPolicy", result, partial=True)
         return self
 
 
@@ -146,7 +156,12 @@ async def make_fact(
             peer = str(ip_address(request.client.host))
     except ValueError:
         pass
+    decision = getattr(request.state, "policy_decision", None)
     return AuthenticationFact(
+        conditional_access_status=decision.status if decision else "notApplied",
+        conditional_access_results=decision.results if decision else (),
+        client_app_type=getattr(request.state, "policy_client_app_type", None),
+        requires_mfa=decision.requires_mfa if decision else False,
         attempt_id=attempt_id or UUID(request.state.request_id),
         tenant_id=tenant_id,
         client_id=client_id,
@@ -306,7 +321,10 @@ def project_authentication(source):
         "resourceId": "00000003-0000-0000-c000-000000000000" if fact.resource == "graph" else None,
         "resourceDisplayName": "Microsoft Graph" if fact.resource == "graph" else None,
         "ipAddress": fact.ip_address,
-        "clientAppUsed": None,
+        "clientAppUsed": {
+            "browser": "Browser",
+            "mobileAppsAndDesktopClients": "Mobile Apps and Desktop clients",
+        }.get(fact.client_app_type),
         "correlationId": str(fact.correlation_id),
         "isInteractive": fact.event_type == "interactiveUser",
         "status": {
@@ -314,7 +332,8 @@ def project_authentication(source):
             "failureReason": ERRORS[fact.error_code],
             "additionalDetails": None,
         },
-        "conditionalAccessStatus": "notApplied",
+        "conditionalAccessStatus": fact.conditional_access_status,
+        "appliedConditionalAccessPolicies": list(fact.conditional_access_results),
         "riskDetail": "none",
         "riskLevelAggregated": "none",
         "riskLevelDuringSignIn": "none",
@@ -330,7 +349,7 @@ def project_authentication(source):
             "managed_identity": "oAuth2",
         }.get(fact.flow),
         "authenticationRequirement": "multiFactorAuthentication"
-        if fact.mfa in {"completed", "denied"}
+        if fact.requires_mfa or fact.mfa in {"completed", "denied"}
         else ("singleFactorAuthentication" if fact.subject_id else None),
         "authenticationDetails": [],
     }

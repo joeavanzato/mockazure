@@ -9,6 +9,7 @@ from xml.etree import ElementTree as ET
 EDM = "{http://docs.oasis-open.org/odata/ns/edm}"
 ROOTS = (
     "user",
+    "userRegistrationDetails",
     "group",
     "signIn",
     "directoryAudit",
@@ -18,6 +19,27 @@ ROOTS = (
     "licenseDetails",
     "assignedLicense",
     "assignedPlan",
+    "application",
+    "servicePrincipal",
+    "device",
+    "passwordCredential",
+    "keyCredential",
+    "appRoleAssignment",
+    "oAuth2PermissionGrant",
+    "unifiedRoleDefinition",
+    "unifiedRoleAssignment",
+    "directoryRole",
+    "authenticationMethod",
+    "passwordAuthenticationMethod",
+    "phoneAuthenticationMethod",
+    "emailAuthenticationMethod",
+    "microsoftAuthenticatorAuthenticationMethod",
+    "fido2AuthenticationMethod",
+    "conditionalAccessPolicy",
+    "namedLocation",
+    "ipNamedLocation",
+    "iPv4CidrRange",
+    "iPv6CidrRange",
 )
 
 
@@ -45,6 +67,7 @@ def extract(path):
         value = {"properties": {}, "required": []}
         result[name] = value
         if base := node.attrib.get("BaseType"):
+            value["base"] = base.removeprefix("graph.").removeprefix("microsoft.graph.")
             collect(base)
             base_value = result[base.removeprefix("graph.").removeprefix("microsoft.graph.")]
             value["properties"].update(base_value["properties"])

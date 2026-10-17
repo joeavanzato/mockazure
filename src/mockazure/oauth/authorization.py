@@ -21,6 +21,7 @@ from mockazure.oauth.forms import read_form
 from mockazure.oauth.models import AuthorizationTransaction
 from mockazure.oauth.scopes import OIDC, granted_scopes, parse_scopes, require_grants
 from mockazure.oauth.sessions import clock, digest, new_session, record_outcome, token_response
+from mockazure.security.evaluation import enforce_policies
 
 router = APIRouter()
 COOKIE = "__Host-mockazure-flow"
@@ -211,10 +212,22 @@ async def login(request: Request):
             raise error
         await local_app(session, user.tenant_id, str(app.client_id))
         row.tenant_id, row.user_id, row.stage = user.tenant_id, user.id, "consent"
+        await enforce_policies(
+            session,
+            request,
+            row,
+            user,
+            "device_approval" if row.device_id else "authorization_code",
+            now,
+            allow_mfa_prompt=True,
+        )
         return pages.form(row, fields["csrf"], "consent", app.display_name)
 
 
 async def consent_to_scopes(row, session):
+    from mockazure.security.repository import lock_security
+
+    await lock_security(session, row.tenant_id)
     granted = await granted_scopes(session, row.tenant_id, row.client_id, row.user_id, row.resource)
     needed = set(row.scopes) - OIDC - granted
     admin = await session.get(DirectoryRole, (row.tenant_id, row.user_id, "Global Administrator"))
@@ -303,6 +316,16 @@ async def consent(request: Request):
             return pages.callback(row, {"error": "access_denied"})
         if fields.get("decision") != "approve":
             raise OAuthError("invalid_request", "Choose allow or deny")
+        user = await current_user(row, session)
+        await enforce_policies(
+            session,
+            request,
+            row,
+            user,
+            "device_approval" if row.device_id else "authorization_code",
+            now,
+            allow_mfa_prompt=True,
+        )
         await consent_to_scopes(row, session)
         row.stage = "mfa"
         return pages.form(row, fields["csrf"], "mfa", app.display_name)
@@ -317,6 +340,16 @@ async def mfa(request: Request):
         decision = fields.get("decision")
         if decision == "deny":
             row.stage, row.mfa = "denied", "denied"
+            user = await current_user(row, session)
+            await enforce_policies(
+                session,
+                request,
+                row,
+                user,
+                "device_approval" if row.device_id else "authorization_code",
+                now,
+                allow_mfa_prompt=True,
+            )
             if row.device_id:
                 from mockazure.oauth.device import complete_device
 
@@ -328,6 +361,15 @@ async def mfa(request: Request):
         if decision not in ("complete", "skip"):
             raise OAuthError("invalid_request", "Choose a simulated MFA outcome")
         row.mfa = "completed" if decision == "complete" else "not_performed"
+        user = await current_user(row, session)
+        await enforce_policies(
+            session,
+            request,
+            row,
+            user,
+            "device_approval" if row.device_id else "authorization_code",
+            now,
+        )
         row.stage = "authorized"
         if row.device_id:
             from mockazure.oauth.device import complete_device
@@ -365,6 +407,7 @@ async def redeem_code(fields, tenant, request, session, now):
         raise invalid_grant()
     user = await current_user(row, session, request=request, now=now)
     await require_grants(session, row)
+    await enforce_policies(session, request, row, user, "authorization_code", now)
     row.consumed_at = now
     await record_outcome(session, row, "authorization_code", now, "success", request=request)
     login_session = await new_session(row, session, now)

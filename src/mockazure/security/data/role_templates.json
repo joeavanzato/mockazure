@@ -1,0 +1,33 @@
+{
+  "source": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+  "retrieved_utc": "2026-10-17",
+  "roles": {
+    "Application Administrator": "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3",
+    "Application Developer": "cf1c38e5-3621-4004-a7cb-879624dced7c",
+    "Authentication Administrator": "c4e39bd9-1100-46d3-8c65-fb160da0071f",
+    "Cloud Application Administrator": "158c047a-c907-4556-b7ef-446551a6b5f7",
+    "Cloud Device Administrator": "7698a772-787b-4ac8-901f-60d6b08affd2",
+    "Conditional Access Administrator": "b1be1c3e-b65d-4f19-8427-f6fa0d97feb9",
+    "Directory Readers": "88d8e3e3-8f55-4a1e-953a-9b9898b8876b",
+    "Directory Writers": "9360feb5-f418-4baa-8175-e2a00bac4301",
+    "Dynamics 365 Business Central Administrator": "963797fb-eb3b-4cde-8ce3-5878b3f32a3f",
+    "Exchange Administrator": "29232cdf-9323-42fd-ade2-1d097af3e4de",
+    "Global Administrator": "62e90394-69f5-4237-9190-012177145e10",
+    "Global Reader": "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
+    "Global Secure Access Administrator": "ac434307-12b9-4fa1-a708-88bf58caabc1",
+    "Groups Administrator": "fdd7a751-b60b-444a-984c-02652fe8fa1c",
+    "Guest Inviter": "95e79109-95c0-4d8e-aee3-d01accf2d47b",
+    "Hybrid Identity Administrator": "8ac3fc64-6eca-42ea-9e69-59f4c7b60eb2",
+    "Identity Governance Administrator": "45d8d3c5-c802-45c6-b32a-1d70b5e1e86e",
+    "Intune Administrator": "3a2c62db-5318-420d-8d74-23affee5d9d5",
+    "License Administrator": "4d6ac14f-3453-41d0-bef9-a3e0c569773a",
+    "Privileged Authentication Administrator": "7be44c8a-adaf-4e2a-84d6-ab2649e08a13",
+    "Privileged Role Administrator": "e8611ab8-c189-46e8-94e1-60213ab1f814",
+    "Reports Reader": "4a5d8f65-41da-4de4-8968-e035b65339cf",
+    "Security Administrator": "194ae4cb-b126-40b2-bd5b-6091b380977d",
+    "Security Operator": "5f2222b1-57c3-48ba-8ad5-d4759f1fde6f",
+    "Security Reader": "5d6b6bb7-de71-4623-b4af-96380a352509",
+    "User Administrator": "fe930be7-5e62-47db-91af-98c3a49a38b1",
+    "Windows 365 Administrator": "11451d60-acb2-45eb-a7d6-43d0f0125c13"
+  }
+}

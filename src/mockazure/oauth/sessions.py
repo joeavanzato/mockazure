@@ -21,7 +21,14 @@ def clock(request):
 
 
 async def new_session(transaction, session, now):
+    from mockazure.security.evaluation import client_category
+
     result = LoginSession(
+        client_app_type=await client_category(
+            session,
+            transaction,
+            "device_code" if hasattr(transaction, "user_code_hash") else "authorization_code",
+        ),
         tenant_id=transaction.tenant_id,
         client_id=transaction.client_id,
         user_id=transaction.user_id,
@@ -166,6 +173,9 @@ async def refresh_session(fields, tenant, request, session, now):
             raise OAuthError("invalid_scope", "Refresh cannot add resources or scopes")
     user = await current_user(row, session, request=request, flow="refresh_token", now=now)
     await require_grants(session, row)
+    from mockazure.security.evaluation import enforce_policies
+
+    await enforce_policies(session, request, row, user, "refresh_token", now)
     await record_outcome(session, row, "refresh_token", now, "success", request=request)
     return await token_response(row, user, session, request.app.state.settings, now, scopes=scopes)
 

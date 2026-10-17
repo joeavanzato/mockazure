@@ -78,8 +78,6 @@ def validate_facts(value: SourceInput) -> None:
         if facts["family"] not in {"signIn", "directoryAudit", "riskDetection", "riskyUser"}:
             raise ValueError("Unsupported evidence family")
         validate_payload(facts.get("version", "v1.0"), facts["family"], facts["payload"])
-        if "appliedConditionalAccessPolicies" in facts["payload"]:
-            raise ValueError("Conditional Access policy detail is not supported")
         UUID(facts["payload"]["id"])
         if "provenance" in facts:
             from mockazure.evidence.datasets import Provenance
@@ -109,6 +107,10 @@ def validate_facts(value: SourceInput) -> None:
         fact = AuthenticationFact.model_validate(value.facts)
         if fact.tenant_id != value.ref.tenant_id or fact.attempt_id != value.ref.id:
             raise ValueError("Authentication source identity mismatch")
+    elif value.ref.kind == "security":
+        from mockazure.security.audit import validate_security_facts
+
+        validate_security_facts(value.facts)
     elif value.ref.kind == "directory":
         from mockazure.evidence.directory_facts import validate_directory_facts
 
@@ -251,6 +253,10 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
                 payload=payload,
             )
         )
+    from mockazure.security.activity import record_activity
+
+    for item in batch.items:
+        await record_activity(session, key[0], item)
     await session.flush()
     await publish_linked_risk(session, source, revision)
     record_ids = tuple(item.id for item in batch.items)

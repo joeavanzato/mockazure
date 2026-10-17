@@ -19,6 +19,7 @@ from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.licensing_routes import router as licensing_admin_router
 from mockazure.admin.managed_identity_routes import router as managed_identity_admin_router
 from mockazure.admin.routes import router
+from mockazure.admin.security_routes import router as security_admin_router
 from mockazure.admin.session_routes import router as session_router
 from mockazure.config import Settings
 from mockazure.db.engine import Database, close_database, create_database
@@ -35,6 +36,12 @@ from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
 from mockazure.providers.graph.probes import router as graph_router
+from mockazure.providers.graph.security.grant_routes import router_for as grant_router_for
+from mockazure.providers.graph.security.method_routes import router_for as method_router_for
+from mockazure.providers.graph.security.policy_routes import router_for as policy_router_for
+from mockazure.providers.graph.security.report_routes import router_for as registration_router_for
+from mockazure.providers.graph.security.role_routes import router_for as role_router_for
+from mockazure.providers.graph.security.routes import router_for as security_router_for
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
 
@@ -197,6 +204,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(arm_router)
     app.include_router(session_router)
     app.include_router(identity_router)
+    app.include_router(security_admin_router)
     app.include_router(graph_admin_router)
     app.include_router(directory_admin_router)
     app.include_router(discovery_router)
@@ -207,6 +215,18 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(graph_router, prefix="/beta")
     app.include_router(evidence_router_for("v1.0"))
     app.include_router(evidence_router_for("beta"))
+    app.include_router(registration_router_for("v1.0"))
+    app.include_router(registration_router_for("beta"))
+    app.include_router(method_router_for("v1.0"))
+    app.include_router(method_router_for("beta"))
+    app.include_router(policy_router_for("v1.0"))
+    app.include_router(policy_router_for("beta"))
+    app.include_router(role_router_for("v1.0"))
+    app.include_router(role_router_for("beta"))
+    app.include_router(grant_router_for("v1.0"))
+    app.include_router(grant_router_for("beta"))
+    app.include_router(security_router_for("v1.0"))
+    app.include_router(security_router_for("beta"))
     app.include_router(router_for("v1.0"))
     app.include_router(router_for("beta"))
     app.include_router(exchange_router)

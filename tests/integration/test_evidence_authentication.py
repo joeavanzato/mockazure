@@ -113,7 +113,12 @@ async def test_live_auth_types_and_single_device_success(database, settings):
         ["interactiveUser"],
     ]
     assert all(v["status"]["errorCode"] == 0 for v in values)
-    assert all(v["clientAppUsed"] is None for v in values)
+    assert [v["clientAppUsed"] for v in values] == [
+        "Mobile Apps and Desktop clients",
+        "Mobile Apps and Desktop clients",
+        None,
+        "Mobile Apps and Desktop clients",
+    ]
     assert values[0]["authenticationDetails"][0]["authenticationStepDateTime"] is None
     assert values[2]["userId"] == "" and values[2]["appId"] == app_id
     assert (

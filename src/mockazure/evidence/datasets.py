@@ -103,6 +103,39 @@ def validate_public_payload(version, family, payload):
         if name in NESTED:
             nested(name, value)
     for target in payload.get("targetResources") or []:
+        security_kind = {
+            "Application": "application",
+            "ServicePrincipal": "servicePrincipal",
+            "Device": "device",
+            "oAuth2PermissionGrant": "oAuth2PermissionGrant",
+            "appRoleAssignment": "appRoleAssignment",
+            "unifiedRoleAssignment": "unifiedRoleAssignment",
+            "conditionalAccessPolicy": "conditionalAccessPolicy",
+            "ipNamedLocation": "ipNamedLocation",
+        }.get(target.get("type"))
+        if security_kind:
+            from mockazure.security.audit import safe
+
+            for change in target.get("modifiedProperties") or []:
+                name = change["displayName"]
+                if name not in schema(version)["types"][security_kind][
+                    "properties"
+                ] and name not in {"owners", "registeredOwners"}:
+                    raise ValueError("Undeclared security audit property")
+                for side in ("oldValue", "newValue"):
+                    value = json.loads(change[side]) if change.get(side) is not None else None
+                    if value is None:
+                        continue
+                    if safe(value) != value:
+                        raise ValueError("Private credential data is not public evidence")
+                    if name in {"owners", "registeredOwners"}:
+                        if not isinstance(value, list) or len(value) > 100:
+                            raise ValueError("Invalid security owner difference")
+                        for identifier in value:
+                            UUID(identifier)
+                    else:
+                        validate_payload(version, security_kind, {name: value}, partial=True)
+            continue
         for change in target.get("modifiedProperties") or []:
             name = change["displayName"]
             allowed = set().union(*PUBLIC_FIELDS.values()) | {
@@ -447,7 +480,9 @@ async def export_evidence(session_factory, tenant_id, query):
                     ).model_dump(mode="json")
                 record = EvidenceRecord(
                     family=row.family,
-                    api_version=source.facts.get("version", "beta"),
+                    api_version=source.facts.get(
+                        "version", "v1.0" if source.kind == "security" else "beta"
+                    ),
                     payload=row.payload,
                     occurred_at=observation.occurred_at,
                     available_at=observation.available_at,

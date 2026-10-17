@@ -5,6 +5,10 @@
   "sha256": "0f2d8ee4bc6de9513ee690e2abb1422e332d30cf9171d32bf1f400f43bd7ae3a",
   "version": "beta",
   "types": {
+    "Dictionary": {
+      "properties": {},
+      "required": []
+    },
     "MembershipRuleProcessingStatusDetails": {
       "enum": [
         "NotStarted",
@@ -20,6 +24,26 @@
         "user",
         "unknownFutureValue",
         "servicePrincipal"
+      ]
+    },
+    "addIn": {
+      "properties": {
+        "id": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "properties": {
+          "type": "Collection(graph.keyValue)",
+          "nullable": false
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "properties",
+        "type"
       ]
     },
     "agentic.agentSignIn": {
@@ -56,6 +80,58 @@
         "unknownFutureValue"
       ]
     },
+    "allowedRolePrincipalTypes": {
+      "enum": [
+        "user",
+        "servicePrincipal",
+        "group",
+        "unknownFutureValue"
+      ]
+    },
+    "alternativeSecurityId": {
+      "properties": {
+        "identityProvider": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "key": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "apiApplication": {
+      "properties": {
+        "acceptMappedClaims": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "knownClientApplications": {
+          "type": "Collection(Edm.Guid)",
+          "nullable": true
+        },
+        "oauth2PermissionScopes": {
+          "type": "Collection(graph.permissionScope)",
+          "nullable": false
+        },
+        "preAuthorizedApplications": {
+          "type": "Collection(graph.preAuthorizedApplication)",
+          "nullable": true
+        },
+        "requestedAccessTokenVersion": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": [
+        "oauth2PermissionScopes"
+      ]
+    },
     "appIdentity": {
       "properties": {
         "appId": {
@@ -76,6 +152,291 @@
         }
       },
       "required": []
+    },
+    "appRole": {
+      "properties": {
+        "allowedMemberTypes": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.Guid",
+          "nullable": false
+        },
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "origin": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "value": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "allowedMemberTypes",
+        "id",
+        "isEnabled"
+      ]
+    },
+    "appRoleAssignment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "appRoleId": {
+          "type": "Edm.Guid",
+          "nullable": false
+        },
+        "creationTimestamp": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "principalDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "principalType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "appRoleId"
+      ],
+      "base": "directoryObject"
+    },
+    "application": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "api": {
+          "type": "graph.apiApplication",
+          "nullable": true
+        },
+        "appId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "appRoles": {
+          "type": "Collection(graph.appRole)",
+          "nullable": false
+        },
+        "authenticationBehaviors": {
+          "type": "graph.authenticationBehaviors",
+          "nullable": true
+        },
+        "certification": {
+          "type": "graph.certification",
+          "nullable": true
+        },
+        "createdByAppId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "defaultRedirectUri": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "disabledByMicrosoftStatus": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "groupMembershipClaims": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "identifierUris": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "info": {
+          "type": "graph.informationalUrl",
+          "nullable": true
+        },
+        "isDeviceOnlyAuthSupported": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isDisabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isFallbackPublicClient": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "keyCredentials": {
+          "type": "Collection(graph.keyCredential)",
+          "nullable": false
+        },
+        "logo": {
+          "type": "Edm.Stream",
+          "nullable": false
+        },
+        "managerApplications": {
+          "type": "Collection(Edm.Guid)",
+          "nullable": false
+        },
+        "nativeAuthenticationApisEnabled": {
+          "type": "graph.nativeAuthenticationApisEnabled",
+          "nullable": true
+        },
+        "notes": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "onPremisesPublishing": {
+          "type": "graph.onPremisesPublishing",
+          "nullable": true
+        },
+        "optionalClaims": {
+          "type": "graph.optionalClaims",
+          "nullable": true
+        },
+        "parentalControlSettings": {
+          "type": "graph.parentalControlSettings",
+          "nullable": true
+        },
+        "passwordCredentials": {
+          "type": "Collection(graph.passwordCredential)",
+          "nullable": false
+        },
+        "publicClient": {
+          "type": "graph.publicClientApplication",
+          "nullable": true
+        },
+        "publisherDomain": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "requestSignatureVerification": {
+          "type": "graph.requestSignatureVerification",
+          "nullable": true
+        },
+        "requiredResourceAccess": {
+          "type": "Collection(graph.requiredResourceAccess)",
+          "nullable": false
+        },
+        "samlMetadataUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "serviceManagementReference": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "servicePrincipalLockConfiguration": {
+          "type": "graph.servicePrincipalLockConfiguration",
+          "nullable": true
+        },
+        "signInAudience": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "signInAudienceRestrictions": {
+          "type": "graph.signInAudienceRestrictionsBase",
+          "nullable": false
+        },
+        "spa": {
+          "type": "graph.spaApplication",
+          "nullable": true
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "tokenEncryptionKeyId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "uniqueName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "verifiedPublisher": {
+          "type": "graph.verifiedPublisher",
+          "nullable": true
+        },
+        "web": {
+          "type": "graph.webApplication",
+          "nullable": true
+        },
+        "windows": {
+          "type": "graph.windowsApplication",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "appRoles",
+        "identifierUris",
+        "keyCredentials",
+        "logo",
+        "managerApplications",
+        "passwordCredentials",
+        "requiredResourceAccess",
+        "signInAudienceRestrictions",
+        "tags"
+      ],
+      "base": "directoryObject"
+    },
+    "applicationEnforcedRestrictionsSessionControl": {
+      "properties": {
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "conditionalAccessSessionControl"
     },
     "appliedAuthenticationEventListener": {
       "properties": {
@@ -219,6 +580,13 @@
       },
       "required": []
     },
+    "attestationLevel": {
+      "enum": [
+        "attested",
+        "notAttested",
+        "unknownFutureValue"
+      ]
+    },
     "auditActivityInitiator": {
       "properties": {
         "app": {
@@ -290,7 +658,8 @@
           "nullable": true
         }
       },
-      "required": []
+      "required": [],
+      "base": "userIdentity"
     },
     "authenticationAppAdminConfiguration": {
       "enum": [
@@ -371,6 +740,27 @@
         "unknownFutureValue"
       ]
     },
+    "authenticationBehaviors": {
+      "properties": {
+        "blockAzureADGraphAccess": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "coopEnforcement": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "removeUnverifiedEmailClaim": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "requireClientServicePrincipal": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "authenticationContext": {
       "properties": {
         "detail": {
@@ -434,6 +824,45 @@
         "attributeCollectionSubmit",
         "emailOtpSend",
         "passwordSubmit"
+      ]
+    },
+    "authenticationMethod": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastUsedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "authenticationMethodSignInState": {
+      "enum": [
+        "notSupported",
+        "notAllowedByPolicy",
+        "notEnabled",
+        "phoneNumberNotUnique",
+        "ready",
+        "notConfigured",
+        "unknownFutureValue"
+      ]
+    },
+    "authenticationPhoneType": {
+      "enum": [
+        "mobile",
+        "alternateMobile",
+        "office",
+        "unknownFutureValue"
       ]
     },
     "authenticationRequirementPolicy": {
@@ -525,6 +954,31 @@
         "scheduled"
       ]
     },
+    "certification": {
+      "properties": {
+        "certificationDetailsUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "certificationExpirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "isCertifiedByMicrosoft": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isPublisherAttested": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "lastCertificationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "clientCredentialType": {
       "enum": [
         "none",
@@ -535,6 +989,32 @@
         "certificate",
         "unknownFutureValue"
       ]
+    },
+    "cloudAppSecuritySessionControl": {
+      "properties": {
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "cloudAppSecurityType": {
+          "type": "graph.cloudAppSecuritySessionControlType",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "conditionalAccessSessionControl"
+    },
+    "cloudAppSecuritySessionControlType": {
+      "enum": [
+        "mcasConfigured",
+        "monitorOnly",
+        "blockDownloads",
+        "unknownFutureValue"
+      ]
+    },
+    "cloudLicensing.deviceCloudLicensing": {
+      "properties": {},
+      "required": []
     },
     "cloudLicensing.groupCloudLicensing": {
       "properties": {},
@@ -552,6 +1032,218 @@
         }
       },
       "required": []
+    },
+    "conditionalAccessAgentContext": {
+      "properties": {
+        "excludeAgentContexts": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeAgentContexts": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeAgentContexts",
+        "includeAgentContexts"
+      ]
+    },
+    "conditionalAccessAgentIdRiskLevels": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "unknownFutureValue"
+      ]
+    },
+    "conditionalAccessAgents": {
+      "properties": {
+        "agentFilter": {
+          "type": "graph.conditionalAccessFilter",
+          "nullable": true
+        },
+        "excludeAgentUsers": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeAgentUsers": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeAgentUsers",
+        "includeAgentUsers"
+      ]
+    },
+    "conditionalAccessApplications": {
+      "properties": {
+        "applicationFilter": {
+          "type": "graph.conditionalAccessFilter",
+          "nullable": true
+        },
+        "excludeApplications": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "globalSecureAccess": {
+          "type": "graph.conditionalAccessGlobalSecureAccess",
+          "nullable": true
+        },
+        "includeApplications": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeAuthenticationContextClassReferences": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeUserActions": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "networkAccess": {
+          "type": "graph.conditionalAccessNetworkAccess",
+          "nullable": true
+        }
+      },
+      "required": [
+        "excludeApplications",
+        "includeApplications",
+        "includeAuthenticationContextClassReferences",
+        "includeUserActions"
+      ]
+    },
+    "conditionalAccessAuthenticationFlows": {
+      "properties": {
+        "transferMethods": {
+          "type": "graph.conditionalAccessTransferMethods",
+          "nullable": false
+        }
+      },
+      "required": [
+        "transferMethods"
+      ]
+    },
+    "conditionalAccessClientApp": {
+      "enum": [
+        "all",
+        "browser",
+        "mobileAppsAndDesktopClients",
+        "exchangeActiveSync",
+        "easSupported",
+        "other",
+        "unknownFutureValue"
+      ]
+    },
+    "conditionalAccessClientApplications": {
+      "properties": {
+        "agentIdServicePrincipalFilter": {
+          "type": "graph.conditionalAccessFilter",
+          "nullable": true
+        },
+        "excludeAgentIdServicePrincipals": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "excludeServicePrincipals": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeAgentIdServicePrincipals": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeServicePrincipals": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "servicePrincipalFilter": {
+          "type": "graph.conditionalAccessFilter",
+          "nullable": true
+        }
+      },
+      "required": [
+        "excludeAgentIdServicePrincipals",
+        "excludeServicePrincipals",
+        "includeAgentIdServicePrincipals",
+        "includeServicePrincipals"
+      ]
+    },
+    "conditionalAccessConditionSet": {
+      "properties": {
+        "agentContext": {
+          "type": "graph.conditionalAccessAgentContext",
+          "nullable": true
+        },
+        "agentIdRiskLevels": {
+          "type": "graph.conditionalAccessAgentIdRiskLevels",
+          "nullable": true
+        },
+        "agents": {
+          "type": "graph.conditionalAccessAgents",
+          "nullable": true
+        },
+        "applications": {
+          "type": "graph.conditionalAccessApplications",
+          "nullable": true
+        },
+        "authenticationFlows": {
+          "type": "graph.conditionalAccessAuthenticationFlows",
+          "nullable": true
+        },
+        "clientApplications": {
+          "type": "graph.conditionalAccessClientApplications",
+          "nullable": true
+        },
+        "clientAppTypes": {
+          "type": "Collection(graph.conditionalAccessClientApp)",
+          "nullable": false
+        },
+        "devices": {
+          "type": "graph.conditionalAccessDevices",
+          "nullable": true
+        },
+        "deviceStates": {
+          "type": "graph.conditionalAccessDeviceStates",
+          "nullable": true
+        },
+        "insiderRiskLevels": {
+          "type": "graph.conditionalAccessInsiderRiskLevels",
+          "nullable": true
+        },
+        "locations": {
+          "type": "graph.conditionalAccessLocations",
+          "nullable": true
+        },
+        "platforms": {
+          "type": "graph.conditionalAccessPlatforms",
+          "nullable": true
+        },
+        "servicePrincipalRiskLevels": {
+          "type": "Collection(graph.riskLevel)",
+          "nullable": false
+        },
+        "signInRiskLevels": {
+          "type": "Collection(graph.riskLevel)",
+          "nullable": false
+        },
+        "userRiskLevels": {
+          "type": "Collection(graph.riskLevel)",
+          "nullable": false
+        },
+        "users": {
+          "type": "graph.conditionalAccessUsers",
+          "nullable": true
+        }
+      },
+      "required": [
+        "clientAppTypes",
+        "servicePrincipalRiskLevels",
+        "signInRiskLevels",
+        "userRiskLevels"
+      ]
     },
     "conditionalAccessConditions": {
       "enum": [
@@ -573,6 +1265,267 @@
         "servicePrincipalRisk",
         "authenticationFlows",
         "insiderRisk"
+      ]
+    },
+    "conditionalAccessDevicePlatform": {
+      "enum": [
+        "android",
+        "iOS",
+        "windows",
+        "windowsPhone",
+        "macOS",
+        "all",
+        "unknownFutureValue",
+        "linux"
+      ]
+    },
+    "conditionalAccessDeviceStates": {
+      "properties": {
+        "excludeStates": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeStates": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeStates",
+        "includeStates"
+      ]
+    },
+    "conditionalAccessDevices": {
+      "properties": {
+        "deviceFilter": {
+          "type": "graph.conditionalAccessFilter",
+          "nullable": true
+        },
+        "excludeDevices": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "excludeDeviceStates": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeDevices": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeDeviceStates": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeDevices",
+        "excludeDeviceStates",
+        "includeDevices",
+        "includeDeviceStates"
+      ]
+    },
+    "conditionalAccessExternalTenants": {
+      "properties": {
+        "membershipKind": {
+          "type": "graph.conditionalAccessExternalTenantsMembershipKind",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "conditionalAccessExternalTenantsMembershipKind": {
+      "enum": [
+        "all",
+        "enumerated",
+        "unknownFutureValue"
+      ]
+    },
+    "conditionalAccessFilter": {
+      "properties": {
+        "mode": {
+          "type": "graph.filterMode",
+          "nullable": false
+        },
+        "rule": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "mode",
+        "rule"
+      ]
+    },
+    "conditionalAccessGlobalSecureAccess": {
+      "properties": {},
+      "required": []
+    },
+    "conditionalAccessGrantControl": {
+      "enum": [
+        "block",
+        "mfa",
+        "compliantDevice",
+        "domainJoinedDevice",
+        "approvedApplication",
+        "compliantApplication",
+        "passwordChange",
+        "unknownFutureValue",
+        "riskRemediation"
+      ]
+    },
+    "conditionalAccessGrantControls": {
+      "properties": {
+        "builtInControls": {
+          "type": "Collection(graph.conditionalAccessGrantControl)",
+          "nullable": false
+        },
+        "customAuthenticationFactors": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "operator": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "termsOfUse": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "builtInControls",
+        "customAuthenticationFactors",
+        "termsOfUse"
+      ]
+    },
+    "conditionalAccessGuestOrExternalUserTypes": {
+      "enum": [
+        "none",
+        "internalGuest",
+        "b2bCollaborationGuest",
+        "b2bCollaborationMember",
+        "b2bDirectConnectUser",
+        "otherExternalUser",
+        "serviceProvider",
+        "unknownFutureValue"
+      ]
+    },
+    "conditionalAccessGuestsOrExternalUsers": {
+      "properties": {
+        "externalTenants": {
+          "type": "graph.conditionalAccessExternalTenants",
+          "nullable": true
+        },
+        "guestOrExternalUserTypes": {
+          "type": "graph.conditionalAccessGuestOrExternalUserTypes",
+          "nullable": false
+        }
+      },
+      "required": [
+        "guestOrExternalUserTypes"
+      ]
+    },
+    "conditionalAccessInsiderRiskLevels": {
+      "enum": [
+        "minor",
+        "moderate",
+        "elevated",
+        "unknownFutureValue"
+      ]
+    },
+    "conditionalAccessLocations": {
+      "properties": {
+        "excludeLocations": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeLocations": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeLocations",
+        "includeLocations"
+      ]
+    },
+    "conditionalAccessNetworkAccess": {
+      "properties": {},
+      "required": []
+    },
+    "conditionalAccessPlatforms": {
+      "properties": {
+        "excludePlatforms": {
+          "type": "Collection(graph.conditionalAccessDevicePlatform)",
+          "nullable": false
+        },
+        "includePlatforms": {
+          "type": "Collection(graph.conditionalAccessDevicePlatform)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludePlatforms",
+        "includePlatforms"
+      ]
+    },
+    "conditionalAccessPolicy": {
+      "properties": {
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "conditions": {
+          "type": "graph.conditionalAccessConditionSet",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "grantControls": {
+          "type": "graph.conditionalAccessGrantControls",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "modifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "sessionControls": {
+          "type": "graph.conditionalAccessSessionControls",
+          "nullable": true
+        },
+        "state": {
+          "type": "graph.conditionalAccessPolicyState",
+          "nullable": false
+        }
+      },
+      "required": [
+        "conditions",
+        "displayName",
+        "id",
+        "state"
+      ],
+      "base": "policyDeletableItem"
+    },
+    "conditionalAccessPolicyState": {
+      "enum": [
+        "enabled",
+        "disabled",
+        "enabledForReportingButNotEnforced"
       ]
     },
     "conditionalAccessRule": {
@@ -629,6 +1582,52 @@
       },
       "required": []
     },
+    "conditionalAccessSessionControl": {
+      "properties": {
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "conditionalAccessSessionControls": {
+      "properties": {
+        "applicationEnforcedRestrictions": {
+          "type": "graph.applicationEnforcedRestrictionsSessionControl",
+          "nullable": true
+        },
+        "cloudAppSecurity": {
+          "type": "graph.cloudAppSecuritySessionControl",
+          "nullable": true
+        },
+        "continuousAccessEvaluation": {
+          "type": "graph.continuousAccessEvaluationSessionControl",
+          "nullable": true
+        },
+        "disableResilienceDefaults": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "globalSecureAccessFilteringProfile": {
+          "type": "graph.globalSecureAccessFilteringProfileSessionControl",
+          "nullable": true
+        },
+        "persistentBrowser": {
+          "type": "graph.persistentBrowserSessionControl",
+          "nullable": true
+        },
+        "secureSignInSession": {
+          "type": "graph.secureSignInSessionControl",
+          "nullable": true
+        },
+        "signInFrequency": {
+          "type": "graph.signInFrequencySessionControl",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "conditionalAccessStatus": {
       "enum": [
         "success",
@@ -636,6 +1635,100 @@
         "notApplied",
         "unknownFutureValue"
       ]
+    },
+    "conditionalAccessTransferMethods": {
+      "enum": [
+        "none",
+        "deviceCodeFlow",
+        "authenticationTransfer",
+        "unknownFutureValue"
+      ]
+    },
+    "conditionalAccessUsers": {
+      "properties": {
+        "excludeGroups": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "excludeGuestsOrExternalUsers": {
+          "type": "graph.conditionalAccessGuestsOrExternalUsers",
+          "nullable": true
+        },
+        "excludeRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "excludeUsers": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeGroups": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeGuestsOrExternalUsers": {
+          "type": "graph.conditionalAccessGuestsOrExternalUsers",
+          "nullable": true
+        },
+        "includeRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "includeUsers": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeGroups",
+        "excludeRoles",
+        "excludeUsers",
+        "includeGroups",
+        "includeRoles",
+        "includeUsers"
+      ]
+    },
+    "continuousAccessEvaluationMode": {
+      "enum": [
+        "strictEnforcement",
+        "disabled",
+        "unknownFutureValue",
+        "strictLocation"
+      ]
+    },
+    "continuousAccessEvaluationSessionControl": {
+      "properties": {
+        "mode": {
+          "type": "graph.continuousAccessEvaluationMode",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "corsConfiguration": {
+      "properties": {
+        "allowedHeaders": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "allowedMethods": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "allowedOrigins": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "maxAgeInSeconds": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "resource": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "customSecurityAttributeValue": {
       "properties": {},
@@ -667,12 +1760,198 @@
         "saturday"
       ]
     },
+    "defaultMfaMethodType": {
+      "enum": [
+        "none",
+        "mobilePhone",
+        "alternateMobilePhone",
+        "officePhone",
+        "microsoftAuthenticatorPush",
+        "softwareOneTimePasscode",
+        "unknownFutureValue"
+      ]
+    },
     "delegateMeetingMessageDeliveryOptions": {
       "enum": [
         "sendToDelegateAndInformationToPrincipal",
         "sendToDelegateAndPrincipal",
         "sendToDelegateOnly"
       ]
+    },
+    "device": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "accountEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "alternativeNames": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "alternativeSecurityIds": {
+          "type": "Collection(graph.alternativeSecurityId)",
+          "nullable": false
+        },
+        "approximateLastSignInDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "cloudLicensing": {
+          "type": "microsoft.graph.cloudLicensing.deviceCloudLicensing",
+          "nullable": true
+        },
+        "complianceExpirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "deviceCategory": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceMetadata": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceOwnership": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceVersion": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "domainName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enrollmentProfileName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enrollmentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "extensionAttributes": {
+          "type": "graph.onPremisesExtensionAttributes",
+          "nullable": true
+        },
+        "hostnames": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "isCompliant": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isManaged": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isManagementRestricted": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isRooted": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "kind": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "managementType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "manufacturer": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "mdmAppId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "model": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "onPremisesLastSyncDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "onPremisesSecurityIdentifier": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "onPremisesSyncEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "operatingSystem": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operatingSystemVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "physicalIds": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "platform": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "profileType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registrationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "systemLabels": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "trustType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "alternativeSecurityIds",
+        "physicalIds",
+        "systemLabels"
+      ],
+      "base": "directoryObject"
     },
     "deviceDetail": {
       "properties": {
@@ -793,7 +2072,8 @@
         "activityDisplayName",
         "category",
         "initiatedBy"
-      ]
+      ],
+      "base": "entity"
     },
     "directoryObject": {
       "properties": {
@@ -808,7 +2088,60 @@
       },
       "required": [
         "id"
-      ]
+      ],
+      "base": "entity"
+    },
+    "directoryRole": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleTemplateId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "directoryObject"
+    },
+    "emailAuthenticationMethod": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastUsedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "emailAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "authenticationMethod"
     },
     "employeeOrgData": {
       "properties": {
@@ -877,6 +2210,66 @@
         "all"
       ]
     },
+    "externalAuthenticationType": {
+      "enum": [
+        "passthru",
+        "aadPreAuthentication"
+      ]
+    },
+    "fido2AuthenticationMethod": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastUsedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "aaGuid": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "attestationCertificates": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "attestationLevel": {
+          "type": "graph.attestationLevel",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "model": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "passkeyType": {
+          "type": "graph.passkeyType",
+          "nullable": true
+        },
+        "publicKeyCredential": {
+          "type": "graph.webauthnPublicKeyCredential",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "authenticationMethod"
+    },
+    "filterMode": {
+      "enum": [
+        "include",
+        "exclude"
+      ]
+    },
     "geoCoordinates": {
       "properties": {
         "altitude": {
@@ -893,6 +2286,22 @@
         }
       },
       "required": []
+    },
+    "globalSecureAccessFilteringProfileSessionControl": {
+      "properties": {
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "profileId": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "profileId"
+      ],
+      "base": "conditionalAccessSessionControl"
     },
     "group": {
       "properties": {
@@ -1137,7 +2546,8 @@
         "proxyAddresses",
         "resourceBehaviorOptions",
         "resourceProvisioningOptions"
-      ]
+      ],
+      "base": "directoryObject"
     },
     "groupAccessType": {
       "enum": [
@@ -1166,7 +2576,32 @@
           "nullable": true
         }
       },
-      "required": []
+      "required": [],
+      "base": "writebackConfiguration"
+    },
+    "iPv4CidrRange": {
+      "properties": {
+        "cidrAddress": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "cidrAddress"
+      ],
+      "base": "ipRange"
+    },
+    "iPv6CidrRange": {
+      "properties": {
+        "cidrAddress": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "cidrAddress"
+      ],
+      "base": "ipRange"
     },
     "identity": {
       "properties": {
@@ -1190,6 +2625,19 @@
       },
       "required": []
     },
+    "implicitGrantSettings": {
+      "properties": {
+        "enableAccessTokenIssuance": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "enableIdTokenIssuance": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "incomingTokenType": {
       "enum": [
         "none",
@@ -1200,6 +2648,133 @@
         "remoteDesktopToken",
         "refreshToken"
       ]
+    },
+    "informationalUrl": {
+      "properties": {
+        "logoUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "marketingUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "privacyStatementUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "supportUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "termsOfServiceUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "ipNamedLocation": {
+      "properties": {
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "modifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "ipRanges": {
+          "type": "Collection(graph.ipRange)",
+          "nullable": false
+        },
+        "isTrusted": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "displayName",
+        "id",
+        "ipRanges",
+        "isTrusted"
+      ],
+      "base": "namedLocation"
+    },
+    "ipRange": {
+      "properties": {},
+      "required": []
+    },
+    "kerberosSignOnMappingAttributeType": {
+      "enum": [
+        "userPrincipalName",
+        "onPremisesUserPrincipalName",
+        "userPrincipalUsername",
+        "onPremisesUserPrincipalUsername",
+        "onPremisesSAMAccountName"
+      ]
+    },
+    "kerberosSignOnSettings": {
+      "properties": {
+        "kerberosServicePrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "kerberosSignOnMappingAttributeType": {
+          "type": "graph.kerberosSignOnMappingAttributeType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "keyCredential": {
+      "properties": {
+        "customKeyIdentifier": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "endDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "key": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "keyId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "usage": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "keyValue": {
       "properties": {
@@ -1213,6 +2788,13 @@
         }
       },
       "required": []
+    },
+    "kind": {
+      "enum": [
+        "unrestricted",
+        "allowedTenants",
+        "unknownFutureValue"
+      ]
     },
     "licenseAssignmentState": {
       "properties": {
@@ -1265,7 +2847,8 @@
       "required": [
         "id",
         "servicePlans"
-      ]
+      ],
+      "base": "entity"
     },
     "licenseProcessingState": {
       "properties": {
@@ -1434,6 +3017,49 @@
       },
       "required": []
     },
+    "microsoftAuthenticatorAuthenticationMethod": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastUsedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "clientAppName": {
+          "type": "graph.microsoftAuthenticatorAuthenticationMethodClientAppName",
+          "nullable": true
+        },
+        "deviceTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "phoneAppVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "authenticationMethod"
+    },
+    "microsoftAuthenticatorAuthenticationMethodClientAppName": {
+      "enum": [
+        "microsoftAuthenticator",
+        "outlookMobile",
+        "unknownFutureValue"
+      ]
+    },
     "modifiedProperty": {
       "properties": {
         "displayName": {
@@ -1456,6 +3082,42 @@
         "none",
         "userAssigned",
         "systemAssigned",
+        "unknownFutureValue"
+      ]
+    },
+    "namedLocation": {
+      "properties": {
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "modifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "displayName",
+        "id"
+      ],
+      "base": "policyDeletableItem"
+    },
+    "nativeAuthenticationApisEnabled": {
+      "enum": [
+        "none",
+        "all",
         "unknownFutureValue"
       ]
     },
@@ -1482,6 +3144,48 @@
         "unknownFutureValue"
       ]
     },
+    "oAuth2PermissionGrant": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "clientId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "consentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "expiryTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "scope": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "clientId",
+        "resourceId"
+      ],
+      "base": "entity"
+    },
     "objectIdentity": {
       "properties": {
         "issuer": {
@@ -1493,6 +3197,27 @@
           "nullable": true
         },
         "signInType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "onPremisesApplicationSegment": {
+      "properties": {
+        "alternateUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "corsConfigurations": {
+          "type": "Collection(graph.corsConfiguration)",
+          "nullable": true
+        },
+        "externalUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "internalUrl": {
           "type": "Edm.String",
           "nullable": true
         }
@@ -1585,6 +3310,143 @@
       },
       "required": []
     },
+    "onPremisesPublishing": {
+      "properties": {
+        "alternateUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "applicationServerTimeout": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "applicationType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "externalAuthenticationType": {
+          "type": "graph.externalAuthenticationType",
+          "nullable": true
+        },
+        "externalUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "internalUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isAccessibleViaZTNAClient": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isBackendCertificateValidationEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isContinuousAccessEvaluationEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isDeviceAccessEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isDnsResolutionEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isHttpOnlyCookieEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isOnPremPublishingEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isPersistentCookieEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isSecureCookieEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isStateSessionEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isTranslateHostHeaderEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isTranslateLinksInBodyEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "onPremisesApplicationSegments": {
+          "type": "Collection(graph.onPremisesApplicationSegment)",
+          "nullable": true
+        },
+        "segmentsConfiguration": {
+          "type": "graph.segmentConfiguration",
+          "nullable": true
+        },
+        "singleSignOnSettings": {
+          "type": "graph.onPremisesPublishingSingleSignOn",
+          "nullable": true
+        },
+        "trafficRoutingMethod": {
+          "type": "graph.trafficRoutingMethod",
+          "nullable": false
+        },
+        "useAlternateUrlForTranslationAndRedirect": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "verifiedCustomDomainCertificatesMetadata": {
+          "type": "graph.verifiedCustomDomainCertificatesMetadata",
+          "nullable": true
+        },
+        "verifiedCustomDomainKeyCredential": {
+          "type": "graph.keyCredential",
+          "nullable": true
+        },
+        "verifiedCustomDomainPasswordCredential": {
+          "type": "graph.passwordCredential",
+          "nullable": true
+        },
+        "wafAllowedHeaders": {
+          "type": "graph.wafAllowedHeadersDictionary",
+          "nullable": true
+        },
+        "wafIpRanges": {
+          "type": "Collection(graph.ipRange)",
+          "nullable": true
+        },
+        "wafProvider": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "isDeviceAccessEnabled",
+        "trafficRoutingMethod"
+      ]
+    },
+    "onPremisesPublishingSingleSignOn": {
+      "properties": {
+        "kerberosSignOnSettings": {
+          "type": "graph.kerberosSignOnSettings",
+          "nullable": true
+        },
+        "singleSignOnMode": {
+          "type": "graph.singleSignOnMode",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "onPremisesSipInfo": {
       "properties": {
         "isSipEnabled": {
@@ -1612,6 +3474,47 @@
         "unknownFutureValue"
       ]
     },
+    "optionalClaim": {
+      "properties": {
+        "additionalProperties": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "essential": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "source": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "essential",
+        "name"
+      ]
+    },
+    "optionalClaims": {
+      "properties": {
+        "accessToken": {
+          "type": "Collection(graph.optionalClaim)",
+          "nullable": true
+        },
+        "idToken": {
+          "type": "Collection(graph.optionalClaim)",
+          "nullable": true
+        },
+        "saml2Token": {
+          "type": "Collection(graph.optionalClaim)",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "originalTransferMethods": {
       "enum": [
         "none",
@@ -1619,6 +3522,83 @@
         "authenticationTransfer",
         "unknownFutureValue"
       ]
+    },
+    "parentalControlSettings": {
+      "properties": {
+        "countriesBlockedForMinors": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "legalAgeGroupRule": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "passkeyType": {
+      "enum": [
+        "deviceBound",
+        "synced",
+        "unknownFutureValue"
+      ]
+    },
+    "passwordAuthenticationMethod": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastUsedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "password": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "authenticationMethod"
+    },
+    "passwordCredential": {
+      "properties": {
+        "customKeyIdentifier": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "endDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "hint": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "keyId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "secretText": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "passwordProfile": {
       "properties": {
@@ -1637,6 +3617,36 @@
       },
       "required": []
     },
+    "passwordSingleSignOnField": {
+      "properties": {
+        "customizedLabel": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "defaultLabel": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "fieldId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "passwordSingleSignOnSettings": {
+      "properties": {
+        "fields": {
+          "type": "Collection(graph.passwordSingleSignOnField)",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "patternedRecurrence": {
       "properties": {
         "pattern": {
@@ -1649,6 +3659,126 @@
         }
       },
       "required": []
+    },
+    "permissionScope": {
+      "properties": {
+        "adminConsentDescription": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "adminConsentDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.Guid",
+          "nullable": false
+        },
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "origin": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userConsentDescription": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userConsentDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "value": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "isEnabled"
+      ]
+    },
+    "persistentBrowserSessionControl": {
+      "properties": {
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "mode": {
+          "type": "graph.persistentBrowserSessionMode",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "conditionalAccessSessionControl"
+    },
+    "persistentBrowserSessionMode": {
+      "enum": [
+        "always",
+        "never"
+      ]
+    },
+    "phoneAuthenticationMethod": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastUsedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "phoneNumber": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "phoneType": {
+          "type": "graph.authenticationPhoneType",
+          "nullable": true
+        },
+        "smsSignInState": {
+          "type": "graph.authenticationMethodSignInState",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "authenticationMethod"
+    },
+    "policyDeletableItem": {
+      "properties": {
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "preAuthorizedApplication": {
+      "properties": {
+        "appId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "permissionIds": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "appId"
+      ]
     },
     "privateLinkDetails": {
       "properties": {
@@ -1719,6 +3849,17 @@
         }
       },
       "required": []
+    },
+    "publicClientApplication": {
+      "properties": {
+        "redirectUris": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "redirectUris"
+      ]
     },
     "recurrencePattern": {
       "properties": {
@@ -1801,6 +3942,19 @@
         "numbered"
       ]
     },
+    "redirectUriSettings": {
+      "properties": {
+        "index": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "uri": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "requestSchedule": {
       "properties": {
         "expiration": {
@@ -1817,6 +3971,37 @@
         }
       },
       "required": []
+    },
+    "requestSignatureVerification": {
+      "properties": {
+        "allowedWeakAlgorithms": {
+          "type": "graph.weakAlgorithms",
+          "nullable": true
+        },
+        "isSignedRequestRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "isSignedRequestRequired"
+      ]
+    },
+    "requiredResourceAccess": {
+      "properties": {
+        "resourceAccess": {
+          "type": "Collection(graph.resourceAccess)",
+          "nullable": false
+        },
+        "resourceAppId": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "resourceAccess",
+        "resourceAppId"
+      ]
     },
     "requirementProvider": {
       "enum": [
@@ -1843,6 +4028,21 @@
         "unknownFutureValue",
         "scopeBasedAuthRequirementPolicy",
         "authenticationStrengths"
+      ]
+    },
+    "resourceAccess": {
+      "properties": {
+        "id": {
+          "type": "Edm.Guid",
+          "nullable": false
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
       ]
     },
     "riskDetail": {
@@ -1966,7 +4166,8 @@
       },
       "required": [
         "id"
-      ]
+      ],
+      "base": "entity"
     },
     "riskDetectionTimingType": {
       "enum": [
@@ -2058,7 +4259,31 @@
       },
       "required": [
         "id"
-      ]
+      ],
+      "base": "entity"
+    },
+    "samlSingleSignOnSettings": {
+      "properties": {
+        "relayState": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "secureSignInSessionControl": {
+      "properties": {
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "conditionalAccessSessionControl"
+    },
+    "segmentConfiguration": {
+      "properties": {},
+      "required": []
     },
     "servicePlanInfo": {
       "properties": {
@@ -2080,6 +4305,233 @@
         }
       },
       "required": []
+    },
+    "servicePrincipal": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "accountEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "addIns": {
+          "type": "Collection(graph.addIn)",
+          "nullable": false
+        },
+        "alternativeNames": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "appDescription": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "appDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "appId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "applicationTemplateId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "appOwnerOrganizationId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "appRoleAssignmentRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appRoles": {
+          "type": "Collection(graph.appRole)",
+          "nullable": false
+        },
+        "createdByAppId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "customSecurityAttributes": {
+          "type": "graph.customSecurityAttributeValue",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "disabledByMicrosoftStatus": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "errorUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "homepage": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "info": {
+          "type": "graph.informationalUrl",
+          "nullable": true
+        },
+        "isDisabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "keyCredentials": {
+          "type": "Collection(graph.keyCredential)",
+          "nullable": false
+        },
+        "loginUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "logoutUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "notes": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "notificationEmailAddresses": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "passwordCredentials": {
+          "type": "Collection(graph.passwordCredential)",
+          "nullable": false
+        },
+        "passwordSingleSignOnSettings": {
+          "type": "graph.passwordSingleSignOnSettings",
+          "nullable": true
+        },
+        "preferredSingleSignOnMode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "preferredTokenSigningKeyEndDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "preferredTokenSigningKeyThumbprint": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "publishedPermissionScopes": {
+          "type": "Collection(graph.permissionScope)",
+          "nullable": false
+        },
+        "publisherName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "replyUrls": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "samlMetadataUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "samlSingleSignOnSettings": {
+          "type": "graph.samlSingleSignOnSettings",
+          "nullable": true
+        },
+        "servicePrincipalNames": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "servicePrincipalType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "signInAudience": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "tokenEncryptionKeyId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "verifiedPublisher": {
+          "type": "graph.verifiedPublisher",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "addIns",
+        "alternativeNames",
+        "appRoleAssignmentRequired",
+        "appRoles",
+        "keyCredentials",
+        "notificationEmailAddresses",
+        "passwordCredentials",
+        "publishedPermissionScopes",
+        "replyUrls",
+        "servicePrincipalNames",
+        "tags"
+      ],
+      "base": "directoryObject"
+    },
+    "servicePrincipalLockConfiguration": {
+      "properties": {
+        "allProperties": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "credentialsWithUsageSign": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "credentialsWithUsageVerify": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "enforcementScope": {
+          "type": "graph.servicePrincipalLockScope",
+          "nullable": false
+        },
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "tokenEncryptionKeyId": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": [
+        "enforcementScope",
+        "isEnabled"
+      ]
+    },
+    "servicePrincipalLockScope": {
+      "enum": [
+        "notConfigured",
+        "foreignTenantOnly",
+        "everywhere",
+        "unknownFutureValue"
+      ]
     },
     "serviceProvisioningError": {
       "properties": {
@@ -2431,7 +4883,8 @@
         "createdDateTime",
         "servicePrincipalId",
         "userId"
-      ]
+      ],
+      "base": "entity"
     },
     "signInAccessType": {
       "enum": [
@@ -2472,6 +4925,57 @@
         }
       },
       "required": []
+    },
+    "signInAudienceRestrictionsBase": {
+      "properties": {
+        "kind": {
+          "type": "graph.kind",
+          "nullable": false
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "signInFrequencyAuthenticationType": {
+      "enum": [
+        "primaryAndSecondaryAuthentication",
+        "secondaryAuthentication",
+        "unknownFutureValue"
+      ]
+    },
+    "signInFrequencyInterval": {
+      "enum": [
+        "timeBased",
+        "everyTime",
+        "unknownFutureValue"
+      ]
+    },
+    "signInFrequencySessionControl": {
+      "properties": {
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "authenticationType": {
+          "type": "graph.signInFrequencyAuthenticationType",
+          "nullable": true
+        },
+        "frequencyInterval": {
+          "type": "graph.signInFrequencyInterval",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.signinFrequencyType",
+          "nullable": true
+        },
+        "value": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "conditionalAccessSessionControl"
     },
     "signInIdentifierType": {
       "enum": [
@@ -2528,6 +5032,34 @@
         "unknownFutureValue"
       ]
     },
+    "signinFrequencyType": {
+      "enum": [
+        "days",
+        "hours"
+      ]
+    },
+    "singleSignOnMode": {
+      "enum": [
+        "none",
+        "onPremisesKerberos",
+        "saml",
+        "pingHeaderBased",
+        "aadHeaderBased",
+        "oAuthToken",
+        "unknownFutureValue"
+      ]
+    },
+    "spaApplication": {
+      "properties": {
+        "redirectUris": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "redirectUris"
+      ]
+    },
     "subscribedSku": {
       "properties": {
         "id": {
@@ -2578,7 +5110,8 @@
       "required": [
         "id",
         "servicePlans"
-      ]
+      ],
+      "base": "entity"
     },
     "targetResource": {
       "properties": {
@@ -2661,6 +5194,128 @@
         }
       },
       "required": []
+    },
+    "trafficRoutingMethod": {
+      "enum": [
+        "none",
+        "random",
+        "sessionPersistence",
+        "performance",
+        "unknownFutureValue"
+      ]
+    },
+    "unifiedRoleAssignment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "condition": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalOrganizationId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceScope": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "unifiedRoleDefinition": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "allowedPrincipalTypes": {
+          "type": "graph.allowedRolePrincipalTypes",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isBuiltIn": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isPrivileged": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "resourceScopes": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "rolePermissions": {
+          "type": "Collection(graph.unifiedRolePermission)",
+          "nullable": false
+        },
+        "templateId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "version": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "resourceScopes",
+        "rolePermissions"
+      ],
+      "base": "entity"
+    },
+    "unifiedRolePermission": {
+      "properties": {
+        "allowedResourceActions": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "condition": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "excludedResourceActions": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "allowedResourceActions"
+      ]
     },
     "user": {
       "properties": {
@@ -3034,6 +5689,19 @@
         "otherMails",
         "provisionedPlans",
         "proxyAddresses"
+      ],
+      "base": "directoryObject"
+    },
+    "userDefaultAuthenticationMethod": {
+      "enum": [
+        "push",
+        "oath",
+        "voiceMobile",
+        "voiceAlternateMobile",
+        "voiceOffice",
+        "sms",
+        "none",
+        "unknownFutureValue"
       ]
     },
     "userIdentity": {
@@ -3055,7 +5723,8 @@
           "nullable": true
         }
       },
-      "required": []
+      "required": [],
+      "base": "identity"
     },
     "userPrint": {
       "properties": {},
@@ -3073,10 +5742,214 @@
         "unknownFutureValue"
       ]
     },
+    "userRegistrationDetails": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "defaultMfaMethod": {
+          "type": "graph.defaultMfaMethodType",
+          "nullable": true
+        },
+        "isAdmin": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isMfaCapable": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isMfaRegistered": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isPasswordlessCapable": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSsprCapable": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSsprEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSsprRegistered": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSystemPreferredAuthenticationMethodEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "lastUpdatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "methodsRegistered": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "systemPreferredAuthenticationMethods": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "userDisplayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "userPreferredMethodForSecondaryAuthentication": {
+          "type": "graph.userDefaultAuthenticationMethod",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "userType": {
+          "type": "graph.signInUserType",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "isMfaCapable",
+        "isMfaRegistered",
+        "isPasswordlessCapable",
+        "isSsprCapable",
+        "isSsprEnabled",
+        "isSsprRegistered",
+        "lastUpdatedDateTime",
+        "userDisplayName",
+        "userPrincipalName"
+      ],
+      "base": "entity"
+    },
     "userSet": {
       "properties": {
         "isBackup": {
           "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "verifiedCustomDomainCertificatesMetadata": {
+      "properties": {
+        "expiryDate": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "issueDate": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "issuerName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subjectName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "thumbprint": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "verifiedPublisher": {
+      "properties": {
+        "addedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "verifiedPublisherId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "wafAllowedHeadersDictionary": {
+      "properties": {},
+      "required": [],
+      "base": "Dictionary"
+    },
+    "weakAlgorithms": {
+      "enum": [
+        "rsaSha1",
+        "unknownFutureValue"
+      ]
+    },
+    "webApplication": {
+      "properties": {
+        "homePageUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "implicitGrantSettings": {
+          "type": "graph.implicitGrantSettings",
+          "nullable": true
+        },
+        "logoutUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "oauth2AllowImplicitFlow": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "redirectUris": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "redirectUriSettings": {
+          "type": "Collection(graph.redirectUriSettings)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "redirectUris",
+        "redirectUriSettings"
+      ]
+    },
+    "webauthnAuthenticationExtensionsClientOutputs": {
+      "properties": {},
+      "required": []
+    },
+    "webauthnAuthenticatorAttestationResponse": {
+      "properties": {
+        "attestationObject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "clientDataJSON": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "webauthnPublicKeyCredential": {
+      "properties": {
+        "clientExtensionResults": {
+          "type": "graph.webauthnAuthenticationExtensionsClientOutputs",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "response": {
+          "type": "graph.webauthnAuthenticatorAttestationResponse",
           "nullable": true
         }
       },
@@ -3089,6 +5962,21 @@
         "third",
         "fourth",
         "last"
+      ]
+    },
+    "windowsApplication": {
+      "properties": {
+        "packageSid": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "redirectUris": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "redirectUris"
       ]
     },
     "workingHours": {

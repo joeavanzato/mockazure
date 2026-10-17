@@ -429,6 +429,15 @@ async def mutate_directory(
 
             await release_user(session, tenant_id, row.id)
             row.enabled = False
+            from sqlalchemy import delete
+
+            from mockazure.security.models import SecurityOwner
+
+            await session.execute(
+                delete(SecurityOwner).where(
+                    SecurityOwner.tenant_id == tenant_id, SecurityOwner.owner_id == row.id
+                )
+            )
         edges = list(
             await session.scalars(
                 select(DirectoryRelation).where(

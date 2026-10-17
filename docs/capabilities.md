@@ -52,8 +52,8 @@ M1; provider 501 applies only to operations outside this explicit M2 list:
 | ARM | subscriptions list with api-version 2021-01-01; persisted inventory; explicit Reader assignment filtering |
 | Management | Users/apps, secret/certificate credentials, grants, directory roles, sessions/revocation, signing rotation, subscription provisioning |
 
-M3B adds auditLogs below. Mailbox evidence, Activity Logs, Defender, Purview and
-a conditional-access engine remain outside the implemented profile.
+M3B adds auditLogs below. M3C adds the bounded Conditional Access profile below.
+Mailbox evidence, Activity Logs, Defender and broader Purview remain later scope.
 Exchange app access requires both Exchange.ManageAsApp and a tenant-owned
 Global Reader or Global Administrator service-principal role. Both module download
 and command invocation enforce the role. Full Exchange RBAC scopes remain future work.
@@ -62,7 +62,7 @@ or resource-action engine is implied. See compatibility.md and identity.md.
 
 ## Milestone 3A additions
 
-The authenticated capability response reports milestone 3, delivery A.
+At M3A, the authenticated capability response reported milestone 3, delivery A.
 Both v1.0 and beta provide users and static security groups, membership/owner reads,
 member add/remove, direct/transitive relationship traversal, typed bounded queries,
 snapshot pagination and user/group delta. Writes enforce API permissions and
@@ -83,7 +83,7 @@ or complete Hawk/MES collection workflows.
 
 ## Milestone 3B additions
 
-Capability discovery now reports delivery B. The evidence contract is normative
+M3B introduced delivery B; current discovery reports delivery C. The evidence contract is normative
 for operation permissions, P1/P2 gates, delegated roles, query operators and caps.
 
 | Surface | Implemented behavior |
@@ -100,3 +100,34 @@ Payloads are checked against the bundled pinned Microsoft schemas. Historical
 data is declared input, not an inference that an attack actually happened.
 Risk levels are declared simulation values; no proprietary risk score is computed.
 Final client qualification status is recorded in evidence-execution.md.
+
+## Milestone 3C additions
+
+Capability discovery reports milestone 3, delivery C. Microsoft Graph v1.0 metadata
+and operation-specific permissions govern the profile; beta shares only declared
+compatible operations.
+
+| Surface | Implemented behavior |
+| --- | --- |
+| Applications/service principals | Distinct object/app IDs; CRUD, owners, credential metadata, add/remove password; certificate metadata/validation profile |
+| Devices | Directory inventory and declared delegated write profile; app-only device writes rejected |
+| Permission grants | OAuth delegated grants and application role assignments tied to canonical permission IDs; new token issuance reflects changes |
+| Directory roles | Tenant-wide built-in activation/membership and unified role assignments; current roles enforce delegated operations |
+| Authentication methods | Concrete descriptor inspection with permission-based disclosure; authenticated management enrollment |
+| Registration report | Current persisted enrollment/role inventory; P1/P2 and report-reader enforcement; bounded filters and stable pagination |
+| User signInActivity | Selected last interactive/noninteractive attempts and successful sign-in; retained summary independent of evidence cleanup |
+| Conditional Access | Policy/location CRUD; user/group/resource/client-category targets, exclusions, IPv4/v6 CIDRs, block/MFA/report-only evaluation |
+| Security evidence | Transactional immutable mutation/sign-in facts, including permission-controlled policy decisions |
+
+Existing access-token permission claims retain their documented lifetime. Credential
+and grant edits affect subsequent authentication/refresh; current identity and
+directory-role state remains enforced. Policies are reevaluated for pending codes,
+device approvals and refresh. Physical second-factor, passwordless and SSPR services
+are outside this descriptor profile. Unsupported enforcement conditions fail
+explicitly. Custom roles/PIM, device compliance and workload identity CA are not
+implied by these families.
+
+See [exact security contracts](security-contracts.md), [client qualification
+contract](../integrations/contracts/graph-security.md), [measured results](security-verification.json)
+and [execution decisions](security-decisions.md). Final review status is in
+[security execution](security-execution.md).

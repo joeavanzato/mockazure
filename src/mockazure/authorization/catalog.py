@@ -11,6 +11,7 @@ class PermissionDefinition:
 
 CATALOG = (
     PermissionDefinition("graph", "User.Read", "delegated", False),
+    PermissionDefinition("graph", "Directory.AccessAsUser.All", "delegated", True),
     *(
         PermissionDefinition("graph", name, kind, True)
         for name in (
@@ -38,12 +39,35 @@ CATALOG = (
             "Member.Read.Hidden",
             "Application.Read.All",
             "Application.ReadWrite.All",
+            "AppRoleAssignment.ReadWrite.All",
+            "DelegatedPermissionGrant.ReadWrite.All",
+            "Device.Read.All",
+            "RoleManagement.Read.Directory",
+            "RoleManagement.ReadWrite.Directory",
+            "UserAuthenticationMethod.Read.All",
+            "UserAuthenticationMethod.ReadWrite.All",
+            "Policy.Read.All",
+            "Policy.ReadWrite.ConditionalAccess",
         )
         for kind in ("application", "delegated")
     ),
+    *(
+        PermissionDefinition("graph", name, "delegated", True)
+        for name in ("UserAuthenticationMethod.Read", "UserAuthenticationMethod.ReadWrite")
+    ),
+    *(
+        PermissionDefinition("graph", f"UserAuthMethod-{family}.{suffix}", kind, True)
+        for family in ("Password", "Phone", "Email", "MicrosoftAuthApp", "Passkey")
+        for suffix in ("Read", "ReadWrite", "Read.All", "ReadWrite.All")
+        for kind in (("application", "delegated") if suffix.endswith(".All") else ("delegated",))
+    ),
+    PermissionDefinition("graph", "Policy.Read.ConditionalAccess", "application", True),
+    PermissionDefinition("graph", "Policy.Read.ConditionalAccess", "delegated", False),
     PermissionDefinition("graph", "User.ReadBasic.All", "delegated", False),
     PermissionDefinition("graph", "User.ReadWrite", "delegated", False),
     PermissionDefinition("graph", "Group.Create", "application", True),
+    PermissionDefinition("graph", "Application.ReadWrite.OwnedBy", "application", True),
+    PermissionDefinition("graph", "Device.ReadWrite.All", "application", True),
     PermissionDefinition("exchange", "Exchange.ManageAsApp", "application", True),
     PermissionDefinition("exchange", "Exchange.Manage", "delegated", True),
     PermissionDefinition("arm", "user_impersonation", "delegated", True),

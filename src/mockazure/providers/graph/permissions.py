@@ -218,13 +218,13 @@ def readable_fields(
 ) -> frozenset[str]:
     if kind == "user":
         if context.permissions & USER_READ:
-            return USER_FIELDS
+            return USER_FIELDS | {"signInActivity"}
         if (
             context.token_kind == "delegated"
             and context.subject_id == object_id
             and context.permissions & {"User.Read", "User.ReadWrite"}
         ):
-            return USER_FIELDS
+            return USER_FIELDS | {"signInActivity"}
         return USER_BASIC if "User.ReadBasic.All" in context.permissions else frozenset({"id"})
     if kind == "group":
         if context.permissions & GROUP_FULL:

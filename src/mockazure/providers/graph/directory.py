@@ -31,6 +31,7 @@ from mockazure.providers.graph.query.contracts import contract_for, unsupported
 from mockazure.providers.graph.query.parser import parse_query
 from mockazure.providers.graph.relationships import relationship_page, relationship_values
 from mockazure.providers.graph.serialization import serialize_object
+from mockazure.security.activity import activity_collection, add_activity
 
 
 def not_found():
@@ -150,6 +151,33 @@ def router_for(version: str) -> APIRouter:
                 session, context, GraphOperation(version, resource, "GET"), None
             )
             await lock_history(session, context.tenant_id)
+            activity_request = kind == "user" and (
+                "signInActivity"
+                in [value.strip() for value in request.query_params.get("$select", "").split(",")]
+                or "signinactivity"
+                in [
+                    value.strip().lower()
+                    for value in request.query_params.get("$select", "").split(",")
+                ]
+                or "." in request.query_params.get("$skiptoken", "")
+            )
+            if activity_request:
+                if "signInActivity" not in readable_fields(context, kind):
+                    raise GraphError(
+                        403, "Authorization_RequestDenied", "User read permission required"
+                    )
+                query = (
+                    None
+                    if "$skiptoken" in request.query_params
+                    else authorized_query(request, context, version, kind)
+                )
+                return await activity_collection(
+                    request,
+                    session,
+                    context,
+                    query,
+                    await current_revision(session, context.tenant_id),
+                )
             binding = await binding_for(session, context, version, resource)
             items = list(request.query_params.multi_items())
             now = datetime.now(UTC)
@@ -226,6 +254,7 @@ def router_for(version: str) -> APIRouter:
             data = serialize_object(
                 public_object(row), query.select, readable_fields(context, kind, row.id)
             )
+            await add_activity(session, context, row.id, query.select, data)
             await expand_members(session, context, version, row.id, query, data)
             return {"@odata.context": context_url(request, kind + "s/$entity"), **data}
 

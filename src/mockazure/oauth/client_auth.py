@@ -53,7 +53,7 @@ async def authenticate_client(session, tenant_id, fields, token_endpoint, now, *
             )
         return error
 
-    if not app.enabled or not sp.enabled:
+    if not app.enabled or not sp.enabled or app.deleted_at is not None or sp.deleted_at is not None:
         raise await classified(7000112)
     secret, assertion = fields.get("client_secret"), fields.get("client_assertion")
     if bool(secret) == bool(assertion):
@@ -65,6 +65,7 @@ async def authenticate_client(session, tenant_id, fields, token_endpoint, now, *
                 Credential.tenant_id == app.tenant_id,
                 Credential.revoked_at.is_(None),
                 Credential.expires_at > now,
+                Credential.starts_at <= now,
             )
         )
     )

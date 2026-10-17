@@ -92,3 +92,31 @@ authentication and retry handlers. It binds the existing credential provider to
 the configured local hostname and disables redirects; unfamiliar pinned handler
 layouts fail closed. The original service calls and serializers are unchanged.
 See evidence-execution.md for pinned revisions, output gates and limitations.
+
+## M3C security qualification boundary
+
+Task 9 passed 20 runtime gates and three real SDK profiles in application/delegated
+modes. Python verifies installed MSAL 1.39.0, Graph SDK 1.64.0 and Azure Identity 1.26.0;
+PowerShell loads original Graph 2.35.1 modules, including Applications and
+Identity.Governance, from hash-verified archives. The clean wheel and running
+container package bytes match the source. Final-review status is in security-execution.md.
+
+Original Hawk Get-HawkTenantAppAndSPNCredentialDetail and MES
+Get-ConditionalAccessPolicies, Get-OAuthPermissionsGraph, Get-MFA and
+Get-AllRoleActivity pass original CSV/JSON output checks in both modes, with
+denied controls:20 cases total. Source/output hashes bind every case. Get-MFA uses
+its standard UPN-filtered method/registration collection; optional phone augmentation
+is outside this qualified invocation. Both SDK workflows independently require
+the exact phone descriptor value. PIM is a distinct unqualified collector function.
+
+The denied delegated Get-MFA case may emit its original all-False self-user
+placeholder after an authorized self lookup. The oracle accepts only that exact
+empty-method row and requires denied report access; actual method disclosure fails.
+No M3C output failure is waived. The earlier MES audit-JSON exception remains
+specific to M3B.
+
+PowerShell receives locally issued tokens. Its generated credential commands use
+namespace-qualified action names, which share the same server authorization and
+mutation paths as unqualified REST actions. Registered method descriptors do not
+claim physical MFA/SSPR/passwordless capabilities. Current grant changes affect
+new issuance/refresh; existing access-token claims retain their lifetime semantics.

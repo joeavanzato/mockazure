@@ -8,3 +8,8 @@ and file hashes. The runtime package is independently implemented.
 The bundled Graph structural schema references are derived from Microsoft
 Graph metadata, Copyright (c) 2018 Microsoft Graph, under the MIT License.
 See src/mockazure/providers/graph/schemas/LICENSE.metadata and README.md.
+
+The bundled permission identifier reference is derived from Microsoft Graph
+REST documentation (CC BY 4.0) and Microsoft Graph devx content (MIT).
+Source revisions, hashes, attribution and licenses are in
+src/mockazure/security/data/.

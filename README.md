@@ -144,3 +144,49 @@ strict failures stay visible. See [execution and operation boundaries](docs/evid
 [measured verification](docs/evidence-verification.json) and
 [compatibility](docs/compatibility.md). These are measured functional profiles,
 not full Microsoft-cloud compatibility or a throughput SLA.
+
+## Stateful Graph security administration (M3C)
+
+Applications, service principals, devices, owners, credentials, API permission
+grants and tenant-wide directory roles now use persisted state with operational
+authorization. Authentication-method inspection and registration reports reflect
+enrollment state. Conditional Access evaluates the declared user/group/resource/
+client-category and IP-location profile with block, simulated MFA and report-only
+outcomes. Policy decisions become immutable sign-in evidence with controlled disclosure.
+
+Final qualification passed20 runtime gates, three SDK profiles in both authorization
+modes and20 original Hawk/MES security collector cases in 181.5455 seconds.
+The full regression passed 522 tests in 580.74s. One independent final
+review identified five important findings; reproduced fixes cover policy UUIDs,
+managed credentials/tombstones, owner lifecycle and denied collector JSON.
+See [security execution](docs/security-execution.md) for verification and the
+retained upstream licence-notice whitespace minor. These are bounded functional
+results, not full Graph coverage or a throughput SLA.
+
+See [operation boundaries](docs/security-contracts.md),
+[client/collector contract](integrations/contracts/graph-security.md),
+[verification evidence](docs/security-verification.json) and
+[decisions](docs/security-decisions.md).
+
+The isolated M3C runtime owns .runtime/m3c, HTTPS 32443, PostgreSQL 55440 and
+temporary native API ports 32444/32445. It does not change system trust/DNS/firewall.
+Prepare pinned public dependencies before running isolated clients:
+
+~~~powershell
+uv sync --frozen --all-groups
+python tools/prepare_clients.py --manifest integrations/manifest.json --output work/vendor
+python tools/prepare_security.py initialize
+docker network create --internal --subnet 10.231.90.0/24 mockazure-m3c-clients-isolated
+$sourceFingerprint = python -c "from tools.verify_security import source_fingerprint; print(source_fingerprint())"
+docker build --build-arg "MOCKAZURE_SOURCE_FINGERPRINT=$sourceFingerprint" -t mockazure:security .
+docker build -f integrations/Dockerfile.python -t mockazure:security-python-clients .
+docker compose -f compose.m3c.yaml up -d --wait
+python tools/prepare_security.py provision
+uv build --wheel
+python tools/verify_security.py --report work/security-report.json
+~~~
+
+Create the network only once; verify its internal flag on subsequent runs.
+Runtime client profiles and generated credentials remain ignored project-local files.
+The verifier requires unchanged source bytes, pinned artifacts, clean-wheel parity,
+real client requests, exact collector files, denied access and restart persistence.

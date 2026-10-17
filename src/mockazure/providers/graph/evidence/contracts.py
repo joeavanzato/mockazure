@@ -20,7 +20,8 @@ TIMES = {
 FIELDS = {
     "signIn": """id createdDateTime userId userDisplayName userPrincipalName appId appDisplayName
 servicePrincipalId servicePrincipalName resourceId resourceDisplayName ipAddress clientAppUsed
-correlationId isInteractive status conditionalAccessStatus riskDetail riskLevelAggregated
+correlationId isInteractive status conditionalAccessStatus appliedConditionalAccessPolicies
+riskDetail riskLevelAggregated
 riskLevelDuringSignIn riskState riskEventTypes_v2 deviceDetail location""".split(),
     "directoryAudit": """id activityDateTime activityDisplayName category correlationId
 loggedByService

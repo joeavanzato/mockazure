@@ -157,6 +157,30 @@
       "extracted": "modules/PSFramework/1.12.346",
       "dependencies": [],
       "probe": "integrations/contracts/graph-evidence.md"
+    },
+    {
+      "name": "Microsoft.Graph.Applications",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Applications/2.35.1",
+      "sha256": "0afe2ef4aba9fae3592f58e4bbe4bb7f42f1f14887dd528e02ba66297d911c3a",
+      "archive": "Microsoft.Graph.Applications-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Applications/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-security.md"
+    },
+    {
+      "name": "Microsoft.Graph.Identity.Governance",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Identity.Governance/2.35.1",
+      "sha256": "9d85eae7169bf71b80cba29f95216c92da4aa293d197ee6e5a2a4ffc07eb22ca",
+      "archive": "Microsoft.Graph.Identity.Governance-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Identity.Governance/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-security.md"
     }
   ],
   "python": {
