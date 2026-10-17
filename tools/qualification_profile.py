@@ -30,7 +30,10 @@ class QualificationProfile:
 
     @property
     def https_port(self):
-        return 38443 + 2000 * self.index if self.release else STAGES[self.stage][1]
+        if not self.release:
+            return STAGES[self.stage][1]
+        # The preserved M2 compose publishes 38443.
+        return 47443 if self.stage == "m3" else 38443 + 2000 * self.index
 
     @property
     def database_port(self):

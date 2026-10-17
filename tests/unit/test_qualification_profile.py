@@ -65,3 +65,18 @@ def test_profile_endpoint_guard_rejects_nonlocal_or_unconfigured_origins(monkeyp
     ):
         with pytest.raises(ValueError):
             p.require_local_origin(url)
+
+
+def test_release_ports_do_not_overlap_any_preserved_compose_listener(monkeypatch):
+    import re
+    from tools.qualification_profile import STAGES, profile_for
+
+    monkeypatch.setenv("MOCKAZURE_QUALIFICATION_PROFILE", "release")
+    preserved = {
+        int(port)
+        for path in Path.cwd().glob("compose*.yaml")
+        if "release." not in path.name
+        for port in re.findall(r"127\.0\.0\.1:(\d+):", path.read_text(encoding="utf-8"))
+    }
+    release = {port for stage in STAGES for port in profile_for(stage).ports}
+    assert not release & preserved

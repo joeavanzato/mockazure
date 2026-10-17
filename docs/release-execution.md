@@ -1,44 +1,74 @@
-
 # M6 execution checkpoint
 
-Worktree D:/projects/mockazure/.worktrees/release, branch feat/release-qualification.
-Base reviewed M5 0e63774, draft PR9. Native execution under delegated overnight
-authorization. Task1 bounded maintenance implemented: expired query results/pins and closed rule
-history, preserving live pages and410 tombstones.37 affected regressions pass70.56s;
-CLI/capability4pass1.97s. Own test PG55445, networks10.231.100/101. Task2 follows.
+Worktree: D:/projects/mockazure/.worktrees/release.
+Branch: feat/release-qualification. Current implementation is committed and pushed
+through 6c9e2f4. The M6 branch starts at reviewed M5 commit 0e63774.
 
-Queue: storage cleanup; isolated current-byte combined qualification; deterministic
-small100/1000, medium5000/50000 and large100000/1000000 user/evidence profiles;
-reproducible candidate artifacts; one final review and attached feature PR.
+Tasks 1, 2 and 4 are complete. Task 3 remains open for final measurements of all
+three declared sizes. Task 5 final regression and original-client qualification
+are running. No M6 final reviewer has been dispatched yet.
 
-Preserve all predecessor runtimes, never access VTW/real tenants or alter host
-trust/DNS/firewall. Fresh own credentials/CA; only hash-verified public archives reused.
-M4 four collector-output failures remain release blockers. No new waivers, auto merge,
-registry publication or M7. Report actual results even if release_ready remains false.
+## Completed work
 
-Ledger .superpowers/sdd/2026-10-17-mockazure-release/progress.md.
+Bounded maintenance preserves live evidence/rule pages and expired-query 410
+tombstones while reclaiming obsolete bulk data. Expired leases are fenced in the
+same transaction as query cleanup. The owned test PostgreSQL uses port 55445.
 
-Task2 active at d339453: explicit configuration for five fresh M6 profiles and combined
-fail-closed readiness.57 report/collector/transport tests pass. First ARM profile runs
-on46443/55450, networks110/111 with fresh secrets and20verifiedpublicarchives.
-Full five-suite execution is sequenced after Task3/4 tooling because source fingerprints
-include that tooling; no mandatory gate is omitted. Tests/logs remain underwork/release.
+Fresh M6 profiles isolate all five original-client suites from predecessor state.
+The initial ARM profile proved 17 runtime gates, three SDK profiles and eight MES
+cases on source d339453. That proof is historical, not final release acceptance.
 
-Task2 first-profile proof: d339453 passed17runtime/3SDKprofiles/8MES cases205.182s.
-M6 ARM services stopped; its fresh state persists. Combined report honestly false.
-CLI blocked exit0 regression fixed toexit2; final source-bound five-suite run remains
-Task5. Task3 proceeds to measured scale on new synthetic tenants in M6-owned ARM
-runtime (not predecessor M5). No current final release acceptance is claimed.
+Scale tuning introduced bounded historical sign-in publication, individual
+source revisions/receipts, atomic generation/epoch fences, periodic missing-job
+repair and indexed active-job selection. The final tuning source 571578b passed
+both small and medium profiles with exact concurrent collection and restarts:
+small 100 users/1,000 records in 8.863 seconds including worker restart; medium
+5,000 users/50,000 records in 186.570 seconds for import/publication. Both medium
+sign-in readers retrieved all 50,000 identities across 100 pages in about 161
+seconds. Baseline failures and interrupted experiments remain documented in
+release-scale.md and retained under work/release.
 
-Task3 tuning at571578b: small61005 passed all4exact traversals/restarts,
-1000records in8.863s includingrestart. Medium62002 passed5000users/50000records,
-186.570s pipeline (112.780s import), both100page evidence traversals161.49/161.41s,
-no retries/duplicates/missing records. PG database total587937471bytes,20CPU/32GiB
-Docker host. These are source-bound tuning proofs; allthree final profiles remain
-required after tooling is committed. Task3 remains open, large target unchanged.
+Candidate source 54603c0368441259a6b531e6e0452506b8afae3e built identical wheel
+and source-archive pairs. Clean native installation and Docker match every
+package file, migration head 037 and the capability document. Module/console
+entry points pass. Artifact acceptance plus its unit tests passed 19 tests in
+3.36 seconds. The later commit only renamed a colliding acceptance test module.
 
-Task4 independent tooling started BASE571578b7cf004397d61ed03ca6665fe29d0f0528.
-13archive/source/stale-report tests REDmissingmodule thenGREEN13 in0.51s.
-Build environment lock resolved inwork/release/build-requirements.lock:
-build1.6.1,hatchling1.32.4 and alltransitives hash-pinned forWindows/Linux.
-Builder execution/parity and finalsource normalization remain unimplemented.
+The current source fingerprint is:
+4bc204af4141bdd7e7a7c098a0ede0a844926ef28f53f07fb7fb76e33d9bf3b9
+
+## Active qualification
+
+Three independent processes started at approximately 2026-10-17 12:56 UTC:
+
+- Full tests/unit and tests/integration against the owned test PostgreSQL.
+  Log: work/release/full-regression.log.
+- Current directory, evidence, security and mail original-client suites.
+  Log: work/release/final-original-suites.log. Aggregate: work/release/qualification.json.
+- Final small seed 61006, medium seed 62003 and large seed 63001 measurements.
+  Logs: work/release/final-scale-{small,medium,large}.log.
+  Execution journal: work/release/final-scale-execution.json.
+  Actual profile reports: work/release/scale-{name}-{seed}.json.
+
+The large target remains 100,000 users and 1,000,000 records. It has a three-hour
+outer budget and one-hour post-import publication budget. A timeout or incomplete
+traversal remains a failed gate; the target is never reduced.
+
+ARM original-client qualification must run after scale because both own the M6 ARM
+runtime. Attach the final artifact and all three scale reports to the combined
+report, then run strict acceptance. Source-changing fixes invalidate those proofs.
+
+## Remaining handoff
+
+Run exactly one fresh final M6 reviewer after the final evidence is available,
+make one consolidated regression-first fix pass, and rerun affected/current-source
+gates. Export decisions/review and create an attached feature PR stacked on M5,
+draft if mandatory gates remain unresolved. No automatic merge or registry push.
+
+The four M4 original collector-output failures remain mandatory release blockers.
+The existing M3B MES audit JSON exception is the only waiver. Preserve predecessor
+runtimes and all failed evidence. Never touch VTW, real tenants or host trust/DNS/
+firewall settings. Disable the existing overnight heartbeat only after all feasible
+defined work and artifacts are delivered.
+
+Execution ledger: .superpowers/sdd/2026-10-17-mockazure-release/progress.md.

@@ -59,7 +59,7 @@ services:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
       - ./deploy/haproxy-release-graph.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-    ports: ["127.0.0.1:38443:443", "127.0.0.1:55446:5432"]
+    ports: ["127.0.0.1:47443:443", "127.0.0.1:55446:5432"]
     networks: [internal, ingress]
     depends_on:
       api: {condition: service_healthy}
