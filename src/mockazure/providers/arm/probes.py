@@ -5,9 +5,9 @@ from uuid import UUID
 from fastapi import APIRouter, Request
 from sqlalchemy import select
 
-from mockazure.identity.models import User
 from mockazure.identity.tokens import validate_access_token
 from mockazure.oauth.errors import OAuthError
+from mockazure.providers.arm.authorization import current_principal
 from mockazure.providers.arm.models import ReaderAssignment, Subscription
 from mockazure.providers.graph.errors import GraphError
 
@@ -24,15 +24,7 @@ async def principal(request, session):
         )
     except OAuthError:
         raise GraphError(401, "InvalidAuthenticationToken", "ARM access token required") from None
-    if context.token_kind == "delegated":
-        user = await session.get(User, context.subject_id)
-        if (
-            "user_impersonation" not in context.permissions
-            or not user
-            or not user.enabled
-            or user.tenant_id != context.tenant_id
-        ):
-            raise GraphError(403, "AuthorizationFailed", "ARM delegated access is not permitted")
+    await current_principal(session, context)
     return context
 
 

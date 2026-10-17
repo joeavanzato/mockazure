@@ -106,3 +106,13 @@ def test_reference_bytes_and_builtin_permissions():
     assert roles["Owner"]["actions"] == ["*"]
     assert "Microsoft.Authorization/*/Write" in roles["Contributor"]["notActions"]
     assert "Microsoft.Authorization/*" in roles["User Access Administrator"]["actions"]
+
+
+def test_scope_utf8_bytes_fit_persisted_index_boundary():
+    from mockazure.providers.arm.scopes import parse_scope
+
+    path = "/subscriptions/" + SUB + "/resourceGroups/lab/providers/Microsoft.Test"
+    path += "".join("/children/" + chr(0x96EA) * 240 for _ in range(3))
+    assert len(path) < 2048
+    with pytest.raises(ValueError):
+        parse_scope(path)

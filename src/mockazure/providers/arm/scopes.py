@@ -21,7 +21,7 @@ class ArmScope:
 def parse_scope(value: str) -> ArmScope:
     if (
         not isinstance(value, str)
-        or not 1 <= len(value) <= 2048
+        or not 1 <= len(value.encode("utf-8")) <= 2048
         or not value.startswith("/")
         or any(c in value for c in "\\%?#")
         or any(ord(c) < 32 or ord(c) == 127 for c in value)

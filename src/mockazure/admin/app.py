@@ -30,6 +30,7 @@ from mockazure.oauth.device import router as device_router
 from mockazure.oauth.discovery import router as discovery_router
 from mockazure.oauth.errors import OAuthError, oauth_error_response
 from mockazure.oauth.routes import router as oauth_router
+from mockazure.providers.arm.errors import ArmError, handle_arm_error
 from mockazure.providers.arm.probes import router as arm_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
@@ -205,6 +206,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(licensing_admin_router)
     app.include_router(managed_identity_admin_router)
     app.include_router(licensing_graph_router)
+    app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
     app.include_router(arm_router)
     app.include_router(session_router)

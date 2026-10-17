@@ -4,11 +4,14 @@ Native execution in D:/projects/mockazure/.worktrees/arm on feat/azure-managemen
 Base807ac20 contains repaired M4 API code; M4 documentation758de6c was carried
 as3f57bad. Designb4c24c2 and plan075555d are adopted under user overnight delegation.
 
-Task1 is active: official schemas/roles,21operation contracts and canonical scope
-parser implemented;15 focused tests pass. Own test compose targets55443 and
-networks10.231.96/24,10.231.97/24; runtime initialization is next.
-Task1 BASE075555dc480c34052f389415ec3fdb59428d2178.
-Tasks2–7 remain queued; no M5 route implementation or acceptance claim yet.
+Task1 committed9e083b2: official schemas/roles,21operation contracts and canonical
+scope parser. Task2 implemented: canonical inventory/role assignments, inherited
+current RBAC, security-group cycles, legacy Reader migration and local admin
+bootstrap. 275 unit/affected integration tests passed in26.19s; Ruff/diff clean.
+Task2 BASE9e083b2bde7ea8a49e233a2451e4ca542fbfc039.
+Own test compose targets55443 and networks10.231.96/24,10.231.97/24.
+Task3 public discovery/inventory/groups/tags is next; Tasks4–7 remain queued.
+No M5 acceptance claim yet.
 
 M4 is draft PR8:594unit/integration tests passed;19runtime checks,3Graph profiles
 and realExchange checks passed;40/44original collector cases passed. Four required
