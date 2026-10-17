@@ -56,7 +56,8 @@ failure acceptance, overwritten baseline logs/oracles, and a stale-metadata
 storage transition. The consolidated corrections require structured serializer
 failure codes, preserve profile/stamp-specific process logs and oracle inputs,
 checkpoint the original baseline before patched execution, and reject unsafe
-storage transitions. Qualification and full-scale results remain pending.
+storage transitions. The five frozen-source client suites subsequently passed;
+full-scale qualification and final combined acceptance remain in progress.
 
 ## Fresh-runtime procedure for the bind-to-volume transition
 
@@ -82,3 +83,26 @@ For this run, the stopped five prior runtime directories are preserved under
 .runtime/stabilization-prior-m6. The earlier failed million-record runtime remains
 at .runtime/m6-large-63002-failed. Earlier release reports/logs are preserved under
 work/stabilization/prior-m6-release. No VTW or unrelated service was modified.
+
+## Frozen candidate qualification
+
+Implementation source: 8c7287c381c33b2e7e2f53e756305cdb6b27d830.
+All five required client suites passed on that fingerprint. M4 passed all 44
+explicitly patched collector cases and retained four original serialization
+failures plus four denial passes in its separate baseline. M3B retains only the
+previously approved original MES audit-JSON limitation.
+
+The broad test run passed 811 tests, including 403 PostgreSQL integration cases.
+Subsequent changes affected qualification only; the runtime package was unchanged.
+Frozen-source unit and native serializer checks passed 417 tests. Repeated wheel
+and source builds matched byte-for-byte and native/Docker CLI parity passed.
+
+The first stabilization attempt exposed a fixture-publication readiness race.
+The qualifier now waits until all expected audit IDs are visible before pinning
+the immutable restart-test snapshot. Product API behavior was unchanged. The
+failed attempt and its diagnosis are retained in stabilization-readiness.json.
+
+Current small and medium scale profiles passed exact coverage and restart checks.
+The large profile has imported all 100,000 users and 1,000,000 records and is
+waiting for normal publication. No large-profile pass or release-ready verdict
+is claimed here; final results will be recorded after all remaining gates pass.
