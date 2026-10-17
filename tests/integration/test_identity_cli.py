@@ -10,6 +10,9 @@ import httpx
 
 from mockazure.bootstrap import initialize_instance
 
+# POSIX SIGTERM allows asyncio's 30-second TLS drain; Windows terminates immediately.
+API_STOP_TIMEOUT = 60
+
 
 def test_identity_cli_over_https_keeps_secrets_in_output_file(database, settings, tmp_path):
     with socket.socket() as sock:
@@ -169,7 +172,7 @@ def test_identity_cli_over_https_keeps_secrets_in_output_file(database, settings
                 nonlocal process
                 arguments = process.args
                 process.terminate()
-                process.wait(timeout=15)
+                process.wait(timeout=API_STOP_TIMEOUT)
                 process = subprocess.Popen(arguments, stdout=log, stderr=log, env=environment)
                 with httpx.Client(
                     verify=ssl.create_default_context(cafile=str(files.ca_cert_file)),
@@ -213,4 +216,4 @@ def test_identity_cli_over_https_keeps_secrets_in_output_file(database, settings
             assert json.loads(listed.stdout)["items"][0]["upn"] == "reader@lab.test"
         finally:
             process.terminate()
-            process.wait(timeout=15)
+            process.wait(timeout=API_STOP_TIMEOUT)

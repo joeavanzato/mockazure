@@ -71,3 +71,9 @@ CI follow-up: pytest runs through the Python module entry point so repository he
 remain importable. On POSIX hosts, the Docker bootstrap runs under the caller UID/GID;
 private files retain mode 0600 and remain readable by the host verification process.
 The initial Linux CI failures remain visible in the PR check history.
+
+The identity CLI restart test allows 60 seconds for graceful POSIX shutdown. A Linux
+probe with the original open Requests transport measured 30.15 seconds, matching
+asyncio's 30-second TLS shutdown timeout; the previous 15-second test deadline was too
+short. The MSAL client, HTTP behavior, persisted device flow and all refresh/revocation
+assertions remain unchanged. No server timeout or production behavior was changed.
