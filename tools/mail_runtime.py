@@ -189,6 +189,30 @@ def await_query(client, base, item, headers):
     raise AssertionError("Local audit query timed out")
 
 
+def await_fixture_publication(client, base, headers, body, expected_ids, *, timeout=300):
+    """Wait through public Graph queries; each query pins an immutable publication revision."""
+    deadline = time.monotonic() + timeout
+    query_path = "/v1.0/security/auditLog/queries"
+    while time.monotonic() < deadline:
+        query = checked(client.post(base + query_path, headers=headers, json=body), 201)
+        item = query_path + "/" + query["id"]
+        await_query(client, base, item, headers)
+        link, observed = base + item + "/records", set()
+        while link:
+            page = checked(client.get(link, headers=headers))
+            for row in page["value"]:
+                assert row["id"] in expected_ids, "Unexpected audit fixture identity"
+                assert row["id"] not in observed, "Duplicate audit fixture identity"
+                observed.add(row["id"])
+            link = page.get("@odata.nextLink")
+            if link:
+                link = local_url(base, link)
+        if observed == expected_ids:
+            return
+        time.sleep(0.5)
+    raise AssertionError("Audit fixture publication timed out")
+
+
 def runtime_checks(client, config, a, b):
     from datetime import UTC, datetime, timedelta
 
@@ -205,6 +229,9 @@ def runtime_checks(client, config, a, b):
         "filterStartDateTime": fixture["audit_start"],
         "filterEndDateTime": fixture["audit_end"],
     }
+    # Import acknowledgement is not publication. Never stop workers or pin the
+    # restart-test snapshot until the full fixture is visible through Graph.
+    await_fixture_publication(client, a.base, headers, body, set(fixture["audit_ids"]))
     checks = {}
     command([*COMPOSE, "stop", "worker", "worker2"], "workers-stop", timeout=60)
     try:
