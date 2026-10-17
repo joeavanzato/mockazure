@@ -59,7 +59,6 @@ async def tenants(request: Request):
                     "tenantCategory": "Home",
                 }
             ],
-            "nextLink": "",
         }
 
 
@@ -82,12 +81,10 @@ async def subscriptions(request: Request):
 
             query = query.where(Subscription.id > UUID(state.last_key[0]))
         rows = list(await session.scalars(query))
-        return {
-            "value": [projection(row) for row in rows[:100]],
-            "nextLink": await next_link(request, session, state, rows[99].id)
-            if len(rows) > 100
-            else "",
-        }
+        body = {"value": [projection(row) for row in rows[:100]]}
+        if len(rows) > 100:
+            body["nextLink"] = await next_link(request, session, state, rows[99].id)
+        return body
 
 
 @router.get("/subscriptions/{subscription}")

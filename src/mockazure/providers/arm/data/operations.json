@@ -72,6 +72,21 @@
       "default"
     ]
   },
+  "groups.head": {
+    "method": "HEAD",
+    "path": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
+    "operationId": "ResourceGroups_CheckExistence",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": null,
+    "responses": [
+      "204",
+      "404",
+      "default"
+    ]
+  },
   "groups.put": {
     "method": "PUT",
     "path": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",

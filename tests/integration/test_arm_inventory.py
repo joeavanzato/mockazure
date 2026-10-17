@@ -30,12 +30,14 @@ async def test_arm_discovery_inventory_filters_and_current_pages(database, setti
         for version in ("2020-01-01", "2021-01-01"):
             tenants = await client.get("/tenants", params={"api-version": version}, headers=headers)
             assert tenants.status_code == 200, tenants.text
+            assert "nextLink" not in tenants.json()
             assert tenants.json()["value"][0]["tenantId"] == str(tenant)
             validate_arm_payload("TenantIdDescription", tenants.json()["value"][0])
             found = await client.get(
                 "/subscriptions", params={"api-version": version}, headers=headers
             )
             assert found.status_code == 200, found.text
+            assert "nextLink" not in found.json()
             assert found.json()["value"][0]["subscriptionId"] == sub
             single = await client.get(
                 f"/subscriptions/{sub}", params={"api-version": version}, headers=headers

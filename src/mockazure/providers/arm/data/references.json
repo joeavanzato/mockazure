@@ -83,12 +83,12 @@
     "derived:roles.json": {
       "path": "roles.json",
       "url": "derived from pinned sources",
-      "sha256": "2d7b7485fad4a9b28573b906424d3e92bf49c6ff14fa238892d6547542d8c2c0"
+      "sha256": "383c6c00b274d786dbbd37b9a929dade641817d7dd888a217e49d61de4f0cbac"
     },
     "derived:operations.json": {
       "path": "operations.json",
       "url": "derived from pinned sources",
-      "sha256": "0f15c4fe743f07148671be84d8b2c7b392c3576f262215777f0edecf06a1a5d4"
+      "sha256": "8970a2ab04708c81e160360c13fca9a928edc89e6de3a414dd188af17375861e"
     },
     "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json": {
       "path": "schemas/specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json",

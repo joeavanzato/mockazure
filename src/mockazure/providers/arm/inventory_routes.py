@@ -1,6 +1,6 @@
 """ARM inventory is filtered by effective scope in SQL before pagination."""
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Response
 from sqlalchemy import select
 
 from mockazure.providers.arm.authorization import grant_query, readable_scopes, require_action
@@ -110,3 +110,30 @@ async def group_get(subscription: str, group: str, request: Request):
             session, actor, scope, "Microsoft.Resources/subscriptions/resourceGroups/read"
         )
         return inventory_view(await resolve_scope(session, actor.tenant_id, scope))
+
+
+@router.head("/subscriptions/{subscription}/resourcegroups/{group}")
+async def group_exists(subscription: str, group: str, request: Request):
+    parameters(request, "groups.head")
+    scope = request_scope(subscription, group)
+    async with request.app.state.database.sessions() as session:
+        actor = await principal(request, session)
+        await resolve_scope(session, actor.tenant_id, request_scope(subscription))
+        grants = await grant_query(
+            session, actor, "Microsoft.Resources/subscriptions/resourceGroups/read"
+        )
+        allowed = await session.scalar(
+            grants.where(RoleAssignment.scope_key.in_((*scope.parent_keys, scope.key))).limit(1)
+        )
+        if allowed is None:
+            raise ArmError(
+                403, "AuthorizationFailed", "The current identity lacks scoped ARM access"
+            )
+        found = await session.scalar(
+            select(ArmResource.scope_key).where(
+                ArmResource.tenant_id == actor.tenant_id,
+                ArmResource.scope_key == scope.key,
+                ArmResource.kind == "group",
+            )
+        )
+        return Response(status_code=204 if found else 404)

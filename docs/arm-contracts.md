@@ -172,3 +172,15 @@ The two additional examples are hash-bound in references.json:
 GetActivityLogsFiltered.json a6e73245b24d7434c7eae5dd7e8a0c08edf5b70c032988c72243c6364b55f950;
 GetActivityLogsFilteredAndSelected.json e4c6661497a1c1cda8ccaee7a91aa165de5043306e33b370d5fc2f94472b8a57.
 Both use Azure/azure-rest-api-specs ae348cc71f54a61f5d17472052cfef279a23db6b.
+
+## Observed original-client corrections (Task6)
+
+Azure Python resource SDK23.4.0 rejected tag DELETE204; the pinned2021-04-01
+operation declares200, now returned. Actual Az.Accounts4.0.2 follows an empty
+subscription nextLink and fails with an empty URI. Terminal tenant/subscription
+pages now omit nextLink, following Microsoft's Azure REST API Guidelines
+(https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md)
+and matching the actual original client. The older subscription Swagger marks
+nextLink required without a terminal-page representation; its illustrative
+examples use a placeholder continuation. This specific wire-profile correction
+is explicit rather than modifying the vendored schema or replacing SDK paging.

@@ -85,7 +85,9 @@ def acquire():
         "files": records,
     }
     DATA.mkdir(parents=True, exist_ok=True)
-    (DATA / "references.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    (DATA / "references.json").write_text(
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     build_metadata(manifest)
     print(f"Pinned {len(records)} official files at {REVISION}")
 
@@ -132,7 +134,9 @@ def build_metadata(manifest):
                     "source": url,
                 }
     assert set(roles) == {"Reader", "Owner", "Contributor", "User Access Administrator"}
-    (data / "roles.json").write_text(json.dumps({"roles": roles}, indent=2) + "\n")
+    (data / "roles.json").write_text(
+        json.dumps({"roles": roles}, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     mapping = {
         "subscriptions": {
             "subscriptions.list": "Subscriptions_List",
@@ -142,6 +146,7 @@ def build_metadata(manifest):
         "resources": {
             "groups.list": "ResourceGroups_List",
             "groups.get": "ResourceGroups_Get",
+            "groups.head": "ResourceGroups_CheckExistence",
             "groups.put": "ResourceGroups_CreateOrUpdate",
             "groups.patch": "ResourceGroups_Update",
             "groups.delete": "ResourceGroups_Delete",
@@ -167,7 +172,7 @@ def build_metadata(manifest):
     operations = {}
     for alias, names in mapping.items():
         source = manifest["roots"][alias]
-        doc = json.loads((data / manifest["files"][source]["path"]).read_text())
+        doc = json.loads((data / manifest["files"][source]["path"]).read_text(encoding="utf-8"))
         indexed = {
             op["operationId"]: (method.upper(), path, op)
             for path, verbs in doc["paths"].items()
@@ -192,14 +197,18 @@ def build_metadata(manifest):
                 "schema": next((s for s in schemas if s), None),
                 "responses": sorted(op["responses"]),
             }
-    (data / "operations.json").write_text(json.dumps(operations, indent=2) + "\n")
+    (data / "operations.json").write_text(
+        json.dumps(operations, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     for filename in ("roles.json", "operations.json"):
         manifest["files"]["derived:" + filename] = {
             "path": filename,
             "url": "derived from pinned sources",
             "sha256": hashlib.sha256((data / filename).read_bytes()).hexdigest(),
         }
-    (data / "references.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (data / "references.json").write_text(
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     print("Pinned", len(roles), "official roles and", len(operations), "operation contracts")
 
 
