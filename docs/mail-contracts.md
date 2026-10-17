@@ -342,3 +342,33 @@ database restart and original-client qualification remain separate runtime gates
 
 Original MES submits serviceFilter as an empty string when unspecified. This
 normalizes to no filter; nonempty conflicting singular/plural values still fail.
+
+## Original collector compatibility details (Task9)
+
+The pinned Exchange 3.11.0 public Mailbox CLR model exposes ArchiveDatabase as
+System.String. MockAzure returns a stable virtual database name derived from the
+persisted archive GUID, or null when no archive exists. This supports the
+unchanged Hawk archive-discovery branch; it does not simulate Exchange database
+placement. Reflection evidence is recorded in integrations/contracts/exchange-mail.json.
+
+The bounded generated InboxRule proxies retain structured Address/Name recipient
+objects and attach a fixed ToString method returning Address. This preserves
+recipient facts for original MES comma-joined CSV output. No collector or
+Microsoft module function is replaced. The public historical Exchange model
+documents ForwardTo as ADRecipientOrAddress[]:
+https://learn.microsoft.com/en-us/previous-versions/office/developer/exchange-server-2010/ff322625(v=exchg.140).
+Exact Exchange display-name formatting remains outside this bounded projection.
+
+Collector qualification uses separate PowerShell processes and includes original
+module state initialization as well as function/type declarations. The only
+suppressed operations remain telemetry and module-level update/UI entry points.
+Both Graph and Exchange service calls go to the isolated local runtime.
+
+The Hawk inbox fixture has three visible rules, with one rule combining suspicious
+forwarding/deletion actions, plus a persisted sweep rule and a hidden rule tested
+separately through Get-InboxRule -IncludeHidden. Hawk's original investigation
+serializer appends one JSON document per suspicious rule; multiple suspicious
+rules in a single invocation would produce invalid JSON. The qualification does
+not claim that upstream output combination. Every output produced by the
+qualified invocation must parse and match canonical state; malformed JSON is
+never accepted, repaired, or silently skipped. Fixtures are restored afterward.

@@ -39,6 +39,7 @@ async def test_compiled_exo_reads(database, settings):
         assert response.status_code == 200, response.text
         body = response.json()
         assert body["ExternalDirectoryObjectId"] == str(user)
+        assert body["ArchiveDatabase"] == "MockAzure-Archive-" + body["ArchiveGuid"]
         assert body["ObjectKey"] == key
         assert "EffectiveForwardingAddress" not in body
         selected = await client.get(

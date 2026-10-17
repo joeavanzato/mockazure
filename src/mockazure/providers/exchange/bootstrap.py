@@ -133,6 +133,17 @@ def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
             else ""
         )
 
+        recipient_projection = (
+            "    foreach ($row in $result.value) {\n"
+            "        foreach ($field in @('ForwardTo','RedirectTo','ForwardAsAttachmentTo',"
+            "'From','SentTo')) {\n"
+            "            foreach ($recipient in $row.$field) {\n"
+            "                $recipient | Add-Member -MemberType ScriptMethod -Name ToString "
+            "-Value { [string]$this.Address } -Force\n"
+            "            }\n        }\n    }\n"
+            if "InboxRule" in command
+            else ""
+        )
         pieces.append(
             f"function {command} {{\n    [{binding}] param({declarations})\n"
             + guard
@@ -155,6 +166,6 @@ def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
             + f"    $result = Invoke-RestMethod -Method POST -Uri '{endpoint}' "
             "-ContentType 'application/json' "
             "-Headers @{ Authorization = $auth.AuthorizationHeader } "
-            "-Body $body -ErrorAction Stop\n" + "    $result.value\n}\n"
+            "-Body $body -ErrorAction Stop\n" + recipient_projection + "    $result.value\n}\n"
         )
     return "".join(pieces) + "Export-ModuleMember -Function " + ",".join(command_names) + "\n"

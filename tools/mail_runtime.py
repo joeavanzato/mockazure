@@ -259,12 +259,14 @@ def runtime_checks(client, config, a, b):
         ),
         201,
     )
-    after_page = checked(client.get(local_url(a.base, saved_rules), headers=headers))
-    assert after_page["value"] == before_page["value"]
-    assert local_url(a.base, after_page["@odata.nextLink"]) == local_url(
-        a.base, before_page["@odata.nextLink"]
-    )
-    checked(client.delete(a.base + rules + "/" + new_rule["id"], headers=headers), 204)
+    try:
+        after_page = checked(client.get(local_url(a.base, saved_rules), headers=headers))
+        assert after_page["value"] == before_page["value"]
+        assert local_url(a.base, after_page["@odata.nextLink"]) == local_url(
+            a.base, before_page["@odata.nextLink"]
+        )
+    finally:
+        checked(client.delete(a.base + rules + "/" + new_rule["id"], headers=headers), 204)
     checks["rule_snapshot_resume"] = True
     other = f"/v1.0/users/{config['foreign_user_id']}/mailFolders/inbox/messageRules"
     assert client.get(a.base + other, headers=headers).status_code == 404

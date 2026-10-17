@@ -14,7 +14,8 @@
       "EmailAddresses": "System.Collections.ObjectModel.ObservableCollection`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
       "PrimarySmtpAddress": "System.String",
       "RecipientTypeDetails": "System.String",
-      "Identity": "System.String"
+      "Identity": "System.String",
+      "ArchiveDatabase": "System.String"
     },
     "Microsoft.Exchange.Management.AdminApiProvider.MailboxStatistics": {
       "DisplayName": "System.String",

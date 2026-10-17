@@ -91,6 +91,14 @@ def validate_results(report):
     assert report["schema_version"] == 1 and report["passed"] is True
     age = datetime.now(UTC) - datetime.fromisoformat(report["qualified_at"])
     assert timedelta(0) <= age < timedelta(days=1)
+    from tools.qualify_mail_collectors import FUNCTIONS, validate_cases
+
+    assert set(report["collectors"]) == set(FUNCTIONS)
+    for result in report["collectors"].values():
+        assert result["passed"] is True
+        assert type(result["records_verified"]) is int and result["records_verified"] > 0
+        assert result["source_hashes"] and result["output_hashes"]
+        validate_cases(result["cases"])
     assert set(report["checks"]) == RUNTIME_CHECKS
     assert all(value is True for value in report["checks"].values())
     assert set(report["clients"]) == {"native_python", "container_python", "container_powershell"}
@@ -361,6 +369,9 @@ def main():
     exchange = json.loads(
         (state / "powershell-state/exchange-mail.json").read_text(encoding="utf-8-sig")
     )
+    from tools.qualify_mail_collectors import qualify_collectors
+
+    collectors = qualify_collectors()
     assert source_fingerprint() == fingerprint, "Source changed during qualification"
     report = {
         "schema_version": 1,
@@ -376,6 +387,7 @@ def main():
         "checks": checks,
         "clients": clients,
         "exchange": exchange,
+        "collectors": collectors,
         "passed": True,
         "total_seconds": (datetime.now(UTC) - started).total_seconds(),
         "limitations": [

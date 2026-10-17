@@ -34,7 +34,32 @@ def test_mail_report_fails_closed():
             "modes": {mode: dict.fromkeys(exchange, True) for mode in ("application", "delegated")},
         },
     }
+    from tools.qualify_mail_collectors import FUNCTIONS
+
+    baseline["collectors"] = {
+        label: {
+            "passed": True,
+            "records_verified": 1,
+            "source_hashes": {"original.ps1": "test"},
+            "output_hashes": {"output.csv": "test"},
+            "cases": [
+                {"mode": mode, "denied": denied, "passed": True}
+                for mode in ("application", "delegated")
+                for denied in (False, True)
+            ],
+        }
+        for label in FUNCTIONS
+    }
     validate(baseline)
+    for label in FUNCTIONS:
+        bad = copy.deepcopy(baseline)
+        bad["collectors"][label]["passed"] = 1
+        with pytest.raises(AssertionError):
+            validate(bad)
+        bad = copy.deepcopy(baseline)
+        del bad["collectors"][label]
+        with pytest.raises(AssertionError):
+            validate(bad)
     for field in runtime:
         bad = copy.deepcopy(baseline)
         bad["checks"][field] = 1

@@ -37,6 +37,7 @@ async def mailbox_view(session, box):
         "EmailAddresses": ["SMTP:" + box.primary_smtp] + ["smtp:" + v for v in box.aliases],
         "RecipientTypeDetails": box.mailbox_type,
         "ArchiveStatus": "Active" if box.archive_guid else "None",
+        "ArchiveDatabase": f"MockAzure-Archive-{box.archive_guid}" if box.archive_guid else None,
         "ArchiveGuid": str(box.archive_guid)
         if box.archive_guid
         else "00000000-0000-0000-0000-000000000000",
