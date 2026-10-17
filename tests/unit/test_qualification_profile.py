@@ -69,6 +69,7 @@ def test_profile_endpoint_guard_rejects_nonlocal_or_unconfigured_origins(monkeyp
 
 def test_release_ports_do_not_overlap_any_preserved_compose_listener(monkeypatch):
     import re
+
     from tools.qualification_profile import STAGES, profile_for
 
     monkeypatch.setenv("MOCKAZURE_QUALIFICATION_PROFILE", "release")

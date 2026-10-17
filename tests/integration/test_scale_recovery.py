@@ -231,6 +231,7 @@ async def test_retired_generation_cannot_starve_new_pending_work(database):
 
 async def test_scheduled_repair_keeps_unqueued_source_recovery(database):
     from evidence_support import source
+
     from mockazure.evidence.repository import append_source
     from mockazure.jobs.worker import run_one
 
