@@ -78,6 +78,8 @@ def router_for(version):
                         if row is None:
                             raise GraphError(404, "ErrorItemNotFound", "Rule was not found")
                         return selected(rule_view(row), query.select)
+                    # Serialize snapshot capture and cursor issuance with mutation/cleanup.
+                    await session.refresh(mailbox, with_for_update=True)
                     resource = f"users/{mailbox.user_id}/mailFolders/inbox/messageRules"
                     binding = await binding_for(session, actor, version, resource)
                     token, cursor = None, None

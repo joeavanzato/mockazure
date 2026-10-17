@@ -18,6 +18,7 @@ from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.licensing_routes import router as licensing_admin_router
 from mockazure.admin.mail_routes import router as mail_admin_router
+from mockazure.admin.maintenance_routes import router as maintenance_admin_router
 from mockazure.admin.managed_identity_routes import router as managed_identity_admin_router
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
@@ -269,6 +270,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         )
 
     app.include_router(mail_admin_router)
+    app.include_router(maintenance_admin_router)
     app.include_router(router)
     app.include_router(evidence_admin_router)
     app.include_router(job_router)

@@ -148,7 +148,8 @@ Capability discovery reports milestone4, delivery mail.
 
 Rules cap at1000 per mailbox and100 per response page. Queries retain results for
 seven days; continuation handles last one hour. Unsupported query combinations
-fail explicitly. Expired result-row and rule-version storage cleanup is M6 work.
+fail explicitly. Expired UAL result rows and obsolete rule versions support bounded local maintenance;
+active snapshots remain pinned and expired query/job tombstones are retained.
 No message delivery, full Exchange policy engine, eDiscovery or broader Purview
 service is implied. See [mail contracts](mail-contracts.md) and
 [measured qualification](mail-verification.json).
