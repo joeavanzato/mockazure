@@ -123,11 +123,16 @@ async def security_collection(request, session, actor, kind, query, *, source=No
     value = []
     for row in rows[:size]:
         payload = row.payload
-        value.append(serialize_security(payload, query))
+        projected = serialize_security(payload, query)
+        if kind in {"ownedObject", "registeredUser"}:
+            projected["@odata.type"] = payload["@odata.type"]
+        value.append(projected)
     context = {
         "unifiedRoleDefinition": "roleManagement/directory/roleDefinitions",
         "unifiedRoleAssignment": "roleManagement/directory/roleAssignments",
         "directoryRoleMember": "directoryObjects",
+        "ownedObject": "directoryObjects",
+        "registeredUser": "users",
         "userRegistrationDetails": "reports/authenticationMethods/userRegistrationDetails",
     }.get(kind, request.url.path.split("/")[-1])
     if kind == "unifiedRoleAssignment" and query.expand:

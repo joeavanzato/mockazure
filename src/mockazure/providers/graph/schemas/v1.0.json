@@ -2625,6 +2625,14 @@
       },
       "required": []
     },
+    "mdmAuthority": {
+      "enum": [
+        "unknown",
+        "intune",
+        "sccm",
+        "office365"
+      ]
+    },
     "messageActionFlag": {
       "enum": [
         "any",
@@ -3251,6 +3259,128 @@
       },
       "required": []
     },
+    "organization": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "assignedPlans": {
+          "type": "Collection(graph.assignedPlan)",
+          "nullable": false
+        },
+        "businessPhones": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "city": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "country": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "countryLetterCode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "defaultUsageLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "marketingNotificationEmails": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "mobileDeviceManagementAuthority": {
+          "type": "graph.mdmAuthority",
+          "nullable": false
+        },
+        "onPremisesLastSyncDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "onPremisesSyncEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "partnerTenantType": {
+          "type": "graph.partnerTenantType",
+          "nullable": true
+        },
+        "postalCode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "preferredLanguage": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "privacyProfile": {
+          "type": "graph.privacyProfile",
+          "nullable": true
+        },
+        "provisionedPlans": {
+          "type": "Collection(graph.provisionedPlan)",
+          "nullable": false
+        },
+        "securityComplianceNotificationMails": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "securityComplianceNotificationPhones": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "state": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "street": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "technicalNotificationMails": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "tenantType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "verifiedDomains": {
+          "type": "Collection(graph.verifiedDomain)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "assignedPlans",
+        "businessPhones",
+        "marketingNotificationEmails",
+        "mobileDeviceManagementAuthority",
+        "provisionedPlans",
+        "securityComplianceNotificationMails",
+        "securityComplianceNotificationPhones",
+        "technicalNotificationMails",
+        "verifiedDomains"
+      ],
+      "open": true,
+      "base": "directoryObject"
+    },
     "parentalControlSettings": {
       "properties": {
         "countriesBlockedForMinors": {
@@ -3263,6 +3393,17 @@
         }
       },
       "required": []
+    },
+    "partnerTenantType": {
+      "enum": [
+        "microsoftSupport",
+        "syndicatePartner",
+        "breadthPartner",
+        "breadthPartnerDelegatedAdmin",
+        "resellerPartnerDelegatedAdmin",
+        "valueAddedResellerPartnerDelegatedAdmin",
+        "unknownFutureValue"
+      ]
     },
     "passkeyType": {
       "enum": [
@@ -3456,6 +3597,19 @@
       "required": [
         "delegatedPermissionIds"
       ]
+    },
+    "privacyProfile": {
+      "properties": {
+        "contactEmail": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "statementUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "process": {
       "properties": {
@@ -10116,6 +10270,31 @@
           "nullable": true
         },
         "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "verifiedDomain": {
+      "properties": {
+        "capabilities": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isDefault": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isInitial": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
           "type": "Edm.String",
           "nullable": true
         }

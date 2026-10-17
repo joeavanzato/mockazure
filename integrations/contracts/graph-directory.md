@@ -80,3 +80,28 @@ and consider both current and snapshot traversal. Provider writes reject importe
 Guest/non-Member targets; trusted administrative identity controls remain separate.
 Nullable in-lists include null matches consistently with eq null. NUL text and
 oversized numeric filter literals fail with Graph-shaped 400 errors before SQL.
+
+
+## Directory collection completion
+
+The v1.0 expansion profiles are recorded operation by operation in
+[coverage-operations.json](coverage-operations.json) and the root [coverage table](../../COVERAGE.md).
+Generic lookup uses the existing public serializers for five active object kinds.
+Group membership traversal retains snapshot history; ownership and registered-user
+navigation use persisted security snapshots with tenant/principal/query binding.
+Group owner writes now emit Add/Remove owner to group evidence through the existing
+outbox/projector. Device registered-user writes emit a sanitized directory audit in
+the same transaction. Neither creates OAuth grants.
+
+Additional fixture state uses `GET`/`PUT /_mock/tenants/{id}/directory/collectionState`:
+`organization` replaces the typed optional profile, `appRoleAssignments` replaces
+user/group assignment evidence, and `registeredUsers` replaces device-user edges.
+Each array is bounded to 1000 rows. Omitted sections are preserved; empty sections
+clear their own state. Export and re-import retain IDs and timestamps. A failure in
+any section rolls back every section. Existing directory, identity, role and OAuth
+provisioning/export APIs retain their responsibilities.
+
+`python -m tools.verify_directory_coverage` builds a fresh default lab and runs the
+pinned original Python Graph SDK and Graph PowerShell modules against local HTTPS.
+It verifies heterogeneous resolution, group-membership continuation pages, typed organization
+fields and built-in role actions. It does not certify every Hawk/MES workflow.

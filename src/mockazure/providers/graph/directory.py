@@ -263,11 +263,16 @@ def router_for(version: str) -> APIRouter:
     @router.get("/groups/{object_id}/transitiveMembers")
     @router.get("/users/{object_id}/memberOf")
     @router.get("/users/{object_id}/transitiveMemberOf")
-    async def relationship(request: Request, object_id: str):
+    async def relationship(request: Request, object_id: str | None = None):
         resource = request.url.path.rsplit("/", 1)[-1]
         upward = resource in {"memberOf", "transitiveMemberOf"}
+        parent_kind = "group" if request.url.path.split("/")[2] == "groups" else "user"
         async with request.app.state.database.sessions.begin() as session:
             context = await principal(request, session)
+            if request.url.path.split("/")[2] == "me":
+                if context.token_kind != "delegated":
+                    raise GraphError(400, "BadRequest", "/me requires delegated authentication")
+                object_id = str(context.subject_id)
             try:
                 target = UUID(object_id)
             except ValueError:
@@ -281,11 +286,16 @@ def router_for(version: str) -> APIRouter:
                     ):
                         target = own.id
             await authorize_directory(
-                session, context, GraphOperation(version, resource, "GET"), target
+                session,
+                context,
+                GraphOperation(
+                    version,
+                    "group." + resource if upward and parent_kind == "group" else resource,
+                    "GET",
+                ),
+                target,
             )
-            parent = await get_object(
-                session, context.tenant_id, "user" if upward else "group", object_id
-            )
+            parent = await get_object(session, context.tenant_id, parent_kind, object_id)
             if (
                 not upward
                 and parent.profile.get("visibility") == "HiddenMembership"
@@ -296,7 +306,7 @@ def router_for(version: str) -> APIRouter:
                 )
 
             await lock_history(session, context.tenant_id)
-            route = f"{'users' if upward else 'groups'}/{parent.id}/{resource}"
+            route = f"{parent_kind}s/{parent.id}/{resource}"
             binding = await binding_for(session, context, version, route)
             items = list(request.query_params.multi_items())
             predecessor = request.query_params.get("$skiptoken")
@@ -355,6 +365,15 @@ def router_for(version: str) -> APIRouter:
                 )
                 result["@odata.nextLink"] = state_link(request, version, route, token)
             return result
+
+    if version == "v1.0":
+        for path in (
+            "/groups/{object_id}/memberOf",
+            "/groups/{object_id}/transitiveMemberOf",
+            "/me/memberOf",
+            "/me/transitiveMemberOf",
+        ):
+            router.add_api_route(path, relationship, methods=["GET"])
 
     from mockazure.providers.graph.writes import register_writes
 

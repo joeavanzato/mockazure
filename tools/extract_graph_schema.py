@@ -100,7 +100,7 @@ ROOTS = (
 )
 
 
-def extract(path):
+def extract(path, additional_roots=()):
     tree = ET.parse(path)
     types = {}
     contexts = {}
@@ -165,7 +165,7 @@ def extract(path):
             if not nested.startswith("Edm."):
                 collect(nested)
 
-    for name in ROOTS:
+    for name in (*ROOTS, *additional_roots):
         collect(name)
     return dict(sorted(result.items()))
 
@@ -183,7 +183,7 @@ def main():
         "source": f"schemas/{args.version}-Prod.csdl",
         "sha256": hashlib.sha256(args.input.read_bytes()).hexdigest(),
         "version": args.version,
-        "types": extract(args.input),
+        "types": extract(args.input, ("organization",) if args.version == "v1.0" else ()),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")

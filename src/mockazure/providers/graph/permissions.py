@@ -129,6 +129,15 @@ async def authorize_directory(
             allowed = MEMBER_READ
         elif resource == "owners":
             allowed = GROUP_READ | {"GroupMember.ReadWrite.All"}
+        elif resource in {"group.memberOf", "group.transitiveMemberOf"}:
+            allowed = {
+                "GroupMember.ReadBasic.All",
+                "Directory.Read.All",
+                "Directory.ReadWrite.All",
+                "Group.ReadBasic.All",
+            }
+            if delegated or resource == "group.memberOf":
+                allowed |= {"Group.Read.All", "GroupMember.Read.All"}
         elif resource in {"memberOf", "transitiveMemberOf"}:
             allowed = frozenset(
                 {
@@ -193,6 +202,9 @@ async def authorize_directory(
             required_roles, owner_allowed = GROUP_ADMIN, True
         else:
             raise GraphError(400, "Request_UnsupportedQuery", "Unsupported directory operation")
+    elif resource == "owners" and method in {"POST", "DELETE"}:
+        require(permissions, any_of({"Group.ReadWrite.All", "Directory.ReadWrite.All"}))
+        required_roles, owner_allowed = GROUP_ADMIN - {"Identity Governance Administrator"}, True
     elif resource == "members" and method in {"POST", "DELETE"}:
         require(permissions, any_of(MEMBER_WRITE))
         required_roles, owner_allowed = GROUP_ADMIN, True

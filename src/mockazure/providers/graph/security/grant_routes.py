@@ -25,7 +25,7 @@ from mockazure.security.repository import (
 def router_for(version):
     router = APIRouter(prefix="/" + version)
 
-    def register(path, kind, methods, relation=None, alternate=False):
+    def register(path, kind, methods, relation=None, alternate=False, principal_kind=None):
         async def handle(request: Request):
             identifier = request.path_params.get("identifier")
             subject = request.path_params.get("principal_id")
@@ -40,12 +40,54 @@ def router_for(version):
             try:
                 async with request.app.state.database.sessions.begin() as session:
                     actor = await principal(request, session)
+                    if request.url.path == "/v1.0/me/appRoleAssignments":
+                        if actor.token_kind != "delegated":
+                            raise GraphError(
+                                400, "BadRequest", "/me requires delegated authentication"
+                            )
+                        subject = str(actor.subject_id)
                     if read:
-                        await read_grants(session, actor, kind)
+                        if principal_kind:
+                            from mockazure.authorization.evaluator import OperationRequirement
+                            from mockazure.providers.graph.probes import permitted
+
+                            names = frozenset(
+                                {"Directory.Read.All", "AppRoleAssignment.ReadWrite.All"}
+                            )
+                            if principal_kind == "group":
+                                names = names | {"Directory.ReadWrite.All"}
+                            roles = {
+                                "Directory Readers",
+                                "Directory Writers",
+                                "Global Administrator",
+                                "Global Reader",
+                                "Hybrid Identity Administrator",
+                                "Identity Governance Administrator",
+                                "Privileged Role Administrator",
+                                "User Administrator",
+                                "Application Administrator",
+                                "Cloud Application Administrator",
+                            }
+                            if principal_kind == "user":
+                                roles.add("Guest Inviter")
+                            await permitted(
+                                actor,
+                                OperationRequirement("graph", names, names, frozenset(roles)),
+                                session,
+                            )
+                        else:
+                            await read_grants(session, actor, kind)
                     await lock_security(session, actor.tenant_id)
                     await ensure_resource_principals(session, actor.tenant_id)
                     scope_field, scope_id = None, None
-                    if subject:
+                    if subject and principal_kind:
+                        from mockazure.providers.graph.directory import get_object
+
+                        principal_row = await get_object(
+                            session, actor.tenant_id, principal_kind, subject
+                        )
+                        scope_id, scope_field = str(principal_row.id), "principalId"
+                    elif subject:
                         sp = await public_security_object(
                             session,
                             actor.tenant_id,
@@ -82,11 +124,22 @@ def router_for(version):
                         )
                         source = grant_source(actor.tenant_id, kind)
                         if scope_field:
-                            source = (
-                                select(source)
-                                .where(source.c.payload[scope_field].as_string() == scope_id)
-                                .subquery()
-                            )
+                            condition = source.c.payload[scope_field].as_string() == scope_id
+                            if principal_kind == "user":
+                                from sqlalchemy import String, cast, or_
+
+                                from mockazure.providers.graph.relationships import relation_ids
+
+                                memberships = relation_ids(
+                                    actor.tenant_id, principal_row.id, "memberOf"
+                                ).subquery()
+                                condition = or_(
+                                    condition,
+                                    source.c.payload["principalId"]
+                                    .as_string()
+                                    .in_(select(cast(memberships.c.id, String))),
+                                )
+                            source = select(source).where(condition).subquery()
                         return await security_collection(
                             request, session, actor, kind, query, source=source
                         )
@@ -140,4 +193,13 @@ def router_for(version):
                 relation,
                 alternate,
             )
+    if version == "v1.0":
+        for subject_kind in ("user", "group"):
+            register(
+                "/" + subject_kind + "s/{principal_id}/appRoleAssignments",
+                "appRoleAssignment",
+                ["GET"],
+                principal_kind=subject_kind,
+            )
+        register("/me/appRoleAssignments", "appRoleAssignment", ["GET"], principal_kind="user")
     return router

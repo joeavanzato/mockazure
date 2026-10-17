@@ -3,7 +3,19 @@
 from hashlib import md5
 from uuid import UUID, uuid4, uuid5
 
-from sqlalchemy import String, Uuid, case, cast, column, delete, func, literal, select, true
+from sqlalchemy import (
+    String,
+    Uuid,
+    case,
+    cast,
+    column,
+    delete,
+    func,
+    literal,
+    select,
+    true,
+    union_all,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 
 from mockazure.authorization.catalog import permission
@@ -14,7 +26,7 @@ from mockazure.providers.graph.probes import permitted
 from mockazure.providers.graph.schema_reference import validate_payload
 from mockazure.security.audit import record_security_audit
 from mockazure.security.catalog import resource_permissions
-from mockazure.security.models import GrantRoleMetadata
+from mockazure.security.models import GrantRoleMetadata, SecurityObject
 from mockazure.security.mutations import invalid, uuid_value
 from mockazure.security.permissions import actor_object_id, forbidden
 from mockazure.security.repository import (
@@ -120,7 +132,7 @@ def grant_source(tenant, kind):
         )
         statement = statement.join(names, true()).where(permission_id.is_not(None))
         grant_kind = "application"
-    return (
+    canonical = (
         statement.select_from(Grant)
         .join(sp, (sp.tenant_id == Grant.tenant_id) & (sp.client_id == Grant.client_id))
         .join(Application, Application.client_id == sp.client_id)
@@ -132,6 +144,30 @@ def grant_source(tenant, kind):
         )
         .subquery()
     )
+    if kind == "oAuth2PermissionGrant":
+        return canonical
+    from mockazure.directory.models import Group
+    from mockazure.security.repository import security_source
+
+    principals = union_all(
+        select(cast(User.id, String)).where(User.tenant_id == tenant, User.deleted_at.is_(None)),
+        select(cast(Group.id, String)).where(Group.tenant_id == tenant, Group.deleted_at.is_(None)),
+    )
+    resources = security_source(tenant, "servicePrincipal")
+    supplemental = select(
+        SecurityObject.id.label("id"),
+        literal(None, Uuid).label("grant_id"),
+        literal(None, String).label("permission"),
+        SecurityObject.properties.label("payload"),
+    ).where(
+        SecurityObject.tenant_id == tenant,
+        SecurityObject.kind == "principalAppRoleAssignment",
+        SecurityObject.properties["principalId"].as_string().in_(principals),
+        SecurityObject.properties["resourceId"]
+        .as_string()
+        .in_(select(cast(resources.c.id, String))),
+    )
+    return union_all(select(canonical), supplemental).subquery()
 
 
 async def grant_item(session, tenant, kind, identifier):
@@ -247,6 +283,9 @@ async def mutate_grant(session, actor, kind, operation, identifier, body, now):
     if identifier is not None:
         view = await grant_item(session, actor.tenant_id, kind, identifier)
         before = view["payload"]
+        if view["grant_id"] is None:
+            await read_grants(session, actor, kind)
+            invalid("Provisioned user/group assignments are read-only in the public profile")
         row = await session.get(Grant, view["grant_id"])
         assigned_name = view.get("permission")
         resource = row.resource

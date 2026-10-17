@@ -63,3 +63,22 @@ class RoleActivation(Base):
     __tablename__ = "security_role_activations"
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), primary_key=True)
     role: Mapped[str] = mapped_column(String(80), primary_key=True)
+
+
+class DeviceUser(Base):
+    __tablename__ = "security_device_users"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "device_id"],
+            ["security_objects.tenant_id", "security_objects.id"],
+            ondelete="CASCADE",
+        ),
+        ForeignKeyConstraint(
+            ["tenant_id", "user_id"],
+            ["identity_users.tenant_id", "identity_users.id"],
+            ondelete="CASCADE",
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    device_id: Mapped[UUID] = mapped_column(primary_key=True)
+    user_id: Mapped[UUID] = mapped_column(primary_key=True)
