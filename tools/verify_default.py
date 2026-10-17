@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os
 import shutil
 import socket
 import ssl
@@ -125,6 +126,9 @@ def main(*, qualify=None):
                 "docker",
                 "run",
                 "--rm",
+                # Linux bind mounts retain the creating container UID. Bootstrap
+                # as the caller so private 0600 files stay readable by the harness.
+                *(["--user", f"{os.getuid()}:{os.getgid()}"] if os.name == "posix" else []),
                 "--network",
                 "none",
                 "--mount",
