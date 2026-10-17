@@ -43,6 +43,9 @@ async def transaction(request, tenant_id):
         async with request.app.state.database.sessions.begin() as session:
             repo = IdentityRepository(session)
             await repo.tenant(tenant_id)
+            from mockazure.security.repository import lock_security
+
+            await lock_security(session, tenant_id)
             yield repo
     except IntegrityError as error:
         state = getattr(error.orig, "sqlstate", None)

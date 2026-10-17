@@ -11,6 +11,7 @@ class PermissionDefinition:
 
 CATALOG = (
     PermissionDefinition("graph", "User.Read", "delegated", False),
+    PermissionDefinition("graph", "Directory.AccessAsUser.All", "delegated", True),
     *(
         PermissionDefinition("graph", name, kind, True)
         for name in (

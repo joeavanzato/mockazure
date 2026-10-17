@@ -65,6 +65,7 @@ async def authenticate_client(session, tenant_id, fields, token_endpoint, now, *
                 Credential.tenant_id == app.tenant_id,
                 Credential.revoked_at.is_(None),
                 Credential.expires_at > now,
+                Credential.starts_at <= now,
             )
         )
     )

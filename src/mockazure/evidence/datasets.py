@@ -103,6 +103,34 @@ def validate_public_payload(version, family, payload):
         if name in NESTED:
             nested(name, value)
     for target in payload.get("targetResources") or []:
+        security_kind = {
+            "Application": "application",
+            "ServicePrincipal": "servicePrincipal",
+            "Device": "device",
+        }.get(target.get("type"))
+        if security_kind:
+            from mockazure.security.audit import safe
+
+            for change in target.get("modifiedProperties") or []:
+                name = change["displayName"]
+                if name not in schema(version)["types"][security_kind][
+                    "properties"
+                ] and name not in {"owners", "registeredOwners"}:
+                    raise ValueError("Undeclared security audit property")
+                for side in ("oldValue", "newValue"):
+                    value = json.loads(change[side]) if change.get(side) is not None else None
+                    if value is None:
+                        continue
+                    if safe(value) != value:
+                        raise ValueError("Private credential data is not public evidence")
+                    if name in {"owners", "registeredOwners"}:
+                        if not isinstance(value, list) or len(value) > 100:
+                            raise ValueError("Invalid security owner difference")
+                        for identifier in value:
+                            UUID(identifier)
+                    else:
+                        validate_payload(version, security_kind, {name: value}, partial=True)
+            continue
         for change in target.get("modifiedProperties") or []:
             name = change["displayName"]
             allowed = set().union(*PUBLIC_FIELDS.values()) | {

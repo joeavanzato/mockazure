@@ -96,6 +96,12 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Directory.AccessAsUser.All",
+      "kind": "delegated",
+      "id": "0e263e50-5827-48a4-b97c-d940288653c7",
+      "adminConsentRequired": true
+    },
+    {
       "name": "Directory.Read.All",
       "kind": "application",
       "id": "7ab1d382-f21e-4acd-a863-ba3e13f7da61",

@@ -196,3 +196,20 @@ async def test_legacy_application_upgrade_preserves_oauth(database, settings):
             },
         )
         assert token.status_code == 200, token.text
+
+
+async def test_admin_bootstrap_permissions_are_visible_as_graph_ids(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        headers = await headers_for(database, settings, tenant, app, None, {"Application.Read.All"})
+        response = await client.get(
+            f"/v1.0/applications(appId='{app}')",
+            headers=headers,
+            params={"$select": "id,appId,requiredResourceAccess"},
+        )
+        assert response.status_code == 200, response.text
+        assert response.json()["requiredResourceAccess"] == [
+            {
+                "resourceAppId": "00000003-0000-0000-c000-000000000000",
+                "resourceAccess": [{"id": "498476ce-e0fe-48b0-b801-37ba7e2685c6", "type": "Role"}],
+            }
+        ]

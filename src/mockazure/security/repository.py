@@ -2,13 +2,14 @@
 
 from uuid import UUID, uuid5
 
-from sqlalchemy import String, cast, func, literal, select, text, union_all
+from sqlalchemy import String, case, cast, column, func, literal, select, text, true, union_all
 from sqlalchemy.dialects.postgresql import JSONB, insert
 
-from mockazure.identity.models import Application, ServicePrincipal
+from mockazure.identity.models import Application, Credential, ServicePrincipal
 from mockazure.managed_identity.models import ManagedIdentity
 from mockazure.providers.graph.errors import GraphError
 from mockazure.security.catalog import permission_catalog, resource_app_id
+from mockazure.security.credentials import owner_condition
 from mockazure.security.models import SecurityObject
 
 
@@ -33,6 +34,7 @@ async def application_object(session, tenant, id_or_appid, *, by_appid=False):
         select(Application).where(
             Application.tenant_id == tenant,
             column == identifier,
+            Application.deleted_at.is_(None),
         )
     )
     if row is None:
@@ -97,6 +99,98 @@ def document(**values):
     return cast(func.jsonb_build_object(*arguments), JSONB)
 
 
+def credential_array(row, tenant, kind, application):
+    owner = row.object_id if application else row.id
+
+    def time_string(column):
+        return func.to_char(func.timezone("UTC", column), 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"')
+
+    fields = dict(
+        keyId=cast(Credential.id, String),
+        displayName=Credential.display_name,
+        startDateTime=time_string(Credential.starts_at),
+        endDateTime=time_string(Credential.expires_at),
+    )
+    if kind == "certificate":
+        fields.update(
+            type="AsymmetricX509Cert",
+            usage="Verify",
+            key=func.regexp_replace(Credential.public_certificate, r"-----[^-]+-----|\s", "", "g"),
+        )
+    return func.coalesce(
+        select(func.jsonb_agg(document(**fields)))
+        .where(
+            Credential.tenant_id == tenant,
+            Credential.client_id == row.client_id,
+            Credential.kind == kind,
+            Credential.revoked_at.is_(None),
+            owner_condition(owner, application),
+        )
+        .correlate(row)
+        .scalar_subquery(),
+        literal([], JSONB),
+    )
+
+
+def required_access(row):
+    entries = (
+        func.jsonb_array_elements(row.required_permissions)
+        .table_valued(column("value", JSONB))
+        .alias("required_entry")
+    )
+    names = (
+        func.jsonb_array_elements_text(entries.c.value["permissions"])
+        .table_valued(column("value", String))
+        .alias("required_name")
+    )
+    mapping = {
+        kind: {
+            entry["name"]: entry["id"]
+            for entry in permission_catalog()["permissions"]
+            if entry["kind"] == kind
+        }
+        for kind in ("application", "delegated")
+    }
+    identifier = (
+        literal(mapping, JSONB)
+        .op("->")(entries.c.value["kind"].as_string())
+        .op("->>")(names.c.value)
+    )
+    access = (
+        select(
+            func.jsonb_agg(
+                document(
+                    id=identifier,
+                    type=case(
+                        (entries.c.value["kind"].as_string() == "application", "Role"),
+                        else_="Scope",
+                    ),
+                )
+            )
+        )
+        .select_from(entries)
+        .join(names, true())
+        .where(
+            entries.c.value["resource"].as_string() == "graph",
+            identifier.is_not(None),
+        )
+        .correlate(row)
+        .scalar_subquery()
+    )
+    return case(
+        (
+            access.is_not(None),
+            func.jsonb_build_array(
+                document(
+                    resourceAppId=str(resource_app_id("graph")),
+                    resourceAccess=access,
+                )
+            ),
+        ),
+        else_=literal([], JSONB),
+    )
+
+
 def identity_source(tenant, kind):
     if kind == "application":
         row = Application
@@ -118,11 +212,14 @@ def identity_source(tenant, kind):
                     id=cast(row.object_id, String),
                     appId=cast(row.client_id, String),
                     displayName=row.display_name,
+                    requiredResourceAccess=required_access(row),
+                    passwordCredentials=credential_array(row, tenant, "secret", True),
+                    keyCredentials=credential_array(row, tenant, "certificate", True),
                 )
             )
         )
         return select(row.object_id.label("id"), body.label("payload")).where(
-            row.tenant_id == tenant
+            row.tenant_id == tenant, row.deleted_at.is_(None)
         )
     if kind == "servicePrincipal":
         row = ServicePrincipal
@@ -143,7 +240,11 @@ def identity_source(tenant, kind):
                 document(
                     id=cast(row.id, String),
                     appId=cast(row.client_id, String),
-                    displayName=Application.display_name,
+                    displayName=func.coalesce(
+                        row.profile["displayName"].as_string(), Application.display_name
+                    ),
+                    passwordCredentials=credential_array(row, tenant, "secret", False),
+                    keyCredentials=credential_array(row, tenant, "certificate", False),
                     accountEnabled=row.enabled,
                     servicePrincipalType=func.coalesce(
                         select(literal("ManagedIdentity"))
@@ -164,7 +265,7 @@ def identity_source(tenant, kind):
                 Application,
                 Application.client_id == row.client_id,
             )
-            .where(row.tenant_id == tenant)
+            .where(row.tenant_id == tenant, row.deleted_at.is_(None))
         )
     return None
 

@@ -13,8 +13,10 @@ from mockazure.providers.graph.continuations import decode_node, encode_node
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import context_url
 from mockazure.providers.graph.security.queries import contract_for, filtered, resolve
+from mockazure.providers.graph.security.serialization import serialize_security
 from mockazure.security.models import SecuritySnapshot, SecuritySnapshotItem
-from mockazure.security.repository import security_source
+from mockazure.security.owners import owner_payloads
+from mockazure.security.repository import document, security_source
 
 
 def bad_cursor():
@@ -84,6 +86,9 @@ async def security_collection(request, session, actor, kind, query):
             getattr(resolve(source, contract.fields[term.field]), term.direction)()
             for term in query.order
         ]
+        payload = source.c.payload
+        for expansion in query.expand:
+            payload = payload.op("||")(document(**{expansion.field: owner_payloads(source, actor)}))
         # SQL owns materialization; there is no all-rows Python list or giant JSON aggregate.
         await session.execute(
             insert(SecuritySnapshotItem).from_select(
@@ -92,7 +97,7 @@ async def security_collection(request, session, actor, kind, query):
                     literal(actor.tenant_id),
                     literal(snapshot.id),
                     func.row_number().over(order_by=order),
-                    source.c.payload,
+                    payload,
                 ).where(filtered(source, query, contract)),
             )
         )
@@ -116,7 +121,7 @@ async def security_collection(request, session, actor, kind, query):
     value = []
     for row in rows[:size]:
         payload = row.payload
-        value.append({key: payload.get(key) for key in query.select} if query.select else payload)
+        value.append(serialize_security(payload, query))
     response = {
         "@odata.context": context_url(request, request.url.path.split("/")[-1]),
         "value": value,

@@ -1,8 +1,12 @@
+import re
+from dataclasses import replace
+
 from sqlalchemy import Uuid, cast
 
+from mockazure.providers.graph.query.ast import ExpandSpec
 from mockazure.providers.graph.query.compiler import compile_filter
-from mockazure.providers.graph.query.contracts import FieldContract, QueryContract
-from mockazure.providers.graph.query.parser import parse_query
+from mockazure.providers.graph.query.contracts import FieldContract, QueryContract, unsupported
+from mockazure.providers.graph.query.parser import parse_query, selection
 
 FIELDS = {
     "application": {
@@ -73,11 +77,27 @@ def contract_for(kind, version):
 
 
 def parse_security_query(request, kind):
-    return parse_query(
-        list(request.query_params.multi_items()),
+    items = list(request.query_params.multi_items())
+    expand = request.query_params.get("$expand")
+    if len(dict(items)) != len(items):
+        unsupported("Duplicate query options")
+    query = parse_query(
+        [(key, value) for key, value in items if key != "$expand"],
         contract_for(kind, request.url.path.split("/")[1]),
         request.headers.get("consistencylevel"),
     )
+    if expand is not None:
+        relation = "registeredOwners" if kind == "device" else "owners"
+        match = re.fullmatch(relation + r"(?:\(\$select=([^()]+)\))?", expand)
+        if match is None or query.count:
+            unsupported("Only bounded owner expansion without advanced queries is supported")
+        fields = (
+            selection(match[1], {"id", "displayName", "userPrincipalName", "@odata.type"})
+            if match[1]
+            else None
+        )
+        query = replace(query, expand=(ExpandSpec(relation, fields),))
+    return query
 
 
 def resolve(source, field):

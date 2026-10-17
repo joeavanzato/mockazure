@@ -109,6 +109,10 @@ def validate_facts(value: SourceInput) -> None:
         fact = AuthenticationFact.model_validate(value.facts)
         if fact.tenant_id != value.ref.tenant_id or fact.attempt_id != value.ref.id:
             raise ValueError("Authentication source identity mismatch")
+    elif value.ref.kind == "security":
+        from mockazure.security.audit import validate_security_facts
+
+        validate_security_facts(value.facts)
     elif value.ref.kind == "directory":
         from mockazure.evidence.directory_facts import validate_directory_facts
 

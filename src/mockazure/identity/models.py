@@ -34,6 +34,7 @@ class Application(Base):
     redirect_uris: Mapped[list] = mapped_column(JSONB, default=list)
     required_permissions: Mapped[list] = mapped_column(JSONB, default=list)
     enabled: Mapped[bool] = mapped_column(default=True)
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class ServicePrincipal(Base):
@@ -46,6 +47,7 @@ class ServicePrincipal(Base):
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), index=True)
     client_id: Mapped[UUID] = mapped_column(ForeignKey("identity_applications.client_id"))
     enabled: Mapped[bool] = mapped_column(default=True)
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     profile: Mapped[dict] = mapped_column(JSONB, default=dict)
 
 
@@ -65,6 +67,9 @@ class Credential(Base):
     public_certificate: Mapped[str | None]
     thumbprint: Mapped[str | None] = mapped_column(String(128))
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    display_name: Mapped[str | None] = mapped_column(String(200))
+    owner_id: Mapped[UUID | None]
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
