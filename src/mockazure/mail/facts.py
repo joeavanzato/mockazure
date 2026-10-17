@@ -27,12 +27,20 @@ def validate_mail_facts(facts):
     for name in ("actor", "mailbox", "before", "after"):
         if not isinstance(facts[name], dict):
             raise ValueError("Invalid mail evidence object")
+    from mockazure.mail.audit_schemas import public_audit_data
+
+    public_audit_data(facts)
     if len(json.dumps(facts, allow_nan=False).encode()) > 2 * 1024 * 1024:
         raise ValueError("Mail evidence fact is too large")
     return facts
 
 
 async def record_mail_fact(session, actor, operation, mailbox, before, after, now):
+    from mockazure.evidence.sources import enqueue_projection
+    from mockazure.mail.audit import changed_properties
+
+    if not changed_properties(before, after):
+        return None
     state = await lock_state(session, actor.tenant_id)
     when = await evidence_now(session, actor.tenant_id, now)
     ref = SourceRef(tenant_id=actor.tenant_id, kind="mail", id=uuid4())
@@ -53,4 +61,5 @@ async def record_mail_fact(session, actor, operation, mailbox, before, after, no
             },
         ),
     )
+    await enqueue_projection(session, ref)
     return ref

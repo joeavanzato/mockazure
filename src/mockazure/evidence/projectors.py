@@ -16,6 +16,10 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
         from mockazure.evidence.authentication import project_authentication
 
         return project_authentication(source)
+    if source.ref.kind == "mail":
+        from mockazure.mail.audit import project_mail
+
+        return project_mail(source)
     if source.ref.kind == "security":
         from mockazure.security.audit import project_security
 
@@ -26,7 +30,13 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
         raise ValueError("Unknown evidence source kind")
     family = source.facts["family"]
     payload = source.facts["payload"]
-    subject = payload.get("userId") if family != "riskyUser" else payload["id"]
+    subject = (
+        None
+        if family == "auditLogRecord"
+        else payload.get("userId")
+        if family != "riskyUser"
+        else payload["id"]
+    )
     return ProjectionBatch(
         source=source.ref,
         generation=source.generation,

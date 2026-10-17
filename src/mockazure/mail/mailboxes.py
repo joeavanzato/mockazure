@@ -171,6 +171,12 @@ async def mutate_mailbox(session, actor, mailbox, changes: dict, now) -> dict:
             raise GraphError(
                 400, "InvalidParameter", "DeliverToMailboxAndForward requires a boolean"
             )
+    if (forward_user, forward_smtp, deliver) == (
+        mailbox.forward_user_id,
+        mailbox.forward_smtp,
+        mailbox.deliver_and_forward,
+    ):
+        return before
     mailbox.forward_user_id, mailbox.forward_smtp, mailbox.deliver_and_forward = (
         forward_user,
         forward_smtp,

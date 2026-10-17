@@ -209,6 +209,12 @@
       "revision": "98a98cc88051a857c119a2e1bb61587633585284",
       "path": "api-reference/v1.0/api/user-update.md",
       "sha256": "f63b46f616b963d82339db1891c46975ea6da0e05461c65fe4a461d0c8cca2fa"
+    },
+    {
+      "repository": "https://github.com/MicrosoftDocs/office-365-management-api",
+      "revision": "f22300eab36df54f1efb07be8b23e229d1ff0537",
+      "path": "office-365-management-api/office-365-management-activity-api-schema.md",
+      "sha256": "94968478423c3af5624b34c062631377f90eec90871f6a5a50b17d9275381e19"
     }
   ]
 }

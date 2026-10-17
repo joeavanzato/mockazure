@@ -288,7 +288,7 @@ async def projection_payload(session, source, item):
             source_revision=source.source_revision,
             historical=source.ref.kind == "historical",
         )
-        if item.family != "directoryAudit"
+        if item.family in {"signIn", "riskDetection", "riskyUser"}
         else item.payload
     )
     if source.ref.kind == "risk" and item.family == "riskyUser":

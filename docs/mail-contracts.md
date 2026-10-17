@@ -257,3 +257,42 @@ transactions. Excess requests return429 with integer Retry-After until the
 oldest accepted request expires. Replicas share the same budget. Query parameters
 with explicit dates use ISO8601 UTC on the wire; fixed PowerShell proxies convert
 their typed DateTime values to UTC before JSON serialization.
+
+## Native and historical UAL records
+
+Mail configuration and inbox/Sweep mutations enqueue their immutable source in
+the same PostgreSQL transaction. A rollback publishes neither state nor intent.
+No-op writes create no mail fact; source revisions, job fences and projection
+receipts provide replay deduplication. Actor and target names come from captured
+facts, so later renames cannot rewrite audit history. Current source recovery
+also finds legacy mail facts that predate eager enqueueing.
+
+The shared evidence family is auditLogRecord; its wire type is the actual
+Graph v1.0 microsoft.graph.security.auditLogRecord. Existing generation,
+publication-watermark, export pin and retention mechanisms apply. UAL actors
+can be users, service principals or system strings, so this family does not
+misinterpret its userId field as a directory-user subject foreign key.
+
+Native mail mutations project ExchangeAdmin records with Common audit fields,
+Exchange Admin ExternalAccess/TokenObjectId/TokenTenantId and immutable modified
+properties. Old/new values are strings as used by the Common audit representation;
+absence is the empty string and compound values are JSON text. The Graph wrapper
+uses the exact pinned CSDL enum spelling. MailboxOwnerUPN/Id retain the operation's
+mailbox snapshot. No client IP was captured by the original intent format, so
+clientIp/ClientIP are explicitly null; no address is invented.
+
+Common/Exchange Admin reference is pinned to MicrosoftDocs/office-365-management-api
+revision f22300eab36df54f1efb07be8b23e229d1ff0537, source SHA256
+94968478423c3af5624b34c062631377f90eec90871f6a5a50b17d9275381e19:
+https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-schema
+
+Historical UAL import/export preserves public payloads, timestamps and provenance.
+OrganizationId must match the owning tenant, and createdDateTime must agree with
+the source occurrence time. Dynamic audit JSON remains bounded by the CSDL
+profile. Credential/auth-header fields, including credential name/value pairs,
+are rejected rather than retained in this public evidence profile.
+
+Indexed UAL service and operation dimensions are bounded to128 and256 characters
+respectively, preventing valid-looking imports from failing later on PostgreSQL
+index tuple limits. Tenant UUID comparison is case-insensitive while exported
+source payload text remains unchanged.

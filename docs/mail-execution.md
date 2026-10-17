@@ -43,4 +43,4 @@ Task5 implements immutable trace/detail import, indexed filters, scope-aware rea
 5002-row continuation and rolling100/300second throttling. Four focused tests18.43s;
 232 affected unit/Exchange/migration regressions33.83s. Runtime migration027 and
 original trace client/collector qualification remain for the runtime gate.
-Next: Task6 native UAL projection, then durable audit query jobs.
+Task6 adds native UAL projection, bounded historical import/export, credential-field rejection and replay/restart recovery. Broad regression:302 passed168.97s; final bounds/privacy/schema/projection checks:21 passed7.07s. Next: Task7 durable Graph audit query jobs and retention-safe result paging.

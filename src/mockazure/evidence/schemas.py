@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 
-EvidenceFamily = Literal["signIn", "directoryAudit", "riskDetection", "riskyUser"]
+EvidenceFamily = Literal["signIn", "directoryAudit", "riskDetection", "riskyUser", "auditLogRecord"]
 
 
 class StrictModel(BaseModel):
