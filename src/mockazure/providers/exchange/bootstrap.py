@@ -71,6 +71,36 @@ PARAMETERS = {
     "Remove-SweepRule": {"Mailbox": "string", "Identity": "string"},
 }
 
+PARAMETERS.update(
+    {
+        "Get-MessageTraceV2": {
+            "EndDate": "datetime",
+            "FromIP": "string",
+            "MessageId": "string[]",
+            "MessageTraceId": "guid",
+            "RecipientAddress": "string[]",
+            "ResultSize": "int",
+            "SenderAddress": "string[]",
+            "StartDate": "datetime",
+            "StartingRecipientAddress": "string",
+            "Status": "string[]",
+            "SubjectFilterType": "string",
+            "Subject": "string",
+            "ToIP": "string",
+        },
+        "Get-MessageTraceDetailV2": {
+            "MessageTraceId": "guid",
+            "RecipientAddress": "string",
+            "Action": "string[]",
+            "EndDate": "datetime",
+            "Event": "string[]",
+            "MessageId": "string",
+            "SenderAddress": "string",
+            "StartDate": "datetime",
+        },
+    }
+)
+
 
 def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
     parsed = urlsplit(endpoint)
@@ -117,7 +147,8 @@ def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
             + ")) {\n"
             + "            $value = $entry.Value\n"
             + "            if ($value -is [System.Management.Automation.SwitchParameter]) "
-            "{ $value = [bool]$value }\n"
+            "{ $value = [bool]$value }\n" + "            if ($value -is [datetime]) "
+            "{ $value = $value.ToUniversalTime().ToString('o') }\n"
             + "            $parameters[$entry.Key] = $value\n        }\n    }\n"
             + f"    $body = @{{ CmdletInput = @{{ CmdletName = '{command}'; "
             "Parameters = $parameters } } | ConvertTo-Json -Depth 16\n"

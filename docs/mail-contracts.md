@@ -220,3 +220,40 @@ Current accepted transport profile has exact-value checks for primary/archive
 statistics, folders, CAS, canonical mailbox identity, and forwarding/inbox-rule
 writes through the original module. Full original collector qualification is
 still Task9; no collector compatibility claim is made by this task alone.
+
+## Message trace profile
+
+Get-MessageTraceV2 uses the pinned official command reference:90-day lookback,
+default48hours, at most10days per range, default1000/max5000 rows. UTC Received
+is ordered descending, then normalized RecipientAddress ascending. Subsequent
+requests use the last row's Received as EndDate and its RecipientAddress as
+StartingRecipientAddress. Server selection and limits execute in PostgreSQL;
+there is no Python tenant-wide materialization.
+
+The two-field Microsoft continuation cannot distinguish different messages
+with the identical Received+RecipientAddress pair. This profile requires that
+pair to be unique within an imported tenant and rejects collisions with409,
+atomically, without rewriting forensic timestamps. Equal timestamps across
+different recipients and repeated recipients at different timestamps are
+supported, including microsecond precision. Importers must supply sufficiently
+precise source timestamps for repeated recipients. This is a bounded input
+contract, not a claim about undocumented Microsoft tie behavior.
+
+Authenticated management POST /_mock/tenants/{id}/mail/traces imports immutable
+recipient rows and detail events with explicit source provenance. Identical
+reimports are idempotent; changing an existing identity's facts fails409.
+The source retains original normalized facts. Trace mailboxes are optional
+explicit scope associations; scoped readers see only associated permitted
+mailboxes, while administrators/unscoped command grants can read tenant data.
+
+Sender/recipient, MessageId/traceID, status, source/destination IP, subject mode,
+and detail Event/Action filters execute on persisted state. Trace detail requires
+both traceID and recipient. Unknown or out-of-scope traceIDs return no rows,
+and an unauthorized command fails403. The default detail window also uses48hours.
+
+Budgets are tenant-and-command-wide rolling windows:100 accepted query requests
+per300seconds, serialized in PostgreSQL and committed independently of provider
+transactions. Excess requests return429 with integer Retry-After until the
+oldest accepted request expires. Replicas share the same budget. Query parameters
+with explicit dates use ISO8601 UTC on the wire; fixed PowerShell proxies convert
+their typed DateTime values to UTC before JSON serialization.

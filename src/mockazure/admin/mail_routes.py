@@ -125,3 +125,14 @@ async def seed_rule(tenant_id: UUID, user_id: UUID, request: Request):
             hidden=value.hidden,
             read_only=value.read_only,
         )
+
+
+@router.post("/traces", status_code=201)
+async def import_traces(tenant_id: UUID, request: Request):
+    from mockazure.mail.trace import import_trace
+    from mockazure.mail.trace_schemas import TraceImport
+
+    value = await parsed(request, TraceImport)
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await import_trace(session, tenant_id, value)

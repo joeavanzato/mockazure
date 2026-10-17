@@ -52,7 +52,7 @@ def checked_parameters(name, values):
             and any(not isinstance(v, str) or len(v) > 320 or "\0" in v for v in value)
         ):
             invalid("String collection command parameter required")
-        elif kind == "string" and (
+        elif kind in {"string", "datetime", "guid"} and (
             not isinstance(value, str) or len(value) > 1024 or "\0" in value
         ):
             invalid("String command parameter required")
@@ -147,6 +147,12 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
         invalid("Unsupported Exchange command")
     name = canonical[name.lower()]
     parameters = checked_parameters(name, parameters)
+
+    if name in {"Get-MessageTraceV2", "Get-MessageTraceDetailV2"}:
+        from mockazure.mail.trace import query_trace, query_trace_detail
+
+        query = query_trace if name == "Get-MessageTraceV2" else query_trace_detail
+        return await query(session, actor, parameters, now)
     if name == "Get-OrganizationConfig":
         await require_exchange_command(session, actor, name)
         tenant = await session.get(Tenant, actor.tenant_id)

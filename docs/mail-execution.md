@@ -39,4 +39,8 @@ pass, including exact primary/archive counts/bytes and the command mutation cycl
 Own M4 runtime:compose.m4.yaml / compose.clients.m4.yaml, HTTPS34443, PG55442,
 networks10.231.94/24 and10.231.95/24, fresh .runtime/m4 secrets/CA.
 Public17 archives/extracted trees hash-verified; no original module modification.
-Next: Task5 MessageTraceV2/detail contracts, then native UAL and durable query jobs.
+Task5 implements immutable trace/detail import, indexed filters, scope-aware reads,
+5002-row continuation and rolling100/300second throttling. Four focused tests18.43s;
+232 affected unit/Exchange/migration regressions33.83s. Runtime migration027 and
+original trace client/collector qualification remain for the runtime gate.
+Next: Task6 native UAL projection, then durable audit query jobs.

@@ -109,7 +109,28 @@ class CommandRequest(BaseModel):
 @router.post("/adminapi/v2.0/{tenant}/InvokeCommand")
 @router.post("/adminapi/beta/{tenant}/InvokeCommand")
 async def invoke(tenant: str, data: CommandRequest, request: Request):
+
+    now = getattr(request.app.state, "clock", lambda: datetime.now(UTC))()
     try:
+        name = data.CmdletInput.CmdletName
+        trace_name = next(
+            (
+                known
+                for known in ("Get-MessageTraceV2", "Get-MessageTraceDetailV2")
+                if known.lower() == name.lower()
+            ),
+            None,
+        )
+        if trace_name:
+            from mockazure.mail.trace import consume_trace_budget
+
+            async with request.app.state.database.sessions.begin() as session:
+                context = await permitted(request, tenant, session)
+                retry = await consume_trace_budget(session, context, trace_name, now)
+            if retry is not None:
+                error = GraphError(429, "TooManyRequests", "Exchange trace query limit reached")
+                error.headers["Retry-After"] = str(retry)
+                raise error
         async with request.app.state.database.sessions.begin() as session:
             context = await permitted(request, tenant, session)
             rows = await invoke_command(
@@ -117,7 +138,7 @@ async def invoke(tenant: str, data: CommandRequest, request: Request):
                 context,
                 data.CmdletInput.CmdletName,
                 data.CmdletInput.Parameters,
-                datetime.now(UTC),
+                now,
             )
             return {"value": rows}
     except AuthorizationDenied:
