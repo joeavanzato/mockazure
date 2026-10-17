@@ -1,6 +1,7 @@
 import asyncio
 from uuid import UUID, uuid4
 
+import pytest
 from sqlalchemy import select
 
 from mockazure.evidence.models import EvidenceSource
@@ -176,7 +177,8 @@ async def test_contributor_cannot_grant_itself_owner(database, settings):
             )
 
 
-async def test_public_rbac_pages_and_operation_poll_recheck_revocation(database, settings):
+@pytest.mark.parametrize("version", ["2022-04-01", "2020-08-01-preview"])
+async def test_public_rbac_pages_and_operation_poll_recheck_revocation(database, settings, version):
     async with graph_client(database, settings) as (client, tenant, app, user):
         sub, base, group, resource = await seed_arm(client, tenant)
         headers = await access(database, settings, tenant, app)
@@ -211,7 +213,7 @@ async def test_public_rbac_pages_and_operation_poll_recheck_revocation(database,
                     "User",
                 )
         collection = group + "/providers/Microsoft.Authorization/roleAssignments"
-        args = {"api-version": "2022-04-01"}
+        args = {"api-version": version}
         for malformed in (f"principalId eq '{user}", f"principalId eq {user}'"):
             response = await client.get(
                 collection, params=args | {"$filter": malformed}, headers=user_headers
@@ -222,6 +224,10 @@ async def test_public_rbac_pages_and_operation_poll_recheck_revocation(database,
         assert len(first.json()["value"]) == 100
         link = first.json()["nextLink"]
         assert "%24skipToken=" in link
+        assert "api-version=" + version in link
+        other = "2020-08-01-preview" if version == "2022-04-01" else "2022-04-01"
+        replay = await client.get(link.replace(version, other), headers=user_headers)
+        assert replay.status_code == 400, replay.text
         second = await client.get(link, headers=user_headers)
         assert second.status_code == 200, second.text
         seen = first.json()["value"] + second.json()["value"]
@@ -236,7 +242,9 @@ async def test_public_rbac_pages_and_operation_poll_recheck_revocation(database,
         assert deleting.status_code == 202
         poll = deleting.headers["Location"]
         assert (await client.get(poll, headers=user_headers)).status_code == 202
-        assert (await client.delete(owner["id"], params=args, headers=headers)).status_code == 200
+        assert (
+            await client.delete(owner["id"], params={"api-version": "2022-04-01"}, headers=headers)
+        ).status_code == 200
         assert (await client.get(link, headers=user_headers)).status_code == 403
         assert (await client.get(poll, headers=user_headers)).status_code == 403
 

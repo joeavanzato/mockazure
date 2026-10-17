@@ -1,7 +1,7 @@
 # M5 ARM contract reference
 
-Status: Task1 contract boundary implemented. Public M5 routes and RBAC persistence
-are not yet implemented. The predecessor M2 subscription probe remains operational.
+Status: M5 public inventory, RBAC, group/tag mutations and Activity Log routes are
+implemented. Supported API versions and qualification boundaries are recorded below.
 
 Official Swagger revision:
 `Azure/azure-rest-api-specs@ae348cc71f54a61f5d17472052cfef279a23db6b`.

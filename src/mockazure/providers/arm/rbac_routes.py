@@ -53,11 +53,11 @@ async def roles(scope_path: str, request: Request, identifier: str | None = None
 
 @router.get("/{scope_path:path}/providers/microsoft.authorization/roleassignments")
 async def assignment_list(scope_path: str, request: Request):
-    rbac_parameters(request, "assignments.list", listing=True)
+    version = rbac_parameters(request, "assignments.list", listing=True)
     scope = scope_from(scope_path)
     async with request.app.state.database.sessions.begin() as session:
         actor = await principal(request, session)
-        return await assignments_list(request, session, actor, scope)
+        return await assignments_list(request, session, actor, scope, version)
 
 
 @router.api_route(

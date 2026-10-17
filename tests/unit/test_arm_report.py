@@ -148,3 +148,30 @@ def test_arm_source_fingerprint_binds_packaged_metadata(tmp_path):
         path.write_text("changed", encoding="utf-8")
         assert source_fingerprint(tmp_path) != baseline, name
         path.write_text("original", encoding="utf-8")
+
+
+def test_denied_collector_error_is_only_exact_explicit_lookup():
+    from tools.qualify_arm_collectors import validate_denied_error
+
+    sub = "2cd50efb-9d14-430b-82aa-98fef2b7cbc1"
+    message = (
+        f"Subscription {sub} was not found in tenant . "
+        "Please verify that the subscription exists in this tenant."
+    )
+    valid = {"error_type": "System.Management.Automation.PSArgumentException", "error": message}
+    validate_denied_error(valid, "explicit", sub)
+    for discovery in ("explicit", "discovered"):
+        validate_denied_error({"error": None}, discovery, sub)
+    for report, discovery in (
+        (valid, "discovered"),
+        ({**valid, "error_type": "System.Management.Automation.RuntimeException"}, "explicit"),
+        ({**valid, "error": "Subscription response could not be deserialized"}, "explicit"),
+        ({**valid, "error": "403 forbidden"}, "explicit"),
+        ({**valid, "error": message + " Unexpected transport failure"}, "explicit"),
+        (
+            {**valid, "error": message.replace(sub, "00000000-0000-0000-0000-000000000000")},
+            "explicit",
+        ),
+    ):
+        with pytest.raises(AssertionError):
+            validate_denied_error(report, discovery, sub)

@@ -189,12 +189,12 @@ async def assignment_mutate(request, scope, identifier, value):
         return result, status
 
 
-async def assignments_list(request, session, actor, scope):
+async def assignments_list(request, session, actor, scope, version):
     await require_action(session, actor, scope, AUTH + "roleAssignments/read")
     sub = await resolve_scope(
         session, actor.tenant_id, parse_scope(f"/subscriptions/{scope.subscription_id}")
     )
-    binding = await binding_for(session, actor, "2022-04-01", "arm-rbac:" + scope.key)
+    binding = await binding_for(session, actor, version, "arm-rbac:" + scope.key)
     token = request.query_params.get("$skipToken")
     if token:
         try:

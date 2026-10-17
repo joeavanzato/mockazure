@@ -64,11 +64,29 @@ def verify_artifacts(files, expected, *, denied=False):
     return len(actual)
 
 
+def validate_denied_error(report, discovery, subscription_id):
+    """Only the observed original Az explicit lookup failure is an allowed error."""
+    if report.get("error") is None:
+        return
+    expected = (
+        f"Subscription {subscription_id} was not found in tenant . "
+        "Please verify that the subscription exists in this tenant."
+    )
+    assert (
+        discovery == "explicit"
+        and report.get("error_type") == "System.Management.Automation.PSArgumentException"
+        and report["error"] == expected
+    ), "Unrelated error is not permission-denial evidence"
+
+
 def qualify_collectors():
     import subprocess
     import time
 
     state = RUNTIME / "clients/powershell-state"
+    subscription_id = json.loads((state / "client.json").read_text(encoding="utf-8"))[
+        "subscription_id"
+    ]
     run = state / ("arm-collectors-" + str(time.time_ns()))
     run.mkdir()
     expected = json.loads((RUNTIME / "arm-expected.json").read_text(encoding="utf-8"))
@@ -149,22 +167,7 @@ def qualify_collectors():
                         assert report["denied_preflight_status"] == 403, (
                             "Denial was not demonstrated"
                         )
-                        # Empty discovery and explicit subscription lookup are legitimate
-                        # terminal outcomes for this identity with no visible subscriptions.
-                        assert report.get("error") is None or (
-                            report.get("error_type")
-                            in {
-                                "Microsoft.Rest.Azure.CloudException",
-                                "Microsoft.Azure.Commands.Profile.Models.PSAzureSubscription",
-                                "Microsoft.PowerShell.Commands.HttpResponseException",
-                                "System.Management.Automation.RuntimeException",
-                                "System.Management.Automation.PSArgumentException",
-                            }
-                            and any(
-                                word in report["error"].lower()
-                                for word in ("subscription", "403", "forbidden")
-                            )
-                        ), "Unrelated error is not permission-denial evidence"
+                        validate_denied_error(report, discovery, subscription_id)
                     else:
                         assert report.get("error") is None
                         assert (
