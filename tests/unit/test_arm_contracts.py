@@ -116,3 +116,22 @@ def test_scope_utf8_bytes_fit_persisted_index_boundary():
     assert len(path) < 2048
     with pytest.raises(ValueError):
         parse_scope(path)
+
+
+def test_arm_schema_names_are_bound_to_their_provider():
+    import pytest
+
+    from mockazure.providers.arm.contracts import validate_arm_payload
+
+    embedded = {"id": "role", "isServiceRole": True}
+    public = {
+        "id": "role",
+        "type": "Microsoft.Authorization/roleDefinitions",
+        "properties": {"roleName": "Reader", "type": "BuiltInRole"},
+    }
+    assert validate_arm_payload("RoleDefinition", public, namespace="definitions") == public
+    assert validate_arm_payload("RoleDefinition", embedded, namespace="resources") == embedded
+    with pytest.raises(ValueError):
+        validate_arm_payload("RoleDefinition", public)
+    with pytest.raises(ValueError):
+        validate_arm_payload("RoleDefinition", embedded, namespace="definitions")

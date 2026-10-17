@@ -35,6 +35,7 @@ from mockazure.providers.arm.inventory_routes import router as arm_inventory_rou
 from mockazure.providers.arm.mutation_routes import router as arm_mutation_router
 from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
+from mockazure.providers.arm.rbac_routes import router as arm_rbac_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
 from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
@@ -115,6 +116,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             )
             request.scope["path"] = re.sub(
                 r"(?i)/providers/microsoft\.resources/(tags/default|operations)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.authorization/(roledefinitions|roleassignments)(?=/|$)",
                 lambda match: match.group(0).lower(),
                 request.scope["path"],
             )
@@ -259,6 +265,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(arm_inventory_router)
     app.include_router(arm_mutation_router)
     app.include_router(arm_operations_router)
+    app.include_router(arm_rbac_router)
     app.include_router(session_router)
     app.include_router(identity_router)
     app.include_router(security_admin_router)

@@ -110,3 +110,24 @@ REST references:
 Raw percent-encoded ARM paths are explicitly rejected; canonical comparison is
 case-insensitive at segment boundaries. This deliberately excludes some otherwise
 valid encoded Azure names until a nonambiguous encoding profile is implemented.
+
+## Public RBAC (Task4)
+
+Authorization2022-04-01 serves the four pinned built-in role definitions and
+canonical role assignment GET/list/PUT/DELETE. Principal IDs are local object
+IDs; omitted principalType is inferred, supplied types must match. Scope/principal/
+role identity is immutable; equivalent new IDs conflict. Description updates
+are bounded1024 characters. No-op writes create no evidence. Legacy administration
+revokes these same rows.
+
+atScope() includes exact/inherited assignments; principalId equality includes
+matching ancestors/descendants within the subscription. Current role access is
+required at the requested scope on each page. RBAC continuations use the published
+$skipToken parameter, a100-item cap, one-hour expiry, identity/generation/revision
+binding and current grant checks. Removed roles or group edges revoke access
+immediately on the next operation/page/poll.
+
+Ambiguous official schema names require an explicit provider namespace:
+RoleDefinition in resource-management2021 differs from authorization2022.
+Conditional/delegated grants, foreign principals and custom-role writes fail
+explicitly; no success response implies support for those operations.

@@ -37,7 +37,7 @@ async def set_assignment(
     principal_type,
     description=None,
 ):
-    await lock_subscription(session, tenant, subscription_id)
+    subscription = await lock_subscription(session, tenant, subscription_id)
     if scope.subscription_id != subscription_id:
         raise ArmError(400, "InvalidScope", "Assignment scope is outside its subscription")
     owned = await resolve_scope(session, tenant, scope)
@@ -63,6 +63,8 @@ async def set_assignment(
             raise ArmError(
                 409, "RoleAssignmentUpdateNotPermitted", "Assignment identity is immutable"
             )
+        if row.description != description:
+            subscription.revision += 1
         row.description = description
     else:
         duplicate = await session.scalar(
@@ -86,5 +88,6 @@ async def set_assignment(
             **principal,
         )
         session.add(row)
+        subscription.revision += 1
     await session.flush()
     return row

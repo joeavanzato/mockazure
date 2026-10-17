@@ -6,12 +6,15 @@ as3f57bad. Designb4c24c2 and plan075555d are adopted under user overnight delega
 
 Task1 committed9e083b2: pinned official schemas/roles and canonical scope parser.
 Task2 committed88485ee: inventory/admin bootstrap, inherited current RBAC and
-legacy Reader migration. Task3 implemented: public discovery/inventory/filtering,
+legacy Reader migration. Task3 committed2ae9ffe: public discovery/inventory/filtering,
 opaque paging, group/tag writes with atomic facts, and fenced durable deletion.
 Final affected regression290passed41.62s; Ruff/diff clean.
 Task3 BASE88485ee38fd25053eb95559e9fc8797159c177b3.
 Own test compose targets55443 and networks10.231.96/24,10.231.97/24.
-Task4 public role definitions/assignments is next; Tasks5–7 remain queued.
+Task4 implemented public role definitions/assignments, canonical legacy revocation,
+current group grants and opaque RBAC paging. Final affected regression289passed43.97s.
+Task4 BASE2ae9ffe9a8492014d7a6ec872a45e420d440b5d3.
+Task5 Activity Logs/shared evidence is next; Tasks6–7 remain queued.
 Native arm facts are captured/enqueued, but Task5 must add Activity Log projection
 before any full qualification runtime is started. No M5 acceptance claim yet.
 

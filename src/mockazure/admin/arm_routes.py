@@ -57,7 +57,7 @@ async def assign(
     request: Request,
 ):
     async with transaction(request, tenant_id) as repo:
-        await lock_subscription(repo.session, tenant_id, subscription_id)
+        subscription = await lock_subscription(repo.session, tenant_id, subscription_id)
         row = await repo.session.get(ReaderAssignment, assignment_id)
         if row and (row.tenant_id != tenant_id or row.subscription_id != subscription_id):
             raise IdentityError(404, "NotFound", "Assignment not found")
@@ -68,6 +68,7 @@ async def assign(
             and (row.client_id == data.client_id and row.user_id == data.user_id)
         )
         if not unchanged:
+            subscription.revision += 1
             duplicate = await repo.session.scalar(
                 select(ReaderAssignment.id)
                 .where(
@@ -107,11 +108,12 @@ async def assign(
 @router.delete("/{subscription_id}/assignments/{assignment_id}")
 async def revoke(tenant_id: UUID, subscription_id: UUID, assignment_id: UUID, request: Request):
     async with transaction(request, tenant_id) as repo:
-        await lock_subscription(repo.session, tenant_id, subscription_id)
+        subscription = await lock_subscription(repo.session, tenant_id, subscription_id)
         row = await repo.owned(ReaderAssignment, tenant_id, assignment_id)
         if row.subscription_id != subscription_id:
             raise IdentityError(404, "NotFound", "Assignment not found")
         await repo.session.delete(row)
+        subscription.revision += 1
     return {"revoked": True}
 
 
@@ -187,9 +189,10 @@ async def role_revoke(
     tenant_id: UUID, subscription_id: UUID, assignment_id: UUID, request: Request
 ):
     async with transaction(request, tenant_id) as repo:
-        await lock_subscription(repo.session, tenant_id, subscription_id)
+        subscription = await lock_subscription(repo.session, tenant_id, subscription_id)
         row = await repo.owned(ReaderAssignment, tenant_id, assignment_id)
         if row.subscription_id != subscription_id:
             raise ArmError(404, "RoleAssignmentNotFound", "Assignment was not found")
         await repo.session.delete(row)
+        subscription.revision += 1
     return {"revoked": True}

@@ -73,18 +73,18 @@ async def read_page(request, session, actor, version, revision, *, inventory=Fal
     return CursorState(binding, query, None, revision, None, "page", now + timedelta(hours=1))
 
 
-async def next_link(request, session, state, last):
+async def next_link(request, session, state, last, *, token_key="$skiptoken"):
     from dataclasses import replace
 
     token = await issue_cursor(
         session,
         replace(state, last_key=(str(last),)),
-        predecessor=request.query_params.get("$skiptoken"),
+        predecessor=request.query_params.get(token_key),
     )
     profile = request.app.state.settings.advertised_endpoints(request.headers.get("host", ""))
     return (
         profile.arm
         + request.url.path
         + "?"
-        + urlencode({"api-version": state.binding.version, "$skiptoken": token})
+        + urlencode({"api-version": state.binding.version, token_key: token})
     )

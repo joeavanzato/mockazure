@@ -143,7 +143,7 @@ def check(value, schema, source, *, partial=False, depth=0):
         raise ValueError("ARM boolean required")
 
 
-def validate_arm_payload(type_name, payload, partial=False):
+def validate_arm_payload(type_name, payload, partial=False, *, namespace=None):
     if not isinstance(payload, dict):
         raise ValueError("ARM payload must be an object")
     try:
@@ -152,10 +152,21 @@ def validate_arm_payload(type_name, payload, partial=False):
         raise ValueError("ARM payload must contain finite JSON data") from None
     if len(encoded.encode()) > 2 * 1024 * 1024:
         raise ValueError("ARM payload exceeds local limit")
-    for alias in ("resources", "subscriptions", "assignments", "definitions", "activity"):
+    aliases = (
+        (namespace,)
+        if namespace is not None
+        else ("resources", "subscriptions", "assignments", "definitions", "activity")
+    )
+    matches = []
+    for alias in aliases:
+        if alias not in manifest()["roots"]:
+            raise ValueError("Unknown ARM schema namespace")
         source = manifest()["roots"][alias]
         definitions = document(source).get("definitions", {})
         if type_name in definitions:
-            check(payload, definitions[type_name], source, partial=partial)
-            return copy.deepcopy(payload)
-    raise ValueError("Unknown ARM schema type")
+            matches.append((source, definitions[type_name]))
+    if len(matches) != 1:
+        raise ValueError("Unknown or ambiguous ARM schema type; specify its namespace")
+    source, schema = matches[0]
+    check(payload, schema, source, partial=partial)
+    return copy.deepcopy(payload)
