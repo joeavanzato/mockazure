@@ -27,6 +27,12 @@ class Job(Base):
         CheckConstraint("attempts BETWEEN 0 AND 3"),
         Index("ix_jobs_claim", "state", "available_at", "id"),
         Index(
+            "ix_jobs_ready_order",
+            "available_at",
+            "id",
+            postgresql_where=text("state IN ('pending', 'running') AND attempts < 3"),
+        ),
+        Index(
             "uq_jobs_source",
             "tenant_id",
             "kind",

@@ -12,14 +12,15 @@ from mockazure.jobs.dispatch import dispatch_job
 from mockazure.jobs.repository import claim_job
 
 
-async def run_one(database: Database, *, owner: UUID, now: datetime) -> bool:
+async def run_one(database: Database, *, owner: UUID, now: datetime, repair: bool = True) -> bool:
     started = monotonic()
 
     def current_time():
         return now + timedelta(seconds=monotonic() - started)
 
-    async with database.sessions.begin() as session:
-        await scan_sources(session)
+    if repair:
+        async with database.sessions.begin() as session:
+            await scan_sources(session)
     async with database.sessions.begin() as session:
         claim = await claim_job(session, owner=owner, now=current_time(), lease_seconds=30)
     if claim is None:
@@ -28,11 +29,11 @@ async def run_one(database: Database, *, owner: UUID, now: datetime) -> bool:
     return True
 
 
-async def run_cycle(database: Database, *, owner: UUID, now: datetime) -> bool:
+async def run_cycle(database: Database, *, owner: UUID, now: datetime, repair: bool = True) -> bool:
     from mockazure.evidence.bulk import run_historical_batch
 
     started = monotonic()
-    worked = await run_one(database, owner=owner, now=now)
+    worked = await run_one(database, owner=owner, now=now, repair=repair)
     try:
         bulk = await run_historical_batch(
             database,
@@ -55,10 +56,16 @@ async def serve_worker(database: Database):
 
     previous = {sig: signal.signal(sig, stop) for sig in (signal.SIGINT, signal.SIGTERM)}
     owner = uuid4()
+    next_repair = 0.0
     try:
         while not stopped:
             try:
-                worked = await run_cycle(database, owner=owner, now=datetime.now(timezone.utc))
+                repair = monotonic() >= next_repair
+                if repair:
+                    next_repair = monotonic() + 5
+                worked = await run_cycle(
+                    database, owner=owner, now=datetime.now(timezone.utc), repair=repair
+                )
             except SQLAlchemyError:
                 worked = False
             if not worked:

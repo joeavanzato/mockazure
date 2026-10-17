@@ -150,6 +150,7 @@ async def test_scale_source_lookup_and_claim_order_indexes(database):
             ).all()
         )
     assert "ix_evidence_source_key" in indexes
+    assert "ix_jobs_ready_order" in indexes
     assert "id" in indexes["ix_jobs_claim"].split("available_at", 1)[1]
 
 
@@ -226,3 +227,18 @@ async def test_retired_generation_cannot_starve_new_pending_work(database):
         == 2
     )
     assert await counts(database, owner) == [2, 2, 2]
+
+
+async def test_scheduled_repair_keeps_unqueued_source_recovery(database):
+    from evidence_support import source
+    from mockazure.evidence.repository import append_source
+    from mockazure.jobs.worker import run_one
+
+    async with database.sessions.begin() as session:
+        owner = await tenant(session)
+        await append_source(session, source(owner))
+    now = datetime.now(UTC) + timedelta(seconds=1)
+    assert not await run_one(database, owner=uuid4(), now=now, repair=False)
+    assert await counts(database, owner) == [0, 0, 0]
+    assert await run_one(database, owner=uuid4(), now=now, repair=True)
+    assert await counts(database, owner) == [1, 1, 1]

@@ -31,3 +31,11 @@ Verification so far: initial affected suite106pass and one fixed-head migration
 test failure; updated migration/scale/CLI gates38pass8.24s. Worker/recovery
 regressions23pass18.13s; generation-starvation regression RED0instead2, then
 all8batch recovery tests pass4.31s. Final full qualification remains pending.
+
+The next live sample identified repair scans taking0.427s every worker cycle and
+ordinary claims taking0.261s under backlog. Repair now runs at most once per5s
+per worker (run_one retains immediate repair by default). Migration037 adds the
+ordered active queue index; constant predicates keep it usable by generic prepared
+plans. Recovery RED missing repair parameter thenGREEN25tests19.01s; index gate
+RED missing index thenGREEN27worker/ARM/recovery tests22.60s. Seed61004 was also
+interrupted during diagnosis and remains non-success. Further fresh runs follow.

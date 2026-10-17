@@ -2,7 +2,7 @@ from datetime import UTC, datetime, timedelta
 from time import monotonic
 from uuid import UUID
 
-from sqlalchemy import and_, or_, select, update
+from sqlalchemy import and_, literal_column, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from mockazure.db.job_model import Job
@@ -117,7 +117,9 @@ async def claim_job(
             ~evidence_job_retired(),
             True if tenant_id is None else Job.tenant_id == tenant_id,
             True if kind is None else Job.kind == kind,
-            Job.attempts < 3,
+            # Static predicates let generic prepared plans use the active-queue index.
+            Job.state.in_((literal_column("'pending'"), literal_column("'running'"))),
+            Job.attempts < literal_column("3"),
             or_(
                 and_(Job.state == "pending", Job.available_at <= now),
                 and_(Job.state == "running", Job.lease_until <= now),
