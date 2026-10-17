@@ -112,6 +112,9 @@ def export_source(root, commit, destination):
     values = source_objects(root, commit)
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=False)
+    # Hatch searches ancestors for VCS exclusions and force-includes them in sdists.
+    # An empty boundary prevents reading parent checkout files; it is not packaged.
+    (destination / ".git").mkdir()
     for name, value in values.items():
         target = destination.joinpath(*PurePosixPath(name).parts)
         target.parent.mkdir(parents=True, exist_ok=True)
