@@ -31,7 +31,7 @@ def actor(tenant, app, user=None, *, graph=False, write=False):
         app,
         user,
         "delegated" if user else "application",
-        "00000003-0000-0000-c000-000000000000" if graph else "00000002-0000-0ff1-ce00-000000000000",
+        "00000003-0000-0000-c000-000000000000" if graph else "https://outlook.office365.com",
         frozenset({"MailboxSettings.ReadWrite" if write else "MailboxSettings.Read"})
         if graph
         else frozenset({"Exchange.Manage" if user else "Exchange.ManageAsApp"}),

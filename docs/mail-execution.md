@@ -32,5 +32,11 @@ Networks10.231.92/24 and10.231.93/24; fresh own .runtime/test-db.password.
 Task3 implemented Graph inbox rule CRUD, hidden/read-only rules, serialized ordering
 and immutable PostgreSQL page versions with principal-bound continuations.
 233 unit/mail/rule/migration tests25.82s;5 focused rule tests8.29s.
-Next: Task4 Exchange commands and original compiled EXO transport.
-Full M4 runtime remains unprovisioned; allocate separate ports/subnets before setup.
+Task4 implements fixed Exchange configuration/rule proxies plus real compiled
+OData mailbox/statistics/folder/CAS routes. Six original Exchange module checks
+pass, including exact primary/archive counts/bytes and the command mutation cycle.
+239 unit/mail/Exchange regressions passed29.94s.
+Own M4 runtime:compose.m4.yaml / compose.clients.m4.yaml, HTTPS34443, PG55442,
+networks10.231.94/24 and10.231.95/24, fresh .runtime/m4 secrets/CA.
+Public17 archives/extracted trees hash-verified; no original module modification.
+Next: Task5 MessageTraceV2/detail contracts, then native UAL and durable query jobs.

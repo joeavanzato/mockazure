@@ -1,3 +1,5 @@
+"""Authenticated Exchange bootstrap and fixed command invocation transport."""
+
 from datetime import UTC, datetime
 from uuid import UUID
 
@@ -5,25 +7,26 @@ from fastapi import APIRouter, Request
 from pydantic import BaseModel, ConfigDict
 
 from mockazure.authorization.evaluator import AuthorizationDenied, OperationRequirement, authorize
-from mockazure.db.models import Tenant
 from mockazure.identity.tokens import validate_access_token
+from mockazure.mail.authorization import require_exchange_command
 from mockazure.oauth.errors import OAuthError
+from mockazure.providers.exchange.bootstrap import PARAMETERS, fixed_proxy_source
+from mockazure.providers.exchange.commands import invoke_command
 from mockazure.providers.graph.errors import GraphError
 
 router = APIRouter()
-ORGANIZATION = OperationRequirement(
+EXCHANGE_ACCESS = OperationRequirement(
     "exchange",
     frozenset({"Exchange.ManageAsApp"}),
     frozenset({"Exchange.Manage"}),
-    frozenset({"Global Administrator", "Global Reader"}),
-    application_roles=frozenset({"Global Administrator", "Global Reader"}),
 )
 
 
 async def permitted(request, tenant, session):
-    scheme, _, raw = request.headers.get("authorization", "").partition(" ")
+    values = request.headers.getlist("authorization")
+    scheme, _, raw = values[0].partition(" ") if len(values) == 1 else ("", "", "")
     try:
-        if scheme.lower() != "bearer":
+        if scheme.lower() != "bearer" or not raw:
             raise OAuthError("invalid_token", "Bearer token is required", 401)
         context = await validate_access_token(
             raw,
@@ -39,7 +42,7 @@ async def permitted(request, tenant, session):
     try:
         if context.tenant_id != UUID(tenant):
             raise AuthorizationDenied()
-        await authorize(context, ORGANIZATION, session)
+        await authorize(context, EXCHANGE_ACCESS, session)
     except (AuthorizationDenied, ValueError):
         raise GraphError(
             403, "Authorization_RequestDenied", "Exchange permission required"
@@ -48,23 +51,7 @@ async def permitted(request, tenant, session):
 
 
 def proxy_source(endpoint):
-    # The server returns code only for this fixed command. Never interpolate credentials,
-    # user data, arbitrary command names or arbitrary command arguments into source.
-    endpoint = endpoint.replace("'", "''")
-    return (
-        "function Get-OrganizationConfig {\n"
-        "    [CmdletBinding()] param()\n"
-        "    $context = [Microsoft.Exchange.Management.ExoPowershellSnapin."
-        "ConnectionContextFactory]::GetCurrentConnectionContext($script:ConnectionContextObjectId)\n"
-        "    $auth = $context.GetAuthHeader()\n"
-        "    $body = @{ CmdletInput = @{ CmdletName = 'Get-OrganizationConfig'; "
-        "Parameters = @{} } } | ConvertTo-Json -Depth 4\n"
-        "    $result = Invoke-RestMethod -Method POST -Uri '" + endpoint + "' "
-        "-ContentType 'application/json' -Headers @{ Authorization = $auth.AuthorizationHeader } "
-        "-Body $body -ErrorAction Stop\n"
-        "    $result.value\n"
-        "}\nExport-ModuleMember -Function Get-OrganizationConfig\n"
-    )
+    return fixed_proxy_source(("Get-OrganizationConfig",), endpoint)
 
 
 @router.get("/AdminApi/v1.0/{tenant}/EXOModuleFile")
@@ -75,10 +62,25 @@ async def module(tenant: str, request: Request):
             raise GraphError(
                 400, "UnsupportedModuleVersion", "Only Exchange module 3.11.0 is qualified"
             )
-        commands = request.headers.get("CommandName", "Get-OrganizationConfig").split(",")
-        if set(commands) != {"Get-OrganizationConfig"}:
+        requested = request.headers.get("CommandName")
+        if requested == "*":
+            requested = None
+        commands = tuple(requested.split(",")) if requested else tuple(PARAMETERS)
+        if any(command not in PARAMETERS for command in commands):
+            raise GraphError(400, "UnsupportedCommand", "Requested command is not implemented")
+        allowed = []
+        for command in commands:
+            try:
+                await require_exchange_command(session, context, command)
+                allowed.append(command)
+            except AuthorizationDenied:
+                if requested:
+                    raise GraphError(
+                        403, "Authorization_RequestDenied", "Exchange command permission required"
+                    ) from None
+        if not allowed:
             raise GraphError(
-                400, "UnsupportedCommand", "Only Get-OrganizationConfig is implemented"
+                403, "Authorization_RequestDenied", "No supported Exchange command permission"
             )
         origin = request.app.state.settings.advertised_endpoints(request.headers.get("host", ""))
         endpoint = f"{origin.exchange}/adminapi/v2.0/{context.tenant_id}/InvokeCommand"
@@ -86,42 +88,39 @@ async def module(tenant: str, request: Request):
             "value": [
                 {
                     "fileName": "MockAzure.psm1",
-                    "fileContent": proxy_source(endpoint),
-                    "exportedCmdlets": "Get-OrganizationConfig",
+                    "fileContent": fixed_proxy_source(tuple(allowed), endpoint),
+                    "exportedCmdlets": ",".join(allowed),
                 }
             ]
         }
 
 
 class CmdletInput(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
     CmdletName: str
     Parameters: dict
 
 
 class CommandRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
     CmdletInput: CmdletInput
 
 
 @router.post("/adminapi/v2.0/{tenant}/InvokeCommand")
+@router.post("/adminapi/beta/{tenant}/InvokeCommand")
 async def invoke(tenant: str, data: CommandRequest, request: Request):
-    async with request.app.state.database.sessions() as session:
-        context = await permitted(request, tenant, session)
-        if data.CmdletInput.CmdletName != "Get-OrganizationConfig" or data.CmdletInput.Parameters:
-            raise GraphError(
-                400,
-                "UnsupportedCommand",
-                "Only parameterless Get-OrganizationConfig is implemented",
+    try:
+        async with request.app.state.database.sessions.begin() as session:
+            context = await permitted(request, tenant, session)
+            rows = await invoke_command(
+                session,
+                context,
+                data.CmdletInput.CmdletName,
+                data.CmdletInput.Parameters,
+                datetime.now(UTC),
             )
-        row = await session.get(Tenant, context.tenant_id)
-        return {
-            "value": [
-                {
-                    "Identity": str(row.id),
-                    "Name": row.display_name,
-                    "Guid": str(row.id),
-                    "ExternalDirectoryOrganizationId": str(row.id),
-                }
-            ]
-        }
+            return {"value": rows}
+    except AuthorizationDenied:
+        raise GraphError(
+            403, "Authorization_RequestDenied", "Exchange command permission required"
+        ) from None

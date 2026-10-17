@@ -1,0 +1,52 @@
+{
+  "artifact": "ExchangeOnlineManagement==3.11.0",
+  "archive_sha256": "c7e9224420b5e1bc0df46bb5a366018566619feb2962bc8bd1d839dd118c2f0f",
+  "source": "Public Microsoft.Exchange.Management.AdminApiProvider model metadata in the pinned module; unchanged compiled client requests observed against local MockAzure only.",
+  "models": {
+    "Microsoft.Exchange.Management.AdminApiProvider.Mailbox": {
+      "ObjectKey": "System.String",
+      "ExternalDirectoryObjectId": "System.String",
+      "ExchangeGuid": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "UserPrincipalName": "System.String",
+      "ArchiveGuid": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "ArchiveStatus": "System.String",
+      "DisplayName": "System.String",
+      "EmailAddresses": "System.Collections.ObjectModel.ObservableCollection`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "PrimarySmtpAddress": "System.String",
+      "RecipientTypeDetails": "System.String",
+      "Identity": "System.String"
+    },
+    "Microsoft.Exchange.Management.AdminApiProvider.MailboxStatistics": {
+      "DisplayName": "System.String",
+      "MailboxGuid": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "IsArchiveMailbox": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "ItemCount": "System.Nullable`1[[System.Int64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "TotalItemSize": "System.Nullable`1[[System.Int64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+    },
+    "Microsoft.Exchange.Management.AdminApiProvider.MailboxFolderStatistics": {
+      "Name": "System.String",
+      "FolderPath": "System.String",
+      "FolderId": "System.String",
+      "ContentMailboxGuid": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "Identity": "System.String",
+      "FolderType": "System.String",
+      "ItemsInFolder": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "FolderSize": "System.Nullable`1[[System.Int64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "ItemsInFolderAndSubfolders": "System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "FolderAndSubfolderSize": "System.Nullable`1[[System.Int64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+    },
+    "Microsoft.Exchange.Management.AdminApiProvider.CasMailbox": {
+      "ObjectKey": "System.String",
+      "ExternalDirectoryObjectId": "System.String",
+      "Identity": "System.String",
+      "DisplayName": "System.String",
+      "SmtpClientAuthenticationDisabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "OWAEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "ImapEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "PopEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "MAPIEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "EwsEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "ActiveSyncEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+    }
+  }
+}

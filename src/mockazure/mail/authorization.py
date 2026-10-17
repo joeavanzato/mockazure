@@ -6,15 +6,15 @@ from mockazure.authorization.evaluator import (
     AuthorizationDenied,
     OperationRequirement,
     authorize,
-    require_current_identity,
 )
+from mockazure.endpoints import RESOURCES
 from mockazure.identity.models import DirectoryRole, ServicePrincipalRole, User
 from mockazure.mail.contracts import operation_requirement
 from mockazure.mail.models import ExchangeCommandGrant, MailSettings
 from mockazure.mail.schemas import EXCHANGE_COMMANDS
 
 GRAPH = "00000003-0000-0000-c000-000000000000"
-EXCHANGE = "00000002-0000-0ff1-ce00-000000000000"
+EXCHANGE = next(resource.audience for resource in RESOURCES if resource.service == "exchange")
 READER_COMMANDS = frozenset(
     {
         "Get-Mailbox",
@@ -43,6 +43,15 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
         if actor.token_kind == "delegated" and actor.subject_id != mailbox.user_id:
             raise AuthorizationDenied("Delegated mailbox ownership is required")
         return
+    await require_exchange_command(session, actor, operation, mailbox.user_id)
+
+
+async def require_exchange_command(session, actor, operation, mailbox_user_id=None):
+    """None checks command availability for bootstrap; data reads still scope every mailbox."""
+    if operation != "Get-OrganizationConfig":
+        settings = await session.get(MailSettings, actor.tenant_id)
+        if settings is None or not settings.exchange_enabled:
+            raise AuthorizationDenied("Exchange service entitlement is required")
     if operation not in EXCHANGE_COMMANDS or actor.audience != EXCHANGE:
         raise AuthorizationDenied("Unsupported Exchange operation or audience")
     await authorize(
@@ -54,7 +63,6 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
         ),
         session,
     )
-    await require_current_identity(actor, session)
     if actor.token_kind == "application":
         roles = set(
             await session.scalars(
@@ -79,16 +87,23 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
         return
     if "Global Reader" in roles and operation in READER_COMMANDS:
         return
+    scope = (
+        []
+        if mailbox_user_id is None
+        else [
+            or_(
+                ExchangeCommandGrant.mailbox_user_id.is_(None),
+                ExchangeCommandGrant.mailbox_user_id == mailbox_user_id,
+            )
+        ]
+    )
     permitted = await session.scalar(
         select(ExchangeCommandGrant.id)
         .where(
             ExchangeCommandGrant.tenant_id == actor.tenant_id,
             principal,
             ExchangeCommandGrant.commands.contains([operation]),
-            or_(
-                ExchangeCommandGrant.mailbox_user_id.is_(None),
-                ExchangeCommandGrant.mailbox_user_id == mailbox.user_id,
-            ),
+            *scope,
         )
         .limit(1)
     )

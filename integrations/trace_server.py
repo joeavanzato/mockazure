@@ -1,4 +1,4 @@
-"""Qualification-only request tracing; never capture headers, query strings or bodies."""
+"""Qualification-only request tracing; capture only paths and allowlisted query metadata."""
 
 import json
 import re
@@ -26,6 +26,21 @@ async def trace(request, call_next):
                         "method": request.method,
                         "path": request.url.path,
                         "status": response.status_code,
+                        "commands": request.headers.get("commandname")
+                        if re.fullmatch(
+                            r"[A-Za-z*, -]{0,2000}", request.headers.get("commandname", "")
+                        )
+                        else None,
+                        "query_keys": [
+                            k
+                            for k in request.query_params
+                            if re.fullmatch(r"[A-Za-z$][A-Za-z0-9_$]{0,60}", k)
+                        ],
+                        "select": request.query_params.get("$select")
+                        if re.fullmatch(
+                            r"[A-Za-z0-9_,]{1,4000}", request.query_params.get("$select", "")
+                        )
+                        else None,
                         "continuation": "$skiptoken" in request.query_params,
                         "versions": {
                             k: v

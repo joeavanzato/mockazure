@@ -32,7 +32,8 @@
       "extracted": "modules/ExchangeOnlineManagement/3.11.0",
       "dependencies": [
         "PowerShellGet==2.2.5",
-        "PackageManagement==1.4.8.1"
+        "PackageManagement==1.4.8.1",
+        "Microsoft.Extensions.DependencyInjection.Abstractions==8.0.0"
       ],
       "probe": "integrations/contracts/connections.md"
     },
@@ -181,6 +182,16 @@
         "Microsoft.Graph.Authentication==2.35.1"
       ],
       "probe": "integrations/contracts/graph-security.md"
+    },
+    {
+      "name": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "version": "8.0.0",
+      "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg",
+      "sha256": "ef92b31065a36d110b7332690a226e6fe96d35430c6f3e40ff529053ee5d80ff",
+      "archive": "Microsoft.Extensions.DependencyInjection.Abstractions-8.0.0.zip",
+      "extracted": "dependencies/Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0",
+      "dependencies": [],
+      "probe": "integrations/powershell/Test-ExchangeMail.ps1"
     }
   ],
   "python": {

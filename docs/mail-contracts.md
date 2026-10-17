@@ -179,3 +179,44 @@ later update/deletion cannot rewrite that page. It is bound to tenant, generatio
 client, subject, permission claims, mailbox and API version. Current identity,
 entitlement and mailbox access checks still apply at every page. Version retention
 is currently conservative; lifecycle cleanup is an M6 hardening concern.
+
+## Original Exchange compiled transport
+
+The pinned ExchangeOnlineManagement 3.11.0 archive remains byte-for-byte original.
+Its compiled Get-EXOMailbox, Get-EXOMailboxStatistics,
+Get-EXOMailboxFolderStatistics and Get-EXOCasMailbox use these observed local
+OData routes, with base64 UTF-8 identity keys and isEncoded=true:
+
+- Mailbox('key') and CasMailbox('key') return typed entities.
+- Mailbox('key')/Exchange.GetMailboxStatistics() returns a typed collection;
+  Archive=true selects the separate persisted archive GUID/folders.
+- Mailbox('key')/MailboxFolder/Exchange.GetMailboxFolderStatistics(
+  folderscope=Exchange.ElcFolderType'All') returns typed folder rows.
+
+The public module's generated model property types are recorded in
+integrations/contracts/exchange-mail.json with its archive hash. Statistics
+sizes on the wire are Int64 bytes; the unchanged cmdlet formats those values.
+Unsupported fields/options/scopes fail explicitly. There is no mail delivery
+engine: folder counts/sizes are explicit imported state, and Sweep rules are
+persisted configuration.
+
+The compiled module's OData reader needs the original Microsoft
+Extensions.DependencyInjection.Abstractions 8.0.0 assembly, absent from the
+pinned package/container combination. The qualification harness loads the
+separately pinned Microsoft NuGet package before module import. This is a
+client dependency, not a command replacement. Public provenance:
+https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0
+No Microsoft module file is modified.
+
+Default Connect-ExchangeOnline sends CommandName=*. MockAzure exports only
+implemented commands authorized by current role/command grants; explicit
+unsupported names fail. Fixed generated proxies are limited to the declared
+configuration/rule command table, use JSON data, preserve null forwarding
+values, and perform real local HTTP calls. Compiled EXO commands remain in
+Microsoft's assembly. Enable/Disable-InboxRule retain their own permissions
+and immutable audit operation names.
+
+Current accepted transport profile has exact-value checks for primary/archive
+statistics, folders, CAS, canonical mailbox identity, and forwarding/inbox-rule
+writes through the original module. Full original collector qualification is
+still Task9; no collector compatibility claim is made by this task alone.

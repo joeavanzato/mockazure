@@ -75,6 +75,10 @@ async def mutate_rule(session, actor, mailbox, operation: str, rule_id, body: di
 async def _mutate_rule(
     session, actor, mailbox, operation, rule_id, body, now, *, hidden=False, read_only=False
 ):
+    requested_operation = operation
+    if operation in {"enable", "disable"}:
+        body = {"isEnabled": operation == "enable"}
+        operation = "update"
     if operation not in {"create", "update", "delete"}:
         invalid("Unsupported rule operation")
     await session.refresh(mailbox, with_for_update=True)
@@ -88,6 +92,10 @@ async def _mutate_rule(
             if exchange
             else "rules." + operation
         )
+        if exchange and requested_operation in {"enable", "disable"}:
+            permission = (
+                "Enable-InboxRule" if requested_operation == "enable" else "Disable-InboxRule"
+            )
         await require_mailbox_access(session, actor, mailbox, permission)
     rows = list(
         await session.scalars(
@@ -186,7 +194,9 @@ async def _mutate_rule(
                 "create": "New-InboxRule",
                 "update": "Set-InboxRule",
                 "delete": "Remove-InboxRule",
-            }[operation],
+                "enable": "Enable-InboxRule",
+                "disable": "Disable-InboxRule",
+            }[requested_operation],
             {
                 "id": str(mailbox.user_id),
                 "upn": user.upn,
