@@ -16,7 +16,7 @@ services:
       - ./.runtime/m6-graph/postgres:/var/lib/postgresql
     networks: [internal]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mockazure_m6_graph -d mockazure_m6_graph"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure_m6_graph -d mockazure_m6_graph"]
       interval: 2s
       timeout: 3s
       retries: 30

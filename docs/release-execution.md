@@ -1,74 +1,71 @@
 # M6 execution checkpoint
 
-Worktree: D:/projects/mockazure/.worktrees/release.
-Branch: feat/release-qualification. Current implementation is committed and pushed
-through 6c9e2f4. The M6 branch starts at reviewed M5 commit 0e63774.
+Branch feat/release-qualification in D:/projects/mockazure/.worktrees/release.
+Base 0e637743bf64119a0e468bd6220385e6020157c0 (M5 PR9). Native implementation.
+Tasks 1, 2 and 4 complete; Task3 final measurements and Task5 remain active.
+No M6 final review has been dispatched. Exactly one fresh review remains required.
 
-Tasks 1, 2 and 4 are complete. Task 3 remains open for final measurements of all
-three declared sizes. Task 5 final regression and original-client qualification
-are running. No M6 final reviewer has been dispatched yet.
+## Current work
 
-## Completed work
+The bounded maintenance implementation, scale generator/runner and reproducible
+candidate builder are committed. Tuning at571578b passed small100/1000 and
+medium5000/50000 with exact concurrent coverage and worker/API restarts.
+Measured tuning is retained in release-scale.md/json.
 
-Bounded maintenance preserves live evidence/rule pages and expired-query 410
-tombstones while reclaiming obsolete bulk data. Expired leases are fenced in the
-same transaction as query cleanup. The owned test PostgreSQL uses port 55445.
+Candidate97f594992a074bbeb74e26c07d24f3bf37117622 built identical wheel/sdist pairs,
+and clean native/Docker package, capability and migration parity passed.
+Strict artifact acceptance passed1test0.93s. That proof is historical after the
+following release-compose readiness correction; rebuild before final acceptance.
 
-Fresh M6 profiles isolate all five original-client suites from predecessor state.
-The initial ARM profile proved 17 runtime gates, three SDK profiles and eight MES
-cases on source d339453. That proof is historical, not final release acceptance.
+Current-source qualification first found the preserved M2 port38443 conflict.
+M6Graph now uses47443..47446, PostgreSQL55446. It then exposed PostgreSQL's
+initialization-server health race: pg_isready over a Unix socket marked healthy
+at13:10:57UTC, before TCP was available at13:11:06UTC. Migration failed and a
+repeat after initialization passed. All five M6 compose health checks now require
+-h127.0.0.1. RED regression confirmed the missing TCP guard;20affected tests pass.
 
-Scale tuning introduced bounded historical sign-in publication, individual
-source revisions/receipts, atomic generation/epoch fences, periodic missing-job
-repair and indexed active-job selection. The final tuning source 571578b passed
-both small and medium profiles with exact concurrent collection and restarts:
-small 100 users/1,000 records in 8.863 seconds including worker restart; medium
-5,000 users/50,000 records in 186.570 seconds for import/publication. Both medium
-sign-in readers retrieved all 50,000 identities across 100 pages in about 161
-seconds. Baseline failures and interrupted experiments remain documented in
-release-scale.md and retained under work/release.
+Full unit/integration run started12:56UTC and continues in
+work/release/full-regression.log. Its early unit failure was a stale test fixture
+omitting build-requirements.txt; corrected fixture and metadata hash regression
+pass5tests. Product API code did not change during that run.
 
-Candidate source 54603c0368441259a6b531e6e0452506b8afae3e built identical wheel
-and source-archive pairs. Clean native installation and Docker match every
-package file, migration head 037 and the capability document. Module/console
-entry points pass. Artifact acceptance plus its unit tests passed 19 tests in
-3.36 seconds. The later commit only renamed a colliding acceptance test module.
+Interrupted original-suite and scale reports are retained under
+work/release/before-port-fix-* and before-health-fix-*.
+Small61006 and61007 passed at older source fingerprints; medium62003/62004
+interrupted, never counted as passing. Large63001 has not started.
+Next fresh scale seeds: small61008, medium62005, large63001.
 
-The current source fingerprint is:
-4bc204af4141bdd7e7a7c098a0ede0a844926ef28f53f07fb7fb76e33d9bf3b9
+## Runtime ownership and authorization
 
-## Active qualification
+User explicitly authorized stopping M2 and older MockAzure instances as needed.
+Idle predecessor MockAzure containers have been stopped, with all containers and
+volumes retained. VTW and unrelated containers were untouched. This supersedes
+the earlier instruction to preserve running predecessor services, but does not
+authorize deleting their data or changing their source.
 
-Three independent processes started at approximately 2026-10-17 12:56 UTC:
+Own testPostgreSQL55445 remains active. M6 suite ports:
+Graph47443/PG55446, evidence40443/55447, security42443/55448,
+mail44443/55449, ARM46443/55450. Native offsets+1/+2; managed identity+3.
+All state is under .runtime/m6-*. Fresh own credentials and CA; no public tenants.
 
-- Full tests/unit and tests/integration against the owned test PostgreSQL.
-  Log: work/release/full-regression.log.
-- Current directory, evidence, security and mail original-client suites.
-  Log: work/release/final-original-suites.log. Aggregate: work/release/qualification.json.
-- Final small seed 61006, medium seed 62003 and large seed 63001 measurements.
-  Logs: work/release/final-scale-{small,medium,large}.log.
-  Execution journal: work/release/final-scale-execution.json.
-  Actual profile reports: work/release/scale-{name}-{seed}.json.
+## Remaining sequence
 
-The large target remains 100,000 users and 1,000,000 records. It has a three-hour
-outer budget and one-hour post-import publication budget. A timeout or incomplete
-traversal remains a failed gate; the target is never reduced.
+Commit the health fix; rebuild the candidate; restart all current-source proofs.
+Run original m3/m3b/m3c/m4 independently of scale. Run m5 original only after
+scale ends because it shares the M6ARM runtime. Large remains100000users and
+1000000records, with10800s outer and3600s post-import publication budgets.
+Timeout, missing coverage or any failed mandatory case blocks release_ready.
 
-ARM original-client qualification must run after scale because both own the M6 ARM
-runtime. Attach the final artifact and all three scale reports to the combined
-report, then run strict acceptance. Source-changing fixes invalidate those proofs.
+Attach the actual three scale reports and candidate artifact manifest to the
+five-suite aggregate. Run full regression, Ruff/diff, provenance and strict
+acceptance. The four M4 collector-output failures remain mandatory blockers;
+the M3B original MES audit JSON exception is the only waiver.
 
-## Remaining handoff
+Dispatch exactly one fresh final reviewer with spec/plan/ledger and five Review
+Focus items, then one consolidated regression-first fix pass. Rerun affected
+proofs. Export decisions/review, commit/push, create and attach the M6 feature PR
+stacked on M5 (draft if blocked). No automatic merge or registry publication.
+Disable the existing overnight heartbeat only after all feasible work and
+artifacts are delivered. No M7 is defined.
 
-Run exactly one fresh final M6 reviewer after the final evidence is available,
-make one consolidated regression-first fix pass, and rerun affected/current-source
-gates. Export decisions/review and create an attached feature PR stacked on M5,
-draft if mandatory gates remain unresolved. No automatic merge or registry push.
-
-The four M4 original collector-output failures remain mandatory release blockers.
-The existing M3B MES audit JSON exception is the only waiver. Preserve predecessor
-runtimes and all failed evidence. Never touch VTW, real tenants or host trust/DNS/
-firewall settings. Disable the existing overnight heartbeat only after all feasible
-defined work and artifacts are delivered.
-
-Execution ledger: .superpowers/sdd/2026-10-17-mockazure-release/progress.md.
+Ledger: .superpowers/sdd/2026-10-17-mockazure-release/progress.md.

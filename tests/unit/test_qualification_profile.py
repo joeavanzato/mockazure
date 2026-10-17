@@ -81,3 +81,12 @@ def test_release_ports_do_not_overlap_any_preserved_compose_listener(monkeypatch
     }
     release = {port for stage in STAGES for port in profile_for(stage).ports}
     assert not release & preserved
+
+
+def test_release_database_health_requires_tcp_after_initialization():
+    for path in Path.cwd().glob("compose.release.*.yaml"):
+        checks = [
+            line for line in path.read_text(encoding="utf-8").splitlines() if "pg_isready" in line
+        ]
+        assert len(checks) == 1
+        assert "-h 127.0.0.1" in checks[0], path.name

@@ -17,7 +17,7 @@ services:
       - ./.runtime/m6-arm/postgres:/var/lib/postgresql
     networks: [internal]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mockazure_m6_arm -d mockazure_m6_arm"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure_m6_arm -d mockazure_m6_arm"]
       interval: 2s
       timeout: 3s
       retries: 30

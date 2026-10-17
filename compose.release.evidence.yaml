@@ -17,7 +17,7 @@ services:
       - ./.runtime/m6-evidence/postgres:/var/lib/postgresql
     networks: [internal]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mockazure_m6_evidence -d mockazure_m6_evidence"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure_m6_evidence -d mockazure_m6_evidence"]
       interval: 2s
       timeout: 3s
       retries: 30

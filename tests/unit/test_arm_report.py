@@ -129,6 +129,7 @@ def test_arm_source_fingerprint_binds_packaged_metadata(tmp_path):
     names = (
         "pyproject.toml",
         "uv.lock",
+        "build-requirements.txt",
         "Dockerfile",
         "integrations/Dockerfile.python",
         "compose.m5.yaml",
@@ -143,7 +144,7 @@ def test_arm_source_fingerprint_binds_packaged_metadata(tmp_path):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("original", encoding="utf-8")
     baseline = source_fingerprint(tmp_path)
-    for name in ("README.md", "LICENSE", "NOTICE"):
+    for name in ("README.md", "LICENSE", "NOTICE", "build-requirements.txt"):
         path = tmp_path / name
         path.write_text("changed", encoding="utf-8")
         assert source_fingerprint(tmp_path) != baseline, name
