@@ -12,6 +12,7 @@ from mockazure.oauth.errors import OAuthError
 from mockazure.providers.graph.relationships import relation_ids
 from mockazure.security.catalog import resource_app_id
 from mockazure.security.models import SecurityObject
+from mockazure.security.policies import normalized_conditions
 from mockazure.security.repository import lock_security
 
 
@@ -92,7 +93,7 @@ async def evaluate_policies(session, tenant, user, resource, context, now) -> Po
     for row in policies:
         policy = row.properties
         state = policy["state"]
-        conditions = policy["conditions"]
+        conditions = normalized_conditions(policy["conditions"])
         users = conditions["users"]
         applications = conditions["applications"]
         clients = conditions["clientAppTypes"]

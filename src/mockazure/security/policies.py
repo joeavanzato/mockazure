@@ -5,7 +5,7 @@ import ipaddress
 from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import or_, select
+from sqlalchemy import select
 
 from mockazure.authorization.evaluator import OperationRequirement
 from mockazure.directory.models import Group
@@ -62,16 +62,37 @@ def selectors(values, special=()):
         or any(not isinstance(v, str) for v in values)
     ):
         invalid("Invalid target selectors")
-    if len(set(values)) != len(values):
-        invalid("Duplicate target selectors")
+    normalized = []
     for value in values:
         if value not in special:
             try:
-                UUID(value)
+                value = str(UUID(value))
             except ValueError:
                 invalid("Invalid target identifier")
+        normalized.append(value)
+    if len(set(normalized)) != len(normalized):
+        invalid("Duplicate target selectors")
     if set(values) & {"All", "None"} and len(values) != 1:
         invalid("All/None must be the sole selector")
+    return normalized
+
+
+def normalized_conditions(conditions):
+    """Canonicalize persisted selectors too, including pre-normalization policies."""
+    result = copy.deepcopy(conditions)
+    for category, fields in (
+        ("users", ("includeUsers", "excludeUsers", "includeGroups", "excludeGroups")),
+        ("applications", ("includeApplications", "excludeApplications")),
+        ("locations", ("includeLocations", "excludeLocations")),
+    ):
+        target = result.get(category) or {}
+        for field in fields:
+            if field in target:
+                target[field] = [
+                    value if value in {"All", "None", "AllTrusted"} else str(UUID(value))
+                    for value in target[field]
+                ]
+    return result
 
 
 def only_empty(value, allowed):
@@ -83,6 +104,7 @@ def only_empty(value, allowed):
 def validate_policy(body: dict, *, partial=False) -> dict:
     declared(body, POLICY_FIELDS)
     shaped(body, "conditionalAccessPolicy")
+    body = copy.deepcopy(body)
     if not partial and not {"displayName", "state", "conditions", "grantControls"} <= body.keys():
         invalid("Policy displayName, state, conditions and grantControls are required")
     if "displayName" in body and not body["displayName"].strip():
@@ -150,7 +172,7 @@ def validate_policy(body: dict, *, partial=False) -> dict:
             declared(value, fields | empties)
             only_empty(value, empties)
             for field in fields & value.keys():
-                selectors(value[field], specials.get(field, ()))
+                value[field] = selectors(value[field], specials.get(field, ()))
             if not partial:
                 includes = [
                     v
@@ -298,20 +320,19 @@ async def mutate_policy(session, actor, kind, operation, identifier, body):
         before = dict(row.properties)
     if operation == "DELETE":
         if kind == "ipNamedLocation":
-            locations = SecurityObject.properties["conditions"]["locations"]
-            used = await session.scalar(
-                select(SecurityObject.id)
-                .where(
+            existing = await session.scalars(
+                select(SecurityObject.properties).where(
                     SecurityObject.tenant_id == actor.tenant_id,
                     SecurityObject.kind == "conditionalAccessPolicy",
-                    or_(
-                        locations["includeLocations"].contains([str(row.id)]),
-                        locations["excludeLocations"].contains([str(row.id)]),
-                    ),
                 )
-                .limit(1)
             )
-            if used is not None:
+            used = any(
+                str(row.id) in targets.get(field, [])
+                for policy in existing
+                for targets in [normalized_conditions(policy["conditions"]).get("locations") or {}]
+                for field in ("includeLocations", "excludeLocations")
+            )
+            if used:
                 raise GraphError(
                     409, "Request_Conflict", "Named location is referenced by a policy"
                 )

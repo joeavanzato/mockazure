@@ -223,3 +223,26 @@ preserve the original full decisions and can be imported into a separate instanc
 
 Sources: [sign-in list and disclosure](https://learn.microsoft.com/en-us/graph/api/signin-list?view=graph-rest-1.0),
 [applied policy results](https://learn.microsoft.com/en-us/graph/api/resources/appliedconditionalaccesspolicy?view=graph-rest-1.0).
+
+## Identity and lifecycle boundaries
+
+Managed identities retain host-controlled authentication. Graph inspection and
+ordinary metadata edits do not turn their backing registration into a confidential
+or public client. Platform and password/certificate edits are rejected for managed
+backing applications and service principals. Deleted backing identities cannot be
+reenabled through managed-identity administration, issue managed tokens, or use
+previously issued tokens to access the API.
+
+Deleting users, service principals, or applications removes affected owner
+references transactionally. Historical stale references are omitted from current
+owner reads and can still be explicitly removed. Live resource-principal owners
+remain visible.
+
+Conditional Access treats equivalent UUID spellings as the same identifier.
+New policies store canonical UUIDs and reject equivalent duplicate targets;
+evaluation and named-location deletion protection also normalize older persisted
+policies. User/group/resource/location inclusions and exclusions share this rule.
+
+Denied collector output is checked in every produced CSV and JSON artifact.
+Only the documented all-False self-user MES CSV placeholder is permitted; nonempty
+JSON records or malformed JSON fail the gate.

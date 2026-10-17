@@ -33,9 +33,16 @@ async def require_current_identity(context: PrincipalContext, session) -> None:
             ServicePrincipal.tenant_id == context.tenant_id,
             ServicePrincipal.client_id == context.client_id,
             ServicePrincipal.enabled.is_(True),
+            ServicePrincipal.deleted_at.is_(None),
         )
     )
-    if app is None or not app.enabled or principal is None:
+    if (
+        app is None
+        or not app.enabled
+        or app.deleted_at is not None
+        or app.tenant_id != context.tenant_id
+        or principal is None
+    ):
         raise AuthorizationDenied("Application identity is unavailable")
     if context.token_kind == "delegated":
         user = await session.scalar(

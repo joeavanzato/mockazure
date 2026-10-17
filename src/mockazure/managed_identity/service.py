@@ -63,7 +63,7 @@ async def identity_view(session, row):
         display_name=app.display_name,
         kind=row.kind,
         resource_id=row.resource_id,
-        enabled=app.enabled and sp.enabled,
+        enabled=app.enabled and sp.enabled and app.deleted_at is None and sp.deleted_at is None,
     )
 
 
@@ -109,6 +109,8 @@ async def set_identity_enabled(session, tenant_id, identity_id, enabled):
     row = await owned_identity(session, tenant_id, identity_id)
     app = await session.get(Application, row.client_id)
     sp = await session.get(ServicePrincipal, row.id)
+    if enabled and (app.deleted_at is not None or sp.deleted_at is not None):
+        raise AdminError(409, "IdentityDeleted", "Deleted managed identity cannot be enabled")
     app.enabled = sp.enabled = enabled
     await session.flush()
     return await identity_view(session, row)
@@ -285,7 +287,9 @@ async def acquire_managed_token(session, request, settings, now):
     )
     if app is None or sp is None or app.client_mode != "managed":
         raise bad_selector()
-    failure = not app.enabled or not sp.enabled
+    failure = (
+        not app.enabled or not sp.enabled or app.deleted_at is not None or sp.deleted_at is not None
+    )
     fact = AuthenticationFact(
         attempt_id=request.attempt_id,
         tenant_id=row.tenant_id,

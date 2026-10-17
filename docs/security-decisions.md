@@ -28,3 +28,11 @@ The exact implemented boundaries remain in security-contracts.md.
 - Task 9: Ruling: permitted self-user lookup can make denied MES emit one all-False method placeholder. Denial oracle requires that exact empty placeholder and failed report access; any actual method disclosure fails. RED/GREEN test verifies changed flag, added phone value and foreign user all fail.
 - Task 9: Ruling: runtime grant probe follows approved immutable-token semantics; existing token claims retained, new unauthorized consent denied, new restricted token403, restored grant permits fresh token. Role removal is current-state403. No production change needed.
 - Task 10: Ruling: capability discovery still advertised B and no CA engine; update it to bounded C and preserve inherited evidence/identity surface assertions. Focused capability test RED replaces redundant full-suite RED after Task9's474-pass full run; full suite follows final changes. Cost: consumer milestone label advances to implemented profile.
+
+## Final review decisions
+
+- Final: Ruling: normalize existing persisted selector spellings during policy evaluation and named-location reference checks as well as new writes. Existing accepted policies must not retain bypasses after upgrade. Cost if wrong: additional policy read work, bounded by configured policy count.
+- Final: Ruling: retain managed backing application inspection, but preserve host-controlled credentials/platform mode and reject their Graph credential/platform edits. Deleted managed identity enablement fails409; issuance/current authorization reject tombstones. Cost if wrong: narrower managed application mutation support requires future operation-specific expansion.
+- Final: Ruling: new owner live-row filtering must preserve accepted built-in resource-principal owners. A missing required test permission was corrected before observing the true omission; include canonical resourceServicePrincipal rows. Cost if wrong: future resource-principal lifecycle must update this live-row predicate.
+
+Deferred minor: upstream LICENSE.docs line52 trailing whitespace is retained verbatim.

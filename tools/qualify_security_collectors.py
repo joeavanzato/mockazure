@@ -44,6 +44,19 @@ def verify_denied_rows(label, mode, records, username):
     assert records == [{"user": username, "MFAstatus": "Disabled", **dict.fromkeys(flags, "False")}]
 
 
+def verify_denied_outputs(label, mode, files, username):
+    records = [row for path in files if path.suffix.lower() == ".csv" for row in rows(path)]
+    verify_denied_rows(label, mode, records, username)
+    for path in files:
+        if path.suffix.lower() != ".json":
+            continue
+        content = path.read_text(encoding="utf-8-sig").strip()
+        if not content:
+            continue
+        value = json.loads(content)
+        assert value is None or value == [], f"Denied collector emitted JSON records: {path.name}"
+
+
 def qualify_collectors():
     from verify_security import sha
 
@@ -149,7 +162,7 @@ def qualify_collectors():
         records = [row for path in files if path.suffix == ".csv" for row in rows(path)]
         if denied:
             # Some original collectors log-and-continue; zero sensitive output is the gate.
-            verify_denied_rows(label, mode, records, expected_user["userPrincipalName"])
+            verify_denied_outputs(label, mode, files, expected_user["userPrincipalName"])
             logs = "\n".join(p.read_text(encoding="utf-8-sig") for p in folder.rglob("*.log"))
             assert report["error"] or any(
                 word in logs for word in ("403", "denied", "Denied", "Forbidden")

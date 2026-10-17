@@ -157,3 +157,25 @@ The MSAL form_post recommendation is the sole warning. The final new gate
 and distribution acceptance run passed 6 tests in 0.43s. Ruff/diff checks pass.
 Final review is pending. Source fingerprints and hashes remain authoritative;
 work/security-report.json and docs/security-verification.json record the evidence.
+
+## Final review fix pass
+
+The independent whole-branch review of 5cdcf5a..39277b5 identified five important
+issues: UUID selector matching, managed client-mode/credential mutation, managed
+tombstone resurrection/current authorization, orphan owner navigation/mutations,
+and a denied-JSON collector oracle gap. All entered one consolidated fix pass.
+No second review was dispatched; no findings were declined for judgment.
+
+Observed RED: 31 API regressions, two selector unit cases, four explicit managed
+password actions, and four JSON denial cases reproduced the defects. The initial
+owner preservation test needed the documented Directory.Read.All permission;
+after correcting that fixture, it reproduced a live resource-owner omission
+introduced by the fix and was corrected as part of the same pass.
+
+Focused GREEN: 33 policy tests; 30 managed/lifecycle/owner tests; nine collector
+oracle tests. Final full regression and rebuilt runtime qualification remain
+pending. The pre-fix Task10 run passed476 tests in869.32s; its source-bound runtime
+qualification passed20 gates/three SDK profiles/20collector cases in405.989998s.
+These historical runs are not evidence for the final fix bytes.
+
+Deferred minor: retain upstream LICENSE.docs line52 whitespace verbatim.

@@ -2,10 +2,11 @@
 
 from uuid import UUID, uuid4
 
-from sqlalchemy import delete, select
+from sqlalchemy import delete, or_, select
 
 from mockazure.identity.models import Application, ServicePrincipal, User
 from mockazure.identity.types import validate_redirect_uri
+from mockazure.managed_identity.models import ManagedIdentity
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.schema_reference import validate_payload
 from mockazure.security.audit import record_security_audit
@@ -167,6 +168,23 @@ async def owner_list(session, tenant, identifier):
             .where(
                 SecurityOwner.tenant_id == tenant,
                 SecurityOwner.object_id == identifier,
+                or_(
+                    SecurityOwner.owner_id.in_(
+                        select(User.id).where(User.tenant_id == tenant, User.deleted_at.is_(None))
+                    ),
+                    SecurityOwner.owner_id.in_(
+                        select(ServicePrincipal.id).where(
+                            ServicePrincipal.tenant_id == tenant,
+                            ServicePrincipal.deleted_at.is_(None),
+                        )
+                    ),
+                    SecurityOwner.owner_id.in_(
+                        select(SecurityObject.id).where(
+                            SecurityObject.tenant_id == tenant,
+                            SecurityObject.kind == "resourceServicePrincipal",
+                        )
+                    ),
+                ),
             )
             .order_by(SecurityOwner.owner_id)
             .limit(101)
@@ -191,6 +209,19 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
         )
         authorization_target = backing.object_id
     await authorize_mutation(session, actor, kind, operation, authorization_target, body=body)
+    if row is not None and kind in {"application", "servicePrincipal"}:
+        managed = await session.scalar(
+            select(ManagedIdentity.id).where(
+                ManagedIdentity.tenant_id == actor.tenant_id,
+                ManagedIdentity.client_id == row.client_id,
+            )
+        )
+        if managed is not None and (
+            operation in {"add_password", "remove_password"}
+            or operation == "update"
+            and set(body) & {"web", "publicClient", "spa", "keyCredentials"}
+        ):
+            invalid("Managed identity credentials and client platforms are host-controlled")
     result = None
     if operation in {"create", "update"}:
         data = validated(kind, operation, body)
@@ -321,9 +352,10 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
             )
     elif operation in {"add_owner", "remove_owner"}:
         owner_id = uuid_value(body["owner_id"])
-        owner_value = await owner_public(session, actor.tenant_id, owner_id)
-        if kind == "device" and owner_value["@odata.type"] != "#microsoft.graph.user":
-            invalid("A registered device owner must be a user")
+        if operation == "add_owner":
+            owner_value = await owner_public(session, actor.tenant_id, owner_id)
+            if kind == "device" and owner_value["@odata.type"] != "#microsoft.graph.user":
+                invalid("A registered device owner must be a user")
         before = dict(before) | {"owners": await owner_list(session, actor.tenant_id, identifier)}
         owner = await session.get(SecurityOwner, (actor.tenant_id, identifier, owner_id))
         if operation == "add_owner":
@@ -339,6 +371,7 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
         else:
             await session.delete(owner)
     elif operation == "delete":
+        deleted_ids = [identifier]
         if kind in {"application", "servicePrincipal"}:
             row.deleted_at, row.enabled = now, False
             if kind == "application":
@@ -349,11 +382,16 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
                     )
                 ):
                     sp.deleted_at, sp.enabled = now, False
+                    deleted_ids.append(sp.id)
         else:
             await session.delete(row)
         await session.execute(
             delete(SecurityOwner).where(
-                SecurityOwner.tenant_id == actor.tenant_id, SecurityOwner.object_id == identifier
+                SecurityOwner.tenant_id == actor.tenant_id,
+                or_(
+                    SecurityOwner.object_id.in_(deleted_ids),
+                    SecurityOwner.owner_id.in_(deleted_ids),
+                ),
             )
         )
     else:
