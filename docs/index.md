@@ -10,9 +10,11 @@
 - [Azure management and Activity Logs](arm-contracts.md)
 - [Maintenance](maintenance.md)
 - [Qualified stabilization baseline](stabilization-results.md)
-- [Historical M1â€“M6 designs, plans and measurements](archive/m1-m6/README.md)
+- [Historical M1–M6 designs, plans and measurements](archive/m1-m6/README.md)
 
 Historical reports bind to their recorded source commit and client profile. Use
 current contracts for supported behavior and current test reports for later changes.
 
 - [Security collection evidence](collection-evidence.md): imports, Graph queries and collector coverage.
+
+- [Default runtime and collection qualification](defaults-collection-results.md)

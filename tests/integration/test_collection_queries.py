@@ -94,7 +94,7 @@ async def test_secure_score_decimal_filter_and_current_role_cursor_binding(datab
 @pytest.mark.parametrize(
     "family,field,value,other,literal",
     [
-        ("alerts", "status", "resolved", "newAlert", "'resolved'"),
+        ("alerts", "assignedTo", "analyst-a", "analyst-b", "'analyst-a'"),
         ("alerts", "confidence", 10, 11, "10"),
         (
             "alerts",
