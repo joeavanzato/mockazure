@@ -86,8 +86,31 @@ engine, arbitrary Graph surface or full Exchange/ARM compatibility is claimed.
 
 ## Final qualification
 
-Pending final collector matrix, full regression, independent review and fresh
-whole-distribution report. See the execution ledger until those gates complete.
+The first original collector matrix finished with 14 of 20 profiles passing.
+A fresh post-review combined distribution run is in progress. Whole-milestone
+acceptance remains incomplete while the original MES JSON failure is unresolved.
+
+The original MES writer uses second-resolution filenames and appends each page's
+JSON array. Multiple fast pages therefore produce adjacent arrays in one file;
+the original MergeOutput function does not correct this. Preserved basic and
+actor-filter raw outputs contain all 1,101 expected audit IDs and sentinel values
+with no duplicates when examined as successive documents, but remain invalid
+single JSON documents. Diagnostic decoding never changes their failed status.
+See the pinned [original writer](https://github.com/invictus-ir/Microsoft-Extractor-Suite/blob/47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-AzureEntraGraphLogs.ps1#L530).
+
+The actor/target-OR cases also return legitimate pre-existing SDK/native audits
+outside the date window. Their expectation now uses a separately exported and
+hashed administrative snapshot while requiring exact declared fixtures. Server
+filter semantics and original collector predicates remain unchanged.
+
+The final independent review found four Important issues, all reproduced and
+fixed: current risky-user retention, delayed old risk contributions clearing
+newer risk, nullable collection filters, and the combined verifier call signature.
+Six focused regression cases passed. The full suite then passed 302 tests in
+331.27 seconds with one existing MSAL advisory; 18 focused report/orchestration
+checks passed after the expectation correction. Lint, package provenance and
+diff checks passed. See [execution decisions](evidence-decisions.md) for every
+ruling, its cost and review disposition.
 
 Initial full regression: 292 passed in 331.22 seconds, with one existing MSAL
 response-mode advisory. Five subsequent capability/report boundary checks passed

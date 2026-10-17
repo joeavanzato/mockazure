@@ -9,8 +9,9 @@ directory-audit and Identity Protection evidence, licensing operations and App
 Service managed identity. PostgreSQL retains state, immutable observations and
 snapshot continuations across API restarts.
 
-The real SDK qualification has passed; the original Hawk/MES collector matrix and
-final independent review are still in progress. See the
+The SDK qualification has passed and the independent review fixes pass regression
+tests. Original collector checks expose an upstream MES audit JSON serialization
+defect; the complete milestone acceptance gate remains open. See the
 [evidence contract](integrations/contracts/graph-evidence.md),
 [evidence operations](docs/evidence.md) and
 [execution record](docs/evidence-execution.md).

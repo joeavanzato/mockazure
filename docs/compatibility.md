@@ -77,8 +77,12 @@ archives/trees and running image. Full collection gates remain M3B.
 The combined native/container SDK run passed both application and delegated
 profiles for sign-ins, audits, risk reads/actions and licensing. Real Azure
 Identity managed identity acquisition passed natively and in a container.
-The exact original Hawk/MES collection matrix is still being qualified; its
-passing process output alone is insufficient to advertise compatibility.
+The first 20-profile original collector run passed 14 profiles: both-mode Hawk
+JSON/CSV, MES sign-in JSON/SOF-ELK, MES audit SOF-ELK, empty results, permission
+denials and licence denials. Six MES audit JSON profiles failed strict output
+validation because the original writer concatenates arrays into timestamp-named
+files. Those profiles and whole-milestone acceptance remain failed; a fresh
+post-review combined qualification is in progress.
 
 Graph PowerShell uses locally acquired access tokens. The MES-only transport
 adapter preserves original requests and Microsoft's raw request command,
