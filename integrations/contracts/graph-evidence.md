@@ -424,3 +424,21 @@ Internal nullable subject_id remains distinct from the wire property.
 Directory dataset version1 continues to export only its original fields. It deliberately
 omits usageLocation, assignedLicenses and assignedPlans; licensing inventory and assignments
 are separately administered and are not restored by a version1 directory import.
+
+## Accepted original MES JSON limitation (2026-10-16)
+
+The user explicitly accepted the pinned MES audit JSON append/merge defect as a
+known upstream compatibility limitation. This changes only that collector-output
+acceptance gate; it does not relax Graph responses, schemas, permissions, query
+semantics, API retrieval, source integrity or other output formats.
+
+Original strict JSON checks remain false in the report. The narrow exception
+requires unchanged pinned MES source, successful execution, exact expected raw
+record IDs and sentinel values with no duplicates or truncation, valid successive
+JSON documents demonstrating a filename collision, and (when requested) merged
+bytes matching the original MergeOutput transformation exactly. Diagnostic
+decoding occurs only in memory and never repairs or replaces collector output.
+
+The combined report uses passed_with_known_limitations for the collector matrix
+and identifies every affected profile under mes-json-page-append. API, SDK, Hawk,
+MES SOF-ELK, empty/denied cases and every unrelated failure retain normal gates.

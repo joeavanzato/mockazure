@@ -570,3 +570,11 @@ interfaces or record a coherent interface adjustment for all consumers. No endpo
 client gate may be quietly converted to fixture-only behavior.
 
 Plan approved; Native execution is underway. Schema corrections are recorded in the execution ledger.
+
+## Approved acceptance amendment — 2026-10-16
+
+The user accepted original MES audit JSON as a documented upstream limitation,
+with original strict failures visible. Task11/12 may complete only if the narrow
+mes-json-page-append diagnosis proves exact retrieval and original merge behavior,
+and all API/SDK/Hawk/MES SOF-ELK and other gates pass. No MES patch, pacing change
+or query rewrite is authorized or needed for this amendment.

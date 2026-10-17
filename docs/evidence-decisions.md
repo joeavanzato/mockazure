@@ -1,7 +1,7 @@
 # M3B execution decisions
 
-This records the execution ledger's decisions in order. The milestone remains
-incomplete while the original MES JSON output gate awaits disposition.
+This records the execution ledger's decisions in order. The user accepted the narrow original MES audit JSON limitation;
+fresh final qualification remains required.
 
 1. Use a Git worktree under the user-owned D: repository because the desktop
    worktree tool targets the projectless C: workspace. Cost: no native worktree attachment.
@@ -84,3 +84,15 @@ The reviewer did not judge the separately diagnosed upstream MES JSON serializer
 pending final execution gates, or deferred conditional access, proprietary risk
 scoring, group licensing and additional managed-identity hosting protocols.
 These exclusions do not waive an implemented API or the original output gates.
+
+## Explicit user decision
+
+On 2026-10-16 the user approved documenting original MES audit JSON as a known
+upstream limitation while requiring API, SDK, Hawk and MES SOF-ELK success.
+Original failed JSON checks remain visible; only exact lossless retrieval and
+the verified original append/merge defect qualify for the exception.
+
+A later runtime check also found native create/delete audit export rejecting
+string-valued JSON null as if it were a null resource property. Three regressions
+reproduced this and passed after correction. Actual resource ID nullability and
+validation of non-null audit values remain unchanged.

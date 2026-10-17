@@ -119,6 +119,10 @@ def validate_public_payload(version, family, payload):
                 if raw is None:
                     continue
                 value = json.loads(raw)
+                # Audit differences describe absence on creation/deletion; they
+                # are JSON strings, not a resource instance with a null property.
+                if value is None:
+                    continue
                 if name in {"members", "owners"}:
                     if value is not None:
                         if not isinstance(value, list) or len(value) > 10000:

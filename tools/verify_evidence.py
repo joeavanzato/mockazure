@@ -902,7 +902,7 @@ def main():
         "wheel_sha256": sha(wheel),
         "runtime_image_id": image["Id"],
         "seed_first_id": config["seed_first_id"],
-        "durations": {"total_seconds": (datetime.now(UTC) - started).total_seconds()},
+        "durations": {"sdk_seconds": (datetime.now(UTC) - started).total_seconds()},
         "passed": False,
         "collectors": {"status": "pending"},
         "checks": checks,
@@ -917,7 +917,17 @@ def main():
     }
     if not args.sdk_only:
         report["collectors"] = run_collector_qualification()
-        report["passed"] = report["collectors"]["status"] == "passed"
+        report["passed"] = report["collectors"]["status"] in {
+            "passed",
+            "passed_with_known_limitations",
+        }
+        if report["collectors"].get("accepted_limitations"):
+            report["limitations"].append(
+                "Original MES audit JSON append/merge defect accepted explicitly; strict failures "
+                "remain visible and exact retrieval integrity is independently required"
+            )
+    report["qualified_at"] = datetime.now(UTC).isoformat()
+    report["durations"]["total_seconds"] = (datetime.now(UTC) - started).total_seconds()
     output.write_text(json.dumps(report, indent=2), encoding="utf-8")
     if args.sdk_only:
         print(json.dumps({"sdk_passed": True, "passed": False, "collectors": "pending"}))
