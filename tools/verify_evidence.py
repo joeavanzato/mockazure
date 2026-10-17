@@ -588,13 +588,12 @@ def validate_report(report, *, root=ROOT):
         if label.endswith("python"):
             assert result["managed_identity"]["passed"]
             assert result["managed_identity"]["event_count"] > 0
-    assert report["collectors"]["status"] == "passed"
-    for value in report["collectors"]["profiles"].values():
-        assert value["passed"] and value["output_count"] > 0
-        for output in value["outputs"]:
-            path = root / output["path"]
-            assert output["sha256"] == sha(path)
-    assert report["collectors"]["profiles"], "Collector qualification cannot be empty"
+    if __package__:
+        from .evidence_collector_reports import validate_qualification
+    else:
+        from evidence_collector_reports import validate_qualification
+
+    validate_qualification(report["collectors"], root)
 
 
 def main():

@@ -70,3 +70,19 @@ its native credential acquisition is not claimed.
 Run tools/verify_graph.py only against the dedicated M3 stack. Its versioned report
 binds results to the current source fingerprint, wheel, lockfile, pinned client
 archives/trees and running image. Full collection gates remain M3B.
+
+
+## M3B evidence qualification boundary
+
+The combined native/container SDK run passed both application and delegated
+profiles for sign-ins, audits, risk reads/actions and licensing. Real Azure
+Identity managed identity acquisition passed natively and in a container.
+The exact original Hawk/MES collection matrix is still being qualified; its
+passing process output alone is insufficient to advertise compatibility.
+
+Graph PowerShell uses locally acquired access tokens. The MES-only transport
+adapter preserves original requests and Microsoft's raw request command,
+authentication and retry handlers. It binds the existing credential provider to
+the configured local hostname and disables redirects; unfamiliar pinned handler
+layouts fail closed. The original service calls and serializers are unchanged.
+See evidence-execution.md for pinned revisions, output gates and limitations.

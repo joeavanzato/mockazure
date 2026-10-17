@@ -26,6 +26,7 @@ async def trace(request, call_next):
                         "method": request.method,
                         "path": request.url.path,
                         "status": response.status_code,
+                        "continuation": "$skiptoken" in request.query_params,
                         "versions": {
                             k: v
                             for k, v in request.query_params.items()

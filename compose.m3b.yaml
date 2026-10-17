@@ -49,7 +49,11 @@ services:
       retries: 30
   api2:
     <<: *application
-    command: ["serve", "--config", "/instance/container.json"]
+    entrypoint: ["python", "/project/integrations/trace_server.py"]
+    volumes:
+      - ./.runtime/m3b/instance:/instance:ro
+      - ./integrations:/project/integrations:ro
+      - ./.runtime/m3b/api2-state:/state
     depends_on:
       identity-init: {condition: service_completed_successfully}
   worker:
