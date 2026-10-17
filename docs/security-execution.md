@@ -92,11 +92,11 @@ Preserve existing worktrees and runtimes.
 
 ## Next work
 
-Task9 is qualified: 20 runtime gates, three real SDK profiles in both modes,
-and20 original collector cases passed in236.926497s. Full regression474passed
-in534.66s; final acceptance/new harness tests6passed. See security-verification.json.
+Task 9 is qualified: 20 runtime gates, three real SDK profiles in both modes,
+and20 original collector cases passed in 236.926497s. Full regression474 passed
+in 534.66s; final acceptance/new harness tests6 passed. See security-verification.json.
 
-Task10: update capability discovery/docs, one independent whole-branch review,
+Task 10: update capability discovery/docs, one independent whole-branch review,
 verified fixes and fresh qualification/PR. M3C is not yet published.
 Continue directly to M4, M5 and M6 after the qualified M3C PR; user merges.
 
@@ -140,20 +140,20 @@ Verification: 365 affected unit/integration tests passed in 270.07s
 (work/task9-closure-regression2.log); seven SDK serialization cases and the
 licensing regression passed in the focused run. Ruff and diff checks pass.
 Qualification scripts and runtime gates remain unfinished; these results do not
-qualify M3C. Its own runtime uses HTTPS32443, PostgreSQL55440, planned native
+qualify M3C. Its own runtime uses HTTPS 32443, PostgreSQL 55440, planned native
 API32444/32445 and managed identity32446. No host networking settings changed.
 
 ## Task 9 runtime qualification
 
 Verified API closure commits57f524f and25abb8d are pushed. Final source-bound
-qualification passed all20runtime gates, three native/container SDK profiles
-with15checks per application/delegated mode, and all20original collector cases.
+qualification passed all20 runtime gates, three native/container SDK profiles
+with15 checks per application/delegated mode, and all20 original collector cases.
 Qualification took236.926497s. Original output records verified:
-Hawk credentials10; MES policies2, grants184, methods4, role assignments6.
+Hawk credentials 10; MES policies 2, grants 184, methods 4, role assignments 6.
 All cases include both successful and denied access; no new output waiver.
 
-The complete unit/integration regression passed474tests in534.66s.
+The complete unit/integration regression passed 474 tests in 534.66s.
 The MSAL form_post recommendation is the sole warning. The final new gate
-and distribution acceptance run passed6tests in0.43s. Ruff/diff checks pass.
+and distribution acceptance run passed 6 tests in 0.43s. Ruff/diff checks pass.
 Final review is pending. Source fingerprints and hashes remain authoritative;
 work/security-report.json and docs/security-verification.json record the evidence.

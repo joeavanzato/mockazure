@@ -137,7 +137,8 @@ Login, consent and simulated MFA use persistent transactions with a Secure,
 HttpOnly, SameSite cookie and CSRF checks. Device approvals use the same forms.
 User consent can grant configured User.Read; admin-required scopes need a local
 Global Administrator or management preconsent. Simulated MFA is visibly a lab
-outcome, not a conditional-access engine or real second factor.
+outcome rather than a physical second factor. M3C evaluates the declared
+Conditional Access profile around that outcome; see security-contracts.md.
 
 Codes expire after 300 seconds and redeem once across replicas. Device requests
 expire after 900 seconds; initial polling is five seconds, with durable slow_down
