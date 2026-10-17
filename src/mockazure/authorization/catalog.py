@@ -51,6 +51,16 @@ CATALOG = (
         )
         for kind in ("application", "delegated")
     ),
+    *(
+        PermissionDefinition("graph", name, "delegated", True)
+        for name in ("UserAuthenticationMethod.Read", "UserAuthenticationMethod.ReadWrite")
+    ),
+    *(
+        PermissionDefinition("graph", f"UserAuthMethod-{family}.{suffix}", kind, True)
+        for family in ("Password", "Phone", "Email", "MicrosoftAuthApp", "Passkey")
+        for suffix in ("Read", "ReadWrite", "Read.All", "ReadWrite.All")
+        for kind in (("application", "delegated") if suffix.endswith(".All") else ("delegated",))
+    ),
     PermissionDefinition("graph", "User.ReadBasic.All", "delegated", False),
     PermissionDefinition("graph", "User.ReadWrite", "delegated", False),
     PermissionDefinition("graph", "Group.Create", "application", True),

@@ -63,12 +63,22 @@ Preserve existing worktrees and runtimes.
    - Affected unit/integration regression: 255 passed in 169.34s.
      Log: work/task5-regression.log. Ruff and diff checks pass.
 
+6. Authentication-method inventory:
+   - Canonical password descriptors and persisted phone/email/Authenticator/FIDO2
+     enrollments; concrete collection/item paths and me/id/UPN addressing.
+   - Official generic/granular permission IDs, delegated role checks, self scope,
+     phone masking and no credential or fabricated challenge disclosure.
+   - Authenticated descriptor configuration and indexed bounded user lookups.
+   - Fresh app persistence, invalid/secret inputs, deleted/foreign-user isolation.
+   - Affected unit/integration regression: 267 passed in 207.21s.
+     Log: work/task6-regression.log. Ruff and diff checks pass.
+
 ## Next work
 
-Task 6: authentication-method inventory. Tasks 7–10 cover policy persistence,
-enforcement, real-client qualification and final review/PR.
-Task 5 base was c50db82987ffb0795f96dd10b046c0e61d071512; run task-done if the
-ledger does not record completion before starting Task 6.
+Task 7: Conditional Access policies and IP named locations. Task 8 enforces the
+policies across local delegated OAuth; Tasks 9–10 qualify real clients and perform
+final review/PR. Task 6 base was 99c09734419942a59db69b9dea227f1dc70b2997;
+run task-done if the ledger does not record completion before starting Task 7.
 M3C is not qualified yet. See docs/security-contracts.md for implemented bounds.
 
 ## Verification and continuation
