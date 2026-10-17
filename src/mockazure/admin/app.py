@@ -26,6 +26,7 @@ from mockazure.admin.security_routes import router as security_admin_router
 from mockazure.admin.session_routes import router as session_router
 from mockazure.collections.routes import router as collection_graph_router
 from mockazure.config import Settings
+from mockazure.content.routes import router as content_admin_router
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
 from mockazure.oauth.authorization import router as authorization_router
@@ -271,6 +272,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             "Method not allowed" if error.status_code == 405 else "Resource not found",
         )
 
+    app.include_router(content_admin_router)
     app.include_router(mail_admin_router)
     app.include_router(maintenance_admin_router)
     app.include_router(router)

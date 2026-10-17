@@ -130,6 +130,11 @@ async def capabilities(request: Request):
         ],
         "admin_operations": [
             "mail.collectionState",
+            "content.upload",
+            "content.download",
+            "content.manifest",
+            "content.validate",
+            "content.reset",
             "tenant.create",
             "tenant.get",
             "tenant.list",
