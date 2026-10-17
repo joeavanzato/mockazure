@@ -1,5 +1,7 @@
 # MockAzure capabilities
 
+For an endpoint comparison with Microsoft REST paths, see [API coverage](../COVERAGE.md).
+
 The authoritative runtime discovery is authenticated GET /_mock/capabilities.
 Operations below are implemented subsets; unsupported methods, fields, queries or
 provider versions fail explicitly. All state and evidence are tenant-isolated in PostgreSQL.
