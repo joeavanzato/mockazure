@@ -42,3 +42,20 @@ def test_legacy_skip_limit_and_selection():
     )
     with pytest.raises(GraphError):
         parse([("$skip", "501")], "alerts")
+
+
+@pytest.mark.parametrize(
+    "family,query",
+    [
+        ("alerts", "status ne 'resolved'"),
+        ("alerts", "confidence ne 10"),
+        ("alerts", "createdDateTime ne 2026-10-01T00:00:00.0000001Z"),
+        ("secureScores", "currentScore ne 12.5"),
+        ("secureScoreControlProfiles", "deprecated ne true"),
+    ],
+)
+def test_non_null_inequality_is_null_safe(family, query):
+    sql = compiled(FilterParser(query).parse(), contract(family)).compile(
+        dialect=postgresql.dialect()
+    )
+    assert "IS DISTINCT FROM" in str(sql)

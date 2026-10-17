@@ -28,6 +28,8 @@ def test_legacy_bind_is_retained_without_replacing_database_or_credentials(tmp_p
     database = tmp_path / ".runtime/postgres/18/docker"
     database.mkdir(parents=True)
     (database / "PG_VERSION").write_text("18\n")
+    (database / "global").mkdir()
+    (database / "global/pg_control").write_bytes(b"control data")
     password = (tmp_path / ".runtime/db.password").read_bytes()
     initialize_compose(tmp_path)
     assert "MOCKAZURE_POSTGRES_STORAGE=./.runtime/postgres\n" in env.read_text()
@@ -49,3 +51,16 @@ def test_volume_instance_rejects_unexpected_legacy_directory(tmp_path):
     (tmp_path / ".runtime/postgres").mkdir()
     with pytest.raises(ValueError, match="storage"):
         initialize_compose(tmp_path)
+
+
+@pytest.mark.parametrize("state", ["empty", "version-only", "wrong-version"])
+def test_legacy_incomplete_cluster_is_refused_without_metadata_change(tmp_path, state):
+    env = legacy_instance(tmp_path)
+    database = tmp_path / ".runtime/postgres/18/docker"
+    database.mkdir(parents=True)
+    if state != "empty":
+        (database / "PG_VERSION").write_text("17" if state == "wrong-version" else "18")
+    before = env.read_bytes()
+    with pytest.raises(ValueError, match="Legacy"):
+        initialize_compose(tmp_path)
+    assert env.read_bytes() == before

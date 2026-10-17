@@ -8,7 +8,7 @@ from mockazure.collections.contracts import MODERN_FIELDS, properties
 from mockazure.collections.models import CollectionRecord as R
 from mockazure.providers.arm.activity import instant
 from mockazure.providers.graph.query.ast import Boolean, Compare
-from mockazure.providers.graph.query.compiler import compile_filter
+from mockazure.providers.graph.query.compiler import compile_filter, typed_value
 from mockazure.providers.graph.query.contracts import FieldContract, QueryContract, unsupported
 from mockazure.providers.graph.query.parser import FilterParser, selection
 
@@ -91,13 +91,18 @@ def compiled(node, profile):
             unsupported("Filter literal does not match the property type")
         return {
             "eq": col.__eq__,
-            "ne": col.__ne__,
+            "ne": col.is_distinct_from,
             "gt": col.__gt__,
             "ge": col.__ge__,
             "lt": col.__lt__,
             "le": col.__le__,
         }[node.op](value)
-    return compile_filter(node, profile, resolver=column)
+    expression = compile_filter(node, profile, resolver=column)
+    if isinstance(node, Compare) and node.op == "ne" and node.right.value is not None:
+        # Validate with the shared compiler, then apply OData null semantics.
+        field = profile.fields[node.left.name]
+        return column(field).is_distinct_from(typed_value(node.right.value, field))
+    return expression
 
 
 def parse(items, family, *, item=False):

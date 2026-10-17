@@ -107,6 +107,7 @@ def main():
         ),
         "collectors": {},
         "next_gaps": [
+            "Exchange RemoteDomain and TransportConfig collector calls",
             "Mailbox messages and attachments",
             "Device registeredUsers relationship",
             "SharePoint/OneDrive evidence and audit collectors",
@@ -175,7 +176,7 @@ def main():
         json.dumps(
             {
                 "files": sum(len(s["files"]) for s in inventory["collectors"].values()),
-                "named_service_calls": len(calls),
+                "named_calls": len(calls),
                 "mapped_calls": sum(c["surface"] is not None for c in calls),
                 "unmapped_commands": sorted(
                     {c["command"] for c in calls if c["status"] == "unmapped-review-required"}

@@ -95,7 +95,7 @@ tenant exports remain metadata-only; they do not export this evidence store.
 ## Collection workflow coverage
 
 [The generated inventory](../integrations/contracts/collection-coverage.json) parses the pinned
-original Hawk and Microsoft Extractor Suite source. It records file hashes, named service
+original Hawk and Microsoft Extractor Suite source. It records file hashes, all named
 calls, parameters, URL templates, local helpers and unresolved dynamic call locations.
 A mapped family is **not** certification that every parameter combination or entire collector
 succeeds. No collector source is rewritten.

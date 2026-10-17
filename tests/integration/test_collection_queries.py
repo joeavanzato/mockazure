@@ -1,3 +1,4 @@
+import pytest
 from sqlalchemy import update
 
 from mockazure.identity.models import DirectoryRole
@@ -88,3 +89,50 @@ async def test_secure_score_decimal_filter_and_current_role_cursor_binding(datab
             await client.get(page.json()["@odata.nextLink"], headers=delegated)
         ).status_code == 400
         assert (await client.get("/v1.0/security/incidents", headers=delegated)).status_code == 200
+
+
+@pytest.mark.parametrize(
+    "family,field,value,other,literal",
+    [
+        ("alerts", "status", "resolved", "newAlert", "'resolved'"),
+        ("alerts", "confidence", 10, 11, "10"),
+        (
+            "alerts",
+            "createdDateTime",
+            "2026-10-01T00:00:00.0000001Z",
+            "2026-10-01T00:00:00.0000002Z",
+            "2026-10-01T00:00:00.0000001Z",
+        ),
+        ("secureScores", "currentScore", 12.5, 13.5, "12.5"),
+        ("secureScoreControlProfiles", "deprecated", True, False, "true"),
+    ],
+)
+async def test_null_safe_inequality_returns_all_matching_evidence(
+    database, settings, family, field, value, other, literal
+):
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        await seed(
+            client,
+            tenant,
+            family,
+            [
+                {"id": "equal", field: value},
+                {"id": "different", field: other},
+                {"id": "null", field: None},
+                {"id": "missing"},
+            ],
+        )
+        h = await headers_for(database, settings, tenant, app, None, {"SecurityEvents.Read.All"})
+        response = await client.get(
+            "/v1.0/security/" + family,
+            headers=h,
+            params={"$filter": field + " ne " + literal, "$count": "true", "$top": "1"},
+        )
+        assert response.status_code == 200, response.text
+        assert response.json()["@odata.count"] == 3
+        rows = response.json()["value"]
+        while link := response.json().get("@odata.nextLink"):
+            response = await client.get(link, headers=h)
+            assert response.status_code == 200, response.text
+            rows.extend(response.json()["value"])
+        assert {row["id"] for row in rows} == {"different", "null", "missing"}

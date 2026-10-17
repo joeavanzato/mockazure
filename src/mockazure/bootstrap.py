@@ -95,14 +95,27 @@ def initialize_compose(
             raise ValueError("Partial Compose initialization; restore missing files")
         base_environment = f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
         legacy_storage = runtime / "postgres"
+        cluster = legacy_storage / "18/docker"
+
+        def valid_legacy_cluster():
+            try:
+                return (
+                    (cluster / "PG_VERSION").read_text().strip() == "18"
+                    and (cluster / "global/pg_control").is_file()
+                    and (cluster / "global/pg_control").stat().st_size > 0
+                )
+            except OSError:
+                return False
+
         storage = "postgres-data"
         upgrade_environment = False
         if all(present):
             existing_environment = environment_file.read_text()
             if existing_environment == base_environment:
-                if not legacy_storage.is_dir():
+                if not valid_legacy_cluster():
                     raise ValueError(
-                        "Legacy Compose metadata has no database directory; restore it or "
+                        "Legacy Compose metadata has no complete PostgreSQL 18 cluster; "
+                        "restore it or "
                         "archive the complete instance before initializing a fresh project"
                     )
                 storage = "./.runtime/postgres"
@@ -110,8 +123,10 @@ def initialize_compose(
             elif existing_environment == (
                 base_environment + "MOCKAZURE_POSTGRES_STORAGE=./.runtime/postgres\n"
             ):
-                if not legacy_storage.is_dir():
-                    raise ValueError("Legacy PostgreSQL storage is missing; restore from backup")
+                if not valid_legacy_cluster():
+                    raise ValueError(
+                        "Legacy PostgreSQL cluster is missing or incomplete; restore from backup"
+                    )
                 storage = "./.runtime/postgres"
             elif existing_environment != (
                 base_environment + "MOCKAZURE_POSTGRES_STORAGE=postgres-data\n"

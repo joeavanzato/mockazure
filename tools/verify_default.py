@@ -33,7 +33,8 @@ def main(*, qualify=None):
         db_port = free_port()
     shutil.copyfile(ROOT / "compose.yaml", directory / "compose.yaml")
     (directory / "deploy").mkdir()
-    shutil.copyfile(ROOT / "deploy/haproxy.cfg", directory / "deploy/haproxy.cfg")
+    for name in ("haproxy.cfg", "postgres-guard.sh"):
+        shutil.copyfile(ROOT / "deploy" / name, directory / "deploy" / name)
     (directory / "image.yaml").write_text(
         "services:\n"
         + "".join(
@@ -63,6 +64,8 @@ def main(*, qualify=None):
             p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest()
             for p in [
                 "compose.yaml",
+                "deploy/postgres-guard.sh",
+                "deploy/haproxy.cfg",
                 "Dockerfile",
                 "pyproject.toml",
                 "uv.lock",
@@ -74,7 +77,7 @@ def main(*, qualify=None):
             + sorted(
                 path.relative_to(ROOT).as_posix()
                 for path in (ROOT / "src").rglob("*")
-                if path.is_file() and path.suffix in {".py", ".json"}
+                if path.is_file() and "__pycache__" not in path.parts and path.suffix != ".pyc"
             )
         },
     }
@@ -185,6 +188,40 @@ def main(*, qualify=None):
                 for name, digest in identity.items()
             )
             check("restart_tenant_and_identity_preserved")
+
+            # Substitute empty ephemeral storage, never the owned database volume.
+            guard = subprocess.run(
+                [
+                    "docker",
+                    "run",
+                    "--rm",
+                    "--network",
+                    "none",
+                    "--tmpfs",
+                    "/var/lib/postgresql",
+                    "--mount",
+                    f"type=bind,source={instance},target=/instance,readonly",
+                    "--mount",
+                    f"type=bind,source={directory / 'deploy/postgres-guard.sh'},"
+                    "target=/guard.sh,readonly",
+                    "--entrypoint",
+                    "/bin/sh",
+                    inspected["Config"]["Image"],
+                    "/guard.sh",
+                    "postgres",
+                ],
+                cwd=directory,
+                text=True,
+                capture_output=True,
+                timeout=60,
+            )
+            (directory / "missing-storage.log").write_text(
+                guard.stdout + guard.stderr, encoding="utf-8"
+            )
+            assert guard.returncode == 1, "Missing storage was not refused"
+            assert "previously initialized database storage is missing" in guard.stderr
+            assert client.get("/_mock/tenants/" + tenant["id"], headers=headers).json() == tenant
+            check("missing_storage_refused_original_tenant_preserved")
             if qualify:
                 qualify(directory, command, compose, client, headers, tenant, check)
         report["passed"] = True
@@ -192,12 +229,18 @@ def main(*, qualify=None):
         report["error_type"] = type(error).__name__
         raise
     finally:
-        if started:
-            command(compose + ["stop", "--timeout", "120"])
-            report["containers_stopped"] = True
-        report["completed_at"] = datetime.now(UTC).isoformat()
-        save()
-        print(json.dumps({"report": str(report_path), "passed": report["passed"]}), flush=True)
+        try:
+            if started:
+                command(compose + ["stop", "--timeout", "120"])
+                report["containers_stopped"] = True
+        except Exception as error:
+            report["passed"] = False
+            report["cleanup_error_type"] = type(error).__name__
+            raise
+        finally:
+            report["completed_at"] = datetime.now(UTC).isoformat()
+            save()
+            print(json.dumps({"report": str(report_path), "passed": report["passed"]}), flush=True)
 
 
 if __name__ == "__main__":

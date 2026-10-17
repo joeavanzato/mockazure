@@ -10,12 +10,16 @@ services:
     stop_grace_period: 120s
     init: true
     image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    entrypoint: ["/bin/sh", "/mockazure/postgres-guard.sh"]
+    command: ["postgres"]
     environment:
       POSTGRES_USER: mockazure
       POSTGRES_DB: mockazure
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     volumes:
       - "${MOCKAZURE_POSTGRES_STORAGE:?Run mockazure init --compose first}:/var/lib/postgresql"
+      - ./.runtime/instance:/instance
+      - ./deploy/postgres-guard.sh:/mockazure/postgres-guard.sh:ro
     secrets: [db_password]
     networks: [internal]
     healthcheck:

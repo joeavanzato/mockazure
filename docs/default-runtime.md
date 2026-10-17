@@ -12,7 +12,7 @@ contains MOCKAZURE_POSTGRES_STORAGE. The Compose file requires this value.
 ## Existing bind-backed installations
 
 Initialization recognizes the old two-variable compose.env only when the paired
-.runtime/postgres directory exists. It atomically adds the explicit legacy bind
+.runtime/postgres/18/docker contains PG_VERSION=18 and a nonempty global/pg_control. It atomically adds the explicit legacy bind
 selector and preserves all database bytes, credentials, signing identity and CA.
 Repeated initialization is idempotent. Conflicting configuration or missing legacy
 data fails before replacing it. This is compatibility, not a database migration.
@@ -20,8 +20,17 @@ data fails before replacing it. This is compatibility, not a database migration.
 A fresh instance records postgres-data, scoped by the Compose project name.
 Never switch an existing instance's selector by hand. Never remove a volume or
 database directory to bypass a check. A missing Docker volume also requires restoring
-the matching operational backup; initialization cannot inspect Docker volume inventory
-when it runs in a network-disabled bootstrap container.
+the matching operational backup. Before PostgreSQL runs, the startup guard checks
+the cluster and a durable postgres.initialized marker in .runtime/instance. Existing
+identity.wrap also proves prior initialization for installations predating the marker.
+Missing or incomplete storage is refused before PostgreSQL can create an empty cluster.
+
+The marker is created exclusively, with private permissions, before the first database
+initialization. If that first initialization is interrupted, retry fails closed when the
+cluster is incomplete. Preserve the failed runtime and storage for diagnosis; restore
+the paired operational backup if one exists, or initialize a deliberately separate fresh
+lab in a new directory/project when the failed lab has never contained needed data.
+Do not delete the marker or wrapping key to bypass this protection.
 
 To start a deliberately separate fresh lab, stop the owned old project and preserve
 its complete runtime and database together. Use a separate project directory and

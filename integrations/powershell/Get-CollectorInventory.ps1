@@ -7,7 +7,7 @@ foreach($file in Get-ChildItem -LiteralPath $SourceRoot -Recurse -File | Where-O
     if($errors.Count){throw "Cannot inventory PowerShell parse errors in $($file.Name)"}
     $calls=@($ast.FindAll({param($n) $n -is [System.Management.Automation.Language.CommandAst]},$true) | ForEach-Object {
         $name=$_.GetCommandName()
-        if($name -match '^(Get|Search|Invoke|Export|New|Set|Remove|Update)-(Mg|Az|EXO|UnifiedAuditLog|Mailbox|InboxRule|TransportRule|AdminAuditLog|Msol|AzureAD|CASMailbox|MessageTrace|OrganizationConfig|Recipient|MobileDevice|AuditLog|ContentSearch|ComplianceSearch)'){
+        if($null -ne $name){
             @{command=$name;line=$_.Extent.StartLineNumber;parameters=@($_.CommandElements | Where-Object {$_ -is [System.Management.Automation.Language.CommandParameterAst]} | ForEach-Object ParameterName)}
         }
     })
@@ -18,4 +18,4 @@ foreach($file in Get-ChildItem -LiteralPath $SourceRoot -Recurse -File | Where-O
     $definitions=@($ast.FindAll({param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst]},$true) | ForEach-Object Name)
     $files.Add(@{function_definitions=$definitions;path=[IO.Path]::GetRelativePath($SourceRoot,$file.FullName).Replace('\','/');sha256=(Get-FileHash $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant();calls=$calls;url_templates=$urls;dynamic_command_lines=$dynamic})
 }
-@{method='PowerShell AST named service calls and URL templates; dynamic dispatch is not resolved';files=@($files.ToArray())} | ConvertTo-Json -Depth 15 | Set-Content -LiteralPath $OutputPath -Encoding utf8
+@{method='PowerShell AST all named calls and URL templates; dynamic dispatch is not resolved';files=@($files.ToArray())} | ConvertTo-Json -Depth 15 | Set-Content -LiteralPath $OutputPath -Encoding utf8
