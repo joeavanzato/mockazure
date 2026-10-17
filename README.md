@@ -44,7 +44,8 @@ Git Bash initialization:
 
 ```bash
 docker build -t mockazure:local .
-MSYS_NO_PATHCONV=1 docker run --rm --network none --mount "type=bind,source=$(pwd -W),target=/project" mockazure:local init --compose --project-dir /project
+MSYS_NO_PATHCONV=1 docker run --rm --network none --mount "type=bind,source=$(pwd
+-W),target=/project" mockazure:local init --compose --project-dir /project
 docker compose --env-file .runtime/compose.env up -d
 ```
 
@@ -123,3 +124,23 @@ Users/Groups 2.35.1. It exercises application and delegated modes, 5,000-user
 paging, two API replicas, API/PostgreSQL restart, delta reuse and rejected access.
 This is a functional dataset qualification, not a throughput or scale SLA.
 Generated credentials/reports stay ignored under .runtime/m3 and work.
+
+## Stateful Graph evidence (M3B)
+
+PostgreSQL-backed sign-ins, directory audits and Identity Protection now include
+immutable native evidence, versioned reads, risk actions, licence enforcement,
+App Service managed identity, and administrative import/export, clock, delay,
+retention and retry controls. Resource schemas follow pinned Microsoft Graph
+v1.0 metadata and REST references; beta-only fields are separated.
+
+The final combined qualification passed all 25 runtime gates, three native/container SDK
+profiles in both authorization modes, and all 20 collector acceptance gates (14 strict passes; 6
+explicitly accepted original MES audit JSON limitations). SDK/runtime checks took 581.622
+seconds; the complete run took 2842.423 seconds. The report is bound to source, wheel, lockfile,
+manifest, original collector files, outputs and the running image.
+
+The original MES audit JSON append/merge defect is a documented exception; its
+strict failures stay visible. See [execution and operation boundaries](docs/evidence-execution.md),
+[measured verification](docs/evidence-verification.json) and
+[compatibility](docs/compatibility.md). These are measured functional profiles,
+not full Microsoft-cloud compatibility or a throughput SLA.

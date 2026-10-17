@@ -86,9 +86,16 @@ engine, arbitrary Graph surface or full Exchange/ARM compatibility is claimed.
 
 ## Final qualification
 
-The first original collector matrix finished with 14 of 20 profiles passing.
-A fresh post-review combined distribution run is in progress. Whole-milestone
-acceptance remains incomplete while the original MES JSON failure is unresolved.
+The final combined qualification passed all 25 runtime gates, three native/container SDK
+profiles in both authorization modes, and all 20 collector acceptance gates (14 strict passes; 6
+explicitly accepted original MES audit JSON limitations). SDK/runtime checks took 581.622
+seconds; the complete run took 2842.423 seconds. The report is bound to source, wheel, lockfile,
+manifest, original collector files, outputs and the running image.
+
+Original MES strict JSON failures remain false and visible. Exact IDs and sentinel values, no
+duplicate/truncated records, unchanged sources and the original merge behavior are required for
+the approved exception. See [verification summary](evidence-verification.json) for measured
+results and hashes.
 
 The original MES writer uses second-resolution filenames and appends each page's
 JSON array. Multiple fast pages therefore produce adjacent arrays in one file;
@@ -96,7 +103,8 @@ the original MergeOutput function does not correct this. Preserved basic and
 actor-filter raw outputs contain all 1,101 expected audit IDs and sentinel values
 with no duplicates when examined as successive documents, but remain invalid
 single JSON documents. Diagnostic decoding never changes their failed status.
-See the pinned [original writer](https://github.com/invictus-ir/Microsoft-Extractor-Suite/blob/47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-AzureEntraGraphLogs.ps1#L530).
+See the pinned [original
+writer](https://github.com/invictus-ir/Microsoft-Extractor-Suite/blob/47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-AzureEntraGraphLogs.ps1#L530).
 
 The actor/target-OR cases also return legitimate pre-existing SDK/native audits
 outside the date window. Their expectation now uses a separately exported and
@@ -115,3 +123,14 @@ ruling, its cost and review disposition.
 Initial full regression: 292 passed in 331.22 seconds, with one existing MSAL
 response-mode advisory. Five subsequent capability/report boundary checks passed
 in 1.97 seconds; lint and package provenance checks passed.
+
+The native administrative export check subsequently found a create/delete audit
+validation defect: a JSON string containing null denotes an absent before/after
+value, not a resource with a null ID. Three regressions reproduced the error and
+passed after correction. The rebuilt local API then exported all 5,223 current
+audit records as valid JSON, with every declared collector fixture intact.
+The final full regression after that fix passed 307 tests in 704.59 seconds;
+26 focused report/orchestration/exception checks passed in 2.48 seconds.
+
+The final regression after the joined dismissal read passed all 316 tests in 721.14 seconds. The
+13 focused risk regressions also passed.

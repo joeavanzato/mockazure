@@ -74,15 +74,17 @@ archives/trees and running image. Full collection gates remain M3B.
 
 ## M3B evidence qualification boundary
 
-The combined native/container SDK run passed both application and delegated
-profiles for sign-ins, audits, risk reads/actions and licensing. Real Azure
-Identity managed identity acquisition passed natively and in a container.
-The first 20-profile original collector run passed 14 profiles: both-mode Hawk
-JSON/CSV, MES sign-in JSON/SOF-ELK, MES audit SOF-ELK, empty results, permission
-denials and licence denials. Six MES audit JSON profiles failed strict output
-validation because the original writer concatenates arrays into timestamp-named
-files. Those profiles and whole-milestone acceptance remain failed; a fresh
-post-review combined qualification is in progress.
+The final combined qualification passed all 25 runtime gates, three native/container SDK
+profiles in both authorization modes, and all 20 collector acceptance gates (14 strict passes; 6
+explicitly accepted original MES audit JSON limitations). SDK/runtime checks took 581.622
+seconds; the complete run took 2842.423 seconds. The report is bound to source, wheel, lockfile,
+manifest, original collector files, outputs and the running image.
+
+Native and container Azure Identity managed identity acquisition passed. Hawk JSON/CSV, MES
+sign-in JSON/SOF-ELK, audit SOF-ELK, empty results, permission denials and licence denials pass
+their original output checks. MES audit JSON retains the documented upstream append/merge defect
+with exact retrieval independently checked. See [verification
+summary](evidence-verification.json).
 
 Graph PowerShell uses locally acquired access tokens. The MES-only transport
 adapter preserves original requests and Microsoft's raw request command,
