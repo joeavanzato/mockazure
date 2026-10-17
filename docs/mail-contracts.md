@@ -359,8 +359,9 @@ documents ForwardTo as ADRecipientOrAddress[]:
 https://learn.microsoft.com/en-us/previous-versions/office/developer/exchange-server-2010/ff322625(v=exchg.140).
 Exact Exchange display-name formatting remains outside this bounded projection.
 
-Collector qualification uses separate PowerShell processes and includes original
-module state initialization as well as function/type declarations. The only
+Collector qualification uses separate original module scopes, connection cleanup,
+and output directories for each invocation in one PowerShell batch. It includes
+original module state initialization as well as function/type declarations. The only
 suppressed operations remain telemetry and module-level update/UI entry points.
 Both Graph and Exchange service calls go to the isolated local runtime.
 

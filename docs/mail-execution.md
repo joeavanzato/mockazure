@@ -49,3 +49,10 @@ Task7 implements durable SQL UAL jobs/results, workload/Purview authorization, r
 `nTask8 harness implemented and diagnostic real-client checks pass in both modes:Graph Python native/container and Graph PowerShell8checks each;Exchange7checks. Full clean-wheel/restart/provenance report remains pending before Task8 completion.
 Task8 complete:19 runtime checks;3Graph profiles x8checks x2modes;originalEXO7checks x2modes. Full run124.154s;source0ca6f7460d36ab1badfe365d18f15762acb63d91;archived docs/mail-client-verification.json. Report validation3passed0.09s. NextTask9:unchanged Hawk/MES output acceptance,thenTask10full regression/review/PR;M5/M6remainqueued.
 \nTask9 in progress:247 unit/Exchange regressions passed; archive/recipient compatibility fixes implemented. Original collector diagnostic and expanded output-format/native-evidence gates remain pending.\n
+Task9 output qualification complete:44 cases,11 workflow/format profiles for7
+original functions, both modes anddenials.5003 traces and1003 historicalUAL plus
+exactnative mailboxchange perpositive mode. docs/mail-verification.json preserves
+the intermediate output report; final combined provenance remainsTask10.
+Full pre-review regression583passed1warning583.26s. Additional hash/time oracle
+checks pass. NextTask10:capability metadata,final combined report,onefreshreview,
+fixpassandPR;continueM5/M6.

@@ -1,6 +1,6 @@
 param([Parameter(Mandatory)][string]$CasePath)
 $ErrorActionPreference='Stop'
-$case=Get-Content $CasePath -Raw | ConvertFrom-Json -AsHashtable
+$case=Get-Content $CasePath -Raw | ConvertFrom-Json -AsHashtable -DateKind String
 $config=Get-Content /state/client.json -Raw | ConvertFrom-Json
 . /project/integrations/powershell/Connect-MockAzure.ps1
 if($case.mode -eq 'application'){Connect-MockAzure -ConfigPath /state/client.json}
@@ -34,6 +34,14 @@ try {
   Connect-ExchangeOnline @connect
   $connected=$true
  }
+ $hiddenCheck=$false
+ if($case.function -eq 'Get-HawkUserInboxRule' -and -not $case.denied -and $case.hidden_id){
+  $all=@(Get-InboxRule -Mailbox $config.mailbox_upn -IncludeHidden)
+  $visible=@(Get-InboxRule -Mailbox $config.mailbox_upn)
+  if(@($all | Where-Object {$_.RuleIdentity -eq $case.hidden_id -and $_.IsHidden}).Count -ne 1 -or
+     @($visible | Where-Object {$_.RuleIdentity -eq $case.hidden_id}).Count){throw 'Hidden rule visibility mismatch'}
+  $hiddenCheck=$true
+ }
  if($case.denied){
   $admin=@{Authorization='Bearer '+(Get-Content /state/collector-admin.token -Raw).Trim()}
   Invoke-RestMethod -Method PUT -Uri "$($config.endpoints.graph)/_mock/tenants/$($config.tenant_id)/mail/settings" -Headers $admin -ContentType 'application/json' -Body '{"exchange_enabled":false,"audit_tier":"none"}' | Out-Null
@@ -64,7 +72,8 @@ try {
   $ast=[Management.Automation.Language.Parser]::ParseFile("$root/Microsoft-Extractor-Suite.psm1",[ref]$tokens,[ref]$errors)
   if($errors.Count){throw 'Original MES module parse failed'}
   $declarations=$ast.EndBlock.Statements | Where-Object {
-   $_ -is [Management.Automation.Language.FunctionDefinitionAst] -or $_ -is [Management.Automation.Language.TypeDefinitionAst]
+   $_ -is [Management.Automation.Language.FunctionDefinitionAst] -or $_ -is [Management.Automation.Language.TypeDefinitionAst] -or
+   $_.Extent.Text -ceq '$script:LogLevel = [LogLevel]::Standard'
   }
   $source=($declarations | ForEach-Object {$_.Extent.Text}) -join [Environment]::NewLine
   $scriptPath=switch($case.function){
@@ -90,9 +99,9 @@ try {
   $parameters=@{OutputDir=$case.output_dir;LogLevel='Standard'}
   switch($case.function){
    'Get-UALGraph' {
-    $parameters.StartDate=$config.mail_fixture.audit_start;$parameters.EndDate=$config.mail_fixture.audit_end
-    $parameters.Operations=@('MailItemsAccessed');$parameters.SearchName='MockAzure collector qualification'
-    $parameters.UseV1=$true;$parameters.Output='JSON'
+    $parameters.StartDate=$case.audit_start;$parameters.EndDate=$case.audit_end
+    $parameters.Operations=$case.audit_operations;$parameters.SearchName='MockAzure collector qualification'
+    $parameters.UseV1=$true;$parameters.Output=$case.audit_output
    }
    'Get-MessageTraceLog' {
     $parameters.UserIds=@($config.mailbox_upn)
@@ -109,7 +118,7 @@ finally{
   Invoke-RestMethod -Method PUT -Uri "$($config.endpoints.graph)/_mock/tenants/$($config.tenant_id)/mail/settings" -Headers $admin -ContentType 'application/json' -Body '{"exchange_enabled":true,"audit_tier":"standard"}' | Out-Null
  }
  $report=@{mode=$case.mode;collector=$case.collector;function=$case.function
-  source_hashes=$hashes;telemetry_calls=@($telemetry.ToArray());error=$errorText
+  source_hashes=$hashes;hidden_check=$hiddenCheck;telemetry_calls=@($telemetry.ToArray());error=$errorText
   files=@(Get-ChildItem $case.output_dir -Recurse -File | ForEach-Object {$_.FullName})}
  $report | ConvertTo-Json -Depth 12 | Set-Content $case.report
  if($connected){Disconnect-ExchangeOnline -Confirm:$false | Out-Null}

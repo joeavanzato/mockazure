@@ -2,9 +2,12 @@
 
 import csv
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if __package__ in (None, ""):
+    sys.path.insert(0, str(ROOT))
 RUNTIME = ROOT / ".runtime/m4"
 FUNCTIONS = {
     "hawk_forwarding": ("hawk", "Get-HawkUserEmailForwarding"),
@@ -14,6 +17,10 @@ FUNCTIONS = {
     "mes_graph_rules": ("mes", "Get-MailboxRulesGraph"),
     "mes_trace": ("mes", "Get-MessageTraceLog"),
     "mes_audit": ("mes", "Get-UALGraph"),
+    "mes_audit_csv": ("mes", "Get-UALGraph"),
+    "mes_audit_jsonl": ("mes", "Get-UALGraph"),
+    "mes_audit_sofelk": ("mes", "Get-UALGraph"),
+    "mes_audit_native": ("mes", "Get-UALGraph"),
 }
 
 
@@ -37,7 +44,7 @@ def verify_rows(actual, expected, key):
 
 def verify_denied(files):
     for path in files:
-        if path.suffix.lower() in {".csv", ".json"}:
+        if path.suffix.lower() in {".csv", ".json", ".jsonl"}:
             assert not rows(path), f"Denied record disclosure: {path.name}"
         elif path.suffix.lower() == ".txt" and not path.name.startswith("_"):
             assert not path.read_text(encoding="utf-8-sig").strip(), "Denied text disclosure"
@@ -51,11 +58,32 @@ def validate_cases(cases):
     assert all(c["passed"] is True and type(c["denied"]) is bool for c in cases)
 
 
+def validate_collector_hashes(results, root):
+    import hashlib
+    import re
+
+    for result in results.values():
+        for field, base in (
+            ("source_hashes", root / "work/vendor"),
+            ("output_hashes", root / ".runtime/m4"),
+        ):
+            assert result[field], "Missing artifact hashes"
+            base = base.resolve()
+            for relative, digest in result[field].items():
+                path = Path(relative)
+                assert not path.is_absolute() and ".." not in path.parts
+                path = (base / path).resolve()
+                assert path.is_relative_to(base) and path.is_file(), "Artifact escaped or missing"
+                assert re.fullmatch("[0-9a-f]{64}", digest), "Invalid artifact digest"
+                assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, "Artifact changed"
+
+
 def run_collectors():
     import shutil
     import ssl
     import subprocess
     import time
+    from datetime import UTC, datetime, timedelta
 
     import httpx
 
@@ -105,7 +133,8 @@ def run_collectors():
         original = command("Get-Mailbox", Identity=config["mailbox_upn"])[0]
         originals = checked(client.get(rules_path, headers=graph))["value"]
         assert len(originals) == 3
-        sweep = None
+        sweep = hidden = None
+        started = (datetime.now(UTC) - timedelta(seconds=1)).isoformat()
         try:
             command(
                 "Set-Mailbox",
@@ -133,12 +162,68 @@ def run_collectors():
                         json={"actions": {"markAsRead": True}},
                     )
                 )
+            checked(
+                client.patch(
+                    rules_path + "/" + originals[0]["id"],
+                    headers=graph,
+                    json={
+                        "actions": originals[0]["actions"] | {"delete": True},
+                        "conditions": {"subjectContains": ["collector"]},
+                    },
+                )
+            )
+            hidden = checked(
+                client.post(
+                    control + f"/mail/mailboxes/{config['user_id']}/rules",
+                    headers={"Authorization": "Bearer " + admin},
+                    json={
+                        "hidden": True,
+                        "rule": {
+                            "displayName": "Collector hidden " + stamp,
+                            "sequence": 4,
+                            "isEnabled": True,
+                            "actions": {"markAsRead": True},
+                        },
+                    },
+                )
+            )
+            ended = datetime.now(UTC).isoformat()
+            native = []
+            for _ in range(20):
+                query = checked(
+                    client.post(
+                        "/v1.0/security/auditLog/queries",
+                        headers=graph,
+                        json={
+                            "displayName": "Canonical native collector oracle",
+                            "filterStartDateTime": started,
+                            "filterEndDateTime": ended,
+                            "operationFilters": ["Set-Mailbox"],
+                            "objectIdFilters": [config["mailbox_upn"]],
+                        },
+                    )
+                )
+                item = "/v1.0/security/auditLog/queries/" + query["id"]
+                for _ in range(100):
+                    status = checked(client.get(item, headers=graph))["status"]
+                    assert status != "failed", "Native oracle query failed"
+                    if status == "succeeded":
+                        break
+                    time.sleep(0.2)
+                assert status == "succeeded", "Native oracle query timed out"
+                native = checked(client.get(item + "/records", headers=graph))["value"]
+                if native:
+                    break
+                time.sleep(0.5)
+            assert len(native) == 1 and native[0]["operation"] == "Set-Mailbox"
             expected = {
                 "mailbox": command("Get-Mailbox", Identity=config["mailbox_upn"])[0],
                 "rules": command("Get-InboxRule", Mailbox=config["mailbox_upn"]),
                 "graph_rules": checked(client.get(rules_path, headers=graph))["value"],
                 "sweep": [sweep],
                 "fixture": config["mail_fixture"],
+                "native": native,
+                "hidden_id": hidden["id"],
             }
             cases = []
             for mode in ("application", "delegated"):
@@ -154,6 +239,21 @@ def run_collectors():
                             "end": config["mail_fixture"]["audit_end"],
                             "output_dir": "/state/collectors/" + name,
                             "report": "/state/" + name + ".json",
+                            "hidden_id": hidden["id"],
+                            "audit_start": started
+                            if label == "mes_audit_native"
+                            else config["mail_fixture"]["audit_start"],
+                            "audit_end": ended
+                            if label == "mes_audit_native"
+                            else config["mail_fixture"]["audit_end"],
+                            "audit_operations": ["Set-Mailbox"]
+                            if label == "mes_audit_native"
+                            else ["MailItemsAccessed"],
+                            "audit_output": {
+                                "mes_audit_csv": "CSV",
+                                "mes_audit_jsonl": "JSONL",
+                                "mes_audit_sofelk": "SOF-ELK",
+                            }.get(label, "JSON"),
                         }
                         path = state / (name + "-case.json")
                         path.write_text(json.dumps(case))
@@ -170,8 +270,7 @@ def run_collectors():
             batch.write_text(
                 "$ErrorActionPreference='Stop'\n"
                 + "\n".join(
-                    "try { & pwsh -NoProfile -File "
-                    "/project/integrations/powershell/Test-MailCollectors.ps1 "
+                    "try { & /project/integrations/powershell/Test-MailCollectors.ps1 "
                     f"-CasePath /state/{c['case_file']} }} catch {{ "
                     f"Write-Host 'Case recorded: {c['name']}' }}"
                     for c in cases
@@ -207,32 +306,43 @@ def run_collectors():
             (ROOT / "work/mail-collector-run.json").write_text(json.dumps(evidence, indent=2))
             return evidence
         finally:
-            checked(
-                client.put(
-                    control + "/mail/settings",
-                    headers={"Authorization": "Bearer " + admin},
-                    json={"exchange_enabled": True, "audit_tier": "standard"},
-                )
-            )
-            for rule in originals:
+            try:
                 checked(
-                    client.patch(
-                        rules_path + "/" + rule["id"],
-                        headers=graph,
-                        json={"actions": rule["actions"]},
+                    client.put(
+                        control + "/mail/settings",
+                        headers={"Authorization": "Bearer " + admin},
+                        json={"exchange_enabled": True, "audit_tier": "standard"},
                     )
                 )
-            if sweep:
+                for rule in originals:
+                    checked(
+                        client.patch(
+                            rules_path + "/" + rule["id"],
+                            headers=graph,
+                            json={
+                                "actions": rule["actions"],
+                                "conditions": rule.get("conditions", {}),
+                            },
+                        )
+                    )
+                if hidden:
+                    command(
+                        "Remove-InboxRule", Mailbox=config["mailbox_upn"], Identity=hidden["id"]
+                    )
+                if sweep:
+                    command(
+                        "Remove-SweepRule",
+                        Mailbox=config["mailbox_upn"],
+                        Identity=sweep["Identity"],
+                    )
                 command(
-                    "Remove-SweepRule", Mailbox=config["mailbox_upn"], Identity=sweep["Identity"]
+                    "Set-Mailbox",
+                    Identity=config["mailbox_upn"],
+                    ForwardingSmtpAddress=original["ForwardingSmtpAddress"],
+                    DeliverToMailboxAndForward=original["DeliverToMailboxAndForward"],
                 )
-            command(
-                "Set-Mailbox",
-                Identity=config["mailbox_upn"],
-                ForwardingSmtpAddress=original["ForwardingSmtpAddress"],
-                DeliverToMailboxAndForward=original["DeliverToMailboxAndForward"],
-            )
-            (state / "collector-admin.token").unlink(missing_ok=True)
+            finally:
+                (state / "collector-admin.token").unlink(missing_ok=True)
 
 
 def csv_value(value):
@@ -243,12 +353,25 @@ def csv_value(value):
     return str(value)
 
 
+def normalized_audit_time(record):
+    import copy
+    from datetime import UTC, datetime
+
+    record = copy.deepcopy(record)
+    common = record["auditData"]["dynamicProperties"]
+    for value, field in ((record, "createdDateTime"), (common, "CreationTime")):
+        parsed = datetime.fromisoformat(value[field].replace("Z", "+00:00"))
+        assert parsed.tzinfo is not None, "Audit time lost its timezone"
+        value[field] = parsed.astimezone(UTC).isoformat(timespec="microseconds")
+    return record
+
+
 def verify_artifacts(label, files, expected):
     """Validate every data artifact, including duplicate summary exports."""
     import re
 
     box = expected["mailbox"]
-    data_files = [p for p in files if p.suffix.lower() in {".csv", ".json"}]
+    data_files = [p for p in files if p.suffix.lower() in {".csv", ".json", ".jsonl"}]
     texts = [p for p in files if p.suffix.lower() == ".txt" and not p.name.startswith("_")]
     count = 0
     if label == "hawk_configuration":
@@ -295,7 +418,15 @@ def verify_artifacts(label, files, expected):
     assert data_files, "Collector emitted no data artifacts"
     seen = set()
     for path in data_files:
-        actual = rows(path)  # Strict JSON parsing: concatenated documents never pass.
+        # SOF-ELK explicitly specifies NDJSON despite its .json suffix.
+        if label in {"mes_audit_jsonl", "mes_audit_sofelk"}:
+            actual = [
+                json.loads(line)["dynamicProperties"]
+                for line in path.read_text(encoding="utf-8-sig").splitlines()
+                if line.strip()
+            ]
+        else:
+            actual = rows(path)  # Other JSON must be one complete document.
         is_csv = path.suffix.lower() == ".csv"
         if label == "hawk_forwarding":
             assert any(
@@ -365,6 +496,8 @@ def verify_artifacts(label, files, expected):
                     "MarkAsRead": r["MarkAsRead"],
                     "StopProcessingRules": r["StopProcessingRules"],
                     "Description": r["Description"],
+                    "DeleteMessage": r["DeleteMessage"],
+                    "SubjectContainsWords": ", ".join(r["SubjectContainsWords"] or []),
                 }
                 for r in expected["rules"]
             ]
@@ -380,8 +513,12 @@ def verify_artifacts(label, files, expected):
                     "ForwardTo": "; ".join(
                         v["emailAddress"]["address"] for v in r["actions"].get("forwardTo", [])
                     ),
-                    "MarkAsRead": r["actions"].get("markAsRead", False),
-                    "StopProcessingRules": r["actions"].get("stopProcessingRules", False),
+                    "MarkAsRead": r["actions"].get("markAsRead"),
+                    "StopProcessingRules": r["actions"].get("stopProcessingRules"),
+                    "Delete": r["actions"].get("delete"),
+                    "SubjectContains": "; ".join(
+                        r.get("conditions", {}).get("subjectContains", [])
+                    ),
                 }
                 for r in expected["graph_rules"]
             ]
@@ -401,7 +538,7 @@ def verify_artifacts(label, files, expected):
                 }
                 for i, identifier in enumerate(expected["fixture"]["trace_ids"])
             ]
-        elif label == "mes_audit":
+        elif label.startswith("mes_audit"):
             key = "id"
             wanted = [
                 {
@@ -415,12 +552,33 @@ def verify_artifacts(label, files, expected):
                 }
                 for i, identifier in enumerate(expected["fixture"]["audit_ids"])
             ]
-            for record in actual:
-                common = record["auditData"]["dynamicProperties"]
+            if label == "mes_audit_native":
+                wanted = [normalized_audit_time(r) for r in expected["native"]]
+                actual = [normalized_audit_time(r) for r in actual]
+            if label in {"mes_audit_jsonl", "mes_audit_sofelk"}:
+                wanted = [
+                    {
+                        "Id": r["id"],
+                        "Operation": r["operation"],
+                        "ObjectId": r["objectId"],
+                        "UserId": r["userPrincipalName"],
+                        "Workload": "Exchange",
+                        "ResultStatus": "Succeeded",
+                        "RecordType": 2,
+                    }
+                    for r in wanted
+                ]
+                key = "Id"
+            for record in actual if label not in {"mes_audit_jsonl", "mes_audit_sofelk"} else []:
+                audit_data = json.loads(record["auditData"]) if is_csv else record["auditData"]
+                common = audit_data["dynamicProperties"]
                 assert common["Id"] == record["id"] and common["Operation"] == record["operation"]
                 assert common["ObjectId"] == record["objectId"]
-                assert common["UserId"] == record["userPrincipalName"]
-                assert common["RecordType"] == 2 and common["ResultStatus"] == "Succeeded"
+                assert common["UserId"] == (record["userPrincipalName"] or record["userId"])
+                assert common["RecordType"] == (1 if label == "mes_audit_native" else 2)
+                assert common["ResultStatus"] == (
+                    "True" if label == "mes_audit_native" else "Succeeded"
+                )
         else:
             raise AssertionError("Unknown collector")
         if is_csv:
@@ -469,6 +627,8 @@ def qualify_collectors(evidence=None):
             )
         else:
             assert report["error"] is None, f"{label}/{mode}: {report['error']}"
+            if label == "hawk_rules":
+                assert report["hidden_check"] is True
             results[label]["records_verified"] += verify_artifacts(
                 label, files, evidence["expected"]
             )
@@ -484,11 +644,12 @@ def qualify_collectors(evidence=None):
                 secret = json.loads((state / filename).read_text())["secret"]
                 assert secret not in text, "Credential disclosure in collector artifact"
             item["output_hashes"][path.relative_to(RUNTIME).as_posix()] = sha(path)
-    assert len(evidence["cases"]) == 28
+    assert len(evidence["cases"]) == 4 * len(FUNCTIONS)
     for item in results.values():
         validate_cases(item["cases"])
         assert item["records_verified"] > 0 and item["output_hashes"]
         item["passed"] = True
+    validate_collector_hashes(results, ROOT)
     return results
 
 
@@ -505,4 +666,4 @@ if __name__ == "__main__":
     )
     report = qualify_collectors(evidence)
     (ROOT / "work/mail-collector-results.json").write_text(json.dumps(report, indent=2))
-    print("All 28 original mail collector output/denial cases passed")
+    print("All original mail collector output/denial cases passed")

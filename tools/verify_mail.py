@@ -3,10 +3,13 @@
 import hashlib
 import json
 import re
+import sys
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if __package__ in (None, ""):
+    sys.path.insert(0, str(ROOT))
 RUNTIME_CHECKS = frozenset(
     {
         "clean_wheel_install",
@@ -115,6 +118,9 @@ def validate_results(report):
 
 def validate_report(report, *, root=ROOT):
     validate_results(report)
+    from tools.qualify_mail_collectors import validate_collector_hashes
+
+    validate_collector_hashes(report["collectors"], root)
     assert report["source_fingerprint"] == source_fingerprint(root)
     assert re.fullmatch("[0-9a-f]{40}", report["source_commit"])
     assert report["manifest_sha256"] == sha(root / "integrations/manifest.json")

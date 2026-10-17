@@ -144,3 +144,71 @@ def test_audit_artifact_rejects_wrong_identity_and_malformed_output(tmp_path):
     path.write_text(json.dumps(records) + json.dumps(records))
     with pytest.raises(json.JSONDecodeError):
         verify_artifacts("mes_audit", [path], expected)
+
+
+def test_collector_hashes_bind_existing_sources_and_outputs(tmp_path):
+    import hashlib
+
+    from tools.qualify_mail_collectors import validate_collector_hashes
+
+    source = tmp_path / "work/vendor/collectors/original.ps1"
+    output = tmp_path / ".runtime/m4/clients/powershell-state/output.csv"
+    for path in (source, output):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("verified")
+    digest = hashlib.sha256(b"verified").hexdigest()
+    result = {
+        "sample": {
+            "source_hashes": {"collectors/original.ps1": digest},
+            "output_hashes": {"clients/powershell-state/output.csv": digest},
+        }
+    }
+    validate_collector_hashes(result, tmp_path)
+    output.write_text("tampered")
+    with pytest.raises(AssertionError):
+        validate_collector_hashes(result, tmp_path)
+    output.write_text("verified")
+    for field in ("source_hashes", "output_hashes"):
+        bad = copy.deepcopy(result)
+        bad["sample"][field] = {"../outside": digest}
+        with pytest.raises(AssertionError):
+            validate_collector_hashes(bad, tmp_path)
+
+
+def test_native_audit_export_preserves_timestamp_value_not_decimal_padding(tmp_path):
+    from tools.qualify_mail_collectors import verify_artifacts
+
+    record = {
+        "id": "native",
+        "operation": "Set-Mailbox",
+        "userPrincipalName": None,
+        "userId": "app",
+        "objectId": "mail@example.test",
+        "createdDateTime": "2026-10-17T08:26:18.497870+00:00",
+        "auditData": {
+            "dynamicProperties": {
+                "Id": "native",
+                "Operation": "Set-Mailbox",
+                "ObjectId": "mail@example.test",
+                "UserId": "app",
+                "RecordType": 1,
+                "ResultStatus": "True",
+                "CreationTime": "2026-10-17T08:26:18.497870+00:00",
+            }
+        },
+    }
+    expected = {
+        "mailbox": {"UserPrincipalName": "mail@example.test"},
+        "fixture": {"audit_ids": []},
+        "native": [record],
+    }
+    actual = copy.deepcopy(record)
+    actual["createdDateTime"] = "2026-10-17T08:26:18.49787+00:00"
+    actual["auditData"]["dynamicProperties"]["CreationTime"] = actual["createdDateTime"]
+    path = tmp_path / "native.json"
+    path.write_text(json.dumps([actual]))
+    assert verify_artifacts("mes_audit_native", [path], expected) == 1
+    actual["createdDateTime"] = "2026-10-17T08:26:18.497871+00:00"
+    path.write_text(json.dumps([actual]))
+    with pytest.raises(AssertionError):
+        verify_artifacts("mes_audit_native", [path], expected)
