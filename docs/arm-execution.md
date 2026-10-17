@@ -14,9 +14,11 @@ Own test compose targets55443 and networks10.231.96/24,10.231.97/24.
 Task4 implemented public role definitions/assignments, canonical legacy revocation,
 current group grants and opaque RBAC paging. Final affected regression289passed43.97s.
 Task4 BASE2ae9ffe9a8492014d7a6ec872a45e420d440b5d3.
-Task5 Activity Logs/shared evidence is next; Tasks6–7 remain queued.
-Native arm facts are captured/enqueued, but Task5 must add Activity Log projection
-before any full qualification runtime is started. No M5 acceptance claim yet.
+Task4 committed ae402ff. Task5 Activity Logs is implemented with shared immutable
+evidence, exact100ns indexed filters, current scoped permissions and opaque pages.
+Task5 BASE ae402fff9e5d355c47910deb83304c9d2390400d. Affected regression361passed204.46s; final timestamp/error checks21passed5.28s.
+Ruff, reference hashes and patch whitespace verified; Task6 client/runtime qualification and Task7 final review remain queued.
+No M5 acceptance claim yet. Full qualification runtime has not been started.
 
 M4 is draft PR8:594unit/integration tests passed;19runtime checks,3Graph profiles
 and realExchange checks passed;40/44original collector cases passed. Four required

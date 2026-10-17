@@ -30,6 +30,7 @@ from mockazure.oauth.device import router as device_router
 from mockazure.oauth.discovery import router as discovery_router
 from mockazure.oauth.errors import OAuthError, oauth_error_response
 from mockazure.oauth.routes import router as oauth_router
+from mockazure.providers.arm.activity_routes import router as arm_activity_router
 from mockazure.providers.arm.errors import ArmError, handle_arm_error
 from mockazure.providers.arm.inventory_routes import router as arm_inventory_router
 from mockazure.providers.arm.mutation_routes import router as arm_mutation_router
@@ -108,6 +109,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                 return await handle_arm_error(
                     request, ArmError(400, "InvalidResourceId", "Encoded ARM paths are unsupported")
                 )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.insights/eventtypes/management/values(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
             # ARM's reserved path segments are case-insensitive; resource names retain case.
             request.scope["path"] = re.sub(
                 r"(?i)(?<=/)(subscriptions|tenants|resourcegroups|resources)(?=/|$)",
@@ -263,6 +269,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(arm_admin_router)
     app.include_router(arm_router)
     app.include_router(arm_inventory_router)
+    app.include_router(arm_activity_router)
     app.include_router(arm_mutation_router)
     app.include_router(arm_operations_router)
     app.include_router(arm_rbac_router)

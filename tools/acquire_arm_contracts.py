@@ -41,7 +41,15 @@ def references(value):
 
 
 def acquire():
-    records, pending = {}, list(SOURCES.values()) + ["LICENSE"]
+    records, pending = (
+        {},
+        list(SOURCES.values())
+        + ["LICENSE"]
+        + [
+            posixpath.dirname(SOURCES["activity"]) + "/examples/" + name
+            for name in ("GetActivityLogsFiltered.json", "GetActivityLogsFilteredAndSelected.json")
+        ],
+    )
     while pending:
         path = pending.pop(0)
         if path in records:

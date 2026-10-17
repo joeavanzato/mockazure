@@ -6,7 +6,9 @@ from uuid import UUID
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 
-EvidenceFamily = Literal["signIn", "directoryAudit", "riskDetection", "riskyUser", "auditLogRecord"]
+EvidenceFamily = Literal[
+    "signIn", "directoryAudit", "riskDetection", "riskyUser", "auditLogRecord", "activityLog"
+]
 
 
 class StrictModel(BaseModel):
@@ -94,3 +96,8 @@ class RiskObservationResult(StrictModel):
     detection_id: UUID
     user_id: UUID
     revision: int
+
+
+def record_identity(family, payload):
+    """ARM EventData has an ARM id and a separate UUID eventDataId."""
+    return UUID(payload["eventDataId"] if family == "activityLog" else payload["id"])

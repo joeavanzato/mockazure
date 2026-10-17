@@ -22,6 +22,7 @@ from mockazure.evidence.schemas import (
     SourceEnvelope,
     SourceInput,
     SourceRef,
+    record_identity,
 )
 from mockazure.providers.graph.schema_reference import validate_payload
 
@@ -81,9 +82,19 @@ def validate_facts(value: SourceInput) -> None:
             "riskDetection",
             "riskyUser",
             "auditLogRecord",
+            "activityLog",
         }:
             raise ValueError("Unsupported evidence family")
-        if facts["family"] == "auditLogRecord":
+        if facts["family"] == "activityLog":
+            from mockazure.providers.arm.activity import validate_activity_payload
+
+            validate_activity_payload(
+                facts["payload"],
+                tenant=value.ref.tenant_id,
+                occurred_at=value.occurred_at,
+                available_at=value.available_at,
+            )
+        elif facts["family"] == "auditLogRecord":
             from mockazure.mail.audit_schemas import validate_audit_record
 
             validate_audit_record(
@@ -91,7 +102,7 @@ def validate_facts(value: SourceInput) -> None:
             )
         else:
             validate_payload(facts.get("version", "v1.0"), facts["family"], facts["payload"])
-        UUID(facts["payload"]["id"])
+        record_identity(facts["family"], facts["payload"])
         if "provenance" in facts:
             from mockazure.evidence.datasets import Provenance
 
@@ -194,7 +205,12 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
     # Validate even on replay; a receipt cannot authorize foreign or malformed input.
     identities = set()
     for item in batch.items:
-        if item.source_ref != batch.source or str(item.id) != item.payload.get("id"):
+        identity_matches = (
+            record_identity(item.family, item.payload) == item.id
+            if item.family == "activityLog"
+            else str(item.id) == item.payload.get("id")
+        )
+        if item.source_ref != batch.source or not identity_matches:
             raise ValueError("Projection/source identity mismatch")
         if item.available_at < item.occurred_at:
             raise ValueError("Invalid projection availability")
@@ -210,7 +226,16 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         raise ValueError("Missing projection source")
     version = source.facts.get("version", "v1.0") if source.ref.kind == "historical" else "beta"
     for item in batch.items:
-        if item.family == "auditLogRecord":
+        if item.family == "activityLog":
+            from mockazure.providers.arm.activity import validate_activity_payload
+
+            validate_activity_payload(
+                item.payload,
+                tenant=batch.source.tenant_id,
+                occurred_at=item.occurred_at,
+                available_at=item.available_at,
+            )
+        elif item.family == "auditLogRecord":
             from mockazure.mail.audit_schemas import validate_audit_record
 
             validate_audit_record(
@@ -264,6 +289,11 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
                 current.valid_to = revision
                 await session.flush()
         types = item.payload.get("signInEventTypes", [])
+        dimensions = {}
+        if item.family == "activityLog":
+            from mockazure.providers.arm.activity import activity_dimensions
+
+            dimensions = activity_dimensions(payload)
         session.add(
             EvidenceVersion(
                 tenant_id=key[0],
@@ -279,6 +309,7 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
                 app_id=item.payload.get("appId"),
                 event_type=types[0] if types else None,
                 payload=payload,
+                **dimensions,
             )
         )
     from mockazure.security.activity import record_activity
@@ -320,5 +351,6 @@ def projection_time(family, payload, fallback):
         "riskDetection": "detectedDateTime",
         "riskyUser": "riskLastUpdatedDateTime",
         "auditLogRecord": "createdDateTime",
+        "activityLog": "eventTimestamp",
     }[family]
     return datetime.fromisoformat(payload[field]) if payload.get(field) else fallback

@@ -18,7 +18,7 @@ class ArmScope:
         return self.key == other.key or self.key in other.parent_keys
 
 
-def parse_scope(value: str) -> ArmScope:
+def parse_scope(value: str, *, allow_subscription_resource=False) -> ArmScope:
     if (
         not isinstance(value, str)
         or not 1 <= len(value.encode("utf-8")) <= 2048
@@ -38,29 +38,33 @@ def parse_scope(value: str) -> ArmScope:
     parts[0], parts[1] = "subscriptions", str(subscription)
     parents = []
     group = None
-    if len(parts) > 2:
-        if len(parts) < 4 or parts[2].lower() != "resourcegroups":
+    provider_start = 2
+    if len(parts) > 2 and parts[2].lower() == "resourcegroups":
+        if len(parts) < 4:
             raise ValueError("Resource group scope is required")
         if len(parts[3]) > 90 or parts[3].endswith(".") or not re.fullmatch(r"[-\w.()]+", parts[3]):
             raise ValueError("Invalid resource group name")
-        parts[2], group = "resourceGroups", parts[3]
+        parts[2], group, provider_start = "resourceGroups", parts[3], 4
         parents.append("/" + "/".join(parts[:2]).lower())
-    if len(parts) > 4:
-        if len(parts) < 8 or parts[4].lower() != "providers":
+    elif len(parts) > 2 and not allow_subscription_resource:
+        raise ValueError("Resource group scope is required")
+    if len(parts) > provider_start:
+        if len(parts) < provider_start + 4 or parts[provider_start].lower() != "providers":
             raise ValueError("Resource provider scope is required")
-        parts[4] = "providers"
-        if not re.fullmatch(r"[A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)+", parts[5]):
+        parts[provider_start] = "providers"
+        namespace = r"[A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)+"
+        if not re.fullmatch(namespace, parts[provider_start + 1]):
             raise ValueError("Invalid provider namespace")
-        if (len(parts) - 6) % 2:
+        if (len(parts) - provider_start - 2) % 2:
             raise ValueError("Resource types require paired names")
-        for index in range(6, len(parts), 2):
+        for index in range(provider_start + 2, len(parts), 2):
             if not re.fullmatch(r"[A-Za-z][A-Za-z0-9]*", parts[index]):
                 raise ValueError("Invalid resource type")
             if len(parts[index + 1]) > 256:
                 raise ValueError("Invalid resource name")
-            parents.append("/" + "/".join(parts[:index]).lower())
+            end = provider_start if index == provider_start + 2 else index
+            parents.append("/" + "/".join(parts[:end]).lower())
     display = "/" + "/".join(parts)
-    # The first resource's parent is its group, never the provider namespace.
-    if len(parts) > 4:
-        parents[1] = "/" + "/".join(parts[:4]).lower()
-    return ArmScope(display.lower(), subscription, group, tuple(parts[4:]), display, tuple(parents))
+    return ArmScope(
+        display.lower(), subscription, group, tuple(parts[provider_start:]), display, tuple(parents)
+    )

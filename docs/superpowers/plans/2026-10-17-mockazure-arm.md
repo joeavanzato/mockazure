@@ -86,11 +86,11 @@ Tools/integrations own real-client qualification, not production provider behavi
 **Files:** Create providers/arm/{activity,activity_query,activity_routes}.py; update evidence/{schemas,models,projectors,projection,repository,datasets,cleanup}.py and admin/evidence_routes.py; migration031+; tests/unit/test_arm_activity_contract.py; tests/integration/test_arm_activity.py,test_arm_activity_paging.py.
 **Interfaces:** project_arm(SourceEnvelope)->ProjectionBatch with activityLog EventData; compile_activity_filter(text)->SQL predicate; read_activity(session,actor,subscription,query,cursor,now)->{value,nextLink?}; family remains excluded from Graph routes.
 
-- [ ] Test exact EventData projections/imports with UUID event identity, same transaction native facts, provenance, captured caller/action/scope/correlation and no credential/IP fabrication.
-- [ ] Test SQL time/resourceGroup/resourceUri/provider/correlation filters/select and1003 records with equal timestamps, exact instants, permission filtering before paging, generation reset, retention pinning, expiry and role removal between pages.
-- [ ] Run new tests for RED; include native group/tag/RBAC/deletion effects and failed terminal operation evidence.
-- [ ] Extend shared evidence publication/receipts/export/retention and fenced worker; add explicit Activity endpoint and opaque continuation binding. Apply observed MES date grammar only as a documented bounded compatibility rule.
-- [ ] Run ARM/evidence/retention/worker regressions and query-plan checks (indexed pagination, no full Python materialization); commit.
+- [x] Test exact EventData projections/imports with UUID event identity, same transaction native facts, provenance, captured caller/action/scope/correlation and no credential/IP fabrication.
+- [x] Test SQL time/resourceGroup/resourceUri/provider/correlation filters/select and1003 records with equal timestamps, exact instants, permission filtering before paging, generation reset, retention pinning, expiry and role removal between pages.
+- [x] Run new tests for RED; include native group/tag/RBAC/deletion effects and failed terminal operation evidence.
+- [x] Extend shared evidence publication/receipts/export/retention and fenced worker; add explicit Activity endpoint and opaque continuation binding. Apply observed MES date grammar only as a documented bounded compatibility rule.
+- [x] Run ARM/evidence/retention/worker regressions and query-plan checks (indexed pagination, no full Python materialization); commit.
 
 ### Task 6: Actual SDKs and original MES qualification
 

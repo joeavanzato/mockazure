@@ -131,3 +131,44 @@ Ambiguous official schema names require an explicit provider namespace:
 RoleDefinition in resource-management2021 differs from authorization2022.
 Conditional/delegated grants, foreign principals and custom-role writes fail
 explicitly; no success response implies support for those operations.
+
+## Activity Logs (Task5)
+
+The2015-04-01 management event endpoint uses the pinned EventData schema and
+two exact upstream examples. The selected example explicitly requests id, so
+id is accepted alongside the SelectParameter field list; unselected fields
+are omitted. No undocumented category/resourceType selection is implied.
+
+Import requires owned subscription, matching UUID eventDataId and ARM event id,
+matching timestamp ticks/subscription/scope, and exact submission ordering.
+The seventh fractional digit survives import, SQL filtering, paging and export.
+PostgreSQL datetime columns retain microsecond metadata; separate integer100ns
+dimensions govern public Activity visibility and ordering. Public typed authorization
+is evidence, while credential-bearing properties remain rejected. Historical
+deleted targets need not exist in current inventory.
+
+Native group/tag/RBAC/completed-deletion facts project through the same generation,
+publication, receipt, retention and export machinery. Captured caller/action/scope/
+correlation/status are retained. Unobserved IP addresses and claims are omitted.
+A terminal deletion error or exhausted third worker lease commits Failed evidence
+with failed job state under security→evidence→subscription→job locks; unsuccessful
+attempts never produce Succeeded evidence. Evidence-write failure rolls back the
+terminal transition. The reaper finalizes at most one exhausted ARM operation per
+claim call, bounding its lock footprint. Old-generation cancellation emits no event
+into the new generation and restores the affected group for explicit retry.
+
+The filter requires eventTimestamp ge; optional le and one of resourceGroupName,
+resourceUri, resourceProvider or correlationId equality follow the pinned grammar.
+Other operators/combination forms fail explicitly. Scope and dimension comparison
+is case-insensitive. Rows are permission-filtered in SQL before the100-event cap,
+ordered by exact ticks then UUID. Five partial indexes cover time and the four
+dimensions. The one-hour opaque handle binds current identity/token scopes/path/
+version/generation and an immutable publication/time/retention snapshot. Every page
+rechecks current grants; revocation can shrink or deny the remaining result, never
+continue disclosing revoked data. Later publication is excluded from the snapshot.
+Reset invalidates the handle; active handles pin retained versions during cleanup.
+
+The two additional examples are hash-bound in references.json:
+GetActivityLogsFiltered.json a6e73245b24d7434c7eae5dd7e8a0c08edf5b70c032988c72243c6364b55f950;
+GetActivityLogsFilteredAndSelected.json e4c6661497a1c1cda8ccaee7a91aa165de5043306e33b370d5fc2f94472b8a57.
+Both use Azure/azure-rest-api-specs ae348cc71f54a61f5d17472052cfef279a23db6b.

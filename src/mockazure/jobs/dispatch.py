@@ -42,9 +42,11 @@ async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) 
     except SQLAlchemyError:
         code = "TransientError"
     except (ValueError, TypeError, KeyError):
-        code = {"evidence.project": "InvalidEvidenceSource", "audit.query": "AuditQueryFailed"}.get(
-            claim.kind, "ExportFailed"
-        )
+        code = {
+            "evidence.project": "InvalidEvidenceSource",
+            "audit.query": "AuditQueryFailed",
+            "arm.group.delete": "ArmOperationFailed",
+        }.get(claim.kind, "ExportFailed")
         terminal = True
     async with database.sessions.begin() as session:
         changed = await fail_job(

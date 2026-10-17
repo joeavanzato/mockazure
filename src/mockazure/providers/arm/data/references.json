@@ -89,6 +89,16 @@
       "path": "operations.json",
       "url": "derived from pinned sources",
       "sha256": "0f15c4fe743f07148671be84d8b2c7b392c3576f262215777f0edecf06a1a5d4"
+    },
+    "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json": {
+      "path": "schemas/specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json",
+      "sha256": "a6e73245b24d7434c7eae5dd7e8a0c08edf5b70c032988c72243c6364b55f950"
+    },
+    "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFilteredAndSelected.json": {
+      "path": "schemas/specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFilteredAndSelected.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFilteredAndSelected.json",
+      "sha256": "e4c6661497a1c1cda8ccaee7a91aa165de5043306e33b370d5fc2f94472b8a57"
     }
   }
 }

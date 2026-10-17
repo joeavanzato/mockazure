@@ -3,7 +3,7 @@
 from uuid import UUID, uuid5
 
 from mockazure.evidence.repository import validate_facts
-from mockazure.evidence.schemas import Projection, ProjectionBatch, SourceEnvelope
+from mockazure.evidence.schemas import Projection, ProjectionBatch, SourceEnvelope, record_identity
 
 
 def project_source(source: SourceEnvelope) -> ProjectionBatch:
@@ -16,6 +16,10 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
         from mockazure.evidence.authentication import project_authentication
 
         return project_authentication(source)
+    if source.ref.kind == "arm":
+        from mockazure.providers.arm.activity import project_arm
+
+        return project_arm(source)
     if source.ref.kind == "mail":
         from mockazure.mail.audit import project_mail
 
@@ -32,7 +36,7 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
     payload = source.facts["payload"]
     subject = (
         None
-        if family == "auditLogRecord"
+        if family in {"auditLogRecord", "activityLog"}
         else payload.get("userId")
         if family != "riskyUser"
         else payload["id"]
@@ -44,7 +48,7 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
         items=(
             Projection(
                 family=family,
-                id=UUID(payload["id"]),
+                id=record_identity(family, payload),
                 occurred_at=source.occurred_at,
                 available_at=source.available_at,
                 payload=payload,

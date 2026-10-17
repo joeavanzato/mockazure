@@ -65,7 +65,8 @@ class EvidenceObservation(Base):
             ["evidence_sources.tenant_id", "evidence_sources.kind", "evidence_sources.id"],
         ),
         CheckConstraint(
-            "family IN ('signIn','directoryAudit','riskDetection','riskyUser','auditLogRecord')"
+            "family IN ('signIn','directoryAudit','riskDetection',"
+            "'riskyUser','auditLogRecord','activityLog')"
         ),
         CheckConstraint("available_at >= occurred_at"),
     )
@@ -109,6 +110,63 @@ class EvidenceVersion(Base):
         Index("ix_evidence_user", "tenant_id", "family", "subject_id", "event_time", "record_id"),
         Index("ix_evidence_app", "tenant_id", "family", "app_id", "event_time", "record_id"),
         Index("ix_evidence_type", "tenant_id", "family", "event_type", "event_time", "record_id"),
+        ForeignKeyConstraint(
+            ["tenant_id", "arm_subscription_id"],
+            ["arm_subscriptions.tenant_id", "arm_subscriptions.id"],
+            name="fk_activity_subscription",
+        ),
+        CheckConstraint(
+            "(family='activityLog' AND num_nonnulls(arm_subscription_id,arm_scope_key,"
+            "arm_group_name,arm_provider,arm_correlation_id,arm_event_ticks,arm_available_ticks)=7 "
+            "AND arm_event_ticks>0 AND arm_available_ticks>=arm_event_ticks) OR "
+            "(family<>'activityLog' AND num_nonnulls(arm_subscription_id,arm_scope_key,"
+            "arm_group_name,arm_provider,arm_correlation_id,arm_event_ticks,arm_available_ticks)=0)",
+            name="ck_activity_dimensions",
+        ),
+        Index(
+            "ix_arm_activity_time",
+            "tenant_id",
+            "arm_subscription_id",
+            "arm_event_ticks",
+            "record_id",
+            postgresql_where=text("family='activityLog'"),
+        ),
+        Index(
+            "ix_arm_activity_group",
+            "tenant_id",
+            "arm_subscription_id",
+            "arm_group_name",
+            "arm_event_ticks",
+            "record_id",
+            postgresql_where=text("family='activityLog'"),
+        ),
+        Index(
+            "ix_arm_activity_scope",
+            "tenant_id",
+            "arm_subscription_id",
+            "arm_scope_key",
+            "arm_event_ticks",
+            "record_id",
+            postgresql_where=text("family='activityLog'"),
+        ),
+        Index(
+            "ix_arm_activity_provider",
+            "tenant_id",
+            "arm_subscription_id",
+            "arm_provider",
+            "arm_event_ticks",
+            "record_id",
+            postgresql_where=text("family='activityLog'"),
+        ),
+        Index(
+            "ix_arm_activity_correlation",
+            "tenant_id",
+            "arm_subscription_id",
+            "arm_correlation_id",
+            "arm_event_ticks",
+            "record_id",
+            postgresql_where=text("family='activityLog'"),
+        ),
     )
     tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
     family: Mapped[str] = mapped_column(String(24), primary_key=True)
@@ -119,6 +177,13 @@ class EvidenceVersion(Base):
     valid_from: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     valid_to: Mapped[int | None] = mapped_column(BigInteger)
     event_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    arm_subscription_id: Mapped[UUID | None]
+    arm_scope_key: Mapped[str | None] = mapped_column(String(2048))
+    arm_group_name: Mapped[str | None] = mapped_column(String(90))
+    arm_provider: Mapped[str | None] = mapped_column(String(256))
+    arm_correlation_id: Mapped[str | None] = mapped_column(String(128))
+    arm_event_ticks: Mapped[int | None] = mapped_column(BigInteger)
+    arm_available_ticks: Mapped[int | None] = mapped_column(BigInteger)
     available_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     subject_id: Mapped[UUID | None]
     app_id: Mapped[str | None] = mapped_column(String(64))

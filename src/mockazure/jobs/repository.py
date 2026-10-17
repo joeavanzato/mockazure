@@ -70,12 +70,31 @@ async def claim_job(
 ) -> JobClaim | None:
     if not 1 <= lease_seconds <= 3600:
         raise ValueError("invalid job lease")
+    # ARM exhaustion must capture failure evidence under the operation lock order.
+    from mockazure.providers.arm.failure import fail_arm_delete
+
+    if kind in {None, "arm.group.delete"}:
+        expired_arm = await session.scalar(
+            select(Job.id)
+            .where(
+                True if tenant_id is None else Job.tenant_id == tenant_id,
+                Job.kind == "arm.group.delete",
+                Job.state == "running",
+                Job.attempts >= 3,
+                Job.lease_until <= now,
+            )
+            .order_by(Job.id)
+            .limit(1)
+        )
+        if expired_arm:
+            await fail_arm_delete(session, expired_arm, now)
     await session.execute(
         update(Job)
         .where(
             True if tenant_id is None else Job.tenant_id == tenant_id,
             True if kind is None else Job.kind == kind,
             Job.state == "running",
+            Job.kind != "arm.group.delete",
             Job.attempts >= 3,
             Job.lease_until <= now,
         )
@@ -185,8 +204,20 @@ async def fail_job(
     now: datetime,
     terminal: bool = False,
 ) -> bool:
-    allowed = {"TransientError", "ExportFailed", "InvalidEvidenceSource", "UnsupportedJobKind"}
+    allowed = {
+        "TransientError",
+        "ExportFailed",
+        "InvalidEvidenceSource",
+        "UnsupportedJobKind",
+        "ArmOperationFailed",
+    }
     code = error_code if error_code in allowed else "ExportFailed"
+    if claim.kind == "arm.group.delete":
+        from mockazure.providers.arm.failure import fail_arm_delete
+
+        return await fail_arm_delete(
+            session, claim.id, now, claim=claim, terminal=terminal, error_code=code
+        )
     row = await lock_claim(session, claim, now)
     if row is None:
         return False

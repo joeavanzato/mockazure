@@ -21,7 +21,13 @@ from mockazure.evidence.models import (
     EvidenceVersion,
 )
 from mockazure.evidence.repository import lock_state, source_hash
-from mockazure.evidence.schemas import EvidenceFamily, SourceInput, SourceRef, StrictModel
+from mockazure.evidence.schemas import (
+    EvidenceFamily,
+    SourceInput,
+    SourceRef,
+    StrictModel,
+    record_identity,
+)
 from mockazure.identity.models import User
 from mockazure.providers.graph.evidence.contracts import public_fields
 from mockazure.providers.graph.evidence.paging import snapshot_evidence
@@ -82,6 +88,13 @@ NESTED = {
 
 
 def validate_public_payload(version, family, payload):
+    if family == "activityLog":
+        from mockazure.providers.arm.activity import validate_activity_payload
+
+        if version != "2015-04-01":
+            raise ValueError("Activity Logs require their ARM API version")
+        validate_activity_payload(payload)
+        return
     if family == "auditLogRecord":
         from mockazure.mail.audit_schemas import validate_audit_record
 
@@ -183,7 +196,7 @@ def validate_public_payload(version, family, payload):
 
 class EvidenceRecord(StrictModel):
     family: EvidenceFamily
-    api_version: Literal["v1.0", "beta"] = "v1.0"
+    api_version: Literal["v1.0", "beta", "2015-04-01"] = "v1.0"
     payload: dict
     occurred_at: AwareDatetime
     available_at: AwareDatetime
@@ -195,7 +208,7 @@ class EvidenceRecord(StrictModel):
     @model_validator(mode="after")
     def validated(self):
         validate_public_payload(self.api_version, self.family, self.payload)
-        UUID(self.payload["id"])
+        record_identity(self.family, self.payload)
         if self.available_at < self.occurred_at:
             raise ValueError("Availability precedes occurrence")
         if self.sign_in_id and self.family != "riskDetection":
@@ -204,13 +217,19 @@ class EvidenceRecord(StrictModel):
             from mockazure.mail.audit_schemas import validate_audit_record
 
             validate_audit_record(self.payload, occurred_at=self.occurred_at)
+        if self.family == "activityLog":
+            from mockazure.providers.arm.activity import validate_activity_payload
+
+            validate_activity_payload(
+                self.payload, occurred_at=self.occurred_at, available_at=self.available_at
+            )
         subject = self.subject_id()
         if subject:
             UUID(subject)
         return self
 
     def subject_id(self):
-        if self.family == "auditLogRecord":
+        if self.family in {"auditLogRecord", "activityLog"}:
             # UAL actors include systems and service principals, not only directory users.
             return None
         return (
@@ -256,6 +275,35 @@ async def import_evidence(session, tenant_id, dataset):
                 raise AdminError(
                     422, "InvalidAuditTenant", "Audit organization must match the tenant"
                 ) from None
+    from mockazure.providers.arm.activity import validate_activity_payload
+    from mockazure.providers.arm.models import Subscription
+
+    activity_subscriptions = set()
+    for record in dataset.records:
+        if record.family == "activityLog":
+            try:
+                validate_activity_payload(
+                    record.payload,
+                    tenant=tenant_id,
+                    occurred_at=record.occurred_at,
+                    available_at=record.available_at,
+                )
+            except ValueError:
+                raise AdminError(
+                    422, "InvalidActivityTenant", "Activity tenant does not match"
+                ) from None
+            activity_subscriptions.add(UUID(record.payload["subscriptionId"]))
+    owned = set(
+        await session.scalars(
+            select(Subscription.id).where(
+                Subscription.tenant_id == tenant_id, Subscription.id.in_(activity_subscriptions)
+            )
+        )
+    )
+    if owned != activity_subscriptions:
+        raise AdminError(
+            422, "InvalidActivitySubscription", "Activity requires an owned subscription"
+        )
     state = await lock_state(session, tenant_id)
     subjects = {UUID(record.subject_id()) for record in dataset.records if record.subject_id()}
     known = {
@@ -265,7 +313,7 @@ async def import_evidence(session, tenant_id, dataset):
         raise AdminError(
             422, "ForeignEvidenceSubject", "Evidence subject belongs to another tenant"
         )
-    payloads = {(r.family, UUID(r.payload["id"])): r for r in dataset.records}
+    payloads = {(r.family, record_identity(r.family, r.payload)): r for r in dataset.records}
     link_ids = {r.sign_in_id for r in dataset.records if r.sign_in_id}
     links = {
         r.record_id: r.subject_id
@@ -306,7 +354,10 @@ async def import_evidence(session, tenant_id, dataset):
         ref = SourceRef(
             tenant_id=tenant_id,
             kind="historical",
-            id=uuid5(UUID(record.payload["id"]), "mockazure:historical:" + record.family),
+            id=uuid5(
+                record_identity(record.family, record.payload),
+                "mockazure:historical:" + record.family,
+            ),
         )
         inputs.append(
             SourceInput(
@@ -331,13 +382,15 @@ async def import_evidence(session, tenant_id, dataset):
         for r in await session.scalars(
             select(EvidenceObservation).where(
                 EvidenceObservation.tenant_id == tenant_id,
-                EvidenceObservation.record_id.in_([UUID(r.payload["id"]) for r in dataset.records]),
+                EvidenceObservation.record_id.in_(
+                    [record_identity(r.family, r.payload) for r in dataset.records]
+                ),
             )
         )
     }
     new, unchanged, sources, jobs = {}, 0, [], []
     for record, value in zip(dataset.records, inputs, strict=True):
-        identifier = UUID(record.payload["id"])
+        identifier = record_identity(record.family, record.payload)
         prior = existing.get(value.ref.id)
         # The orphan marker is captured at first import, not recomputed on an identical replay.
         if prior:
@@ -394,7 +447,9 @@ async def import_evidence(session, tenant_id, dataset):
     return ImportResult(
         inserted=len(sources),
         unchanged=unchanged,
-        record_ids=tuple(dict.fromkeys(UUID(r.payload["id"]) for r in dataset.records)),
+        record_ids=tuple(
+            dict.fromkeys(record_identity(r.family, r.payload) for r in dataset.records)
+        ),
     )
 
 
@@ -454,6 +509,23 @@ async def export_evidence(session_factory, tenant_id, query):
                     ),
                     EvidenceVersion.event_time <= snapshot.evidence_time,
                 ]
+                from mockazure.providers.arm.activity import datetime_ticks
+
+                activity_conditions = [
+                    EvidenceVersion.arm_event_ticks <= datetime_ticks(snapshot.evidence_time),
+                    EvidenceVersion.arm_available_ticks <= datetime_ticks(snapshot.evidence_time),
+                ]
+                if query.from_time:
+                    activity_conditions.append(
+                        EvidenceVersion.arm_event_ticks >= datetime_ticks(query.from_time)
+                    )
+                if query.to_time:
+                    activity_conditions.append(
+                        EvidenceVersion.arm_event_ticks <= datetime_ticks(query.to_time)
+                    )
+                conditions.append(
+                    or_(EvidenceVersion.family != "activityLog", and_(*activity_conditions))
+                )
                 if query.family:
                     conditions.append(EvidenceVersion.family == query.family)
                 if query.from_time:
@@ -505,7 +577,12 @@ async def export_evidence(session_factory, tenant_id, query):
                 record = EvidenceRecord(
                     family=row.family,
                     api_version=source.facts.get(
-                        "version", "v1.0" if source.kind in {"security", "mail"} else "beta"
+                        "version",
+                        "2015-04-01"
+                        if row.family == "activityLog"
+                        else "v1.0"
+                        if source.kind in {"security", "mail"}
+                        else "beta",
                     ),
                     payload=row.payload,
                     occurred_at=observation.occurred_at,
