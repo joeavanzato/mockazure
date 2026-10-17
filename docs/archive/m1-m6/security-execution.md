@@ -104,7 +104,7 @@ Earlier checkpoint sections below are historical evidence.
   work/task3-final.log. Ruff and git diff checks pass.
 - RED/GREEN evidence includes six operation parity gaps, three bootstrap metadata
   gaps, invalid source differences and a real security audit export/reimport failure.
-- Final ledger: docs/security-native-ledger.md; temporary plan workspace is removed after publication.
+- Final ledger: docs/archive/m1-m6/security-native-ledger.md; temporary plan workspace is removed after publication.
 - Python: .venv/Scripts/python.exe; Ruff: .venv/Scripts/ruff.exe.
 - Test DB: mockazure-security-tests, loopback55438.
   Set MOCKAZURE_TEST_DB_PORT=55438. Compose: work/compose.security-tests.yaml.
@@ -154,7 +154,7 @@ The complete unit/integration regression passed 474 tests in 534.66s.
 The MSAL form_post recommendation is the sole warning. The final new gate
 and distribution acceptance run passed 6 tests in 0.43s. Ruff/diff checks pass.
 Final review is pending. Source fingerprints and hashes remain authoritative;
-work/security-report.json and docs/security-verification.json record the evidence.
+work/security-report.json and docs/archive/m1-m6/security-verification.json record the evidence.
 
 ## Final review fix pass
 

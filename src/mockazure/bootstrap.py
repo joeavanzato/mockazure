@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import secrets
 from dataclasses import dataclass
@@ -91,6 +92,34 @@ def initialize_compose(
         ]
         if any(present) and not all(present):
             raise ValueError("Partial Compose initialization; restore missing files")
+        base_environment = f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
+        legacy_storage = runtime / "postgres"
+        storage = "postgres-data"
+        upgrade_environment = False
+        if all(present):
+            existing_environment = environment_file.read_text()
+            if existing_environment == base_environment:
+                if not legacy_storage.is_dir():
+                    raise ValueError(
+                        "Legacy Compose metadata has no database directory; restore it or "
+                        "archive the complete instance before initializing a fresh project"
+                    )
+                storage = "./.runtime/postgres"
+                upgrade_environment = True
+            elif existing_environment == (
+                base_environment + "MOCKAZURE_POSTGRES_STORAGE=./.runtime/postgres\n"
+            ):
+                if not legacy_storage.is_dir():
+                    raise ValueError("Legacy PostgreSQL storage is missing; restore from backup")
+                storage = "./.runtime/postgres"
+            elif existing_environment != (
+                base_environment + "MOCKAZURE_POSTGRES_STORAGE=postgres-data\n"
+            ):
+                raise ValueError("Compose configuration differs; inspect the existing settings")
+            elif legacy_storage.exists():
+                raise ValueError("Conflicting PostgreSQL storage: volume and legacy directory")
+        elif legacy_storage.exists():
+            raise ValueError("Legacy PostgreSQL storage has no complete instance configuration")
         if all(present):
             password = password_file.read_text().strip()
             if not re.fullmatch(r"[A-Za-z0-9_-]{43}", password):
@@ -115,11 +144,15 @@ def initialize_compose(
         expected = {
             container_file: (json.dumps(container, indent=2) + "\n").encode(),
             environment_file: (
-                f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
+                base_environment + f"MOCKAZURE_POSTGRES_STORAGE={storage}\n"
             ).encode(),
         }
         for path, content in expected.items():
-            if path.exists():
+            if path == environment_file and upgrade_environment:
+                temporary = path.with_name(".compose.env.upgrade")
+                write_private(temporary, content)
+                os.replace(temporary, path)
+            elif path.exists():
                 if path.read_bytes() != content:
                     raise ValueError("Compose configuration differs; inspect the existing settings")
             else:

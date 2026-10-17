@@ -8,7 +8,7 @@
 
 **Tech Stack:** Existing Python >=3.12, FastAPI, SQLAlchemy 2, psycopg 3, Alembic, PostgreSQL 18, cryptography, Pydantic, HTTPX, Typer and pytest. Preserve MSAL 1.39.0 and msgraph-sdk 1.64.0; add Microsoft.Graph.Users and Microsoft.Graph.Groups 2.35.1 to the client manifest with verified dependencies and hashes.
 
-**Spec:** [Approved overall design](../specs/2026-10-16-mockazure-design.md) and [proposed M3 delivery map](../specs/2026-10-16-mockazure-stateful-graph.md).
+**Spec:** [Approved overall design](../../../../superpowers/specs/2026-10-16-mockazure-design.md) and [proposed M3 delivery map](../specs/2026-10-16-mockazure-stateful-graph.md).
 **Status:** Completed 2026-10-16; all nine Native implementation tasks and independent review fixes verified. 197 unit/integration tests, one acceptance gate and 14 qualification checks passed. See the execution and rulings records for evidence and documented adjustments.
 **Execution preference:** Native, already selected. Main agent implements; one independent whole-change review before delivery.
 **Baseline:** Merged M2 tree a3074f69b16f7abcc76dff93de518c722c159348. M2 integration PR #3 remains the prerequisite for merging. Recorded delivery adjustment: publish M3A as a draft targeting main while #3 is open; its comparison includes M2 until that integration lands. Do not merge on the user's behalf.
@@ -218,7 +218,7 @@ Core assertions: `assert roundtrip_public_ids == original_public_ids`; `assert i
 
 ## Task 9: Real clients, isolated deployment and delivery evidence
 
-**Files:** Create compose.m3.yaml, tools/prepare_graph.py, tools/verify_graph.py, integrations/python/graph_directory.py, integrations/powershell/Test-GraphDirectory.ps1, tests/acceptance/test_graph_distribution.py and docs/graph-directory-execution.md. Modify integrations/manifest.json, tools/prepare_clients.py if new dependency validation requires it, docs/{capabilities,compatibility}.md and README.md.
+**Files:** Create compose.m3.yaml, tools/prepare_graph.py, tools/verify_graph.py, integrations/python/graph_directory.py, integrations/powershell/Test-GraphDirectory.ps1, tests/acceptance/test_graph_distribution.py and docs/archive/m1-m6/graph-directory-execution.md. Modify integrations/manifest.json, tools/prepare_clients.py if new dependency validation requires it, docs/{capabilities,compatibility}.md and README.md.
 
 **Interfaces:** prepare_graph.py builds only project-local M3 configuration/fixtures and prints no secrets. verify_graph.py --report work/graph-directory-report.json qualifies the exact source/package fingerprint, returns nonzero on any required gate and emits a sanitized versioned report with per-probe results. Client scripts consume the existing endpoint/auth configuration schema plus explicit fixture IDs; no real-service defaults.
 

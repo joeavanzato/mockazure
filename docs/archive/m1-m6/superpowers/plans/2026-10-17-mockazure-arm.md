@@ -5,7 +5,7 @@
 **Goal:** Persist and authorize real local ARM management interactions and export exact Activity Log evidence through original clients.
 **Architecture:** Canonical tenant/subscription/resource state and inherited RBAC back ARM routes. Transactions append immutable evidence; the shared fenced worker handles projection and group deletion. Explicit API contracts bound provider support.
 **Tech Stack:** Python3.12+, FastAPI, SQLAlchemy2, PostgreSQL18, Alembic, existing durable jobs and evidence pipeline.
-**Spec:** docs/superpowers/specs/2026-10-17-mockazure-arm-design.md
+**Spec:** docs/archive/m1-m6/superpowers/specs/2026-10-17-mockazure-arm-design.md
 
 ## Global Constraints
 

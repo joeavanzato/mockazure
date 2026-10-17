@@ -223,7 +223,7 @@ Final: pushed implementation and attached draft https://github.com/joeavanzato/m
 <summary>Native execution ledger (historical decisions and evidence)</summary>
 
 ```text
-# SDD ledger — plan: docs/superpowers/plans/2026-10-16-mockazure-identity-connectivity.md
+# SDD ledger — plan: docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-identity-connectivity.md
 
 Execution approved 2026-10-16, Native. Base 2125b22. Implementation branch feat/identity-connectivity.
 

@@ -13,7 +13,7 @@ fresh M6 profiles, then measure scale and package the committed candidate.
 **Tech Stack:** Python 3.12+, PostgreSQL 18, SQLAlchemy, Alembic, pytest, Docker,
 pinned original Microsoft SDKs, Az/Exchange, Hawk and MES.
 
-**Spec:** docs/superpowers/specs/2026-10-17-mockazure-release-design.md
+**Spec:** docs/archive/m1-m6/superpowers/specs/2026-10-17-mockazure-release-design.md
 
 ## Global Constraints
 - Own D:/projects/mockazure only; no VTW, predecessor source/data changes, real tenants or system trust/DNS/firewall changes. User permits stopping older MockAzure services.
@@ -81,7 +81,7 @@ booleans; returns readiness plus failures, never infers success from process exi
 ### Task 3: Deterministic scale and recovery qualification
 
 **Files:** tools/scale_dataset.py; tools/benchmark_release.py; tests/unit/test_scale_dataset.py;
-tests/integration/test_scale_recovery.py; docs/release-scale.json.
+tests/integration/test_scale_recovery.py; docs/archive/m1-m6/release-scale.json.
 **Interfaces:** iter_directory_batches(seed, users, batch_size) and
 iter_evidence_batches(seed, users, records, batch_size) yield existing validated public dataset
 envelopes with bounded memory and deterministic identities. run_profile(profile, config, report)
@@ -104,7 +104,7 @@ counts/digests/timings/errors with passed=false until every assertion succeeds.
 ### Task 4: Reproducible candidate artifacts and parity
 
 **Files:** tools/build_release.py; tests/unit/test_release_artifacts.py;
-tests/acceptance/test_release_artifacts.py; docs/release-build.md; pyproject.toml as needed.
+tests/acceptance/test_release_artifacts.py; docs/archive/m1-m6/release-build.md; pyproject.toml as needed.
 **Interfaces:** build_candidate(source_commit, output_dir) builds wheel/sdist from allowlisted
 tracked bytes using pinned tools and SOURCE_DATE_EPOCH, produces manifest/dependency inventory,
 and verifies members. Two clean builds must compare hashes. No automatic registry push.

@@ -1,4 +1,4 @@
-> Current stabilization results: [validated candidate and scope](stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
+> Current stabilization results: [validated candidate and scope](../../stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
 
 # Overnight execution: remaining MockAzure milestones
 

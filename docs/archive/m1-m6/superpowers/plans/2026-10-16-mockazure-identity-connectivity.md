@@ -241,7 +241,7 @@ Configuration-only use is preferred. Passing an emulator-issued token through a 
 
 ## Task 8: Restart, distribution and independent review
 
-**Files:** Create tools/verify_identity.py, tests/acceptance/test_identity_distribution.py, docs/identity.md, docs/identity-execution.md; update Docker/native initialization, README and capabilities.
+**Files:** Create tools/verify_identity.py, tests/acceptance/test_identity_distribution.py, docs/identity.md, docs/archive/m1-m6/identity-execution.md; update Docker/native initialization, README and capabilities.
 
 **Interfaces:**
 - verify_identity.py --config PATH --client-manifest integrations/manifest.json --report work/identity-report.json orchestrates live tests against a dedicated M2 instance.
@@ -260,7 +260,7 @@ Configuration-only use is preferred. Passing an emulator-issued token through a 
   - Build wheel/sdist and run tools/check_package.py using its existing documented interface.
   All required suites must pass; unavailable PostgreSQL/Docker/client probes are reported as incomplete, not skipped success.
 - [x] **Step 5: Update capabilities, operational backup/restore guidance and compatibility documentation.** Document key/secret/session lifecycle, real-flow versus token-injection support, exact unsupported policy/auth features, observed SDK limitations and later milestone boundaries.
-- [x] **Step 6: Commit the verified increment, run one independent whole-change review under Native execution, resolve findings and rerun affected verification.** Record decisions and results in docs/identity-execution.md, then push and attach the implementation PR. Preserve the M1 dependency explicitly if its PR is still open.
+- [x] **Step 6: Commit the verified increment, run one independent whole-change review under Native execution, resolve findings and rerun affected verification.** Record decisions and results in docs/archive/m1-m6/identity-execution.md, then push and attach the implementation PR. Preserve the M1 dependency explicitly if its PR is still open.
 
 ## Deliberate limits and feasibility decisions
 

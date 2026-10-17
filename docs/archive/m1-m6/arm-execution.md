@@ -14,7 +14,7 @@ and correctly failed on running/non-success; it is rerun after qualification.
 Current-source qualification:17 runtime checks,3 original SDK profiles,8 original
 MES cases passed214.922s. Actual Python and PowerShell application/delegated calls
 exercise9checks each. Positive collectors verify1003historical exact-time records
-plus native evidence. docs/arm-verification.json binds source/package/schema/
+plus native evidence. docs/archive/m1-m6/arm-verification.json binds source/package/schema/
 archive/image/output hashes. One final review completed; no second review.
 
 Own test PostgreSQL55443 and full runtime HTTPS36443/PostgreSQL55444,

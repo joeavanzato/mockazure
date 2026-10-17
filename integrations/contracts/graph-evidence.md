@@ -1,7 +1,7 @@
 # M3B evidence, licence and managed-identity contract
 
 **Status:** Approved implementation contract, 2026-10-16; implementation in progress.
-Part of the [M3B implementation plan](../../docs/superpowers/plans/2026-10-16-mockazure-evidence.md).
+Part of the [M3B implementation plan](../../docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-evidence.md).
 Microsoft endpoint facts and deliberate local modeling choices are distinguished below.
 Existing M2/M3A contracts remain unchanged unless a specific extension is listed.
 

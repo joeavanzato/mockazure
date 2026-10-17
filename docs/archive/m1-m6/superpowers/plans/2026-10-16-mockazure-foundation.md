@@ -10,7 +10,7 @@
 
 **Spec:** D:\projects\mockazure\docs\superpowers\specs\2026-10-16-mockazure-design.md
 
-**Status:** Implemented and verified: 50 tests pass, live qualification passes, and all independent-review findings are resolved. See docs/foundation-execution.md.
+**Status:** Implemented and verified: 50 tests pass, live qualification passes, and all independent-review findings are resolved. See docs/archive/m1-m6/foundation-execution.md.
 
 ## Global Constraints
 

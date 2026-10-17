@@ -1,4 +1,4 @@
-# SDD ledger — plan: docs/superpowers/plans/2026-10-17-mockazure-mail.md
+# SDD ledger — plan: docs/archive/m1-m6/superpowers/plans/2026-10-17-mockazure-mail.md
 
 Base351b182, feat/exchange-audit, D:/projects/mockazure/.worktrees/mail.
 M3C PR7 qualified522 unit/integration tests580.74s,20runtime gates/3SDKprofiles/20collector cases181.5455s.
@@ -126,7 +126,7 @@ modes xpositive/denied). Seven original functions, all historical UAL formats,
 native Set-Mailbox evidence, hidden real-module Get-InboxRule, sweep, forwarding,
 rules and configuration. Exact 5003 traces and1003 historical UAL records per
 positive mode.42 cases from fullbatch plus2fresh native reruns; failed diagnostics
-preserved, no output repaired. docs/mail-verification.json records this intermediate
+preserved, no output repaired. docs/archive/m1-m6/mail-verification.json records this intermediate
 output qualification; Task10 final source-bound combined gate remains required.
 Task9 Ruling: original MES LogLevel initializer must accompany exact declarations;
 prior failure was missing state, not enum reload. Reuse batch process with fresh
@@ -151,7 +151,7 @@ the generic plan template says. Existing capability-contract assertions were
 updated first and failed2tests because discovery still reportedM3C. Update
 the advertised implemented operations and bounded limits; cost: clients keying
 on old milestone metadata must accept the current advertised phase.
-Task10 final review: one fresh reviewer, range351b182..d6885d2, four Important/no Critical/no Minor; all Important grades retained. Full disposition in docs/mail-review.md. One consolidated fix pass, no rereview.
+Task10 final review: one fresh reviewer, range351b182..d6885d2, four Important/no Critical/no Minor; all Important grades retained. Full disposition in docs/archive/m1-m6/mail-review.md. One consolidated fix pass, no rereview.
 Ruling: serialize Exchange resolve/merge under mailbox lock and refresh rule ORM identities; deterministic Exchange/Exchange and Graph/Exchange RED both lost MarkAsRead, now GREEN with version/fact history. Cost: per-mailbox serialized edits, as required by ordering semantics.
 Ruling: qualified Identity prefix must resolve within tenant and agree with explicit Mailbox; inbox/sweep GET/REMOVE RED returned200/wrong target, now400 mismatch/404 foreign or absent; valid alias retained. Fixture errors (missing tenant settings) corrected before behavioral RED.
 Ruling: exact timestamp values required for historical formats too. Missing/time-shift/one-microsecond RED reproduced. Explicit UTC/en-US collector CSV representation accepted; omitted precision remains failure. Focused16passed9.22s then12oracle/reportpassed0.16s. Windows CSV fixtures require UTF8.

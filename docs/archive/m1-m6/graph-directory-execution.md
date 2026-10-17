@@ -1,6 +1,6 @@
 # M3A execution record
 
-Approved plan: docs/superpowers/plans/2026-10-16-mockazure-stateful-graph-directory.md.
+Approved plan: docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-stateful-graph-directory.md.
 Native execution started 2026-10-16 at fa3540f on feat/stateful-graph-directory.
 Workspace: D:/projects/mockazure/.worktrees/graph. M1/M2 runtimes remain unchanged.
 

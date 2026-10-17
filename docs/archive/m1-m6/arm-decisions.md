@@ -1,4 +1,4 @@
-# SDD ledger — plan: docs/superpowers/plans/2026-10-17-mockazure-arm.md
+# SDD ledger — plan: docs/archive/m1-m6/superpowers/plans/2026-10-17-mockazure-arm.md
 
 Predecessor:807ac20 repaired M4 API. M4 required original Hawk multi-rule JSON and MES trace microsecond output gates fail; no waiver. Continue independent M5 under user's overnight delegation, carry blockers to M6.
 Native execution, no implementation agents. One fresh final review only.

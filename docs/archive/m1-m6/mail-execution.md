@@ -7,7 +7,7 @@ user merge. VTW and predecessor worktrees/runtimes are untouched.
 
 ## Current status
 
-Tasks1–8 are implemented. Task9's prior acceptance is superseded by final review.
+Tasks1â€“8 are implemented. Task9's prior acceptance is superseded by final review.
 Task10's one review and consolidated product fixes are committed at807ac20;
 post-review regression passed594 tests in619.02 seconds (one existing MSAL warning).
 M4 is **not qualified** and its PR will remain draft while required collector
@@ -63,6 +63,6 @@ original Exchange module checks per mode. That report predates Task9 and is not
 the final M4 acceptance report.
 
 Detailed contracts and delegated decisions are in
-[mail-contracts.md](mail-contracts.md). The task ledger is preserved in
+[mail-contracts.md](../../mail-contracts.md). The task ledger is preserved in
 [mail-decisions.md](mail-decisions.md) before final publication. M6 owns expired
 query/rule-history storage cleanup and the100,000-user/1,000,000-evidence profile.

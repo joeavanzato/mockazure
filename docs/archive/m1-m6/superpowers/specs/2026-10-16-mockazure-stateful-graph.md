@@ -1,7 +1,7 @@
 # MockAzure M3: Stateful Graph delivery map
 
 **Status:** M3A completed and merged to main in PR #4 at 4a5fedb on 2026-10-16. M3B design is approved and its implementation plan is proposed for review; M3C remains planned.
-**Parent specification:** [Approved product design](2026-10-16-mockazure-design.md), especially sections 6–10 and 13–14.
+**Parent specification:** [Approved product design](../../../../superpowers/specs/2026-10-16-mockazure-design.md), especially sections 6–10 and 13–14.
 **Execution:** Native: the main agent implements, with one independent whole-change review at each implementation PR boundary.
 
 M3 makes local Graph requests operate on persistent tenant state. It does not require an attack scenario: scenarios remain optional reproducible test inputs. Successful supported mutations change directory state, delta output and, once M3B is implemented, directory-audit evidence.

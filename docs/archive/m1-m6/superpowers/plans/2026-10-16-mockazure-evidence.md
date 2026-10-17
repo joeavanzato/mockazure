@@ -19,7 +19,7 @@ Identity1.26.0 and existing PowerShell pins.
 
 **Spec:** [Approved M3B design](../specs/2026-10-16-mockazure-evidence-design.md).
 **Normative appendix:** [M3B API and state
-contract](../../../integrations/contracts/graph-evidence.md), sections1–8; read with this plan.
+contract](../../../../../integrations/contracts/graph-evidence.md), sections1â€“8; read with this plan.
 **Status:** Completed and qualified, 2026-10-16 (2026-10-17 UTC), with the explicitly approved MES JSON limitation.
 **Execution:** Native, already selected; main agent implements, one independent whole-change review.
 **Base:** merged main4a5fedb plus approved design406901f and this plan; create an isolated D:
@@ -349,7 +349,7 @@ authorization/catalog.py,admin/app.py.
 - Produces snapshot_evidence(session:Session,tenant_id:UUID,wall_now:datetime)->EvidenceSnapshot
   (generation,revision,evidence_time,retention_cutoff,expires_at) for Task9 exports.
 
-- [x] Write test_routes_query_and_schema_matrix covering appendix1–3, beta explicit types,
+- [x] Write test_routes_query_and_schema_matrix covering appendix1â€“3, beta explicit types,
   v1interactive default, equal-time order, required fields and null unknowns.
 - [x] Write test_sql_filters_match_original_mes_predicates: startsWith nested actor UPN,
   targetResources/any with child paths, event-type any OR, quoting/Unicode/%/_ escaping;
@@ -566,7 +566,7 @@ this plan and integrations/contracts/graph-evidence.md status only after verific
 ## Self-review and handoff
 
 Coverage:
-- Durable evidence/time/history/upgrade:1–3,5,7,9.
+- Durable evidence/time/history/upgrade:1â€“3,5,7,9.
 - Real licence, managed identity and risk API state transitions:4,6,8.
 - Permissions/roles/licences/query/redaction/continuations:4,7,8.
 - Safe admin data operations, worker retry/reset/cleanup:1,2,9.
@@ -583,10 +583,10 @@ interfaces or record a coherent interface adjustment for all consumers. No endpo
 client gate may be quietly converted to fixture-only behavior.
 
 Plan completed through Native execution and final qualification. Schema corrections, rulings and
-review disposition are preserved in docs/evidence-decisions.md; measured results are in
-docs/evidence-verification.json.
+review disposition are preserved in docs/archive/m1-m6/evidence-decisions.md; measured results are in
+docs/archive/m1-m6/evidence-verification.json.
 
-## Approved acceptance amendment — 2026-10-16
+## Approved acceptance amendment â€” 2026-10-16
 
 The user accepted original MES audit JSON as a documented upstream limitation,
 with original strict failures visible. Task11/12 may complete only if the narrow

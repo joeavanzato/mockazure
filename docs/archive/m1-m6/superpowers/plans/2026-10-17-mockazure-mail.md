@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python>=3.12, FastAPI, SQLAlchemy2, Alembic, PostgreSQL18, pinned Graph SDK/MSAL/ExchangeOnlineManagement3.11.0, Docker and native Windows.
 
-**Spec:** docs/superpowers/specs/2026-10-17-mockazure-mail-design.md
+**Spec:** docs/archive/m1-m6/superpowers/specs/2026-10-17-mockazure-mail-design.md
 
 M3C qualified at351b182 and PR7 is open. Execute under delegated overnight decisions.
 
@@ -134,7 +134,7 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 ### Task 9: Qualify original Hawk and MES output workflows
 
-**Files:** integrations/powershell/Test-MailCollectors.ps1; tools/qualify_mail_collectors.py; tests/unit/test_mail_collector_oracles.py; docs/mail-verification.json
+**Files:** integrations/powershell/Test-MailCollectors.ps1; tools/qualify_mail_collectors.py; tests/unit/test_mail_collector_oracles.py; docs/archive/m1-m6/mail-verification.json
 
 **Interfaces:** Consumes pinned original collector/helper sources and Task8 actual SDK/module sessions. Produces output identity/field oracles, source/output hashes, exact successful/denied cases for the spec's seven collector functions. Add any discovered required API endpoint; preserve original source and behavior.
 
