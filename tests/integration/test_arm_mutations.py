@@ -127,7 +127,7 @@ async def test_arm_group_tag_mutations_atomic_and_noop(database, settings):
             )
             assert failed.status_code == 400
             assert len(await facts()) == count
-            assert (await client.delete(path, params=args, headers=headers)).status_code == 204
+            assert (await client.delete(path, params=args, headers=headers)).status_code == 200
             assert (await client.get(path, params=args, headers=headers)).json()["properties"][
                 "tags"
             ] == {}

@@ -44,4 +44,4 @@ async def tags(scope_path: str, request: Request):
     result = await tags_write(
         request, scope, {} if request.method == "DELETE" else await body(request)
     )
-    return Response(status_code=204) if request.method == "DELETE" else result
+    return Response(status_code=200) if request.method == "DELETE" else result
