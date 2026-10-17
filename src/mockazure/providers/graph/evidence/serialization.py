@@ -59,6 +59,19 @@ def disclosed_payload(family, access):
         return raw
     detailed = effective_p2() if access.redaction == "P2" else false()
     if family == "signIn":
+        # A v1.0 import can positively identify an interactive user event without
+        # beta-only signInEventTypes. Normalize once for both filtering and output;
+        # false/null cannot distinguish noninteractive users from workload identities.
+        raw = cast(
+            case(
+                (
+                    and_(~raw.has_key("signInEventTypes"), raw["isInteractive"].as_boolean()),
+                    raw.op("||")(literal({"signInEventTypes": ["interactiveUser"]}, type_=JSONB)),
+                ),
+                else_=raw,
+            ),
+            JSONB,
+        )
         event_types = raw["riskEventTypes_v2"]
         elements = (
             func.jsonb_array_elements_text(

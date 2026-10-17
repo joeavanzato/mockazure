@@ -40,9 +40,10 @@ def register_risk_actions(router):
                 )
             return Response(status_code=204)
 
-        router.add_api_route(
-            "/identityProtection/riskyUsers/" + action, operation, methods=["POST"]
-        )
+        for name in (action, "microsoft.graph." + action):
+            router.add_api_route(
+                "/identityProtection/riskyUsers/" + name, operation, methods=["POST"]
+            )
 
     for action in ("confirmCompromised", "dismiss"):
         register(action)

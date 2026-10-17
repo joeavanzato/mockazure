@@ -211,6 +211,7 @@ async def details(request: Request, identifier: str | None = None):
 
 
 @router.post("/users/{identifier}/assignLicense")
+@router.post("/users/{identifier}/microsoft.graph.assignLicense")
 async def assign_license(identifier: str, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         context = await principal(request, session)

@@ -415,3 +415,17 @@ async def test_inventory_policy_refresh_and_schema_bounds(database, settings):
                 )
                 == 0
             )
+
+
+async def test_qualified_assign_license_action(database, settings):
+    async with graph_client(database, settings) as (client, tid, app, actor):
+        await seed_sku(client, tid)
+        write = await headers_for(database, settings, tid, app, None, WRITE)
+        user = await new_user(client, write, "qualified-license")
+        response = await client.post(
+            f"/v1.0/users/{user}/microsoft.graph.assignLicense",
+            headers=write,
+            json=assign(),
+        )
+        assert response.status_code == 200
+        assert response.json()["assignedLicenses"][0]["skuId"] == P2

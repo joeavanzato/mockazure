@@ -58,7 +58,8 @@ async def observe(database, tenant, user, when, **kwargs):
         return await record_risk_observation(session, tenant, value)
 
 
-async def test_confirm_and_dismiss_visible_effects(database, settings):
+@pytest.mark.parametrize("prefix", ["", "microsoft.graph."])
+async def test_confirm_and_dismiss_visible_effects(database, settings, prefix):
     async with risk_client(database, settings) as (client, tenant, app, user, headers, now):
         signin = record("signIn", user, now - timedelta(seconds=10))
         await publish(database, tenant, "signIn", signin, now - timedelta(seconds=10))
@@ -73,7 +74,9 @@ async def test_confirm_and_dismiss_visible_effects(database, settings):
         assert (await client.get(PATH, headers=headers)).json()["value"][0]["riskState"] == "atRisk"
         assert (
             await client.post(
-                PATH + "/confirmCompromised", headers=headers, json={"userIds": [str(user)]}
+                PATH + "/" + prefix + "confirmCompromised",
+                headers=headers,
+                json={"userIds": [str(user)]},
             )
         ).status_code == 204
         value = (await client.get(PATH + "/" + str(user), headers=headers)).json()
@@ -81,7 +84,9 @@ async def test_confirm_and_dismiss_visible_effects(database, settings):
         detection_path = "/v1.0/identityProtection/riskDetections/" + str(outcome.detection_id)
         assert (await client.get(detection_path, headers=headers)).json()["riskState"] == "atRisk"
         assert (
-            await client.post(PATH + "/dismiss", headers=headers, json={"userIds": [str(user)]})
+            await client.post(
+                PATH + "/" + prefix + "dismiss", headers=headers, json={"userIds": [str(user)]}
+            )
         ).status_code == 204
         value = (await client.get(PATH + "/" + str(user), headers=headers)).json()
         assert (value["riskState"], value["riskLevel"], value["riskDetail"]) == (

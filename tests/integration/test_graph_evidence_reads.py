@@ -83,7 +83,7 @@ def record(family, user, when, *, event="interactiveUser", identifier=None, **ex
     return value
 
 
-async def publish(database, tenant, family, payload, when, *, available=None):
+async def publish(database, tenant, family, payload, when, *, available=None, version="beta"):
     subject = payload.get("userId") or (payload["id"] if family == "riskyUser" else None)
     async with database.sessions.begin() as session:
         ref = SourceRef(tenant_id=tenant, kind="historical", id=uuid4())
@@ -93,7 +93,7 @@ async def publish(database, tenant, family, payload, when, *, available=None):
                 ref=ref,
                 occurred_at=when,
                 available_at=available or when,
-                facts={"family": family, "version": "beta", "payload": payload},
+                facts={"family": family, "version": version, "payload": payload},
             ),
         )
         source = await load_source(session, ref)
@@ -523,3 +523,35 @@ async def test_evidence_permissions_roles_and_licence_matrix(database, settings)
             },
         )
         assert [v["status"] for v in batch.json()["responses"]] == [200, 403]
+
+
+async def test_sparse_v1_interactive_record_matches_beta_event_filter(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        await seed_sku(client, tenant)
+        headers = await headers_for(database, settings, tenant, app, None, READ)
+        now = datetime.now(UTC) - timedelta(minutes=1)
+        payload = record("signIn", user, now)
+        payload.pop("signInEventTypes")
+        payload.pop("servicePrincipalId")
+        await publish(database, tenant, "signIn", payload, now, version="v1.0")
+        response = await client.get(
+            "/beta/auditLogs/signIns",
+            params={"$filter": "signInEventTypes/any(t: t eq 'interactiveUser')"},
+            headers=headers,
+        )
+        assert response.status_code == 200
+        assert [row["id"] for row in response.json()["value"]] == [payload["id"]]
+        assert response.json()["value"][0]["signInEventTypes"] == ["interactiveUser"]
+        v1 = await client.get("/v1.0/auditLogs/signIns/" + payload["id"], headers=headers)
+        assert "signInEventTypes" not in v1.json()
+        # A false or unknown flag cannot establish a workload/user event type.
+        for flag in (False, None):
+            other = record("signIn", user, now, isInteractive=flag)
+            other.pop("signInEventTypes")
+            await publish(database, tenant, "signIn", other, now, version="v1.0")
+        response = await client.get(
+            "/beta/auditLogs/signIns",
+            params={"$filter": "signInEventTypes/any(t: t eq 'nonInteractiveUser')"},
+            headers=headers,
+        )
+        assert response.json()["value"] == []
