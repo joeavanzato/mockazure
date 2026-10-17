@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "status": "measured-release-blocked",
+  "source_commit": "bf64b4e2ae09defdae83a6d306d777fc97bf6667",
+  "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+  "profiles": {
+    "small": {
+      "name": "small",
+      "seed": 61009,
+      "users": 100,
+      "records": 1000,
+      "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+      "started_at": "2026-10-17T13:33:03.882353+00:00",
+      "status": "complete",
+      "passed": true,
+      "imported": {
+        "users": 100,
+        "records": 1000
+      },
+      "published": 1000,
+      "worker_restart": true,
+      "api_restart": true,
+      "reads": [
+        {
+          "count": 100,
+          "id_sha256_xor": "311d5f6e20a299a7eb1869e9eaa63e11f5d47d5b17f50614cff6b8df5dc8629e",
+          "coverage_bytes": 13,
+          "family": "user",
+          "caller": 0,
+          "pages": 2,
+          "restart": {
+            "captured_ns": 437747415972400,
+            "resumed_ns": 437749253914400,
+            "pages_before": 1,
+            "pages_after": 1
+          },
+          "seconds": 4.099168000044301,
+          "retries": 0,
+          "p50_seconds": 0.0868622999987565,
+          "p95_seconds": 2.1729804999777116,
+          "max_seconds": 2.1729804999777116
+        },
+        {
+          "count": 100,
+          "id_sha256_xor": "311d5f6e20a299a7eb1869e9eaa63e11f5d47d5b17f50614cff6b8df5dc8629e",
+          "coverage_bytes": 13,
+          "family": "user",
+          "caller": 1,
+          "pages": 2,
+          "restart": {
+            "captured_ns": 437747386132200,
+            "resumed_ns": 437749254157100,
+            "pages_before": 1,
+            "pages_after": 1
+          },
+          "seconds": 4.061532799969427,
+          "retries": 0,
+          "p50_seconds": 0.04880520002916455,
+          "p95_seconds": 2.1421649999683723,
+          "max_seconds": 2.1421649999683723
+        },
+        {
+          "count": 1000,
+          "id_sha256_xor": "69da42fe9bffb4b6677f796196dbef22c53e21dbef862427926a1492d09d821e",
+          "coverage_bytes": 125,
+          "family": "signIn",
+          "caller": 0,
+          "pages": 2,
+          "restart": {
+            "captured_ns": 437747538127700,
+            "resumed_ns": 437749253640500,
+            "pages_before": 1,
+            "pages_after": 1
+          },
+          "seconds": 7.419642399996519,
+          "retries": 0,
+          "p50_seconds": 2.2881127999862656,
+          "p95_seconds": 3.4040118000120856,
+          "max_seconds": 3.4040118000120856
+        },
+        {
+          "count": 1000,
+          "id_sha256_xor": "69da42fe9bffb4b6677f796196dbef22c53e21dbef862427926a1492d09d821e",
+          "coverage_bytes": 125,
+          "family": "signIn",
+          "caller": 1,
+          "pages": 2,
+          "restart": {
+            "captured_ns": 437747471003000,
+            "resumed_ns": 437749254358600,
+            "pages_before": 1,
+            "pages_after": 1
+          },
+          "seconds": 6.251403599977493,
+          "retries": 0,
+          "p50_seconds": 2.221996400039643,
+          "p95_seconds": 2.2327381999930367,
+          "max_seconds": 2.2327381999930367
+        }
+      ],
+      "configuration": {
+        "profile": "m6-arm",
+        "api_replicas": 2,
+        "workers": 2,
+        "batch_size": 1000,
+        "postgres_major": 18,
+        "image_id": "sha256:502eb5186b9aca57a44fdcc61f7c8ddf9ae7f9ca3e5e0268a8aef1490e281b2a",
+        "runtime_fingerprint": "b9f1cc0c01d2995c548a6451f6218f600d31b583b2ec34b05359efb402dbfbce",
+        "docker": {
+          "cpus": 20,
+          "memory": 33520742400
+        }
+      },
+      "tenant_id": "a3adc46e-4730-4d3f-ac36-cdbe1f992bd1",
+      "users_import_seconds": 0.07358500000555068,
+      "records_import_seconds": 10.953703699982725,
+      "jobs": {
+        "succeeded": 1001
+      },
+      "database_bytes": 27629247,
+      "pipeline_seconds": 11.316896300006192,
+      "published_records_per_second": 88.36344996812004,
+      "restart_boundary": {
+        "started_ns": 437747538145700,
+        "completed_ns": 437749252743500
+      },
+      "completed_at": "2026-10-17T13:33:28.012353+00:00"
+    },
+    "medium": {
+      "name": "medium",
+      "seed": 62006,
+      "users": 5000,
+      "records": 50000,
+      "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+      "started_at": "2026-10-17T13:33:31.041927+00:00",
+      "status": "complete",
+      "passed": true,
+      "imported": {
+        "users": 5000,
+        "records": 50000
+      },
+      "published": 50000,
+      "worker_restart": true,
+      "api_restart": true,
+      "reads": [
+        {
+          "count": 5000,
+          "id_sha256_xor": "c06e038c076fc5b754a70f98abce87f46a6971b2cff140b29b76c76c6619e280",
+          "coverage_bytes": 625,
+          "family": "user",
+          "caller": 0,
+          "pages": 6,
+          "restart": {
+            "captured_ns": 437906811191100,
+            "resumed_ns": 437912293059100,
+            "pages_before": 1,
+            "pages_after": 5
+          },
+          "seconds": 10.354248400020879,
+          "retries": 0,
+          "p50_seconds": 0.07884529995499179,
+          "p95_seconds": 2.3053029000293463,
+          "max_seconds": 2.3053029000293463
+        },
+        {
+          "count": 5000,
+          "id_sha256_xor": "c06e038c076fc5b754a70f98abce87f46a6971b2cff140b29b76c76c6619e280",
+          "coverage_bytes": 625,
+          "family": "user",
+          "caller": 1,
+          "pages": 6,
+          "restart": {
+            "captured_ns": 437906922936100,
+            "resumed_ns": 437912293249000,
+            "pages_before": 1,
+            "pages_after": 5
+          },
+          "seconds": 12.70845219999319,
+          "retries": 0,
+          "p50_seconds": 0.08830419997684658,
+          "p95_seconds": 4.532149400038179,
+          "max_seconds": 4.532149400038179
+        },
+        {
+          "count": 50000,
+          "id_sha256_xor": "d3ab7a82eed00b5d05180474203624c2db489ad6a915edad22afafa0e4291aa7",
+          "coverage_bytes": 6250,
+          "family": "signIn",
+          "caller": 0,
+          "pages": 100,
+          "restart": {
+            "captured_ns": 437908997667900,
+            "resumed_ns": 437912293496300,
+            "pages_before": 1,
+            "pages_after": 99
+          },
+          "seconds": 239.51853739999933,
+          "retries": 0,
+          "p50_seconds": 2.445798900036607,
+          "p95_seconds": 3.092393299972173,
+          "max_seconds": 4.494097399991006
+        },
+        {
+          "count": 50000,
+          "id_sha256_xor": "d3ab7a82eed00b5d05180474203624c2db489ad6a915edad22afafa0e4291aa7",
+          "coverage_bytes": 6250,
+          "family": "signIn",
+          "caller": 1,
+          "pages": 100,
+          "restart": {
+            "captured_ns": 437910516904000,
+            "resumed_ns": 437912292804800,
+            "pages_before": 1,
+            "pages_after": 99
+          },
+          "seconds": 240.1104389000102,
+          "retries": 0,
+          "p50_seconds": 2.4571657000342384,
+          "p95_seconds": 3.0912346999975853,
+          "max_seconds": 6.885028000047896
+        }
+      ],
+      "configuration": {
+        "profile": "m6-arm",
+        "api_replicas": 2,
+        "workers": 2,
+        "batch_size": 1000,
+        "postgres_major": 18,
+        "image_id": "sha256:502eb5186b9aca57a44fdcc61f7c8ddf9ae7f9ca3e5e0268a8aef1490e281b2a",
+        "runtime_fingerprint": "b9f1cc0c01d2995c548a6451f6218f600d31b583b2ec34b05359efb402dbfbce",
+        "docker": {
+          "cpus": 20,
+          "memory": 33520742400
+        }
+      },
+      "tenant_id": "7f3b1ffe-6f77-408c-b243-d37bbd57c38c",
+      "users_import_seconds": 2.0449885999551043,
+      "records_import_seconds": 70.66662409994751,
+      "jobs": {
+        "succeeded": 50005
+      },
+      "database_bytes": 310810303,
+      "pipeline_seconds": 141.6162358999718,
+      "published_records_per_second": 353.06686187674586,
+      "restart_boundary": {
+        "started_ns": 437910516914800,
+        "completed_ns": 437912291644900
+      },
+      "completed_at": "2026-10-17T13:40:00.222354+00:00"
+    },
+    "large": {
+      "name": "large",
+      "seed": 63002,
+      "users": 100000,
+      "records": 1000000,
+      "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+      "started_at": "2026-10-17T13:40:03.466354+00:00",
+      "status": "failed",
+      "passed": false,
+      "imported": {
+        "users": 100000,
+        "records": 979000
+      },
+      "published": 0,
+      "worker_restart": true,
+      "api_restart": false,
+      "reads": [],
+      "configuration": {
+        "profile": "m6-arm",
+        "api_replicas": 2,
+        "workers": 2,
+        "batch_size": 1000,
+        "postgres_major": 18,
+        "image_id": "sha256:502eb5186b9aca57a44fdcc61f7c8ddf9ae7f9ca3e5e0268a8aef1490e281b2a",
+        "runtime_fingerprint": "b9f1cc0c01d2995c548a6451f6218f600d31b583b2ec34b05359efb402dbfbce",
+        "docker": {
+          "cpus": 20,
+          "memory": 33520742400
+        }
+      },
+      "tenant_id": "b8be2b9f-1768-47b4-b3d1-c83c53c1f05c",
+      "users_import_seconds": 48.03034299996216,
+      "error_type": "RuntimeError"
+    }
+  },
+  "proofs": {
+    "small": {
+      "path": "work/release/scale-small-61009.json",
+      "sha256": "61e629c927352874e5f8596dd33c9474deecafd948dbdd8d72e03919b3468f56"
+    },
+    "medium": {
+      "path": "work/release/scale-medium-62006.json",
+      "sha256": "2ac2162b78414a650d40e27a2b076bb77cc7f20ce44739cd2f54c33df68b68c3"
+    },
+    "large": {
+      "path": "work/release/scale-large-63002.json",
+      "sha256": "4da77f74d1bd03bdc630c22e4b60a49b4065357d7a8f08aa2863640433af0a9f"
+    }
+  },
+  "large_failure": {
+    "recorded_at": "2026-10-17T14:36:41.998355+00:00",
+    "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+    "profile": "large",
+    "seed": 63002,
+    "declared": {
+      "users": 100000,
+      "records": 1000000
+    },
+    "acknowledged_imports": {
+      "users": 100000,
+      "records": 979000
+    },
+    "error_type": "RuntimeError",
+    "http_status": 503,
+    "database_log": [
+      "db-1  | 2026-10-17 14:35:00.135 UTC [91] PANIC:  could not write to log file \"0000000100000001000000F5\" at offset 16105472, length 262144: Cannot allocate memory",
+      "db-1  | 2026-10-17 14:35:01.486 UTC [7] LOG:  WAL writer process (PID 91) was terminated by signal 6: Aborted",
+      "db-1  | 2026-10-17 14:35:02.101 UTC [7] LOG:  all server processes terminated; reinitializing",
+      "db-1  | 2026-10-17 14:35:27.776 UTC [14916] LOG:  redo starts at 1/DD56F688"
+    ],
+    "container_oom_killed": false,
+    "conclusion": "PostgreSQL WAL write returned Cannot allocate memory and its WAL writer aborted. PostgreSQL restarted internally and rejected connections during recovery.",
+    "limits": "Underlying allocation failure is unresolved. Container OOMKilled=false does not establish that host or bind-mount memory was sufficient. The report's published=0 is an initialized value, not a post-failure count. No exact large paging/restart proof completed.",
+    "disposition": "Retain failed gate and private runtime state; run independent ARM qualification with fresh owned state. No reduced target, repaired output, host changes, or acceptance waiver."
+  },
+  "execution": {
+    "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+    "started_at": "2026-10-17T13:31:31.816354+00:00",
+    "runs": {
+      "small": {
+        "seed": 61009,
+        "status": "finished",
+        "wall_budget_seconds": 1800,
+        "exit_code": 0,
+        "finished_at": "2026-10-17T13:33:28.135353+00:00"
+      },
+      "medium": {
+        "seed": 62006,
+        "status": "finished",
+        "wall_budget_seconds": 3600,
+        "exit_code": 0,
+        "finished_at": "2026-10-17T13:40:00.360853+00:00"
+      },
+      "large": {
+        "seed": 63002,
+        "status": "finished",
+        "wall_budget_seconds": 10800,
+        "exit_code": 1,
+        "finished_at": "2026-10-17T14:35:02.055355+00:00"
+      }
+    },
+    "completed_at": "2026-10-17T14:35:02.056856+00:00"
+  },
+  "historical_tuning": "docs/release-scale-tuning.json"
+}

@@ -83,7 +83,7 @@ or complete Hawk/MES collection workflows.
 
 ## Milestone 3B additions
 
-M3B introduced delivery B; current discovery reports delivery C. The evidence contract is normative
+M3B introduced delivery B; current discovery reports milestone4, delivery mail. The evidence contract is normative
 for operation permissions, P1/P2 gates, delegated roles, query operators and caps.
 
 | Surface | Implemented behavior |
@@ -103,7 +103,7 @@ Final client qualification status is recorded in evidence-execution.md.
 
 ## Milestone 3C additions
 
-Capability discovery reports milestone 3, delivery C. Microsoft Graph v1.0 metadata
+M3C introduced milestone3, delivery C; those operations remain supported. Microsoft Graph v1.0 metadata
 and operation-specific permissions govern the profile; beta shares only declared
 compatible operations.
 
@@ -131,3 +131,65 @@ See [exact security contracts](security-contracts.md), [client qualification
 contract](../integrations/contracts/graph-security.md), [measured results](security-verification.json)
 and [execution decisions](security-decisions.md). Final review status is in
 [security execution](security-execution.md).
+
+## Milestone 4 additions
+
+Capability discovery reports milestone4, delivery mail.
+
+| Surface | Implemented behavior |
+| --- | --- |
+| Graph inbox rules | v1.0/beta bounded v1 contract; user/UPN/me list/item/create/update/delete; current permissions/ownership; hidden and read-only rules; immutable page versions |
+| Exchange mailbox configuration | Canonical recipient identities, forwarding precedence and persisted primary/archive/folder/CAS state; current role/command/recipient scopes |
+| Original Exchange commands | Fixed whitelisted HTTP proxies plus original compiled Get-EXOMailbox/statistics/folders/CAS routes; no replacement compiled cmdlets |
+| Inbox/sweep rules | Distinct persisted rule families, lifecycle and ordering; actual IncludeHidden command coverage |
+| Message trace/detail | Immutable imported rows, documented bounded date/filter profile, 5000-row continuation and shared 100-request/300-second throttling |
+| Graph UAL queries | Explicit AuditLogsQuery permissions, workload unions, Purview roles and Audit entitlement; durable create/list/get/status/records |
+| Audit evidence | Native mailbox mutations and declared historical input; immutable fenced projection; SQL materialized retained query results independent of source cleanup/reset |
+
+Rules cap at1000 per mailbox and100 per response page. Queries retain results for
+seven days; continuation handles last one hour. Unsupported query combinations
+fail explicitly. Expired UAL result rows and obsolete rule versions support bounded local maintenance;
+active snapshots remain pinned and expired query/job tombstones are retained.
+No message delivery, full Exchange policy engine, eDiscovery or broader Purview
+service is implied. See [mail contracts](mail-contracts.md) and
+[measured qualification](mail-verification.json).
+
+
+## Milestone 5 additions
+
+Capability discovery reports milestone5, delivery arm.
+
+| Surface | Implemented behavior |
+| --- | --- |
+| ARM inventory | Owned subscriptions, resource groups and declared resources; SQL scope filtering, bounded filters/expand and opaque pagination |
+| Group/tag mutations | Permission-checked create/update/delete, tag replace/merge/delete; immutable facts and serialized state |
+| Durable deletion | PostgreSQL worker job, lease fencing, restart-safe poll state and atomic terminal evidence |
+| ARM authorization | Current app/user/transitive-security-group assignments; Reader, Contributor, Owner, User Access Administrator; Actions minus NotActions |
+| Public RBAC | Scoped definitions and assignment CRUD/list; canonical principal identity, inherited grants and current authorization |
+| Activity Logs | Actual EventData fields, exact100ns times, SQL filter/select, snapshot paging, retention/reset/revocation boundaries |
+| Retry qualification | Admin-only scoped one-shot429/503 faults with Retry-After; fault state persists across replicas |
+
+Discovery supports2020-01-01/2021-01-01; resource groups/inventory2021-04-01;
+tags also2024-07-01; RBAC2022-04-01, plus original-Az role definitions2022-05-01-preview
+and assignments2020-08-01-preview; Activity Logs2015-04-01. Only explicitly listed
+operations gain compatibility versions. No arbitrary deployment, custom role writes,
+PIM, management-group hierarchy, resource-provider execution or whole-Azure fidelity
+is implied. Original collectors retain their own output behavior.
+
+
+## M6 bounded maintenance and measured scale
+
+Authenticated POST /_mock/tenants/{id}/maintenance/cleanup and the matching
+CLI reclaim expired UAL result items, obsolete mailbox rule history and expired
+directory continuations within a shared deletion budget (default500, maximum1000).
+Live continuation pins and query/job tombstones are preserved. Audit and mailbox
+phases use separate atomic transactions to avoid lock-order inversion; a later
+phase failure is safely retried without rolling back an earlier committed phase.
+See [maintenance](maintenance.md).
+
+Small and medium current-source scale profiles passed exact concurrent paging
+across API/worker recovery. The100000-user/1000000-record profile failed during
+import at979000 acknowledged records after a PostgreSQL WAL allocation error.
+It is not qualified at the declared large target. Full measurements and limits
+are in [release-scale.md](release-scale.md); release readiness is governed by
+[release-execution.md](release-execution.md).

@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "qualified_at": "2026-10-17T11:32:55.231440+00:00",
+  "started_at": "2026-10-17T11:29:20.352353+00:00",
+  "source_fingerprint": "542d5b2e945d1a5af6c3b4d1239a7e3e0f8c01a9da1dbba3a9b5deab8404a3aa",
+  "source_commit": "a3a4d04516a4492661629a2d1310f15e0f88224b",
+  "manifest_sha256": "fbde445abdf90b126581546481233a22fc5af6feae2efb77687df66793ed1e53",
+  "arm_references_sha256": "e579959f28004ec40f9670fe07c99837c3b611a5c1a5705c6c70ab33f3bcf8cf",
+  "lock_sha256": "69921922e882539dcff043c0f7ba56480873a9aec587e1c23438991d0089d15b",
+  "wheel_sha256": "9822bd8fb89909710a7189ce14bdf4a1cf0734a86e2eaccc2d29777a43a18651",
+  "runtime_image_id": "sha256:1254bcb9b0be7acc3b62712176ed9dde5112aa86fd7abe76130f1f9e0530c40a",
+  "client_image_ids": {
+    "python": "sha256:623f1f2adb4059edaa1359569c0b08645d5187198efb0ae5ce6520c79b7b06ba",
+    "powershell": "sha256:4be726730a1f69796dfc86d2531ddbdf662bebbaa4edc47c4111c2463fe32b9a"
+  },
+  "checks": {
+    "clean_wheel_install": true,
+    "runtime_package_bytes": true,
+    "two_api_replicas": true,
+    "api_restart": true,
+    "postgres_restart": true,
+    "delete_pending_restart": true,
+    "worker_restart": true,
+    "two_workers": true,
+    "activity_snapshot_resume": true,
+    "tenant_isolation": true,
+    "scope_denied": true,
+    "page_reauthorization": true,
+    "native_evidence": true,
+    "fault_retry": true,
+    "native_network_blocked": true,
+    "container_python_network_blocked": true,
+    "container_powershell_network_blocked": true
+  },
+  "clients": {
+    "native_python": {
+      "passed": true,
+      "modes": {
+        "application": {
+          "discovery": true,
+          "inventory": true,
+          "tag_crud": true,
+          "role_definitions": true,
+          "role_assignments": true,
+          "group_crud": true,
+          "activity_paging": true,
+          "activity_filters": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "discovery": true,
+          "inventory": true,
+          "tag_crud": true,
+          "role_definitions": true,
+          "role_assignments": true,
+          "group_crud": true,
+          "activity_paging": true,
+          "activity_filters": true,
+          "permission_denied": true
+        }
+      },
+      "versions": {
+        "msal": "1.39.0",
+        "azure-mgmt-resource": "23.4.0",
+        "azure-mgmt-authorization": "4.0.0",
+        "azure-mgmt-monitor": "6.0.2"
+      }
+    },
+    "container_python": {
+      "passed": true,
+      "modes": {
+        "application": {
+          "discovery": true,
+          "inventory": true,
+          "tag_crud": true,
+          "role_definitions": true,
+          "role_assignments": true,
+          "group_crud": true,
+          "activity_paging": true,
+          "activity_filters": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "discovery": true,
+          "inventory": true,
+          "tag_crud": true,
+          "role_definitions": true,
+          "role_assignments": true,
+          "group_crud": true,
+          "activity_paging": true,
+          "activity_filters": true,
+          "permission_denied": true
+        }
+      },
+      "versions": {
+        "msal": "1.39.0",
+        "azure-mgmt-resource": "23.4.0",
+        "azure-mgmt-authorization": "4.0.0",
+        "azure-mgmt-monitor": "6.0.2"
+      }
+    },
+    "container_powershell": {
+      "modes": {
+        "application": {
+          "role_definitions": true,
+          "discovery": true,
+          "activity_filters": true,
+          "activity_paging": true,
+          "role_assignments": true,
+          "inventory": true,
+          "permission_denied": true,
+          "group_crud": true,
+          "tag_crud": true
+        },
+        "delegated": {
+          "role_definitions": true,
+          "discovery": true,
+          "activity_filters": true,
+          "activity_paging": true,
+          "role_assignments": true,
+          "inventory": true,
+          "permission_denied": true,
+          "group_crud": true,
+          "tag_crud": true
+        }
+      },
+      "passed": true,
+      "versions": {
+        "Az.Resources": "7.8.0",
+        "Az.Accounts": "4.0.2"
+      }
+    }
+  },
+  "collector": {
+    "passed": true,
+    "cases": [
+      {
+        "mode": "application",
+        "discovery": "discovered",
+        "denied": false,
+        "passed": true,
+        "records": 1003,
+        "native_records": 224,
+        "request_count": 16
+      },
+      {
+        "mode": "application",
+        "discovery": "discovered",
+        "denied": true,
+        "passed": true,
+        "records": 0,
+        "native_records": 0,
+        "request_count": 1
+      },
+      {
+        "mode": "application",
+        "discovery": "explicit",
+        "denied": false,
+        "passed": true,
+        "records": 1003,
+        "native_records": 224,
+        "request_count": 14
+      },
+      {
+        "mode": "application",
+        "discovery": "explicit",
+        "denied": true,
+        "passed": true,
+        "records": 0,
+        "native_records": 0,
+        "request_count": 0
+      },
+      {
+        "mode": "delegated",
+        "discovery": "discovered",
+        "denied": false,
+        "passed": true,
+        "records": 1003,
+        "native_records": 224,
+        "request_count": 16
+      },
+      {
+        "mode": "delegated",
+        "discovery": "discovered",
+        "denied": true,
+        "passed": true,
+        "records": 0,
+        "native_records": 0,
+        "request_count": 1
+      },
+      {
+        "mode": "delegated",
+        "discovery": "explicit",
+        "denied": false,
+        "passed": true,
+        "records": 1003,
+        "native_records": 224,
+        "request_count": 14
+      },
+      {
+        "mode": "delegated",
+        "discovery": "explicit",
+        "denied": true,
+        "passed": true,
+        "records": 0,
+        "native_records": 0,
+        "request_count": 0
+      }
+    ],
+    "records_verified": 4012,
+    "source_hashes": {
+      "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-AzureActivityLogs.ps1": "405c77b647785406d40fcfad1906c9ecc2847be9b876be1641bcbc6d4d99609c",
+      "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+    },
+    "output_hashes": {
+      "arm-expected.json": "c62e22e2dedf8d4de0091992a6b0babc167d29d54823c2e71b9a0f8e6fd700e9",
+      "arm-native-expected.json": "92fdb478edeed0400a4f8884302d5f43a1b9d7b581ee03fd78d6530622a43aa8",
+      "runtime-native-expected.json": "0e19c2558190090abcd33dec2669240794be7f8a2136727bb0cf54d6ac9267ba",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-positive/case.json": "453a092611bb875b394846b1ad2bc4ae2bebb2a2b222fefc69383da5d39c00dd",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-positive/process.log": "31bf7fca650cf1909bf49b3b61ae678e7549cc703bf0f5472248f19fe6aa3fbf",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-positive/report.json": "4c67cd82eed45e72ca0ef5336f5cbf6d6cf4d4b93a74f310bfa1cd76db9214de",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-positive/output/collector.log": "10585299b5e8194ef2f518371004ab7eeaf98b07dc52083316a41172310b128d",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-positive/output/historical/Activity Logs/20261017-113112/20261017113112-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "7dc8de80e5da43f4e667ce2e5e5b47189a45c3f5ab1b00ed6881c8d5fa9228da",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-positive/output/native/Activity Logs/20261017-113113/20261017113113-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "83a22856cd0b6fd9ce9a7e812d6396036f799ab297e688f56d7d9afe4a95bd17",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-denied/case.json": "dd2c817c5a473df7989a6d48d2a27106b6dbf184bbe526a2e6d6d1bb17c406c9",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-denied/process.log": "ef5d9d68368e215a97ad9909ecf338456e4b120e60b26d1aeb59162776a3c79c",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-denied/report.json": "ea44c50e6efa1b2dcf2003cae0cccccec09bc7d76c4aa2165808596893b6beeb",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-discovered-denied/output/collector.log": "d7432c943015bf18f7463ffcb858f93fe8c293be05d54a54f8e9f6accd8cbb04",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-positive/case.json": "83896eae58a7f82b01b913a6ce1ece640b878dae7f7f2584510ac5923aeeba67",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-positive/process.log": "fc38c81375de1b6ed8e55b70517ffadbd1c4aa62bb872567ede02acd30a8b00e",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-positive/report.json": "4ec7021599f9b6870a5c38e5352457f5c1cb99a49dd7df1892002ef2f7bdb179",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-positive/output/collector.log": "33f6c8815b1f41e9912d8f94ff879a93408c0f0b3d9e0aef9839a7ca1ab69f55",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-positive/output/historical/Activity Logs/20261017-113139/20261017113139-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "7dc8de80e5da43f4e667ce2e5e5b47189a45c3f5ab1b00ed6881c8d5fa9228da",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-positive/output/native/Activity Logs/20261017-113140/20261017113140-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "83a22856cd0b6fd9ce9a7e812d6396036f799ab297e688f56d7d9afe4a95bd17",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-denied/case.json": "b1060cff72c5b143b28695dd7596b5fe47c315251cba1e235e5de45b133b811f",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-denied/process.log": "896be845b9910bd93d0d7b05c85172f63d42501636381ad9446c7b84b4da1acd",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-denied/report.json": "717178950a979a08a479b4d661769d75cc9c403fcf14ac0cd31d567ba07a75bb",
+      "clients/powershell-state/arm-collectors-1792236669934854100/application-explicit-denied/output/collector.log": "9839a87c98c986d8195f7445a96c8ec942e5009fa574eea19b22d20a14463c36",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-positive/case.json": "2c464ee53e6202b0ae5a58cc4124683d8fe141eb49dcfe1bd3b9792d6291a22c",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-positive/process.log": "5c2ba27ecc2c5043833f5cd9766576f4f485d3776a09efaa51dbf688d1686d1d",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-positive/report.json": "ceb3a690d1fccddceafc7038ffba3c5a26489e3f69ee3ca8e4c8f2e1fbbc79c4",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-positive/output/collector.log": "a175833450a877cfb36eaa16469ea4188a87cf34bd355df32eb4eaf1ca9063bf",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-positive/output/historical/Activity Logs/20261017-113206/20261017113206-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "7dc8de80e5da43f4e667ce2e5e5b47189a45c3f5ab1b00ed6881c8d5fa9228da",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-positive/output/native/Activity Logs/20261017-113207/20261017113207-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "83a22856cd0b6fd9ce9a7e812d6396036f799ab297e688f56d7d9afe4a95bd17",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-denied/case.json": "f3d5472b0ff00a5a21cfac2154db640559580e6c92918818d185aaaac2ab5566",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-denied/process.log": "5210b0af8fd6f4937dd7151bd3d7422113f6489d01113825682ae4ecf8804b41",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-denied/report.json": "20f4ea41bddfcd3d64940ef473fe41b7bfe0406a56c8758e54fd08dd1f1488e7",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-discovered-denied/output/collector.log": "f99ef75a50c567e83663e7eca619333a8b5b748c0b3d73ee13f8497af5b7f9f8",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-positive/case.json": "decfdf85daf6b8b6df4b0cf5bcec67ac01fcd8653cde4423b3d73596ff55dad1",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-positive/process.log": "791eb49fc8231845617ee5614de1b77823017b33204ff16dedeff792fface114",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-positive/report.json": "99af9a89e1b5a1abb101795814772ad360381e6615c3fda0ab6684f2c95af9b2",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-positive/output/collector.log": "41ecd1ab7871953b8a74d69ae362e7c521b95466429688f716a7d46d4116b8a6",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-positive/output/historical/Activity Logs/20261017-113232/20261017113232-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "7dc8de80e5da43f4e667ce2e5e5b47189a45c3f5ab1b00ed6881c8d5fa9228da",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-positive/output/native/Activity Logs/20261017-113233/20261017113233-2cd50efb-9d14-430b-82aa-98fef2b7cbc1-ActivityLog.json": "83a22856cd0b6fd9ce9a7e812d6396036f799ab297e688f56d7d9afe4a95bd17",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-denied/case.json": "244a24fe0644af44ef238935d4f295284137be206f7be1e7659fd90fa0694710",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-denied/process.log": "94424cb16a0ce7fd90606895f3ea4355d9d426e3584d849ad3924848f9304c8f",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-denied/report.json": "6a5960226904cdaf749bade4186759f7793b7cf2c280c5adc8504bdf72fddf08",
+      "clients/powershell-state/arm-collectors-1792236669934854100/delegated-explicit-denied/output/collector.log": "4d77df4251ab99da561539c46b2f19adbb050a63fdacd7fb39de951301b51327"
+    }
+  },
+  "passed": true,
+  "total_seconds": 214.922,
+  "limitations": [
+    "PowerShell uses locally issued tokens; Python uses original MSAL authentication.",
+    "Supported ARM versions and four immutable built-in roles are explicit.",
+    "M4's four original collector output failures remain combined-release blockers."
+  ]
+}

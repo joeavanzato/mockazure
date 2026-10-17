@@ -2,7 +2,7 @@
 
 from uuid import UUID, uuid4
 
-from sqlalchemy import String, cast, exists, select
+from sqlalchemy import String, cast, exists, literal_column, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -60,7 +60,8 @@ async def scan_sources(session: AsyncSession, *, limit: int = 100, tenant_id=Non
         select(Job.id).where(
             Job.tenant_id == EvidenceSource.tenant_id,
             Job.kind == "evidence.project",
-            Job.source_key == EvidenceSource.kind + ":" + cast(EvidenceSource.id, String),
+            Job.source_key
+            == EvidenceSource.kind + literal_column("':'") + cast(EvidenceSource.id, String),
         )
     )
     rows = list(
@@ -97,7 +98,8 @@ def evidence_job_retired():
         .where(
             Job.kind == "evidence.project",
             Job.tenant_id == EvidenceSource.tenant_id,
-            Job.source_key == EvidenceSource.kind + ":" + cast(EvidenceSource.id, String),
+            Job.source_key
+            == EvidenceSource.kind + literal_column("':'") + cast(EvidenceSource.id, String),
             EvidenceSource.generation != EvidenceState.generation,
         )
     )

@@ -1,0 +1,74 @@
+{
+  "roles": {
+    "Reader": {
+      "id": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+      "description": "View all resources, but does not allow you to make any changes.",
+      "actions": [
+        "*/read"
+      ],
+      "notActions": [],
+      "dataActions": [],
+      "notDataActions": [],
+      "assignableScopes": [
+        "/"
+      ],
+      "source": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/general"
+    },
+    "Contributor": {
+      "id": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+      "description": "Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries.",
+      "actions": [
+        "*"
+      ],
+      "notActions": [
+        "Microsoft.Authorization/*/Delete",
+        "Microsoft.Authorization/*/Write",
+        "Microsoft.Authorization/elevateAccess/Action",
+        "Microsoft.Blueprint/blueprintAssignments/write",
+        "Microsoft.Blueprint/blueprintAssignments/delete",
+        "Microsoft.Compute/galleries/share/action",
+        "Microsoft.Purview/consents/write",
+        "Microsoft.Purview/consents/delete",
+        "Microsoft.Resources/deploymentStacks/manageDenySetting/action",
+        "Microsoft.Subscription/cancel/action",
+        "Microsoft.Subscription/enable/action"
+      ],
+      "dataActions": [],
+      "notDataActions": [],
+      "assignableScopes": [
+        "/"
+      ],
+      "source": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/privileged"
+    },
+    "Owner": {
+      "id": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+      "description": "Grants full access to manage all resources, including the ability to assign roles in Azure RBAC.",
+      "actions": [
+        "*"
+      ],
+      "notActions": [],
+      "dataActions": [],
+      "notDataActions": [],
+      "assignableScopes": [
+        "/"
+      ],
+      "source": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/privileged"
+    },
+    "User Access Administrator": {
+      "id": "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9",
+      "description": "Lets you manage user access to Azure resources.",
+      "actions": [
+        "*/read",
+        "Microsoft.Authorization/*",
+        "Microsoft.Support/*"
+      ],
+      "notActions": [],
+      "dataActions": [],
+      "notDataActions": [],
+      "assignableScopes": [
+        "/"
+      ],
+      "source": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/privileged"
+    }
+  }
+}

@@ -5,6 +5,11 @@ import hashlib
 import json
 from pathlib import Path
 
+if __package__:
+    from .qualification_profile import profile_for
+else:
+    from qualification_profile import profile_for
+
 
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -197,7 +202,9 @@ def validate_qualification(report, root):
             value["expected_snapshot"],
         ]:
             path = (root / output["path"]).resolve()
-            assert path.is_relative_to(root.resolve() / ".runtime/m3b/clients/powershell-state")
+            assert path.is_relative_to(
+                root.resolve() / profile_for("m3b").runtime_dir / "clients/powershell-state"
+            )
             assert sha(path) == output["sha256"]
         slot = int(name.split("-")[0]) % 10
         limitation = value.get("known_limitation")

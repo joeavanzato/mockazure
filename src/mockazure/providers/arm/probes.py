@@ -1,15 +1,19 @@
+"""ARM tenant and subscription discovery backed by current identities and grants."""
+
 from datetime import UTC, datetime
-from urllib.parse import urlencode
-from uuid import UUID
 
 from fastapi import APIRouter, Request
 from sqlalchemy import select
 
-from mockazure.identity.models import User
+from mockazure.db.models import Tenant
 from mockazure.identity.tokens import validate_access_token
 from mockazure.oauth.errors import OAuthError
-from mockazure.providers.arm.models import ReaderAssignment, Subscription
-from mockazure.providers.graph.errors import GraphError
+from mockazure.providers.arm.authorization import current_principal, grant_query, require_action
+from mockazure.providers.arm.errors import ArmError
+from mockazure.providers.arm.inventory import resolve_scope
+from mockazure.providers.arm.models import RoleAssignment, Subscription
+from mockazure.providers.arm.paging import next_link, parameters, read_page
+from mockazure.providers.arm.scopes import parse_scope
 
 router = APIRouter()
 
@@ -23,34 +27,9 @@ async def principal(request, session):
             raw, "arm", datetime.now(UTC), session, endpoints=request.app.state.settings.endpoints
         )
     except OAuthError:
-        raise GraphError(401, "InvalidAuthenticationToken", "ARM access token required") from None
-    if context.token_kind == "delegated":
-        user = await session.get(User, context.subject_id)
-        if (
-            "user_impersonation" not in context.permissions
-            or not user
-            or not user.enabled
-            or user.tenant_id != context.tenant_id
-        ):
-            raise GraphError(403, "AuthorizationFailed", "ARM delegated access is not permitted")
+        raise ArmError(401, "InvalidAuthenticationToken", "ARM access token required") from None
+    await current_principal(session, context)
     return context
-
-
-def parameters(request):
-    if (
-        request.query_params.get("api-version") != "2021-01-01"
-        or set(request.query_params) - {"api-version", "$skiptoken"}
-        or len(request.query_params.multi_items()) != len(request.query_params)
-    ):
-        raise GraphError(400, "InvalidApiVersionParameter", "Supported api-version is 2021-01-01")
-    try:
-        return (
-            UUID(request.query_params["$skiptoken"])
-            if "$skiptoken" in request.query_params
-            else None
-        )
-    except ValueError:
-        raise GraphError(400, "InvalidSkipToken", "Invalid continuation cursor") from None
 
 
 def projection(row):
@@ -61,39 +40,61 @@ def projection(row):
         "displayName": row.display_name,
         "state": row.state,
         "authorizationSource": "RoleBased",
+        "tags": dict(row.tags),
     }
+
+
+@router.get("/tenants")
+async def tenants(request: Request):
+    parameters(request, "tenants.list")
+    async with request.app.state.database.sessions() as session:
+        actor = await principal(request, session)
+        tenant = await session.get(Tenant, actor.tenant_id)
+        return {
+            "value": [
+                {
+                    "id": f"/tenants/{tenant.id}",
+                    "tenantId": str(tenant.id),
+                    "displayName": tenant.display_name,
+                    "tenantCategory": "Home",
+                }
+            ],
+        }
 
 
 @router.get("/subscriptions")
 async def subscriptions(request: Request):
-    after = parameters(request)
-    async with request.app.state.database.sessions() as session:
-        context = await principal(request, session)
-        permitted = select(ReaderAssignment.subscription_id).where(
-            ReaderAssignment.tenant_id == context.tenant_id,
-            (
-                ReaderAssignment.client_id == context.client_id
-                if context.token_kind == "application"
-                else ReaderAssignment.user_id == context.subject_id
-            ),
-        )
+    version = parameters(request, "subscriptions.list", collection=True)
+    async with request.app.state.database.sessions.begin() as session:
+        actor = await principal(request, session)
+        granted = await grant_query(session, actor, "Microsoft.Resources/subscriptions/read")
+        permitted = granted.with_only_columns(RoleAssignment.subscription_id)
+        state = await read_page(request, session, actor, version, 0)
         query = (
             select(Subscription)
-            .where(Subscription.tenant_id == context.tenant_id, Subscription.id.in_(permitted))
+            .where(Subscription.tenant_id == actor.tenant_id, Subscription.id.in_(permitted))
             .order_by(Subscription.id)
             .limit(101)
         )
-        if after:
-            query = query.where(Subscription.id > after)
+        if state.last_key:
+            from uuid import UUID
+
+            query = query.where(Subscription.id > UUID(state.last_key[0]))
         rows = list(await session.scalars(query))
-        result = {"value": [projection(row) for row in rows[:100]]}
+        body = {"value": [projection(row) for row in rows[:100]]}
         if len(rows) > 100:
-            profile = request.app.state.settings.advertised_endpoints(
-                request.headers.get("host", "")
-            )
-            result["nextLink"] = (
-                profile.arm
-                + "/subscriptions?"
-                + urlencode({"api-version": "2021-01-01", "$skiptoken": str(rows[99].id)})
-            )
-        return result
+            body["nextLink"] = await next_link(request, session, state, rows[99].id)
+        return body
+
+
+@router.get("/subscriptions/{subscription}")
+async def subscription_get(subscription: str, request: Request):
+    parameters(request, "subscriptions.get")
+    try:
+        scope = parse_scope("/subscriptions/" + subscription)
+    except ValueError:
+        raise ArmError(400, "InvalidResourceId", "Invalid subscription ID") from None
+    async with request.app.state.database.sessions() as session:
+        actor = await principal(request, session)
+        await require_action(session, actor, scope, "Microsoft.Resources/subscriptions/read")
+        return projection(await resolve_scope(session, actor.tenant_id, scope))

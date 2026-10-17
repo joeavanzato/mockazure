@@ -1,2 +1,4 @@
 * text=auto eol=lf
 reference/** -text
+src/mockazure/providers/arm/data/schemas/** -text -whitespace
+src/mockazure/providers/arm/data/role-sources/** -text -whitespace

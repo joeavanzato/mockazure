@@ -67,6 +67,9 @@ async def test_exchange_bootstrap_and_command_permissions(database, settings):
         assert (await client.put(role_url + "/Global Reader")).status_code == 200
         response = await client.get(endpoint, headers=headers)
         assert response.status_code == 200, response.text
+        wildcard = await client.get(endpoint, headers={**headers, "CommandName": "*"})
+        assert wildcard.status_code == 200, wildcard.text
+        assert wildcard.json()["value"][0]["exportedCmdlets"] == "Get-OrganizationConfig"
         module = response.json()["value"][0]
         assert module["exportedCmdlets"] == "Get-OrganizationConfig"
         assert "Invoke-RestMethod" in module["fileContent"]
@@ -78,7 +81,9 @@ async def test_exchange_bootstrap_and_command_permissions(database, settings):
         )
         assert result.status_code == 200 and result.json()["value"][0]["Identity"] == tenant
         assert (
-            await client.get(endpoint, headers={**headers, "CommandName": "Get-Mailbox"})
+            await client.get(
+                endpoint, headers={**headers, "CommandName": "Get-UnimplementedCommand"}
+            )
         ).status_code == 400
         assert (
             await client.get(endpoint.replace(tenant, str(uuid4())), headers=headers)

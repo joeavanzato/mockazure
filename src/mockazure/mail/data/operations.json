@@ -1,0 +1,165 @@
+{
+  "version": "v1.0",
+  "operations": {
+    "rules.list": {
+      "service": "graph",
+      "application_permissions": [
+        "MailboxSettings.Read",
+        "MailboxSettings.ReadWrite"
+      ],
+      "delegated_permissions": [
+        "MailboxSettings.Read",
+        "MailboxSettings.ReadWrite"
+      ],
+      "access_rule": "mailbox",
+      "status": 200,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/mailfolder-list-messagerules?view=graph-rest-1.0"
+    },
+    "rules.get": {
+      "service": "graph",
+      "application_permissions": [
+        "MailboxSettings.Read",
+        "MailboxSettings.ReadWrite"
+      ],
+      "delegated_permissions": [
+        "MailboxSettings.Read",
+        "MailboxSettings.ReadWrite"
+      ],
+      "access_rule": "mailbox",
+      "status": 200,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/messagerule-get?view=graph-rest-1.0"
+    },
+    "rules.create": {
+      "service": "graph",
+      "application_permissions": [
+        "MailboxSettings.ReadWrite"
+      ],
+      "delegated_permissions": [
+        "MailboxSettings.ReadWrite"
+      ],
+      "access_rule": "mailbox",
+      "status": 201,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/mailfolder-post-messagerules?view=graph-rest-1.0"
+    },
+    "rules.update": {
+      "service": "graph",
+      "application_permissions": [
+        "MailboxSettings.ReadWrite"
+      ],
+      "delegated_permissions": [
+        "MailboxSettings.ReadWrite"
+      ],
+      "access_rule": "mailbox",
+      "status": 200,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/messagerule-update?view=graph-rest-1.0"
+    },
+    "rules.delete": {
+      "service": "graph",
+      "application_permissions": [
+        "MailboxSettings.ReadWrite"
+      ],
+      "delegated_permissions": [
+        "MailboxSettings.ReadWrite"
+      ],
+      "access_rule": "mailbox",
+      "status": 204,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/messagerule-delete?view=graph-rest-1.0"
+    },
+    "audit.create": {
+      "service": "graph",
+      "application_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "delegated_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "access_rule": "audit-workload",
+      "status": 201,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/security-auditcoreroot-post-auditlogqueries?view=graph-rest-1.0"
+    },
+    "audit.list": {
+      "service": "graph",
+      "application_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "delegated_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "access_rule": "audit-workload",
+      "status": 200,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/security-auditcoreroot-list-auditlogqueries?view=graph-rest-1.0"
+    },
+    "audit.get": {
+      "service": "graph",
+      "application_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "delegated_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "access_rule": "audit-workload",
+      "status": 200,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/security-auditlogquery-get?view=graph-rest-1.0"
+    },
+    "audit.records": {
+      "service": "graph",
+      "application_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "delegated_permissions": [
+        "AuditLogsQuery.Read.All",
+        "AuditLogsQuery-CRM.Read.All",
+        "AuditLogsQuery-Endpoint.Read.All",
+        "AuditLogsQuery-Entra.Read.All",
+        "AuditLogsQuery-Exchange.Read.All",
+        "AuditLogsQuery-OneDrive.Read.All",
+        "AuditLogsQuery-SharePoint.Read.All"
+      ],
+      "access_rule": "audit-workload",
+      "status": 200,
+      "reference": "https://learn.microsoft.com/en-us/graph/api/security-auditlogquery-list-records?view=graph-rest-1.0"
+    }
+  }
+}

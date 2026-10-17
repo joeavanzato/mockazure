@@ -1,4 +1,4 @@
-"""Qualification-only request tracing; never capture headers, query strings or bodies."""
+"""Qualification-only request tracing; capture only paths and allowlisted query metadata."""
 
 import json
 import re
@@ -16,6 +16,28 @@ app = create_app(settings)
 
 @app.middleware("http")
 async def trace(request, call_next):
+    payload_shape = None
+    if request.method in {"PUT", "PATCH"} and (
+        request.url.path.lower().endswith("/providers/microsoft.resources/tags/default")
+        or re.search(
+            r"/providers/microsoft\.authorization/roleassignments/[^/]+$", request.url.path.lower()
+        )
+        or re.fullmatch(r"/subscriptions/[^/]+/resourcegroups/[^/]+", request.url.path.lower())
+    ):
+
+        def shape(value):
+            if isinstance(value, dict):
+                return {
+                    key: item
+                    if key in {"principalType", "roleDefinitionId"}
+                    and isinstance(item, str)
+                    and re.fullmatch(r"[A-Za-z0-9_./-]{1,2048}", item)
+                    else shape(item)
+                    for key, item in value.items()
+                }
+            return None if value is None else type(value).__name__
+
+        payload_shape = shape(await request.json())
     response = await call_next(request)
     if request.url.path not in ("/_mock/health", "/_mock/ready"):
         with Path("/state/requests.jsonl").open("a", encoding="utf-8") as stream:
@@ -24,8 +46,24 @@ async def trace(request, call_next):
                     {
                         "time": datetime.now(UTC).isoformat(),
                         "method": request.method,
+                        "payload_shape": payload_shape,
                         "path": request.url.path,
                         "status": response.status_code,
+                        "commands": request.headers.get("commandname")
+                        if re.fullmatch(
+                            r"[A-Za-z*, -]{0,2000}", request.headers.get("commandname", "")
+                        )
+                        else None,
+                        "query_keys": [
+                            k
+                            for k in request.query_params
+                            if re.fullmatch(r"[A-Za-z$][A-Za-z0-9_$]{0,60}", k)
+                        ],
+                        "select": request.query_params.get("$select")
+                        if re.fullmatch(
+                            r"[A-Za-z0-9_,]{1,4000}", request.query_params.get("$select", "")
+                        )
+                        else None,
                         "continuation": "$skiptoken" in request.query_params,
                         "versions": {
                             k: v

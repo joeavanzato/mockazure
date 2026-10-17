@@ -1,0 +1,643 @@
+{
+  "schema_version": 1,
+  "qualified_at": "2026-10-17T08:56:57.380354+00:00",
+  "started_at": "2026-10-17T08:50:32.222355+00:00",
+  "source_fingerprint": "29577500af66535efb70ea39b7ec7ff89bdad01fdb991432099921863be223a4",
+  "source_commit": "807ac20efa1c2e12e31e2263a2873d9f948aec88",
+  "manifest_sha256": "6255e24e573672630e78bdceb7f801108a53ce8d909c20629559929476957be6",
+  "lock_sha256": "e844544c90bf724a27a24b42cc3200da549d009244c67bd3c7a4487a978c355f",
+  "wheel_sha256": "7a437da3c80c89a2ff67c4aa393496beb5792544cf3fd5214c5f7b12e3a583d7",
+  "runtime_image_id": "sha256:a75fc8fd5d24b0367b715fb6ba5fdd1a0f6e6f5af62b0bdcb05037a72a3b00a1",
+  "client_image_ids": {
+    "python": "sha256:36deb060798d96d7c0c0a88fb81a501b0dfdf67940a091715b30972c18d5c7aa",
+    "powershell": "sha256:4be726730a1f69796dfc86d2531ddbdf662bebbaa4edc47c4111c2463fe32b9a"
+  },
+  "checks": {
+    "clean_wheel_install": true,
+    "runtime_package_bytes": true,
+    "api_restart": true,
+    "postgres_restart": true,
+    "audit_pending_restart": true,
+    "worker_restart": true,
+    "two_workers": true,
+    "two_api_replicas": true,
+    "audit_snapshot_resume": true,
+    "rule_snapshot_resume": true,
+    "tenant_isolation": true,
+    "role_denied": true,
+    "page_reauthorization": true,
+    "licence_denied": true,
+    "native_evidence": true,
+    "fault_retry": true,
+    "native_network_blocked": true,
+    "container_python_network_blocked": true,
+    "container_powershell_network_blocked": true
+  },
+  "clients": {
+    "native_python": {
+      "passed": true,
+      "modes": {
+        "application": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        }
+      },
+      "versions": {
+        "msal": "1.39.0",
+        "msgraph-sdk": "1.64.0",
+        "azure-identity": "1.26.0"
+      }
+    },
+    "container_python": {
+      "passed": true,
+      "modes": {
+        "application": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        }
+      },
+      "versions": {
+        "msal": "1.39.0",
+        "msgraph-sdk": "1.64.0",
+        "azure-identity": "1.26.0"
+      }
+    },
+    "container_powershell": {
+      "passed": true,
+      "client": "Microsoft Graph PowerShell 2.35.1",
+      "modes": {
+        "application": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        },
+        "delegated": {
+          "rule_actions": true,
+          "rule_crud": true,
+          "rule_paging": true,
+          "audit_query": true,
+          "audit_paging": true,
+          "audit_filters": true,
+          "native_evidence": true,
+          "permission_denied": true
+        }
+      }
+    }
+  },
+  "exchange": {
+    "passed": true,
+    "version": "3.11.0",
+    "modes": {
+      "application": {
+        "Get-EXOMailbox": true,
+        "Get-EXOMailboxStatistics": true,
+        "Get-EXOMailboxFolderStatistics": true,
+        "Get-EXOCasMailbox": true,
+        "ArchiveStatistics": true,
+        "CommandLifecycle": true,
+        "TraceAndDetail": true
+      },
+      "delegated": {
+        "Get-EXOMailbox": true,
+        "Get-EXOMailboxStatistics": true,
+        "Get-EXOMailboxFolderStatistics": true,
+        "Get-EXOCasMailbox": true,
+        "ArchiveStatistics": true,
+        "CommandLifecycle": true,
+        "TraceAndDetail": true
+      }
+    }
+  },
+  "collectors": {
+    "hawk_forwarding": {
+      "passed": true,
+      "records_verified": 12,
+      "source_hashes": {
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-LogFile.ps1": "b18a7f4c744ca66e0d503bcf183bc5a2eab5f7873ccd6d7771b7089d947a5eef",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkConfigurationComplete.ps1": "14839feab37ab4e8afb2fc921d4c64d645504017027deb8bade837cde2689a5b",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-UserObject.ps1": "16eaa6fdd29e590ee2192b6eb30671f3c13338388c92590c87ee046701066ff0",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/functions/User/Get-HawkUserEmailForwarding.ps1": "df8713d823e285a30e4595436036ff8a1ec289b4d856b5e4800d25c54fe3adf7",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-GraphConnection.ps1": "334be436a9e72d5117267711f418b1e5712eb02d6e996a4e1736cb952dbb532d",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkBanner.ps1": "5188024b4ebcca585eaad4cf921c4f8cebc46eb7498df06bb21fd3108a683d9a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Initialize-HawkGlobalObject.ps1": "e5491aef42094d64cca2ea9ab1186451f1e7d67842d8a120ade2e00ca096d95a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-HawkGlobalObject.ps1": "fded20f688c219e0d910e8eff808c6e9c47b98c96c83d483c16a0b0a01a15198",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-EXOConnection.ps1": "74258e8187a205f9f5dc8dd51e355a72f7684ca6f8e5cbcfabb99173fa9b968e",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-MultipleFileType.ps1": "2fc953ae1fca9a59704ba1f829dd2367311cc672621e6d53302a0fe2b4d48b71"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/_Investigate.txt": "97228a07056b3f22ec29ae642099752c95c7e0e4761e946a3bce811312c3b11a",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/Hawk.log": "58ca517e7c74996bf99b688ca86997ac651feffeb229f0370c43266a1dcd41e5",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/sdk-qualification@graph.test/_Investigate_Users_WithForwarding_sdk-qualification.csv": "b1a51b1f5edb8f3c990d18119cb7fdb9214db51272da6f917172352274262f71",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/sdk-qualification@graph.test/_Investigate_Users_WithForwarding_sdk-qualification.json": "78468cbe5682b7ac05bed2c003275b2e9f0899acdc34d6e8a49c96067521e7af",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/sdk-qualification@graph.test/ForwardingReport_sdk-qualification.csv": "b1a51b1f5edb8f3c990d18119cb7fdb9214db51272da6f917172352274262f71",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/sdk-qualification@graph.test/ForwardingReport_sdk-qualification.json": "78468cbe5682b7ac05bed2c003275b2e9f0899acdc34d6e8a49c96067521e7af",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/Tenant/User_ForwardingReport.csv": "b1a51b1f5edb8f3c990d18119cb7fdb9214db51272da6f917172352274262f71",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding/Hawk_Graph_Lab_20261017_085302/Tenant/User_ForwardingReport.json": "78468cbe5682b7ac05bed2c003275b2e9f0899acdc34d6e8a49c96067521e7af",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_forwarding-denied/Hawk_Graph_Lab_20261017_085304/Hawk.log": "f590746b19db114e832355d2927a5b623a0c9f8eead83329dc09c1ccd966a8bc",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/_Investigate.txt": "cdda4ac240c03f600888d43bbe55a7e13460f90d192322eab4587c8c5aab8ce6",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/Hawk.log": "673926926acbcfd8b673070e679905ff4a6d03fb713819ae17c9b80bb1a60dc6",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/sdk-qualification@graph.test/_Investigate_Users_WithForwarding_sdk-qualification.csv": "b1a51b1f5edb8f3c990d18119cb7fdb9214db51272da6f917172352274262f71",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/sdk-qualification@graph.test/_Investigate_Users_WithForwarding_sdk-qualification.json": "78468cbe5682b7ac05bed2c003275b2e9f0899acdc34d6e8a49c96067521e7af",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/sdk-qualification@graph.test/ForwardingReport_sdk-qualification.csv": "b1a51b1f5edb8f3c990d18119cb7fdb9214db51272da6f917172352274262f71",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/sdk-qualification@graph.test/ForwardingReport_sdk-qualification.json": "78468cbe5682b7ac05bed2c003275b2e9f0899acdc34d6e8a49c96067521e7af",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/Tenant/User_ForwardingReport.csv": "b1a51b1f5edb8f3c990d18119cb7fdb9214db51272da6f917172352274262f71",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding/Hawk_Graph_Lab_20261017_085455/Tenant/User_ForwardingReport.json": "78468cbe5682b7ac05bed2c003275b2e9f0899acdc34d6e8a49c96067521e7af",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_forwarding-denied/Hawk_Graph_Lab_20261017_085456/Hawk.log": "a8c527697fdbb66371c5f820cefd0e335e89dea9242851e6310c2197eae6e7a7"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "hawk_rules": {
+      "passed": false,
+      "records_verified": 0,
+      "source_hashes": {
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-LogFile.ps1": "b18a7f4c744ca66e0d503bcf183bc5a2eab5f7873ccd6d7771b7089d947a5eef",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkConfigurationComplete.ps1": "14839feab37ab4e8afb2fc921d4c64d645504017027deb8bade837cde2689a5b",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-UserObject.ps1": "16eaa6fdd29e590ee2192b6eb30671f3c13338388c92590c87ee046701066ff0",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/functions/User/Get-HawkUserInboxRule.ps1": "7ceea83a9ebf0af9e69c21e0977bebbf15d4816fa22d06a2e2c78600dce455c2",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-GraphConnection.ps1": "334be436a9e72d5117267711f418b1e5712eb02d6e996a4e1736cb952dbb532d",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkBanner.ps1": "5188024b4ebcca585eaad4cf921c4f8cebc46eb7498df06bb21fd3108a683d9a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Initialize-HawkGlobalObject.ps1": "e5491aef42094d64cca2ea9ab1186451f1e7d67842d8a120ade2e00ca096d95a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-HawkGlobalObject.ps1": "fded20f688c219e0d910e8eff808c6e9c47b98c96c83d483c16a0b0a01a15198",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-EXOConnection.ps1": "74258e8187a205f9f5dc8dd51e355a72f7684ca6f8e5cbcfabb99173fa9b968e",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-MultipleFileType.ps1": "2fc953ae1fca9a59704ba1f829dd2367311cc672621e6d53302a0fe2b4d48b71"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/_Investigate.txt": "fe04efc14e862219d9764502d019a548cb2216587ecc2766f71fca081d38bb4f",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/Hawk.log": "75d1192155031ef1af0d1bab7218ff386762fe8c4fc4aa36f3b29e3036c6d376",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/_Investigate_InboxRules_sdk-qualification.csv": "76f2feaaba2522a536ffcd22e201ea62d651cbb3613352b18abf9538517e0418",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/_Investigate_InboxRules_sdk-qualification.json": "73ecaafe0050fc3628adecd4b93ecf628520ce867db9456889e5fd7b86c14bb0",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/All_InboxRules_sdk-qualification.csv": "76f2feaaba2522a536ffcd22e201ea62d651cbb3613352b18abf9538517e0418",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/All_InboxRules_sdk-qualification.json": "264557b20ab3d9d5de51c32e86eb9661ae8f56a4ce83e3b5217c85371036ce40",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/InboxRules_sdk-qualification.csv": "76f2feaaba2522a536ffcd22e201ea62d651cbb3613352b18abf9538517e0418",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/InboxRules_sdk-qualification.json": "264557b20ab3d9d5de51c32e86eb9661ae8f56a4ce83e3b5217c85371036ce40",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/SweepRules_sdk-qualification.csv": "1f991466bc1043e496c2ff6c5192644de7c5a448f26d1349e39b70cc317c4107",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/sdk-qualification@graph.test/SweepRules_sdk-qualification.json": "a564de449e2edc13ec3f42c3b0444a8008dc3ecf0822c193277405045bf7d8b4",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/Tenant/All_SweepRules.csv": "1f991466bc1043e496c2ff6c5192644de7c5a448f26d1349e39b70cc317c4107",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules/Hawk_Graph_Lab_20261017_085306/Tenant/All_SweepRules.json": "a564de449e2edc13ec3f42c3b0444a8008dc3ecf0822c193277405045bf7d8b4",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_rules-denied/Hawk_Graph_Lab_20261017_085307/Hawk.log": "daa2a3c1fddda1f4f9781af9bc06158698ce78d395143189cf5c83320853d4fc",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/_Investigate.txt": "1efeb661c8456441bf68466d10f61f77c356b089e0a29a22b2d508e35149e0d2",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/Hawk.log": "6b39019f751c98f0152dce4a4899d06ddd4144850fb213abbf859041c6d4d772",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/_Investigate_InboxRules_sdk-qualification.csv": "76f2feaaba2522a536ffcd22e201ea62d651cbb3613352b18abf9538517e0418",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/_Investigate_InboxRules_sdk-qualification.json": "73ecaafe0050fc3628adecd4b93ecf628520ce867db9456889e5fd7b86c14bb0",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/All_InboxRules_sdk-qualification.csv": "76f2feaaba2522a536ffcd22e201ea62d651cbb3613352b18abf9538517e0418",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/All_InboxRules_sdk-qualification.json": "264557b20ab3d9d5de51c32e86eb9661ae8f56a4ce83e3b5217c85371036ce40",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/InboxRules_sdk-qualification.csv": "76f2feaaba2522a536ffcd22e201ea62d651cbb3613352b18abf9538517e0418",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/InboxRules_sdk-qualification.json": "264557b20ab3d9d5de51c32e86eb9661ae8f56a4ce83e3b5217c85371036ce40",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/SweepRules_sdk-qualification.csv": "1f991466bc1043e496c2ff6c5192644de7c5a448f26d1349e39b70cc317c4107",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/sdk-qualification@graph.test/SweepRules_sdk-qualification.json": "a564de449e2edc13ec3f42c3b0444a8008dc3ecf0822c193277405045bf7d8b4",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/Tenant/All_SweepRules.csv": "1f991466bc1043e496c2ff6c5192644de7c5a448f26d1349e39b70cc317c4107",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules/Hawk_Graph_Lab_20261017_085457/Tenant/All_SweepRules.json": "a564de449e2edc13ec3f42c3b0444a8008dc3ecf0822c193277405045bf7d8b4",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_rules-denied/Hawk_Graph_Lab_20261017_085458/Hawk.log": "12242d566df6016321eabc57943dd01e4d18876e96b86d7768d46567c9d4eeb1"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": false,
+          "failure": "JSONDecodeError: Extra data: line 35 column 1 (char 935)"
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": false,
+          "failure": "JSONDecodeError: Extra data: line 35 column 1 (char 935)"
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "hawk_configuration": {
+      "passed": true,
+      "records_verified": 10,
+      "source_hashes": {
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-LogFile.ps1": "b18a7f4c744ca66e0d503bcf183bc5a2eab5f7873ccd6d7771b7089d947a5eef",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkConfigurationComplete.ps1": "14839feab37ab4e8afb2fc921d4c64d645504017027deb8bade837cde2689a5b",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-UserObject.ps1": "16eaa6fdd29e590ee2192b6eb30671f3c13338388c92590c87ee046701066ff0",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/functions/User/Get-HawkUserConfiguration.ps1": "dc9f471a0ca11230ae49b78f8029cf19d243d7ac0df76b1f53dacca70391bfa9",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-GraphConnection.ps1": "334be436a9e72d5117267711f418b1e5712eb02d6e996a4e1736cb952dbb532d",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkBanner.ps1": "5188024b4ebcca585eaad4cf921c4f8cebc46eb7498df06bb21fd3108a683d9a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Initialize-HawkGlobalObject.ps1": "e5491aef42094d64cca2ea9ab1186451f1e7d67842d8a120ade2e00ca096d95a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-HawkGlobalObject.ps1": "fded20f688c219e0d910e8eff808c6e9c47b98c96c83d483c16a0b0a01a15198",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-EXOConnection.ps1": "74258e8187a205f9f5dc8dd51e355a72f7684ca6f8e5cbcfabb99173fa9b968e",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-MultipleFileType.ps1": "2fc953ae1fca9a59704ba1f829dd2367311cc672621e6d53302a0fe2b4d48b71"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_configuration/Hawk_Graph_Lab_20261017_085309/Hawk.log": "ced5a129fa36a1d017622c5a63f12be3f7fe70688fd1060cbb7b9f547cff11a0",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_configuration/Hawk_Graph_Lab_20261017_085309/sdk-qualification@graph.test/CAS_Mailbox_Info_sdk-qualification.txt": "cca9fd65edab9761c5d6fae52fbc13016729a849475346d427eb5cc8ec510f38",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_configuration/Hawk_Graph_Lab_20261017_085309/sdk-qualification@graph.test/Mailbox_Archive_Statistics_sdk-qualification.txt": "db8a9682bd513329d8163d21bb9f44a4a7072e8b990a396057d1081cbc6c706b",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_configuration/Hawk_Graph_Lab_20261017_085309/sdk-qualification@graph.test/Mailbox_Folder_Statistics_sdk-qualification.txt": "e103ffbde2c5b94f91c4bf8398f06ed9995a760e4f5ce371f92bb40214e71895",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_configuration/Hawk_Graph_Lab_20261017_085309/sdk-qualification@graph.test/Mailbox_Info_sdk-qualification.txt": "33a08930af2ebc3cf301aa1e73ca80f3d632912c7126251b8dfac17e0ccf4526",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_configuration/Hawk_Graph_Lab_20261017_085309/sdk-qualification@graph.test/Mailbox_Statistics_sdk-qualification.txt": "fae550d484fad7a75bcc3cd0f40225a9366978a22113d63db9f450656e14432a",
+        "clients/powershell-state/collectors/1792227163196353500-application-hawk_configuration-denied/Hawk_Graph_Lab_20261017_085311/Hawk.log": "465377d075541f38c22b3c21546e557f362658f29572b880c64b79c7cd1334de",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_configuration/Hawk_Graph_Lab_20261017_085459/Hawk.log": "6ad4100624ef7f850f3e64a3d2de0276cd9bfcb42daa5686ced435c059d90b14",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_configuration/Hawk_Graph_Lab_20261017_085459/sdk-qualification@graph.test/CAS_Mailbox_Info_sdk-qualification.txt": "cca9fd65edab9761c5d6fae52fbc13016729a849475346d427eb5cc8ec510f38",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_configuration/Hawk_Graph_Lab_20261017_085459/sdk-qualification@graph.test/Mailbox_Archive_Statistics_sdk-qualification.txt": "db8a9682bd513329d8163d21bb9f44a4a7072e8b990a396057d1081cbc6c706b",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_configuration/Hawk_Graph_Lab_20261017_085459/sdk-qualification@graph.test/Mailbox_Folder_Statistics_sdk-qualification.txt": "e103ffbde2c5b94f91c4bf8398f06ed9995a760e4f5ce371f92bb40214e71895",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_configuration/Hawk_Graph_Lab_20261017_085459/sdk-qualification@graph.test/Mailbox_Info_sdk-qualification.txt": "33a08930af2ebc3cf301aa1e73ca80f3d632912c7126251b8dfac17e0ccf4526",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_configuration/Hawk_Graph_Lab_20261017_085459/sdk-qualification@graph.test/Mailbox_Statistics_sdk-qualification.txt": "fae550d484fad7a75bcc3cd0f40225a9366978a22113d63db9f450656e14432a",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-hawk_configuration-denied/Hawk_Graph_Lab_20261017_085500/Hawk.log": "a3b3d499233740be79655ab3b1fcae043b512b95992e03deb6e0ef56643d0669"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_rules": {
+      "passed": true,
+      "records_verified": 6,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-Rules.ps1": "0acff49d6abf618983392bb52b8d7710dacfd546183688dcc51d7a33a675f662",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_rules/collector.log": "35e039d59c0a3249da1e7c9909d3119720bd795e44a821909ec00e3d5920f24c",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_rules/Rules/20261017-085312/20261017-085312-MailboxRules.csv": "eb111a06d85c046f225625f793c79e61393163d36044dd6ae1178ceecc168c1d",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_rules-denied/collector.log": "76a7e1a7aedbb01a5ff073a29ab2567aa91b8e4f014ad6f6a802c6195f752145",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_rules/collector.log": "1b104b7935d1dd20285ffda15a9816decf51c9d8fc83a96fbc0227fd958e5fdf",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_rules/Rules/20261017-085501/20261017-085501-MailboxRules.csv": "eb111a06d85c046f225625f793c79e61393163d36044dd6ae1178ceecc168c1d",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_rules-denied/collector.log": "2dbea39810f25c25727606ada2ff37f3bf332b904eb2b25aa69f1cac6be70b8b"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_graph_rules": {
+      "passed": true,
+      "records_verified": 6,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-Rules.ps1": "0acff49d6abf618983392bb52b8d7710dacfd546183688dcc51d7a33a675f662",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_graph_rules/collector.log": "0fd6ecb76c7f6552d19a3cfb70359b32d88cd865b9b66db6ac37182a73e147e3",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_graph_rules/Rules/20261017-085313/20261017-085313-MailboxRulesGraph.csv": "1042c4d954827bf0db1714350670819dc7b53cc7bae6651ff331c1442ab3138e",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_graph_rules-denied/collector.log": "b2e922489b54e358dbbe3799a46611b9b6390f48bbefb81b7d4ce53bfb891e97",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_graph_rules/collector.log": "1f30a1a5aa6dbbe0b990519ab83cb8f63df2254d055496fac8a4ef6177818d1b",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_graph_rules/Rules/20261017-085502/20261017-085502-MailboxRulesGraph.csv": "1042c4d954827bf0db1714350670819dc7b53cc7bae6651ff331c1442ab3138e",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_graph_rules-denied/collector.log": "8909da3b44120da259c936dbf854215e8149de8efe31b91beaa3a9aa469ed529"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_trace": {
+      "passed": false,
+      "records_verified": 0,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-MessageTraceLog.ps1": "a352e5a9d4235ad066db6996dcd058c6a18941ef1d2fe502c2843a4c6fa74971",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_trace/collector.log": "7fb7d9d1b2fd5d434a2e3d1c962aff1739a1873bde9ab5bd97ac1bcf384ae095",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_trace/MessageTrace/20261017-085315/sdk-qualification@graph.test-MTL.csv": "a9cb69bd66bf1cf7012c323fde63c466e9b346f1cf9a78003e7dced0cfeb5ecc",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_trace-denied/collector.log": "0081136d4ca650694f3a919f9ce271e710a43cd28744497dac4f87c89d8ae491",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_trace/collector.log": "d48184008edee435be2998fb0f03c66abe453e25f4bc4324622daa233ec1511c",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_trace/MessageTrace/20261017-085503/sdk-qualification@graph.test-MTL.csv": "a9cb69bd66bf1cf7012c323fde63c466e9b346f1cf9a78003e7dced0cfeb5ecc",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_trace-denied/collector.log": "021c0b043eeda0681468e932ab2f76013cd5fefc69b4bed440c24da936a97b19"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": false,
+          "failure": "AssertionError: Wrong output field: Received"
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": false,
+          "failure": "AssertionError: Wrong output field: Received"
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_audit": {
+      "passed": true,
+      "records_verified": 2006,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-UALGraph.ps1": "bdf98b146929b6541967d7e077d669a14678cf83ae63e7678c57ee4c9b131ca3",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit/collector.log": "2042f852043170c196490a15538e0277b74da87b6abdb1ab4b9eb99e0393caa1",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit/UnifiedAuditLog/20261017-085317/20261017085327-MockAzure collector qualification-UnifiedAuditLog.json": "32fbac44f2396295885e142c0cee17437472949d0450ba6ecd2d8473d8df49da",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit-denied/collector.log": "1a320b19bcca69fb56b23ef803451192e54889aeedfd713b521d8f92633c845f",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit/collector.log": "4f7bea6a58ba1a6a56bdc13b0ba85948bcb85231bb194ca63eb4a697023360f2",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit/UnifiedAuditLog/20261017-085505/20261017085515-MockAzure collector qualification-UnifiedAuditLog.json": "32fbac44f2396295885e142c0cee17437472949d0450ba6ecd2d8473d8df49da",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit-denied/collector.log": "53eee962b11708e260dd073b4b63a991d824b7e07e6843b96273ab18ccedf1ed"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_audit_csv": {
+      "passed": true,
+      "records_verified": 2006,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-UALGraph.ps1": "bdf98b146929b6541967d7e077d669a14678cf83ae63e7678c57ee4c9b131ca3",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_csv/collector.log": "e95d0fe79fe77c051dd2cc6e670c97464994c1d63b68c9f88d962e6fd2b29ac1",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_csv/UnifiedAuditLog/20261017-085352/20261017085402-MockAzure collector qualification-UnifiedAuditLog.csv": "b46d1f3b63940eb67deef585886366ffa52cb07eba238b20c8856172ed3695b3",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_csv-denied/collector.log": "65b336db7c3a4aa5207f959810bf2fb2736f44cd33d68d3c7e24b33dce94149b",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_csv/collector.log": "790878f0c61487c448a948ac54b3fe035ef7328e1fa8b7caf5edf2d1aaf026e3",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_csv/UnifiedAuditLog/20261017-085540/20261017085550-MockAzure collector qualification-UnifiedAuditLog.csv": "b46d1f3b63940eb67deef585886366ffa52cb07eba238b20c8856172ed3695b3",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_csv-denied/collector.log": "c31c100916ed44893c326a7538cad630cc633b2233c4abb74c89f59fad72e218"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_audit_jsonl": {
+      "passed": true,
+      "records_verified": 2006,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-UALGraph.ps1": "bdf98b146929b6541967d7e077d669a14678cf83ae63e7678c57ee4c9b131ca3",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_jsonl/collector.log": "b4cf88d3557a02de7527065f74fbe430840935b14dd62e319392d5124bd05dd8",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_jsonl/UnifiedAuditLog/20261017-085404/20261017085414-MockAzure collector qualification-UnifiedAuditLog.jsonl": "9610acfe1766ad89e0d65ee6476db8b0d383d771f9e31858f964bd81961f7653",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_jsonl-denied/collector.log": "127f4690242636f07851845c21585c2be39a77cae6b29bff0b169f69440277fc",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_jsonl/collector.log": "293a3d3d52e7d52b01048eefe83456e6112cf4859f822d5609e026fb291a7689",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_jsonl/UnifiedAuditLog/20261017-085552/20261017085602-MockAzure collector qualification-UnifiedAuditLog.jsonl": "9610acfe1766ad89e0d65ee6476db8b0d383d771f9e31858f964bd81961f7653",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_jsonl-denied/collector.log": "60203b65305e43de2b6dce142bf93342c866e0f3640ce58567404aa8f86ac121"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_audit_sofelk": {
+      "passed": true,
+      "records_verified": 2006,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-UALGraph.ps1": "bdf98b146929b6541967d7e077d669a14678cf83ae63e7678c57ee4c9b131ca3",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_sofelk/collector.log": "cadaa2e760666b5afc9d8ace7153729981d1772bbf499a99bfbd0e130ca6c817",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_sofelk/UnifiedAuditLog/20261017-085423/20261017085433-MockAzure collector qualification-UnifiedAuditLog.json": "9610acfe1766ad89e0d65ee6476db8b0d383d771f9e31858f964bd81961f7653",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_sofelk-denied/collector.log": "188ea9eef7cffdf745caa999a4080d24e3f26173dbe3e34fdf7d1811dc0b569a",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_sofelk/collector.log": "7dc6f00b015fa0f2c810826b2028bc5cc391a791d400b023fd89fc62c9787256",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_sofelk/UnifiedAuditLog/20261017-085610/20261017085620-MockAzure collector qualification-UnifiedAuditLog.json": "9610acfe1766ad89e0d65ee6476db8b0d383d771f9e31858f964bd81961f7653",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_sofelk-denied/collector.log": "f59b42f3fa05903aa25f5d32b652e1d70549081fa2b5d2a098012b3c796f6a11"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    },
+    "mes_audit_native": {
+      "passed": true,
+      "records_verified": 2,
+      "source_hashes": {
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-UALGraph.ps1": "bdf98b146929b6541967d7e077d669a14678cf83ae63e7678c57ee4c9b131ca3",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
+      },
+      "output_hashes": {
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_native/collector.log": "a0a039361edd2ea79b6f8fe81f37c93d40275605eb9b04776e730b8a9cae2808",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_native/UnifiedAuditLog/20261017-085443/20261017085453-MockAzure collector qualification-UnifiedAuditLog.json": "f14646db075711cb6dc9f6ebe7e6fa95d7f0b693cbad2f6038c9395da9181fcd",
+        "clients/powershell-state/collectors/1792227163196353500-application-mes_audit_native-denied/collector.log": "e55a5ade75a725b91a586052e025f881721a3ad34167402911e0cf8c40768a2c",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_native/collector.log": "ba30e0c4cf217f6caa305bd426b28efda3a9b8cbef9cfcda2a9d212c7eea5964",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_native/UnifiedAuditLog/20261017-085632/20261017085642-MockAzure collector qualification-UnifiedAuditLog.json": "f14646db075711cb6dc9f6ebe7e6fa95d7f0b693cbad2f6038c9395da9181fcd",
+        "clients/powershell-state/collectors/1792227163196353500-delegated-mes_audit_native-denied/collector.log": "a9624ef0da553502eca5332ea4419be5fcd089f018245d33ab6d5469175dce91"
+      },
+      "cases": [
+        {
+          "mode": "application",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "application",
+          "denied": true,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": false,
+          "passed": true
+        },
+        {
+          "mode": "delegated",
+          "denied": true,
+          "passed": true
+        }
+      ]
+    }
+  },
+  "passed": false,
+  "total_seconds": 385.200999,
+  "limitations": [
+    "PowerShell uses local tokens; Python uses real MSAL authentication flows.",
+    "Mailbox configuration and audit evidence do not simulate mail delivery.",
+    "5,000-user qualification is not a throughput SLA."
+  ]
+}

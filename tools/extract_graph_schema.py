@@ -8,6 +8,10 @@ from xml.etree import ElementTree as ET
 
 EDM = "{http://docs.oasis-open.org/odata/ns/edm}"
 ROOTS = (
+    "messageRule",
+    "security.auditLogQuery",
+    "security.auditLogRecord",
+    "security.defaultAuditData",
     "user",
     "userRegistrationDetails",
     "group",
@@ -46,6 +50,26 @@ ROOTS = (
 def extract(path):
     tree = ET.parse(path)
     types = {}
+    contexts = {}
+    aliases = {}
+    for schema in tree.iter(EDM + "Schema"):
+        if alias := schema.get("Alias"):
+            aliases.setdefault(alias, set()).add(schema.attrib["Namespace"])
+
+    def resolve(kind, context):
+        if kind.startswith("Collection("):
+            return "Collection(" + resolve(kind[11:-1], context) + ")"
+        prefix, _, local = kind.partition(".")
+        if prefix in {"Edm", "graph", "microsoft"} or not local:
+            return kind
+        namespace, alias = context
+        if prefix == alias:
+            return namespace + "." + local
+        targets = aliases.get(prefix, set())
+        if len(targets) != 1:
+            raise ValueError(f"Unknown or ambiguous CSDL alias: {prefix}")
+        return next(iter(targets)) + "." + local
+
     for schema in tree.iter(EDM + "Schema"):
         namespace = schema.attrib.get("Namespace", "")
         if not namespace.startswith("microsoft.graph"):
@@ -53,7 +77,9 @@ def extract(path):
         for item in schema:
             if item.tag in {EDM + "EntityType", EDM + "ComplexType", EDM + "EnumType"}:
                 prefix = namespace.removeprefix("microsoft.graph").lstrip(".")
-                types[(prefix + "." if prefix else "") + item.attrib["Name"]] = item
+                key = (prefix + "." if prefix else "") + item.attrib["Name"]
+                types[key] = item
+                contexts[key] = (namespace, schema.get("Alias"))
     result = {}
 
     def collect(name):
@@ -61,19 +87,23 @@ def extract(path):
         if name in result:
             return
         node = types[name]
+        context = contexts[name]
         if node.tag == EDM + "EnumType":
             result[name] = {"enum": [x.attrib["Name"] for x in node.findall(EDM + "Member")]}
             return
         value = {"properties": {}, "required": []}
         result[name] = value
+        if node.get("OpenType") == "true":
+            value["open"] = True
         if base := node.attrib.get("BaseType"):
+            base = resolve(base, context)
             value["base"] = base.removeprefix("graph.").removeprefix("microsoft.graph.")
             collect(base)
             base_value = result[base.removeprefix("graph.").removeprefix("microsoft.graph.")]
             value["properties"].update(base_value["properties"])
             value["required"].extend(base_value["required"])
         for prop in node.findall(EDM + "Property"):
-            field, kind = prop.attrib["Name"], prop.attrib["Type"]
+            field, kind = prop.attrib["Name"], resolve(prop.attrib["Type"], context)
             nullable = prop.attrib.get("Nullable") != "false"
             value["properties"][field] = {"type": kind, "nullable": nullable}
             if not nullable:

@@ -42,6 +42,8 @@ BETA_SIGNIN = {
 
 
 def public_fields(version, family):
+    if family == "auditLogRecord":
+        return set(schema(version)["types"]["security.auditLogRecord"]["properties"])
     if version not in {"v1.0", "beta"} or family not in FIELDS:
         unsupported("Unsupported evidence resource/version")
     result = set(FIELDS[family])

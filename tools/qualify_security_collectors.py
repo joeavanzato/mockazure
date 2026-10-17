@@ -4,13 +4,20 @@ import csv
 import json
 import ssl
 import subprocess
+import sys
 import time
 from pathlib import Path
 
 import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m3c"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m3c")
+RUNTIME = ROOT / PROFILE.text(".runtime/m3c")
 FUNCTIONS = {
     "hawk_credentials": ("hawk", "Get-HawkTenantAppAndSPNCredentialDetail"),
     "mes_policies": ("mes", "Get-ConditionalAccessPolicies"),
@@ -64,7 +71,7 @@ def qualify_collectors():
     config = json.loads((state / "client.json").read_text())
     token = json.loads((state / "application-token.json").read_text())["access_token"]
     with httpx.Client(
-        base_url="https://localhost:32443",
+        base_url=PROFILE.text("https://localhost:32443"),
         trust_env=False,
         verify=ssl.create_default_context(cafile=str(RUNTIME / "instance/ca.pem")),
         headers={"Authorization": "Bearer " + token},
@@ -128,7 +135,7 @@ def qualify_collectors():
             "docker",
             "compose",
             "-f",
-            "compose.clients.m3c.yaml",
+            PROFILE.text("compose.clients.m3c.yaml"),
             "run",
             "--rm",
             "powershell",

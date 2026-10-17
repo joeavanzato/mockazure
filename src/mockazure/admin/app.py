@@ -17,6 +17,8 @@ from mockazure.admin.graph_routes import router as graph_admin_router
 from mockazure.admin.identity_routes import router as identity_router
 from mockazure.admin.job_routes import router as job_router
 from mockazure.admin.licensing_routes import router as licensing_admin_router
+from mockazure.admin.mail_routes import router as mail_admin_router
+from mockazure.admin.maintenance_routes import router as maintenance_admin_router
 from mockazure.admin.managed_identity_routes import router as managed_identity_admin_router
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
@@ -29,12 +31,21 @@ from mockazure.oauth.device import router as device_router
 from mockazure.oauth.discovery import router as discovery_router
 from mockazure.oauth.errors import OAuthError, oauth_error_response
 from mockazure.oauth.routes import router as oauth_router
+from mockazure.providers.arm.activity_routes import router as arm_activity_router
+from mockazure.providers.arm.errors import ArmError, handle_arm_error
+from mockazure.providers.arm.inventory_routes import router as arm_inventory_router
+from mockazure.providers.arm.mutation_routes import router as arm_mutation_router
+from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
+from mockazure.providers.arm.rbac_routes import router as arm_rbac_router
 from mockazure.providers.exchange.probes import router as exchange_router
+from mockazure.providers.exchange.routes import router as exchange_compiled_router
+from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
 from mockazure.providers.graph.directory import router_for
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
+from mockazure.providers.graph.mail_routes import router_for as mail_router_for
 from mockazure.providers.graph.probes import router as graph_router
 from mockazure.providers.graph.security.grant_routes import router_for as grant_router_for
 from mockazure.providers.graph.security.method_routes import router_for as method_router_for
@@ -92,6 +103,44 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     @app.middleware("http")
     async def boundary(request: Request, call_next):
         request.state.request_id = str(uuid4())
+        # Generated Az scope clients join "/{scope}" with an absolute ARM scope.
+        # Normalize that one leading slash only for these precise operation shapes;
+        # interior duplicate/encoded separators still fail canonical parsing.
+        if re.fullmatch(
+            r"(?i)//subscriptions/[^/]+(?:/[^/]+)*/providers/"
+            r"(microsoft\.resources/tags/default|"
+            r"microsoft\.authorization/(roledefinitions|roleassignments)(/[^/]+)?)",
+            request.scope["path"],
+        ):
+            request.scope["path"] = request.scope["path"][1:]
+        arm_path = request.scope["path"].lower().split("/")[1] in {"subscriptions", "tenants"}
+        request.state.arm_path = arm_path
+        if arm_path:
+            if b"%" in request.scope.get("raw_path", b"") or "\\" in request.scope["path"]:
+                return await handle_arm_error(
+                    request, ArmError(400, "InvalidResourceId", "Encoded ARM paths are unsupported")
+                )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.insights/eventtypes/management/values(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
+            # ARM's reserved path segments are case-insensitive; resource names retain case.
+            request.scope["path"] = re.sub(
+                r"(?i)(?<=/)(subscriptions|tenants|resourcegroups|resources)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.resources/(tags/default|operations)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.authorization/(roledefinitions|roleassignments)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
         try:
             authorities = request.headers.getlist("host")
             authority = authorities[0].lower() if len(authorities) == 1 else ""
@@ -127,6 +176,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                 request, 500, "InternalError", "Request could not be completed"
             )
         response.headers["x-request-id"] = request.state.request_id
+        if arm_path:
+            response.headers["x-ms-request-id"] = request.state.request_id
         return response
 
     @app.exception_handler(GraphError)
@@ -168,18 +219,42 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     @app.exception_handler(RequestValidationError)
     async def invalid(request, error):
+        if getattr(request.state, "arm_path", False):
+            return await handle_arm_error(
+                request,
+                ArmError(
+                    400, "InvalidRequestContent", "Request does not match the supported schema"
+                ),
+            )
         return error_response(
             request, 422, "ValidationError", "Request does not match the supported schema"
         )
 
     @app.exception_handler(SQLAlchemyError)
     async def database_error(request, error):
+        if getattr(request.state, "arm_path", False):
+            return await handle_arm_error(
+                request, ArmError(503, "DatabaseUnavailable", "Database or schema is not ready")
+            )
         return error_response(
             request, 503, "DatabaseUnavailable", "Database or schema is not ready"
         )
 
     @app.exception_handler(HTTPException)
     async def http_error(request, error):
+        if getattr(request.state, "arm_path", False):
+            return await handle_arm_error(
+                request,
+                ArmError(
+                    501 if error.status_code == 404 else error.status_code,
+                    "MockAzureOperationNotImplemented"
+                    if error.status_code == 404
+                    else "MethodNotAllowed",
+                    "This ARM operation is not implemented"
+                    if error.status_code == 404
+                    else "Method not allowed",
+                ),
+            )
         if error.status_code == 404 and not request.url.path.startswith("/_mock"):
             return error_response(
                 request,
@@ -194,14 +269,22 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             "Method not allowed" if error.status_code == 405 else "Resource not found",
         )
 
+    app.include_router(mail_admin_router)
+    app.include_router(maintenance_admin_router)
     app.include_router(router)
     app.include_router(evidence_admin_router)
     app.include_router(job_router)
     app.include_router(licensing_admin_router)
     app.include_router(managed_identity_admin_router)
     app.include_router(licensing_graph_router)
+    app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
     app.include_router(arm_router)
+    app.include_router(arm_inventory_router)
+    app.include_router(arm_activity_router)
+    app.include_router(arm_mutation_router)
+    app.include_router(arm_operations_router)
+    app.include_router(arm_rbac_router)
     app.include_router(session_router)
     app.include_router(identity_router)
     app.include_router(security_admin_router)
@@ -227,7 +310,12 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(grant_router_for("beta"))
     app.include_router(security_router_for("v1.0"))
     app.include_router(security_router_for("beta"))
+    app.include_router(audit_query_router_for("v1.0"))
+    app.include_router(audit_query_router_for("beta"))
+    app.include_router(mail_router_for("v1.0"))
+    app.include_router(mail_router_for("beta"))
     app.include_router(router_for("v1.0"))
     app.include_router(router_for("beta"))
     app.include_router(exchange_router)
+    app.include_router(exchange_compiled_router)
     return app

@@ -66,6 +66,90 @@
       "adminConsentRequired": true
     },
     {
+      "name": "AuditLogsQuery-CRM.Read.All",
+      "kind": "application",
+      "id": "20e6f8e4-ffac-4cf7-82f7-70ddb7564318",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-CRM.Read.All",
+      "kind": "delegated",
+      "id": "ba78b16f-1e01-41b6-89ca-73e0a32b304c",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-Endpoint.Read.All",
+      "kind": "application",
+      "id": "0bc85aed-7b0b-437a-bac8-3b29a1b84c99",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-Endpoint.Read.All",
+      "kind": "delegated",
+      "id": "ee3409fe-617f-43cf-bd1e-fc8b38049e69",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-Entra.Read.All",
+      "kind": "application",
+      "id": "7276d950-48fc-4269-8348-f22f2bb296d0",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-Entra.Read.All",
+      "kind": "delegated",
+      "id": "5ff2f415-e0f1-4d11-bfd0-6d87c0f667fd",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-Exchange.Read.All",
+      "kind": "application",
+      "id": "6b0d2622-d34e-4470-935b-b96550e5ca8d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-Exchange.Read.All",
+      "kind": "delegated",
+      "id": "6c8c71d2-c7e1-45b0-ac6d-1d2724fba6ae",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-OneDrive.Read.All",
+      "kind": "application",
+      "id": "8a169a81-841c-45fd-ad43-96aede8801a0",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-OneDrive.Read.All",
+      "kind": "delegated",
+      "id": "4a72c235-a50d-4870-b598-fd88fd1fa074",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-SharePoint.Read.All",
+      "kind": "application",
+      "id": "91c64a47-a524-4fce-9bf3-3d569a344ecf",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery-SharePoint.Read.All",
+      "kind": "delegated",
+      "id": "30630b65-ed12-4a81-9130-e3a964109fae",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery.Read.All",
+      "kind": "application",
+      "id": "5e1e9171-754d-478c-812c-f1755a9a4c2d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "AuditLogsQuery.Read.All",
+      "kind": "delegated",
+      "id": "1d9e7ac3-0eca-442c-82f9-e92625af6e6d",
+      "adminConsentRequired": true
+    },
+    {
       "name": "DelegatedPermissionGrant.ReadWrite.All",
       "kind": "application",
       "id": "8e8e4742-1d95-4f68-9d56-6ee75648c72a",
@@ -266,6 +350,30 @@
       "kind": "delegated",
       "id": "f55016cc-149c-447e-8f21-7cf3ec1d6350",
       "adminConsentRequired": true
+    },
+    {
+      "name": "MailboxSettings.Read",
+      "kind": "application",
+      "id": "40f97065-369a-49f4-947c-6a255697ae91",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "MailboxSettings.Read",
+      "kind": "delegated",
+      "id": "87f447af-9fa4-4c32-9dfa-4a57a73d18ce",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "MailboxSettings.ReadWrite",
+      "kind": "application",
+      "id": "6931bccd-447a-43d1-b442-00a195474933",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "MailboxSettings.ReadWrite",
+      "kind": "delegated",
+      "id": "818c620a-27a9-40bd-a6a5-d96f7d610b4b",
+      "adminConsentRequired": false
     },
     {
       "name": "Member.Read.Hidden",

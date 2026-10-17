@@ -32,7 +32,8 @@
       "extracted": "modules/ExchangeOnlineManagement/3.11.0",
       "dependencies": [
         "PowerShellGet==2.2.5",
-        "PackageManagement==1.4.8.1"
+        "PackageManagement==1.4.8.1",
+        "Microsoft.Extensions.DependencyInjection.Abstractions==8.0.0"
       ],
       "probe": "integrations/contracts/connections.md"
     },
@@ -181,6 +182,52 @@
         "Microsoft.Graph.Authentication==2.35.1"
       ],
       "probe": "integrations/contracts/graph-security.md"
+    },
+    {
+      "name": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "version": "8.0.0",
+      "source": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg",
+      "sha256": "ef92b31065a36d110b7332690a226e6fe96d35430c6f3e40ff529053ee5d80ff",
+      "archive": "Microsoft.Extensions.DependencyInjection.Abstractions-8.0.0.zip",
+      "extracted": "dependencies/Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0",
+      "dependencies": [],
+      "probe": "integrations/powershell/Test-ExchangeMail.ps1"
+    },
+    {
+      "name": "Microsoft.Graph.Mail",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Mail/2.35.1",
+      "sha256": "87ab76a8a4cd0e96eb0644f601bea9ffde194b8986454fa61551ac65d19876e1",
+      "archive": "Microsoft.Graph.Mail-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Mail/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/mail.md"
+    },
+    {
+      "name": "Microsoft.Graph.Security",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Security/2.35.1",
+      "sha256": "aa70e9bbcdd45006ea5e40b9021f811da2189655833c11d4656bde21791ef011",
+      "archive": "Microsoft.Graph.Security-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Security/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/mail.md"
+    },
+    {
+      "name": "Az.Resources",
+      "version": "7.8.0",
+      "source": "https://www.powershellgallery.com/api/v2/package/Az.Resources/7.8.0",
+      "sha256": "7ae4cbe14462b1a2a66fa8f2043eaf833a644d064aced372436de285a7968741",
+      "archive": "Az.Resources-7.8.0.zip",
+      "extracted": "modules/Az.Resources/7.8.0",
+      "dependencies": [
+        "Az.Accounts==4.0.2"
+      ],
+      "probe": "integrations/contracts/arm.md"
     }
   ],
   "python": {

@@ -10,6 +10,7 @@ from mockazure.commands import (
     jobs,
     licensing,
     local,
+    maintenance,
     managed_identity,
     tenants,
 )
@@ -51,3 +52,5 @@ app.add_typer(licensing.app, name="licensing")
 app.add_typer(managed_identity.app, name="managed-identity")
 
 app.add_typer(evidence.app, name="evidence")
+
+app.add_typer(maintenance.app, name="maintenance")

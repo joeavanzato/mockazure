@@ -1,0 +1,12 @@
+{
+  "source_commit": "bf64b4e2ae09defdae83a6d306d777fc97bf6667",
+  "initial_attempt": "work/release/arm-setup-failed-20261017T1441",
+  "failure": "One worker exited with code 2; the 1003-record Activity fixture exceeded its 120-second publication wait. A subsequent unchanged startup failed identity initialization.",
+  "read_only_probe": {
+    "schema_current": true,
+    "identity_ready": true
+  },
+  "recovery": "Recreated only owned M6 ARM containers with identical source/configuration and retained database. Both workers remained running; read-only counts then showed 1006 succeeded jobs, 1003 Activity Log observations, 2 directory audits and 1 sign-in.",
+  "root_cause_limit": "Fresh-container readiness and successful recreation isolate an operational startup problem; the exact original startup exception was suppressed by the CLI. Stale bindings or transient readiness are hypotheses, not established causes.",
+  "retry": "Original five-suite runner invoked for m5 only, with unchanged fixture, timeouts, SDKs, collectors and acceptance assertions. The first failed setup remains archived; no waiver."
+}

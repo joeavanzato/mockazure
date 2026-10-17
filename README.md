@@ -3,20 +3,26 @@
 MockAzure is a general-purpose Microsoft cloud API emulator focused on evidence
 collection and realistic stateful interactions.
 
-**Current development milestone: M3B, stateful evidence APIs.** Local Entra
-authentication and permission checks support directory lifecycle and Graph sign-in,
-directory-audit and Identity Protection evidence, licensing operations and App
-Service managed identity. PostgreSQL retains state, immutable observations and
-snapshot continuations across API restarts.
+**Current development milestone: M5, Azure management and Activity Logs.** Local
+Entra authentication, Graph directory/security operations, mailbox configuration,
+inbox/sweep rules, message traces and durable audit queries use persisted
+PostgreSQL state and permission checks. Original Microsoft clients and selected
+Hawk/Microsoft Extractor Suite workflows make real local HTTP requests.
 
-The SDK qualification has passed and the independent review fixes pass regression
-tests. Original collector checks expose an upstream MES audit JSON serialization
-defect; the complete milestone acceptance gate remains open. See the
-[evidence contract](integrations/contracts/graph-evidence.md),
-[evidence operations](docs/evidence.md) and
-[execution record](docs/evidence-execution.md).
-Broader security administration remains M3C. Exchange and ARM retain the bounded
-M2 connection surfaces.
+M4's required collector gate remains **unresolved**: original Hawk investigation
+JSON is malformed for multiple suspicious rules, and original MES trace CSV
+drops fractional seconds. These failures are retained without new waivers.
+The repaired API and its tests are documented in
+[mail execution](docs/mail-execution.md) and [final review](docs/mail-review.md). See the
+[mail contract](docs/mail-contracts.md), [capability matrix](docs/capabilities.md)
+and [compatibility boundaries](docs/compatibility.md) for the exact supported
+operations and limitations. Mailbox settings do not execute mail delivery.
+ARM includes subscription/resource inventory, resource-group and tag mutations,
+current inherited RBAC, four built-in roles, durable group deletion and immutable
+Activity Logs with exact100ns filtering and paging. Original Az PowerShell,
+Python Azure SDKs and MES use real local HTTPS. See [ARM contracts](docs/arm-contracts.md)
+and [execution](docs/arm-execution.md). Combined release/scale qualification follows
+in M6; the four M4 collector failures remain blockers.
 
 ## Docker quick start (PowerShell)
 
@@ -190,3 +196,29 @@ Create the network only once; verify its internal flag on subsequent runs.
 Runtime client profiles and generated credentials remain ignored project-local files.
 The verifier requires unchanged source bytes, pinned artifacts, clean-wheel parity,
 real client requests, exact collector files, denied access and restart persistence.
+
+## Exchange, Azure management and release qualification
+
+The Exchange/UAL milestone adds persisted mailbox, rule, trace and audit behavior,
+including the bounded Microsoft Exchange module bootstrap. Four original collector
+output checks remain blocked: Hawk inbox-rule JSON concatenation in both auth modes,
+and MES trace CSV timestamp precision in both modes. See
+[mail verification](docs/mail-verification.json) and [mail contracts](docs/mail-contracts.md).
+
+The Azure management milestone adds the declared subscription/resource-group/tag,
+RBAC, asynchronous group deletion and Activity Log profile. Its measured runtime,
+SDK and original MES cases pass; its stacked PR remains draft because the combined
+M4 blockers remain. See [ARM verification](docs/arm-verification.json) and
+[ARM contracts](docs/arm-contracts.md).
+
+M6 adds bounded storage maintenance, deterministic scale/recovery measurements,
+and reproducible candidate artifact tooling. Historical sign-in projection uses
+bounded atomic batches, individual receipts and generation/epoch fences; missing-job
+repair runs periodically. These changes do not promise production-cloud throughput.
+See [maintenance](docs/maintenance.md), [scale measurements](docs/release-scale.md),
+[build instructions](docs/release-build.md) and [execution status](docs/release-execution.md).
+
+A candidate artifact pass is separate from release acceptance. Every original-client
+suite and all three declared scale profiles must pass on the current source before
+release_ready can be true. The existing M3B MES audit JSON exception is the only
+accepted collector-output waiver. No package or image is published automatically.

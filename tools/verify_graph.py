@@ -20,9 +20,15 @@ import httpx
 from mockazure.config import load_settings
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNTIME = ROOT / ".runtime/m3"
-COMPOSE = ["docker", "compose", "-f", "compose.m3.yaml"]
-CLIENTS = ["docker", "compose", "-f", "compose.clients.m3.yaml"]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.qualification_profile import profile_for  # noqa: E402
+
+PROFILE = profile_for("m3")
+RUNTIME = ROOT / PROFILE.text(".runtime/m3")
+COMPOSE = ["docker", "compose", "-f", PROFILE.text("compose.m3.yaml")]
+CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m3.yaml")]
 
 
 def sha(path):
@@ -39,21 +45,17 @@ def source_fingerprint():
         for name in (
             "pyproject.toml",
             "uv.lock",
+            "build-requirements.txt",
             "Dockerfile",
             "integrations/Dockerfile.python",
-            "compose.m3.yaml",
-            "compose.clients.m3.yaml",
-            "deploy/haproxy-m3.cfg",
+            PROFILE.text("compose.m3.yaml"),
+            PROFILE.text("compose.clients.m3.yaml"),
+            PROFILE.text("deploy/haproxy-m3.cfg"),
         )
     }
-    for folder in ("src", "integrations", "tools"):
-        files.update(
-            p
-            for p in (ROOT / folder).rglob("*")
-            if p.is_file()
-            and "__pycache__" not in p.parts
-            and p.suffix in {".py", ".ps1", ".json", ".yaml", ".md"}
-        )
+    from tools.source_inputs import qualification_files
+
+    files.update(qualification_files(ROOT))
     digest = hashlib.sha256()
     for path in sorted(files):
         digest.update(path.relative_to(ROOT).as_posix().encode())
@@ -360,7 +362,9 @@ def main():
     assert output.is_relative_to(ROOT / "work")
     started = datetime.now(UTC)
     fingerprint = source_fingerprint()
-    image = json.loads(command(["docker", "image", "inspect", "mockazure:graph"], "image"))[0]
+    image = json.loads(
+        command(["docker", "image", "inspect", PROFILE.text("mockazure:graph")], "image")
+    )[0]
     assert image["Config"]["Labels"]["org.mockazure.source-fingerprint"] == fingerprint, (
         "Rebuild M3 image for the current source fingerprint"
     )
@@ -370,7 +374,10 @@ def main():
         == image["Id"]
     )
     network = json.loads(
-        command(["docker", "network", "inspect", "mockazure-m3-clients-isolated"], "network")
+        command(
+            ["docker", "network", "inspect", PROFILE.text("mockazure-m3-clients-isolated")],
+            "network",
+        )
     )[0]
     assert network["Internal"]
     command(
@@ -405,7 +412,7 @@ def main():
     settings = load_settings(RUNTIME / "instance/native.json")
     checks = {"clean_wheel_install": True}
     clients = {}
-    replicas = [Replica(python, port) for port in (48444, 48445)]
+    replicas = [Replica(python, port) for port in (PROFILE.port(48444), PROFILE.port(48445))]
     # Bind checks prevent accidentally treating an unrelated listener as our replica.
     for replica in replicas:
         with socket.socket() as sock:

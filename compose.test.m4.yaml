@@ -1,0 +1,40 @@
+name: mockazure-mail-tests
+services:
+  db:
+    init: true
+    image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    environment:
+      POSTGRES_USER: mockazure
+      POSTGRES_DB: mockazure_test_control
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    # Disposable test databases; avoid Windows bind-mount startup latency.
+    tmpfs:
+      - /var/lib/postgresql:rw,size=2g
+    secrets: [db_password]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mockazure -d mockazure_test_control"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    networks: [isolated]
+  ingress:
+    image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
+    volumes:
+      - ./deploy/haproxy-test.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports: ["127.0.0.1:55441:5432"]
+    networks: [isolated, ingress]
+    depends_on:
+      db: {condition: service_healthy}
+secrets:
+  db_password:
+    file: ./.runtime/test-db.password
+networks:
+  isolated:
+    internal: true
+    ipam:
+      config: [{subnet: 10.231.92.0/24}]
+  ingress:
+    ipam:
+      config: [{subnet: 10.231.93.0/24}]
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"

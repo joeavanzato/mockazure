@@ -120,3 +120,65 @@ namespace-qualified action names, which share the same server authorization and
 mutation paths as unqualified REST actions. Registered method descriptors do not
 claim physical MFA/SSPR/passwordless capabilities. Current grant changes affect
 new issuance/refresh; existing access-token claims retain their lifetime semantics.
+
+## M4 mail and audit qualification boundary
+
+The required gate has44 original application/delegated success/denial cases.
+Final review invalidated the earlier shaped-fixture acceptance: all three
+forwarding rules must remain visible to Hawk, and all historical evidence
+timestamps must match independently generated instants.
+
+Original Hawk appends separate JSON documents for multiple suspicious rules.
+Original MES trace CSV formats DateTime values without fractional seconds.
+Both remain required failures, with original artifacts/hashes preserved; no new
+waiver is granted. JSON/CSV/JSONL/SOF-ELK UAL checks require exact CreationTime
+and, where present,createdDateTime. The container explicitly uses UTC/en-US;
+equivalent date representations are accepted, missing precision is not.
+See [execution](mail-execution.md), [review](mail-review.md) and the current
+[source-bound report](mail-verification.json). A report with passed:false is
+evidence of an unresolved gate, not a qualified milestone.
+
+Pinned clients:MSAL1.39.0,Graph Python1.64.0,Azure Identity1.26.0,Graph PowerShell
+2.35.1 andExchangeOnlineManagement3.11.0. Graph Security2.35.1 has no generated UAL
+cmdlets, so original Invoke-MgGraphRequest is used. PowerShell receives local
+tokens; native credential acquisition is not claimed. The Exchange bootstrap
+remains the documented fixed local HTTP proxy boundary.
+
+
+## M5 Azure management qualification boundary
+
+M5 passed17runtime gates, three real SDK profiles and eight original MES cases.
+Native/container Python uses MSAL1.39.0 and Azure management SDKs
+resource23.4.0/authorization4.0.0/monitor6.0.2. Container PowerShell uses
+Az.Accounts4.0.2/Az.Resources7.8.0 with local token login and original commands.
+Each allowed MES case validates1003historical Activity records and the captured
+native mutation snapshot; all fields, event identities and100ns instants must match.
+Denied cases prove403 and no exported records.
+
+Supported versions, scope compatibility and filter grammar are explicitly pinned
+in [ARM contracts](arm-contracts.md). [Client contract](../integrations/contracts/arm.md)
+describes local transport boundaries and exact invocation coverage.
+[Measured report](arm-verification.json) binds source, package metadata, lock,
+schema/archive manifests, images, wheel and output artifacts.
+[Execution](arm-execution.md) records final-review status and unresolved gates.
+M4's four original collector failures remain combined-release blockers.
+
+
+## M6 combined candidate qualification
+
+Current-source original Graph, evidence, security, mail/Exchange and ARM outcomes
+are recorded in [release-execution.md](release-execution.md) and
+[release-qualification.json](release-qualification.json). Historical milestone
+reports remain separate evidence.
+
+Reproducible wheel/sdist builds and clean native/Docker package parity passed.
+Small100/1000 and medium5000/50000 user/evidence profiles passed exact paging and
+restart checks. Large100000/1000000 failed at979000 acknowledged records on the
+recorded Windows bind-mount PostgreSQL runtime. The WAL writer reported Cannot
+allocate memory; the underlying allocation failure is unresolved. No production
+throughput claim or large-scale acceptance follows from the smaller passes.
+
+M4's four original output failures remain mandatory blockers. The original M3B
+MES audit JSON exception is the only waiver. An ARM setup/worker failure and its
+unchanged recovery/retry are preserved in [release-arm-recovery.json](release-arm-recovery.json).
+The candidate remains a development artifact; no registry publication occurred.
