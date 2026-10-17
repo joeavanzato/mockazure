@@ -67,11 +67,12 @@ def test_trace_artifact_rejects_truncation_and_recipient_corruption(tmp_path):
 
     expected = {
         "mailbox": {"UserPrincipalName": "mail@example.test"},
-        "fixture": {"trace_ids": ["a", "b", "c"]},
+        "fixture": {"time": "2026-10-16T07:51:42+00:00", "trace_ids": ["a", "b", "c"]},
     }
     records = [
         {
             "MessageTraceId": identity,
+            "Received": f"2026-10-16T07:51:42.{i:06d}+00:00",
             "SenderAddress": "sender@example.test",
             "RecipientAddress": "mail@example.test",
             "Status": "Delivered",
@@ -86,7 +87,7 @@ def test_trace_artifact_rejects_truncation_and_recipient_corruption(tmp_path):
     path = tmp_path / "trace.csv"
 
     def save(values):
-        with path.open("w", newline="") as stream:
+        with path.open("w", newline="", encoding="utf-8") as stream:
             writer = csv.DictWriter(stream, fieldnames=records[0])
             writer.writeheader()
             writer.writerows(values)
@@ -96,6 +97,12 @@ def test_trace_artifact_rejects_truncation_and_recipient_corruption(tmp_path):
     for bad in (records[:-1], records + records[:1]):
         save(bad)
         with pytest.raises(AssertionError):
+            verify_artifacts("mes_trace", [path], expected)
+    for value in ("", "2026-10-16T07:51:42+00:00", "2026-10-16T08:51:42.000002+00:00"):
+        bad = copy.deepcopy(records)
+        bad[-1]["Received"] = value
+        save(bad)
+        with pytest.raises((AssertionError, ValueError)):
             verify_artifacts("mes_trace", [path], expected)
     bad = copy.deepcopy(records)
     bad[-1]["RecipientAddress"] = "other@example.test"
@@ -109,11 +116,12 @@ def test_audit_artifact_rejects_wrong_identity_and_malformed_output(tmp_path):
 
     expected = {
         "mailbox": {"UserPrincipalName": "mail@example.test"},
-        "fixture": {"audit_ids": ["a", "b"]},
+        "fixture": {"time": "2026-10-16T07:51:42+00:00", "audit_ids": ["a", "b"]},
     }
     records = [
         {
             "id": identity,
+            "createdDateTime": "2026-10-16T07:51:42+00:00",
             "operation": "MailItemsAccessed",
             "service": "Exchange",
             "auditLogRecordType": "ExchangeItem",
@@ -123,6 +131,7 @@ def test_audit_artifact_rejects_wrong_identity_and_malformed_output(tmp_path):
             "auditData": {
                 "dynamicProperties": {
                     "Id": identity,
+                    "CreationTime": "2026-10-16T07:51:42+00:00",
                     "Operation": "MailItemsAccessed",
                     "ObjectId": f"qualified-message-{i}",
                     "UserId": "mail@example.test",
@@ -136,6 +145,16 @@ def test_audit_artifact_rejects_wrong_identity_and_malformed_output(tmp_path):
     path = tmp_path / "audit.json"
     path.write_text(json.dumps(records))
     assert verify_artifacts("mes_audit", [path], expected) == 2
+    for field in ("createdDateTime", "CreationTime"):
+        for value in ("", "2026-10-16T07:51:42.000001+00:00", "2026-10-16T08:51:42+00:00"):
+            bad = copy.deepcopy(records)
+            target = (
+                bad[-1] if field == "createdDateTime" else bad[-1]["auditData"]["dynamicProperties"]
+            )
+            target[field] = value
+            path.write_text(json.dumps(bad))
+            with pytest.raises((AssertionError, ValueError)):
+                verify_artifacts("mes_audit", [path], expected)
     bad = copy.deepcopy(records)
     bad[-1]["id"] = "wrong"
     path.write_text(json.dumps(bad))
@@ -212,3 +231,68 @@ def test_native_audit_export_preserves_timestamp_value_not_decimal_padding(tmp_p
     path.write_text(json.dumps([actual]))
     with pytest.raises(AssertionError):
         verify_artifacts("mes_audit_native", [path], expected)
+
+
+@pytest.mark.parametrize("label", ["mes_audit_jsonl", "mes_audit_sofelk", "mes_audit_csv"])
+def test_all_audit_formats_require_exact_historical_time(tmp_path, label):
+    import csv
+
+    from tools.qualify_mail_collectors import verify_artifacts
+
+    when = "2026-10-16T07:51:42+00:00"
+    expected = {
+        "mailbox": {"UserPrincipalName": "mail@example.test"},
+        "fixture": {"time": when, "audit_ids": ["a"]},
+    }
+    common = {
+        "Id": "a",
+        "Operation": "MailItemsAccessed",
+        "ObjectId": "qualified-message-0",
+        "UserId": "mail@example.test",
+        "Workload": "Exchange",
+        "ResultStatus": "Succeeded",
+        "RecordType": 2,
+        "CreationTime": when,
+    }
+    record = {
+        "id": "a",
+        "operation": "MailItemsAccessed",
+        "service": "Exchange",
+        "auditLogRecordType": "ExchangeItem",
+        "userPrincipalName": "mail@example.test",
+        "objectId": "qualified-message-0",
+        "clientIp": "192.0.2.42",
+        "createdDateTime": when,
+    }
+    path = tmp_path / ("audit.csv" if label.endswith("csv") else "audit.jsonl")
+
+    def save(value, outer=when):
+        if label.endswith("csv"):
+            row = record | {
+                "createdDateTime": outer,
+                "auditData": json.dumps({"dynamicProperties": value}),
+            }
+            with path.open("w", newline="", encoding="utf-8") as stream:
+                writer = csv.DictWriter(stream, fieldnames=row)
+                writer.writeheader()
+                writer.writerow(row)
+        else:
+            path.write_text(json.dumps({"dynamicProperties": value}) + "\n")
+
+    save(common)
+    assert verify_artifacts(label, [path], expected) == 1
+    for value in (None, "", "2026-10-16T07:51:42.000001+00:00", "2026-10-16T08:51:42+00:00"):
+        bad = dict(common)
+        if value is None:
+            bad.pop("CreationTime")
+        else:
+            bad["CreationTime"] = value
+        save(bad)
+        with pytest.raises((AssertionError, ValueError, KeyError)):
+            verify_artifacts(label, [path], expected)
+    if label.endswith("csv"):
+        save(common, "10/16/2026 7:51:42\u202fAM")
+        assert verify_artifacts(label, [path], expected) == 1
+        save(common, "2026-10-16T07:51:42.000001+00:00")
+        with pytest.raises(AssertionError):
+            verify_artifacts(label, [path], expected)

@@ -1,4 +1,9 @@
 param([Parameter(Mandatory)][string]$CasePath)
+[cultureinfo]::CurrentCulture = [cultureinfo]::GetCultureInfo('en-US')
+[cultureinfo]::CurrentUICulture = [cultureinfo]::GetCultureInfo('en-US')
+if ([TimeZoneInfo]::Local.Id -notin @('UTC','Etc/UTC')) {
+ throw 'Collector timestamp qualification requires the isolated UTC container'
+}
 $ErrorActionPreference='Stop'
 $case=Get-Content $CasePath -Raw | ConvertFrom-Json -AsHashtable -DateKind String
 $config=Get-Content /state/client.json -Raw | ConvertFrom-Json

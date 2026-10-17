@@ -29,6 +29,7 @@ async def mutate_sweep(session, actor, box, name, parameters, now):
                 MailRule.family == "sweep",
             )
             .order_by(MailRule.sequence)
+            .execution_options(populate_existing=True)
         )
     )
     identifier = parameters.get("Identity", "").split("\\")[-1]

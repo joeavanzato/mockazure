@@ -394,7 +394,7 @@ def main():
         "clients": clients,
         "exchange": exchange,
         "collectors": collectors,
-        "passed": True,
+        "passed": all(item["passed"] is True for item in collectors.values()),
         "total_seconds": (datetime.now(UTC) - started).total_seconds(),
         "limitations": [
             "PowerShell uses local tokens; Python uses real MSAL authentication flows.",
@@ -402,8 +402,10 @@ def main():
             "5,000-user qualification is not a throughput SLA.",
         ],
     }
-    validate_report(report)
+    # Preserve failed evidence as well as successes. Validation remains strict:
+    # an unresolved original collector artifact error exits nonzero.
     output.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    validate_report(report)
     print(json.dumps({"passed": True, "checks": len(checks), "clients": len(clients)}))
 
 

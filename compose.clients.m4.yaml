@@ -6,6 +6,7 @@ services:
     command: ["/project/integrations/powershell/Test-NetworkBoundary.ps1"]
     working_dir: /project
     environment:
+      TZ: UTC
       SSL_CERT_FILE: /certs/ca.pem
       PSModulePath: /vendor/modules:/opt/microsoft/powershell/7/Modules
       POWERSHELL_TELEMETRY_OPTOUT: "1"
@@ -32,6 +33,7 @@ services:
     command: ["/project/integrations/python/network_boundary.py"]
     working_dir: /project
     environment:
+      TZ: UTC
       SSL_CERT_FILE: /certs/ca.pem
       PYTHONDONTWRITEBYTECODE: "1"
       HTTP_PROXY: ""

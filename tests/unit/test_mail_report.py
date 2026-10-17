@@ -60,6 +60,14 @@ def test_mail_report_fails_closed():
         del bad["collectors"][label]
         with pytest.raises(AssertionError):
             validate(bad)
+    bad = copy.deepcopy(baseline)
+    bad["collectors"]["hawk_rules"]["cases"][0]["passed"] = False
+    bad["collectors"]["hawk_rules"]["cases"][0]["failure"] = "JSONDecodeError: Extra data"
+    with pytest.raises(AssertionError):
+        validate(bad)
+    bad["passed"] = False
+    with pytest.raises(AssertionError):
+        validate(bad)
     for field in runtime:
         bad = copy.deepcopy(baseline)
         bad["checks"][field] = 1

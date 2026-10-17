@@ -106,6 +106,7 @@ async def _mutate_rule(
                 MailRule.family == "inbox",
             )
             .order_by(MailRule.sequence, MailRule.id)
+            .execution_options(populate_existing=True)
         )
     )
     row = next((r for r in rows if r.id == rule_id), None)

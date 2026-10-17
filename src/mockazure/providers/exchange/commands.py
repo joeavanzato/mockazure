@@ -178,14 +178,24 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
         )
         return []
     identity = parameters.get("Mailbox")
-    if not identity and parameters.get("Identity") and "\\" in parameters["Identity"]:
-        identity = parameters["Identity"].split("\\", 1)[0]
+    prefix = None
+    if parameters.get("Identity") and "\\" in parameters["Identity"]:
+        parts = parameters["Identity"].split("\\")
+        if len(parts) != 2 or not all(parts):
+            invalid("Rule Identity must contain one mailbox prefix and one rule identity")
+        prefix = await resolve_mailbox(session, actor.tenant_id, parts[0])
+        if not identity:
+            identity = str(prefix.user_id)
     if not identity and actor.token_kind == "delegated":
         identity = str(actor.subject_id)
     if not identity:
         invalid("Mailbox is required for this command")
     box = await resolve_mailbox(session, actor.tenant_id, identity)
+    if prefix is not None and prefix.user_id != box.user_id:
+        invalid("Rule Identity mailbox disagrees with Mailbox")
     await require_mailbox_access(session, actor, box, name)
+    if not name.startswith("Get-"):
+        await session.refresh(box, with_for_update=True)
     family = "sweep" if "Sweep" in name else "inbox"
     if family == "sweep" and name != "Get-SweepRule":
         return await mutate_sweep(session, actor, box, name, parameters, now)
@@ -198,6 +208,7 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
                 MailRule.family == family,
             )
             .order_by(MailRule.sequence, MailRule.id)
+            .execution_options(populate_existing=True)
         )
     )
     identifier = parameters.get("Identity")

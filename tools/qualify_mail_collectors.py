@@ -3,6 +3,7 @@
 import csv
 import json
 import sys
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -152,16 +153,8 @@ def run_collectors():
                 DestinationFolder="review",
                 KeepForDays=7,
             )[0]
-            # Three rules exercise identity/order; one forwarding rule exercises all
-            # original Hawk investigation artifacts as a single valid JSON document.
-            for rule in originals[1:]:
-                checked(
-                    client.patch(
-                        rules_path + "/" + rule["id"],
-                        headers=graph,
-                        json={"actions": {"markAsRead": True}},
-                    )
-                )
+            # Retain all three forwarding rules. Original Hawk's multi-rule
+            # serializer defect must remain visible in the required output gate.
             checked(
                 client.patch(
                     rules_path + "/" + originals[0]["id"],
@@ -353,16 +346,27 @@ def csv_value(value):
     return str(value)
 
 
+def normalized_time(value, *, collector_csv=False):
+    assert isinstance(value, str) and value, "Missing evidence timestamp"
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        if not collector_csv:
+            raise
+        # The actual collector container is explicitly UTC/en-US. Accept its
+        # DateTime CSV representation, but never invent missing fractional digits.
+        parsed = datetime.strptime(value, "%m/%d/%Y %I:%M:%S %p").replace(tzinfo=UTC)
+    assert parsed.tzinfo is not None, "Evidence time lost its timezone"
+    return parsed.astimezone(UTC).isoformat(timespec="microseconds")
+
+
 def normalized_audit_time(record):
     import copy
-    from datetime import UTC, datetime
 
     record = copy.deepcopy(record)
     common = record["auditData"]["dynamicProperties"]
     for value, field in ((record, "createdDateTime"), (common, "CreationTime")):
-        parsed = datetime.fromisoformat(value[field].replace("Z", "+00:00"))
-        assert parsed.tzinfo is not None, "Audit time lost its timezone"
-        value[field] = parsed.astimezone(UTC).isoformat(timespec="microseconds")
+        value[field] = normalized_time(value[field])
     return record
 
 
@@ -527,6 +531,12 @@ def verify_artifacts(label, files, expected):
             wanted = [
                 {
                     key: identifier,
+                    "Received": normalized_time(
+                        (
+                            datetime.fromisoformat(expected["fixture"]["time"])
+                            + timedelta(microseconds=i)
+                        ).isoformat()
+                    ),
                     "SenderAddress": "sender@example.test",
                     "RecipientAddress": box["UserPrincipalName"],
                     "Status": "Delivered",
@@ -538,11 +548,16 @@ def verify_artifacts(label, files, expected):
                 }
                 for i, identifier in enumerate(expected["fixture"]["trace_ids"])
             ]
+            actual = [
+                r | {"Received": normalized_time(r["Received"], collector_csv=is_csv)}
+                for r in actual
+            ]
         elif label.startswith("mes_audit"):
             key = "id"
             wanted = [
                 {
                     "id": identifier,
+                    "createdDateTime": normalized_time(expected["fixture"]["time"]),
                     "operation": "MailItemsAccessed",
                     "service": "Exchange",
                     "auditLogRecordType": "ExchangeItem",
@@ -559,6 +574,7 @@ def verify_artifacts(label, files, expected):
                 wanted = [
                     {
                         "Id": r["id"],
+                        "CreationTime": r["createdDateTime"],
                         "Operation": r["operation"],
                         "ObjectId": r["objectId"],
                         "UserId": r["userPrincipalName"],
@@ -569,9 +585,21 @@ def verify_artifacts(label, files, expected):
                     for r in wanted
                 ]
                 key = "Id"
+                actual = [r | {"CreationTime": normalized_time(r["CreationTime"])} for r in actual]
+            elif label != "mes_audit_native":
+                actual = [
+                    r
+                    | {
+                        "createdDateTime": normalized_time(
+                            r["createdDateTime"], collector_csv=is_csv
+                        )
+                    }
+                    for r in actual
+                ]
             for record in actual if label not in {"mes_audit_jsonl", "mes_audit_sofelk"} else []:
                 audit_data = json.loads(record["auditData"]) if is_csv else record["auditData"]
                 common = audit_data["dynamicProperties"]
+                assert normalized_time(common["CreationTime"]) == record["createdDateTime"]
                 assert common["Id"] == record["id"] and common["Operation"] == record["operation"]
                 assert common["ObjectId"] == record["objectId"]
                 assert common["UserId"] == (record["userPrincipalName"] or record["userId"])
@@ -616,24 +644,30 @@ def qualify_collectors(evidence=None):
         files = sorted(p for p in folder.rglob("*") if p.is_file())
         assert {"/state/" + p.relative_to(state).as_posix() for p in files} == set(report["files"])
         assert report["source_hashes"]
-        if denied:
-            verify_denied(files)
-            logs = "\n".join(
-                p.read_text(encoding="utf-8-sig") for p in files if p.suffix.lower() == ".log"
-            )
-            error = (report["error"] or "") + logs
-            assert any(word in error for word in ("403", "Forbidden", "AccessDenied", "denied")), (
-                f"{label}/{mode}: no actual access denial"
-            )
-        else:
-            assert report["error"] is None, f"{label}/{mode}: {report['error']}"
-            if label == "hawk_rules":
-                assert report["hidden_check"] is True
-            results[label]["records_verified"] += verify_artifacts(
-                label, files, evidence["expected"]
-            )
         item = results[label]
-        item["cases"].append({"mode": mode, "denied": denied, "passed": True})
+        outcome = {"mode": mode, "denied": denied, "passed": False}
+        verified = 0
+        try:
+            if denied:
+                verify_denied(files)
+                logs = "\n".join(
+                    p.read_text(encoding="utf-8-sig") for p in files if p.suffix.lower() == ".log"
+                )
+                error = (report["error"] or "") + logs
+                assert any(
+                    word in error for word in ("403", "Forbidden", "AccessDenied", "denied")
+                ), f"{label}/{mode}: no actual access denial"
+            else:
+                assert report["error"] is None, f"{label}/{mode}: {report['error']}"
+                if label == "hawk_rules":
+                    assert report["hidden_check"] is True
+                verified = verify_artifacts(label, files, evidence["expected"])
+        except (AssertionError, ValueError, KeyError, TypeError) as error:
+            outcome["failure"] = f"{type(error).__name__}: {error}"
+        else:
+            outcome["passed"] = True
+            item["records_verified"] += verified
+        item["cases"].append(outcome)
         for path, digest in report["source_hashes"].items():
             relative = path.removeprefix("/vendor/")
             assert digest == sha(ROOT / "work/vendor" / relative)
@@ -646,9 +680,14 @@ def qualify_collectors(evidence=None):
             item["output_hashes"][path.relative_to(RUNTIME).as_posix()] = sha(path)
     assert len(evidence["cases"]) == 4 * len(FUNCTIONS)
     for item in results.values():
-        validate_cases(item["cases"])
-        assert item["records_verified"] > 0 and item["output_hashes"]
-        item["passed"] = True
+        assert item["output_hashes"]
+        try:
+            validate_cases(item["cases"])
+            assert item["records_verified"] > 0
+        except AssertionError:
+            item["passed"] = False
+        else:
+            item["passed"] = True
     validate_collector_hashes(results, ROOT)
     return results
 
@@ -666,4 +705,14 @@ if __name__ == "__main__":
     )
     report = qualify_collectors(evidence)
     (ROOT / "work/mail-collector-results.json").write_text(json.dumps(report, indent=2))
-    print("All original mail collector output/denial cases passed")
+    passed = all(item["passed"] is True for item in report.values())
+    print(
+        json.dumps(
+            {
+                "passed": passed,
+                "failed_profiles": [name for name, item in report.items() if not item["passed"]],
+            }
+        )
+    )
+    if not passed:
+        raise SystemExit(1)
