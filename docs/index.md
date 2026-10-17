@@ -1,6 +1,7 @@
 # Documentation
 
 - [Default Docker runtime, storage and recovery](default-runtime.md)
+- [Endpoint coverage: Microsoft URIs, supported methods and gaps](../COVERAGE.md)
 - [Capabilities](capabilities.md) and [client compatibility](compatibility.md)
 - [Identity and connection setup](identity.md)
 - [Graph directory contract](../integrations/contracts/graph-directory.md)

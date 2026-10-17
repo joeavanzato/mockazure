@@ -55,7 +55,8 @@ Use a separate listen port when running a native API beside Docker.
 
 ## Evidence and compatibility
 
-[Capabilities](docs/capabilities.md) lists implemented surfaces.
+[API coverage](COVERAGE.md) maps Microsoft URIs to implemented methods, limits and gaps.
+[Capabilities](docs/capabilities.md) summarizes implemented surfaces.
 [Compatibility](docs/compatibility.md) distinguishes API coverage, real-client
 qualification and known upstream output defects. [Documentation](docs/index.md)
 links current operations and contracts; completed milestone records are indexed
