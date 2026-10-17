@@ -111,6 +111,52 @@
         "Microsoft.Graph.Authentication==2.35.1"
       ],
       "probe": "integrations/contracts/graph-directory.md"
+    },
+    {
+      "name": "Microsoft.Graph.Reports",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Reports/2.35.1",
+      "sha256": "8907bf5bdecf2571208e565b53472f2e2df60ccdcdd5e5bc083a56a0011ffa20",
+      "archive": "Microsoft.Graph.Reports-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Reports/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-evidence.md"
+    },
+    {
+      "name": "Microsoft.Graph.Identity.SignIns",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Identity.SignIns/2.35.1",
+      "sha256": "59b17eff1d8017b679134484f233516fa4c72509a7defefdd22055a12c42ad06",
+      "archive": "Microsoft.Graph.Identity.SignIns-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Identity.SignIns/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-evidence.md"
+    },
+    {
+      "name": "Microsoft.Graph.Users.Actions",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Users.Actions/2.35.1",
+      "sha256": "d9908fb451123a65122c1acf1b05e18001a3b07125c37619edbd037190d6ebbb",
+      "archive": "Microsoft.Graph.Users.Actions-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Users.Actions/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-evidence.md"
+    },
+    {
+      "name": "PSFramework",
+      "version": "1.12.346",
+      "source": "https://www.powershellgallery.com/api/v2/package/PSFramework/1.12.346",
+      "sha256": "515bdb1c8f75594e4becf06513a778bc8ed7669daa16fbbd5996a133bc7367c1",
+      "archive": "PSFramework-1.12.346.zip",
+      "extracted": "modules/PSFramework/1.12.346",
+      "dependencies": [],
+      "probe": "integrations/contracts/graph-evidence.md"
     }
   ],
   "python": {

@@ -33,6 +33,14 @@ def prepare(manifest: Path, output: Path, *, verify_only: bool = False) -> None:
     data = json.loads(manifest.read_text(encoding="utf-8"))
     if data["schema_version"] != 1:
         raise ValueError("Unsupported client manifest")
+    available = {
+        item["name"] + "==" + item.get("version", "")
+        for item in data["artifacts"]
+        if "name" in item
+    }
+    for item in data["artifacts"]:
+        if any(dependency not in available for dependency in item.get("dependencies", [])):
+            raise ValueError("Missing or mismatched pinned client dependency")
     trees: dict[Path, dict[Path, str]] = {}
     for item in data["artifacts"]:
         archive = beneath(output, item["archive"])

@@ -1080,6 +1080,7 @@ dependencies = [
 
 [package.dev-dependencies]
 clients = [
+    { name = "azure-identity" },
     { name = "msal" },
     { name = "msgraph-sdk" },
 ]
@@ -1107,6 +1108,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 clients = [
+    { name = "azure-identity", specifier = "==1.26.0" },
     { name = "msal", specifier = "==1.39.0" },
     { name = "msgraph-sdk", specifier = "==1.64.0" },
 ]
