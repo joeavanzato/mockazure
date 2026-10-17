@@ -72,3 +72,17 @@ predecessor containers are stopped; source/data retained. VTW/unrelated containe
 were untouched.
 
 Ledger: .superpowers/sdd/2026-10-17-mockazure-release/progress.md.
+
+## Measured progress at 2026-10-17 13:46 UTC
+
+Final small61009 passed: 100 users/1,000 records, 11.317 seconds import/publication,
+all four exact readers across restart, zero read retries.
+Final medium62006 passed: 5,000 users/50,000 records, 141.616 seconds import/publication
+(353.067 records/second). The two evidence readers each traversed100pages in
+239.519/240.110seconds, p95approximately3.09seconds, zero retries.
+Large63002 is running with all100,000users imported. Final exact evidence
+coverage remains pending. Current-source M3 passed14runtime checks/3client profiles;
+M3B is running. Do not treat these partial results as final release acceptance.
+
+The verified candidate archives and manifest are exported under the projectless
+outputs/mockazure-m6-bf64b4e directory; README explicitly labels acceptance blocked.
