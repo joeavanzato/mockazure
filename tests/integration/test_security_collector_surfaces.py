@@ -66,7 +66,8 @@ async def test_signin_activity_attempts_success_retention_and_disclosure(databas
         auth = await headers_for(
             database, settings, tenant, app, None, {"User.Read.All", "AuditLog.Read.All"}
         )
-        now = datetime.now(UTC) - timedelta(hours=2)
+        # Exercise PostgreSQL JSON timestamp formatting with a trailing fractional zero.
+        now = datetime.now(UTC).replace(microsecond=839030) - timedelta(hours=2)
         values = [
             record("signIn", user, now),
             record("signIn", user, now + timedelta(minutes=2), event="nonInteractiveUser"),
@@ -108,7 +109,15 @@ async def test_signin_activity_attempts_success_retention_and_disclosure(databas
             "/v1.0/users", headers=auth, params={"$select": "id,signInActivity"}
         )
         assert collection.status_code == 200
-        assert (
-            next(v for v in collection.json()["value"] if v["id"] == str(user))["signInActivity"]
-            == activity
-        )
+        collected_activity = next(v for v in collection.json()["value"] if v["id"] == str(user))[
+            "signInActivity"
+        ]
+        validate_payload("v1.0", "signInActivity", collected_activity)
+        assert collected_activity.keys() == activity.keys()
+        for field, expected in activity.items():
+            actual = collected_activity[field]
+            if field.endswith("DateTime"):
+                # DateTimeOffset values can omit insignificant fractional zeros.
+                assert datetime.fromisoformat(actual) == datetime.fromisoformat(expected)
+            else:
+                assert actual == expected

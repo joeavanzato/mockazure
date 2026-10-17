@@ -77,3 +77,10 @@ probe with the original open Requests transport measured 30.15 seconds, matching
 asyncio's 30-second TLS shutdown timeout; the previous 15-second test deadline was too
 short. The MSAL client, HTTP behavior, persisted device flow and all refresh/revocation
 assertions remain unchanged. No server timeout or production behavior was changed.
+
+The sign-in activity retention test now deterministically exercises a timestamp ending
+in a fractional zero. PostgreSQL JSON omits that insignificant zero while Python keeps
+it. Collection and item timestamps are compared as exact datetime values; schema,
+field sets, request IDs, permissions and retention assertions remain enforced. The
+original string comparison failed with this fixture; both collector-surface tests
+passed after the correction. No production timestamp behavior was changed.
