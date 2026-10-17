@@ -186,8 +186,13 @@ def router_for(version):
                 prefix + "/" + relation + "/{owner}/$ref", remove_owner, methods=["DELETE"]
             )
             if kind != "device":
-                router.add_api_route(prefix + "/addPassword", add_secret, methods=["POST"])
-                router.add_api_route(prefix + "/removePassword", remove_secret, methods=["POST"])
+                for namespace in ("", "microsoft.graph."):
+                    router.add_api_route(
+                        prefix + "/" + namespace + "addPassword", add_secret, methods=["POST"]
+                    )
+                    router.add_api_route(
+                        prefix + "/" + namespace + "removePassword", remove_secret, methods=["POST"]
+                    )
 
     for resource, kind in [
         ("applications", "application"),
