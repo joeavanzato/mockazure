@@ -31,12 +31,18 @@ Interrupted owned M6 runtime directories were moved, without deletion, into
 seed users, including one leftover temporary user after interruption; final
 qualification must use new clean instances, not weaken the expected5000count.
 
-Next scale seeds are small61009, medium62006 and large63002. Earlier completed
+Final runs started2026-10-17T13:31UTC atbf64b4e2ae09defdae83a6d306d777fc97bf6667,
+source fingerprint64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e.
+Scale seeds are small61009, medium62006 and large63002. Earlier completed
 small/medium tuning is historical; failed/interrupted reports remain in
 work/release/before-{port,health,review}-fix-* and individual profile journals.
 The previous large63001 attempt failed during runtime setup before importing data.
 
-Final source must be committed before candidate build and all current-source runs.
+Candidate build at that source completed: identical wheel/sdist pairs and native/Docker
+package parity pass; strict artifact acceptance1passed0.61s. DraftPR10 is created and
+attached: https://github.com/joeavanzato/mockazure/pull/10.
+Active logs: work/release/final-original-suites.log and final-scale-{name}.log;
+aggregates: work/release/qualification.json and final-scale-execution.json.
 Run m3/m3b/m3c/m4 independently of scale; run originalm5 only after scale because
 both own the same M6ARM runtime. The final large target remains100000users and
 1000000records,10800second outer budget and3600second post-import publication

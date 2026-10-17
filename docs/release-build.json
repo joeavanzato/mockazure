@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "source_commit": "54603c0368441259a6b531e6e0452506b8afae3e",
-  "source_fingerprint": "4bc204af4141bdd7e7a7c098a0ede0a844926ef28f53f07fb7fb76e33d9bf3b9",
-  "created_at": "2026-10-17T12:50:58.220353+00:00",
+  "source_commit": "bf64b4e2ae09defdae83a6d306d777fc97bf6667",
+  "source_fingerprint": "64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e",
+  "created_at": "2026-10-17T13:31:32.408852+00:00",
   "status": "complete",
   "passed": true,
   "reproducible": true,
@@ -903,7 +903,7 @@
     "src/mockazure/tenants/schemas.py": "4e3642c8db267c802ac28ceb7ff010de26e965a6db889f682c87d00ab296458a",
     "src/mockazure/tls.py": "f67287abd0d9bb6efdce3793758695b6105fb056870c65029f4419bc1bccb4e7"
   },
-  "source_date_epoch": 1792241456,
+  "source_date_epoch": 1792243873,
   "build_environment": [
     [
       "build",
@@ -946,7 +946,7 @@
   "artifacts": {
     "wheel": [
       {
-        "sha256": "293ce0b0461e504fb3efec0c4f90bffb8a15f3dc6ffcb2891e642e975d4e0df7",
+        "sha256": "52345ae6eec774f78d7569ed2618a3b5908fe2d7d531d625ee57b743a6386908",
         "package_files": 292,
         "members": {
           "mockazure/__init__.py": "a9b84c8789a0d893280857e52b0211bc0a54eb7451f00c6f62ad4e4ffffcb202",
@@ -1248,10 +1248,10 @@
           "mockazure-0.1.0.dev0.dist-info/licenses/NOTICE": "ae0c1bb3682b989273837ea30cd01d0752b5c75aa4f98936e4d72aef46cf1107",
           "mockazure-0.1.0.dev0.dist-info/RECORD": "57ff0b07272194f236f9e0ddc460f6b9636bf9bb303c02845652264ebd463d43"
         },
-        "path": "work/release/candidate-54603c0368441259a6b531e6e0452506b8afae3e/build-1/dist/mockazure-0.1.0.dev0-py3-none-any.whl"
+        "path": "work/release/candidate-bf64b4e2ae09defdae83a6d306d777fc97bf6667/build-1/dist/mockazure-0.1.0.dev0-py3-none-any.whl"
       },
       {
-        "sha256": "293ce0b0461e504fb3efec0c4f90bffb8a15f3dc6ffcb2891e642e975d4e0df7",
+        "sha256": "52345ae6eec774f78d7569ed2618a3b5908fe2d7d531d625ee57b743a6386908",
         "package_files": 292,
         "members": {
           "mockazure/__init__.py": "a9b84c8789a0d893280857e52b0211bc0a54eb7451f00c6f62ad4e4ffffcb202",
@@ -1553,12 +1553,12 @@
           "mockazure-0.1.0.dev0.dist-info/licenses/NOTICE": "ae0c1bb3682b989273837ea30cd01d0752b5c75aa4f98936e4d72aef46cf1107",
           "mockazure-0.1.0.dev0.dist-info/RECORD": "57ff0b07272194f236f9e0ddc460f6b9636bf9bb303c02845652264ebd463d43"
         },
-        "path": "work/release/candidate-54603c0368441259a6b531e6e0452506b8afae3e/build-2/dist/mockazure-0.1.0.dev0-py3-none-any.whl"
+        "path": "work/release/candidate-bf64b4e2ae09defdae83a6d306d777fc97bf6667/build-2/dist/mockazure-0.1.0.dev0-py3-none-any.whl"
       }
     ],
     "sdist": [
       {
-        "sha256": "9fb8e5c01d8277efbca4bd591fef0f96ff42c743a49a55826fa6fe5c850a7d21",
+        "sha256": "14f68c2b4a913757b46a8ae9e00670a80b4ac23bbd813eaf9ee1e1494b7f0c60",
         "source_files": 297,
         "members": {
           "mockazure-0.1.0.dev0/build-requirements.txt": "6bddeb7f39ec61a63ace11d40ed9e366dd25d4ffeea66a45c3638cd495be7a91",
@@ -1860,10 +1860,10 @@
           "mockazure-0.1.0.dev0/pyproject.toml": "d054a614f9bdbe5fd8a84d0667ac50c58a34add69ff4a26b8b0a003748611f35",
           "mockazure-0.1.0.dev0/PKG-INFO": "d9e1bcb6b6aaf09aee3270903bc82990f56284a14709f48a2a3ac40c68ce7052"
         },
-        "path": "work/release/candidate-54603c0368441259a6b531e6e0452506b8afae3e/build-1/dist/mockazure-0.1.0.dev0.tar.gz"
+        "path": "work/release/candidate-bf64b4e2ae09defdae83a6d306d777fc97bf6667/build-1/dist/mockazure-0.1.0.dev0.tar.gz"
       },
       {
-        "sha256": "9fb8e5c01d8277efbca4bd591fef0f96ff42c743a49a55826fa6fe5c850a7d21",
+        "sha256": "14f68c2b4a913757b46a8ae9e00670a80b4ac23bbd813eaf9ee1e1494b7f0c60",
         "source_files": 297,
         "members": {
           "mockazure-0.1.0.dev0/build-requirements.txt": "6bddeb7f39ec61a63ace11d40ed9e366dd25d4ffeea66a45c3638cd495be7a91",
@@ -2165,7 +2165,7 @@
           "mockazure-0.1.0.dev0/pyproject.toml": "d054a614f9bdbe5fd8a84d0667ac50c58a34add69ff4a26b8b0a003748611f35",
           "mockazure-0.1.0.dev0/PKG-INFO": "d9e1bcb6b6aaf09aee3270903bc82990f56284a14709f48a2a3ac40c68ce7052"
         },
-        "path": "work/release/candidate-54603c0368441259a6b531e6e0452506b8afae3e/build-2/dist/mockazure-0.1.0.dev0.tar.gz"
+        "path": "work/release/candidate-bf64b4e2ae09defdae83a6d306d777fc97bf6667/build-2/dist/mockazure-0.1.0.dev0.tar.gz"
       }
     ]
   },
@@ -3312,9 +3312,9 @@
     }
   },
   "image": {
-    "name": "mockazure:m6-candidate-54603c036844",
-    "id": "sha256:911ce1ed9f1692007aa1551daff3fc52909f3e0424dd10fd61be0c6ac5f937ea",
+    "name": "mockazure:m6-candidate-bf64b4e2ae09",
+    "id": "sha256:a96dd9777f7078a7572a61e4134272eb98f19612d1a71f5ff0e1d9eb873b9ccd",
     "byte_reproducible_layers_claimed": false
   },
-  "completed_at": "2026-10-17T12:51:43.344854+00:00"
+  "completed_at": "2026-10-17T13:32:16.240353+00:00"
 }
