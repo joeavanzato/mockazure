@@ -73,9 +73,15 @@ async def enforce_directory_budget(request):
                 text("""
 DELETE FROM graph_read_faults
 WHERE tenant_id=:tenant AND client_id=:client AND resource=:resource
+  AND (kind='next_read_429' OR (kind='next_page_429' AND :continuation))
 RETURNING retry_after
 """),
-                dict(tenant=context.tenant_id, client=context.client_id, resource=resource),
+                dict(
+                    tenant=context.tenant_id,
+                    client=context.client_id,
+                    resource=resource,
+                    continuation="$skiptoken" in request.query_params,
+                ),
             )
     # The counter and one-shot fault commit even though this request is denied.
     if retry is not None:
