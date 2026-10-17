@@ -14,6 +14,9 @@ USER_FIELDS = frozenset(
         "mail",
         "mailNickname",
         "accountEnabled",
+        "usageLocation",
+        "assignedLicenses",
+        "assignedPlans",
         "userType",
         "createdDateTime",
         "jobTitle",
@@ -50,6 +53,12 @@ FACT_FIELDS = frozenset(
         "provenance",
         "target_ids",
         "relationships",
+        "initiated_by",
+        "targets",
+        "object_kind",
+        "changed_fields",
+        "legacy_incomplete",
+        "modified_properties",
     }
 )
 

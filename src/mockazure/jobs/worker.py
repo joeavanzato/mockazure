@@ -1,27 +1,30 @@
 import asyncio
 import signal
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from time import monotonic
 from uuid import UUID, uuid4
 
 from sqlalchemy.exc import SQLAlchemyError
 
 from mockazure.db.engine import Database
-from mockazure.jobs.repository import claim_job, fail_job, finish_export
+from mockazure.evidence.sources import scan_sources
+from mockazure.jobs.dispatch import dispatch_job
+from mockazure.jobs.repository import claim_job
 
 
 async def run_one(database: Database, *, owner: UUID, now: datetime) -> bool:
+    started = monotonic()
+
+    def current_time():
+        return now + timedelta(seconds=monotonic() - started)
+
     async with database.sessions.begin() as session:
-        claim = await claim_job(session, owner=owner, now=now, lease_seconds=30)
+        await scan_sources(session)
+    async with database.sessions.begin() as session:
+        claim = await claim_job(session, owner=owner, now=current_time(), lease_seconds=30)
     if claim is None:
         return False
-    try:
-        async with database.sessions.begin() as session:
-            await finish_export(session, claim, claim.payload)
-    except SQLAlchemyError:
-        async with database.sessions.begin() as session:
-            await fail_job(
-                session, claim, error_code="TransientError", now=datetime.now(timezone.utc)
-            )
+    await dispatch_job(database, claim, current_time())
     return True
 
 

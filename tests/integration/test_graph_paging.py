@@ -16,7 +16,7 @@ from mockazure.directory.repository import public_object
 from mockazure.directory.types import DirectoryChange
 from mockazure.identity.models import User
 from mockazure.providers.graph.errors import GraphError
-from tests.integration.graph_support import graph_client, headers_for
+from tests.integration.graph_support import graph_client, headers_for, registered_app
 from tests.integration.test_graph_query import add_users
 
 
@@ -116,7 +116,12 @@ async def test_cursor_restart_replay_and_context_binding(database, settings):
         tampered = link.replace(token, ("A" if token[0] != "A" else "B") + token[1:])
         assert (await client.get(tampered, headers=headers)).status_code == 400
         different_client = await headers_for(
-            database, settings, tenant, uuid4(), None, {"Directory.Read.All"}
+            database,
+            settings,
+            tenant,
+            await registered_app(client, tenant),
+            None,
+            {"Directory.Read.All"},
         )
         assert (await client.get(link, headers=different_client)).status_code == 400
         changed_permissions = await headers_for(
@@ -138,7 +143,12 @@ async def test_cursor_restart_replay_and_context_binding(database, settings):
             )
         ).json()["id"]
         foreign = await headers_for(
-            database, settings, foreign_tenant, app, None, {"Directory.Read.All"}
+            database,
+            settings,
+            foreign_tenant,
+            await registered_app(client, foreign_tenant),
+            None,
+            {"Directory.Read.All"},
         )
         assert (await client.get(link, headers=foreign)).status_code == 400
 

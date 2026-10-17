@@ -3,15 +3,20 @@
 MockAzure is a general-purpose Microsoft cloud API emulator focused on evidence
 collection and realistic stateful interactions.
 
-**Current milestone: M3A, stateful Graph directory.** Local Entra authentication
-and permission checks support user/static-security-group lifecycle, memberships,
-bounded OData queries, stable paging, delta, read-only batches and shared throttling.
-PostgreSQL stores state, history and continuation handles across API restarts.
+**Current development milestone: M3B, stateful evidence APIs.** Local Entra
+authentication and permission checks support directory lifecycle and Graph sign-in,
+directory-audit and Identity Protection evidence, licensing operations and App
+Service managed identity. PostgreSQL retains state, immutable observations and
+snapshot continuations across API restarts.
 
-Evidence projection and collector collection gates remain M3B; broader security
-administration remains M3C. Exchange and ARM currently expose the bounded M2
-connection surfaces. See [directory contracts](integrations/contracts/graph-directory.md)
-and [qualification](docs/graph-directory-execution.md).
+The SDK qualification has passed and the independent review fixes pass regression
+tests. Original collector checks expose an upstream MES audit JSON serialization
+defect; the complete milestone acceptance gate remains open. See the
+[evidence contract](integrations/contracts/graph-evidence.md),
+[evidence operations](docs/evidence.md) and
+[execution record](docs/evidence-execution.md).
+Broader security administration remains M3C. Exchange and ARM retain the bounded
+M2 connection surfaces.
 
 ## Docker quick start (PowerShell)
 

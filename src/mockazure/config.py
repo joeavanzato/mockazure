@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     database_url: SecretStr
     listen_host: str = "127.0.0.1"
     listen_port: int = Field(default=8443, ge=1, le=65535)
+    managed_identity_listen_host: str = "127.0.0.1"
+    managed_identity_listen_port: int = Field(default=49446, ge=1, le=65535)
     admin_base_url: AnyHttpUrl = "https://localhost:8443"
     allowed_hosts: tuple[str, ...] = ("localhost", "127.0.0.1")
     service_endpoints: EndpointProfile | None = None
@@ -43,6 +45,15 @@ class Settings(BaseSettings):
     ):
         # Environment is selected and merged only by load_settings.
         return (init_settings,)
+
+    @field_validator("managed_identity_listen_host")
+    @classmethod
+    def managed_host_is_local(cls, value):
+        if value not in {"127.0.0.1", "localhost", "0.0.0.0"}:
+            raise ValueError(
+                "Managed identity must bind loopback or an explicit container interface"
+            )
+        return value
 
     @field_validator("database_url")
     @classmethod

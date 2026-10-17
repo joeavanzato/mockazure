@@ -1,7 +1,9 @@
 from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import and_, exists, func, or_, select
+from sqlalchemy import and_, case, exists, func, literal, or_, select
+from sqlalchemy import column as sql_column
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql.elements import ColumnElement
 
 from mockazure.providers.graph.query.ast import Any, Boolean, Compare, In, StartsWith
@@ -22,6 +24,9 @@ def typed_value(value, field: FieldContract):
         if field.data_type == "bool":
             if type(value) is not bool:
                 raise ValueError()
+        elif field.data_type == "int":
+            if type(value) is not int or not -(2**31) <= value < 2**31:
+                raise ValueError()
         elif field.data_type == "uuid":
             value = UUID(value)
         elif field.data_type == "datetime":
@@ -39,7 +44,9 @@ def typed_value(value, field: FieldContract):
         unsupported("Filter literal type does not match the property")
 
 
-def compile_filter(node, contract: QueryContract, variables=None) -> ColumnElement[bool]:
+def compile_filter(
+    node, contract: QueryContract, variables=None, *, resolver=None
+) -> ColumnElement[bool]:
     variables = variables or {}
 
     def field(name, operator):
@@ -47,7 +54,7 @@ def compile_filter(node, contract: QueryContract, variables=None) -> ColumnEleme
             spec, column = variables[name]
         elif name in contract.fields:
             spec = contract.fields[name]
-            column = field_column(spec)
+            column = (resolver or field_column)(spec)
         else:
             unsupported("Unknown filter property")
         if operator not in spec.operators:
@@ -55,7 +62,9 @@ def compile_filter(node, contract: QueryContract, variables=None) -> ColumnEleme
         return spec, column
 
     if isinstance(node, Boolean):
-        children = [compile_filter(child, contract, variables) for child in node.children]
+        children = [
+            compile_filter(child, contract, variables, resolver=resolver) for child in node.children
+        ]
         return (and_ if node.op == "and" else or_)(*children)
     if isinstance(node, Compare):
         spec, column = field(node.left.name, node.op)
@@ -88,16 +97,59 @@ def compile_filter(node, contract: QueryContract, variables=None) -> ColumnEleme
             unsupported("startswith requires a string")
         return column.startswith(value, autoescape=True)
     if isinstance(node, Any):
-        _, column = field(node.field.name, "any")
+        spec, column = field(node.field.name, "any")
+        # Valid nullable collections (including omitted fields) have no members.
+        column = case(
+            (func.jsonb_typeof(column) == "array", column),
+            else_=literal([], type_=JSONB),
+        )
+        if spec.data_type == "structured_array":
+            values = (
+                func.jsonb_array_elements(column).table_valued(sql_column("value", JSONB)).alias()
+            )
+            inner = {
+                node.variable + "/" + name: (
+                    FieldContract(name, "string", frozenset({"eq"})),
+                    values.c.value[name].as_string(),
+                )
+                for name in ("id", "type", "userPrincipalName")
+            }
+            restricted = QueryContract(
+                contract.version, contract.resource, contract.kind, {}, frozenset()
+            )
+            return exists(
+                select(1)
+                .select_from(values)
+                .where(compile_filter(node.body, restricted, inner, resolver=resolver))
+            )
         values = func.jsonb_array_elements_text(column).table_valued("value").alias()
         inner = {
             **variables,
             node.variable: (
-                FieldContract(node.variable, "string", frozenset({"eq", "ne", "in"})),
+                FieldContract(
+                    node.variable,
+                    "string",
+                    frozenset({"eq"})
+                    if spec.data_type == "array_eq"
+                    else frozenset({"eq", "ne", "in"}),
+                ),
                 values.c.value,
             ),
         }
         return exists(
-            select(1).select_from(values).where(compile_filter(node.body, contract, inner))
+            select(1)
+            .select_from(values)
+            .where(
+                compile_filter(
+                    node.body,
+                    QueryContract(
+                        contract.version, contract.resource, contract.kind, {}, frozenset()
+                    )
+                    if spec.data_type == "array_eq"
+                    else contract,
+                    inner,
+                    resolver=resolver,
+                )
+            )
         )
     unsupported("Unsupported filter node")

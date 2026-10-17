@@ -159,7 +159,11 @@ class IdentityRepository:
             if entry["resource"] == data.resource and entry["kind"] == data.kind
             for p in entry["permissions"]
         }
-        if not set(data.permissions) <= configured:
+        if app.client_mode == "managed" and data.kind != "application":
+            raise IdentityError(
+                422, "InvalidGrant", "Managed identities require application grants"
+            )
+        if app.client_mode != "managed" and not set(data.permissions) <= configured:
             raise IdentityError(
                 422, "InvalidGrant", "Permission is not configured on the application"
             )

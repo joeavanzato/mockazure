@@ -336,7 +336,13 @@ async def export_directory(session, tenant_id, snapshot):
             ).all()
             if not rows:
                 break
-            yield comma + ",".join(json.dumps(r.properties, ensure_ascii=False) for r in rows)
+            fields = PublicUser.model_fields if kind == "user" else PublicGroup.model_fields
+            yield comma + ",".join(
+                json.dumps(
+                    {k: v for k, v in r.properties.items() if k in fields}, ensure_ascii=False
+                )
+                for r in rows
+            )
             comma, after = ",", rows[-1].object_id
         yield "]"
     yield ',"relationships":['

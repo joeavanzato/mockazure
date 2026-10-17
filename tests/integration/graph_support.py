@@ -95,3 +95,12 @@ async def seed_relation_versions(database, tenant):
                         valid_from=revision,
                     )
                 )
+
+
+async def registered_app(client, tenant):
+    response = await client.post(
+        f"/_mock/tenants/{tenant}/identity/applications",
+        json={"display_name": "Another local client", "client_mode": "public"},
+    )
+    assert response.status_code == 201, response.text
+    return response.json()["client_id"]

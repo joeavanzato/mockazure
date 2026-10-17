@@ -79,3 +79,29 @@ def test_archive_paths_cannot_escape_output(tmp_path):
     )
     with pytest.raises(ValueError, match="outside"):
         tool().prepare(path, tmp_path, verify_only=True)
+
+
+def test_evidence_module_pins_are_required():
+    from pathlib import Path
+
+    manifest = json.loads(Path("integrations/manifest.json").read_text())
+    artifacts = {item["name"]: item for item in manifest["artifacts"]}
+    for name in (
+        "Microsoft.Graph.Reports",
+        "Microsoft.Graph.Identity.SignIns",
+        "Microsoft.Graph.Users.Actions",
+    ):
+        assert artifacts[name]["version"] == "2.35.1"
+        assert len(artifacts[name]["sha256"]) == 64
+        assert artifacts[name]["probe"] == "integrations/contracts/graph-evidence.md"
+    packages = {item["name"]: item["version"] for item in manifest["python"]["packages"]}
+    assert packages["azure-identity"] == "1.26.0"
+
+
+def test_dependency_mismatch_rejected_before_acquisition(tmp_path):
+    path, _ = fixture(tmp_path)
+    value = json.loads(path.read_text())
+    value["artifacts"][0]["dependencies"] = ["Missing.Module==2.35.1"]
+    path.write_text(json.dumps(value))
+    with pytest.raises(ValueError, match="dependency"):
+        tool().prepare(path, tmp_path, verify_only=True)

@@ -31,6 +31,7 @@ mockazure = "mockazure.cli:app"
 clients = [
     "msal==1.39.0",
     "msgraph-sdk==1.64.0",
+  "azure-identity==1.26.0",
 ]
 dev = ["pytest>=8", "pytest-asyncio>=1", "ruff>=0.11", "build>=1"]
 
@@ -42,7 +43,7 @@ include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--basetemp=work/pytest"
+addopts = "--basetemp=work/pytest --tb=short"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 

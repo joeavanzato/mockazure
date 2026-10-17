@@ -26,6 +26,8 @@ def public_object(row: User | Group) -> DirectoryObject:
             userType=row.profile.get("userType", "Member"),
             mailNickname=row.profile.get("mailNickname", row.upn.partition("@")[0][:64]),
             businessPhones=row.profile.get("businessPhones", []),
+            assignedLicenses=row.profile.get("assignedLicenses", []),
+            assignedPlans=row.profile.get("assignedPlans", []),
             createdDateTime=row.created_at.isoformat().replace("+00:00", "Z"),
         )
         kind = "user"

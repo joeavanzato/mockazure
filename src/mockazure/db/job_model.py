@@ -1,7 +1,17 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Index, Integer, String, func
+from sqlalchemy import (
+    BigInteger,
+    CheckConstraint,
+    DateTime,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    func,
+    text,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -14,12 +24,23 @@ class Job(Base):
         CheckConstraint("state IN ('pending','running','succeeded','failed')"),
         CheckConstraint("attempts BETWEEN 0 AND 3"),
         Index("ix_jobs_claim", "state", "available_at"),
+        Index(
+            "uq_jobs_source",
+            "tenant_id",
+            "kind",
+            "source_key",
+            unique=True,
+            postgresql_where=text("source_key IS NOT NULL"),
+        ),
+        CheckConstraint("claim_epoch >= 0"),
     )
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), index=True)
     kind: Mapped[str] = mapped_column(String(40), default="tenant.export")
     state: Mapped[str] = mapped_column(String(20), default="pending")
     attempts: Mapped[int] = mapped_column(Integer, default=0)
+    claim_epoch: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0")
+    source_key: Mapped[str | None] = mapped_column(String(100))
     available_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

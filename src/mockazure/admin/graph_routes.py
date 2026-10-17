@@ -16,8 +16,8 @@ router = APIRouter(prefix="/_mock/tenants/{tenant_id}/graph")
 class ReadFault(BaseModel):
     model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
     client_id: UUID
-    resource: Literal["users", "groups"]
-    kind: Literal["next_read_429"]
+    resource: Literal["users", "groups", "signIn", "directoryAudit", "riskDetection", "riskyUser"]
+    kind: Literal["next_read_429", "next_page_429"]
     retry_after: int = Field(default=1, ge=1, le=300)
 
 

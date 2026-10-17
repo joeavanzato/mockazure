@@ -52,8 +52,8 @@ M1; provider 501 applies only to operations outside this explicit M2 list:
 | ARM | subscriptions list with api-version 2021-01-01; persisted inventory; explicit Reader assignment filtering |
 | Management | Users/apps, secret/certificate credentials, grants, directory roles, sessions/revocation, signing rotation, subscription provisioning |
 
-No auditLogs, mailbox evidence, Activity Logs, Defender, Purview or
-conditional-access engine is advertised yet.
+M3B adds auditLogs below. Mailbox evidence, Activity Logs, Defender, Purview and
+a conditional-access engine remain outside the implemented profile.
 Exchange app access requires both Exchange.ManageAsApp and a tenant-owned
 Global Reader or Global Administrator service-principal role. Both module download
 and command invocation enforce the role. Full Exchange RBAC scopes remain future work.
@@ -79,3 +79,24 @@ The [exact contract](../integrations/contracts/graph-directory.md) defines query
 permission, deletion, dataset and local-profile limits. Evidence outbox records are
 durable but unprojected until M3B. This milestone does not claim directoryAudits
 or complete Hawk/MES collection workflows.
+
+
+## Milestone 3B additions
+
+Capability discovery now reports delivery B. The evidence contract is normative
+for operation permissions, P1/P2 gates, delegated roles, query operators and caps.
+
+| Surface | Implemented behavior |
+| --- | --- |
+| Graph signIns | v1.0 interactive user events; beta interactive/noninteractive/workload events; list/item, declared filters/order and stable continuations |
+| Graph directoryAudits | Native directory/licensing/risk facts and explicitly imported history; actor/target filters |
+| Graph Identity Protection | riskDetections/riskyUsers reads, permission-checked confirmCompromised/dismiss and immutable history |
+| Graph licensing | subscribedSkus, delegated licenseDetails, usageLocation and assignLicense; transactional seat accounting |
+| Host-local managed identity | App Service token protocol, system/user identities and host credentials; shared Graph authorization |
+| Evidence management | Import/export, clock/delay/retention, drain, fenced job retry, generation reset and bounded cleanup |
+| Fault injection | Persisted next_read_429 and next_page_429 with Retry-After |
+
+Payloads are checked against the bundled pinned Microsoft schemas. Historical
+data is declared input, not an inference that an attack actually happened.
+Risk levels are declared simulation values; no proprietary risk score is computed.
+Final client qualification status is recorded in evidence-execution.md.

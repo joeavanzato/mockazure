@@ -1,6 +1,6 @@
 # MockAzure M3: Stateful Graph delivery map
 
-**Status:** Proposed milestone breakdown for review, 2026-10-16. No M3 implementation has started.
+**Status:** M3A completed and merged to main in PR #4 at 4a5fedb on 2026-10-16. M3B design is approved and its implementation plan is proposed for review; M3C remains planned.
 **Parent specification:** [Approved product design](2026-10-16-mockazure-design.md), especially sections 6–10 and 13–14.
 **Execution:** Native: the main agent implements, with one independent whole-change review at each implementation PR boundary.
 
@@ -10,7 +10,7 @@ M3 makes local Graph requests operate on persistent tenant state. It does not re
 
 PR #1 merged to main at a7b6ae469f77d7e20bd8dbd14d3a12c1f934f3c6. PR #2 merged to feat/foundation at a3074f69b16f7abcc76dff93de518c722c159348; it did not advance main. The latter tree is identical to the final verified M2 tree at 27c41788acda33fe7faa758bbe6a0f5834c9c1bd.
 
-Promote the already-reviewed M2 branch to main through a follow-up PR. Do not recreate or reimplement M2, silently merge on the user's behalf, or branch new code from the M1-only main. The planning branch starts from the merged M2 tree.
+M2 integration PR #3 and M3A PR #4 are now merged. Main at 4a5fedb contains both verified increments. Preserve their runtime instances while planning and implementing B.
 
 M2 verification remains in [identity-execution.md](../../identity-execution.md). Its results establish the baseline; they are not evidence for M3 completion.
 
@@ -91,3 +91,7 @@ Before using it, agree the exact test tenant, read-only routes, permissions and 
 The first executable plan is [M3A directory/query/delta](../plans/2026-10-16-mockazure-stateful-graph-directory.md). Review that plan together with this map. The detailed B and C plans will be written against the interfaces delivered by A; no approval here implicitly approves implementation of unspecified B/C details.
 
 Approval of A retains Native execution and authorizes its implementation, verification, coherent commits and a reviewable PR. It does not authorize merging that PR or changing host trust/network settings.
+
+## M3B design follow-up
+
+The [M3B evidence design](2026-10-16-mockazure-evidence-design.md) develops the next increment. The user clarified that missing endpoints should be implemented or simulated where necessary for realistic API calls. B therefore includes a working local managed-identity token profile, direct user licence assignment and risky-user confirmation/dismissal, with persistent effects and evidence. Historical imports supplement these live flows. The written design is approved. Its [detailed implementation plan](../plans/2026-10-16-mockazure-evidence.md) and API contract are ready for review before Native implementation.

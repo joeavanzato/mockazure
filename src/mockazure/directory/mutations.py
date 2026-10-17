@@ -4,7 +4,7 @@ import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Literal
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from pydantic import ValidationError
 from sqlalchemy import or_, select, update
@@ -42,6 +42,7 @@ USER_PROFILE = frozenset(
         "department",
         "officeLocation",
         "preferredLanguage",
+        "usageLocation",
     }
 )
 USER_UPDATE = USER_PROFILE | {"displayName", "accountEnabled", "mailNickname"}
@@ -113,6 +114,11 @@ def validate_values(command):
         )
     ):
         invalid("businessPhones supports at most one bounded phone value")
+    if "usageLocation" in values:
+        from mockazure.licensing.catalog import COUNTRIES
+
+        if values["usageLocation"] not in COUNTRIES:
+            invalid("usageLocation must be an assigned ISO3166 alpha-2 code")
     if "accountEnabled" in values and type(values["accountEnabled"]) is not bool:
         invalid("accountEnabled must be boolean")
     if command.kind == "group" and command.action == "create":
@@ -225,6 +231,8 @@ async def mutate_directory(
     command: DirectoryCommand,
     actor: PrincipalContext | AdminActor,
     now: datetime,
+    *,
+    correlation_id: UUID | None = None,
 ) -> MutationResult:
     if command.kind not in {"user", "group"}:
         invalid("Unsupported directory kind")
@@ -417,6 +425,9 @@ async def mutate_directory(
     elif command.action == "delete":
         row.deleted_at = now
         if command.kind == "user":
+            from mockazure.licensing.service import release_user
+
+            await release_user(session, tenant_id, row.id)
             row.enabled = False
         edges = list(
             await session.scalars(
@@ -454,21 +465,18 @@ async def mutate_directory(
         invalid("Unsupported directory command")
     await session.flush()
     after = None if command.action == "delete" else public_object(row)
-    facts = {"operation": command.action, "provenance": "graph" if provider else actor.provenance}
-    if edge_facts:
-        facts["relationships"] = edge_facts
-    if provider:
-        facts.update(
-            actor_id=str(actor.subject_id or actor.client_id), client_id=str(actor.client_id)
-        )
-    if command.action.endswith("_member"):
-        facts["target_ids"] = [str(values["member_id"])]
+    from mockazure.evidence.directory_facts import capture_directory_facts
+
+    facts = await capture_directory_facts(
+        session, actor, command, before, after, correlation_id or uuid4(), edge_facts
+    )
     await record_change(
         session,
         DirectoryChange(revision, command.kind, row.id, frozenset(changed), after is None),
         before,
         after,
         facts,
+        occurred_at=now,
     )
     outbox_id = await session.scalar(
         select(EvidenceOutbox.id).where(
