@@ -80,3 +80,22 @@ so its consolidated fixes can be included in their source identity. Current
 product regression and independent client checks continue meanwhile. Every
 planned final gate remains required; no second review or implementation agents
 are added.
+
+## Measured large failure and final ARM recovery
+
+The final million-record run failed at 979000 acknowledged records when
+PostgreSQL's WAL writer could not allocate memory. Retain the full target,
+failed gate and private runtime; do not alter host resources, fabricate a
+publication count or claim scale acceptance. The cost is unresolved large
+capacity qualification; a future complete rerun needs the allocation cause
+resolved under documented storage/resource settings.
+
+The independent fresh ARM setup then timed out publishing its1003 Activity
+records with one worker exited. A new read-only container verified current
+schema and valid identity. Recreating only owned containers with the same
+configuration recovered both workers and all1003 publications. Retry the
+unchanged original suite, preserving the failed attempt. The precise original
+startup exception was suppressed, so stale bindings/transient readiness are
+hypotheses. Cost: startup reliability remains an operational limitation to
+investigate, even if the functional retry passes. No acceptance assertion,
+timeout or collector was changed. See release-arm-recovery.json.

@@ -44,6 +44,15 @@
       "error_type": "AssertionError",
       "report_sha256": "ced95f2582447668bbadb7769740e91bed2eac89244c6b7a427434fc317c1110",
       "finished_at": "2026-10-17T14:26:01.945355+00:00"
+    },
+    "m5": {
+      "status": "passed",
+      "validated": true,
+      "exit_code": 0,
+      "report": "work/release/m5-report.json",
+      "failed_cases": [],
+      "report_sha256": "d7bad84b44c7528bd22480ee447882d07eba0ff2ae1d9299d5fd1445eab787c7",
+      "finished_at": "2026-10-17T14:57:48.347359+00:00"
     }
   },
   "scale": {
@@ -60,6 +69,13 @@
       "records": 50000,
       "report": "work/release/scale-medium-62006.json",
       "report_sha256": "2ac2162b78414a650d40e27a2b076bb77cc7f20ce44739cd2f54c33df68b68c3"
+    },
+    "large": {
+      "passed": false,
+      "users": 100000,
+      "records": 1000000,
+      "report": "work/release/scale-large-63002.json",
+      "report_sha256": "4da77f74d1bd03bdc630c22e4b60a49b4065357d7a8f08aa2863640433af0a9f"
     }
   },
   "artifacts": {
@@ -69,12 +85,11 @@
     "report": "work/release/artifacts.json",
     "report_sha256": "002ae9aef71695d82c3aa439da7c5b1cfd06de621259a0eb5a1dde65267dba61"
   },
-  "qualified_at": "2026-10-17T14:26:08.901856+00:00",
+  "qualified_at": "2026-10-17T14:57:52.809359+00:00",
   "release_ready": false,
   "qualification_ready": false,
   "failed_gates": [
     "suite m4",
-    "suite m5",
     "scale large"
   ]
 }

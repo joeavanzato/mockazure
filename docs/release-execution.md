@@ -1,116 +1,103 @@
-# M6 execution checkpoint
+# M6 execution and blocked release handoff
 
-Branch feat/release-qualification in D:/projects/mockazure/.worktrees/release.
-Base0e637743bf64119a0e468bd6220385e6020157c0 (M5 PR9). Native implementation.
-Tasks1,2,4 are complete. Task3 final measurement and Task5 handoff remain active.
+Recorded 2026-10-17T14:58:50.466354+00:00. Implementation/source candidate:
+bf64b4e2ae09defdae83a6d306d777fc97bf6667.
+Release fingerprint: 64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e.
+Subsequent commits contain documentation only.
 
-## Consolidated review is finished
+Draft [PR10](https://github.com/joeavanzato/mockazure/pull/10) is stacked on
+[PR9](https://github.com/joeavanzato/mockazure/pull/9). No merge or registry
+publication occurred. The defined overnight implementation and measurement work
+has reached handoff; release acceptance remains blocked. There is no defined M7.
 
-The sole M6 reviewer covered0e63774..04e263b and returned four important findings,
-all confirmed and fixed in one regression-first pass. No second review.
-See release-review.md and release-decisions.md.
+## Actual current-source gates
 
-- Shared fingerprints cover all packaged resource suffixes and native network guard.
-  Artifact validation additionally checks currentHEAD and actual working input bytes.
-- Every directory/evidence reader retains a first-page continuation across one
-  synchronized API restart, with validated per-reader capture/resumption proof.
-- Original-suite budgets use measured headroom:1800/5400/3600/5400/3600seconds.
-- All six M6 databases require TCP readiness,180second startup grace and120second
-  shutdown grace. The initial Graph socket readiness race and ARM~75second
-  recovery are retained as failed-attempt evidence.
+| Gate | Outcome |
+| --- | --- |
+| M3 Graph | 14 runtime checks and three client profiles passed |
+| M3B evidence | 25 runtime checks, three client profiles; 14 strict collector passes and six previously approved MES audit JSON exceptions |
+| M3C security | 20 runtime checks, three client profiles and 20 collectors passed |
+| M4 mail/Exchange | 19 runtime checks, three Graph profiles and real Exchange passed; 40/44 original collector cases passed |
+| M5 ARM | passed |
+| Small scale | 100 users/1,000 records; four exact readers and API/worker recovery passed |
+| Medium scale | 5,000 users/50,000 records; four exact readers and API/worker recovery passed |
+| Large scale | Failed during import at 100,000 users/979,000 acknowledged records |
+| Candidate artifacts | Reproducible wheel/sdist and clean native/Docker package parity passed |
 
-Full product regression completed755passed and one stale unit fixture failure in
-1688.47seconds. That fixture omitted the new build lock and is fixed. Fresh final
-complete unit regression passed386tests in14.17seconds. Product API code did not
-change during review fixes. Earlier focused cleanup/batch/race tests passed.
+ARM passed 17 runtime checks, three SDK profiles and all eight original MES collector cases on the unchanged retry.
 
-## Fresh final qualification
+The final aggregate failed gates are: suite m4, scale large.
+qualification_ready and release_ready are both false. The original strict
+release acceptance test must remain red while these mandatory gates fail.
+See [release-qualification.json](release-qualification.json).
 
-Interrupted owned M6 runtime directories were moved, without deletion, into
-.runtime/m6-attempts-before-final-review-fixes. M3B inspection confirmed5001live
-seed users, including one leftover temporary user after interruption; final
-qualification must use new clean instances, not weaken the expected5000count.
+The four M4 failures are Hawk inbox-rule JSON concatenation and MES trace CSV
+fractional timestamp loss, each in application/delegated mode. No collector
+rewrite, repaired output or new waiver was used. The prior M3B original MES
+audit JSON limitation is the only approved exception.
 
-Final runs started2026-10-17T13:31UTC atbf64b4e2ae09defdae83a6d306d777fc97bf6667,
-source fingerprint64e8af55c881ed05119a49c1740bb0827d6004536f6cdf36f7d1eee7dcd6c39e.
-Scale seeds are small61009, medium62006 and large63002. Earlier completed
-small/medium tuning is historical; failed/interrupted reports remain in
-work/release/before-{port,health,review}-fix-* and individual profile journals.
-The previous large63001 attempt failed during runtime setup before importing data.
+## Large capacity failure and startup limitation
 
-Candidate build at that source completed: identical wheel/sdist pairs and native/Docker
-package parity pass; strict artifact acceptance1passed0.61s. DraftPR10 is created and
-attached: https://github.com/joeavanzato/mockazure/pull/10.
-Active logs: work/release/final-original-suites.log and final-scale-{name}.log;
-aggregates: work/release/qualification.json and final-scale-execution.json.
-Run m3/m3b/m3c/m4 independently of scale; run originalm5 only after scale because
-both own the same M6ARM runtime. The final large target remains100000users and
-1000000records,10800second outer budget and3600second post-import publication
-budget. Missing/partial/timeout results remain blockers.
+The large run's PostgreSQL WAL writer reported Cannot allocate memory,
+aborted, and forced internal recovery; the importer received HTTP503.
+No exact million-record collection or API-restart proof completed. The failed
+report's published=0 is an initialized field, not a measured publication count.
+The declared target remains 100,000 users/1,000,000 evidence records.
+See [scale results](release-scale.md) and
+[sanitized diagnostics](release-scale-failure.json).
 
-M6 profile ports:
-Graph47443/PG55446, evidence40443/55447, security42443/55448,
-mail44443/55449, ARM46443/55450. Native offsets+1/+2, managed identity+3.
-Own testPostgreSQL55445. Fresh credentials/CA; no real tenants or host trust/DNS edits.
+Its private runtime is retained under .runtime/m6-large-63002-failed.
+Final ARM used fresh owned state. Its first setup timed out with one worker
+exited; a read-only fresh container verified valid schema and identity.
+Recreating only owned containers recovered both workers and all1,003 Activity
+fixture publications. The original suite was retried unchanged. Initial failed
+evidence remains in work/release/arm-setup-failed-20261017T1441.
+The exact suppressed startup exception remains unresolved; see
+[recovery evidence](release-arm-recovery.json).
 
-## Acceptance and handoff
+## Verification and review
 
-Rebuild wheel/sdist twice from committed Git bytes and verify native/Docker package
-parity. Attach the actual three final scale reports and candidate artifact manifest
-to the five-suite aggregate; run strict acceptance and provenance checks.
-The four M4 original collector-output failures remain mandatory blockers.
-The existing M3B original MES audit JSON exception is the sole waiver.
+The broad product run completed 755 passes and one stale ARM unit-fixture
+failure. The fixture was corrected; all403 integration cases in that run passed.
+A fresh complete unit run passed386 cases on the final harness. These are
+separate runs, not a claimed single789-test run. Final report/provenance/restart
+and artifact checks passed86 cases in15.11seconds. Ruff and diff validation
+are part of the final handoff checks.
 
-Publish measured reports and safe candidate artifacts, export the execution ledger,
-commit/push and create/attach the M6 PR stacked on M5. Draft if blocked.
-No registry publication, automatic merge, second review or M7.
-Disable the existing overnight heartbeat only after all feasible defined work and
-artifacts are delivered.
+Exactly one fresh M6 reviewer found four important issues, all fixed with
+regressions that first failed: full source attestation, four-reader restart
+barrier, realistic suite budgets, and PostgreSQL readiness/shutdown budgets.
+No second review and no deferred minor findings. See
+[review](release-review.md), [decisions](release-decisions.md) and
+[execution ledger](release-ledger.md).
 
-User explicitly authorized stopping old MockAzure services as needed. Idle
-predecessor containers are stopped; source/data retained. VTW/unrelated containers
-were untouched.
+## Artifacts and retained state
 
-Ledger: .superpowers/sdd/2026-10-17-mockazure-release/progress.md.
+Candidate version0.1.0.dev0, all292 package files, migration037 and capabilities
+match between clean wheel installation and Docker. Two clean wheel/sdist builds
+have identical hashes. [Build evidence](release-build.json) includes source
+objects, dependency inventories and exact artifact hashes. Docker layer
+byte-identity and production Azure throughput are not claimed.
 
-## Measured progress at 2026-10-17 13:46 UTC
+Safe exports under the chat's outputs/mockazure-m6-bf64b4e directory contain the
+two archives, manifest, checksums and final reports. They exclude credentials,
+private keys, environment files and runtime/database contents.
 
-Final small61009 passed: 100 users/1,000 records, 11.317 seconds import/publication,
-all four exact readers across restart, zero read retries.
-Final medium62006 passed: 5,000 users/50,000 records, 141.616 seconds import/publication
-(353.067 records/second). The two evidence readers each traversed100pages in
-239.519/240.110seconds, p95approximately3.09seconds, zero retries.
-Large63002 is running with all100,000users imported. Final exact evidence
-coverage remains pending. Current-source M3 passed14runtime checks/3client profiles;
-M3B is running. Do not treat these partial results as final release acceptance.
+The user authorized stopping M2 and older MockAzure instances. Their containers
+are stopped and data retained. VTW and unrelated services were untouched.
+M6 qualification containers are stopped by their runner after completion.
+No real tenant calls, host trust/DNS/firewall edits or predecessor source edits.
 
-The verified candidate archives and manifest are exported under the projectless
-outputs/mockazure-m6-bf64b4e directory; README explicitly labels acceptance blocked.
+Tasks1,2 and4 completed their passing implementation contracts. Task3's measured
+large gate and Task5's combined acceptance remain blocked; execution/handoff is
+not a green release claim. The execution ledger is retained for this blocked
+handoff. The overnight heartbeat is disabled only after reports, exports and
+the draft PR are updated.
 
-## First four current-source suites completed
+## Final strict gate result
 
-M3 passed14runtime checks/3client profiles. M3B passed25runtime checks/3client
-profiles and20collector acceptance cases (14strict;6existing MES audit JSON
-exceptions), total2026.487seconds. M3C passed20runtime/3client profiles and
-20/20collectors, total290.464seconds. M4 passed19runtime checks,3Graph profiles
-and realExchange checks;40/44collectors passed. Its four original Hawk inbox-rule
-JSON/MES trace precision failures remain mandatory blockers, total559.034seconds.
-
-Completed small/medium and artifact proofs are attached and revalidated in
-work/release/qualification.json; docs/release-qualification.json is its current
-checkpoint. Remaining gates: suiteM4(blocked), suiteM5(pending after scale), and
-large scale(running). Original-suite process10632 is finished. Scale23010 remains
-active. Candidatebuild11333 is finished. Do not rerun completed current-source
-suites without a source-changing fix.
-
-## Large measurement finished; final ARM active
-
-Large63002 failed at 2026-10-17T14:35:02Z after 100000 users and 979000
-evidence imports were acknowledged. PostgreSQL WAL allocation failed with
-'Cannot allocate memory', followed by internal recovery and HTTP503.
-See release-scale.md/json and release-scale-failure.json. No exact large
-reader proof completed; it remains a mandatory blocker. Runtime state is
-retained under .runtime/m6-large-63002-failed. Scale session23010 is finished.
-Final ARM session60291 uses fresh .runtime/m6-arm state; do not restart it.
-Final handoff tests:86passed15.11s. Remaining work is final ARM, strict
-aggregate acceptance, safe exports/ledger, docs/PR update and heartbeat disable.
+Original ARM retry passed17runtime checks/3SDK profiles/8collectors in516.400s.
+The strict combined release test failed as required: exactly suite m4 and
+scale large remain blockers (one failed acceptance test,2.66s). Final
+validation details are in release-validation.json. No passing release claim
+is made. All source-bound proofs remain on fingerprint64e8af55c881ed05...

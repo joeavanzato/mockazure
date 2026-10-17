@@ -175,3 +175,21 @@ and assignments2020-08-01-preview; Activity Logs2015-04-01. Only explicitly list
 operations gain compatibility versions. No arbitrary deployment, custom role writes,
 PIM, management-group hierarchy, resource-provider execution or whole-Azure fidelity
 is implied. Original collectors retain their own output behavior.
+
+
+## M6 bounded maintenance and measured scale
+
+Authenticated POST /_mock/tenants/{id}/maintenance/cleanup and the matching
+CLI reclaim expired UAL result items, obsolete mailbox rule history and expired
+directory continuations within a shared deletion budget (default500, maximum1000).
+Live continuation pins and query/job tombstones are preserved. Audit and mailbox
+phases use separate atomic transactions to avoid lock-order inversion; a later
+phase failure is safely retried without rolling back an earlier committed phase.
+See [maintenance](maintenance.md).
+
+Small and medium current-source scale profiles passed exact concurrent paging
+across API/worker recovery. The100000-user/1000000-record profile failed during
+import at979000 acknowledged records after a PostgreSQL WAL allocation error.
+It is not qualified at the declared large target. Full measurements and limits
+are in [release-scale.md](release-scale.md); release readiness is governed by
+[release-execution.md](release-execution.md).
