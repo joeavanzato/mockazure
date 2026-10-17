@@ -74,3 +74,7 @@ or throughput SLA is claimed.
 
 Apache-2.0. The authorized source baseline is retained under reference/ with hashes
 in reference/provenance.json. It is not imported or packaged.
+
+Security evidence imports and collection queries are documented in
+[Collection evidence](docs/collection-evidence.md), including the original-source
+collector inventory and explicit remaining coverage gaps.

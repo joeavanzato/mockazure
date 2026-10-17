@@ -1,0 +1,3825 @@
+{
+  "scope": "Static original-source inventory, not complete-workflow certification",
+  "mapping": "Named calls map to implemented bounded surface families; parameters and dynamic URLs still require qualification.",
+  "collectors": {
+    "hawk": {
+      "revision": "a44536f2b4225dd8ea2e463db88d5db40cfac8c7",
+      "files": [
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [
+            49,
+            57,
+            74
+          ],
+          "function_definitions": [
+            "Import-ModuleFile"
+          ],
+          "sha256": "ba2f185734823e5f95197133eaaaec4f8cb816dd3d56c0a48808ab67802b6244",
+          "path": "Hawk.psm1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Show-HawkHelp"
+          ],
+          "sha256": "ad9543beaef41691dbc908dd70128a74300d0992a37107073d639965d0671d25",
+          "path": "functions/General/Show-HawkHelp.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Update-HawkModule"
+          ],
+          "sha256": "bb0f9dd043cc5dbe248694bee52a21cce125b9d3e5863d487021e1ff4d199042",
+          "path": "functions/General/Update-HawkModule.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkMessageHeader",
+            "Add-Finding",
+            "Convert-ReceiveHeader"
+          ],
+          "sha256": "dc674120ae898517092497f71a2b83933a34b0d6253b5dc96e9c055d80e3e934",
+          "path": "functions/Message/Get-HawkMessageHeader.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 154,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Get-EXORecipient",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantAdminEmailForwardingChange"
+          ],
+          "sha256": "76bb9968046c3cf76b7dd156f6ee8d529e87a6fb32278a2fabb11d7a8c459a4b",
+          "path": "functions/Tenant/Get-HawkTenantAdminEmailForwardingChange.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantAdminInboxRuleCreation"
+          ],
+          "sha256": "202704e634dbd5175dd53853a9a082bf9262b7749ad60b1dd3caa3122d8162af",
+          "path": "functions/Tenant/Get-HawkTenantAdminInboxRuleCreation.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantAdminInboxRuleModification"
+          ],
+          "sha256": "8eb3cd56cf8dbe53eb87d779454fdeed1373de208963b727d824a13de7183b43",
+          "path": "functions/Tenant/Get-HawkTenantAdminInboxRuleModification.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantAdminInboxRuleRemoval"
+          ],
+          "sha256": "57a3b2deca045180b49038442adbd8eb2e989845329982ae6834c9fdf311a4d4",
+          "path": "functions/Tenant/Get-HawkTenantAdminInboxRuleRemoval.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantAdminMailboxPermissionChange"
+          ],
+          "sha256": "4f11dd55718f000c1a358c25f08365ab82af5670820946c19a0de82456aff074",
+          "path": "functions/Tenant/Get-HawkTenantAdminMailboxPermissionChange.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 48,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgServicePrincipal",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 50,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgApplication",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantAppAndSPNCredentialDetail"
+          ],
+          "sha256": "dc9862e07b3b5dd9ea82c209e7430139303e60be284d4621a7b44478d0a0baf2",
+          "path": "functions/Tenant/Get-HawkTenantAppAndSPNCredentialDetail.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 56,
+              "parameters": [],
+              "command": "Get-AdminAuditLogConfig",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 59,
+              "parameters": [],
+              "command": "Get-OrganizationConfig",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 65,
+              "parameters": [],
+              "command": "Get-TransportRule",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantConfiguration"
+          ],
+          "sha256": "adb46fb1ebf613a4283d34fb5928787eded499f64d7cb655888d312809c78f98",
+          "path": "functions/Tenant/Get-HawkTenantConfiguration.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 39,
+              "parameters": [
+                "ShowProgress"
+              ],
+              "command": "Get-AzureADPSPermission",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantConsentGrant"
+          ],
+          "sha256": "576d289e641d31752894030f494c1ac58c1f594b0ba941ba871f3760757f773f",
+          "path": "functions/Tenant/Get-HawkTenantConsentGrant.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantDomainActivity"
+          ],
+          "sha256": "c2aa20617cbfff788269060aee341ddcf37b8962a952e2540d8c9ba47dc5bb72",
+          "path": "functions/Tenant/Get-HawkTenantDomainActivity.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantEDiscoveryConfiguration"
+          ],
+          "sha256": "54d9233aa16ed579dba38ec30548ca306c0e75c6bf4415c31972436bebbdd8ff",
+          "path": "functions/Tenant/Get-HawkTenantEDiscoveryConfiguration.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantEDiscoveryLog"
+          ],
+          "sha256": "57612fda990f2fa68e1b0c78dcfae3f2d466d2bd55016c6dc6fd6b2998ce62af",
+          "path": "functions/Tenant/Get-HawkTenantEDiscoveryLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantEXOAdmin"
+          ],
+          "sha256": "b85e9ce66e1f8e2e35bf0573f00421ae2aeb5d846180def137c5ef82323d65cc",
+          "path": "functions/Tenant/Get-HawkTenantEXOAdmin.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 38,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Get-MgDirectoryRole",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 44,
+              "parameters": [
+                "DirectoryRoleId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgDirectoryRoleMember",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantEntraIDAdmin"
+          ],
+          "sha256": "60c00491705ad1ed4f146b9ba15a5dcbb3a46854a13bfcb9e7c4f89e5e2cbba0",
+          "path": "functions/Tenant/Get-HawkTenantEntraIDAdmin.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantEntraIDAppAuditLog"
+          ],
+          "sha256": "cf9d025252c4f955ed547050ef2cb2d4721c3f72219932f1e5bdef085dcd656e",
+          "path": "functions/Tenant/Get-HawkTenantEntraIDAppAuditLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 82,
+              "parameters": [
+                "Filter",
+                "All"
+              ],
+              "command": "Get-MgAuditLogDirectoryAudit",
+              "surface": "graph.audit-risk",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantEntraIDAuditLog"
+          ],
+          "sha256": "d74e1d6b9cf7ac2dad4cd85bf2e1b433dd7a292818a3a956f7eb62fff71a6a2c",
+          "path": "functions/Tenant/Get-HawkTenantEntraIDAuditLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 37,
+              "parameters": [
+                "All",
+                "Property"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantEntraIDUser"
+          ],
+          "sha256": "0ee73aee6811b90bc0279d6c29c8812f295a261c79980cbd5e8efdb4759801e6",
+          "path": "functions/Tenant/Get-HawkTenantEntraIDUser.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantRBACChange"
+          ],
+          "sha256": "0a75473f597377009e4ed7b188b906d88191bc01cfb524e2c8f7bef99db2bdfe",
+          "path": "functions/Tenant/Get-HawkTenantRbacChange.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 54,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgRiskDetection",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantRiskDetections"
+          ],
+          "sha256": "95d7aafb26fd7028091c3003053162f62ee5b7737c3dba322f357fcc6bb58a59",
+          "path": "functions/Tenant/Get-HawkTenantRiskDetections.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 59,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgRiskyUser",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantRiskyUsers"
+          ],
+          "sha256": "883a654ea5a8568c06d5cc3a69f21118de028721ac4afa349196b4b9e91b3c3f",
+          "path": "functions/Tenant/Get-HawkTenantRiskyUsers.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Search-HawkTenantActivityByIP"
+          ],
+          "sha256": "f084a90d14134246cd1372b62ce2d9472327006a3d5dc1bd9864b01c9b090605",
+          "path": "functions/Tenant/Search-HawkTenantActivityByIP.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Start-HawkTenantInvestigation"
+          ],
+          "sha256": "14d7f66eff604fdb222ea5e560f6cc61781e7807cf16e5fc279b9944f8a26c00",
+          "path": "functions/Tenant/Start-HawkTenantInvestigation.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 54,
+              "parameters": [
+                "Identity"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserAdminAudit"
+          ],
+          "sha256": "66ec9c879f457c596c0f5260db200f95a64bb7b27df64d8d943a300002a7798f",
+          "path": "functions/User/Get-HawkUserAdminAudit.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 50,
+              "parameters": [
+                "Identity"
+              ],
+              "command": "Get-MailboxAutoReplyConfiguration",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserAutoReply"
+          ],
+          "sha256": "0f6103cec2ae21e45a8dd06d2b141811c30844b282130420f50cb1b9da6fce78",
+          "path": "functions/User/Get-HawkUserAutoReply.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 63,
+              "parameters": [
+                "Identity"
+              ],
+              "command": "Get-EXOMailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 67,
+              "parameters": [
+                "identity",
+                "Archive"
+              ],
+              "command": "Get-EXOMailboxStatistics",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 71,
+              "parameters": [
+                "Identity"
+              ],
+              "command": "Get-EXOMailboxStatistics",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 72,
+              "parameters": [
+                "identity"
+              ],
+              "command": "Get-EXOMailboxFolderStatistics",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 76,
+              "parameters": [
+                "identity"
+              ],
+              "command": "Get-EXOCasMailbox",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserConfiguration"
+          ],
+          "sha256": "dc9f471a0ca11230ae49b78f8029cf19d243d7ac0df76b1f53dacca70391bfa9",
+          "path": "functions/User/Get-HawkUserConfiguration.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 59,
+              "parameters": [
+                "identity"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserEmailForwarding"
+          ],
+          "sha256": "df8713d823e285a30e4595436036ff8a1ec289b4d856b5e4800d25c54fe3adf7",
+          "path": "functions/User/Get-HawkUserEmailForwarding.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 112,
+              "parameters": [
+                "Filter",
+                "All",
+                "ErrorAction"
+              ],
+              "command": "Get-MgAuditLogSignIn",
+              "surface": "graph.audit-risk",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserEntraIDSignInLog"
+          ],
+          "sha256": "c1e6cbe0a2109be80436a740edcf5366cd148633021456c15cb48b5f41151050",
+          "path": "functions/User/Get-HawkUserEntraIDSignInLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserExchangeSearchQuery"
+          ],
+          "sha256": "759f7dcfe7f95ac815bd7d43fd4ffe2daec15f34fd66f7972843a8118a92f36c",
+          "path": "functions/User/Get-HawkUserExchangeSearchQuery.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 61,
+              "parameters": [
+                "mailbox"
+              ],
+              "command": "Get-InboxRule",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserInboxRule"
+          ],
+          "sha256": "7ceea83a9ebf0af9e69c21e0977bebbf15d4816fa22d06a2e2c78600dce455c2",
+          "path": "functions/User/Get-HawkUserInboxRule.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserMailItemsAccessed"
+          ],
+          "sha256": "ddc67dbf0410098ab50913ca2cce950e06500cda85e4e35cf5f8f9a8f0d7c0db",
+          "path": "functions/User/Get-HawkUserMailItemsAccessed.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserMailSendActivity"
+          ],
+          "sha256": "fc3d1c463ee131e9e881242491313ae191b42cd397388b901bcd78129f0c5f0e",
+          "path": "functions/User/Get-HawkUserMailSendActivity.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 97,
+              "parameters": [
+                "Identity"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserMailboxAuditing"
+          ],
+          "sha256": "81b1d1d8236526fa485fb32ac70bd99171d78cabf1bf672598dfe474b7ada347",
+          "path": "functions/User/Get-HawkUserMailboxAuditing.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 48,
+              "parameters": [
+                "identity"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 58,
+              "parameters": [
+                "Sender"
+              ],
+              "command": "Get-MessageTrace",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserMessageTrace"
+          ],
+          "sha256": "cc35860f303668258cd19f067d8285e6837f9918716cda529304987c363690e9",
+          "path": "functions/User/Get-HawkUserMessageTrace.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 56,
+              "parameters": [
+                "mailbox"
+              ],
+              "command": "Get-MobileDevice",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserMobileDevice"
+          ],
+          "sha256": "9d0b65da85717bab262d91efc6265d408b7eeafab8f28a58e7b2543f7c4bc99e",
+          "path": "functions/User/Get-HawkUserMobileDevice.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserPWNCheck"
+          ],
+          "sha256": "16e0b51e6b2cca0c71115754e37c9cdf72d5e031ab9623e7616f089a6bae4ee5",
+          "path": "functions/User/Get-HawkUserPWNCheck.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserSharePointSearchQuery"
+          ],
+          "sha256": "b88c08205bd44b4124e3a6d35ed3df1deafa0e1f832ab67420208d29545b023b",
+          "path": "functions/User/Get-HawkUserSharePointSearchQuery.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserUALSignInLog"
+          ],
+          "sha256": "4b7ec88a7ae975d3b4d2225bb13ad2ed19e7417cd5da690359c2ff49f6ecc08f",
+          "path": "functions/User/Get-HawkUserUALSignInLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Start-HawkUserInvestigation"
+          ],
+          "sha256": "071f48b981e4b485c96ee7f414dc3518943ec8f75e314917aeed397f14cf473a",
+          "path": "functions/User/Start-HawkUserInvestigation.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 93,
+              "parameters": [
+                "RecipientTypeDetails",
+                "ResultSize"
+              ],
+              "command": "Get-Recipient",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantInboxRule"
+          ],
+          "sha256": "de938bf2b2736201880713c3c588594eea3448209ce9b10fe60624542a66dc7a",
+          "path": "internal/WorkInProgress/Get-HawkTenantInboxRule.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantMailItemsAccessed"
+          ],
+          "sha256": "96f04d42b17c38e3892ea5cdf3e4e914294d9a95c2ce2c8fb1be4eecd1da5012",
+          "path": "internal/WorkInProgress/Get-HawkTenantMailItemsAccessed.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkTenantUnifiedAuditLog"
+          ],
+          "sha256": "97aabb1630a552b2c722346b019e263ca2e08915f051b05f6858a2c8abfafafb",
+          "path": "internal/WorkInProgress/Get-HawkTenantUnifiedAuditLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 73,
+              "parameters": [],
+              "command": "Get-EXOMailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserHiddenRule"
+          ],
+          "sha256": "8d6619ec3d26e6594003b3e96076ef17b536c15af335ff87c1d819ff98fb7a62",
+          "path": "internal/WorkInProgress/Get-HawkUserHiddenRule.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "115e909aab37a8128be3bcd8d8964e5ee71c367dfa76cdcab81ef5b407f5ab74",
+          "path": "internal/configurations/configuration.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Add-HawkAppData"
+          ],
+          "sha256": "54471ec55df5f97fcbf173363aaf9d2264b35b2d75fd9b9888fa92db4260ba7d",
+          "path": "internal/functions/Add-HawkAppData.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Compress-HawkData"
+          ],
+          "sha256": "23826408884a98d9e91c380986d5d4d6e25a96bf8ea47445d04a88cdc398647c",
+          "path": "internal/functions/Compress-HawkData.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Convert-HawkDaysToDate"
+          ],
+          "sha256": "f73dd78717d5da2a9d49d5fcd82a0cc14faa603f331ef27d3ec8aca646215bf6",
+          "path": "internal/functions/Convert-HawkDaysToDate.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Convert-ReportToHTML"
+          ],
+          "sha256": "a3dd02e4b3c0dcdcecc7fa4b768441c09a21af74c7b6e40fcd247eba2f83f50d",
+          "path": "internal/functions/Convert-ReportToHTML.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Convert-HawkRiskData"
+          ],
+          "sha256": "5120460d01375d55bdabeaee8d2edab7ab3519e3b5b5c0c1dd7e198bce24d4c6",
+          "path": "internal/functions/Convert-RiskData.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [
+            50
+          ],
+          "function_definitions": [
+            "Get-AllUnifiedAuditLogEntry"
+          ],
+          "sha256": "8be07ad7a7faf810275a0e1b45e4a49503cef138819b281aadfc1923eb186d8f",
+          "path": "internal/functions/Get-AllUnifiedAuditLogEntry.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 62,
+              "parameters": [],
+              "command": "Get-MgOrganization",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 87,
+              "parameters": [
+                "DirectoryObjectId"
+              ],
+              "command": "Get-MgDirectoryObject",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 101,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgServicePrincipal",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 109,
+              "parameters": [
+                "Top"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 116,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgOAuth2PermissionGrant",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 175,
+              "parameters": [
+                "ServicePrincipalId",
+                "All"
+              ],
+              "command": "Get-MgServicePrincipalAppRoleAssignment",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-AzureADPSPermission",
+            "CacheObject",
+            "GetObjectByObjectId"
+          ],
+          "sha256": "650da28ca1d41b9409327d92add288ed91c0d929209ff7b6f1c6358e2e86f9c2",
+          "path": "internal/functions/Get-AzureADPSPermission.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-HawkUserPath"
+          ],
+          "sha256": "559fcb6e65a715495d245b696353bbc45b7bc3baca843c982d3e8ed3a5a80eed",
+          "path": "internal/functions/Get-HawkUserPath.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-IPGeolocation"
+          ],
+          "sha256": "7965367dee5de604e7cdefdfb025129f9ff52d5302479864a43b9f8d77cbb5a2",
+          "path": "internal/functions/Get-IPGeolocation.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-SimpleAdminAuditLog"
+          ],
+          "sha256": "fcdaed7c95d649e6ec55b594ffe7f2cb12253e20e6ea461de881e7cdb18d6d0a",
+          "path": "internal/functions/Get-SimpleAdminAuditLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Get-SimpleUnifiedAuditLog",
+            "ConvertTo-FlatObject"
+          ],
+          "sha256": "9e063b271685035e9ebe34b7a8cf7e50b947514b4f2567a9895cb297b42862c6",
+          "path": "internal/functions/Get-SimpleUnifiedAuditLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Import-AzureAuthenticationLog"
+          ],
+          "sha256": "c235a71e8fefd0044340cbd972058c0bbafdf9f3f4739e57f8b9dae9f1231c6a",
+          "path": "internal/functions/Import-AzureAuthenticationLog.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 107,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Get-MgOrganization",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 118,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Get-MgOrganization",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Initialize-HawkGlobalObject",
+            "Test-LoggingPath",
+            "New-LoggingFolder",
+            "Set-LoggingPath",
+            "New-ApplicationInsight"
+          ],
+          "sha256": "e5491aef42094d64cca2ea9ab1186451f1e7d67842d8a120ade2e00ca096d95a",
+          "path": "internal/functions/Initialize-HawkGlobalObject.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Out-HawkAppData"
+          ],
+          "sha256": "b0a3f8c1f3f0376a177abab2d1fcd37ba60284abc150c47e0aed7eddfc188b0d",
+          "path": "internal/functions/Out-HawkAppData.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Out-LogFile"
+          ],
+          "sha256": "b18a7f4c744ca66e0d503bcf183bc5a2eab5f7873ccd6d7771b7089d947a5eef",
+          "path": "internal/functions/Out-LogFile.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Out-MultipleFileType"
+          ],
+          "sha256": "2fc953ae1fca9a59704ba1f829dd2367311cc672621e6d53302a0fe2b4d48b71",
+          "path": "internal/functions/Out-MultipleFileType.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Out-Report"
+          ],
+          "sha256": "8a6a06b428d22619ce6fd5bec92edaa3dcd3b0f3d6b1f5048d4a6388d6ec5494",
+          "path": "internal/functions/Out-Report.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Read-HawkAppData"
+          ],
+          "sha256": "f33e1b561cc44f9c72e109702d180dd6f727f689c9a5694b36d01368d61f7f55",
+          "path": "internal/functions/Read-HawkAppData.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Reset-HawkEnvironment"
+          ],
+          "sha256": "7321f85f78ee5c128406d3d6ee2c83678b4bdf7c4fe742bed363a3d3d9f82f27",
+          "path": "internal/functions/Reset-HawkEnvironment.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Select-UniqueObject"
+          ],
+          "sha256": "b1d9b53a4c81b1ad180080713fb583c3f757ed006122240e3ded7ebc670aa786",
+          "path": "internal/functions/Select-UniqueObject.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Start-SleepWithProgress"
+          ],
+          "sha256": "3696610e044695ea32d9f7efed847751404f3d8a3940fdd9a25844a57f4e0f0b",
+          "path": "internal/functions/Start-SleepWithProgress.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-CCOConnection"
+          ],
+          "sha256": "e3025f0eb9a7904f6401b5cf55c1df1f3f676483beec0b3d5b186a5f9a6f752b",
+          "path": "internal/functions/Test-CCOConnection.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 19,
+              "parameters": [
+                "erroraction"
+              ],
+              "command": "Get-OrganizationConfig",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-EXOConnection"
+          ],
+          "sha256": "74258e8187a205f9f5dc8dd51e355a72f7684ca6f8e5cbcfabb99173fa9b968e",
+          "path": "internal/functions/Test-EXOConnection.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 19,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Get-MgOrganization",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-GraphConnection"
+          ],
+          "sha256": "334be436a9e72d5117267711f418b1e5712eb02d6e996a4e1736cb952dbb532d",
+          "path": "internal/functions/Test-GraphConnection.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-HawkDateParameter"
+          ],
+          "sha256": "4769e454a7285c5487b1a10a04b2fc16a6342c0033a6feebd8bce4e5d3a4db51",
+          "path": "internal/functions/Test-HawkDateParameter.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-HawkGlobalObject"
+          ],
+          "sha256": "fded20f688c219e0d910e8eff808c6e9c47b98c96c83d483c16a0b0a01a15198",
+          "path": "internal/functions/Test-HawkGlobalObject.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-HawkInvestigationParameter"
+          ],
+          "sha256": "a19c6ab93640a4c9edc8317234645ce1a51ec2dc66e933b558c3323e4a81104b",
+          "path": "internal/functions/Test-HawkInvestigationParameter.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-HawkNonInteractiveMode"
+          ],
+          "sha256": "0776b9ebc63b5f435cc7849ddc2e4405ad943a6cc4977e427e1aa2d957085cf1",
+          "path": "internal/functions/Test-HawkNonInteractiveMode.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 52,
+              "parameters": [],
+              "command": "Get-MgSubscribedSku",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-LicenseType"
+          ],
+          "sha256": "cf16a7168028630f049dcf1bae51e02ac43a1dbb563e762ef9d6580444849d53",
+          "path": "internal/functions/Test-LicenseType.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-MicrosoftIP"
+          ],
+          "sha256": "129ce4d0cac1b5f0cf7afc3f5bde676dbfbf26f273785142d49fab42c4a7e408",
+          "path": "internal/functions/Test-MicrosoftIP.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 51,
+              "parameters": [
+                "Identity"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-OperationEnabled"
+          ],
+          "sha256": "427eda8f457053d5fd8b3b88c17bfac74ea4f81486ceef2012a33621c1024d98",
+          "path": "internal/functions/Test-OperationEnabled.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [
+            {
+              "line": 18,
+              "parameters": [
+                "Identity",
+                "erroraction"
+              ],
+              "command": "Get-Recipient",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-RecipientAge"
+          ],
+          "sha256": "c34b27bb8a76d2cd188a16766861f771a5ea4b921e5727247b3fee03f799eb91",
+          "path": "internal/functions/Test-RecipientAge.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-SuspiciousInboxRule"
+          ],
+          "sha256": "6de3ef277063ccf5dc3f4ce98d7db5540b577273807e2d872a4acd57ab78214b",
+          "path": "internal/functions/Test-SuspiciousInboxRule.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-UserObject"
+          ],
+          "sha256": "16eaa6fdd29e590ee2192b6eb30671f3c13338388c92590c87ee046701066ff0",
+          "path": "internal/functions/Test-UserObject.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Write-HawkBanner"
+          ],
+          "sha256": "5188024b4ebcca585eaad4cf921c4f8cebc46eb7498df06bb21fd3108a683d9a",
+          "path": "internal/functions/Write-HawkBanner.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Write-HawkConfigurationComplete"
+          ],
+          "sha256": "14839feab37ab4e8afb2fc921d4c64d645504017027deb8bade837cde2689a5b",
+          "path": "internal/functions/Write-HawkConfigurationComplete.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Write-HawkInvestigationSummary"
+          ],
+          "sha256": "6ef6498743512473faec0465818c38c7aac7066ecde32627534edac629ddf193",
+          "path": "internal/functions/Write-HawkInvestigationSummary.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "3c7ce6dba9cb409412bd065202dfd360aef8ab7ca372d02057b1b6183fd3f388",
+          "path": "internal/scriptblocks/scriptblocks.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "85cd2c6039903d60e15a43fd88d72d771c9f8a5f20fde18664a432573ca186ca",
+          "path": "internal/scripts/license.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "135fbd87991dbcaf4a35abbc1813e1201bc4598beb2d6e4d2abae8b058a92dc8",
+          "path": "internal/scripts/postimport.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "0434c6bbdabd05904c09e435c00db31748abc061660ec77d2982f5432c27a533",
+          "path": "internal/scripts/pre_commit_hook_scripts/Invoke-PowerShellScriptAnalyzer.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "38303268d46d47e3addde0557d473c25a3a9da5f462a3f940bfccc43485c03c4",
+          "path": "internal/scripts/preimport.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "836a0adec3954b8e6b28312e993d94a2a6cb2a465862fd08f7155c4ca3badc2d",
+          "path": "internal/scripts/strings.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "9b5d8359b5da261884c603882bd8ecaec2d5011042c1613bebc1f0f67b4ea291",
+          "path": "internal/tepp/assignment.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "a96b60531c7d53c27618713e5cde96adeb9b93880db160b9f692d89f5e05e7e3",
+          "path": "internal/tepp/example.tepp.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "964869a0ccfccd03393e296b0f34bdcd0242d5e3a1ecc219482b2c0c8de41ba2",
+          "path": "tests/general/FileIntegrity.Exceptions.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [
+            3
+          ],
+          "function_definitions": [
+            "Get-FileEncoding"
+          ],
+          "sha256": "659417146f57a899c1fa54bc138471f5ae144d42d867901304c0f97c7b377b39",
+          "path": "tests/general/FileIntegrity.Tests.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "d9873e1cada40c9dab3b486f98ab2d1a78c85da52d92b717b43e4f37378b3f13",
+          "path": "tests/general/Help.Exceptions.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [
+            48
+          ],
+          "function_definitions": [],
+          "sha256": "3976c97b63d6bd2c19ff943aa29577efa1e9f89eda84b71387d91d14390409ea",
+          "path": "tests/general/Help.Tests.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "b33167683ee2fce3cceef2b8cefef81a4044c8f32485b0260fc5ec6167692dc9",
+          "path": "tests/general/Manifest.Tests.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [
+            "Test-GoodFunction",
+            "Test-ValidatedFunction",
+            "Test-AdvancedFunction"
+          ],
+          "sha256": "bb8b938f5220af67c3fa71337b1acb76fd8fc4c5400d58e73f65da2e4b66d2e9",
+          "path": "tests/general/Test-PreCommitHook.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "2aecea6cac8492a7370ff5028719c0d880cd473e09c77f4dfc514dd354e4a31b",
+          "path": "tests/general/strings.Exceptions.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [
+            14
+          ],
+          "function_definitions": [],
+          "sha256": "a959456de56dd5178e207e0dadd1fbce5c80d54465dd9682e86b6b75cfb4a866",
+          "path": "tests/general/strings.Tests.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "ad6f4ee76ce8a3f083868cd01c62fa1485764a54a098ef7ee5bc88c702cee9b1",
+          "path": "tests/internal/functions/Convert-HawkDaysToDate.Tests.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "bde4ec0d91928413cd9478b8259e9dc2ec58349edf09c8a8baad44eee7c9da2a",
+          "path": "tests/internal/functions/Test-HawkDateParameter.Tests.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "5b91015ad861091f41bbfdc55e7e2ac99085d1ab752a8ef2402b8f3283c34ee5",
+          "path": "tests/internal/functions/Test-HawkInvestigationParameter.Tests.ps1"
+        },
+        {
+          "url_templates": [],
+          "calls": [],
+          "dynamic_command_lines": [],
+          "function_definitions": [],
+          "sha256": "569378ce5d574e98762ad29747a601a4725361f2aa3010105d212ad9f189c93c",
+          "path": "tests/pester.ps1"
+        }
+      ],
+      "method": "PowerShell AST named service calls and URL templates; dynamic dispatch is not resolved"
+    },
+    "mes": {
+      "revision": "47565f7842784cd3667ff630e3dccb49fa3408ed",
+      "files": [
+        {
+          "path": "Microsoft-Extractor-Suite.psm1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 170,
+              "parameters": [],
+              "command": "Get-MgContext",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 264,
+              "parameters": [],
+              "command": "Get-MgContext",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            }
+          ],
+          "sha256": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032",
+          "function_definitions": [
+            "StartDate",
+            "StartDateUAL",
+            "StartDateAz",
+            "EndDate",
+            "Set-LogLevel",
+            "Write-LogFile",
+            "versionCheck",
+            "Get-GraphAuthType",
+            "Init-Logging",
+            "Check-GraphContext",
+            "Init-OutputDir",
+            "Write-Summary",
+            "Merge-OutputFiles"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Connect.ps1",
+          "dynamic_command_lines": [],
+          "calls": [],
+          "sha256": "e5c5a183d4b319d00ec79fd35d46602e7762728a890f92ab68c4956ae411806b",
+          "function_definitions": [
+            "Connect-M365",
+            "Connect-AzureAZ"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Disconnect.ps1",
+          "dynamic_command_lines": [],
+          "calls": [],
+          "sha256": "f1dbef2c1a1f8e0d03e37e95aea7efea0959b57bd20797b867cf4e9b2a007539",
+          "function_definitions": [
+            "Disconnect-M365",
+            "Disconnect-AzureAZ"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-AdminAuditLog.ps1",
+          "dynamic_command_lines": [],
+          "calls": [],
+          "sha256": "7c35bfa51b6345681210fbca930f9c18182b29caf5bf0dbd4a7d547b7896efe3",
+          "function_definitions": [
+            "Get-AdminAuditLog"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-AllEvidence.ps1",
+          "dynamic_command_lines": [
+            738,
+            740,
+            764,
+            766
+          ],
+          "calls": [
+            {
+              "line": 252,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MailboxRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 254,
+              "parameters": [
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MailboxRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 258,
+              "parameters": [
+                "OutputDir",
+                "LogLevel"
+              ],
+              "command": "Get-MailboxRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 260,
+              "parameters": [
+                "LogLevel"
+              ],
+              "command": "Get-MailboxRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 273,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MessageTraceLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 275,
+              "parameters": [
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MessageTraceLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 279,
+              "parameters": [
+                "OutputDir",
+                "LogLevel"
+              ],
+              "command": "Get-MessageTraceLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 281,
+              "parameters": [
+                "LogLevel"
+              ],
+              "command": "Get-MessageTraceLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 294,
+              "parameters": [
+                "OutputDir",
+                "LogLevel"
+              ],
+              "command": "Get-TransportRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 296,
+              "parameters": [
+                "LogLevel"
+              ],
+              "command": "Get-TransportRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 310,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MailboxPermissions",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 312,
+              "parameters": [
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MailboxPermissions",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 316,
+              "parameters": [
+                "OutputDir",
+                "LogLevel"
+              ],
+              "command": "Get-MailboxPermissions",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 318,
+              "parameters": [
+                "LogLevel"
+              ],
+              "command": "Get-MailboxPermissions",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 331,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MailboxAuditStatus",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 333,
+              "parameters": [
+                "LogLevel",
+                "UserIds"
+              ],
+              "command": "Get-MailboxAuditStatus",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 337,
+              "parameters": [
+                "OutputDir",
+                "LogLevel"
+              ],
+              "command": "Get-MailboxAuditStatus",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 339,
+              "parameters": [
+                "LogLevel"
+              ],
+              "command": "Get-MailboxAuditStatus",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 472,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Get-OrganizationConfig",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 481,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "ErrorAction"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 493,
+              "parameters": [],
+              "command": "Get-MgContext",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            }
+          ],
+          "sha256": "0283862dfb94dc5af2cdb5a27bcb0ae742637bc218274c92790b2d89e100dfae",
+          "function_definitions": [
+            "Write-TaskProgress",
+            "Test-RequiredConnections",
+            "Show-CollectionMenu",
+            "Start-EvidenceCollection"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-AuditLogSettings.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 66,
+              "parameters": [],
+              "command": "Get-OrganizationConfig",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 103,
+              "parameters": [
+                "ResultSize",
+                "PropertySets"
+              ],
+              "command": "Get-EXOMailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 138,
+              "parameters": [
+                "ResultSize",
+                "WarningAction"
+              ],
+              "command": "Get-MailboxAuditBypassAssociation",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 179,
+              "parameters": [
+                "Identity",
+                "WarningAction"
+              ],
+              "command": "Get-MailboxAuditBypassAssociation",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "4ccc3592abcf7277dbd3836c033b0c8d38e97fc6775a73bcb2d1d0a49429ff44",
+          "function_definitions": [
+            "Get-MailboxAuditStatus"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-AzureActivityLogs.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 94,
+              "parameters": [
+                "ResourceUrl",
+                "AsSecureString"
+              ],
+              "command": "Get-AzAccessToken",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 100,
+              "parameters": [],
+              "command": "Get-AzContext",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 183,
+              "parameters": [
+                "SubscriptionId"
+              ],
+              "command": "Get-AzSubscription",
+              "surface": "arm.inventory-activity",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "405c77b647785406d40fcfad1906c9ecc2847be9b876be1641bcbc6d4d99609c",
+          "function_definitions": [
+            "Get-ActivityLogs"
+          ],
+          "url_templates": [
+            {
+              "line": 94,
+              "template": "https://management.azure.com"
+            },
+            {
+              "line": 133,
+              "template": "https://management.azure.com/subscriptions?api-version=2020-01-01"
+            },
+            {
+              "line": 226,
+              "template": "https://management.azure.com/subscriptions/$subId/providers/Microsoft.Insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp ge '$script:StartDate' and eventTimestamp le '$script:endDate'"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-AzureDirectoryActivityLogs.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 77,
+              "parameters": [
+                "ResourceUrl",
+                "AsSecureString"
+              ],
+              "command": "Get-AzAccessToken",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 84,
+              "parameters": [],
+              "command": "Get-AzContext",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            }
+          ],
+          "sha256": "d8a8bd616e3c71a339fe8ff7ceda021f3606459f7a5614a0255475af26c3e1dc",
+          "function_definitions": [
+            "Get-DirectoryActivityLogs"
+          ],
+          "url_templates": [
+            {
+              "line": 77,
+              "template": "https://management.azure.com"
+            },
+            {
+              "line": 110,
+              "template": "https://management.azure.com/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp ge '$script:StartDate' and eventTimestamp le '$script:endDate'"
+            },
+            {
+              "line": 115,
+              "template": "[DEBUG]   Base URL: https://management.azure.com/providers/microsoft.insights/eventtypes/management/values"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-AzureEntraGraphLogs.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 245,
+              "parameters": [
+                "Uri",
+                "Method",
+                "ContentType",
+                "OutputType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 506,
+              "parameters": [
+                "Uri",
+                "Method",
+                "ContentType",
+                "OutputType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "fcdfbcf4534f0374b0960fee8fcf922bf60931ef18ee2d3402ec5f202996a145",
+          "function_definitions": [
+            "Get-GraphEntraSignInLogs",
+            "Get-GraphEntraAuditLogs"
+          ],
+          "url_templates": [
+            {
+              "line": 220,
+              "template": "https://graph.microsoft.com/beta/auditLogs/signIns?$filter=$encodedFilterQuery"
+            },
+            {
+              "line": 224,
+              "template": "[DEBUG]   Base URL: https://graph.microsoft.com/beta/auditLogs/signIns"
+            },
+            {
+              "line": 489,
+              "template": "https://graph.microsoft.com/v1.0/auditLogs/directoryAudits?$filter=$encodedFilterQuery"
+            },
+            {
+              "line": 493,
+              "template": "[DEBUG]   Base URL: https://graph.microsoft.com/v1.0/auditLogs/directoryAudits"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-ConditionalAccessPolicy.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 61,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgIdentityConditionalAccessPolicy",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "3755622fde0b907472fa4283b6f72a781daead77c5060c769bf6124c7ccee2ad",
+          "function_definitions": [
+            "Get-ConditionalAccessPolicies"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-Devices.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 97,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgDevice",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 106,
+              "parameters": [
+                "DeviceId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgDeviceRegisteredOwner",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 107,
+              "parameters": [
+                "DeviceId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgDeviceRegisteredUser",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "4c7c6617bc173f8f5e09c843e2afdcf0f0ff15370a18c2b388fdd147a9a7aa9c",
+          "function_definitions": [
+            "Get-Devices"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-Emails.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 126,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 215,
+              "parameters": [
+                "Method",
+                "OutputFilePath"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 253,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 301,
+              "parameters": [
+                "Method",
+                "OutputFilePath"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 436,
+              "parameters": [
+                "Method",
+                "Uri",
+                "ErrorAction"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 452,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 462,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 524,
+              "parameters": [
+                "Method",
+                "Uri",
+                "ErrorAction"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "c39a3f9e2bb57d0ea4ce206304164d7cbe2c1e65bb4e60d786323868fe948419",
+          "function_definitions": [
+            "Get-Email",
+            "Get-Attachment",
+            "Show-Email"
+          ],
+          "url_templates": [
+            {
+              "line": 126,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages?filter=internetMessageId eq '$id'"
+            },
+            {
+              "line": 214,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages/"
+            },
+            {
+              "line": 253,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages?filter=internetMessageId eq '$internetMessageId'"
+            },
+            {
+              "line": 293,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages/"
+            },
+            {
+              "line": 436,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages?filter=internetMessageId eq '$internetMessageId'"
+            },
+            {
+              "line": 452,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages/$messageId/attachments"
+            },
+            {
+              "line": 461,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages/$messageId/attachments/$($attachment.Id)/\\$value"
+            },
+            {
+              "line": 524,
+              "template": "https://graph.microsoft.com/v1.0/users/$userIds/messages?filter=internetMessageId eq '$internetMessageId'"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-Groups.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 59,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgGroup",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 63,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgGroup",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 182,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgGroup",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 186,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgGroup",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 208,
+              "parameters": [
+                "GroupId",
+                "All"
+              ],
+              "command": "Get-MgGroupMember",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 300,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgGroup",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 304,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgGroup",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "328b2ade4efc4ef80d2e8d047bd78a1d63ae6ec244c32fc6fea3550fb5877491",
+          "function_definitions": [
+            "Get-Groups",
+            "Get-GroupMembers",
+            "Get-DynamicGroups"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-MFAStatus.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 107,
+              "parameters": [
+                "Uri",
+                "Method",
+                "OutputType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 123,
+              "parameters": [
+                "Uri",
+                "Method",
+                "OutputType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 137,
+              "parameters": [
+                "UserId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUserAuthenticationPhoneMethod",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 183,
+              "parameters": [
+                "Uri",
+                "Method",
+                "OutputType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 265,
+              "parameters": [
+                "UserId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUserAuthenticationPhoneMethod",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 313,
+              "parameters": [
+                "Uri",
+                "Method",
+                "OutputType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "ff97e4c58a540da2527e1c819bbea86af7766b0e3666290adb25e851cbedca48",
+          "function_definitions": [
+            "Get-MFA"
+          ],
+          "url_templates": [
+            {
+              "line": 105,
+              "template": "https://graph.microsoft.com/v1.0/users/$userId"
+            },
+            {
+              "line": 121,
+              "template": "https://graph.microsoft.com/v1.0/users"
+            },
+            {
+              "line": 182,
+              "template": "https://graph.microsoft.com/v1.0/users/$($user.id)/authentication/methods"
+            },
+            {
+              "line": 310,
+              "template": "https://graph.microsoft.com/v1.0/reports/authenticationMethods/userRegistrationDetails"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-MailItemsAccessed.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 117,
+              "parameters": [
+                "StartDate",
+                "UserIds",
+                "EndDate",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 139,
+              "parameters": [
+                "UserIds",
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 204,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "FreeText",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 215,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "FreeText",
+                "ResultSize",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 267,
+              "parameters": [
+                "UserIds",
+                "FreeText",
+                "StartDate",
+                "EndDate",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 279,
+              "parameters": [
+                "UserIds",
+                "FreeText",
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 330,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 341,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 508,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 523,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 616,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "FreeText",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 631,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "FreeText",
+                "ResultSize",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 715,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "FreeText",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 730,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "FreeText",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 813,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "FreeText",
+                "Operations",
+                "ResultSize"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 827,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "FreeText",
+                "ResultSize",
+                "Operations"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 958,
+              "parameters": [
+                "Filter",
+                "UserId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUserMessage",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 1007,
+              "parameters": [
+                "MessageId",
+                "UserId",
+                "OutFile"
+              ],
+              "command": "Get-MgUserMessageContent",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 1021,
+              "parameters": [
+                "UserId",
+                "MessageId"
+              ],
+              "command": "Get-MgUserMessageAttachment",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "ce1313c6cbfdd47f3b29bbb3e3b1f7f0924ba1fa521167e7a72fda8b51f31ff3",
+          "function_definitions": [
+            "Get-Sessions",
+            "Get-MessageIDs",
+            "DownloadMails"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-MailboxAuditLog.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 174,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Search-MailboxAuditlog",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 189,
+              "parameters": [
+                "resultsize"
+              ],
+              "command": "Get-mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 195,
+              "parameters": [
+                "Identity",
+                "LogonTypes",
+                "StartDate",
+                "EndDate",
+                "ShowDetails",
+                "ResultSize"
+              ],
+              "command": "Search-MailboxAuditlog",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 209,
+              "parameters": [
+                "Identity",
+                "LogonTypes",
+                "StartDate",
+                "EndDate",
+                "ShowDetails",
+                "ResultSize"
+              ],
+              "command": "Search-MailboxAuditlog",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 221,
+              "parameters": [
+                "Identity",
+                "LogonTypes",
+                "StartDate",
+                "EndDate",
+                "ShowDetails",
+                "ResultSize"
+              ],
+              "command": "Search-MailboxAuditlog",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "1fd828c3e8e909df7e5e7ada545ce25fbe50d1cfb9d8117ea823ce125a29eb68",
+          "function_definitions": [
+            "Get-MailboxAuditLog",
+            "Get-MailboxAuditLogLegacy"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-MailboxPermissions.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 70,
+              "parameters": [
+                "ResultSize"
+              ],
+              "command": "Get-EXOMailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 91,
+              "parameters": [
+                "ResultSize",
+                "Properties"
+              ],
+              "command": "Get-EXOMailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 94,
+              "parameters": [
+                "ResultSize",
+                "Properties"
+              ],
+              "command": "Get-EXOMailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 117,
+              "parameters": [
+                "Identity"
+              ],
+              "command": "Get-MailboxPermission",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 132,
+              "parameters": [
+                "Identity",
+                "ErrorAction"
+              ],
+              "command": "Get-RecipientPermission",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 172,
+              "parameters": [
+                "Identity",
+                "ErrorAction"
+              ],
+              "command": "Get-MailboxFolderPermission",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 189,
+              "parameters": [
+                "Identity",
+                "ErrorAction"
+              ],
+              "command": "Get-MailboxFolderPermission",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 222,
+              "parameters": [
+                "ErrorAction"
+              ],
+              "command": "Get-EXORecipient",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "9feda76907c50ffac53472824017da85aa3c9ff9a89adb797ffd01ad3705b78f",
+          "function_definitions": [
+            "Get-MailboxPermissions"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-MessageTraceLog.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 220,
+              "parameters": [],
+              "command": "Get-MessageTraceV2",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "a352e5a9d4235ad066db6996dcd058c6a18941ef1d2fe502c2843a4c6fa74971",
+          "function_definitions": [
+            "StartDateMTL",
+            "EndDateMTL",
+            "Get-MessageTraceLog",
+            "Retrieve-MessageTrace"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-OAuthPermissions.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 64,
+              "parameters": [
+                "ServicePrincipalId"
+              ],
+              "command": "Get-MgServicePrincipal",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 65,
+              "parameters": [
+                "UserId"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 66,
+              "parameters": [
+                "ApplicationId"
+              ],
+              "command": "Get-MgApplication",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 94,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgServicePrincipal",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 130,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgOauth2PermissionGrant",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 285,
+              "parameters": [
+                "ServicePrincipalId",
+                "All"
+              ],
+              "command": "Get-MgServicePrincipalAppRoleAssignment",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 404,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgApplication",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "7e17971b12bd48a474aa138fcd20d060fe8cb6a0da255c50ca6217beed4115bd",
+          "function_definitions": [
+            "Get-OAuthPermissionsGraph",
+            "Get-CachedObject"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-ProductLicenses.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 37,
+              "parameters": [],
+              "command": "Get-MgSubscribedSku",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 147,
+              "parameters": [],
+              "command": "Get-MgSubscribedSku",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 274,
+              "parameters": [],
+              "command": "Get-MgSubscribedSku",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 282,
+              "parameters": [],
+              "command": "Get-MgPolicyIdentitySecurityDefaultEnforcementPolicy",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 302,
+              "parameters": [],
+              "command": "Get-MgPolicyIdentitySecurityDefaultEnforcementPolicy",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 405,
+              "parameters": [],
+              "command": "Get-MgContext",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 409,
+              "parameters": [],
+              "command": "Get-MgSubscribedSku",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 420,
+              "parameters": [
+                "All",
+                "Property"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 434,
+              "parameters": [
+                "UserId"
+              ],
+              "command": "Get-MgUserLicenseDetail",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "0813c4795b72587057a40d85df28015a00969f43d9bf77215140532010c96fb9",
+          "function_definitions": [
+            "Get-Licenses",
+            "Get-LicenseCompatibility",
+            "Get-EntraSecurityDefaults",
+            "Get-LicensesByUser"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-RiskyEvents.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 95,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 179,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 368,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 447,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "5641c3e7630481019b821efcbda5ff6ac40610d68bcb78acad7e703edece7b0b",
+          "function_definitions": [
+            "Get-RiskyUsers",
+            "Get-RiskyDetections"
+          ],
+          "url_templates": [
+            {
+              "line": 82,
+              "template": "https://graph.microsoft.com/v1.0/identityProtection/riskyUsers"
+            },
+            {
+              "line": 173,
+              "template": "https://graph.microsoft.com/v1.0/identityProtection/riskyUsers"
+            },
+            {
+              "line": 355,
+              "template": "https://graph.microsoft.com/v1.0/identityProtection/riskDetections"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-Roles.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 73,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgDirectoryRole",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 79,
+              "parameters": [
+                "DirectoryRoleId"
+              ],
+              "command": "Get-MgDirectoryRoleMember",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 108,
+              "parameters": [
+                "UserId",
+                "Select",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 112,
+              "parameters": [
+                "UserId",
+                "Select",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 144,
+              "parameters": [
+                "UserId",
+                "Select",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 265,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 271,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 311,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 317,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 331,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 372,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 378,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 418,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 424,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 438,
+              "parameters": [
+                "Method",
+                "Uri"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "2dbd16c7afa069fc754877775ce2ddb6f8765cc6007e67b98f770bae32e4dc26",
+          "function_definitions": [
+            "Get-AllRoleActivity",
+            "Get-PIMAssignments"
+          ],
+          "url_templates": [
+            {
+              "line": 264,
+              "template": "https://graph.microsoft.com/beta/roleManagement/directory/roleAssignmentSchedules?$expand=principal,roleDefinition"
+            },
+            {
+              "line": 310,
+              "template": "https://graph.microsoft.com/v1.0/groups/$groupId/members"
+            },
+            {
+              "line": 330,
+              "template": "https://graph.microsoft.com/v1.0/users/$userId"
+            },
+            {
+              "line": 371,
+              "template": "https://graph.microsoft.com/beta/roleManagement/directory/roleEligibilitySchedules?$expand=principal,roleDefinition"
+            },
+            {
+              "line": 417,
+              "template": "https://graph.microsoft.com/v1.0/groups/$groupId/members"
+            },
+            {
+              "line": 437,
+              "template": "https://graph.microsoft.com/v1.0/users/$userId"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-Rules.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 14,
+              "parameters": [],
+              "command": "Get-TransportRule",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 74,
+              "parameters": [],
+              "command": "Get-TransportRule",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 78,
+              "parameters": [],
+              "command": "Get-TransportRule",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 166,
+              "parameters": [
+                "ResultSize"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 174,
+              "parameters": [
+                "Mailbox"
+              ],
+              "command": "Get-InboxRule",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 266,
+              "parameters": [
+                "ResultSize"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 271,
+              "parameters": [
+                "ResultSize"
+              ],
+              "command": "Get-Mailbox",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 277,
+              "parameters": [
+                "Mailbox"
+              ],
+              "command": "Get-InboxRule",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 349,
+              "parameters": [
+                "Mailbox"
+              ],
+              "command": "Get-InboxRule",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 353,
+              "parameters": [
+                "Mailbox"
+              ],
+              "command": "Get-InboxRule",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 514,
+              "parameters": [
+                "UserId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 522,
+              "parameters": [
+                "All",
+                "Property"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 549,
+              "parameters": [
+                "UserId",
+                "MailFolderId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUserMailFolderMessageRule",
+              "surface": "graph.mail-rules",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 553,
+              "parameters": [
+                "UserId",
+                "MailFolderId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUserMailFolderMessageRule",
+              "surface": "graph.mail-rules",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "0acff49d6abf618983392bb52b8d7710dacfd546183688dcc51d7a33a675f662",
+          "function_definitions": [
+            "Show-TransportRules",
+            "Get-TransportRules",
+            "Show-MailboxRules",
+            "Get-MailboxRules",
+            "Get-MailboxRulesGraph"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-SecureScore.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 107,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgSecuritySecureScoreControlProfile",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 112,
+              "parameters": [
+                "All"
+              ],
+              "command": "Get-MgSecuritySecureScoreControlProfile",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 118,
+              "parameters": [
+                "Top"
+              ],
+              "command": "Get-MgSecuritySecureScore",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 122,
+              "parameters": [
+                "Top"
+              ],
+              "command": "Get-MgSecuritySecureScore",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "b62652a8f995b09a8d0ca8960efe29760aa83586c9d93df23e5228b462f19130",
+          "function_definitions": [
+            "Get-SecureScore"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-SecurityAlerts.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 113,
+              "parameters": [
+                "AlertId"
+              ],
+              "command": "Get-MgSecurityAlert",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 115,
+              "parameters": [],
+              "command": "Get-MgSecurityAlert",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 119,
+              "parameters": [
+                "AlertId"
+              ],
+              "command": "Get-MgSecurityAlertV2",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 121,
+              "parameters": [],
+              "command": "Get-MgSecurityAlertV2",
+              "surface": "graph.security.collections",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "fd3042e8b47c059371ae8ddcc3c0d3827c342228d2671b439fce3cbb0691cca7",
+          "function_definitions": [
+            "Get-SecurityAlerts"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-UAL.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 170,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "ErrorAction"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 311,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "ErrorAction"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 368,
+              "parameters": [
+                "StartDate",
+                "EndDate",
+                "ResultSize",
+                "WarningVariable"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "f98b34c38215d8afde1479a0ef07587fc70810a6340f65803948d6c2cd4e9427",
+          "function_definitions": [
+            "Get-UAL"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Get-UALGraph.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 203,
+              "parameters": [
+                "Method",
+                "Uri",
+                "Body",
+                "ContentType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 209,
+              "parameters": [
+                "Method",
+                "Uri",
+                "Body",
+                "ContentType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 220,
+              "parameters": [
+                "Uri",
+                "ContentType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 258,
+              "parameters": [
+                "Method",
+                "Uri",
+                "ContentType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 398,
+              "parameters": [
+                "Method",
+                "Uri",
+                "ContentType",
+                "OutputType"
+              ],
+              "command": "Invoke-MgGraphRequest",
+              "surface": null,
+              "status": "unmapped-review-required"
+            }
+          ],
+          "sha256": "bdf98b146929b6541967d7e077d669a14678cf83ae63e7678c57ee4c9b131ca3",
+          "function_definitions": [
+            "Get-UALGraph"
+          ],
+          "url_templates": [
+            {
+              "line": 172,
+              "template": "https://graph.microsoft.com/v1.0/security/auditLog/queries"
+            },
+            {
+              "line": 175,
+              "template": "https://graph.microsoft.com/beta/security/auditLog/queries"
+            }
+          ]
+        },
+        {
+          "path": "Scripts/Get-UsersInfo.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 66,
+              "parameters": [
+                "Filter",
+                "select"
+              ],
+              "command": "Get-Mguser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 77,
+              "parameters": [
+                "All",
+                "Select"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 235,
+              "parameters": [
+                "all"
+              ],
+              "command": "Get-MgDirectoryRole",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 238,
+              "parameters": [
+                "all"
+              ],
+              "command": "Get-MgDirectoryRole",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 246,
+              "parameters": [
+                "DirectoryRoleId"
+              ],
+              "command": "Get-MgDirectoryRoleMember",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 276,
+              "parameters": [
+                "Filter",
+                "Property",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "70ec354289aaf2bbfd71e5c0c40d5f1ac61285da64bbef34b8dbb25d85d3b166",
+          "function_definitions": [
+            "Get-Users",
+            "Get-AdminUsers"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/Start-MESTriage.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 351,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds",
+                "Encoding"
+              ],
+              "command": "Get-MailboxRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 353,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "Encoding"
+              ],
+              "command": "Get-MailboxRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 360,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds",
+                "Encoding"
+              ],
+              "command": "Get-MailboxRulesGraph",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 362,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "Encoding"
+              ],
+              "command": "Get-MailboxRulesGraph",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 432,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds",
+                "Encoding",
+                "StartDate",
+                "EndDate"
+              ],
+              "command": "Get-MailboxAuditLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 434,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "Encoding",
+                "StartDate",
+                "EndDate"
+              ],
+              "command": "Get-MailboxAuditLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 441,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds",
+                "Encoding",
+                "ErrorAction",
+                "StartDate",
+                "EndDate"
+              ],
+              "command": "Get-MessageTraceLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 443,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "Encoding",
+                "ErrorAction",
+                "StartDate",
+                "EndDate"
+              ],
+              "command": "Get-MessageTraceLog",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 490,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds",
+                "Encoding"
+              ],
+              "command": "Get-MailboxAuditStatus",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 492,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "Encoding"
+              ],
+              "command": "Get-MailboxAuditStatus",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 498,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "UserIds",
+                "Encoding"
+              ],
+              "command": "Get-MailboxPermissions",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 500,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "Encoding"
+              ],
+              "command": "Get-MailboxPermissions",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            },
+            {
+              "line": 517,
+              "parameters": [
+                "OutputDir",
+                "LogLevel",
+                "Encoding"
+              ],
+              "command": "Get-TransportRules",
+              "surface": null,
+              "status": "local-helper-or-auth-context"
+            }
+          ],
+          "sha256": "1a5a60a2c73e8e59b2f81bdd3e3ee8b34e5431cd89592203c3f5e5cf78ecce4e",
+          "function_definitions": [
+            "Start-MESTriage",
+            "Invoke-TriageTask",
+            "Get-TaskOutputFormat"
+          ],
+          "url_templates": []
+        },
+        {
+          "path": "Scripts/TriageFunctions.ps1",
+          "dynamic_command_lines": [],
+          "calls": [
+            {
+              "line": 76,
+              "parameters": [
+                "UserId",
+                "ErrorAction"
+              ],
+              "command": "Get-MgUser",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 105,
+              "parameters": [
+                "UserId",
+                "All"
+              ],
+              "command": "Get-MgUserOwnedObject",
+              "surface": "graph.directory",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 110,
+              "parameters": [
+                "ApplicationId"
+              ],
+              "command": "Get-MgApplication",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 117,
+              "parameters": [
+                "Filter"
+              ],
+              "command": "Get-MgServicePrincipal",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 169,
+              "parameters": [
+                "UserId",
+                "All"
+              ],
+              "command": "Get-MgUserAppRoleAssignment",
+              "surface": null,
+              "status": "unmapped-review-required"
+            },
+            {
+              "line": 173,
+              "parameters": [
+                "ServicePrincipalId"
+              ],
+              "command": "Get-MgServicePrincipal",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 185,
+              "parameters": [
+                "Filter"
+              ],
+              "command": "Get-MgApplication",
+              "surface": "graph.identity-policy",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 349,
+              "parameters": [
+                "ResultSize",
+                "WarningAction"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            },
+            {
+              "line": 362,
+              "parameters": [
+                "ResultSize",
+                "WarningAction"
+              ],
+              "command": "Search-UnifiedAuditLog",
+              "surface": "exchange.mail",
+              "status": "implemented-profile-needs-parameter-check"
+            }
+          ],
+          "sha256": "2133eb920c3a964ab8b7d01f7ca031832ab124e816f1d3f60c84a3ece5722037",
+          "function_definitions": [
+            "Get-EntraApplicationsForSpecificUsers",
+            "Get-QuickUALOperations",
+            "Test-TaskWillSkip"
+          ],
+          "url_templates": []
+        }
+      ],
+      "method": "PowerShell AST named service calls and URL templates; dynamic dispatch is not resolved"
+    }
+  },
+  "next_gaps": [
+    "Mailbox messages and attachments",
+    "Device registeredUsers relationship",
+    "SharePoint/OneDrive evidence and audit collectors",
+    "Provider-specific Azure diagnostics and storage logs",
+    "Defender hunting and Purview operations beyond existing UAL reads"
+  ]
+}

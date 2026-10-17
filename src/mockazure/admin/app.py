@@ -9,6 +9,7 @@ from starlette.exceptions import HTTPException
 
 from mockazure.admin.arm_routes import router as arm_admin_router
 from mockazure.admin.auth import verify_admin_token
+from mockazure.admin.collection_routes import router as collection_admin_router
 from mockazure.admin.directory_routes import router as directory_admin_router
 from mockazure.admin.errors import AdminError
 from mockazure.admin.errors import error_response as admin_error_response
@@ -23,6 +24,7 @@ from mockazure.admin.managed_identity_routes import router as managed_identity_a
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
 from mockazure.admin.session_routes import router as session_router
+from mockazure.collections.routes import router as collection_graph_router
 from mockazure.config import Settings
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
@@ -273,6 +275,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(maintenance_admin_router)
     app.include_router(router)
     app.include_router(evidence_admin_router)
+    app.include_router(collection_admin_router)
+    app.include_router(collection_graph_router)
     app.include_router(job_router)
     app.include_router(licensing_admin_router)
     app.include_router(managed_identity_admin_router)

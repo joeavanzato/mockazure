@@ -27,3 +27,10 @@ remaining coverage gaps.
 
 Completed milestone descriptions and failed historical qualification attempts are
 retained in [the archive](archive/m1-m6/README.md).
+
+## Security collection evidence
+
+Five additional v1.0 families—alerts, alerts_v2, incidents, secureScores and
+secureScoreControlProfiles—have typed atomic imports, permission-checked list/get,
+SQL filtering and durable snapshot paging. See [the exact profile](collection-evidence.md).
+Legacy alerts are retained for historical collector compatibility after upstream retirement.

@@ -22,7 +22,7 @@ def free_port():
         return sock.getsockname()[1]
 
 
-def main():
+def main(*, qualify=None):
     run_id = uuid4().hex[:12]
     directory = ROOT / "work" / ("default-smoke-" + run_id)
     directory.mkdir(parents=True)
@@ -61,7 +61,21 @@ def main():
         "checks": [],
         "source_files": {
             p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest()
-            for p in ("compose.yaml", "src/mockazure/bootstrap.py")
+            for p in [
+                "compose.yaml",
+                "Dockerfile",
+                "pyproject.toml",
+                "uv.lock",
+                "README.md",
+                "LICENSE",
+                "NOTICE",
+                "build-requirements.txt",
+            ]
+            + sorted(
+                path.relative_to(ROOT).as_posix()
+                for path in (ROOT / "src").rglob("*")
+                if path.is_file() and path.suffix in {".py", ".json"}
+            )
         },
     }
     report_path = directory / "report.json"
@@ -171,6 +185,8 @@ def main():
                 for name, digest in identity.items()
             )
             check("restart_tenant_and_identity_preserved")
+            if qualify:
+                qualify(directory, command, compose, client, headers, tenant, check)
         report["passed"] = True
     except Exception as error:
         report["error_type"] = type(error).__name__

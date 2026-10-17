@@ -3,7 +3,7 @@ from mockazure.admin.routes import capabilities
 
 async def test_security_capabilities_advertise_bounded_operational_surfaces():
     value = await capabilities()
-    assert value["milestone"] == 5 and value["delivery"] == "arm"
+    assert value["milestone"] == 5 and value["delivery"] == "collection-evidence"
     assert {
         "arm.resources.inventory",
         "arm.resourceGroups.lifecycle",

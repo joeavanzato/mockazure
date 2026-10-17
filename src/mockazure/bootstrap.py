@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from mockazure.config import Settings, load_settings, validate_host
+from mockazure.endpoints import EndpointProfile
 from mockazure.files import file_lock, write_private
 from mockazure.tls import ensure_tls
 
@@ -141,6 +142,16 @@ def initialize_compose(
             listen_port=8443,
             database_url=f"postgresql+psycopg://mockazure:{password}@db:5432/mockazure",
         )
+        legacy_container = (json.dumps(container, indent=2) + "\n").encode()
+        container["client_profiles"] = {
+            **container["client_profiles"],
+            "container": container["client_profiles"].get(
+                "container", EndpointProfile().model_dump(mode="json")
+            ),
+        }
+        upgrade_container = (
+            container_file.exists() and container_file.read_bytes() == legacy_container
+        )
         expected = {
             container_file: (json.dumps(container, indent=2) + "\n").encode(),
             environment_file: (
@@ -148,8 +159,10 @@ def initialize_compose(
             ).encode(),
         }
         for path, content in expected.items():
-            if path == environment_file and upgrade_environment:
-                temporary = path.with_name(".compose.env.upgrade")
+            if (path == environment_file and upgrade_environment) or (
+                path == container_file and upgrade_container
+            ):
+                temporary = path.with_name("." + path.name + ".upgrade")
                 write_private(temporary, content)
                 os.replace(temporary, path)
             elif path.exists():

@@ -33,6 +33,274 @@
         "type"
       ]
     },
+    "alert": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "activityGroupName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "alertDetections": {
+          "type": "Collection(graph.alertDetection)",
+          "nullable": true
+        },
+        "assignedTo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "azureSubscriptionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "azureTenantId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "category": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "closedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "cloudAppStates": {
+          "type": "Collection(graph.cloudAppSecurityState)",
+          "nullable": true
+        },
+        "comments": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "confidence": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "detectionIds": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "eventDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "feedback": {
+          "type": "graph.alertFeedback",
+          "nullable": true
+        },
+        "fileStates": {
+          "type": "Collection(graph.fileSecurityState)",
+          "nullable": true
+        },
+        "historyStates": {
+          "type": "Collection(graph.alertHistoryState)",
+          "nullable": true
+        },
+        "hostStates": {
+          "type": "Collection(graph.hostSecurityState)",
+          "nullable": true
+        },
+        "incidentIds": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "investigationSecurityStates": {
+          "type": "Collection(graph.investigationSecurityState)",
+          "nullable": true
+        },
+        "lastEventDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "malwareStates": {
+          "type": "Collection(graph.malwareState)",
+          "nullable": true
+        },
+        "messageSecurityStates": {
+          "type": "Collection(graph.messageSecurityState)",
+          "nullable": true
+        },
+        "networkConnections": {
+          "type": "Collection(graph.networkConnection)",
+          "nullable": true
+        },
+        "processes": {
+          "type": "Collection(graph.process)",
+          "nullable": true
+        },
+        "recommendedActions": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "registryKeyStates": {
+          "type": "Collection(graph.registryKeyState)",
+          "nullable": true
+        },
+        "securityResources": {
+          "type": "Collection(graph.securityResource)",
+          "nullable": true
+        },
+        "severity": {
+          "type": "graph.alertSeverity",
+          "nullable": false
+        },
+        "sourceMaterials": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "status": {
+          "type": "graph.alertStatus",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "title": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "triggers": {
+          "type": "Collection(graph.alertTrigger)",
+          "nullable": true
+        },
+        "uriClickSecurityStates": {
+          "type": "Collection(graph.uriClickSecurityState)",
+          "nullable": true
+        },
+        "userStates": {
+          "type": "Collection(graph.userSecurityState)",
+          "nullable": true
+        },
+        "vendorInformation": {
+          "type": "graph.securityVendorInformation",
+          "nullable": true
+        },
+        "vulnerabilityStates": {
+          "type": "Collection(graph.vulnerabilityState)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "azureTenantId",
+        "severity",
+        "status"
+      ],
+      "open": true,
+      "base": "entity"
+    },
+    "alertDetection": {
+      "properties": {
+        "detectionType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "method": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "alertFeedback": {
+      "enum": [
+        "unknown",
+        "truePositive",
+        "falsePositive",
+        "benignPositive",
+        "unknownFutureValue"
+      ]
+    },
+    "alertHistoryState": {
+      "properties": {
+        "appId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "assignedTo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "comments": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "feedback": {
+          "type": "graph.alertFeedback",
+          "nullable": true
+        },
+        "status": {
+          "type": "graph.alertStatus",
+          "nullable": true
+        },
+        "updatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "user": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "alertSeverity": {
+      "enum": [
+        "unknown",
+        "informational",
+        "low",
+        "medium",
+        "high",
+        "unknownFutureValue"
+      ]
+    },
+    "alertStatus": {
+      "enum": [
+        "unknown",
+        "newAlert",
+        "inProgress",
+        "resolved",
+        "dismissed",
+        "unknownFutureValue"
+      ]
+    },
+    "alertTrigger": {
+      "properties": {
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "value": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "alternativeSecurityId": {
       "properties": {
         "identityProvider": {
@@ -615,6 +883,20 @@
         "scheduled"
       ]
     },
+    "averageComparativeScore": {
+      "properties": {
+        "averageScore": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "basis": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true
+    },
     "certification": {
       "properties": {
         "certificationDetailsUrl": {
@@ -640,6 +922,20 @@
       },
       "required": []
     },
+    "certificationControl": {
+      "properties": {
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "url": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true
+    },
     "cloudAppSecuritySessionControl": {
       "properties": {
         "isEnabled": {
@@ -661,6 +957,37 @@
         "blockDownloads",
         "unknownFutureValue"
       ]
+    },
+    "cloudAppSecurityState": {
+      "properties": {
+        "destinationServiceIp": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "destinationServiceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "riskScore": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "complianceInformation": {
+      "properties": {
+        "certificationControls": {
+          "type": "Collection(graph.certificationControl)",
+          "nullable": true
+        },
+        "certificationName": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true
     },
     "conditionalAccessApplications": {
       "properties": {
@@ -1110,6 +1437,46 @@
         "includeUsers"
       ]
     },
+    "connectionDirection": {
+      "enum": [
+        "unknown",
+        "inbound",
+        "outbound",
+        "unknownFutureValue"
+      ]
+    },
+    "connectionStatus": {
+      "enum": [
+        "unknown",
+        "attempted",
+        "succeeded",
+        "blocked",
+        "failed",
+        "unknownFutureValue"
+      ]
+    },
+    "controlScore": {
+      "properties": {
+        "controlCategory": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "controlName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "score": {
+          "type": "Edm.Double",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true
+    },
     "customSecurityAttributeValue": {
       "properties": {},
       "required": [],
@@ -1460,6 +1827,14 @@
       ],
       "base": "authenticationMethod"
     },
+    "emailRole": {
+      "enum": [
+        "unknown",
+        "sender",
+        "recipient",
+        "unknownFutureValue"
+      ]
+    },
     "employeeOrgData": {
       "properties": {
         "costCenter": {
@@ -1534,6 +1909,52 @@
         "id"
       ],
       "base": "authenticationMethod"
+    },
+    "fileHash": {
+      "properties": {
+        "hashType": {
+          "type": "graph.fileHashType",
+          "nullable": true
+        },
+        "hashValue": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "fileHashType": {
+      "enum": [
+        "unknown",
+        "sha1",
+        "sha256",
+        "md5",
+        "authenticodeHash256",
+        "lsHash",
+        "ctph",
+        "unknownFutureValue"
+      ]
+    },
+    "fileSecurityState": {
+      "properties": {
+        "fileHash": {
+          "type": "graph.fileHash",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "path": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "riskScore": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "filterMode": {
       "enum": [
@@ -1800,6 +2221,47 @@
         "unknownFutureValue"
       ]
     },
+    "hostSecurityState": {
+      "properties": {
+        "fqdn": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isAzureAdJoined": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isAzureAdRegistered": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isHybridAzureDomainJoined": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "netBiosName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "os": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "privateIpAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "publicIpAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "riskScore": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "iPv4CidrRange": {
       "properties": {
         "cidrAddress": {
@@ -1877,6 +2339,19 @@
           "nullable": true
         },
         "termsOfServiceUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "investigationSecurityState": {
+      "properties": {
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
           "type": "Edm.String",
           "nullable": true
         }
@@ -2073,6 +2548,17 @@
       },
       "required": []
     },
+    "logonType": {
+      "enum": [
+        "unknown",
+        "interactive",
+        "remoteInteractive",
+        "network",
+        "batch",
+        "service",
+        "unknownFutureValue"
+      ]
+    },
     "mailboxSettings": {
       "properties": {
         "archiveFolder": {
@@ -2109,6 +2595,31 @@
         },
         "workingHours": {
           "type": "graph.workingHours",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "malwareState": {
+      "properties": {
+        "category": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "family": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "severity": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "wasRunning": {
+          "type": "Edm.Boolean",
           "nullable": true
         }
       },
@@ -2347,6 +2858,47 @@
       },
       "required": []
     },
+    "messageSecurityState": {
+      "properties": {
+        "connectingIP": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deliveryAction": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deliveryLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directionality": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "internetMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "messageFingerprint": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "messageReceivedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "messageSubject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "networkMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "microsoftAuthenticatorAuthenticationMethod": {
       "properties": {
         "id": {
@@ -2427,6 +2979,91 @@
         "all",
         "unknownFutureValue"
       ]
+    },
+    "networkConnection": {
+      "properties": {
+        "applicationName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "destinationAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "destinationDomain": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "destinationLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "destinationPort": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "destinationUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "direction": {
+          "type": "graph.connectionDirection",
+          "nullable": true
+        },
+        "domainRegisteredDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "localDnsName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "natDestinationAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "natDestinationPort": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "natSourceAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "natSourcePort": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "protocol": {
+          "type": "graph.securityNetworkProtocol",
+          "nullable": true
+        },
+        "riskScore": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sourceAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sourceLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sourcePort": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "graph.connectionStatus",
+          "nullable": true
+        },
+        "urlParameters": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "oAuth2PermissionGrant": {
       "properties": {
@@ -2820,6 +3457,70 @@
         "delegatedPermissionIds"
       ]
     },
+    "process": {
+      "properties": {
+        "accountName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "commandLine": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "fileHash": {
+          "type": "graph.fileHash",
+          "nullable": true
+        },
+        "integrityLevel": {
+          "type": "graph.processIntegrityLevel",
+          "nullable": true
+        },
+        "isElevated": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentProcessCreatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "parentProcessId": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "parentProcessName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "path": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "processId": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "processIntegrityLevel": {
+      "enum": [
+        "unknown",
+        "untrusted",
+        "low",
+        "medium",
+        "high",
+        "system",
+        "unknownFutureValue"
+      ]
+    },
     "provisionedPlan": {
       "properties": {
         "capabilityStatus": {
@@ -2869,6 +3570,90 @@
         }
       },
       "required": []
+    },
+    "registryHive": {
+      "enum": [
+        "unknown",
+        "currentConfig",
+        "currentUser",
+        "localMachineSam",
+        "localMachineSecurity",
+        "localMachineSoftware",
+        "localMachineSystem",
+        "usersDefault",
+        "unknownFutureValue"
+      ]
+    },
+    "registryKeyState": {
+      "properties": {
+        "hive": {
+          "type": "graph.registryHive",
+          "nullable": true
+        },
+        "key": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "oldKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "oldValueData": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "oldValueName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operation": {
+          "type": "graph.registryOperation",
+          "nullable": true
+        },
+        "processId": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "valueData": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "valueName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "valueType": {
+          "type": "graph.registryValueType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "registryOperation": {
+      "enum": [
+        "unknown",
+        "create",
+        "modify",
+        "delete",
+        "unknownFutureValue"
+      ]
+    },
+    "registryValueType": {
+      "enum": [
+        "unknown",
+        "binary",
+        "dword",
+        "dwordLittleEndian",
+        "dwordBigEndian",
+        "expandSz",
+        "link",
+        "multiSz",
+        "none",
+        "qword",
+        "qwordlittleEndian",
+        "sz",
+        "unknownFutureValue"
+      ]
     },
     "requestSignatureVerification": {
       "properties": {
@@ -3157,6 +3942,175 @@
       },
       "required": []
     },
+    "secureScore": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "activeUserCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "averageComparativeScores": {
+          "type": "Collection(graph.averageComparativeScore)",
+          "nullable": true
+        },
+        "azureTenantId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "controlScores": {
+          "type": "Collection(graph.controlScore)",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "currentScore": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "enabledServices": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "licensedUserCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "maxScore": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "vendorInformation": {
+          "type": "graph.securityVendorInformation",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "azureTenantId"
+      ],
+      "open": true,
+      "base": "entity"
+    },
+    "secureScoreControlProfile": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "actionType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "actionUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "azureTenantId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "complianceInformation": {
+          "type": "Collection(graph.complianceInformation)",
+          "nullable": true
+        },
+        "controlCategory": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "controlStateUpdates": {
+          "type": "Collection(graph.secureScoreControlStateUpdate)",
+          "nullable": true
+        },
+        "deprecated": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "implementationCost": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "maxScore": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "rank": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "remediation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "remediationImpact": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "service": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "threats": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "tier": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "title": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userImpact": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "vendorInformation": {
+          "type": "graph.securityVendorInformation",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "azureTenantId"
+      ],
+      "open": true,
+      "base": "entity"
+    },
+    "secureScoreControlStateUpdate": {
+      "properties": {
+        "assignedTo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "comment": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "state": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "updatedBy": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "updatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "secureSignInSessionControl": {
       "properties": {
         "isEnabled": {
@@ -3166,6 +4120,553 @@
       },
       "required": [],
       "base": "conditionalAccessSessionControl"
+    },
+    "security.activeDirectoryDomainEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "activeDirectoryDomainName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "trustedDomains": {
+          "type": "Collection(microsoft.graph.security.activeDirectoryDomainEvidence)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict",
+        "trustedDomains"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.aiAgentEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "agentId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "agentName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "hostingPlatformType": {
+          "type": "microsoft.graph.security.aiAgentPlatform",
+          "nullable": true
+        },
+        "instructions": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.aiAgentPlatform": {
+      "enum": [
+        "unknown",
+        "azureAIFoundry",
+        "copilotStudio",
+        "copilot",
+        "unknownFutureValue"
+      ]
+    },
+    "security.alert": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "actorDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "additionalData": {
+          "type": "microsoft.graph.security.dictionary",
+          "nullable": true
+        },
+        "alertPolicyId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "alertWebUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "assignedTo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "categories": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "category": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "classification": {
+          "type": "microsoft.graph.security.alertClassification",
+          "nullable": true
+        },
+        "comments": {
+          "type": "Collection(microsoft.graph.security.alertComment)",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "customDetails": {
+          "type": "microsoft.graph.security.dictionary",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "detectionSource": {
+          "type": "microsoft.graph.security.detectionSource",
+          "nullable": true
+        },
+        "detectorId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "determination": {
+          "type": "microsoft.graph.security.alertDetermination",
+          "nullable": true
+        },
+        "evidence": {
+          "type": "Collection(microsoft.graph.security.alertEvidence)",
+          "nullable": true
+        },
+        "firstActivityDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "incidentId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "incidentWebUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "investigationState": {
+          "type": "microsoft.graph.security.investigationState",
+          "nullable": true
+        },
+        "lastActivityDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastUpdateDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "mitreTechniques": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "productName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "providerAlertId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "recommendedActions": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resolvedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "serviceSource": {
+          "type": "microsoft.graph.security.serviceSource",
+          "nullable": false
+        },
+        "severity": {
+          "type": "microsoft.graph.security.alertSeverity",
+          "nullable": false
+        },
+        "status": {
+          "type": "microsoft.graph.security.alertStatus",
+          "nullable": false
+        },
+        "systemTags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "threatDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "threatFamilyName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "title": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "serviceSource",
+        "severity",
+        "status"
+      ],
+      "base": "entity"
+    },
+    "security.alertClassification": {
+      "enum": [
+        "unknown",
+        "falsePositive",
+        "truePositive",
+        "informationalExpectedActivity",
+        "unknownFutureValue"
+      ]
+    },
+    "security.alertComment": {
+      "properties": {
+        "comment": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdByDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        }
+      },
+      "required": [
+        "createdDateTime"
+      ]
+    },
+    "security.alertDetermination": {
+      "enum": [
+        "unknown",
+        "apt",
+        "malware",
+        "securityPersonnel",
+        "securityTesting",
+        "unwantedSoftware",
+        "other",
+        "multiStagedAttack",
+        "compromisedAccount",
+        "phishing",
+        "maliciousUserActivity",
+        "notMalicious",
+        "notEnoughDataToValidate",
+        "confirmedActivity",
+        "lineOfBusinessApplication",
+        "unknownFutureValue"
+      ]
+    },
+    "security.alertEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ]
+    },
+    "security.alertSeverity": {
+      "enum": [
+        "unknown",
+        "informational",
+        "low",
+        "medium",
+        "high",
+        "unknownFutureValue"
+      ]
+    },
+    "security.alertStatus": {
+      "enum": [
+        "unknown",
+        "new",
+        "inProgress",
+        "resolved",
+        "unknownFutureValue"
+      ]
+    },
+    "security.amazonResourceEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "amazonAccountId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "amazonResourceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.analyzedMessageEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "antiSpamDirection": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "attachmentsCount": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "deliveryAction": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deliveryLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "internetMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "language": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "networkMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "p1Sender": {
+          "type": "microsoft.graph.security.emailSender",
+          "nullable": true
+        },
+        "p2Sender": {
+          "type": "microsoft.graph.security.emailSender",
+          "nullable": true
+        },
+        "receivedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "recipientEmailAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "senderIp": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "threatDetectionMethods": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "threats": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "urlCount": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "urls": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "urn": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.antispamTeamsDirection": {
+      "enum": [
+        "unknown",
+        "inbound",
+        "outbound",
+        "intraorg",
+        "unknownFutureValue"
+      ]
     },
     "security.auditData": {
       "properties": {
@@ -3816,6 +5317,518 @@
       "required": [],
       "open": true
     },
+    "security.azureResourceEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "resourceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.blobContainerEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "storageResource": {
+          "type": "microsoft.graph.security.azureResourceEvidence",
+          "nullable": true
+        },
+        "url": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.blobEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "blobContainer": {
+          "type": "microsoft.graph.security.blobContainerEvidence",
+          "nullable": true
+        },
+        "etag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "fileHashes": {
+          "type": "Collection(microsoft.graph.security.fileHash)",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "url": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.cloudApplicationEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "appId": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "instanceId": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "instanceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "saasAppId": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "stream": {
+          "type": "microsoft.graph.security.stream",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.cloudLogonRequestEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "requestId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.cloudLogonSessionEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "account": {
+          "type": "microsoft.graph.security.userEvidence",
+          "nullable": true
+        },
+        "browser": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operatingSystem": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "previousLogonDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "protocol": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sessionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startUtcDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "userAgent": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.containerEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "args": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "command": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "containerId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "image": {
+          "type": "microsoft.graph.security.containerImageEvidence",
+          "nullable": true
+        },
+        "isPrivileged": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "pod": {
+          "type": "microsoft.graph.security.kubernetesPodEvidence",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict",
+        "isPrivileged"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.containerImageEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "digestImage": {
+          "type": "microsoft.graph.security.containerImageEvidence",
+          "nullable": true
+        },
+        "imageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registry": {
+          "type": "microsoft.graph.security.containerRegistryEvidence",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.containerPortProtocol": {
+      "enum": [
+        "udp",
+        "tcp",
+        "sctp",
+        "unknownFutureValue"
+      ]
+    },
+    "security.containerRegistryEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "registry": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
     "security.defaultAuditData": {
       "properties": {
         "dynamicProperties": {
@@ -3826,6 +5839,2994 @@
       "required": [],
       "open": true,
       "base": "security.auditData"
+    },
+    "security.defenderAvStatus": {
+      "enum": [
+        "notReporting",
+        "disabled",
+        "notUpdated",
+        "updated",
+        "unknown",
+        "notSupported",
+        "unknownFutureValue"
+      ]
+    },
+    "security.detectionSource": {
+      "enum": [
+        "unknown",
+        "microsoftDefenderForEndpoint",
+        "antivirus",
+        "smartScreen",
+        "customTi",
+        "microsoftDefenderForOffice365",
+        "automatedInvestigation",
+        "microsoftThreatExperts",
+        "customDetection",
+        "microsoftDefenderForIdentity",
+        "cloudAppSecurity",
+        "microsoft365Defender",
+        "azureAdIdentityProtection",
+        "manual",
+        "microsoftDataLossPrevention",
+        "appGovernancePolicy",
+        "appGovernanceDetection",
+        "unknownFutureValue",
+        "microsoftDefenderForCloud",
+        "microsoftDefenderForIoT",
+        "microsoftDefenderForServers",
+        "microsoftDefenderForStorage",
+        "microsoftDefenderForDNS",
+        "microsoftDefenderForDatabases",
+        "microsoftDefenderForContainers",
+        "microsoftDefenderForNetwork",
+        "microsoftDefenderForAppService",
+        "microsoftDefenderForKeyVault",
+        "microsoftDefenderForResourceManager",
+        "microsoftDefenderForApiManagement",
+        "nrtAlerts",
+        "scheduledAlerts",
+        "microsoftDefenderThreatIntelligenceAnalytics",
+        "builtInMl",
+        "microsoftInsiderRiskManagement",
+        "microsoftThreatIntelligence",
+        "microsoftDefenderForAIServices",
+        "securityCopilot",
+        "microsoftSentinel"
+      ]
+    },
+    "security.detectionStatus": {
+      "enum": [
+        "detected",
+        "blocked",
+        "prevented",
+        "unknownFutureValue"
+      ]
+    },
+    "security.deviceEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "azureAdDeviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "defenderAvStatus": {
+          "type": "microsoft.graph.security.defenderAvStatus",
+          "nullable": true
+        },
+        "deviceDnsName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "dnsDomain": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "firstSeenDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "healthStatus": {
+          "type": "microsoft.graph.security.deviceHealthStatus",
+          "nullable": true
+        },
+        "hostName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ipInterfaces": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "lastExternalIpAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastIpAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "loggedOnUsers": {
+          "type": "Collection(microsoft.graph.security.loggedOnUser)",
+          "nullable": true
+        },
+        "mdeDeviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ntDomain": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "onboardingStatus": {
+          "type": "microsoft.graph.security.onboardingStatus",
+          "nullable": true
+        },
+        "osBuild": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "osPlatform": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "rbacGroupId": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "rbacGroupName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceAccessEvents": {
+          "type": "Collection(microsoft.graph.security.resourceAccessEvent)",
+          "nullable": true
+        },
+        "riskScore": {
+          "type": "microsoft.graph.security.deviceRiskScore",
+          "nullable": true
+        },
+        "version": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "vmMetadata": {
+          "type": "microsoft.graph.security.vmMetadata",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.deviceHealthStatus": {
+      "enum": [
+        "active",
+        "inactive",
+        "impairedCommunication",
+        "noSensorData",
+        "noSensorDataImpairedCommunication",
+        "unknown",
+        "unknownFutureValue"
+      ]
+    },
+    "security.deviceRiskScore": {
+      "enum": [
+        "none",
+        "informational",
+        "low",
+        "medium",
+        "high",
+        "unknownFutureValue"
+      ]
+    },
+    "security.dictionary": {
+      "properties": {},
+      "required": [],
+      "open": true
+    },
+    "security.dnsEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "dnsServerIp": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "domainName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "hostIpAddress": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "ipAddresses": {
+          "type": "Collection(microsoft.graph.security.ipEvidence)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.emailSender": {
+      "properties": {
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "domainName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "emailAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.evidenceRemediationStatus": {
+      "enum": [
+        "none",
+        "remediated",
+        "prevented",
+        "blocked",
+        "notFound",
+        "unknownFutureValue",
+        "active",
+        "pendingApproval",
+        "declined",
+        "unremediated",
+        "running",
+        "partiallyRemediated"
+      ]
+    },
+    "security.evidenceRole": {
+      "enum": [
+        "unknown",
+        "contextual",
+        "scanned",
+        "source",
+        "destination",
+        "created",
+        "added",
+        "compromised",
+        "edited",
+        "attacked",
+        "attacker",
+        "commandAndControl",
+        "loaded",
+        "suspicious",
+        "policyViolator",
+        "unknownFutureValue"
+      ]
+    },
+    "security.evidenceVerdict": {
+      "enum": [
+        "unknown",
+        "suspicious",
+        "malicious",
+        "noThreatsFound",
+        "unknownFutureValue"
+      ]
+    },
+    "security.fileDetails": {
+      "properties": {
+        "fileName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "filePath": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "filePublisher": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "fileSize": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "issuer": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "md5": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sha1": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sha256": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sha256Ac": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "signer": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.fileEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "detectionStatus": {
+          "type": "microsoft.graph.security.detectionStatus",
+          "nullable": true
+        },
+        "fileDetails": {
+          "type": "microsoft.graph.security.fileDetails",
+          "nullable": true
+        },
+        "mdeDeviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.fileHash": {
+      "properties": {
+        "algorithm": {
+          "type": "microsoft.graph.security.fileHashAlgorithm",
+          "nullable": false
+        },
+        "value": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "algorithm"
+      ]
+    },
+    "security.fileHashAlgorithm": {
+      "enum": [
+        "unknown",
+        "md5",
+        "sha1",
+        "sha256",
+        "sha256ac",
+        "unknownFutureValue"
+      ]
+    },
+    "security.fileHashEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "algorithm": {
+          "type": "microsoft.graph.security.fileHashAlgorithm",
+          "nullable": false
+        },
+        "value": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict",
+        "algorithm"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.geoLocation": {
+      "properties": {
+        "city": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "countryName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "latitude": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "longitude": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "state": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.gitHubOrganizationEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "company": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "email": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "login": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "orgId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.gitHubRepoEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "baseUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "login": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "owner": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ownerType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "repoId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.gitHubUserEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "email": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "login": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.googleCloudLocationType": {
+      "enum": [
+        "unknown",
+        "regional",
+        "zonal",
+        "global",
+        "unknownFutureValue"
+      ]
+    },
+    "security.googleCloudResourceEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "fullResourceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "location": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "locationType": {
+          "type": "microsoft.graph.security.googleCloudLocationType",
+          "nullable": true
+        },
+        "projectId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "projectNumber": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "resourceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.hostLogonSessionEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "account": {
+          "type": "microsoft.graph.security.userEvidence",
+          "nullable": true
+        },
+        "endUtcDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "host": {
+          "type": "microsoft.graph.security.deviceEvidence",
+          "nullable": true
+        },
+        "sessionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startUtcDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.incident": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "assignedTo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "classification": {
+          "type": "microsoft.graph.security.alertClassification",
+          "nullable": true
+        },
+        "comments": {
+          "type": "Collection(microsoft.graph.security.alertComment)",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "customTags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "determination": {
+          "type": "microsoft.graph.security.alertDetermination",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "incidentWebUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastUpdateDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "priorityScore": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "redirectIncidentId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resolvingComment": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "severity": {
+          "type": "microsoft.graph.security.alertSeverity",
+          "nullable": false
+        },
+        "status": {
+          "type": "microsoft.graph.security.incidentStatus",
+          "nullable": false
+        },
+        "summary": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "systemTags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "lastUpdateDateTime",
+        "severity",
+        "status"
+      ],
+      "base": "entity"
+    },
+    "security.incidentStatus": {
+      "enum": [
+        "active",
+        "resolved",
+        "inProgress",
+        "redirected",
+        "unknownFutureValue",
+        "awaitingAction"
+      ]
+    },
+    "security.investigationState": {
+      "enum": [
+        "unknown",
+        "terminated",
+        "successfullyRemediated",
+        "benign",
+        "failed",
+        "partiallyRemediated",
+        "running",
+        "pendingApproval",
+        "pendingResource",
+        "queued",
+        "innerFailure",
+        "preexistingAlert",
+        "unsupportedOs",
+        "unsupportedAlertType",
+        "suppressedAlert",
+        "partiallyInvestigated",
+        "terminatedByUser",
+        "terminatedBySystem",
+        "unknownFutureValue"
+      ]
+    },
+    "security.ioTDeviceEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "deviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "devicePageLink": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceSubType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "importance": {
+          "type": "microsoft.graph.security.ioTDeviceImportanceType",
+          "nullable": true
+        },
+        "ioTHub": {
+          "type": "microsoft.graph.security.azureResourceEvidence",
+          "nullable": true
+        },
+        "ioTSecurityAgentId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ipAddress": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "isAuthorized": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isProgramming": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isScanner": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "macAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "manufacturer": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "model": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "nics": {
+          "type": "Collection(microsoft.graph.security.nicEvidence)",
+          "nullable": true
+        },
+        "operatingSystem": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "owners": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "protocols": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "purdueLayer": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sensor": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "serialNumber": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "site": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "source": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sourceRef": {
+          "type": "microsoft.graph.security.urlEvidence",
+          "nullable": true
+        },
+        "zone": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.ioTDeviceImportanceType": {
+      "enum": [
+        "unknown",
+        "low",
+        "normal",
+        "high",
+        "unknownFutureValue"
+      ]
+    },
+    "security.ipEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "countryLetterCode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ipAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "location": {
+          "type": "microsoft.graph.security.geoLocation",
+          "nullable": true
+        },
+        "stream": {
+          "type": "microsoft.graph.security.stream",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesClusterEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "cloudResource": {
+          "type": "microsoft.graph.security.alertEvidence",
+          "nullable": true
+        },
+        "distribution": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "platform": {
+          "type": "microsoft.graph.security.kubernetesPlatform",
+          "nullable": true
+        },
+        "version": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesControllerEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "labels": {
+          "type": "microsoft.graph.security.dictionary",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "namespace": {
+          "type": "microsoft.graph.security.kubernetesNamespaceEvidence",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesNamespaceEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "cluster": {
+          "type": "microsoft.graph.security.kubernetesClusterEvidence",
+          "nullable": true
+        },
+        "labels": {
+          "type": "microsoft.graph.security.dictionary",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesPlatform": {
+      "enum": [
+        "unknown",
+        "aks",
+        "eks",
+        "gke",
+        "arc",
+        "unknownFutureValue"
+      ]
+    },
+    "security.kubernetesPodEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "containers": {
+          "type": "Collection(microsoft.graph.security.containerEvidence)",
+          "nullable": true
+        },
+        "controller": {
+          "type": "microsoft.graph.security.kubernetesControllerEvidence",
+          "nullable": true
+        },
+        "ephemeralContainers": {
+          "type": "Collection(microsoft.graph.security.containerEvidence)",
+          "nullable": true
+        },
+        "initContainers": {
+          "type": "Collection(microsoft.graph.security.containerEvidence)",
+          "nullable": true
+        },
+        "labels": {
+          "type": "microsoft.graph.security.dictionary",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "namespace": {
+          "type": "microsoft.graph.security.kubernetesNamespaceEvidence",
+          "nullable": true
+        },
+        "podIp": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "serviceAccount": {
+          "type": "microsoft.graph.security.kubernetesServiceAccountEvidence",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesSecretEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "namespace": {
+          "type": "microsoft.graph.security.kubernetesNamespaceEvidence",
+          "nullable": true
+        },
+        "secretType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesServiceAccountEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "namespace": {
+          "type": "microsoft.graph.security.kubernetesNamespaceEvidence",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesServiceEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "clusterIP": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "externalIPs": {
+          "type": "Collection(microsoft.graph.security.ipEvidence)",
+          "nullable": true
+        },
+        "labels": {
+          "type": "microsoft.graph.security.dictionary",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "namespace": {
+          "type": "microsoft.graph.security.kubernetesNamespaceEvidence",
+          "nullable": true
+        },
+        "selector": {
+          "type": "microsoft.graph.security.dictionary",
+          "nullable": true
+        },
+        "servicePorts": {
+          "type": "Collection(microsoft.graph.security.kubernetesServicePort)",
+          "nullable": true
+        },
+        "serviceType": {
+          "type": "microsoft.graph.security.kubernetesServiceType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict",
+        "serviceType"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.kubernetesServicePort": {
+      "properties": {
+        "appProtocol": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "nodePort": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "port": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "protocol": {
+          "type": "microsoft.graph.security.containerPortProtocol",
+          "nullable": true
+        },
+        "targetPort": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "nodePort",
+        "port"
+      ]
+    },
+    "security.kubernetesServiceType": {
+      "enum": [
+        "unknown",
+        "clusterIP",
+        "externalName",
+        "nodePort",
+        "loadBalancer",
+        "unknownFutureValue"
+      ]
+    },
+    "security.loggedOnUser": {
+      "properties": {
+        "accountName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "domainName": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.mailClusterEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "clusterBy": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "clusterByValue": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "emailCount": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "networkMessageIds": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "query": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "urn": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.mailboxConfigurationEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "configurationId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "configurationType": {
+          "type": "microsoft.graph.security.mailboxConfigurationType",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "externalDirectoryObjectId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "mailboxPrimaryAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "upn": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.mailboxConfigurationType": {
+      "enum": [
+        "mailForwardingRule",
+        "owaSettings",
+        "ewsSettings",
+        "mailDelegation",
+        "userInboxRule",
+        "unknownFutureValue"
+      ]
+    },
+    "security.mailboxEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "primaryAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "upn": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userAccount": {
+          "type": "microsoft.graph.security.userAccount",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.malwareEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "category": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "files": {
+          "type": "Collection(microsoft.graph.security.fileEvidence)",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "processes": {
+          "type": "Collection(microsoft.graph.security.processEvidence)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.networkConnectionEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "destinationAddress": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "destinationPort": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "protocol": {
+          "type": "microsoft.graph.security.protocolType",
+          "nullable": true
+        },
+        "sourceAddress": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "sourcePort": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.nicEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "ipAddress": {
+          "type": "microsoft.graph.security.ipEvidence",
+          "nullable": true
+        },
+        "macAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "vlans": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.oauthApplicationEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "appId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "objectId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "publisher": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.onboardingStatus": {
+      "enum": [
+        "insufficientInfo",
+        "onboarded",
+        "canBeOnboarded",
+        "unsupported",
+        "unknownFutureValue"
+      ]
+    },
+    "security.processEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "detectionStatus": {
+          "type": "microsoft.graph.security.detectionStatus",
+          "nullable": true
+        },
+        "imageFile": {
+          "type": "microsoft.graph.security.fileDetails",
+          "nullable": true
+        },
+        "mdeDeviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentProcessCreationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "parentProcessId": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "parentProcessImageFile": {
+          "type": "microsoft.graph.security.fileDetails",
+          "nullable": true
+        },
+        "processCommandLine": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "processCreationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "processId": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "userAccount": {
+          "type": "microsoft.graph.security.userAccount",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.protocolType": {
+      "enum": [
+        "tcp",
+        "udp",
+        "unknownFutureValue"
+      ]
+    },
+    "security.registryKeyEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "registryHive": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registryKey": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.registryValueEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "mdeDeviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registryHive": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registryKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registryValue": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registryValueName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "registryValueType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.resourceAccessEvent": {
+      "properties": {
+        "accessDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "accountId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ipAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceIdentifier": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.sasTokenEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "allowedIpAddresses": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "allowedResourceTypes": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "allowedServices": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "expiryDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "permissions": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "protocol": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "signatureHash": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "signedWith": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "storageResource": {
+          "type": "microsoft.graph.security.azureResourceEvidence",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.securityGroupEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "activeDirectoryObjectGuid": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "distinguishedName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "friendlyName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "securityGroupId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sid": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.servicePrincipalEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "appId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "appOwnerTenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "servicePrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "servicePrincipalObjectId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "servicePrincipalType": {
+          "type": "microsoft.graph.security.servicePrincipalType",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.servicePrincipalType": {
+      "enum": [
+        "unknown",
+        "application",
+        "managedIdentity",
+        "legacy",
+        "unknownFutureValue"
+      ]
+    },
+    "security.serviceSource": {
+      "enum": [
+        "unknown",
+        "microsoftDefenderForEndpoint",
+        "microsoftDefenderForIdentity",
+        "microsoftDefenderForCloudApps",
+        "microsoftDefenderForOffice365",
+        "microsoft365Defender",
+        "azureAdIdentityProtection",
+        "microsoftAppGovernance",
+        "dataLossPrevention",
+        "unknownFutureValue",
+        "microsoftDefenderForCloud",
+        "microsoftSentinel",
+        "microsoftInsiderRiskManagement",
+        "microsoftThreatIntelligence",
+        "microsoftSecurityForAI"
+      ]
+    },
+    "security.stream": {
+      "properties": {
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.submissionMailEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "networkMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "recipient": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "reportType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sender": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "senderIp": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "submissionDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "submissionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "submitter": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.teamsDeliveryLocation": {
+      "enum": [
+        "unknown",
+        "teams",
+        "quarantine",
+        "failed",
+        "unknownFutureValue"
+      ]
+    },
+    "security.teamsMessageDeliveryAction": {
+      "enum": [
+        "unknown",
+        "deliveredAsSpam",
+        "delivered",
+        "blocked",
+        "replaced",
+        "unknownFutureValue"
+      ]
+    },
+    "security.teamsMessageEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "campaignId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "channelId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deliveryAction": {
+          "type": "microsoft.graph.security.teamsMessageDeliveryAction",
+          "nullable": true
+        },
+        "deliveryLocation": {
+          "type": "microsoft.graph.security.teamsDeliveryLocation",
+          "nullable": true
+        },
+        "files": {
+          "type": "Collection(microsoft.graph.security.fileEvidence)",
+          "nullable": true
+        },
+        "groupId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isExternal": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isOwned": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "messageDirection": {
+          "type": "microsoft.graph.security.antispamTeamsDirection",
+          "nullable": true
+        },
+        "messageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "owningTenantId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "parentMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "receivedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "recipients": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "senderFromAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "senderIP": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sourceAppName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sourceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "suspiciousRecipients": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "threadId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "threadType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "urls": {
+          "type": "Collection(microsoft.graph.security.urlEvidence)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.urlEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "url": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.userAccount": {
+      "properties": {
+        "accountName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "activeDirectoryObjectGuid": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "azureAdUserId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "domainName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceAccessEvents": {
+          "type": "Collection(microsoft.graph.security.resourceAccessEvent)",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userSid": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.userEvidence": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "detailedRoles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "remediationStatus": {
+          "type": "microsoft.graph.security.evidenceRemediationStatus",
+          "nullable": false
+        },
+        "remediationStatusDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(microsoft.graph.security.evidenceRole)",
+          "nullable": false
+        },
+        "tags": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "microsoft.graph.security.evidenceVerdict",
+          "nullable": false
+        },
+        "stream": {
+          "type": "microsoft.graph.security.stream",
+          "nullable": true
+        },
+        "userAccount": {
+          "type": "microsoft.graph.security.userAccount",
+          "nullable": true
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "remediationStatus",
+        "roles",
+        "verdict"
+      ],
+      "base": "security.alertEvidence"
+    },
+    "security.vmCloudProvider": {
+      "enum": [
+        "unknown",
+        "azure",
+        "unknownFutureValue"
+      ]
+    },
+    "security.vmMetadata": {
+      "properties": {
+        "cloudProvider": {
+          "type": "microsoft.graph.security.vmCloudProvider",
+          "nullable": false
+        },
+        "resourceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subscriptionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "vmId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "cloudProvider"
+      ]
+    },
+    "securityNetworkProtocol": {
+      "enum": [
+        "unknown",
+        "ip",
+        "icmp",
+        "igmp",
+        "ggp",
+        "ipv4",
+        "tcp",
+        "pup",
+        "udp",
+        "idp",
+        "ipv6",
+        "ipv6RoutingHeader",
+        "ipv6FragmentHeader",
+        "ipSecEncapsulatingSecurityPayload",
+        "ipSecAuthenticationHeader",
+        "icmpV6",
+        "ipv6NoNextHeader",
+        "ipv6DestinationOptions",
+        "nd",
+        "raw",
+        "ipx",
+        "spx",
+        "spxII",
+        "unknownFutureValue"
+      ]
+    },
+    "securityResource": {
+      "properties": {
+        "resource": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resourceType": {
+          "type": "graph.securityResourceType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "securityResourceType": {
+      "enum": [
+        "unknown",
+        "attacked",
+        "related",
+        "unknownFutureValue"
+      ]
+    },
+    "securityVendorInformation": {
+      "properties": {
+        "provider": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "providerVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subProvider": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "vendor": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "sensitivity": {
       "enum": [
@@ -4549,6 +9550,35 @@
         "allowedResourceActions"
       ]
     },
+    "uriClickSecurityState": {
+      "properties": {
+        "clickAction": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "clickDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sourceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "uriDomain": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "verdict": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "user": {
       "properties": {
         "id": {
@@ -4891,6 +9921,15 @@
       "open": true,
       "base": "directoryObject"
     },
+    "userAccountSecurityType": {
+      "enum": [
+        "unknown",
+        "standard",
+        "power",
+        "administrator",
+        "unknownFutureValue"
+      ]
+    },
     "userDefaultAuthenticationMethod": {
       "enum": [
         "push",
@@ -5022,6 +10061,67 @@
       ],
       "base": "entity"
     },
+    "userSecurityState": {
+      "properties": {
+        "aadUserId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "accountName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "domainName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "emailRole": {
+          "type": "graph.emailRole",
+          "nullable": true
+        },
+        "isVpn": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "logonDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "logonId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "logonIp": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "logonLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "logonType": {
+          "type": "graph.logonType",
+          "nullable": true
+        },
+        "onPremisesSecurityIdentifier": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "riskScore": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userAccountType": {
+          "type": "graph.userAccountSecurityType",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "verifiedPublisher": {
       "properties": {
         "addedDateTime": {
@@ -5034,6 +10134,23 @@
         },
         "verifiedPublisherId": {
           "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "vulnerabilityState": {
+      "properties": {
+        "cve": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "severity": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "wasRunning": {
+          "type": "Edm.Boolean",
           "nullable": true
         }
       },
