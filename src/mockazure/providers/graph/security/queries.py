@@ -9,6 +9,26 @@ from mockazure.providers.graph.query.contracts import FieldContract, QueryContra
 from mockazure.providers.graph.query.parser import parse_query, selection
 
 FIELDS = {
+    "conditionalAccessPolicy": {
+        "id",
+        "displayName",
+        "description",
+        "state",
+        "conditions",
+        "grantControls",
+        "sessionControls",
+        "createdDateTime",
+        "modifiedDateTime",
+    },
+    "ipNamedLocation": {
+        "id",
+        "@odata.type",
+        "displayName",
+        "isTrusted",
+        "ipRanges",
+        "createdDateTime",
+        "modifiedDateTime",
+    },
     "unifiedRoleDefinition": {"id", "templateId", "displayName", "isBuiltIn", "isEnabled"},
     "unifiedRoleAssignment": {
         "id",
@@ -80,6 +100,7 @@ FIELDS = {
         "operatingSystem",
         "operatingSystemVersion",
         "trustType",
+        "state",
         "isCompliant",
         "isManaged",
         "approximateLastSignInDateTime",
@@ -111,6 +132,7 @@ def contract_for(kind, version):
         "servicePrincipalType",
         "operatingSystem",
         "trustType",
+        "state",
     } & fields.keys():
         fields[name] = FieldContract(name, "string", frozenset({"eq", "ne", "in", "startswith"}))
     for name in {
@@ -119,6 +141,7 @@ def contract_for(kind, version):
         "isManaged",
         "isBuiltIn",
         "isEnabled",
+        "isTrusted",
     } & fields.keys():
         fields[name] = FieldContract(name, "bool", frozenset({"eq", "ne"}))
     return QueryContract(
@@ -134,9 +157,13 @@ def parse_security_query(request, kind):
     query = parse_query(
         [(key, value) for key, value in items if key != "$expand"],
         contract_for(kind, request.url.path.split("/")[1]),
-        request.headers.get("consistencylevel"),
+        "eventual"
+        if kind in {"conditionalAccessPolicy", "ipNamedLocation"}
+        else request.headers.get("consistencylevel"),
     )
     if expand is not None:
+        if kind in {"conditionalAccessPolicy", "ipNamedLocation"}:
+            unsupported("Policy relationship expansion is unsupported")
         if kind == "unifiedRoleAssignment":
             match = re.fullmatch(r"(principal|roleDefinition)(?:\(\$select=([^()]+)\))?", expand)
             if match is None:

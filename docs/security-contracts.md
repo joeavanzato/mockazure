@@ -141,3 +141,48 @@ Sources: [generic methods](https://learn.microsoft.com/en-us/graph/api/authentic
 [email methods](https://learn.microsoft.com/en-us/graph/api/authentication-list-emailmethods?view=graph-rest-1.0),
 [Authenticator methods](https://learn.microsoft.com/en-us/graph/api/microsoftauthenticatorauthenticationmethod-list?view=graph-rest-1.0),
 [FIDO2 methods](https://learn.microsoft.com/en-us/graph/api/fido2authenticationmethod-list?view=graph-rest-1.0).
+
+
+## Conditional Access persistence
+
+Policies and IP named locations support list/item/create/update/delete under
+identity/conditionalAccess. Policies use official enabled, disabled and
+enabledForReportingButNotEnforced states. Accepted targets are explicit tenant
+users/groups, All users, resource appIds or All resources, declared client categories,
+and IPv4/IPv6 named locations with All/AllTrusted selectors. Explicit exclusions
+are retained for evaluation. Nested object PATCH preserves omitted members; arrays
+replace their prior values.
+
+Grant controls are block or mfa with AND/OR operators; block cannot be combined with
+another control. Unsupported nonempty risk/device/platform/session/authentication
+strength/guest/role targets and controls are rejected for all states, including
+disabled/report-only. This stricter inspection profile avoids storing policies
+that could later be enabled without an evaluator. Empty optional unsupported
+conditions from standard SDK serialization are accepted as inactive.
+
+Every operation requires an enabled P1/P2 service plan. Read uses Policy.Read.All.
+Writes require Policy.ReadWrite.ConditionalAccess plus Policy.Read.All; policy
+create/update also accepts Application.Read.All as the documented alternative
+read permission. Delegated writes require Conditional Access Administrator,
+Security Administrator or Global Administrator. The operation's documented
+reader roles are supported, including the official Global Secure Access
+Administrator template.
+
+References must resolve in the tenant. A referenced named location cannot be
+deleted until removed from policies. CIDRs are normalized to their network,
+with the Graph address-family type checked. Mutations and policy-category audit
+facts commit atomically. Lists use stable SQL snapshots, scalar filtering,
+selection, ordering, count and top; skip and relationship expansion are outside
+this profile. Count does not require the directory-specific ConsistencyLevel
+header. Licence and role access is checked again on each continuation.
+
+Storage is Task 7; enforcement is Task 8 and must pass its OAuth acceptance tests
+before this milestone is qualified.
+
+Sources: [policy creation](https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-1.0),
+[policy update](https://learn.microsoft.com/en-us/graph/api/conditionalaccesspolicy-update?view=graph-rest-1.0),
+[policy deletion](https://learn.microsoft.com/graph/api/conditionalaccesspolicy-delete?view=graph-rest-1.0),
+[policy listing](https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-list-policies?view=graph-rest-1.0),
+[named-location creation](https://learn.microsoft.com/graph/api/conditionalaccessroot-post-namedlocations?view=graph-rest-1.0),
+[IP location update](https://learn.microsoft.com/en-us/graph/api/ipnamedlocation-update?view=graph-rest-1.0),
+[grant controls](https://learn.microsoft.com/en-us/graph/api/resources/conditionalaccessgrantcontrols?view=graph-rest-1.0).

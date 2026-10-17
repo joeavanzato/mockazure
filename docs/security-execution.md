@@ -73,13 +73,22 @@ Preserve existing worktrees and runtimes.
    - Affected unit/integration regression: 267 passed in 207.21s.
      Log: work/task6-regression.log. Ruff and diff checks pass.
 
+7. Conditional Access persistence:
+   - v1.0 policy/IP named-location CRUD and typed supported-condition validation.
+   - P1/P2 entitlement, documented permission conjunctions and delegated roles.
+   - Tenant references, nested PATCH, named-location deletion protection.
+   - Stable snapshots, query bounds, fresh app persistence and policy audit export.
+   - Affected unit/integration regression: 287 passed in 130.79s.
+     Log: work/task7-regression.log. Ruff and diff checks pass.
+
 ## Next work
 
-Task 7: Conditional Access policies and IP named locations. Task 8 enforces the
-policies across local delegated OAuth; Tasks 9–10 qualify real clients and perform
-final review/PR. Task 6 base was 99c09734419942a59db69b9dea227f1dc70b2997;
-run task-done if the ledger does not record completion before starting Task 7.
-M3C is not qualified yet. See docs/security-contracts.md for implemented bounds.
+Task 8: enforce Conditional Access across delegated OAuth and publish immutable
+decision evidence with permission-based disclosure. Tasks 9–10 qualify real clients
+and perform final review/PR. Task 7 base was
+7a2efc22892fec45b79ca1cd83d6d5e37a565f9e; run task-done if the ledger does not
+record completion before starting Task 8. M3C is not qualified yet.
+See docs/security-contracts.md for implemented bounds.
 
 ## Verification and continuation
 
