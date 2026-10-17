@@ -99,7 +99,7 @@ def validate_case(case, result, dataset):
         check["source_hashes"] = {
             Path(p).relative_to(ROOT).as_posix(): v for p, v in check["source_hashes"].items()
         }
-        for output in check["outputs"]:
+        for output in [*check["outputs"], *check["invalid_outputs"]]:
             output["path"] = Path(output["path"]).relative_to(ROOT).as_posix()
     return dict(
         passed=not result["error"] and all(c["passed"] for c in checks.values()),
@@ -110,6 +110,7 @@ def validate_case(case, result, dataset):
         revision=case["revision"],
         checks=checks,
         outputs=[o for c in checks.values() for o in c["outputs"]],
+        invalid_outputs=[o for c in checks.values() for o in c["invalid_outputs"]],
         output_count=sum(c["output_count"] for c in checks.values()),
         expected_ids=sorted(expected),
         source_hashes={Path(p).relative_to(ROOT).as_posix(): v for p, v in sources.items()},
@@ -204,6 +205,23 @@ def admin():
     )
 
 
+def collector_expectations(case, declared, client, base):
+    if not case.get("all"):
+        return declared
+    # MES's literal target OR reaches outside its date window, including evidence
+    # already created by SDK/state checks. Snapshot that independent admin surface.
+    response = client.get(base + "/evidence/export", params={"family": "directoryAudit"})
+    response.raise_for_status()
+    snapshot = response.json()
+    known = {r["payload"]["id"]: r["payload"] for r in snapshot["records"]}
+    for record in declared["records"]:
+        if record["family"] == "directoryAudit":
+            assert known.get(record["payload"]["id"]) == record["payload"], (
+                "Declared collector fixture missing or changed in evidence snapshot"
+            )
+    return snapshot
+
+
 def qualify_collectors():
     dataset = seed()
     config = json.loads((STATE / "client.json").read_text())
@@ -238,6 +256,9 @@ def qualify_collectors():
             )
         )
         with admin() as client:
+            expected_dataset = collector_expectations(case, dataset, client, base)
+            oracle_path = directory / "expected-dataset.json"
+            oracle_path.write_text(json.dumps(expected_dataset, indent=2))
             if retry_case:
                 response = client.post(
                     base + "/graph/faults",
@@ -302,7 +323,7 @@ def qualify_collectors():
             )
         else:
             result = json.loads(report_path.read_text(encoding="utf-8-sig"))
-            profiles[name] = validate_case(case, result, dataset)
+            profiles[name] = validate_case(case, result, expected_dataset)
             profiles[name]["exit_code"] = proc.returncode
             profiles[name]["passed"] &= proc.returncode == 0
         observed = [
@@ -322,6 +343,10 @@ def qualify_collectors():
         if case.get("denial"):
             # A denied call is a negative test, never a successful empty collection.
             profiles[name]["passed"] = valid_denial(profiles[name], denials)
+        profiles[name]["expected_snapshot"] = {
+            "path": oracle_path.relative_to(ROOT).as_posix(),
+            "sha256": sha(oracle_path),
+        }
         profiles[name]["duration_seconds"] = time.time() - started
         (directory / "verification.json").write_text(json.dumps(profiles[name], indent=2))
         print(

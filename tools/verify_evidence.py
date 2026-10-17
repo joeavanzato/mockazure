@@ -352,6 +352,84 @@ def fresh_report(path, before):
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
+def evidence_clock_checks(client, origin, tenant, admin, auth):
+    from datetime import timedelta
+    from uuid import uuid4
+
+    base = origin + f"/_mock/tenants/{tenant}/evidence"
+    when = datetime.now(UTC)
+    settings = checked(client.get(base + "/settings", headers=admin))
+    ids = [str(uuid4()), str(uuid4())]
+    label = "Evidence lifecycle " + uuid4().hex
+    path = origin + "/v1.0/auditLogs/directoryAudits"
+    params = {"$filter": "activityDisplayName eq '" + label + "'", "$top": 1}
+
+    def clock(stamp):
+        checked(
+            client.patch(
+                base + "/settings",
+                headers=admin,
+                json={
+                    "delay_seconds": 0,
+                    "retention_days": 1,
+                    "clock_mode": "fixed",
+                    "fixed_time": stamp.isoformat(),
+                },
+            )
+        )
+
+    try:
+        clock(when)
+        checked(
+            client.post(
+                base + "/import",
+                headers=admin,
+                json={
+                    "schema_version": 1,
+                    "provenance": {"source": "live lifecycle qualification", "generator": "m3b"},
+                    "records": [
+                        {
+                            "family": "directoryAudit",
+                            "api_version": "v1.0",
+                            "payload": {
+                                "id": identifier,
+                                "activityDateTime": when.isoformat(),
+                                "activityDisplayName": label,
+                                "category": "UserManagement",
+                                "initiatedBy": {},
+                                "targetResources": [],
+                                "result": "success",
+                            },
+                            "occurred_at": when.isoformat(),
+                            "available_at": (when + timedelta(seconds=30)).isoformat(),
+                            "origin": "historical",
+                        }
+                        for identifier in ids
+                    ],
+                },
+            )
+        )
+        assert checked(client.get(path, headers=auth, params=params))["value"] == []
+        clock(when + timedelta(seconds=30))
+        deadline = time.monotonic() + 120
+        while True:
+            page = checked(client.get(path, headers=auth, params=params))
+            if "@odata.nextLink" in page:
+                break
+            assert time.monotonic() < deadline, "Live delayed evidence did not become visible"
+            time.sleep(0.5)
+        link = page["@odata.nextLink"]
+        second = checked(client.get(link, headers=auth))
+        assert {r["id"] for r in [*page["value"], *second["value"]]} == set(ids)
+        clock(when + timedelta(days=2))
+        assert checked(client.get(path, headers=auth, params=params))["value"] == []
+        checked(client.post(base + "/cleanup", headers=admin, json={"max_rows": 1000}))
+        assert checked(client.get(link, headers=auth))["value"] == second["value"]
+    finally:
+        checked(client.patch(base + "/settings", headers=admin, json=settings))
+    return dict.fromkeys(("live_ingestion_delay", "live_retention", "live_cleanup_snapshot"), True)
+
+
 def evidence_checks(client, config, a, b):
     from uuid import uuid4
 
@@ -521,7 +599,10 @@ def evidence_checks(client, config, a, b):
         ).status_code
         == 404
     )
-    return dict.fromkeys(
+    lifecycle = evidence_clock_checks(
+        client, a.base, config["foreign_tenant_id"], admin, foreign_auth
+    )
+    return lifecycle | dict.fromkeys(
         (
             "snapshot_10000_evidence",
             "evidence_replica_replay",
@@ -547,6 +628,9 @@ def validate_report(report, *, root=ROOT):
     required = {
         "snapshot_5000_concurrent_mutation",
         "snapshot_10000_evidence",
+        "live_ingestion_delay",
+        "live_retention",
+        "live_cleanup_snapshot",
         "evidence_replica_replay",
         "evidence_restart_replay",
         "two_workers_restart",
@@ -594,6 +678,12 @@ def validate_report(report, *, root=ROOT):
         from evidence_collector_reports import validate_qualification
 
     validate_qualification(report["collectors"], root)
+
+
+def run_collector_qualification():
+    from qualify_evidence_collectors import qualify_collectors
+
+    return qualify_collectors()
 
 
 def main():
@@ -826,10 +916,8 @@ def main():
         ],
     }
     if not args.sdk_only:
-        from qualify_evidence_collectors import qualify_collectors
-
-        report["collectors"] = qualify_collectors(config)
-        report["passed"] = True
+        report["collectors"] = run_collector_qualification()
+        report["passed"] = report["collectors"]["status"] == "passed"
     output.write_text(json.dumps(report, indent=2), encoding="utf-8")
     if args.sdk_only:
         print(json.dumps({"sdk_passed": True, "passed": False, "collectors": "pending"}))

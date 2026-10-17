@@ -147,7 +147,10 @@ async def read_evidence(session, request):
         EvidenceVersion.valid_from <= snapshot.revision,
         or_(EvidenceVersion.valid_to.is_(None), EvidenceVersion.valid_to > snapshot.revision),
         EvidenceVersion.available_at <= snapshot.evidence_time,
-        EvidenceVersion.event_time >= snapshot.retention_cutoff,
+        or_(
+            EvidenceVersion.family == "riskyUser",
+            EvidenceVersion.event_time >= snapshot.retention_cutoff,
+        ),
         EvidenceVersion.event_time <= snapshot.evidence_time,
     ]
     if access.subject_id is not None:

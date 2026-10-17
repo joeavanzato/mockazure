@@ -91,3 +91,19 @@ def test_hawk_case_and_sofelk_lines_are_preserved(tmp_path):
 def test_empty_results_have_explicit_zero_gate(tmp_path):
     assert checker()([], format="JSON", expected={}, source_hashes={})["passed"]
     assert not checker()([], format="JSON", expected={"one": {}}, source_hashes={})["passed"]
+
+
+def test_invalid_output_bytes_remain_hash_identified(tmp_path):
+    path, source, hashes, expected = inputs(tmp_path)
+    path.write_text(path.read_text() + path.read_text())
+    original = path.read_bytes()
+    result = checker()([path], format="JSON", expected=expected, source_hashes=hashes)
+    assert not result["passed"] and result["output_count"] == 0
+    assert result["invalid_outputs"] == [
+        {
+            "path": str(path),
+            "sha256": hashlib.sha256(original).hexdigest(),
+            "error_type": "JSONDecodeError",
+        }
+    ]
+    assert path.read_bytes() == original

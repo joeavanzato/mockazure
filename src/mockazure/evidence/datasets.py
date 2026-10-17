@@ -387,7 +387,10 @@ async def export_evidence(session_factory, tenant_id, query):
                         EvidenceVersion.valid_to > snapshot.revision,
                     ),
                     EvidenceVersion.available_at <= snapshot.evidence_time,
-                    EvidenceVersion.event_time >= snapshot.retention_cutoff,
+                    or_(
+                        EvidenceVersion.family == "riskyUser",
+                        EvidenceVersion.event_time >= snapshot.retention_cutoff,
+                    ),
                     EvidenceVersion.event_time <= snapshot.evidence_time,
                 ]
                 if query.family:

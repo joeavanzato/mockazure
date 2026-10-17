@@ -325,22 +325,33 @@ async def publish_linked_risk(session, source, revision):
     row = await current_version(session, source.ref.tenant_id, "signIn", value.sign_in_id)
     if row is None:
         return
-    payload = dict(row.payload)
-    payload.update(
-        riskState="atRisk",
-        riskDetail="none",
-        riskLevelAggregated=max(
-            (payload.get("riskLevelAggregated", "none"), value.level), key=lambda x: LEVEL.get(x, 0)
-        ),
-        riskEventTypes_v2=list(
-            dict.fromkeys([*(payload.get("riskEventTypes_v2") or []), value.event_type])
-        ),
-    )
     cutoff = await session.get(RiskActionCutoff, (source.ref.tenant_id, value.user_id))
     if cutoff and cutoff.generation != source.generation:
         cutoff = None
-    payload = apply_risk_cutoff(
-        payload, cutoff, occurred_at=source.occurred_at, source_revision=source.source_revision
+    contribution = apply_risk_cutoff(
+        {
+            "createdDateTime": row.payload["createdDateTime"],
+            "riskState": "atRisk",
+            "riskDetail": "none",
+            "riskLevelAggregated": value.level,
+        },
+        cutoff,
+        occurred_at=source.occurred_at,
+        source_revision=source.source_revision,
+    )
+    # Classify this observation before merging; an older dismissed contribution
+    # cannot dismiss an aggregate that includes newer unresolved observations.
+    payload = dict(row.payload)
+    if payload.get("riskState") not in UNRESOLVED or (
+        contribution["riskState"] in UNRESOLVED
+        and LEVEL.get(contribution["riskLevelAggregated"], 0)
+        > LEVEL.get(payload.get("riskLevelAggregated"), 0)
+    ):
+        payload.update(
+            {k: contribution[k] for k in ("riskState", "riskDetail", "riskLevelAggregated")}
+        )
+    payload["riskEventTypes_v2"] = list(
+        dict.fromkeys([*(payload.get("riskEventTypes_v2") or []), value.event_type])
     )
     await version_payload(session, row, payload, revision)
 

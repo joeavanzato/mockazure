@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import and_, exists, func, or_, select
+from sqlalchemy import and_, case, exists, func, literal, or_, select
 from sqlalchemy import column as sql_column
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql.elements import ColumnElement
@@ -98,6 +98,11 @@ def compile_filter(
         return column.startswith(value, autoescape=True)
     if isinstance(node, Any):
         spec, column = field(node.field.name, "any")
+        # Valid nullable collections (including omitted fields) have no members.
+        column = case(
+            (func.jsonb_typeof(column) == "array", column),
+            else_=literal([], type_=JSONB),
+        )
         if spec.data_type == "structured_array":
             values = (
                 func.jsonb_array_elements(column).table_valued(sql_column("value", JSONB)).alias()

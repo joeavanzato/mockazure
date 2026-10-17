@@ -34,7 +34,7 @@ def records(path, format):
 
 
 def verify_outputs(paths, *, format, expected, source_hashes):
-    errors, outputs, seen = [], [], set()
+    errors, outputs, invalid_outputs, seen = [], [], [], set()
     for source, digest in source_hashes.items():
         if not Path(source).is_file() or sha(source) != digest:
             errors.append("Original source hash differs: " + str(source))
@@ -63,7 +63,14 @@ def verify_outputs(paths, *, format, expected, source_hashes):
                     "record_count": len(rows),
                 }
             )
-        except (OSError, ValueError, csv.Error):
+        except (OSError, ValueError, csv.Error) as error:
+            try:
+                digest = sha(path)
+            except OSError:
+                digest = None
+            invalid_outputs.append(
+                {"path": str(path), "sha256": digest, "error_type": type(error).__name__}
+            )
             errors.append("Invalid or unavailable " + format + " output: " + str(path))
     if seen != set(expected):
         errors.append("Output IDs differ from the expected set")
@@ -71,6 +78,7 @@ def verify_outputs(paths, *, format, expected, source_hashes):
         "passed": not errors,
         "errors": errors,
         "outputs": outputs,
+        "invalid_outputs": invalid_outputs,
         "output_count": sum(item["record_count"] for item in outputs),
         "expected_ids": sorted(expected),
         "source_hashes": source_hashes,
@@ -101,7 +109,7 @@ def validate_qualification(report, root):
             path = (root / source).resolve()
             assert path.is_relative_to(root.resolve() / "work/vendor")
             assert sha(path) == digest
-        for output in value["outputs"]:
+        for output in [*value["outputs"], value["expected_snapshot"]]:
             path = (root / output["path"]).resolve()
             assert path.is_relative_to(root.resolve() / ".runtime/m3b/clients/powershell-state")
             assert sha(path) == output["sha256"]

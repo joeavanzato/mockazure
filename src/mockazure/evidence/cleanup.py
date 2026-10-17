@@ -3,7 +3,7 @@
 from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
-from sqlalchemy import delete, exists, func, or_, select, tuple_, update
+from sqlalchemy import and_, delete, exists, func, or_, select, tuple_, update
 from sqlalchemy.dialects.postgresql import insert
 
 from mockazure.admin.errors import AdminError
@@ -68,7 +68,10 @@ async def cleanup_evidence(session, tenant_id, wall_now, limit=500):
                 EvidenceVersion.valid_to.is_(None),
                 EvidenceCursor.revision < EvidenceVersion.valid_to,
             ),
-            EvidenceVersion.event_time >= EvidenceCursor.retention_cutoff,
+            or_(
+                EvidenceVersion.family == "riskyUser",
+                EvidenceVersion.event_time >= EvidenceCursor.retention_cutoff,
+            ),
             EvidenceVersion.event_time <= EvidenceCursor.evidence_time,
             EvidenceVersion.available_at <= EvidenceCursor.evidence_time,
         )
@@ -83,7 +86,10 @@ async def cleanup_evidence(session, tenant_id, wall_now, limit=500):
                     EvidenceVersion.tenant_id == tenant_id,
                     or_(
                         EvidenceVersion.generation != state.generation,
-                        EvidenceVersion.event_time < cutoff,
+                        and_(
+                            EvidenceVersion.family != "riskyUser",
+                            EvidenceVersion.event_time < cutoff,
+                        ),
                         EvidenceVersion.valid_to.is_not(None),
                     ),
                     ~pinned,
