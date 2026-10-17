@@ -497,29 +497,41 @@ async def apply_risk_action(session, actor, action, user_ids, now, correlation_i
             revision,
         )
         if action == "dismiss":
-            linked = list(
-                await session.scalars(
-                    select(EvidenceVersion).where(
-                        EvidenceVersion.tenant_id == actor.tenant_id,
-                        EvidenceVersion.subject_id == row.record_id,
-                        EvidenceVersion.family.in_(["signIn", "riskDetection"]),
-                        EvidenceVersion.valid_to.is_(None),
-                    )
+            linked = await session.execute(
+                select(
+                    EvidenceVersion,
+                    EvidenceObservation.occurred_at,
+                    EvidenceSource.source_revision,
+                    EvidenceSource.kind,
+                )
+                .join(
+                    EvidenceObservation,
+                    (EvidenceObservation.tenant_id == EvidenceVersion.tenant_id)
+                    & (EvidenceObservation.family == EvidenceVersion.family)
+                    & (EvidenceObservation.record_id == EvidenceVersion.record_id),
+                )
+                .join(
+                    EvidenceSource,
+                    (EvidenceSource.tenant_id == EvidenceObservation.tenant_id)
+                    & (EvidenceSource.kind == EvidenceObservation.source_kind)
+                    & (EvidenceSource.id == EvidenceObservation.source_id),
+                )
+                .where(
+                    EvidenceVersion.tenant_id == actor.tenant_id,
+                    EvidenceVersion.generation == state.generation,
+                    EvidenceVersion.subject_id == row.record_id,
+                    EvidenceVersion.family.in_(["signIn", "riskDetection"]),
+                    EvidenceVersion.valid_to.is_(None),
+                    EvidenceVersion.payload["riskState"].as_string().in_(UNRESOLVED),
                 )
             )
-            for event in linked:
-                original = await session.get(
-                    EvidenceObservation, (actor.tenant_id, event.family, event.record_id)
-                )
-                source = await session.get(
-                    EvidenceSource, (actor.tenant_id, original.source_kind, original.source_id)
-                )
+            for event, occurred_at, source_revision, source_kind in linked:
                 payload = apply_risk_cutoff(
                     event.payload,
                     cutoff,
-                    occurred_at=original.occurred_at,
-                    source_revision=source.source_revision,
-                    historical=source.kind == "historical",
+                    occurred_at=occurred_at,
+                    source_revision=source_revision,
+                    historical=source_kind == "historical",
                 )
                 await version_payload(session, event, payload, revision)
     await enqueue_projection(session, ref)
