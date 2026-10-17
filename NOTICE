@@ -13,3 +13,10 @@ The bundled permission identifier reference is derived from Microsoft Graph
 REST documentation (CC BY 4.0) and Microsoft Graph devx content (MIT).
 Source revisions, hashes, attribution and licenses are in
 src/mockazure/security/data/.
+
+The bundled Azure REST Swagger references are Copyright Microsoft Corporation,
+under the MIT License preserved at providers/arm/data/schemas/LICENSE.
+Built-in ARM role definitions are derived from Microsoft Learn documentation;
+source snapshots, URLs and SHA256 attribution are recorded in
+src/mockazure/providers/arm/data/references.json. Documentation is licensed under
+CC BY 4.0; code examples under MIT per Microsoft Learn's terms of use.

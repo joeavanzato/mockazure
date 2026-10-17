@@ -1,0 +1,303 @@
+{
+  "subscriptions.list": {
+    "method": "GET",
+    "path": "/subscriptions",
+    "operationId": "Subscriptions_List",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/subscriptions/stable/2021-01-01/subscriptions.json",
+    "versions": [
+      "2020-01-01",
+      "2021-01-01"
+    ],
+    "schema": "SubscriptionListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "subscriptions.get": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}",
+    "operationId": "Subscriptions_Get",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/subscriptions/stable/2021-01-01/subscriptions.json",
+    "versions": [
+      "2020-01-01",
+      "2021-01-01"
+    ],
+    "schema": "Subscription",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "tenants.list": {
+    "method": "GET",
+    "path": "/tenants",
+    "operationId": "Tenants_List",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/subscriptions/stable/2021-01-01/subscriptions.json",
+    "versions": [
+      "2020-01-01",
+      "2021-01-01"
+    ],
+    "schema": "TenantListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "groups.list": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}/resourcegroups",
+    "operationId": "ResourceGroups_List",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "ResourceGroupListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "groups.get": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
+    "operationId": "ResourceGroups_Get",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "ResourceGroup",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "groups.put": {
+    "method": "PUT",
+    "path": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
+    "operationId": "ResourceGroups_CreateOrUpdate",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "ResourceGroup",
+    "responses": [
+      "200",
+      "201",
+      "default"
+    ]
+  },
+  "groups.patch": {
+    "method": "PATCH",
+    "path": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
+    "operationId": "ResourceGroups_Update",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "ResourceGroup",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "groups.delete": {
+    "method": "DELETE",
+    "path": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
+    "operationId": "ResourceGroups_Delete",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": null,
+    "responses": [
+      "200",
+      "202",
+      "default"
+    ]
+  },
+  "resources.list": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}/resources",
+    "operationId": "Resources_List",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "ResourceListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "resources.group.list": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/resources",
+    "operationId": "Resources_ListByResourceGroup",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "ResourceListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "tags.get": {
+    "method": "GET",
+    "path": "/{scope}/providers/Microsoft.Resources/tags/default",
+    "operationId": "Tags_GetAtScope",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "TagsResource",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "tags.put": {
+    "method": "PUT",
+    "path": "/{scope}/providers/Microsoft.Resources/tags/default",
+    "operationId": "Tags_CreateOrUpdateAtScope",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "TagsResource",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "tags.patch": {
+    "method": "PATCH",
+    "path": "/{scope}/providers/Microsoft.Resources/tags/default",
+    "operationId": "Tags_UpdateAtScope",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "TagsResource",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "tags.delete": {
+    "method": "DELETE",
+    "path": "/{scope}/providers/Microsoft.Resources/tags/default",
+    "operationId": "Tags_DeleteAtScope",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": null,
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "assignments.list": {
+    "method": "GET",
+    "path": "/{scope}/providers/Microsoft.Authorization/roleAssignments",
+    "operationId": "RoleAssignments_ListForScope",
+    "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+    "versions": [
+      "2022-04-01"
+    ],
+    "schema": "RoleAssignmentListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "assignments.get": {
+    "method": "GET",
+    "path": "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+    "operationId": "RoleAssignments_Get",
+    "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+    "versions": [
+      "2022-04-01"
+    ],
+    "schema": "RoleAssignment",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "assignments.put": {
+    "method": "PUT",
+    "path": "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+    "operationId": "RoleAssignments_Create",
+    "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+    "versions": [
+      "2022-04-01"
+    ],
+    "schema": "RoleAssignment",
+    "responses": [
+      "200",
+      "201",
+      "default"
+    ]
+  },
+  "assignments.delete": {
+    "method": "DELETE",
+    "path": "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+    "operationId": "RoleAssignments_Delete",
+    "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+    "versions": [
+      "2022-04-01"
+    ],
+    "schema": "RoleAssignment",
+    "responses": [
+      "200",
+      "204",
+      "default"
+    ]
+  },
+  "definitions.list": {
+    "method": "GET",
+    "path": "/{scope}/providers/Microsoft.Authorization/roleDefinitions",
+    "operationId": "RoleDefinitions_List",
+    "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
+    "versions": [
+      "2022-04-01"
+    ],
+    "schema": "RoleDefinitionListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "definitions.get": {
+    "method": "GET",
+    "path": "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+    "operationId": "RoleDefinitions_Get",
+    "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
+    "versions": [
+      "2022-04-01"
+    ],
+    "schema": "RoleDefinition",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "activity.list": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/eventtypes/management/values",
+    "operationId": "ActivityLogs_List",
+    "source": "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/activityLogs_API.json",
+    "versions": [
+      "2015-04-01"
+    ],
+    "schema": "EventDataCollection",
+    "responses": [
+      "200",
+      "default"
+    ]
+  }
+}
