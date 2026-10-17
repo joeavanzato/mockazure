@@ -68,3 +68,45 @@ Sources:
 - https://github.com/Azure/azure-rest-api-specs/tree/ae348cc71f54a61f5d17472052cfef279a23db6b
 - https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/general
 - https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/privileged
+
+
+## M5 operational ARM profile (Task3)
+
+Discovery supports2020-01-01/2021-01-01. Inventory/groups/tags use2021-04-01.
+Inventory filtering uses PostgreSQL predicates and effective inherited grants before
+pagination. Opaque continuations bind tenant, current caller, token scope set,
+API version, path and directory generation, expire after one hour, and reject
+inventory revision changes rather than silently mixing pages across mutations.
+This is a bounded restart-on-change profile, not an immutable inventory snapshot.
+No generic provider deployment endpoints return fabricated success.
+
+Resource-group mutations and tag updates serialize on the subscription after
+security/evidence locks. Native arm source facts share their transaction; no-op
+writes suppress facts. Activity Log publication is supplied by Task5.
+Group deletion uses a durable job and a tenant-owned FK, local Location/Retry-After,
+and lease/generation fences. It returns202 while running,200 on completion per
+the pinned group DELETE response contract, and an ARM error on terminal failure.
+Reset cancels old-generation deletion without deleting inventory or publishing
+a success. Explicit DELETE retries a terminally failed operation.
+
+Tag names compare without case; values compare with case. Merge retains existing
+name spelling. Empty Delete values mean name-only removal, inferred from the
+official CLI name-only serializer combined with the documented name-or-pair
+Delete semantics. Null values remain outside the pinned string-valued schema.
+Lowercase tagname/tagvalue filters are emitted by the same official CLI.
+The following immutable official source references were inspected before adding
+these compatibility behaviors (no Azure service requests were made):
+
+- https://github.com/Azure/azure-cli/blob/da4c0548a2725ea3d08b1d94b8e7fa1b0b07256e/src/azure-cli/azure/cli/command_modules/resource/custom.py
+  SHA256 f7ae7ff2a650cac62bd7c2c7589cd00cc120b02ccc96c27d50824f7fc9694ef5.
+
+- https://github.com/Azure/azure-cli/blob/da4c0548a2725ea3d08b1d94b8e7fa1b0b07256e/src/azure-cli-core/azure/cli/core/commands/validators.py
+  SHA256 4fccf04fab3aeb0cb73adec72eb66b143ec84658f9ceeb20e1f553ddee392b7d.
+
+REST references:
+- https://learn.microsoft.com/en-us/rest/api/resources/tags/update-at-scope?view=rest-resources-2021-04-01
+- https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations
+
+Raw percent-encoded ARM paths are explicitly rejected; canonical comparison is
+case-insensitive at segment boundaries. This deliberately excludes some otherwise
+valid encoded Azure names until a nonambiguous encoding profile is implemented.

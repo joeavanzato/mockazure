@@ -31,6 +31,9 @@ from mockazure.oauth.discovery import router as discovery_router
 from mockazure.oauth.errors import OAuthError, oauth_error_response
 from mockazure.oauth.routes import router as oauth_router
 from mockazure.providers.arm.errors import ArmError, handle_arm_error
+from mockazure.providers.arm.inventory_routes import router as arm_inventory_router
+from mockazure.providers.arm.mutation_routes import router as arm_mutation_router
+from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
@@ -97,6 +100,24 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     @app.middleware("http")
     async def boundary(request: Request, call_next):
         request.state.request_id = str(uuid4())
+        arm_path = request.scope["path"].lower().split("/")[1] in {"subscriptions", "tenants"}
+        request.state.arm_path = arm_path
+        if arm_path:
+            if b"%" in request.scope.get("raw_path", b"") or "\\" in request.scope["path"]:
+                return await handle_arm_error(
+                    request, ArmError(400, "InvalidResourceId", "Encoded ARM paths are unsupported")
+                )
+            # ARM's reserved path segments are case-insensitive; resource names retain case.
+            request.scope["path"] = re.sub(
+                r"(?i)(?<=/)(subscriptions|tenants|resourcegroups|resources)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.resources/(tags/default|operations)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
         try:
             authorities = request.headers.getlist("host")
             authority = authorities[0].lower() if len(authorities) == 1 else ""
@@ -132,6 +153,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                 request, 500, "InternalError", "Request could not be completed"
             )
         response.headers["x-request-id"] = request.state.request_id
+        if arm_path:
+            response.headers["x-ms-request-id"] = request.state.request_id
         return response
 
     @app.exception_handler(GraphError)
@@ -173,18 +196,42 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     @app.exception_handler(RequestValidationError)
     async def invalid(request, error):
+        if getattr(request.state, "arm_path", False):
+            return await handle_arm_error(
+                request,
+                ArmError(
+                    400, "InvalidRequestContent", "Request does not match the supported schema"
+                ),
+            )
         return error_response(
             request, 422, "ValidationError", "Request does not match the supported schema"
         )
 
     @app.exception_handler(SQLAlchemyError)
     async def database_error(request, error):
+        if getattr(request.state, "arm_path", False):
+            return await handle_arm_error(
+                request, ArmError(503, "DatabaseUnavailable", "Database or schema is not ready")
+            )
         return error_response(
             request, 503, "DatabaseUnavailable", "Database or schema is not ready"
         )
 
     @app.exception_handler(HTTPException)
     async def http_error(request, error):
+        if getattr(request.state, "arm_path", False):
+            return await handle_arm_error(
+                request,
+                ArmError(
+                    501 if error.status_code == 404 else error.status_code,
+                    "MockAzureOperationNotImplemented"
+                    if error.status_code == 404
+                    else "MethodNotAllowed",
+                    "This ARM operation is not implemented"
+                    if error.status_code == 404
+                    else "Method not allowed",
+                ),
+            )
         if error.status_code == 404 and not request.url.path.startswith("/_mock"):
             return error_response(
                 request,
@@ -209,6 +256,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
     app.include_router(arm_router)
+    app.include_router(arm_inventory_router)
+    app.include_router(arm_mutation_router)
+    app.include_router(arm_operations_router)
     app.include_router(session_router)
     app.include_router(identity_router)
     app.include_router(security_admin_router)

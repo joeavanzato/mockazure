@@ -10,6 +10,7 @@ from mockazure.db.engine import Database
 from mockazure.evidence.projection import process_projection
 from mockazure.jobs.repository import fail_job, finish_export
 from mockazure.jobs.schemas import ExportSnapshot, JobClaim, JobResult
+from mockazure.providers.arm.operations import process_arm_delete
 
 
 async def process_export(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult:
@@ -25,6 +26,7 @@ HANDLERS = {
     "tenant.export": process_export,
     "evidence.project": process_projection,
     "audit.query": process_audit_query,
+    "arm.group.delete": process_arm_delete,
 }
 
 

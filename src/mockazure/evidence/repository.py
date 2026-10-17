@@ -120,6 +120,10 @@ def validate_facts(value: SourceInput) -> None:
         fact = AuthenticationFact.model_validate(value.facts)
         if fact.tenant_id != value.ref.tenant_id or fact.attempt_id != value.ref.id:
             raise ValueError("Authentication source identity mismatch")
+    elif value.ref.kind == "arm":
+        from mockazure.providers.arm.facts import validate_arm_facts
+
+        validate_arm_facts(value.facts)
     elif value.ref.kind == "mail":
         from mockazure.mail.facts import validate_mail_facts
 

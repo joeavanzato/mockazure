@@ -47,6 +47,11 @@ class ArmResource(Base):
             ["arm_resources.tenant_id", "arm_resources.subscription_id", "arm_resources.scope_key"],
             ondelete="CASCADE",
         ),
+        ForeignKeyConstraint(
+            ["tenant_id", "deletion_job_id"],
+            ["jobs.tenant_id", "jobs.id"],
+            name="fk_arm_deletion_job",
+        ),
         CheckConstraint("kind IN ('group','resource')"),
         CheckConstraint("scope_key = lower(scope_key)"),
         CheckConstraint(
@@ -74,6 +79,7 @@ class ArmResource(Base):
     location: Mapped[str] = mapped_column(String(100))
     tags: Mapped[dict] = mapped_column(JSONB, default=dict)
     payload: Mapped[dict] = mapped_column(JSONB, default=dict)
+    deletion_job_id: Mapped[UUID | None]
     provisioning_state: Mapped[str] = mapped_column(String(32), default="Succeeded")
     revision: Mapped[int] = mapped_column(BigInteger, default=1)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
