@@ -4,6 +4,7 @@ Connect-MockAzure -ConfigPath /state/client.json
 Import-Module Microsoft.Graph.Applications -RequiredVersion 2.35.1
 Import-Module Microsoft.Graph.Groups -RequiredVersion 2.35.1
 $config=Get-Content /state/client.json -Raw | ConvertFrom-Json
+. /project/integrations/powershell/Graph-LocalTransport.ps1 -LocalOrigin $config.endpoints.graph
 $apps=@(Get-MgApplication -All -PageSize 1 -Property id,web,passwordCredentials,keyCredentials -CountVariable applicationCount -ConsistencyLevel eventual)
 if($apps.Count -ne $config.protocol_application_count -or $applicationCount -ne $apps.Count){throw 'Application count/paging/retry mismatch'}
 foreach($app in $apps){

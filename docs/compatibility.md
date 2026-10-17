@@ -36,6 +36,19 @@ and built-in role permissions. Initialization, HTTPS identity readiness, persist
 restart and missing-storage guards also passed. This qualifies those exact operations;
 it does not certify every Graph command or refresh the historical whole-product gates.
 
+## Collection protocol qualification
+
+The 2026-10-17 `python -m tools.verify_collection_protocol` run passed on a fresh
+local Docker lab using original Microsoft Graph PowerShell 2.35.1. It retrieved
+two applications through page-size-one traversal and an injected continuation 429,
+checked selected credential fields without secret disclosure, checked count,
+read a bounded 20-member expansion and all 23 members through the separate paged
+relationship collection, and verified five batch outcomes (three allowed, one
+forbidden, one invalid query). Raw batch requests use the existing local transport
+binding for the pinned module's authentication provider; Microsoft command code is
+unchanged. The preceding original Python/PowerShell directory checks also passed.
+This qualifies those request combinations, not every SDK command or query option.
+
 ## Preserved upstream limitations
 
 Original Hawk JSON append creates concatenated documents for multiple suspicious rules.
