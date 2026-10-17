@@ -1,7 +1,7 @@
 # M3C execution decisions
 
 The user authorized reasonable overnight decisions and Native implementation.
-This record preserves the execution ledger's rulings; final review is pending.
+This record preserves the execution ledger's rulings; final review and reproduced fixes are complete.
 The exact implemented boundaries remain in security-contracts.md.
 
 - Ruling: delegated design/plan decisions replace routine skill approval stops under explicit user instruction; each milestone still has committed design/plan,tests and one final independent review. Cost: choices are reviewed after execution rather than before; preserve decisions and reversible commits.
@@ -36,3 +36,5 @@ The exact implemented boundaries remain in security-contracts.md.
 - Final: Ruling: new owner live-row filtering must preserve accepted built-in resource-principal owners. A missing required test permission was corrected before observing the true omission; include canonical resourceServicePrincipal rows. Cost if wrong: future resource-principal lifecycle must update this live-row predicate.
 
 Deferred minor: upstream LICENSE.docs line52 trailing whitespace is retained verbatim.
+
+- Task 10: Ruling: full suite ran once on final production bytes; task-done runs fresh report/distribution acceptance instead of repeating the already-green full suite. Cost if wrong: a subsequent runtime-code change requires rerunning both; no such change is permitted before publication.

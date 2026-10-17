@@ -154,10 +154,13 @@ enrollment state. Conditional Access evaluates the declared user/group/resource/
 client-category and IP-location profile with block, simulated MFA and report-only
 outcomes. Policy decisions become immutable sign-in evidence with controlled disclosure.
 
-Task 9 qualification passed 20 runtime gates, three SDK profiles in both authorization
-modes and20 original Hawk/MES security collector cases in 236.926497 seconds.
-The full regression passed 474 tests. Final review remains tracked in
-[security execution](docs/security-execution.md); these are bounded functional
+Final qualification passed20 runtime gates, three SDK profiles in both authorization
+modes and20 original Hawk/MES security collector cases in 181.5455 seconds.
+The full regression passed 522 tests in 580.74s. One independent final
+review identified five important findings; reproduced fixes cover policy UUIDs,
+managed credentials/tombstones, owner lifecycle and denied collector JSON.
+See [security execution](docs/security-execution.md) for verification and the
+retained upstream licence-notice whitespace minor. These are bounded functional
 results, not full Graph coverage or a throughput SLA.
 
 See [operation boundaries](docs/security-contracts.md),

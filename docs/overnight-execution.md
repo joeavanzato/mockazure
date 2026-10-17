@@ -25,10 +25,8 @@ User direction (2026-10-16 America/New_York): continue M3C, M4, M5 and all later
 
 Each new milestone reads its predecessor's ledger and verified interfaces. The M3B baseline is 316 passing unit/integration tests,25 runtime checks,3SDKprofiles and20accepted collector cases(14strict,6documented MES limitations). Those results are historical baseline, not proof of new changes.
 
-Latest checkpoint: M3C tasks1–8 are implemented. Conditional Access now enforces
-the declared profile across delegated OAuth and captures immutable, permission-
-controlled decision evidence. Continue real-client/collector qualification and
-final milestone review/PR. Detailed test results are in the security checkpoint.
-The authoritative continuation checkpoint is docs/security-execution.md; the
-native ledger is .superpowers/sdd/2026-10-16-mockazure-security/progress.md.
-All later milestones remain queued and the hourly schedule remains active.
+Latest checkpoint: M3C implementation and final review fixes are qualified.
+522 unit/integration tests;20 runtime gates;three SDK profiles;20 original
+collector cases. Final reports are in docs/security-verification.json.
+M4 design/plan drafts are prepared; start its own branch/runtime after publishing
+the M3C PR. M5/M6 remain queued and the hourly continuation stays active.

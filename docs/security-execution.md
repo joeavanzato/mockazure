@@ -90,15 +90,13 @@ Preserve existing worktrees and runtimes.
    - Full regression:455 passed and one old all-null client category assertion failed;
      the assertion now verifies exact known categories. Focused rerun:15 passed in29.43s; work/task8-final.log. Ruff and diff checks pass.
 
-## Next work
+## Current status and next work
 
-Task 9 is qualified: 20 runtime gates, three real SDK profiles in both modes,
-and20 original collector cases passed in 236.926497s. Full regression474 passed
-in 534.66s; final acceptance/new harness tests6 passed. See security-verification.json.
-
-Task 10: update capability discovery/docs, one independent whole-branch review,
-verified fixes and fresh qualification/PR. M3C is not yet published.
-Continue directly to M4, M5 and M6 after the qualified M3C PR; user merges.
+M3C is qualified after final review fixes:522 unit/integration tests,20 runtime
+gates,three real SDK profiles in both modes and20 original collector cases.
+The source-bound final qualification took181.5455s. See security-verification.json.
+Publish the M3C PR, then continue directly into M4,M5,M6; user merges.
+Earlier checkpoint sections below are historical evidence.
 
 ## Verification and continuation
 
@@ -106,7 +104,7 @@ Continue directly to M4, M5 and M6 after the qualified M3C PR; user merges.
   work/task3-final.log. Ruff and git diff checks pass.
 - RED/GREEN evidence includes six operation parity gaps, three bootstrap metadata
   gaps, invalid source differences and a real security audit export/reimport failure.
-- Full ledger/task briefs: .superpowers/sdd/2026-10-16-mockazure-security/
+- Final ledger: docs/security-native-ledger.md; temporary plan workspace is removed after publication.
 - Python: .venv/Scripts/python.exe; Ruff: .venv/Scripts/ruff.exe.
 - Test DB: mockazure-security-tests, loopback55438.
   Set MOCKAZURE_TEST_DB_PORT=55438. Compose: work/compose.security-tests.yaml.
@@ -179,3 +177,21 @@ qualification passed20 gates/three SDK profiles/20collector cases in405.989998s.
 These historical runs are not evidence for the final fix bytes.
 
 Deferred minor: retain upstream LICENSE.docs line52 whitespace verbatim.
+
+## M3C qualified after final review
+
+Final fix commit: 26722043c4bf342768b21d130dfc90f17dadefa6.
+All 522 unit/integration tests passed in 580.74s, with the existing MSAL
+form_post recommendation as the only warning. Source-bound qualification passed
+all20 runtime gates, all three SDK profiles (15checks in each application/delegated
+mode), and all20 original collector cases in 181.5455s.
+
+Five important reviewer findings were reproduced and fixed in one pass.
+The live-resource-owner preservation regression also passes. Ruff and working
+diff checks pass. The upstream licence-notice whitespace is a documented minor.
+No new output waiver, no real tenant/VTW access, no host networking changes.
+
+Next: push the final documentation, create/attach the M3C PR against main, preserve
+this runtime/worktree, and start M4 from this verified feature branch. The M4
+design/plan drafts in work/ were prepared from original collector source and
+official Graph/Exchange references while validation ran.

@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "qualified_at": "2026-10-17T05:35:45.815352+00:00",
-  "source_fingerprint": "109d1a45f61eca30fdb8f32110cdbd22c1bcea6687a028c898c0aa3812685544",
-  "source_commit": "25abb8d0409088f9344d642b8adb7cae664bbdcc",
+  "qualified_at": "2026-10-17T06:03:38.927353+00:00",
+  "source_fingerprint": "571190e5fedb56954991cc56111ec49cae0178c965937a85c21119d6892226cd",
+  "source_commit": "26722043c4bf342768b21d130dfc90f17dadefa6",
   "manifest_sha256": "7c166d78c461146a244f37cc7c47516de497146948c03afff551df747e2c4cda",
   "lock_sha256": "e844544c90bf724a27a24b42cc3200da549d009244c67bd3c7a4487a978c355f",
-  "wheel_sha256": "b24df972f8d897da582fbdf052eb6bfb08c8a87185afdd13ebd51bbf9905c3d7",
-  "runtime_image_id": "sha256:e671ffe8f4ee64a630f0f8d5419beddf4061f891fd92abe493b4efab1be57454",
+  "wheel_sha256": "2eda77f95879f5ad746ac4536c9cec09bd4bd9c5765b503cd2f1bde4fc7a5d3e",
+  "runtime_image_id": "sha256:74cac691ca0c1e66586a04acb797927fb7e11d5adb52ea4735c3a85f125a3fba",
   "client_image_ids": {
     "python": "sha256:d9bf6a3663b27ee506779d8a350447d431274c9bfd65ac6a8b8da361b2f1bb53",
     "powershell": "sha256:4be726730a1f69796dfc86d2531ddbdf662bebbaa4edc47c4111c2463fe32b9a"
@@ -170,25 +170,25 @@
       "passed": true,
       "records_verified": 10,
       "source_hashes": {
-        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkBanner.ps1": "5188024b4ebcca585eaad4cf921c4f8cebc46eb7498df06bb21fd3108a683d9a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-LogFile.ps1": "b18a7f4c744ca66e0d503bcf183bc5a2eab5f7873ccd6d7771b7089d947a5eef",
         "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkConfigurationComplete.ps1": "14839feab37ab4e8afb2fc921d4c64d645504017027deb8bade837cde2689a5b",
         "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-HawkGlobalObject.ps1": "fded20f688c219e0d910e8eff808c6e9c47b98c96c83d483c16a0b0a01a15198",
-        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-UserObject.ps1": "16eaa6fdd29e590ee2192b6eb30671f3c13338388c92590c87ee046701066ff0",
         "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-GraphConnection.ps1": "334be436a9e72d5117267711f418b1e5712eb02d6e996a4e1736cb952dbb532d",
-        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-LogFile.ps1": "b18a7f4c744ca66e0d503bcf183bc5a2eab5f7873ccd6d7771b7089d947a5eef",
         "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-MultipleFileType.ps1": "2fc953ae1fca9a59704ba1f829dd2367311cc672621e6d53302a0fe2b4d48b71",
-        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/functions/Tenant/Get-HawkTenantAppAndSPNCredentialDetail.ps1": "dc9862e07b3b5dd9ea82c209e7430139303e60be284d4621a7b44478d0a0baf2",
-        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Initialize-HawkGlobalObject.ps1": "e5491aef42094d64cca2ea9ab1186451f1e7d67842d8a120ade2e00ca096d95a"
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Write-HawkBanner.ps1": "5188024b4ebcca585eaad4cf921c4f8cebc46eb7498df06bb21fd3108a683d9a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Initialize-HawkGlobalObject.ps1": "e5491aef42094d64cca2ea9ab1186451f1e7d67842d8a120ade2e00ca096d95a",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Test-UserObject.ps1": "16eaa6fdd29e590ee2192b6eb30671f3c13338388c92590c87ee046701066ff0",
+        "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/functions/Tenant/Get-HawkTenantAppAndSPNCredentialDetail.ps1": "dc9862e07b3b5dd9ea82c209e7430139303e60be284d4621a7b44478d0a0baf2"
       },
       "output_hashes": {
-        "clients/powershell-state/collectors/1792215286767352700-application-hawk_credentials/Hawk_Graph_Lab_20261017_053517/Tenant/ApplicationCertsAndSecrets.csv": "3a84f44e983e45c71b36bebf8653a5115bcc2b0dfe01f5945663e811e624080a",
-        "clients/powershell-state/collectors/1792215286767352700-application-hawk_credentials/Hawk_Graph_Lab_20261017_053517/Tenant/SPNCertsAndSecrets.csv": "255a024f4fa5a5cddbc3ddc275c790db72b30c2377a186b9fade8cc98dea22f7",
-        "clients/powershell-state/collectors/1792215286767352700-application-hawk_credentials/Hawk_Graph_Lab_20261017_053517/Tenant/ApplicationCertsAndSecrets.json": "2bbacb6ce39f0d8923a0126f08e190494799c175b15b52ca10a53c3e2e45f966",
-        "clients/powershell-state/collectors/1792215286767352700-application-hawk_credentials/Hawk_Graph_Lab_20261017_053517/Tenant/SPNCertsAndSecrets.json": "06ff58fa7a0221230bed8c7ab86ca6149b9aab3b202230cbc1bfc7d2c57304fe",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_053527/Tenant/ApplicationCertsAndSecrets.csv": "3a84f44e983e45c71b36bebf8653a5115bcc2b0dfe01f5945663e811e624080a",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_053527/Tenant/SPNCertsAndSecrets.csv": "255a024f4fa5a5cddbc3ddc275c790db72b30c2377a186b9fade8cc98dea22f7",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_053527/Tenant/ApplicationCertsAndSecrets.json": "2bbacb6ce39f0d8923a0126f08e190494799c175b15b52ca10a53c3e2e45f966",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_053527/Tenant/SPNCertsAndSecrets.json": "06ff58fa7a0221230bed8c7ab86ca6149b9aab3b202230cbc1bfc7d2c57304fe"
+        "clients/powershell-state/collectors/1792216963671853100-application-hawk_credentials/Hawk_Graph_Lab_20261017_060312/Tenant/ApplicationCertsAndSecrets.csv": "3a84f44e983e45c71b36bebf8653a5115bcc2b0dfe01f5945663e811e624080a",
+        "clients/powershell-state/collectors/1792216963671853100-application-hawk_credentials/Hawk_Graph_Lab_20261017_060312/Tenant/SPNCertsAndSecrets.csv": "255a024f4fa5a5cddbc3ddc275c790db72b30c2377a186b9fade8cc98dea22f7",
+        "clients/powershell-state/collectors/1792216963671853100-application-hawk_credentials/Hawk_Graph_Lab_20261017_060312/Tenant/ApplicationCertsAndSecrets.json": "2bbacb6ce39f0d8923a0126f08e190494799c175b15b52ca10a53c3e2e45f966",
+        "clients/powershell-state/collectors/1792216963671853100-application-hawk_credentials/Hawk_Graph_Lab_20261017_060312/Tenant/SPNCertsAndSecrets.json": "06ff58fa7a0221230bed8c7ab86ca6149b9aab3b202230cbc1bfc7d2c57304fe",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_060322/Tenant/ApplicationCertsAndSecrets.csv": "3a84f44e983e45c71b36bebf8653a5115bcc2b0dfe01f5945663e811e624080a",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_060322/Tenant/SPNCertsAndSecrets.csv": "255a024f4fa5a5cddbc3ddc275c790db72b30c2377a186b9fade8cc98dea22f7",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_060322/Tenant/ApplicationCertsAndSecrets.json": "2bbacb6ce39f0d8923a0126f08e190494799c175b15b52ca10a53c3e2e45f966",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-hawk_credentials/Hawk_Graph_Lab_20261017_060322/Tenant/SPNCertsAndSecrets.json": "06ff58fa7a0221230bed8c7ab86ca6149b9aab3b202230cbc1bfc7d2c57304fe"
       },
       "cases": [
         {
@@ -221,8 +221,8 @@
         "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-ConditionalAccessPolicy.ps1": "3755622fde0b907472fa4283b6f72a781daead77c5060c769bf6124c7ccee2ad"
       },
       "output_hashes": {
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_policies/ConditionalAccessPolicies/20261017-053519/20261017-053519-ConditionalAccessPolicies.csv": "c501f4a7ac52e9c974aa784cbbcc55cf1ca06087ed4f6c77531f81d086bb2eae",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_policies/ConditionalAccessPolicies/20261017-053529/20261017-053529-ConditionalAccessPolicies.csv": "c501f4a7ac52e9c974aa784cbbcc55cf1ca06087ed4f6c77531f81d086bb2eae"
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_policies/ConditionalAccessPolicies/20261017-060314/20261017-060314-ConditionalAccessPolicies.csv": "c501f4a7ac52e9c974aa784cbbcc55cf1ca06087ed4f6c77531f81d086bb2eae",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_policies/ConditionalAccessPolicies/20261017-060323/20261017-060323-ConditionalAccessPolicies.csv": "c501f4a7ac52e9c974aa784cbbcc55cf1ca06087ed4f6c77531f81d086bb2eae"
       },
       "cases": [
         {
@@ -249,18 +249,18 @@
     },
     "mes_grants": {
       "passed": true,
-      "records_verified": 184,
+      "records_verified": 196,
       "source_hashes": {
         "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032",
         "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-OAuthPermissions.ps1": "7e17971b12bd48a474aa138fcd20d060fe8cb6a0da255c50ca6217beed4115bd"
       },
       "output_hashes": {
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_grants/EntraID/20261017-053521-AppRegistrations/20261017-053521-AppRegistrations.csv": "366d72686d0b861549e36f19718a47b9cb4c237b4ee134aa916bb54b8cc4ce7b",
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_grants/EntraID/20261017-053521-OAuthPermissions/20261017-053521-OAuthPermissions.csv": "672674b1307be2424e9569310a29c2087cbed793d65f4200c1afdb2c29a41b54",
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_grants/EntraID/20261017-053521-ServicePrincipals/20261017-053521-ServicePrincipals.csv": "eea72676f9e9595a7c796218165ce88197ee8ea47607ae7e5e1640f23719db76",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_grants/EntraID/20261017-053530-AppRegistrations/20261017-053530-AppRegistrations.csv": "366d72686d0b861549e36f19718a47b9cb4c237b4ee134aa916bb54b8cc4ce7b",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_grants/EntraID/20261017-053530-OAuthPermissions/20261017-053530-OAuthPermissions.csv": "672674b1307be2424e9569310a29c2087cbed793d65f4200c1afdb2c29a41b54",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_grants/EntraID/20261017-053530-ServicePrincipals/20261017-053530-ServicePrincipals.csv": "eea72676f9e9595a7c796218165ce88197ee8ea47607ae7e5e1640f23719db76"
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_grants/EntraID/20261017-060316-AppRegistrations/20261017-060316-AppRegistrations.csv": "864fd3c6738806e63452e70c8995e863d8874dd81981ce81af477a7b49abedf2",
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_grants/EntraID/20261017-060316-OAuthPermissions/20261017-060316-OAuthPermissions.csv": "155d9c27805cad64247c5f7a147e1a37b80ce2fce9856878286959d3c72f06df",
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_grants/EntraID/20261017-060316-ServicePrincipals/20261017-060316-ServicePrincipals.csv": "da7fb1bfef8f1b1554bd7c8a0f4dadc6f5b07c6079478e91bbcc46b54d34e331",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_grants/EntraID/20261017-060324-OAuthPermissions/20261017-060324-OAuthPermissions.csv": "155d9c27805cad64247c5f7a147e1a37b80ce2fce9856878286959d3c72f06df",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_grants/EntraID/20261017-060325-AppRegistrations/20261017-060325-AppRegistrations.csv": "864fd3c6738806e63452e70c8995e863d8874dd81981ce81af477a7b49abedf2",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_grants/EntraID/20261017-060325-ServicePrincipals/20261017-060325-ServicePrincipals.csv": "da7fb1bfef8f1b1554bd7c8a0f4dadc6f5b07c6079478e91bbcc46b54d34e331"
       },
       "cases": [
         {
@@ -289,16 +289,16 @@
       "passed": true,
       "records_verified": 4,
       "source_hashes": {
-        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032",
-        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-MFAStatus.ps1": "ff97e4c58a540da2527e1c819bbea86af7766b0e3666290adb25e851cbedca48"
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-MFAStatus.ps1": "ff97e4c58a540da2527e1c819bbea86af7766b0e3666290adb25e851cbedca48",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
       },
       "output_hashes": {
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_methods/MFA/20261017-053523/20261017-053523-AuthenticationMethods.csv": "6f42ce92c9402a8b2a2967a3f73adb80839174722ed89b07065758c164761076",
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_methods/MFA/20261017-053524/20261017-053524-UserRegistrationDetails.csv": "326b4f5324db3d47fb5dbcaf3f7ee96e59c92acca47a68b1c1060d5357f8d42b",
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_methods-denied/MFA/20261017-053525/20261017-053525-AuthenticationMethods.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_methods/MFA/20261017-053531/20261017-053531-AuthenticationMethods.csv": "6f42ce92c9402a8b2a2967a3f73adb80839174722ed89b07065758c164761076",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_methods/MFA/20261017-053533/20261017-053533-UserRegistrationDetails.csv": "1cb1163b52209e0f0657ae01afffe001ca6141c76bbed49ddb093d038dab6ddf",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_methods-denied/MFA/20261017-053533/20261017-053533-AuthenticationMethods.csv": "10b898e71a51444003675c5895e1f00412be8308991184df3c0ca9583cea43bc"
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_methods/MFA/20261017-060317/20261017-060317-AuthenticationMethods.csv": "6f42ce92c9402a8b2a2967a3f73adb80839174722ed89b07065758c164761076",
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_methods/MFA/20261017-060319/20261017-060319-UserRegistrationDetails.csv": "3f7cade0b11f231a8747bbcec4764c9cb83600b0f5333f949f7dd99015a4f554",
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_methods-denied/MFA/20261017-060320/20261017-060320-AuthenticationMethods.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_methods/MFA/20261017-060325/20261017-060325-AuthenticationMethods.csv": "6f42ce92c9402a8b2a2967a3f73adb80839174722ed89b07065758c164761076",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_methods/MFA/20261017-060327/20261017-060327-UserRegistrationDetails.csv": "a922645d95133d6bc26ef86337edd9b471153be296bcb5c0337ca56933f14ed5",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_methods-denied/MFA/20261017-060327/20261017-060327-AuthenticationMethods.csv": "10b898e71a51444003675c5895e1f00412be8308991184df3c0ca9583cea43bc"
       },
       "cases": [
         {
@@ -327,12 +327,12 @@
       "passed": true,
       "records_verified": 6,
       "source_hashes": {
-        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032",
-        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-Roles.ps1": "2dbd16c7afa069fc754877775ce2ddb6f8765cc6007e67b98f770bae32e4dc26"
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-Roles.ps1": "2dbd16c7afa069fc754877775ce2ddb6f8765cc6007e67b98f770bae32e4dc26",
+        "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Microsoft-Extractor-Suite.psm1": "4b5baace85d2e0703019e92d400ccc29388da0ce28a18c412a68421eb8a86032"
       },
       "output_hashes": {
-        "clients/powershell-state/collectors/1792215286767352700-application-mes_roles/Roles/20261017-053525/20261017-053525-AllRoles.csv": "e3374488c28f6317e16cae8b569cf04e01060651f988cb1b854f8991afa1a5c3",
-        "clients/powershell-state/collectors/1792215286767352700-delegated-mes_roles/Roles/20261017-053534/20261017-053534-AllRoles.csv": "e3374488c28f6317e16cae8b569cf04e01060651f988cb1b854f8991afa1a5c3"
+        "clients/powershell-state/collectors/1792216963671853100-application-mes_roles/Roles/20261017-060320/20261017-060320-AllRoles.csv": "0f05660a77883bdb8371ba827714fa0745ddd601c20fef166c8484f45415d2cc",
+        "clients/powershell-state/collectors/1792216963671853100-delegated-mes_roles/Roles/20261017-060328/20261017-060328-AllRoles.csv": "0f05660a77883bdb8371ba827714fa0745ddd601c20fef166c8484f45415d2cc"
       },
       "cases": [
         {
@@ -359,17 +359,27 @@
     }
   },
   "passed": true,
-  "total_seconds": 236.926497,
+  "total_seconds": 181.5455,
   "limitations": [
     "PowerShell uses local tokens; Python uses real MSAL authentication flows.",
     "Physical MFA, SSPR and passwordless services remain disabled in this descriptor profile.",
     "5,000-user qualification is not a throughput SLA."
   ],
   "regression": {
-    "passed": 474,
+    "passed": 522,
     "warnings": 1,
-    "seconds": 534.66,
-    "command": "pytest tests/unit tests/integration -q --tb=short"
+    "seconds": 580.74,
+    "command": "pytest tests/unit tests/integration -q --tb=short --durations=10"
   },
-  "status": "Task 9 qualified; final M3C review and capability documentation pending"
+  "status": "M3C qualified after independent final review and reproduced fixes",
+  "review": {
+    "base": "5cdcf5a0b1228f44cc8561e2e4217e0058355b26",
+    "reviewed_head": "39277b598f640a2113857bf5f43ce67b57d2ac3e",
+    "fix_commit": "26722043c4bf342768b21d130dfc90f17dadefa6",
+    "important_findings_fixed": 5,
+    "declined_to_judge": [],
+    "deferred_minors": [
+      "Preserve upstream LICENSE.docs line52 trailing whitespace verbatim."
+    ]
+  }
 }
