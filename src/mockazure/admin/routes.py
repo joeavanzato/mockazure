@@ -30,7 +30,7 @@ async def ready(request: Request):
 async def capabilities():
     return {
         "milestone": 5,
-        "delivery": "arm",
+        "delivery": "collection-evidence",
         "authentication_flows": [
             "client_credentials",
             "authorization_code_pkce",
@@ -71,6 +71,12 @@ async def capabilities():
             "graph.conditionalAccess.enforcement",
             "graph.mail.inboxRules",
             "graph.security.auditLog.queries",
+            "graph.security.alerts.read",
+            "graph.security.alerts_v2.read",
+            "graph.security.incidents.read",
+            "graph.security.secureScores.read",
+            "graph.security.secureScoreControlProfiles.read",
+
             "exchange.organization.read",
             "exchange.mailbox.configuration",
             "exchange.mailbox.statistics",
@@ -101,6 +107,9 @@ async def capabilities():
             "Inventory pages invalidate on mutation; Activity pages retain publication snapshots",
             "Activity times retain 100ns precision; query grammar and mutations are bounded",
             "No Azure compute deployment or arbitrary resource-provider execution",
+            "Security collections: five v1.0 read families, typed imports, one-hour cursors",
+            "Legacy alerts reproduce historical collector behavior after upstream retirement",
+            "Security evidence does not execute detection, hunting or remediation",
             "Tenant exports remain metadata-only; directory datasets are separate public fixtures",
         ],
         "admin_operations": [
@@ -137,6 +146,7 @@ async def capabilities():
             "licensing.inventory",
             "managed_identity.identities",
             "managed_identity.hosts",
+            "collections.import",
             "evidence.import",
             "evidence.export",
             "evidence.settings",

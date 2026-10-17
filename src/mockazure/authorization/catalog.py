@@ -20,6 +20,12 @@ CATALOG = (
     *(
         PermissionDefinition("graph", name, kind, True)
         for name in (
+            "SecurityEvents.Read.All",
+            "SecurityEvents.ReadWrite.All",
+            "SecurityAlert.Read.All",
+            "SecurityAlert.ReadWrite.All",
+            "SecurityIncident.Read.All",
+            "SecurityIncident.ReadWrite.All",
             "AuditLog.Read.All",
             "AuditLogsQuery.Read.All",
             "AuditLogsQuery-CRM.Read.All",

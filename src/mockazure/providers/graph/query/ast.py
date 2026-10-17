@@ -9,7 +9,7 @@ class Field:
 
 @dataclass(frozen=True)
 class Literal:
-    value: str | bool | int | None
+    value: str | bool | int | float | None
 
 
 @dataclass(frozen=True)

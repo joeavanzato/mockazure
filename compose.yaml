@@ -7,17 +7,24 @@ x-application: &application
   networks: [internal]
 services:
   db:
+    stop_grace_period: 120s
+    init: true
     image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    entrypoint: ["/bin/sh", "/mockazure/postgres-guard.sh"]
+    command: ["postgres"]
     environment:
       POSTGRES_USER: mockazure
       POSTGRES_DB: mockazure
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     volumes:
-      - ./.runtime/postgres:/var/lib/postgresql
+      - "${MOCKAZURE_POSTGRES_STORAGE:?Run mockazure init --compose first}:/var/lib/postgresql"
+      - ./.runtime/instance:/instance
+      - ./deploy/postgres-guard.sh:/mockazure/postgres-guard.sh:ro
     secrets: [db_password]
     networks: [internal]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mockazure -d mockazure"]
+      start_period: 180s
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure -d mockazure"]
       interval: 2s
       timeout: 3s
       retries: 30
@@ -26,11 +33,18 @@ services:
     command: ["db", "upgrade", "--config", "/instance/container.json"]
     depends_on:
       db: {condition: service_healthy}
+  identity-init:
+    <<: *application
+    command: ["identity", "initialize", "--config", "/instance/container.json"]
+    volumes:
+      - ./.runtime/instance:/instance
+    depends_on:
+      migrate: {condition: service_completed_successfully}
   api:
     <<: *application
     command: ["serve", "--config", "/instance/container.json"]
     depends_on:
-      migrate: {condition: service_completed_successfully}
+      identity-init: {condition: service_completed_successfully}
     healthcheck:
       test: ["CMD", "python", "-c", "import ssl,urllib.request; urllib.request.urlopen('https://localhost:8443/_mock/ready',context=ssl.create_default_context(cafile='/instance/ca.pem'),timeout=3)"]
       interval: 2s
@@ -40,7 +54,7 @@ services:
     <<: *application
     command: ["worker", "--config", "/instance/container.json"]
     depends_on:
-      migrate: {condition: service_completed_successfully}
+      identity-init: {condition: service_completed_successfully}
   ingress:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
@@ -55,6 +69,10 @@ services:
 secrets:
   db_password:
     file: ./.runtime/db.password
+volumes:
+  postgres-data:
+    labels:
+      org.mockazure.purpose: default-postgresql
 networks:
   internal:
     internal: true

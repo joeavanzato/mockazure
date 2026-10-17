@@ -1,10 +1,12 @@
 import json
+import os
 import re
 import secrets
 from dataclasses import dataclass
 from pathlib import Path
 
 from mockazure.config import Settings, load_settings, validate_host
+from mockazure.endpoints import EndpointProfile
 from mockazure.files import file_lock, write_private
 from mockazure.tls import ensure_tls
 
@@ -91,6 +93,49 @@ def initialize_compose(
         ]
         if any(present) and not all(present):
             raise ValueError("Partial Compose initialization; restore missing files")
+        base_environment = f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
+        legacy_storage = runtime / "postgres"
+        cluster = legacy_storage / "18/docker"
+
+        def valid_legacy_cluster():
+            try:
+                return (
+                    (cluster / "PG_VERSION").read_text().strip() == "18"
+                    and (cluster / "global/pg_control").is_file()
+                    and (cluster / "global/pg_control").stat().st_size > 0
+                )
+            except OSError:
+                return False
+
+        storage = "postgres-data"
+        upgrade_environment = False
+        if all(present):
+            existing_environment = environment_file.read_text()
+            if existing_environment == base_environment:
+                if not valid_legacy_cluster():
+                    raise ValueError(
+                        "Legacy Compose metadata has no complete PostgreSQL 18 cluster; "
+                        "restore it or "
+                        "archive the complete instance before initializing a fresh project"
+                    )
+                storage = "./.runtime/postgres"
+                upgrade_environment = True
+            elif existing_environment == (
+                base_environment + "MOCKAZURE_POSTGRES_STORAGE=./.runtime/postgres\n"
+            ):
+                if not valid_legacy_cluster():
+                    raise ValueError(
+                        "Legacy PostgreSQL cluster is missing or incomplete; restore from backup"
+                    )
+                storage = "./.runtime/postgres"
+            elif existing_environment != (
+                base_environment + "MOCKAZURE_POSTGRES_STORAGE=postgres-data\n"
+            ):
+                raise ValueError("Compose configuration differs; inspect the existing settings")
+            elif legacy_storage.exists():
+                raise ValueError("Conflicting PostgreSQL storage: volume and legacy directory")
+        elif legacy_storage.exists():
+            raise ValueError("Legacy PostgreSQL storage has no complete instance configuration")
         if all(present):
             password = password_file.read_text().strip()
             if not re.fullmatch(r"[A-Za-z0-9_-]{43}", password):
@@ -112,14 +157,30 @@ def initialize_compose(
             listen_port=8443,
             database_url=f"postgresql+psycopg://mockazure:{password}@db:5432/mockazure",
         )
+        legacy_container = (json.dumps(container, indent=2) + "\n").encode()
+        container["client_profiles"] = {
+            **container["client_profiles"],
+            "container": container["client_profiles"].get(
+                "container", EndpointProfile().model_dump(mode="json")
+            ),
+        }
+        upgrade_container = (
+            container_file.exists() and container_file.read_bytes() == legacy_container
+        )
         expected = {
             container_file: (json.dumps(container, indent=2) + "\n").encode(),
             environment_file: (
-                f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
+                base_environment + f"MOCKAZURE_POSTGRES_STORAGE={storage}\n"
             ).encode(),
         }
         for path, content in expected.items():
-            if path.exists():
+            if (path == environment_file and upgrade_environment) or (
+                path == container_file and upgrade_container
+            ):
+                temporary = path.with_name("." + path.name + ".upgrade")
+                write_private(temporary, content)
+                os.replace(temporary, path)
+            elif path.exists():
                 if path.read_bytes() != content:
                     raise ValueError("Compose configuration differs; inspect the existing settings")
             else:

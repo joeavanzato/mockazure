@@ -1,0 +1,247 @@
+[
+  {
+    "from": "docs/arm-decisions.md",
+    "to": "docs/archive/m1-m6/arm-decisions.md",
+    "original_sha256": "bc8f35d19437d1f9e938d4faa00fe4710318e26f912cee5bf802a3d59ec9b217"
+  },
+  {
+    "from": "docs/arm-execution.md",
+    "to": "docs/archive/m1-m6/arm-execution.md",
+    "original_sha256": "7cf6ed283cc8c745d4b6781b0bf75d1fffaeec9ec8f2b5f881ccdd7ad2e31c28"
+  },
+  {
+    "from": "docs/arm-review.md",
+    "to": "docs/archive/m1-m6/arm-review.md",
+    "original_sha256": "0806f199f3744963054827358959226f91aa31fe201e05c88f0dcf414bb17b21"
+  },
+  {
+    "from": "docs/arm-verification.json",
+    "to": "docs/archive/m1-m6/arm-verification.json",
+    "original_sha256": "9b9d195d0fee1fe26bc07394fddecc0204d0615affddf19dab0f989c138a87cf"
+  },
+  {
+    "from": "docs/evidence-decisions.md",
+    "to": "docs/archive/m1-m6/evidence-decisions.md",
+    "original_sha256": "4403563b2f558a8bd8a59b369c30c184e63585ec92ebf9b68130b78ab1e0529f"
+  },
+  {
+    "from": "docs/evidence-execution.md",
+    "to": "docs/archive/m1-m6/evidence-execution.md",
+    "original_sha256": "d9a687f70260b0afcd4031506aec9ed11a2f9f604890cfe88b23f39700c88bc9"
+  },
+  {
+    "from": "docs/evidence-verification.json",
+    "to": "docs/archive/m1-m6/evidence-verification.json",
+    "original_sha256": "b93f9d93328c68fdf4c617f652b5041c45fc28beb38ef10d3dbd77c46f8f5f2b"
+  },
+  {
+    "from": "docs/foundation-execution.md",
+    "to": "docs/archive/m1-m6/foundation-execution.md",
+    "original_sha256": "fcf262169e3e6b15cf77b2098553dd64021d257e082a776f912a37a6184feb1d"
+  },
+  {
+    "from": "docs/graph-directory-execution.md",
+    "to": "docs/archive/m1-m6/graph-directory-execution.md",
+    "original_sha256": "2b805c1c31b87944a9ef5bbe5f92d1f22fb1a1ab41367e23855481824c3c6e10"
+  },
+  {
+    "from": "docs/graph-directory-rulings.md",
+    "to": "docs/archive/m1-m6/graph-directory-rulings.md",
+    "original_sha256": "33e9a23362bcd8edc225b667be88330e687d89dcbb10531b41dd838e0ac95192"
+  },
+  {
+    "from": "docs/identity-execution.md",
+    "to": "docs/archive/m1-m6/identity-execution.md",
+    "original_sha256": "2c0a0e858e342f01e5ab1f336a0cce447550f45f62b3d10336b154763184be2a"
+  },
+  {
+    "from": "docs/mail-client-verification.json",
+    "to": "docs/archive/m1-m6/mail-client-verification.json",
+    "original_sha256": "20e51ba2b7d2ff1df3ce51214959ebd16fcf589de0c7b94af85176303e1c3157"
+  },
+  {
+    "from": "docs/mail-decisions.md",
+    "to": "docs/archive/m1-m6/mail-decisions.md",
+    "original_sha256": "bb7c19d4bd3465b29fae2df56e7483153b693500037d7726f15011e134b69339"
+  },
+  {
+    "from": "docs/mail-execution.md",
+    "to": "docs/archive/m1-m6/mail-execution.md",
+    "original_sha256": "741eb4c0278396108c72a847512ec8270120bc8b931e936bb8b1727517e7838e"
+  },
+  {
+    "from": "docs/mail-review.md",
+    "to": "docs/archive/m1-m6/mail-review.md",
+    "original_sha256": "0cc2f30ba192cd9a37a8606b6ed83037f2c623f15b37390dc822439b78fe2cbe"
+  },
+  {
+    "from": "docs/mail-verification.json",
+    "to": "docs/archive/m1-m6/mail-verification.json",
+    "original_sha256": "496dcca4a3e725fb8eac6db77fb5411e3c356a9221342b01f13e7dbe2a90f4fc"
+  },
+  {
+    "from": "docs/overnight-execution.md",
+    "to": "docs/archive/m1-m6/overnight-execution.md",
+    "original_sha256": "f7fc4e5951513d86b359fb0938bad810fd2a7ad375ff552e519ef0d2ca85a421"
+  },
+  {
+    "from": "docs/release-arm-recovery.json",
+    "to": "docs/archive/m1-m6/release-arm-recovery.json",
+    "original_sha256": "3a766aee34c0c8c2e6b8c787cf9c453bbadcb0548fe68269eea8b1450074dc5c"
+  },
+  {
+    "from": "docs/release-build.json",
+    "to": "docs/archive/m1-m6/release-build.json",
+    "original_sha256": "002ae9aef71695d82c3aa439da7c5b1cfd06de621259a0eb5a1dde65267dba61"
+  },
+  {
+    "from": "docs/release-build.md",
+    "to": "docs/archive/m1-m6/release-build.md",
+    "original_sha256": "ece6a6b8f3f94b68f3ce11a5b2ade4fc245990aae325c89a07c6354aa64ba82a"
+  },
+  {
+    "from": "docs/release-decisions.md",
+    "to": "docs/archive/m1-m6/release-decisions.md",
+    "original_sha256": "9b1808ff0a3319931bbd166f23934fefce072291556ee1b1e4d625f53509952e"
+  },
+  {
+    "from": "docs/release-execution.md",
+    "to": "docs/archive/m1-m6/release-execution.md",
+    "original_sha256": "f3eaf37d8f68bac2aac7aebd680c0fc3418c05cfbf3a1965002ecaa75c58b1b2"
+  },
+  {
+    "from": "docs/release-ledger.md",
+    "to": "docs/archive/m1-m6/release-ledger.md",
+    "original_sha256": "b4ed02711609e7f1965374c7fc3debce1b085843b7d35e2bdd186c241200635d"
+  },
+  {
+    "from": "docs/release-qualification.json",
+    "to": "docs/archive/m1-m6/release-qualification.json",
+    "original_sha256": "87977a2adf73f2a0538818db62da6fd346bf89104a774f9c9273369110d11e93"
+  },
+  {
+    "from": "docs/release-review.md",
+    "to": "docs/archive/m1-m6/release-review.md",
+    "original_sha256": "8ad196f408a800b3876a66a8441df8a806e20bea91d82db725d26c2a17b33bda"
+  },
+  {
+    "from": "docs/release-scale-environment.json",
+    "to": "docs/archive/m1-m6/release-scale-environment.json",
+    "original_sha256": "1a5df41fa9146f64e853fc75d38d6411445a537b1f03b4bf424863d1dc4a444b"
+  },
+  {
+    "from": "docs/release-scale-failure.json",
+    "to": "docs/archive/m1-m6/release-scale-failure.json",
+    "original_sha256": "b7130a29f510ec7e3f4a5b24f6bd58a7d9580b3eda1fa932ee59fa6011a228be"
+  },
+  {
+    "from": "docs/release-scale-tuning.json",
+    "to": "docs/archive/m1-m6/release-scale-tuning.json",
+    "original_sha256": "3c45ea3380cc3879c5d46a5a03bc9f88d7467ada30da4504c6b2ecc133e0041b"
+  },
+  {
+    "from": "docs/release-scale.json",
+    "to": "docs/archive/m1-m6/release-scale.json",
+    "original_sha256": "27317034dd29f3a4ebb5420f51c439f0a16c90ea38469024e3144fc132cca5fd"
+  },
+  {
+    "from": "docs/release-scale.md",
+    "to": "docs/archive/m1-m6/release-scale.md",
+    "original_sha256": "540f56e825ee592a469c7ecc399a454a5cd572ffff6ed49623115ac93674f110"
+  },
+  {
+    "from": "docs/release-validation.json",
+    "to": "docs/archive/m1-m6/release-validation.json",
+    "original_sha256": "7313094ee4b9a1d92de63cceb8d145a70aff8ff84337247eb35ffd79bd909ba8"
+  },
+  {
+    "from": "docs/security-decisions.md",
+    "to": "docs/archive/m1-m6/security-decisions.md",
+    "original_sha256": "54823106e2bde3ce4a79d631655c988ce860e789513878f125ae2fcfd07aeb85"
+  },
+  {
+    "from": "docs/security-execution.md",
+    "to": "docs/archive/m1-m6/security-execution.md",
+    "original_sha256": "ba8868679e23bff0fda5f7720a8be3195a3e8bdad579123d1c56cd03f89d4ebb"
+  },
+  {
+    "from": "docs/security-native-ledger.md",
+    "to": "docs/archive/m1-m6/security-native-ledger.md",
+    "original_sha256": "d92328ecff95695abce999403d752cb69e637a36036638d1f5caf6f81b67644d"
+  },
+  {
+    "from": "docs/security-verification.json",
+    "to": "docs/archive/m1-m6/security-verification.json",
+    "original_sha256": "7c0e7e30415991e0cb939eff8352faaa8ceef6aeba8b5655bf76b74d5413adcc"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-16-mockazure-evidence.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-evidence.md",
+    "original_sha256": "76e98f003ca327bee45f2c68c115a58dcec208c04816b8ce1ea48ac1779dceaf"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-16-mockazure-foundation.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-foundation.md",
+    "original_sha256": "e401b00e851987201c0c8fc40b4f7ac55e53df2a316a143b062c56a02a3e0f01"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-16-mockazure-identity-connectivity.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-identity-connectivity.md",
+    "original_sha256": "30eefc81073d189f541bd3802e9ecf43a98461f2bd23bf463301dbb7e24510be"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-16-mockazure-security.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-security.md",
+    "original_sha256": "ad58049051dbb49c10c2fecd40c5cc57d7d6e781961a121eb12451cd6764aa20"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-16-mockazure-stateful-graph-directory.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-16-mockazure-stateful-graph-directory.md",
+    "original_sha256": "b15807e91b3352054d885a168e636cefbe659d0220fddbf0b43ef41ece73da94"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-17-mockazure-arm.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-17-mockazure-arm.md",
+    "original_sha256": "1d4566523f73e3287b80f750f42255c3c35fa0708740631a73b2e5554a363998"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-17-mockazure-mail.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-17-mockazure-mail.md",
+    "original_sha256": "c294e3bed891b63434044f20ac6f51a4d419ac1566d5d1519003c78c2fd8622f"
+  },
+  {
+    "from": "docs/superpowers/plans/2026-10-17-mockazure-release.md",
+    "to": "docs/archive/m1-m6/superpowers/plans/2026-10-17-mockazure-release.md",
+    "original_sha256": "ee15584f7975b702e3508308f735d19b41abb0b04615bfdb2376680e052b09af"
+  },
+  {
+    "from": "docs/superpowers/specs/2026-10-16-mockazure-evidence-design.md",
+    "to": "docs/archive/m1-m6/superpowers/specs/2026-10-16-mockazure-evidence-design.md",
+    "original_sha256": "fd4c3c5e9dbf7416800e2fa12163a1542ddd5ee73c1c309ee7faf600afd94567"
+  },
+  {
+    "from": "docs/superpowers/specs/2026-10-16-mockazure-security-design.md",
+    "to": "docs/archive/m1-m6/superpowers/specs/2026-10-16-mockazure-security-design.md",
+    "original_sha256": "36f018b8877b5655500ef70f3af890a128490f0c1993f5bd2616512ee851455e"
+  },
+  {
+    "from": "docs/superpowers/specs/2026-10-16-mockazure-stateful-graph.md",
+    "to": "docs/archive/m1-m6/superpowers/specs/2026-10-16-mockazure-stateful-graph.md",
+    "original_sha256": "74c3fd21813b5daaff9096171751eee012ae3e88aa31e907688591fe79e0e010"
+  },
+  {
+    "from": "docs/superpowers/specs/2026-10-17-mockazure-arm-design.md",
+    "to": "docs/archive/m1-m6/superpowers/specs/2026-10-17-mockazure-arm-design.md",
+    "original_sha256": "86d5968e4b3310378a0af3add72809d0fff025b5e678f8ce5f335d4b91b70f67"
+  },
+  {
+    "from": "docs/superpowers/specs/2026-10-17-mockazure-mail-design.md",
+    "to": "docs/archive/m1-m6/superpowers/specs/2026-10-17-mockazure-mail-design.md",
+    "original_sha256": "2ca40c0a487f8859a26722df06bb07be29f10c12787c46cab54c9822d4de79f3"
+  },
+  {
+    "from": "docs/superpowers/specs/2026-10-17-mockazure-release-design.md",
+    "to": "docs/archive/m1-m6/superpowers/specs/2026-10-17-mockazure-release-design.md",
+    "original_sha256": "d1f6421c2577169c927c876d3475ab934072fe67259b4fa00eca3be88f834e9b"
+  }
+]
