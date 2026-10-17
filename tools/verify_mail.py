@@ -96,8 +96,26 @@ def validate_results(report):
     assert report["schema_version"] == 1 and report["passed"] is True
     age = datetime.now(UTC) - datetime.fromisoformat(report["qualified_at"])
     assert timedelta(0) <= age < timedelta(days=1)
+    from tools.collector_profiles import PROFILES
     from tools.qualify_mail_collectors import FUNCTIONS, validate_cases
 
+    profile = report.get("collector_profile", "original")
+    assert profile in PROFILES
+    assert all(item.get("profile", "original") == profile for item in report["collectors"].values())
+    if profile != "original":
+        baseline = report["upstream_baseline"]
+        assert set(baseline) == {"hawk_rules", "mes_trace"}
+        for item in baseline.values():
+            assert item["profile"] == "original" and item["passed"] is False
+            assert len(item["cases"]) == 4
+            assert {(c["mode"], c["denied"]) for c in item["cases"]} == {
+                (mode, denied) for mode in ("application", "delegated") for denied in (False, True)
+            }
+            for case in item["cases"]:
+                assert type(case["denied"]) is bool
+                assert case["passed"] is case["denied"]
+                if not case["denied"]:
+                    assert isinstance(case.get("failure"), str) and case["failure"]
     assert set(report["collectors"]) == set(FUNCTIONS)
     for result in report["collectors"].values():
         assert result["passed"] is True
@@ -123,6 +141,8 @@ def validate_report(report, *, root=ROOT):
     from tools.qualify_mail_collectors import validate_collector_hashes
 
     validate_collector_hashes(report["collectors"], root)
+    if report.get("collector_profile", "original") != "original":
+        validate_collector_hashes(report["upstream_baseline"], root)
     assert report["source_fingerprint"] == source_fingerprint(root)
     assert re.fullmatch("[0-9a-f]{40}", report["source_commit"])
     assert report["manifest_sha256"] == sha(root / "integrations/manifest.json")
@@ -165,6 +185,9 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", type=Path, default=ROOT / "work/mail-report.json")
+    parser.add_argument(
+        "--collector-profile", choices=("original", "serialization-v1"), default="original"
+    )
     args = parser.parse_args()
     output = args.report.resolve()
     assert output.is_relative_to(ROOT / "work")
@@ -383,7 +406,10 @@ def main():
     )
     from tools.qualify_mail_collectors import qualify_collectors
 
-    collectors = qualify_collectors()
+    baseline = {}
+    if args.collector_profile != "original":
+        baseline = qualify_collectors(labels={"hawk_rules", "mes_trace"})
+    collectors = qualify_collectors(profile=args.collector_profile)
     assert source_fingerprint() == fingerprint, "Source changed during qualification"
     report = {
         "schema_version": 1,
@@ -399,6 +425,8 @@ def main():
         "checks": checks,
         "clients": clients,
         "exchange": exchange,
+        "collector_profile": args.collector_profile,
+        "upstream_baseline": baseline,
         "collectors": collectors,
         "passed": all(item["passed"] is True for item in collectors.values()),
         "total_seconds": (datetime.now(UTC) - started).total_seconds(),

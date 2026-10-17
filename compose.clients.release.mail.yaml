@@ -21,6 +21,7 @@ services:
       - ./work/vendor/modules:/vendor/modules:ro
       - ./work/vendor/dependencies:/vendor/dependencies:ro
       - ./work/vendor/collectors:/vendor/collectors:ro
+      - ./work/collector-profiles:/collector-profiles:ro
       - ./.runtime/m6-mail/clients/powershell-state:/state
       - ./.runtime/m6-mail/clients/powershell-root:/root
       - ./.runtime/m6-mail/clients/powershell-tmp:/tmp
@@ -46,6 +47,7 @@ services:
       - ./work/vendor/modules:/vendor/modules:ro
       - ./work/vendor/dependencies:/vendor/dependencies:ro
       - ./work/vendor/collectors:/vendor/collectors:ro
+      - ./work/collector-profiles:/collector-profiles:ro
       - ./.runtime/m6-mail/clients/python-state:/state
       - ./.runtime/m6-mail/clients/python-root:/root
       - ./.runtime/m6-mail/clients/python-tmp:/tmp

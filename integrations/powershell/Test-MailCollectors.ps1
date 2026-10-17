@@ -13,10 +13,13 @@ else {Connect-MockAzure -ConfigPath /state/client.json -Mode AuthorizationCode -
 foreach($name in @('Microsoft.Graph.Users','Microsoft.Graph.Mail')){Import-Module $name -RequiredVersion 2.35.1}
 $hashes=@{}
 $telemetry=[Collections.Generic.List[string]]::new()
+$profile=if($case.profile){$case.profile}else{'original'}
+if($profile -notin @('original','serialization-v1')){throw 'Unknown collector source profile'}
+$sourceBase=if($profile -eq 'original'){'/vendor'}else{"/collector-profiles/$profile"}
 $root=if($case.collector -eq 'hawk'){
- '/vendor/collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk'
+ "$sourceBase/collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk"
 }else{
- '/vendor/collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed'
+ "$sourceBase/collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed"
 }
 New-Item -ItemType Directory -Path $case.output_dir -Force | Out-Null
 $connected=$false
@@ -58,14 +61,14 @@ try {
    'internal/functions/Test-EXOConnection.ps1','internal/functions/Test-GraphConnection.ps1','internal/functions/Initialize-HawkGlobalObject.ps1',
    'internal/functions/Out-LogFile.ps1','internal/functions/Out-MultipleFileType.ps1',
    "functions/User/$($case.function).ps1")
-  $module=New-Module -Name OriginalHawkMail -ArgumentList $root,$paths,$telemetry,$case.function -ScriptBlock {
+  $module=New-Module -Name QualifiedHawkMail -ArgumentList $root,$paths,$telemetry,$case.function -ScriptBlock {
    param($root,$paths,$telemetry,$function)
    $script:telemetry=$telemetry
    foreach($path in $paths){. "$root/$path"}
    function New-AIClient {param($key) $script:telemetry.Add('New-AIClient');[pscustomobject]@{disabled=$true}}
    function Send-AIEvent {param($Event) $script:telemetry.Add('Send-AIEvent')}
-   function Connect-ExchangeOnline {throw 'Original Hawk attempted an unconfigured reconnect'}
-   function Connect-MgGraph {throw 'Original Hawk attempted an unconfigured reconnect'}
+   function Connect-ExchangeOnline {throw 'Selected Hawk attempted an unconfigured reconnect'}
+   function Connect-MgGraph {throw 'Selected Hawk attempted an unconfigured reconnect'}
    Export-ModuleMember -Function Initialize-HawkGlobalObject,$function
   }
   foreach($path in $paths){$hashes["$root/$path"]=(Get-FileHash "$root/$path" -Algorithm SHA256).Hash.ToLowerInvariant()}
@@ -75,7 +78,7 @@ try {
  }else{
   $tokens=$null;$errors=$null
   $ast=[Management.Automation.Language.Parser]::ParseFile("$root/Microsoft-Extractor-Suite.psm1",[ref]$tokens,[ref]$errors)
-  if($errors.Count){throw 'Original MES module parse failed'}
+  if($errors.Count){throw 'Selected MES module parse failed'}
   $declarations=$ast.EndBlock.Statements | Where-Object {
    $_ -is [Management.Automation.Language.FunctionDefinitionAst] -or $_ -is [Management.Automation.Language.TypeDefinitionAst] -or
    $_.Extent.Text -ceq '$script:LogLevel = [LogLevel]::Standard'
@@ -88,13 +91,13 @@ try {
    'Get-UALGraph' {'Scripts/Get-UALGraph.ps1'}
    default {throw 'Unqualified collector'}
   }
-  $module=New-Module -Name OriginalMESMail -ArgumentList $source,$root,$config.endpoints.graph,$case.output_dir,$scriptPath,$case.function -ScriptBlock {
+  $module=New-Module -Name QualifiedMESMail -ArgumentList $source,$root,$config.endpoints.graph,$case.output_dir,$scriptPath,$case.function -ScriptBlock {
    param($source,$root,$origin,$output,$scriptPath,$function)
    . ([scriptblock]::Create($source))
    . "$root/$scriptPath"
    . /project/integrations/powershell/Graph-LocalTransport.ps1 -LocalOrigin $origin
    $script:logFile=Join-Path $output 'collector.log'
-   function Connect-ExchangeOnline {throw 'Original MES attempted an unconfigured reconnect'}
+   function Connect-ExchangeOnline {throw 'Selected MES attempted an unconfigured reconnect'}
    Export-ModuleMember -Function $function
   }
   foreach($path in @('Microsoft-Extractor-Suite.psm1',$scriptPath)){
@@ -122,7 +125,7 @@ finally{
  if($case.denied -and $admin){
   Invoke-RestMethod -Method PUT -Uri "$($config.endpoints.graph)/_mock/tenants/$($config.tenant_id)/mail/settings" -Headers $admin -ContentType 'application/json' -Body '{"exchange_enabled":true,"audit_tier":"standard"}' | Out-Null
  }
- $report=@{mode=$case.mode;collector=$case.collector;function=$case.function
+ $report=@{profile=$profile;mode=$case.mode;collector=$case.collector;function=$case.function
   source_hashes=$hashes;hidden_check=$hiddenCheck;telemetry_calls=@($telemetry.ToArray());error=$errorText
   files=@(Get-ChildItem $case.output_dir -Recurse -File | ForEach-Object {$_.FullName})}
  $report | ConvertTo-Json -Depth 12 | Set-Content $case.report

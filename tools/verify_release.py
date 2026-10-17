@@ -328,7 +328,8 @@ def run_suites(output, stages):
         try:
             prepare_suite(stage)
             code = run(
-                [sys.executable, "tools/verify_" + profile.surface + ".py", "--report", path],
+                [sys.executable, "tools/verify_" + profile.surface + ".py", "--report", path]
+                + (["--collector-profile", "serialization-v1"] if stage == "m4" else []),
                 stage + "-qualification",
                 timeout=SUITE_TIMEOUTS[stage],
                 check=False,

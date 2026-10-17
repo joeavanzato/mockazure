@@ -1,4 +1,4 @@
-"""Pinned original collector execution and fail-closed artifact oracles."""
+"""Pinned original or explicitly patched collectors and fail-closed artifact oracles."""
 
 import csv
 import json
@@ -69,9 +69,14 @@ def validate_collector_hashes(results, root):
     import hashlib
     import re
 
+    from tools.collector_profiles import profile_root, validate_profile
+
+    for profile in {item.get("profile", "original") for item in results.values()}:
+        if profile != "original":
+            validate_profile(root, profile)
     for result in results.values():
         for field, base in (
-            ("source_hashes", root / "work/vendor"),
+            ("source_hashes", profile_root(root, result.get("profile", "original"))),
             ("output_hashes", root / PROFILE.text(".runtime/m4")),
         ):
             assert result[field], "Missing artifact hashes"
@@ -85,7 +90,7 @@ def validate_collector_hashes(results, root):
                 assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, "Artifact changed"
 
 
-def run_collectors():
+def run_collectors(profile="original", labels=None):
     import shutil
     import ssl
     import subprocess
@@ -94,6 +99,11 @@ def run_collectors():
 
     import httpx
 
+    from tools.collector_profiles import prepare_profile
+
+    prepare_profile(ROOT, profile)
+    selected = set(FUNCTIONS if labels is None else labels)
+    assert selected and selected <= set(FUNCTIONS)
     state = RUNTIME / "clients/powershell-state"
     config = json.loads((state / "client.json").read_text())
     secret = json.loads((state / "secret.json").read_text())["secret"]
@@ -227,9 +237,12 @@ def run_collectors():
             cases = []
             for mode in ("application", "delegated"):
                 for label, (collector, function) in FUNCTIONS.items():
+                    if label not in selected:
+                        continue
                     for denied in (False, True):
                         name = f"{stamp}-{mode}-{label}" + ("-denied" if denied else "")
                         case = {
+                            "profile": profile,
                             "mode": mode,
                             "collector": collector,
                             "function": function,
@@ -301,7 +314,7 @@ def run_collectors():
                 result.stdout + result.stderr, encoding="utf-8"
             )
             assert result.returncode == 0, "Collector process failed; inspect local log"
-            evidence = {"stamp": stamp, "expected": expected, "cases": cases}
+            evidence = {"stamp": stamp, "profile": profile, "expected": expected, "cases": cases}
             (ROOT / "work/mail-collector-run.json").write_text(json.dumps(evidence, indent=2))
             return evidence
         finally:
@@ -628,20 +641,27 @@ def verify_artifacts(label, files, expected):
     return count
 
 
-def qualify_collectors(evidence=None):
+def qualify_collectors(evidence=None, *, profile="original", labels=None):
+    from tools.collector_profiles import profile_root
     from tools.verify_mail import sha
 
-    evidence = run_collectors() if evidence is None else evidence
+    evidence = run_collectors(profile, labels) if evidence is None else evidence
+    assert evidence.get("profile", "original") == profile
+    selected = set(FUNCTIONS if labels is None else labels)
+    assert selected and selected <= set(FUNCTIONS)
+    base = profile_root(ROOT, profile)
+    prefix = "/vendor/" if profile == "original" else f"/collector-profiles/{profile}/"
     state = RUNTIME / "clients/powershell-state"
     results = {
         label: {
             "passed": False,
+            "profile": profile,
             "records_verified": 0,
             "source_hashes": {},
             "output_hashes": {},
             "cases": [],
         }
-        for label in FUNCTIONS
+        for label in selected
     }
     for case in evidence["cases"]:
         label, mode, denied, name = (case[k] for k in ("label", "mode", "denied", "name"))
@@ -649,6 +669,7 @@ def qualify_collectors(evidence=None):
         folder = state / "collectors" / name
         files = sorted(p for p in folder.rglob("*") if p.is_file())
         assert {"/state/" + p.relative_to(state).as_posix() for p in files} == set(report["files"])
+        assert report.get("profile", "original") == profile
         assert report["source_hashes"]
         item = results[label]
         outcome = {"mode": mode, "denied": denied, "passed": False}
@@ -675,8 +696,9 @@ def qualify_collectors(evidence=None):
             item["records_verified"] += verified
         item["cases"].append(outcome)
         for path, digest in report["source_hashes"].items():
-            relative = path.removeprefix("/vendor/")
-            assert digest == sha(ROOT / "work/vendor" / relative)
+            assert path.startswith(prefix)
+            relative = path.removeprefix(prefix)
+            assert digest == sha(base / relative)
             item["source_hashes"][relative] = digest
         for path in files:
             text = path.read_text(encoding="utf-8-sig")
@@ -684,7 +706,7 @@ def qualify_collectors(evidence=None):
                 secret = json.loads((state / filename).read_text())["secret"]
                 assert secret not in text, "Credential disclosure in collector artifact"
             item["output_hashes"][path.relative_to(RUNTIME).as_posix()] = sha(path)
-    assert len(evidence["cases"]) == 4 * len(FUNCTIONS)
+    assert len(evidence["cases"]) == 4 * len(selected)
     for item in results.values():
         assert item["output_hashes"]
         try:

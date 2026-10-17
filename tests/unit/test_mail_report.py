@@ -51,6 +51,32 @@ def test_mail_report_fails_closed():
         for label in FUNCTIONS
     }
     validate(baseline)
+    patched = copy.deepcopy(baseline)
+    patched["collector_profile"] = "serialization-v1"
+    patched["upstream_baseline"] = {}
+    for name, item in patched["collectors"].items():
+        item["profile"] = "serialization-v1"
+        if name in {"hawk_rules", "mes_trace"}:
+            original = copy.deepcopy(item)
+            original.update(profile="original", passed=False)
+            for case in original["cases"]:
+                case["passed"] = case["denied"]
+                if not case["denied"]:
+                    case["failure"] = "Known serializer failure"
+            patched["upstream_baseline"][name] = original
+    validate(patched)
+    for mutate in ("missing_baseline", "mixed_profile", "hidden_failure", "fake_upstream"):
+        bad = copy.deepcopy(patched)
+        if mutate == "missing_baseline":
+            bad["upstream_baseline"].pop("hawk_rules")
+        elif mutate == "mixed_profile":
+            bad["collectors"]["hawk_rules"]["profile"] = "original"
+        elif mutate == "hidden_failure":
+            bad["collectors"]["hawk_rules"]["cases"][0]["passed"] = False
+        else:
+            bad["upstream_baseline"]["hawk_rules"]["profile"] = "serialization-v1"
+        with pytest.raises(AssertionError):
+            validate(bad)
     for label in FUNCTIONS:
         bad = copy.deepcopy(baseline)
         bad["collectors"][label]["passed"] = 1
