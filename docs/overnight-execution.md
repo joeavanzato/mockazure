@@ -18,13 +18,17 @@ User direction (2026-10-16 America/New_York): continue M3C, M4, M5 and all later
 ## Ordered milestone queue
 | Milestone | Deliverable | State |
 | --- | --- | --- |
-| M3C | Applications/SPs/devices/owners; credentials, permission grants, directory roles, authentication-method inspection; enforced/report-only Conditional Access; audit effects | Implementing in .worktrees/security on feat/security-administration; tasks 1–2 committed/pushed, task 3 active |
+| M3C | Applications/SPs/devices/owners; credentials, permission grants, directory roles, authentication-method inspection; enforced/report-only Conditional Access; audit effects | Implementing in .worktrees/security on feat/security-administration; tasks 1–4 implemented and verified; task 5 next |
 | M4 | Mailbox configuration/forwarding, inbox and sweep rules, message trace, durable Graph UAL query/poll/download, original Hawk/MES workflows | Queued after qualified M3C |
 | M5 | ARM inventory and selected state changes, inherited scoped RBAC, Activity Logs and original MES export | Queued after qualified M4 |
 | M6 | Combined workflows, package/CLI/Docker parity, restart/fault/multi-worker checks, small/5,000-user and 100,000-user/1,000,000-evidence scale profiles, measured results and release artifacts | Queued after qualified M5 |
 
 Each new milestone reads its predecessor's ledger and verified interfaces. The M3B baseline is 316 passing unit/integration tests,25 runtime checks,3SDKprofiles and20accepted collector cases(14strict,6documented MES limitations). Those results are historical baseline, not proof of new changes.
 
-Latest checkpoint: M3C schema/reference task 356542f and persistent reads task 3169e34 are pushed. Regression: 208 tests passed in 62.30s. Native execution ledger: .superpowers/sdd/2026-10-16-mockazure-security/progress.md. Task 3 object/credential/owner mutations is active; no milestone completion claim yet.
-
-M3C continuation checkpoint is docs/security-execution.md in the security worktree. Task 3 remains in progress; core mutation regression210passed, export/security checkpoint12passed. All later milestones remain queued, and the hourly schedule is active through M6.
+Latest checkpoint: M3C tasks1–3 are committed/pushed through8189d26. Task4
+effective grant APIs are verified by414unit/integration tests (833.67s), with9
+focused grant checks. Continue directory roles (Task5), method inventory,
+Conditional Access, real-client qualification and final milestone review/PR.
+The authoritative continuation checkpoint is docs/security-execution.md; the
+native ledger is .superpowers/sdd/2026-10-16-mockazure-security/progress.md.
+All later milestones remain queued and the hourly schedule remains active.

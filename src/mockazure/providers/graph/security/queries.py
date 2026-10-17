@@ -9,6 +9,24 @@ from mockazure.providers.graph.query.contracts import FieldContract, QueryContra
 from mockazure.providers.graph.query.parser import parse_query, selection
 
 FIELDS = {
+    "oAuth2PermissionGrant": {
+        "id",
+        "clientId",
+        "resourceId",
+        "principalId",
+        "consentType",
+        "scope",
+    },
+    "appRoleAssignment": {
+        "id",
+        "principalId",
+        "resourceId",
+        "appRoleId",
+        "principalType",
+        "principalDisplayName",
+        "resourceDisplayName",
+        "createdDateTime",
+    },
     "application": {
         "id",
         "appId",
@@ -62,6 +80,12 @@ FIELDS = {
 
 def contract_for(kind, version):
     fields = {name: FieldContract(name, "string", frozenset()) for name in FIELDS[kind]}
+    if kind in {"oAuth2PermissionGrant", "appRoleAssignment"}:
+        for name in {"id", "clientId", "resourceId", "principalId", "appRoleId"} & fields.keys():
+            fields[name] = FieldContract(name, "uuid", frozenset({"eq"}))
+        if "consentType" in fields:
+            fields["consentType"] = FieldContract("consentType", "string", frozenset({"eq"}))
+        return QueryContract(version, kind, kind, fields, frozenset({"id"}))
     for name in {"id", "appId", "deviceId"} & fields.keys():
         fields[name] = FieldContract(name, "uuid", frozenset({"eq", "ne", "in"}))
     for name in {
@@ -87,6 +111,8 @@ def parse_security_query(request, kind):
         request.headers.get("consistencylevel"),
     )
     if expand is not None:
+        if kind in {"oAuth2PermissionGrant", "appRoleAssignment"}:
+            unsupported("Grant expansion is outside this profile")
         relation = "registeredOwners" if kind == "device" else "owners"
         match = re.fullmatch(relation + r"(?:\(\$select=([^()]+)\))?", expand)
         if match is None or query.count:

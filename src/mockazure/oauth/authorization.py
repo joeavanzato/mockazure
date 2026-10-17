@@ -215,6 +215,9 @@ async def login(request: Request):
 
 
 async def consent_to_scopes(row, session):
+    from mockazure.security.repository import lock_security
+
+    await lock_security(session, row.tenant_id)
     granted = await granted_scopes(session, row.tenant_id, row.client_id, row.user_id, row.resource)
     needed = set(row.scopes) - OIDC - granted
     admin = await session.get(DirectoryRole, (row.tenant_id, row.user_id, "Global Administrator"))

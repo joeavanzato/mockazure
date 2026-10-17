@@ -107,6 +107,8 @@ def validate_public_payload(version, family, payload):
             "Application": "application",
             "ServicePrincipal": "servicePrincipal",
             "Device": "device",
+            "oAuth2PermissionGrant": "oAuth2PermissionGrant",
+            "appRoleAssignment": "appRoleAssignment",
         }.get(target.get("type"))
         if security_kind:
             from mockazure.security.audit import safe

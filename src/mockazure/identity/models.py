@@ -74,6 +74,9 @@ class Credential(Base):
 
 
 class Grant(Base):
+    created_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
     __tablename__ = "identity_grants"
     __table_args__ = (
         ForeignKeyConstraint(

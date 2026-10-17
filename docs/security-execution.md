@@ -38,12 +38,29 @@ Preserve existing worktrees and runtimes.
    - Bootstrap is configuration, not invented Graph activity; admin identity writes
      share the security lock and normalized rows.
 
+4. Effective delegated grants and application permission assignments:
+   - Graph CRUD updates the canonical grants consumed by OAuth; native consent
+     uses the same security lock.
+   - Principal/AllPrincipals scopes, per-permission assignment IDs, resource-side
+     appRoleAssignedTo and appId addressing, stable SQL snapshots.
+   - Permission conjunctions and delegated privileged-role checks.
+   - Graph and Exchange.ManageAsApp configured/effective permission parity.
+   - Actual per-permission creation metadata; unknown administrative assignment
+     times are null. Metadata is not an authorization authority.
+   - Grant mutation audits validate, publish and export/reimport.
+   - Focused checks: 9 passed. Full unit/integration suite: 414 passed, 1 existing
+     MSAL response-mode recommendation warning in 833.67s. Log:
+     work/task4-regression.log. Diagnostic stack dumps were slow CLI tests,
+     not failures. No DB test run remains active.
+
 ## Next work
 
-Task 4: effective delegated grants and application role assignments from the
-canonical identity.Grant rows used by OAuth. Read its task brief/ledger before
-starting; Tasks 5–10 cover roles, method inventory, policy persistence/enforcement,
-real-client qualification and final regression/review/PR. M3C is not qualified yet.
+Task 5: directory-role definitions/assignments and legacy directoryRoles member
+views. Official role template IDs are saved to work/references/role-templates.json.
+Task 4 base was 8189d26c98a68448ddac4b6ff029a8b6e3ee1f13; run task-done if the ledger
+does not yet record its completion, then task-start5. Tasks 6–10 cover methods,
+policy persistence/enforcement, real-client qualification and final review/PR.
+M3C is not qualified yet. See docs/security-contracts.md for implemented bounds.
 
 ## Verification and continuation
 

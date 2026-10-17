@@ -42,7 +42,7 @@ def token_for(snapshot, position):
     return payload + "." + digest
 
 
-async def security_collection(request, session, actor, kind, query):
+async def security_collection(request, session, actor, kind, query, *, source=None):
     now = datetime.now(UTC)
     token = request.query_params.get("$skiptoken")
     position = 0
@@ -80,7 +80,7 @@ async def security_collection(request, session, actor, kind, query):
         )
         session.add(snapshot)
         await session.flush()
-        source = security_source(actor.tenant_id, kind)
+        source = security_source(actor.tenant_id, kind) if source is None else source
         contract = contract_for(kind, request.url.path.split("/")[1])
         order = [
             getattr(resolve(source, contract.fields[term.field]), term.direction)()

@@ -35,3 +35,19 @@ def resource_app_id(resource: str) -> UUID:
         return UUID(identifiers[resource])
     except KeyError:
         raise ValueError("Unsupported resource") from None
+
+
+def resource_permissions(resource):
+    if resource == "graph":
+        return permission_catalog()["permissions"]
+    if resource == "exchange":
+        # Official Exchange managed-identity documentation, cited in the execution record.
+        return [
+            {
+                "name": "Exchange.ManageAsApp",
+                "kind": "application",
+                "id": "dc50a0fb-09a3-484d-be87-e023b12c6440",
+                "adminConsentRequired": True,
+            }
+        ]
+    return []

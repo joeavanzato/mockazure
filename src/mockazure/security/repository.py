@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import JSONB, array, insert
 from mockazure.identity.models import Application, Credential, ServicePrincipal
 from mockazure.managed_identity.models import ManagedIdentity
 from mockazure.providers.graph.errors import GraphError
-from mockazure.security.catalog import permission_catalog, resource_app_id
+from mockazure.security.catalog import resource_app_id, resource_permissions
 from mockazure.security.credentials import owner_condition
 from mockazure.security.models import SecurityObject
 
@@ -59,8 +59,8 @@ async def ensure_resource_principals(session, tenant):
             "oauth2PermissionScopes": [],
             "tags": [],
         }
-        if resource == "graph":
-            for entry in permission_catalog()["permissions"]:
+        if resource_permissions(resource):
+            for entry in resource_permissions(resource):
                 value = {"id": entry["id"], "value": entry["name"], "isEnabled": True}
                 if entry["kind"] == "application":
                     properties["appRoles"].append(
@@ -146,52 +146,53 @@ def required_access(row):
         .table_valued(column("value", String))
         .alias("required_name")
     )
-    mapping = {
-        kind: {
-            entry["name"]: entry["id"]
-            for entry in permission_catalog()["permissions"]
-            if entry["kind"] == kind
+    result = literal([], JSONB)
+    for resource in ("graph", "exchange"):
+        mapping = {
+            kind: {
+                item["name"]: item["id"]
+                for item in resource_permissions(resource)
+                if item["kind"] == kind
+            }
+            for kind in ("application", "delegated")
         }
-        for kind in ("application", "delegated")
-    }
-    identifier = (
-        literal(mapping, JSONB)
-        .op("->")(entries.c.value["kind"].as_string())
-        .op("->>")(names.c.value)
-    )
-    access = (
-        select(
-            func.jsonb_agg(
-                document(
-                    id=identifier,
-                    type=case(
-                        (entries.c.value["kind"].as_string() == "application", "Role"),
-                        else_="Scope",
-                    ),
+        identifier = (
+            literal(mapping, JSONB)
+            .op("->")(entries.c.value["kind"].as_string())
+            .op("->>")(names.c.value)
+        )
+        access = (
+            select(
+                func.jsonb_agg(
+                    document(
+                        id=identifier,
+                        type=case(
+                            (entries.c.value["kind"].as_string() == "application", "Role"),
+                            else_="Scope",
+                        ),
+                    )
                 )
             )
+            .select_from(entries)
+            .join(names, true())
+            .where(entries.c.value["resource"].as_string() == resource, identifier.is_not(None))
+            .correlate(row)
+            .scalar_subquery()
         )
-        .select_from(entries)
-        .join(names, true())
-        .where(
-            entries.c.value["resource"].as_string() == "graph",
-            identifier.is_not(None),
+        result = result.op("||")(
+            case(
+                (
+                    access.is_not(None),
+                    func.jsonb_build_array(
+                        document(
+                            resourceAppId=str(resource_app_id(resource)), resourceAccess=access
+                        )
+                    ),
+                ),
+                else_=literal([], JSONB),
+            )
         )
-        .correlate(row)
-        .scalar_subquery()
-    )
-    return case(
-        (
-            access.is_not(None),
-            func.jsonb_build_array(
-                document(
-                    resourceAppId=str(resource_app_id("graph")),
-                    resourceAccess=access,
-                )
-            ),
-        ),
-        else_=literal([], JSONB),
-    )
+    return result
 
 
 def identity_source(tenant, kind):

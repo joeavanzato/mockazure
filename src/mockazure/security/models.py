@@ -46,3 +46,14 @@ class SecuritySnapshotItem(Base):
     snapshot_id: Mapped[UUID] = mapped_column(primary_key=True)
     position: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     payload: Mapped[dict] = mapped_column(JSONB)
+
+
+class GrantRoleMetadata(Base):
+    """Relationship metadata only; identity_grants remains the authorization authority."""
+
+    __tablename__ = "security_grant_role_metadata"
+    grant_id: Mapped[UUID] = mapped_column(
+        ForeignKey("identity_grants.id", ondelete="CASCADE"), primary_key=True
+    )
+    permission: Mapped[str] = mapped_column(String(200), primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))

@@ -9,7 +9,7 @@ from mockazure.identity.types import validate_redirect_uri
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.schema_reference import validate_payload
 from mockazure.security.audit import record_security_audit
-from mockazure.security.catalog import permission_name, resource_app_id
+from mockazure.security.catalog import resource_app_id, resource_permissions
 from mockazure.security.credentials import add_password, remove_password, replace_certificates
 from mockazure.security.models import SecurityObject, SecurityOwner
 from mockazure.security.permissions import actor_object_id, authorize_mutation
@@ -68,20 +68,35 @@ def configured_permissions(values):
     for entry in values:
         if set(entry) != {"resourceAppId", "resourceAccess"}:
             invalid()
-        if entry["resourceAppId"] != str(resource_app_id("graph")):
-            invalid("Only the declared local Graph resource permission catalog is supported")
+        resource = next(
+            (
+                name
+                for name in ("graph", "exchange")
+                if uuid_value(entry["resourceAppId"]) == resource_app_id(name)
+            ),
+            None,
+        )
+        if resource is None:
+            invalid("Resource permission catalog is not supported")
         for access in entry["resourceAccess"]:
             if set(access) != {"id", "type"} or access["type"] not in {"Role", "Scope"}:
                 invalid()
             kind = "application" if access["type"] == "Role" else "delegated"
-            try:
-                name = permission_name(uuid_value(access["id"]), kind)
-            except ValueError:
+            identifier = str(uuid_value(access["id"]))
+            name = next(
+                (
+                    item["name"]
+                    for item in resource_permissions(resource)
+                    if item["id"] == identifier and item["kind"] == kind
+                ),
+                None,
+            )
+            if name is None:
                 invalid("Unknown resource permission identifier")
-            entries.setdefault(kind, set()).add(name)
+            entries.setdefault((resource, kind), set()).add(name)
     return [
-        {"resource": "graph", "kind": kind, "permissions": sorted(names)}
-        for kind, names in entries.items()
+        {"resource": resource, "kind": kind, "permissions": sorted(names)}
+        for (resource, kind), names in entries.items()
     ]
 
 
