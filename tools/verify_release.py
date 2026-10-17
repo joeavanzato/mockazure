@@ -116,6 +116,9 @@ def ensure_network(profile):
 def prepare_suite(stage):
     profile = profile_for(stage)
     assert profile.release
+    from tools.release_storage import check_storage
+
+    check_storage(ROOT, profile)
     profile.require_local_origin(f"https://localhost:{profile.https_port}")
     if not (ROOT / profile.runtime_dir / "instance/native.json").exists():
         for port in profile.ports:

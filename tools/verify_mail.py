@@ -105,7 +105,8 @@ def validate_results(report):
     if profile != "original":
         baseline = report["upstream_baseline"]
         assert set(baseline) == {"hawk_rules", "mes_trace"}
-        for item in baseline.values():
+        for label, item in baseline.items():
+            assert item.get("run_hashes"), "Missing original run evidence"
             assert item["profile"] == "original" and item["passed"] is False
             assert len(item["cases"]) == 4
             assert {(c["mode"], c["denied"]) for c in item["cases"]} == {
@@ -116,6 +117,14 @@ def validate_results(report):
                 assert case["passed"] is case["denied"]
                 if not case["denied"]:
                     assert isinstance(case.get("failure"), str) and case["failure"]
+                    assert (
+                        case.get("failure_code")
+                        == {
+                            "hawk_rules": "hawk_json_append",
+                            "mes_trace": "mes_csv_timestamp_precision",
+                        }[label]
+                    )
+        assert all(item.get("run_hashes") for item in report["collectors"].values())
     assert set(report["collectors"]) == set(FUNCTIONS)
     for result in report["collectors"].values():
         assert result["passed"] is True
@@ -409,6 +418,10 @@ def main():
     baseline = {}
     if args.collector_profile != "original":
         baseline = qualify_collectors(labels={"hawk_rules", "mes_trace"})
+        # Preserve the baseline even if the subsequent patched process aborts.
+        baseline_path = output.parent / f"m4-upstream-baseline-{time.time_ns()}.json"
+        with baseline_path.open("x", encoding="utf-8") as stream:
+            json.dump({"source_fingerprint": fingerprint, "collectors": baseline}, stream, indent=2)
     collectors = qualify_collectors(profile=args.collector_profile)
     assert source_fingerprint() == fingerprint, "Source changed during qualification"
     report = {

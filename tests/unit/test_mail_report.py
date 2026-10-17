@@ -56,6 +56,7 @@ def test_mail_report_fails_closed():
     patched["upstream_baseline"] = {}
     for name, item in patched["collectors"].items():
         item["profile"] = "serialization-v1"
+        item["run_hashes"] = {"work/mail-collector-runs/profile/evidence.json": "digest"}
         if name in {"hawk_rules", "mes_trace"}:
             original = copy.deepcopy(item)
             original.update(profile="original", passed=False)
@@ -63,9 +64,19 @@ def test_mail_report_fails_closed():
                 case["passed"] = case["denied"]
                 if not case["denied"]:
                     case["failure"] = "Known serializer failure"
+                    case["failure_code"] = {
+                        "hawk_rules": "hawk_json_append",
+                        "mes_trace": "mes_csv_timestamp_precision",
+                    }[name]
             patched["upstream_baseline"][name] = original
     validate(patched)
-    for mutate in ("missing_baseline", "mixed_profile", "hidden_failure", "fake_upstream"):
+    for mutate in (
+        "missing_baseline",
+        "mixed_profile",
+        "hidden_failure",
+        "fake_upstream",
+        "unrelated_failure",
+    ):
         bad = copy.deepcopy(patched)
         if mutate == "missing_baseline":
             bad["upstream_baseline"].pop("hawk_rules")
@@ -73,8 +84,12 @@ def test_mail_report_fails_closed():
             bad["collectors"]["hawk_rules"]["profile"] = "original"
         elif mutate == "hidden_failure":
             bad["collectors"]["hawk_rules"]["cases"][0]["passed"] = False
-        else:
+        elif mutate == "fake_upstream":
             bad["upstream_baseline"]["hawk_rules"]["profile"] = "serialization-v1"
+        else:
+            bad["upstream_baseline"]["hawk_rules"]["cases"][0]["failure_code"] = (
+                "unexpected_failure"
+            )
         with pytest.raises(AssertionError):
             validate(bad)
     for label in FUNCTIONS:

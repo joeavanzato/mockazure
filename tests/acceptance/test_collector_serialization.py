@@ -54,20 +54,25 @@ def test_hawk_append_is_one_document_and_preserves_nested_records(tmp_path):
 function Out-LogFile {{ param($string,[switch]$Action,[switch]$NoDisplay,[switch]$silentnotice) }}
 $global:Hawk=@{{filepath='{folder}'}}
 foreach($i in 1..3){{
-  [pscustomobject]@{{id="$i"; nested=@{{addresses=@("a$i@example.test","b$i@example.test")}}}} |
+  [pscustomobject]@{{id="$i"; created='2026-10-07T00:00:00.1234567Z'
+      nested=@{{addresses=@("a$i@example.test","b$i@example.test")}}}} |
     Out-MultipleFileType -FilePrefix Rules -User 'user@example.test' -json -Append
 }}
 $p=Join-Path '{folder}' 'user@example.test/Rules_user.json'
-$values=Get-Content $p -Raw | ConvertFrom-Json -ErrorAction Stop
+$values=Get-Content $p -Raw | ConvertFrom-Json -ErrorAction Stop -DateKind String
 @($values) | ConvertTo-Json -Depth 10 -Compress
 """,
     )
     assert [r["id"] for r in result] == ["1", "2", "3"]
     assert result[1]["nested"]["addresses"] == ["a2@example.test", "b2@example.test"]
+    assert all(row["created"] == "2026-10-07T00:00:00.1234567Z" for row in result)
 
 
 @pytest.mark.parametrize("culture", ["en-US", "nl-NL"])
-def test_mes_csv_preserves_fractional_timestamp_without_mutating_pagination(tmp_path, culture):
+@pytest.mark.parametrize("kind,zone", [("DateTime", "Z"), ("DateTimeOffset", "+02:30")])
+def test_mes_csv_preserves_fractional_timestamp_without_mutating_pagination(
+    tmp_path, culture, kind, zone
+):
     path = source(MES).as_posix().replace("'", "''")
     output = (tmp_path / "trace.csv").as_posix().replace("'", "''")
     result = powershell(
@@ -77,22 +82,57 @@ def test_mes_csv_preserves_fractional_timestamp_without_mutating_pagination(tmp_
 . '{path}'
 function Write-LogFile {{ param($Message,$Level) }}
 $script:Encoding='utf8'
-$received=[DateTime]::Parse('2026-10-07T00:00:00.1234567Z',
+$received=[{kind}]::Parse('2026-10-07T00:00:00.1234567{zone}',
     [cultureinfo]::InvariantCulture,[Globalization.DateTimeStyles]::RoundtripKind)
 $script:row=[pscustomobject]@{{MessageTraceId='trace'
     RecipientAddress='recipient@example.test'; Received=$received; Status='Delivered'}}
+$script:calls=0
 function Get-MessageTraceV2 {{
     param($StartDate,$EndDate,$ResultSize,$StartingRecipientAddress)
-    ,$script:row
+    $script:calls++
+    if($script:calls -eq 1){{ for($i=0;$i -lt 5000;$i++){{ $script:row }} }}
+    else {{
+        $script:nextEnd=$EndDate
+        $script:nextRecipient=$StartingRecipientAddress
+        ,$script:row
+    }}
 }}
 $params=@{{startDate=[DateTime]'2026-10-06'; endDate=[DateTime]'2026-10-08'
     OutputFile='{output}'}}
 Retrieve-MessageTrace @params
 $r=Import-Csv '{output}'
-@{{received=$r.Received; still_datetime=($script:row.Received -is [DateTime])
+@{{received=$r[0].Received; count=@($r).Count; still_datetime=($script:row.Received -is [{kind}])
     unchanged=($script:row.Received.Ticks -eq $received.Ticks)
-    id=$r.MessageTraceId}} | ConvertTo-Json -Compress
+    id=$r[0].MessageTraceId; nextEnd=$script:nextEnd
+    nextRecipient=$script:nextRecipient}} | ConvertTo-Json -Compress
 """,
     )
-    assert result["received"] == "2026-10-07T00:00:00.1234567Z"
+    assert result["received"] == "2026-10-07T00:00:00.1234567" + zone
     assert result["still_datetime"] and result["unchanged"] and result["id"] == "trace"
+    assert result["count"] == 5001
+    assert result["nextEnd"] == "2026-10-07T00:00:00.1234567" + zone
+    assert result["nextRecipient"] == "recipient@example.test"
+
+
+def test_hawk_rejects_malformed_existing_json_without_overwrite(tmp_path):
+    path = source(HAWK).as_posix().replace("'", "''")
+    folder = tmp_path.as_posix().replace("'", "''")
+    result = powershell(
+        tmp_path,
+        f"""
+. '{path}'
+function Out-LogFile {{ param($string,[switch]$Action,[switch]$NoDisplay,[switch]$silentnotice) }}
+$global:Hawk=@{{filepath='{folder}'}}
+$directory=Join-Path '{folder}' 'user@example.test'
+New-Item -ItemType Directory -Path $directory | Out-Null
+$p=Join-Path $directory 'Rules_user.json'
+[IO.File]::WriteAllText($p,'{{broken')
+$failed=$false
+try {{
+    [pscustomobject]@{{id='new'}} |
+        Out-MultipleFileType -FilePrefix Rules -User 'user@example.test' -json -Append
+}} catch {{ $failed=$true }}
+@{{failed=$failed; text=[IO.File]::ReadAllText($p)}} | ConvertTo-Json -Compress
+""",
+    )
+    assert result == {"failed": True, "text": "{broken"}
