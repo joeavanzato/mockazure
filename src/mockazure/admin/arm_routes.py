@@ -200,7 +200,7 @@ async def role_revoke(
 
 class ActivityReadFault(IdentityInput):
     client_id: UUID
-    kind: Literal["next_read_429", "next_page_429"]
+    kind: Literal["next_read_429", "next_page_429", "next_read_503", "next_page_503"]
     retry_after: int = Field(default=1, ge=1, le=300)
 
 

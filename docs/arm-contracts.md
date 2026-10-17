@@ -189,7 +189,7 @@ is explicit rather than modifying the vendored schema or replacing SDK paging.
 ## Observed original Azure client contracts
 
 Az.Resources7.8.0/Accounts4.0.2 uses resource groups2021-04-01,
-tags2024-07-01, and role definitions2022-05-01-preview. These later operations
+tags2024-07-01, role definitions2022-05-01-preview, and role assignments2020-08-01-preview. These later operations
 have their actual schemas and dependencies pinned at the same Azure REST revision;
 the operation catalogue records version-specific sources. Tag types are checked
 identical to2021 before sharing validation. Preview role definitions are validated
@@ -213,10 +213,16 @@ from a shared helper, but the actual Activity output is a JSON array in a .json
 file; qualification verifies the actual artifact.
 
 Local admin Activity fault injection is scoped to tenant/subscription/client,
-one-shot, durable across replicas, and returns ARM429 with Retry-After. A denied
+one-shot, durable across replicas, and returns ARM429 or503 with Retry-After. A denied
 call neither consumes the fault nor masks its authorization error. It provides
 repeatable retry qualification; it is not a claim to reproduce Azure's dynamic
 service-wide quotas.
 
 Hash-bound derived role/operation metadata uses UTF-8 and canonical LF bytes.
 Vendored official files retain their original bytes.
+
+
+Original Az qualifies built-in role-definition IDs at its assignment scope.
+References at an existing local ancestor are accepted; foreign subscriptions,
+unrelated scopes and nonexistent scopes are rejected. Stored role identity remains
+the canonical immutable built-in UUID, so this compatibility form adds no authority.

@@ -3,7 +3,7 @@
 MockAzure is a general-purpose Microsoft cloud API emulator focused on evidence
 collection and realistic stateful interactions.
 
-**Current development milestone: M4, Exchange and Unified Audit Log.** Local
+**Current development milestone: M5, Azure management and Activity Logs.** Local
 Entra authentication, Graph directory/security operations, mailbox configuration,
 inbox/sweep rules, message traces and durable audit queries use persisted
 PostgreSQL state and permission checks. Original Microsoft clients and selected
@@ -17,8 +17,12 @@ The repaired API and its tests are documented in
 [mail contract](docs/mail-contracts.md), [capability matrix](docs/capabilities.md)
 and [compatibility boundaries](docs/compatibility.md) for the exact supported
 operations and limitations. Mailbox settings do not execute mail delivery.
-ARM currently retains M2 discovery; scoped Azure management and Activity Logs
-follow in M5, with combined release/scale qualification in M6.
+ARM includes subscription/resource inventory, resource-group and tag mutations,
+current inherited RBAC, four built-in roles, durable group deletion and immutable
+Activity Logs with exact100ns filtering and paging. Original Az PowerShell,
+Python Azure SDKs and MES use real local HTTPS. See [ARM contracts](docs/arm-contracts.md)
+and [execution](docs/arm-execution.md). Combined release/scale qualification follows
+in M6; the four M4 collector failures remain blockers.
 
 ## Docker quick start (PowerShell)
 

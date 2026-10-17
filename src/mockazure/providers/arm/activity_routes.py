@@ -164,22 +164,27 @@ async def activity_logs(subscription: str, request: Request):
     # Commit the authorized snapshot first; the one-shot fault must survive its
     # own 429 response and must never mask authorization failures.
     async with request.app.state.database.sessions.begin() as session:
-        retry = await session.scalar(
-            text("""
+        fault = (
+            await session.execute(
+                text("""
 DELETE FROM arm_read_faults
 WHERE tenant_id=:tenant AND subscription_id=:subscription AND client_id=:client
-AND (kind='next_read_429' OR (kind='next_page_429' AND :continuation))
-RETURNING retry_after
+AND (kind IN ('next_read_429','next_read_503')
+ OR (kind IN ('next_page_429','next_page_503') AND :continuation))
+RETURNING kind,retry_after
 """),
-            dict(
-                tenant=actor.tenant_id,
-                subscription=UUID(subscription),
-                client=actor.client_id,
-                continuation=token is not None,
-            ),
-        )
-    if retry is not None:
-        error = ArmError(429, "TooManyRequests", "ARM request limit reached; retry later")
-        error.headers["Retry-After"] = str(retry)
+                dict(
+                    tenant=actor.tenant_id,
+                    subscription=UUID(subscription),
+                    client=actor.client_id,
+                    continuation=token is not None,
+                ),
+            )
+        ).one_or_none()
+    if fault is not None:
+        status = 429 if fault.kind.endswith("429") else 503
+        code = "TooManyRequests" if status == 429 else "ServiceUnavailable"
+        error = ArmError(status, code, "ARM request temporarily unavailable; retry later")
+        error.headers["Retry-After"] = str(fault.retry_after)
         raise error
     return result

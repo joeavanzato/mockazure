@@ -9,7 +9,8 @@
     "definitions": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
     "activity": "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/activityLogs_API.json",
     "resources2024": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2024-07-01/resources.json",
-    "definitionsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json"
+    "definitionsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json",
+    "assignmentsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json"
   },
   "files": {
     "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json": {
@@ -90,7 +91,7 @@
     "derived:operations.json": {
       "path": "operations.json",
       "url": "derived from pinned sources",
-      "sha256": "0f96b4278ef8a5ef5a8fabd0fd3b5b88a8dfde04584f121bd68e9929cff10a13"
+      "sha256": "705f7ad11397fc573c88e71761efb76f9e14dafab32ee08acba9cddc0693c91a"
     },
     "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json": {
       "path": "schemas/specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json",
@@ -111,6 +112,16 @@
       "path": "schemas/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json",
       "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json",
       "sha256": "507f1ae9ee86a02589f1765ddc1e920f55c14cb5bbdf2423e3cb0693853ea5da"
+    },
+    "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json": {
+      "path": "schemas/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json",
+      "sha256": "185d20cfbed3196b64cda0c81159ffb1b4b5b7680d37bc581d191173fb6c1140"
+    },
+    "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/common-types.json": {
+      "path": "schemas/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/common-types.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/common-types.json",
+      "sha256": "3a46107088df82e3107e87e1170ec9c792a4c8f4ac8ac931167686d7aeb193e5"
     }
   }
 }

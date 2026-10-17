@@ -1,30 +1,46 @@
 # M5 execution checkpoint
 
-Native execution in D:/projects/mockazure/.worktrees/arm on feat/azure-management.
-Base807ac20 contains repaired M4 API code; M4 documentation758de6c was carried
-as3f57bad. Designb4c24c2 and plan075555d are adopted under user overnight delegation.
+Native implementation continues in D:/projects/mockazure/.worktrees/arm on
+feat/azure-management. Task1–5 complete; Task6 actual-client/runtime qualification
+is active, BASE7e022336d7972128c727f7f6438b105f14124575. Task7 review/handoff follows,
+then M6 under the user's delegated overnight authorization.
 
-Task1 committed9e083b2: pinned official schemas/roles and canonical scope parser.
-Task2 committed88485ee: inventory/admin bootstrap, inherited current RBAC and
-legacy Reader migration. Task3 committed2ae9ffe: public discovery/inventory/filtering,
-opaque paging, group/tag writes with atomic facts, and fenced durable deletion.
-Final affected regression290passed41.62s; Ruff/diff clean.
-Task3 BASE88485ee38fd25053eb95559e9fc8797159c177b3.
-Own test compose targets55443 and networks10.231.96/24,10.231.97/24.
-Task4 implemented public role definitions/assignments, canonical legacy revocation,
-current group grants and opaque RBAC paging. Final affected regression289passed43.97s.
-Task4 BASE2ae9ffe9a8492014d7a6ec872a45e420d440b5d3.
-Task4 committed ae402ff. Task5 Activity Logs is implemented with shared immutable
-evidence, exact100ns indexed filters, current scoped permissions and opaque pages.
-Task5 BASE ae402fff9e5d355c47910deb83304c9d2390400d. Affected regression361passed204.46s; final timestamp/error checks21passed5.28s.
-Ruff, reference hashes and patch whitespace verified; Task6 client/runtime qualification and Task7 final review remain queued.
-No M5 acceptance claim yet. Full qualification runtime has not been started.
+Tasks1–5: pinned official ARM contracts, canonical state and inherited RBAC,
+inventory and group/tag mutations, public role definitions/assignments, durable
+group deletion, and exact100ns Activity Logs on shared immutable evidence storage.
+Broad Task5 regression361passed204.46s. One fresh final reviewer remains required.
 
-M4 is draft PR8:594unit/integration tests passed;19runtime checks,3Graph profiles
-and realExchange checks passed;40/44original collector cases passed. Four required
-cases fail (Hawk multi-rule JSON and MES trace microseconds, bothauthmodes).
-No new waiver. Preserve those blockers through M6 and do not merge/publish.
-M3C PR7 remains open. All predecessor runtimes/worktrees are preserved.
+Task6: own test PostgreSQL55443 and full runtime HTTPS36443/PostgreSQL55444,
+networks10.231.96–99/24, two API and worker replicas. Fresh local credentials/CA.
+Pinned Python SDK application/delegated workflows passed. Original MES collected
+and independently verified1003 Activity records including exact timestamps.
+Full preliminary qualification passed17 runtime checks,3client profiles and8MES
+cases in229.39s. Each positive MES case preserved1003historical plus124native records.
+Negative explicit lookup uses PSArgumentException, not an export failure.
+Final attestation reruns after transport prepared-send origin checks and package
+metadata fingerprint hardening; both demonstrated regressions are now fixed.
+
+Real Az7.8/Accounts4.0.2 exposed terminal discovery nextLink, HEAD group existence,
+Patchable name/empty properties, and tag2024-07-01 with a double-leading slash.
+Fixes follow actual pinned schemas and bounded observed wire behavior; no replaced
+service commands. Original Az completes all9checks in bothauthentication modes after configuring its
+supported Microsoft Graph endpoint and accepting source-backed RBAC scope/version
+forms. Native/container Python and container PowerShell profiles passed.
+Final source-byte qualification and full product regression are in progress.
+
+Committed compatibility fixes6c9142b and3212fbc. Additional Task6 work is uncommitted:
+schema2024 references, UTC/en-US MES filter grammar, ARM one-shot429 fault and
+migration033, original-client scripts, collector oracle, runtime/report harness.
+Fault scope/authorization tests passed; broader regression/final qualification pending.
+Additional2020-08-01-preview assignment schema and503faultmigration034 are included.
+Task7 capability/README metadata was pulled forward to bind final Task6 package
+qualification to the actual advertised M5 surface; final review still follows Task6.
+Derived schema metadata uses canonical LF so Git checkout preserves hash identities.
+
+All writes stay in MockAzure; VTW and predecessor runtimes remain untouched.
+M3C PR7 open. M4 draftPR8 has594 product tests,19 runtime checks,3Graph profiles
+and realExchange checks passing;40/44 original collector cases pass.
+Four mandatory M4 failures remain: Hawk multi-rule JSON and MES trace microseconds,
+both authentication modes. No new waiver, merge or registry publication.
 
 Task ledger:.superpowers/sdd/2026-10-17-mockazure-arm/progress.md.
-One final independent reviewer only after implementation; no implementation agents.

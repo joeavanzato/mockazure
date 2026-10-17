@@ -29,8 +29,8 @@ async def ready(request: Request):
 @router.get("/capabilities")
 async def capabilities():
     return {
-        "milestone": 4,
-        "delivery": "mail",
+        "milestone": 5,
+        "delivery": "arm",
         "authentication_flows": [
             "client_credentials",
             "authorization_code_pkce",
@@ -78,6 +78,12 @@ async def capabilities():
             "exchange.sweepRules",
             "exchange.messageTrace",
             "arm.subscriptions.list",
+            "arm.resources.inventory",
+            "arm.resourceGroups.lifecycle",
+            "arm.tags",
+            "arm.roleDefinitions",
+            "arm.roleAssignments",
+            "arm.activityLogs",
         ],
         "limitations": [
             "Local identities only; no upstream fallback",
@@ -90,7 +96,11 @@ async def capabilities():
             "Inbox rules: 1000 per mailbox, 100 per page; no filter or expand",
             "UAL queries: seven-day retained results, one-hour continuation handles",
             "Expired UAL result and rule-version storage cleanup is deferred to M6",
-            "ARM discovery api-version 2021-01-01; explicit Reader assignments only",
+            "ARM uses explicit discovery/resource/RBAC/Activity API-version allowlists",
+            "ARM roles: Reader/Contributor/Owner/User Access Administrator; no custom-role writes",
+            "Inventory pages invalidate on mutation; Activity pages retain publication snapshots",
+            "Activity times retain 100ns precision; query grammar and mutations are bounded",
+            "No Azure compute deployment or arbitrary resource-provider execution",
             "Tenant exports remain metadata-only; directory datasets are separate public fixtures",
         ],
         "admin_operations": [
@@ -117,6 +127,9 @@ async def capabilities():
             "mail.audit_roles",
             "arm.subscriptions",
             "arm.reader_assignments",
+            "arm.inventory",
+            "arm.role_assignments",
+            "arm.activity_faults",
             "directory.import",
             "directory.export",
             "directory.cleanup",

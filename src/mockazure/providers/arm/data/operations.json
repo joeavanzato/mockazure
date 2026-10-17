@@ -241,13 +241,18 @@
     "operationId": "RoleAssignments_ListForScope",
     "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
     "versions": [
-      "2022-04-01"
+      "2022-04-01",
+      "2020-08-01-preview"
     ],
     "schema": "RoleAssignmentListResult",
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2022-04-01": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+      "2020-08-01-preview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json"
+    }
   },
   "assignments.get": {
     "method": "GET",
@@ -255,13 +260,18 @@
     "operationId": "RoleAssignments_Get",
     "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
     "versions": [
-      "2022-04-01"
+      "2022-04-01",
+      "2020-08-01-preview"
     ],
     "schema": "RoleAssignment",
     "responses": [
       "200",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2022-04-01": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+      "2020-08-01-preview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json"
+    }
   },
   "assignments.put": {
     "method": "PUT",
@@ -269,14 +279,19 @@
     "operationId": "RoleAssignments_Create",
     "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
     "versions": [
-      "2022-04-01"
+      "2022-04-01",
+      "2020-08-01-preview"
     ],
     "schema": "RoleAssignment",
     "responses": [
       "200",
       "201",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2022-04-01": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+      "2020-08-01-preview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json"
+    }
   },
   "assignments.delete": {
     "method": "DELETE",
@@ -284,14 +299,19 @@
     "operationId": "RoleAssignments_Delete",
     "source": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
     "versions": [
-      "2022-04-01"
+      "2022-04-01",
+      "2020-08-01-preview"
     ],
     "schema": "RoleAssignment",
     "responses": [
       "200",
       "204",
       "default"
-    ]
+    ],
+    "version_sources": {
+      "2022-04-01": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
+      "2020-08-01-preview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json"
+    }
   },
   "definitions.list": {
     "method": "GET",

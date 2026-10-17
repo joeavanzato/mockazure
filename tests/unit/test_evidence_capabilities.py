@@ -6,7 +6,7 @@ from mockazure.admin.routes import capabilities
 @pytest.mark.asyncio
 async def test_evidence_capabilities_name_implemented_surfaces():
     value = await capabilities()
-    assert value["delivery"] == "mail"
+    assert value["delivery"] == "arm"
     assert "managed_identity" in value["authentication_flows"]
     assert {
         "graph.auditLogs.signIns",

@@ -112,3 +112,56 @@ async def test_original_az_role_definition_preview(database, settings):
         assert len(response.json()["value"]) == 4
         for item in response.json()["value"]:
             validate_arm_payload("RoleDefinition", item, namespace="definitionsPreview")
+
+
+async def test_original_az_assignment_preview(database, settings):
+    from uuid import uuid4
+
+    from mockazure.providers.arm.contracts import validate_arm_payload
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        sub, base, group, resource = await seed_arm(client, tenant)
+        headers = await access(database, settings, tenant, app)
+        async with database.sessions() as session:
+            sp = await session.scalar(
+                select(ServicePrincipal.id).where(
+                    ServicePrincipal.tenant_id == tenant, ServicePrincipal.client_id == app
+                )
+            )
+        await assign(client, base, sp, f"/subscriptions/{sub}", "Owner")
+        role = (
+            f"{group}/providers/Microsoft.Authorization/roleDefinitions/"
+            "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+        )
+        path = group + "/providers/Microsoft.Authorization/roleAssignments/" + str(uuid4())
+        response = await client.put(
+            path,
+            params={"api-version": "2020-08-01-preview"},
+            headers=headers,
+            json={
+                "properties": {
+                    "principalId": str(user),
+                    "principalType": "User",
+                    "roleDefinitionId": role,
+                }
+            },
+        )
+        assert response.status_code == 201, response.text
+        validate_arm_payload("RoleAssignment", response.json(), namespace="assignmentsPreview")
+        for invalid in (
+            role.replace(str(sub), str(uuid4())),
+            role.replace(group, group + "-unrelated"),
+        ):
+            denied = await client.put(
+                path.rsplit("/", 1)[0] + "/" + str(uuid4()),
+                params={"api-version": "2020-08-01-preview"},
+                headers=headers,
+                json={
+                    "properties": {
+                        "principalId": str(user),
+                        "principalType": "User",
+                        "roleDefinitionId": invalid,
+                    }
+                },
+            )
+            assert denied.status_code == 400

@@ -156,12 +156,16 @@ async def assignment_mutate(request, scope, identifier, value):
             if description is not None and len(description) > 1024:
                 raise ValueError("Assignment description exceeds local limit")
             match = re.fullmatch(
-                r"(?i)/subscriptions/([0-9a-f-]{36})/providers/Microsoft\.Authorization/"
+                r"(?i)(/subscriptions/[^/]+(?:/[^/]+)*)/providers/Microsoft\.Authorization/"
                 r"roleDefinitions/([0-9a-f-]{36})",
                 props["roleDefinitionId"],
             )
-            if not match or UUID(match[1]) != scope.subscription_id:
-                raise ValueError("A local subscription-qualified role definition is required")
+            if not match:
+                raise ValueError("A local scope-qualified role definition is required")
+            definition_scope = parse_scope(match[1])
+            if not definition_scope.contains(scope):
+                raise ValueError("Role definition scope must contain the assignment scope")
+            await resolve_scope(session, actor.tenant_id, definition_scope)
             assignee = UUID(props["principalId"])
             kind = await principal_type(
                 session, actor.tenant_id, assignee, props.get("principalType")

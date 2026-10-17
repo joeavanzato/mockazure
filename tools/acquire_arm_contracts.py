@@ -25,6 +25,8 @@ SOURCES = {
     "Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json",
     "definitions": "specification/authorization/resource-manager/Microsoft.Authorization/"
     "Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json",
+    "assignmentsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/"
+    "Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json",
     "definitionsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/"
     "Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json",
     "activity": "specification/monitor/resource-manager/Microsoft.Insights/Insights/"
@@ -227,6 +229,17 @@ def build_metadata(manifest):
             contract["version_sources"] = {
                 "2022-04-01": contract["source"],
                 "2022-05-01-preview": source,
+            }
+    source = manifest["roots"]["assignmentsPreview"]
+    preview = json.loads((data / manifest["files"][source]["path"]).read_text(encoding="utf-8"))
+    for label, contract in operations.items():
+        if label.startswith("assignments."):
+            op = preview["paths"][contract["path"]][contract["method"].lower()]
+            assert op["operationId"] == contract["operationId"]
+            contract["versions"].append("2020-08-01-preview")
+            contract["version_sources"] = {
+                "2022-04-01": contract["source"],
+                "2020-08-01-preview": source,
             }
     (data / "operations.json").write_text(
         json.dumps(operations, indent=2) + "\n", encoding="utf-8", newline="\n"
