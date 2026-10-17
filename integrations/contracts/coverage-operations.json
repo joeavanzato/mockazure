@@ -1057,7 +1057,7 @@
         "$skiptoken"
       ],
       "localExtensions": [],
-      "notes": "Search unsupported; members expansion returns 20 entries and a snapshot-bound members@odata.nextLink."
+      "notes": "Search unsupported; members expansion returns at most 20 entries without nested nextLink; use the dedicated members collection for full paging."
     },
     {
       "service": "graph",

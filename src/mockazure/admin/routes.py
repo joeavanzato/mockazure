@@ -63,7 +63,6 @@ async def capabilities(request: Request):
             "graph.directory.delta",
             "graph.batch.read_only",
             "graph.collections.shared_read_budgets",
-            "graph.directory.members.nested_paging",
             "graph.auditLogs.signIns",
             "graph.auditLogs.directoryAudits",
             "graph.identityProtection.riskDetections",

@@ -88,3 +88,20 @@ def test_query_profiles_have_pinned_sources_and_explicit_local_extensions():
     assert "$orderby" in profiles["/v1.0/auditLogs/signIns"]["localExtensions"]
     assert "$expand" in profiles["/v1.0/groups"]["supportedOptions"]
     assert "ignored" in manifest["advancedQuerySemantics"]["behavior"]
+
+
+async def test_directory_expansion_capabilities_do_not_promise_nested_paging(tmp_path):
+    from types import SimpleNamespace
+
+    from mockazure.admin.routes import capabilities
+    from mockazure.config import Settings
+
+    settings = Settings(data_dir=tmp_path, database_url="postgresql://localhost/unit")
+    value = await capabilities(
+        SimpleNamespace(app=SimpleNamespace(state=SimpleNamespace(settings=settings)))
+    )
+    assert "graph.directory.members.nested_paging" not in value["provider_operations"]
+    manifest = json.loads((ROOT / "integrations/contracts/coverage-operations.json").read_text())
+    profile = next(row for row in manifest["queryProfiles"] if row["path"] == "/v1.0/groups")
+    assert "without nested nextLink" in profile["notes"]
+    assert "dedicated members collection" in profile["notes"]
