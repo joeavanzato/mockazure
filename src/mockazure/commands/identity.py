@@ -8,6 +8,7 @@ from uuid import UUID
 
 import typer
 
+from mockazure.commands.diagnostics import failure
 from mockazure.commands.tenants import DEFAULT_CONFIG, execute
 from mockazure.identity.types import ApplicationCreate, GrantCreate, UserCreate
 
@@ -193,20 +194,22 @@ def initialize(config: Path = typer.Option(DEFAULT_CONFIG)):
     from mockazure.db.engine import close_database, create_database
     from mockazure.identity.keys import initialize_identity
 
+    phase = "configuration"
+
     async def operation():
+        nonlocal phase
         settings = load_settings(config)
         database = create_database(settings)
         try:
+            phase = "initialization"
             return await initialize_identity(settings, database)
         finally:
             await close_database(database)
 
     try:
         kid = run(operation())
-    except (ValueError, OSError, SQLAlchemyError):
-        typer.echo(
-            "Identity initialization failed; check schema and wrapping key backup.", err=True
-        )
+    except (ValueError, OSError, SQLAlchemyError) as error:
+        typer.echo(failure("identity", phase, error), err=True)
         raise typer.Exit(1) from None
     typer.echo(json.dumps({"kid": kid}))
 

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "attempt_commit": "98050b0398bc4faf01a1e1220c3045c74a7cf659",
+  "status": "failed_and_preserved",
+  "stage": "m4",
+  "check": "audit_snapshot_resume",
+  "expected_audit_records": 1003,
+  "query_snapshot_records": 938,
+  "query_publication_revision": 940,
+  "query_created_at": "2026-10-17T15:44:41.312326+00:00",
+  "retained_database_observations": {
+    "published_matching_audits": 997,
+    "pending_sources": 6,
+    "jobs": {
+      "pending": 6,
+      "succeeded": 1002
+    }
+  },
+  "diagnosis": "Qualification pinned an immutable query before asynchronous fixture publication completed, then stopped workers. Import acknowledgement was incorrectly treated as readiness.",
+  "correction": "Poll new Graph audit queries until every expected identity is visible, then execute the original pending-query and restart assertions unchanged.",
+  "product_api_changed": false,
+  "prior_attempt": "work/stabilization/attempt-98050b0",
+  "corrected_commit": "8c7287c381c33b2e7e2f53e756305cdb6b27d830"
+}

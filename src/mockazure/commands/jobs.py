@@ -4,9 +4,11 @@ from pathlib import Path
 from uuid import UUID
 
 import typer
+from sqlalchemy.exc import SQLAlchemyError
 
 from mockazure.admin.client import AdminClientError
 from mockazure.asyncio_support import run
+from mockazure.commands.diagnostics import failure
 from mockazure.commands.tenants import DEFAULT_CONFIG, execute
 from mockazure.config import load_settings
 from mockazure.db.engine import close_database, create_database
@@ -82,17 +84,22 @@ def import_file(
 
 
 def worker(config: Path = typer.Option(DEFAULT_CONFIG)):
+    phase = "configuration"
+
     async def loop():
+        nonlocal phase
         database = create_database(load_settings(config))
         try:
-            if not await schema_is_current(database):
+            phase = "schema"
+            if not await schema_is_current(database, raise_errors=True):
                 raise ValueError("Database is not ready")
+            phase = "processing"
             await serve_worker(database)
         finally:
             await close_database(database)
 
     try:
         run(loop())
-    except (ValueError, OSError):
-        typer.echo("Worker startup failed; check configuration, database and migrations.", err=True)
+    except (ValueError, OSError, SQLAlchemyError) as error:
+        typer.echo(failure("worker", phase, error), err=True)
         raise typer.Exit(2) from None

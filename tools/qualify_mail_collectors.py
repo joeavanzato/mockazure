@@ -1,4 +1,4 @@
-"""Pinned original collector execution and fail-closed artifact oracles."""
+"""Pinned original or explicitly patched collectors and fail-closed artifact oracles."""
 
 import csv
 import json
@@ -39,14 +39,49 @@ def rows(path):
     return value if isinstance(value, list) else ([] if value is None else [value])
 
 
-def verify_rows(actual, expected, key):
+class CollectorArtifactError(AssertionError):
+    def __init__(self, code):
+        self.code = code
+        super().__init__(code)
+
+
+def artifact_rows(path, collector):
+    try:
+        return rows(path)
+    except json.JSONDecodeError as error:
+        if collector == "hawk_rules" and error.msg == "Extra data":
+            # Classify only a sequence of complete JSON documents, never malformed data.
+            raw = path.read_text(encoding="utf-8-sig").strip()
+            decoder, position, documents = json.JSONDecoder(), 0, 0
+            while position < len(raw):
+                _, end = decoder.raw_decode(raw, position)
+                documents += 1
+                position = end
+                while position < len(raw) and raw[position].isspace():
+                    position += 1
+            if documents > 1:
+                raise CollectorArtifactError("hawk_json_append") from None
+        raise
+
+
+def verify_rows(actual, expected, key, *, collector=None):
     assert len(actual) == len(expected), "Missing or duplicate output records"
     indexed = {row[key]: row for row in actual}
     assert len(indexed) == len(actual), "Duplicate output identities"
     assert set(indexed) == {row[key] for row in expected}, "Wrong output identities"
     for row in expected:
         for field, value in row.items():
-            assert indexed[row[key]][field] == value, f"Wrong output field: {field}"
+            observed = indexed[row[key]][field]
+            if collector == "mes_trace" and field == "Received" and observed != value:
+                expected_time = datetime.fromisoformat(value)
+                observed_time = datetime.fromisoformat(observed)
+                if (
+                    expected_time.microsecond != 0
+                    and observed_time.microsecond == 0
+                    and observed_time == expected_time.replace(microsecond=0)
+                ):
+                    raise CollectorArtifactError("mes_csv_timestamp_precision")
+            assert observed == value, f"Wrong output field: {field}"
 
 
 def verify_denied(files):
@@ -69,9 +104,26 @@ def validate_collector_hashes(results, root):
     import hashlib
     import re
 
+    from tools.collector_profiles import profile_root, validate_profile
+
+    for profile in {item.get("profile", "original") for item in results.values()}:
+        if profile != "original":
+            validate_profile(root, profile)
     for result in results.values():
+        run_hashes = result.get("run_hashes", {})
+        if run_hashes:
+            assert len(run_hashes) == 2
+            paths = [Path(name) for name in run_hashes]
+            assert {p.name for p in paths} == {"evidence.json", "process.log"}
+            assert len({p.parent for p in paths}) == 1
+        for relative, digest in run_hashes.items():
+            path = (root / relative).resolve()
+            assert path.is_relative_to((root / "work/mail-collector-runs").resolve())
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, "Run evidence changed"
+            if path.name == "evidence.json":
+                assert json.loads(path.read_text())["profile"] == result.get("profile", "original")
         for field, base in (
-            ("source_hashes", root / "work/vendor"),
+            ("source_hashes", profile_root(root, result.get("profile", "original"))),
             ("output_hashes", root / PROFILE.text(".runtime/m4")),
         ):
             assert result[field], "Missing artifact hashes"
@@ -85,15 +137,20 @@ def validate_collector_hashes(results, root):
                 assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, "Artifact changed"
 
 
-def run_collectors():
+def run_collectors(profile="original", labels=None):
     import shutil
     import ssl
     import subprocess
     import time
-    from datetime import UTC, datetime, timedelta
+    from datetime import UTC, datetime
 
     import httpx
 
+    from tools.collector_profiles import prepare_profile
+
+    prepare_profile(ROOT, profile)
+    selected = set(FUNCTIONS if labels is None else labels)
+    assert selected and selected <= set(FUNCTIONS)
     state = RUNTIME / "clients/powershell-state"
     config = json.loads((state / "client.json").read_text())
     secret = json.loads((state / "secret.json").read_text())["secret"]
@@ -141,7 +198,7 @@ def run_collectors():
         originals = checked(client.get(rules_path, headers=graph))["value"]
         assert len(originals) == 3
         sweep = hidden = None
-        started = (datetime.now(UTC) - timedelta(seconds=1)).isoformat()
+        started = datetime.now(UTC).isoformat()
         try:
             command(
                 "Set-Mailbox",
@@ -227,9 +284,12 @@ def run_collectors():
             cases = []
             for mode in ("application", "delegated"):
                 for label, (collector, function) in FUNCTIONS.items():
+                    if label not in selected:
+                        continue
                     for denied in (False, True):
                         name = f"{stamp}-{mode}-{label}" + ("-denied" if denied else "")
                         case = {
+                            "profile": profile,
                             "mode": mode,
                             "collector": collector,
                             "function": function,
@@ -279,30 +339,39 @@ def run_collectors():
             # Own generated local admin credential, mounted only in the isolated
             # qualification container; removed even when an original collector fails.
             shutil.copyfile(RUNTIME / "instance/admin.token", state / "collector-admin.token")
-            result = subprocess.run(
-                [
-                    "docker",
-                    "compose",
-                    "-f",
-                    PROFILE.text("compose.clients.m4.yaml"),
-                    "run",
-                    "--rm",
-                    "powershell",
-                    "/state/" + batch.name,
-                ],
-                cwd=ROOT,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                timeout=1800,
-            )
-            (ROOT / "work/mail-collectors.log").write_text(
-                result.stdout + result.stderr, encoding="utf-8"
-            )
+            run_dir = ROOT / "work/mail-collector-runs" / f"{profile}-{stamp}"
+            run_dir.mkdir(parents=True, exist_ok=False)
+            evidence = {"stamp": stamp, "profile": profile, "expected": expected, "cases": cases}
+            evidence_path = run_dir / "evidence.json"
+            with evidence_path.open("x", encoding="utf-8") as stream:
+                json.dump(evidence, stream, indent=2)
+            log_path = run_dir / "process.log"
+            with log_path.open("x", encoding="utf-8") as stream:
+                result = subprocess.run(
+                    [
+                        "docker",
+                        "compose",
+                        "-f",
+                        PROFILE.text("compose.clients.m4.yaml"),
+                        "run",
+                        "--rm",
+                        "powershell",
+                        "/state/" + batch.name,
+                    ],
+                    cwd=ROOT,
+                    stdout=stream,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    timeout=1800,
+                )
             assert result.returncode == 0, "Collector process failed; inspect local log"
-            evidence = {"stamp": stamp, "expected": expected, "cases": cases}
-            (ROOT / "work/mail-collector-run.json").write_text(json.dumps(evidence, indent=2))
+            from tools.verify_mail import sha
+
+            evidence["run_hashes"] = {
+                path.relative_to(ROOT).as_posix(): sha(path) for path in (evidence_path, log_path)
+            }
             return evidence
         finally:
             try:
@@ -436,7 +505,7 @@ def verify_artifacts(label, files, expected):
                 if line.strip()
             ]
         else:
-            actual = rows(path)  # Other JSON must be one complete document.
+            actual = artifact_rows(path, label)  # Strictly one complete JSON document.
         is_csv = path.suffix.lower() == ".csv"
         if label == "hawk_forwarding":
             assert any(
@@ -617,7 +686,7 @@ def verify_artifacts(label, files, expected):
             raise AssertionError("Unknown collector")
         if is_csv:
             wanted = [{k: csv_value(v) for k, v in r.items()} for r in wanted]
-        verify_rows(actual, wanted, key)
+        verify_rows(actual, wanted, key, collector=label)
         count += len(actual)
         seen.add(path.suffix.lower())
     if label.startswith("hawk_"):
@@ -628,20 +697,28 @@ def verify_artifacts(label, files, expected):
     return count
 
 
-def qualify_collectors(evidence=None):
+def qualify_collectors(evidence=None, *, profile="original", labels=None):
+    from tools.collector_profiles import profile_root
     from tools.verify_mail import sha
 
-    evidence = run_collectors() if evidence is None else evidence
+    evidence = run_collectors(profile, labels) if evidence is None else evidence
+    assert evidence.get("profile", "original") == profile
+    selected = set(FUNCTIONS if labels is None else labels)
+    assert selected and selected <= set(FUNCTIONS)
+    base = profile_root(ROOT, profile)
+    prefix = "/vendor/" if profile == "original" else f"/collector-profiles/{profile}/"
     state = RUNTIME / "clients/powershell-state"
     results = {
         label: {
             "passed": False,
+            "profile": profile,
+            "run_hashes": evidence.get("run_hashes", {}),
             "records_verified": 0,
             "source_hashes": {},
             "output_hashes": {},
             "cases": [],
         }
-        for label in FUNCTIONS
+        for label in selected
     }
     for case in evidence["cases"]:
         label, mode, denied, name = (case[k] for k in ("label", "mode", "denied", "name"))
@@ -649,6 +726,7 @@ def qualify_collectors(evidence=None):
         folder = state / "collectors" / name
         files = sorted(p for p in folder.rglob("*") if p.is_file())
         assert {"/state/" + p.relative_to(state).as_posix() for p in files} == set(report["files"])
+        assert report.get("profile", "original") == profile
         assert report["source_hashes"]
         item = results[label]
         outcome = {"mode": mode, "denied": denied, "passed": False}
@@ -670,13 +748,17 @@ def qualify_collectors(evidence=None):
                 verified = verify_artifacts(label, files, evidence["expected"])
         except (AssertionError, ValueError, KeyError, TypeError) as error:
             outcome["failure"] = f"{type(error).__name__}: {error}"
+            outcome["failure_code"] = (
+                error.code if isinstance(error, CollectorArtifactError) else "unexpected_failure"
+            )
         else:
             outcome["passed"] = True
             item["records_verified"] += verified
         item["cases"].append(outcome)
         for path, digest in report["source_hashes"].items():
-            relative = path.removeprefix("/vendor/")
-            assert digest == sha(ROOT / "work/vendor" / relative)
+            assert path.startswith(prefix)
+            relative = path.removeprefix(prefix)
+            assert digest == sha(base / relative)
             item["source_hashes"][relative] = digest
         for path in files:
             text = path.read_text(encoding="utf-8-sig")
@@ -684,7 +766,7 @@ def qualify_collectors(evidence=None):
                 secret = json.loads((state / filename).read_text())["secret"]
                 assert secret not in text, "Credential disclosure in collector artifact"
             item["output_hashes"][path.relative_to(RUNTIME).as_posix()] = sha(path)
-    assert len(evidence["cases"]) == 4 * len(FUNCTIONS)
+    assert len(evidence["cases"]) == 4 * len(selected)
     for item in results.values():
         assert item["output_hashes"]
         try:
@@ -702,14 +784,18 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--verify-existing", action="store_true")
+    parser.add_argument("--evidence", type=Path)
+    parser.add_argument("--profile", choices=("original", "serialization-v1"), default="original")
     args = parser.parse_args()
-    evidence = (
-        json.loads((ROOT / "work/mail-collector-run.json").read_text())
-        if args.verify_existing
-        else None
-    )
-    report = qualify_collectors(evidence)
+    evidence = json.loads(args.evidence.read_text(encoding="utf-8")) if args.evidence else None
+    if evidence is not None:
+        from tools.verify_mail import sha
+
+        evidence["run_hashes"] = {
+            p.relative_to(ROOT).as_posix(): sha(p)
+            for p in (args.evidence.resolve(), args.evidence.resolve().parent / "process.log")
+        }
+    report = qualify_collectors(evidence, profile=args.profile)
     (ROOT / "work/mail-collector-results.json").write_text(json.dumps(report, indent=2))
     passed = all(item["passed"] is True for item in report.values())
     print(

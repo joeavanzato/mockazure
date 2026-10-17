@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "profile": "serialization-v1",
+  "purpose": "Explicit source patches for Hawk JSON append and MES round-trip CSV timestamps. Original collector licenses and all other bytes retained.",
+  "patches": [
+    {
+      "path": "collectors/hawk/hawk-a44536f2b4225dd8ea2e463db88d5db40cfac8c7/Hawk/internal/functions/Out-MultipleFileType.ps1",
+      "before_sha256": "2fc953ae1fca9a59704ba1f829dd2367311cc672621e6d53302a0fe2b4d48b71",
+      "after_sha256": "67e9d51cb717a8757acc0ce875621c4edf98da3970ff01af46e7a7efed881315",
+      "before": "$AllObject | ConvertTo-Json -Depth 100 | Out-File -FilePath $filename -Encoding UTF8 -Append",
+      "after": "# MockAzure serialization-v1: append records to one JSON array.\n                    $previous = @()\n                    if (Test-Path -LiteralPath $filename) {\n                        $jsonParameters = @{ErrorAction = 'Stop'}\n                        if ((Get-Command ConvertFrom-Json).Parameters.ContainsKey('DateKind')) {\n                            $jsonParameters.DateKind = 'String'\n                        }\n                        $previous = @(Get-Content -LiteralPath $filename -Raw | ConvertFrom-Json @jsonParameters)\n                    }\n                    $combined = @($previous) + @($AllObject)\n                    ConvertTo-Json -InputObject $combined -Depth 100 |\n                        Out-File -FilePath $filename -Encoding UTF8"
+    },
+    {
+      "path": "collectors/Microsoft-Extractor-Suite/Microsoft-Extractor-Suite-47565f7842784cd3667ff630e3dccb49fa3408ed/Scripts/Get-MessageTraceLog.ps1",
+      "before_sha256": "a352e5a9d4235ad066db6996dcd058c6a18941ef1d2fe502c2843a4c6fa74971",
+      "after_sha256": "a305a0139a81d05680c5310caaeedf23a06de7831746d101f60069004f6a7846",
+      "before": "$results | Export-Csv $outputFile -ErrorAction SilentlyContinue -NoTypeInformation -Encoding $Encoding -Append",
+      "after": "# MockAzure serialization-v1: preserve timestamp precision in CSV only.\n                # Keep the original DateTime values for pagination below.\n                $results | ForEach-Object {\n                    $exportRow = [ordered]@{}\n                    foreach ($property in $_.PSObject.Properties) {\n                        $value = $property.Value\n                        if ($property.Name -eq 'Received' -and\n                            ($value -is [DateTime] -or $value -is [DateTimeOffset])) {\n                            $value = $value.ToString('O', [cultureinfo]::InvariantCulture)\n                        }\n                        $exportRow[$property.Name] = $value\n                    }\n                    [pscustomobject]$exportRow\n                } | Export-Csv $outputFile -ErrorAction Stop -NoTypeInformation -Encoding $Encoding -Append"
+    }
+  ]
+}

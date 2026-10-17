@@ -135,6 +135,25 @@ class Runtime:
             actual = json.loads(capture(["docker", "inspect", identifier]))[0]
             assert actual["Image"] == self.image["Id"] and actual["State"]["Running"]
 
+        database_id = capture(self.compose + ["ps", "-q", "db"])
+        database = json.loads(capture(["docker", "inspect", database_id]))[0]
+        mounts = [
+            mount for mount in database["Mounts"] if mount["Destination"] == "/var/lib/postgresql"
+        ]
+        assert len(mounts) == 1 and mounts[0]["Type"] == "volume"
+        volume = json.loads(capture(["docker", "volume", "inspect", mounts[0]["Name"]]))[0]
+        assert volume["Labels"].get("org.mockazure.purpose") == "release-postgresql"
+        assert volume["Labels"].get("com.docker.compose.project") == self.profile.project
+        self.storage = {
+            "type": mounts[0]["Type"],
+            "volume": mounts[0]["Name"],
+            "driver": volume["Driver"],
+            "destination": mounts[0]["Destination"],
+            "filesystem": capture(
+                ["docker", "exec", database_id, "stat", "-f", "-c", "%T", "/var/lib/postgresql"]
+            ),
+        }
+
     def client(self):
         return httpx.Client(
             base_url=self.origin,
@@ -365,6 +384,7 @@ def run_profile(name, runtime, path, *, seed, projection_timeout):
             "workers": 2,
             "batch_size": 1000,
             "postgres_major": 18,
+            "storage": runtime.storage,
             "image_id": runtime.image["Id"],
             "runtime_fingerprint": runtime.image["Config"]["Labels"][
                 "org.mockazure.source-fingerprint"

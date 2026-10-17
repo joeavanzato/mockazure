@@ -116,6 +116,9 @@ def ensure_network(profile):
 def prepare_suite(stage):
     profile = profile_for(stage)
     assert profile.release
+    from tools.release_storage import check_storage
+
+    check_storage(ROOT, profile)
     profile.require_local_origin(f"https://localhost:{profile.https_port}")
     if not (ROOT / profile.runtime_dir / "instance/native.json").exists():
         for port in profile.ports:
@@ -328,7 +331,8 @@ def run_suites(output, stages):
         try:
             prepare_suite(stage)
             code = run(
-                [sys.executable, "tools/verify_" + profile.surface + ".py", "--report", path],
+                [sys.executable, "tools/verify_" + profile.surface + ".py", "--report", path]
+                + (["--collector-profile", "serialization-v1"] if stage == "m4" else []),
                 stage + "-qualification",
                 timeout=SUITE_TIMEOUTS[stage],
                 check=False,

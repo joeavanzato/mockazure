@@ -1,3 +1,5 @@
+> Current stabilization results: [validated candidate and scope](stabilization-results.md). Earlier candidate outcomes below are retained as historical evidence.
+
 # Identity and connection compatibility
 
 Pinned acquisition: integrations/manifest.json and uv.lock. Runtime qualification

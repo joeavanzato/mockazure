@@ -1,0 +1,389 @@
+{
+  "small": {
+    "name": "small",
+    "seed": 71001,
+    "users": 100,
+    "records": 1000,
+    "source_fingerprint": "c2b79a72bf82b1e56d2a6b49bd2f1c71cfabdbd92efab530e30a73e0b7a5a7ab",
+    "started_at": "2026-10-17T16:44:11.313827+00:00",
+    "status": "complete",
+    "passed": true,
+    "imported": {
+      "users": 100,
+      "records": 1000
+    },
+    "published": 1000,
+    "worker_restart": true,
+    "api_restart": true,
+    "reads": [
+      {
+        "count": 100,
+        "id_sha256_xor": "1c45d3e1a2866ece8b3810f35d296087c9d29aac615d98ff822406d0c6966f58",
+        "coverage_bytes": 13,
+        "family": "user",
+        "caller": 0,
+        "pages": 2,
+        "restart": {
+          "captured_ns": 449217420875800,
+          "resumed_ns": 449220055572700,
+          "pages_before": 1,
+          "pages_after": 1
+        },
+        "seconds": 7.141937900043558,
+        "retries": 0,
+        "p50_seconds": 2.106974499998614,
+        "p95_seconds": 2.3983171999570914,
+        "max_seconds": 2.3983171999570914
+      },
+      {
+        "count": 100,
+        "id_sha256_xor": "1c45d3e1a2866ece8b3810f35d296087c9d29aac615d98ff822406d0c6966f58",
+        "coverage_bytes": 13,
+        "family": "user",
+        "caller": 1,
+        "pages": 2,
+        "restart": {
+          "captured_ns": 449217197339000,
+          "resumed_ns": 449220054722300,
+          "pages_before": 1,
+          "pages_after": 1
+        },
+        "seconds": 5.102683699980844,
+        "retries": 0,
+        "p50_seconds": 0.06926129997009411,
+        "p95_seconds": 2.173694199998863,
+        "max_seconds": 2.173694199998863
+      },
+      {
+        "count": 1000,
+        "id_sha256_xor": "47c94175dbbf8bddbcaacf5e68edbe85b5edee13eec3e50200686dc4f1817fe8",
+        "coverage_bytes": 125,
+        "family": "signIn",
+        "caller": 0,
+        "pages": 2,
+        "restart": {
+          "captured_ns": 449217384209100,
+          "resumed_ns": 449220055034400,
+          "pages_before": 1,
+          "pages_after": 1
+        },
+        "seconds": 5.258091399969999,
+        "retries": 0,
+        "p50_seconds": 0.21919670002534986,
+        "p95_seconds": 2.3522941999835894,
+        "max_seconds": 2.3522941999835894
+      },
+      {
+        "count": 1000,
+        "id_sha256_xor": "47c94175dbbf8bddbcaacf5e68edbe85b5edee13eec3e50200686dc4f1817fe8",
+        "coverage_bytes": 125,
+        "family": "signIn",
+        "caller": 1,
+        "pages": 2,
+        "restart": {
+          "captured_ns": 449217551346600,
+          "resumed_ns": 449220054305100,
+          "pages_before": 1,
+          "pages_after": 1
+        },
+        "seconds": 10.453431600006297,
+        "retries": 0,
+        "p50_seconds": 2.5175854000262916,
+        "p95_seconds": 5.4172753999591805,
+        "max_seconds": 5.4172753999591805
+      }
+    ],
+    "configuration": {
+      "profile": "m6-arm",
+      "api_replicas": 2,
+      "workers": 2,
+      "batch_size": 1000,
+      "postgres_major": 18,
+      "storage": {
+        "type": "volume",
+        "volume": "mockazure-m6-arm_postgres-data",
+        "driver": "local",
+        "destination": "/var/lib/postgresql",
+        "filesystem": "ext2/ext3"
+      },
+      "image_id": "sha256:42102454117894f9fdfc399b7cb63619d1a185bbe2a838d5a9f147e238ca9842",
+      "runtime_fingerprint": "7ad498c8ac3a98ca553e00bc1d6c0f509fa949078aedf173072bded07ac07dae",
+      "docker": {
+        "cpus": 20,
+        "memory": 33520742400
+      }
+    },
+    "tenant_id": "76ca6f24-389e-4962-b1fd-e8c02776c3da",
+    "users_import_seconds": 0.10848860000260174,
+    "records_import_seconds": 12.829003699996974,
+    "jobs": {
+      "succeeded": 1001
+    },
+    "database_bytes": 28210879,
+    "pipeline_seconds": 12.868496599956416,
+    "published_records_per_second": 77.70915524066633,
+    "restart_boundary": {
+      "started_ns": 449217551360500,
+      "completed_ns": 449220053280900
+    },
+    "completed_at": "2026-10-17T16:44:40.552828+00:00"
+  },
+  "medium": {
+    "name": "medium",
+    "seed": 72001,
+    "users": 5000,
+    "records": 50000,
+    "source_fingerprint": "c2b79a72bf82b1e56d2a6b49bd2f1c71cfabdbd92efab530e30a73e0b7a5a7ab",
+    "started_at": "2026-10-17T16:44:45.625328+00:00",
+    "status": "complete",
+    "passed": true,
+    "imported": {
+      "users": 5000,
+      "records": 50000
+    },
+    "published": 50000,
+    "worker_restart": true,
+    "api_restart": true,
+    "reads": [
+      {
+        "count": 5000,
+        "id_sha256_xor": "935442f174bb94c90ddc8c40cfda0c544031c6d1f6c0df5024c90501c1bc1bdf",
+        "coverage_bytes": 625,
+        "family": "user",
+        "caller": 0,
+        "pages": 6,
+        "restart": {
+          "captured_ns": 449413267483500,
+          "resumed_ns": 449419396327800,
+          "pages_before": 1,
+          "pages_after": 5
+        },
+        "seconds": 13.113236900011543,
+        "retries": 0,
+        "p50_seconds": 0.1384144999901764,
+        "p95_seconds": 3.6044705999665894,
+        "max_seconds": 3.6044705999665894
+      },
+      {
+        "count": 5000,
+        "id_sha256_xor": "935442f174bb94c90ddc8c40cfda0c544031c6d1f6c0df5024c90501c1bc1bdf",
+        "coverage_bytes": 625,
+        "family": "user",
+        "caller": 1,
+        "pages": 6,
+        "restart": {
+          "captured_ns": 449412873374700,
+          "resumed_ns": 449419396122900,
+          "pages_before": 1,
+          "pages_after": 5
+        },
+        "seconds": 11.679119299980812,
+        "retries": 0,
+        "p50_seconds": 0.08803520002402365,
+        "p95_seconds": 2.4875347000197507,
+        "max_seconds": 2.4875347000197507
+      },
+      {
+        "count": 50000,
+        "id_sha256_xor": "adda7393b6b4fdc0969f4e764b0936430e31f2095af29c783b7e4ac8b8eba3b7",
+        "coverage_bytes": 6250,
+        "family": "signIn",
+        "caller": 0,
+        "pages": 100,
+        "restart": {
+          "captured_ns": 449417229566400,
+          "resumed_ns": 449419395782700,
+          "pages_before": 1,
+          "pages_after": 99
+        },
+        "seconds": 163.69597980001708,
+        "retries": 0,
+        "p50_seconds": 1.481241500005126,
+        "p95_seconds": 3.332070699951146,
+        "max_seconds": 6.853982000029646
+      },
+      {
+        "count": 50000,
+        "id_sha256_xor": "adda7393b6b4fdc0969f4e764b0936430e31f2095af29c783b7e4ac8b8eba3b7",
+        "coverage_bytes": 6250,
+        "family": "signIn",
+        "caller": 1,
+        "pages": 100,
+        "restart": {
+          "captured_ns": 449415479629800,
+          "resumed_ns": 449419396476700,
+          "pages_before": 1,
+          "pages_after": 99
+        },
+        "seconds": 164.0612465000013,
+        "retries": 0,
+        "p50_seconds": 1.445947400003206,
+        "p95_seconds": 3.805949100002181,
+        "max_seconds": 6.2441320000216365
+      }
+    ],
+    "configuration": {
+      "profile": "m6-arm",
+      "api_replicas": 2,
+      "workers": 2,
+      "batch_size": 1000,
+      "postgres_major": 18,
+      "storage": {
+        "type": "volume",
+        "volume": "mockazure-m6-arm_postgres-data",
+        "driver": "local",
+        "destination": "/var/lib/postgresql",
+        "filesystem": "ext2/ext3"
+      },
+      "image_id": "sha256:42102454117894f9fdfc399b7cb63619d1a185bbe2a838d5a9f147e238ca9842",
+      "runtime_fingerprint": "7ad498c8ac3a98ca553e00bc1d6c0f509fa949078aedf173072bded07ac07dae",
+      "docker": {
+        "cpus": 20,
+        "memory": 33520742400
+      }
+    },
+    "tenant_id": "28733daf-3246-4e05-9c74-aa08b81db67c",
+    "users_import_seconds": 3.863274100003764,
+    "records_import_seconds": 79.37097889999859,
+    "jobs": {
+      "succeeded": 50005
+    },
+    "database_bytes": 308246207,
+    "pipeline_seconds": 170.8223900999874,
+    "published_records_per_second": 292.70167669901775,
+    "restart_boundary": {
+      "started_ns": 449417229577200,
+      "completed_ns": 449419394757600
+    },
+    "completed_at": "2026-10-17T16:50:29.520326+00:00"
+  },
+  "large": {
+    "name": "large",
+    "seed": 73001,
+    "users": 100000,
+    "records": 1000000,
+    "source_fingerprint": "c2b79a72bf82b1e56d2a6b49bd2f1c71cfabdbd92efab530e30a73e0b7a5a7ab",
+    "started_at": "2026-10-17T16:50:33.513326+00:00",
+    "status": "complete",
+    "passed": true,
+    "imported": {
+      "users": 100000,
+      "records": 1000000
+    },
+    "published": 1000000,
+    "worker_restart": true,
+    "api_restart": true,
+    "reads": [
+      {
+        "count": 100000,
+        "id_sha256_xor": "9db6092541245ce676adc9943a073111208baf3a00295381fdd0b8eefa47c1df",
+        "coverage_bytes": 12500,
+        "family": "user",
+        "caller": 0,
+        "pages": 101,
+        "restart": {
+          "captured_ns": 451888120163300,
+          "resumed_ns": 451892836147500,
+          "pages_before": 1,
+          "pages_after": 100
+        },
+        "seconds": 19.709746800013818,
+        "retries": 0,
+        "p50_seconds": 0.11392929998692125,
+        "p95_seconds": 0.18975780002074316,
+        "max_seconds": 2.1179554000264034
+      },
+      {
+        "count": 100000,
+        "id_sha256_xor": "9db6092541245ce676adc9943a073111208baf3a00295381fdd0b8eefa47c1df",
+        "coverage_bytes": 12500,
+        "family": "user",
+        "caller": 1,
+        "pages": 101,
+        "restart": {
+          "captured_ns": 451888249795200,
+          "resumed_ns": 451892836526700,
+          "pages_before": 1,
+          "pages_after": 100
+        },
+        "seconds": 22.177404600020964,
+        "retries": 0,
+        "p50_seconds": 0.11577390000456944,
+        "p95_seconds": 0.2034908999921754,
+        "max_seconds": 2.2501588000450283
+      },
+      {
+        "count": 1000000,
+        "id_sha256_xor": "69ddfb2c09a3b5e463eb808c9b5d74e85f27444b0a4c9bf9473c84e144df2806",
+        "coverage_bytes": 125000,
+        "family": "signIn",
+        "caller": 0,
+        "pages": 2000,
+        "restart": {
+          "captured_ns": 451889689599800,
+          "resumed_ns": 451892836706900,
+          "pages_before": 1,
+          "pages_after": 1999
+        },
+        "seconds": 2254.7473182000103,
+        "retries": 0,
+        "p50_seconds": 0.9892379000084475,
+        "p95_seconds": 2.25243309995858,
+        "max_seconds": 6.06455960002495
+      },
+      {
+        "count": 1000000,
+        "id_sha256_xor": "69ddfb2c09a3b5e463eb808c9b5d74e85f27444b0a4c9bf9473c84e144df2806",
+        "coverage_bytes": 125000,
+        "family": "signIn",
+        "caller": 1,
+        "pages": 2000,
+        "restart": {
+          "captured_ns": 451891025482200,
+          "resumed_ns": 451892835921700,
+          "pages_before": 1,
+          "pages_after": 1999
+        },
+        "seconds": 2251.6282414000016,
+        "retries": 0,
+        "p50_seconds": 0.9873079000390135,
+        "p95_seconds": 2.245149499969557,
+        "max_seconds": 5.028784999973141
+      }
+    ],
+    "configuration": {
+      "profile": "m6-arm",
+      "api_replicas": 2,
+      "workers": 2,
+      "batch_size": 1000,
+      "postgres_major": 18,
+      "storage": {
+        "type": "volume",
+        "volume": "mockazure-m6-arm_postgres-data",
+        "driver": "local",
+        "destination": "/var/lib/postgresql",
+        "filesystem": "ext2/ext3"
+      },
+      "image_id": "sha256:42102454117894f9fdfc399b7cb63619d1a185bbe2a838d5a9f147e238ca9842",
+      "runtime_fingerprint": "7ad498c8ac3a98ca553e00bc1d6c0f509fa949078aedf173072bded07ac07dae",
+      "docker": {
+        "cpus": 20,
+        "memory": 33520742400
+      }
+    },
+    "tenant_id": "7559c809-7c4f-4800-8496-618ad07c75c5",
+    "users_import_seconds": 44.40786009997828,
+    "records_import_seconds": 683.509818099963,
+    "jobs": {
+      "succeeded": 1000100
+    },
+    "database_bytes": 5594363583,
+    "pipeline_seconds": 2258.1587610999704,
+    "published_records_per_second": 442.83866007405544,
+    "restart_boundary": {
+      "started_ns": 451891025490800,
+      "completed_ns": 451892835251300
+    },
+    "completed_at": "2026-10-17T18:06:35.927826+00:00"
+  }
+}
