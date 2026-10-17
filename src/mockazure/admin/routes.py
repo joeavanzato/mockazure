@@ -27,8 +27,22 @@ async def ready(request: Request):
 
 
 @router.get("/capabilities")
-async def capabilities():
+async def capabilities(request: Request):
+    from mockazure.providers.graph.read_profiles import READ_RESOURCES
+
+    settings = request.app.state.settings
     return {
+        "graph_read_budgets": {
+            "resources": sorted(READ_RESOURCES),
+            "collection_limit": settings.graph_collection_request_limit,
+            "collection_window_seconds": settings.graph_collection_window_seconds,
+            "directory_limit": settings.graph_directory_request_limit,
+            "directory_window_seconds": settings.graph_directory_window_seconds,
+            "evidence_limit": 600,
+            "evidence_window_seconds": 60,
+            "batch_envelope_charged": False,
+            "fault_kinds": ["next_read_429", "next_page_429"],
+        },
         "milestone": 5,
         "delivery": "collection-evidence",
         "authentication_flows": [
@@ -48,6 +62,8 @@ async def capabilities():
             "graph.directory.snapshot_paging",
             "graph.directory.delta",
             "graph.batch.read_only",
+            "graph.collections.shared_read_budgets",
+            "graph.directory.members.nested_paging",
             "graph.auditLogs.signIns",
             "graph.auditLogs.directoryAudits",
             "graph.identityProtection.riskDetections",
@@ -76,7 +92,6 @@ async def capabilities():
             "graph.security.incidents.read",
             "graph.security.secureScores.read",
             "graph.security.secureScoreControlProfiles.read",
-
             "exchange.organization.read",
             "exchange.mailbox.configuration",
             "exchange.mailbox.statistics",

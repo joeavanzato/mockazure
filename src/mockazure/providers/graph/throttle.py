@@ -4,18 +4,15 @@ import math
 from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import principal
+from mockazure.providers.graph.read_profiles import READ_RESOURCES, collection_resource
 
 
 async def consume_budget(session, tenant_id, client_id, resource, now, limit, window_seconds):
-    if (
-        resource
-        not in {"users", "groups", "signIn", "directoryAudit", "riskDetection", "riskyUser"}
-        or limit < 1
-        or not 1 <= window_seconds <= 3600
-    ):
+    if resource not in READ_RESOURCES or limit < 1 or not 1 <= window_seconds <= 3600:
         raise ValueError("Invalid directory budget")
     start = datetime.fromtimestamp(
         math.floor(now.timestamp() / window_seconds) * window_seconds, UTC
@@ -52,9 +49,30 @@ async def enforce_directory_budget(request):
     )
     evidence = resource is not None
     if not evidence:
-        if parts[2] not in {"users", "groups"}:
+        if parts[2] not in {"users", "groups", "me"}:
+            # New read profiles share the same persisted budget service. The batch
+            # envelope never matches; each inner ASGI request is charged once.
+            resource = collection_resource(request.url.path)
+            action = parts[-1] in {"getByIds", "microsoft.graph.getByIds"}
+            if resource is None or not (
+                request.method == "GET" or request.method == "POST" and action
+            ):
+                return
+            now = getattr(request.app.state, "clock", lambda: datetime.now(UTC))()
+            settings = request.app.state.settings
+            async with request.app.state.database.sessions() as authentication:
+                context = await principal(request, authentication)
+            # Release the authentication connection before the independent budget
+            # transaction, including when the configured pool has only one slot.
+            async with request.app.state.database.sessions() as session:
+                session.info["graph_read_budget"] = {
+                    "limit": settings.graph_collection_request_limit,
+                    "window_seconds": settings.graph_collection_window_seconds,
+                    "continuation": "$skiptoken" in request.query_params,
+                }
+                await enforce_read_budget(session, context, resource, now)
             return
-        resource = parts[2]
+        resource = "users" if parts[2] == "me" else parts[2]
     now = getattr(request.app.state, "clock", lambda: datetime.now(UTC))()
     async with request.app.state.database.sessions.begin() as session:
         context = await principal(request, session)
@@ -84,6 +102,47 @@ RETURNING retry_after
                 ),
             )
     # The counter and one-shot fault commit even though this request is denied.
+    if retry is not None:
+        error = GraphError(429, "TooManyRequests", "Graph request limit reached; retry later")
+        error.headers["Retry-After"] = str(retry)
+        raise error
+
+
+async def enforce_read_budget(session, context, operation_key: str, now: datetime) -> None:
+    """Charge an authenticated read independently of its caller's transaction.
+
+    Call before opening the storage transaction, after releasing any authentication
+    transaction. Optional session.info graph_read_budget
+    supplies limit/window_seconds/continuation; configured database sessions inherit
+    the local collection defaults. A 429 must not undo its counter or one-shot fault.
+    """
+    options = session.info.get("graph_read_budget", {})
+    async with AsyncSession(bind=session.bind) as budget:
+        async with budget.begin():
+            retry = await consume_budget(
+                budget,
+                context.tenant_id,
+                context.client_id,
+                operation_key,
+                now,
+                options.get("limit", 600),
+                options.get("window_seconds", 60),
+            )
+            if retry is None:
+                retry = await budget.scalar(
+                    text("""
+DELETE FROM graph_read_faults
+WHERE tenant_id=:tenant AND client_id=:client AND resource=:resource
+  AND (kind='next_read_429' OR (kind='next_page_429' AND :continuation))
+RETURNING retry_after
+"""),
+                    dict(
+                        tenant=context.tenant_id,
+                        client=context.client_id,
+                        resource=operation_key,
+                        continuation=options.get("continuation", False),
+                    ),
+                )
     if retry is not None:
         error = GraphError(429, "TooManyRequests", "Graph request limit reached; retry later")
         error.headers["Retry-After"] = str(retry)

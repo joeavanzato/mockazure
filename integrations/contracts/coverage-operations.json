@@ -837,6 +837,326 @@
       ],
       "aliasOf": "/v1.0/directoryObjects/getByIds",
       "clientReference": "Microsoft.Graph.DirectoryObjects 2.35.1; SHA-256 pinned in integrations/manifest.json"
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/$batch",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/json-batching",
+      "sourceSha256": "e09dffe88c5cad04615e83b5770185f77c7ae285b830d4fcc2c374f2a10480b7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "policy": "Each inner operation keeps its normal scopes, directory roles and resource authorization."
+      },
+      "queryOptions": [],
+      "limits": [
+        "1..20 independent GET operations",
+        "Declared Graph roots only; no writes, dependencies, external URLs or authorization overrides",
+        "8 MiB per result, 32 MiB aggregate",
+        "Each inner operation consumes its normal budget; no outer-envelope charge"
+      ],
+      "tests": [
+        "tests/integration/test_collection_protocol_completion.py::test_batch_extended_roots_keep_item_authorization_and_errors",
+        "tests/integration/test_collection_protocol_completion.py::test_shared_collection_budget_and_single_batch_charge"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
     }
-  ]
+  ],
+  "queryProfiles": [
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/auditLogs/signIns",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/signin-list?view=graph-rest-1.0",
+      "sourceSha256": "1048fdada174059bff4dafc91bfe38b35deb504bb4b685a879277a18253defdd",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$filter",
+        "$top",
+        "$skiptoken"
+      ],
+      "supportedOptions": [
+        "$filter",
+        "$top",
+        "$skiptoken",
+        "$orderby"
+      ],
+      "localExtensions": [
+        "$orderby"
+      ],
+      "notes": "Retained local timestamp-ordering extension; no select/count/expand."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/auditLogs/directoryAudits",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryaudit-list?view=graph-rest-1.0",
+      "sourceSha256": "850a0a546cc4f0e8616d25fd91d44fa94e2f7dbcbbaec82891d1ced71c27e694",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$filter",
+        "$top",
+        "$orderby",
+        "$skiptoken"
+      ],
+      "supportedOptions": [
+        "$filter",
+        "$top",
+        "$orderby",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Declared timestamp ordering and typed filters; no select/count."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/reports/authenticationMethods/userRegistrationDetails",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethodsroot-list-userregistrationdetails?view=graph-rest-1.0",
+      "sourceSha256": "9ed5559978695f7c93a030685174c3008e6f99ca61a092b306b028e1830fc94f",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$filter"
+      ],
+      "supportedOptions": [
+        "$filter",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Server continuation; no client select/top/count/order/expand."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/alerts_v2",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-alerts_v2?view=graph-rest-1.0",
+      "sourceSha256": "a729178cf3c474512c501a132cb49970e81f0ff5de4b31f1679cb86ad9296e5a",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Only documented filter fields; no select/orderby."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/incidents",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-incidents?view=graph-rest-1.0",
+      "sourceSha256": "7ab6007409e042b94e39983a2818a78cfb9262f994bbabd8c1f8a4be0f166e4a",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$expand"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$expand",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Only alerts expansion; 10000-alert local bound; no select/orderby."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/secureScores",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-securescores?view=graph-rest-1.0",
+      "sourceSha256": "8a4ef1c5296e88913728f58ff4078346cc0d3a09019e7cfec225092afa93167e",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "No legacy-alert selection or ordering inherited."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/secureScoreControlProfiles",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-securescorecontrolprofiles?view=graph-rest-1.0",
+      "sourceSha256": "817c821f74883daa10706c04e696241c89ffd02b6764fe7723d9db97a18bf6b7",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "No legacy-alert selection or ordering inherited."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list?view=graph-rest-1.0",
+      "sourceSha256": "4e8593ace1e279787397727960903368a2af87fe3dc35f31c2933eb043527459",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; members expansion returns 20 entries and a snapshot-bound members@odata.nextLink."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/applications",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/application-list?view=graph-rest-1.0",
+      "sourceSha256": "00a32a5da12a688fc776a83298992f96a8d064f9062dbcb4435c50ca5d2e774e",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; bounded owners expansion; public credential metadata only."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/servicePrincipals",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/serviceprincipal-list?view=graph-rest-1.0",
+      "sourceSha256": "85aea1d946d4c2823a1ba692277e7e5df162d18e73a7883556940ccf3f67f0f2",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; bounded owners expansion and typed declared fields."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/devices",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-list?view=graph-rest-1.0",
+      "sourceSha256": "a47d54c0da5e24fe92761618b11e54ff8a9e4f614e14515de11ecaf8e5895854",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; bounded registeredOwners expansion."
+    }
+  ],
+  "advancedQuerySemantics": {
+    "url": "https://learn.microsoft.com/en-us/graph/aad-advanced-queries",
+    "sha256": "f7a8ee9172230a9453fb3205589aef4263d8cb53ab05104f4b4c3a41a00d9f5a",
+    "retrievedAt": "2026-10-17",
+    "behavior": "Without ConsistencyLevel:eventual, query $count is ignored; /$count and advanced filters requiring the header fail. With the header an empty count is zero."
+  },
+  "directoryExpansionSemantics": {
+    "url": "https://learn.microsoft.com/en-us/graph/query-parameters",
+    "sha256": "54236438576e888fe91f0081e43acb74afde1beb5e216e1a3e479ed025597194",
+    "retrievedAt": "2026-10-17",
+    "behavior": "DirectoryObject relationship expansion returns at most 20 items without a nested @odata.nextLink. Use the dedicated relationship collection for full paging."
+  }
 }

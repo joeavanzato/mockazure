@@ -1,6 +1,9 @@
+from types import SimpleNamespace
+
 from typer.testing import CliRunner
 
 from mockazure.cli import app
+from mockazure.config import Settings
 
 
 def test_maintenance_cli_bounds_and_route(monkeypatch):
@@ -28,9 +31,17 @@ def test_maintenance_cli_bounds_and_route(monkeypatch):
     assert len(calls) == 1
 
 
-async def test_maintenance_capability_is_explicit():
+async def test_maintenance_capability_is_explicit(tmp_path):
     from mockazure.admin.routes import capabilities
 
-    value = await capabilities()
+    value = await capabilities(
+        SimpleNamespace(
+            app=SimpleNamespace(
+                state=SimpleNamespace(
+                    settings=Settings(data_dir=tmp_path, database_url="postgresql://localhost/unit")
+                )
+            )
+        )
+    )
     assert "maintenance.cleanup" in value["admin_operations"]
     assert not any("cleanup is deferred" in text for text in value["limitations"])

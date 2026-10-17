@@ -25,7 +25,19 @@ def create_database(settings: Settings) -> Database:
         hide_parameters=True,
         connect_args={"connect_timeout": 3},
     )
-    return Database(engine, async_sessionmaker(engine, expire_on_commit=False))
+    return Database(
+        engine,
+        async_sessionmaker(
+            engine,
+            expire_on_commit=False,
+            info={
+                "graph_read_budget": {
+                    "limit": settings.graph_collection_request_limit,
+                    "window_seconds": settings.graph_collection_window_seconds,
+                }
+            },
+        ),
+    )
 
 
 async def close_database(database: Database) -> None:

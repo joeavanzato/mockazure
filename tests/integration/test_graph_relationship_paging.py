@@ -44,8 +44,10 @@ async def test_relationship_snapshot_pages_and_nested_expansion(database, settin
         initial = await client.get(
             "/v1.0/groups?$top=1&$orderby=displayName&$expand=members($select=id)", headers=headers
         )
-        # Large cannot be expanded within the declared 20-edge cap; choose Small then create a peer.
-        assert initial.status_code == 400
+        # Directory expansion is bounded with no nested continuation, as in Graph.
+        assert initial.status_code == 200, initial.text
+        assert len(initial.json()["value"][0]["members"]) == 20
+        assert "members@odata.nextLink" not in initial.json()["value"][0]
         async with database.sessions.begin() as session:
             peer = await persisted_group(session, tenant, "Tiny")
             await add_relation(
