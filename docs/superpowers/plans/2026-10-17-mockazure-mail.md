@@ -66,11 +66,11 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 **Interfaces:** Consumes Task2 mailbox resolver/access and Task1 schemas. Produces mutate_rule(session, actor, mailbox, operation: str, rule_id: str|None, body: dict, now) -> dict|None; rule_page(session, actor, mailbox, query, cursor) -> dict. Stable opaque rule IDs and SQL ordering.
 
-- [ ] Write focused failing tests: test_rule_crud_actual_sdk_shapes asserts create201, update200, delete204, schema-valid recipient/predicate structures and preserved IDs. test_mailbox_self_and_application_permissions tests delegated /me/self, app /users, foreign mailbox/tenant denial, read-only rules, hidden-rule exclusion and concurrent reorder. test_rule_page_snapshot verifies continuation under mutation and current authorization. Reject unsupported options and contradictory actions explicitly.
-- [ ] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_graph_mail_rules.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
-- [ ] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
-- [ ] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
-- [ ] Run Ruff/diff checks, commit the coherent change and ledger the result.
+- [x] Write focused failing tests: test_rule_crud_actual_sdk_shapes asserts create201, update200, delete204, schema-valid recipient/predicate structures and preserved IDs. test_mailbox_self_and_application_permissions tests delegated /me/self, app /users, foreign mailbox/tenant denial, read-only rules, hidden-rule exclusion and concurrent reorder. test_rule_page_snapshot verifies continuation under mutation and current authorization. Reject unsupported options and contradictory actions explicitly.
+- [x] Run `.venv/Scripts/python.exe -m pytest tests/integration/test_graph_mail_rules.py -q --tb=short` using an M4-owned basetemp/log/database. Expected RED for the missing behavior; fixture/setup errors must be corrected before crediting RED.
+- [x] Implement the named interfaces and source-backed operation contracts; record ambiguities as explicit rulings, preserving the spec's behavior.
+- [x] Run the same command and affected predecessor regressions. Expected PASS with exact behavioral assertions and no hidden skips.
+- [x] Run Ruff/diff checks, commit the coherent change and ledger the result.
 
 ### Task 4: Expose Exchange command and compiled-module transport
 
@@ -98,7 +98,7 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 ### Task 6: Project native mailbox and rule changes into UAL
 
-**Files:** src/mockazure/mail/{audit,audit_schemas}.py; src/mockazure/evidence/{schemas,models,repository,projectors,datasets,cleanup}.py; src/mockazure/db/alembic/versions/026_mail_audit.py; tests/integration/test_mail_audit.py
+**Files:** src/mockazure/mail/{audit,audit_schemas}.py; src/mockazure/evidence/{schemas,models,repository,projectors,datasets,cleanup}.py; src/mockazure/db/alembic/versions/027_mail_audit.py; tests/integration/test_mail_audit.py
 
 **Interfaces:** Consumes immutable Task2-4 facts, existing SourceEnvelope/fenced projectors, Task1 security.auditLogRecord schema. Produces record_mail_audit(session, actor, operation, target, before, after, now) -> None and project_mail(source: SourceEnvelope) -> ProjectionBatch. Adds auditLogRecord family with tenant/source uniqueness and proper export/import contracts.
 
@@ -110,7 +110,7 @@ jobs/evidence retain typed fencing/provenance; integrations/tools own original-c
 
 ### Task 7: Build durable Graph UAL query jobs and record paging
 
-**Files:** src/mockazure/auditlog/{models,schemas,queries,worker,paging}.py; src/mockazure/providers/graph/audit_query_routes.py; src/mockazure/jobs/dispatch.py; src/mockazure/evidence/cleanup.py; src/mockazure/db/alembic/versions/027_audit_queries.py; tests/integration/test_audit_queries.py
+**Files:** src/mockazure/auditlog/{models,schemas,queries,worker,paging}.py; src/mockazure/providers/graph/audit_query_routes.py; src/mockazure/jobs/dispatch.py; src/mockazure/evidence/cleanup.py; src/mockazure/db/alembic/versions/028_audit_queries.py; tests/integration/test_audit_queries.py
 
 **Interfaces:** Consumes Task6 retained audit observations and existing JobClaim/lease/fence protocol. Produces create_query(session, actor, body: dict, now) -> dict; process_audit_query(database, claim: JobClaim, wall_now) -> JobResult; get_query/session list/records helpers with current authorization and SQL materialization.
 

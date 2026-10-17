@@ -138,3 +138,9 @@ class CommandGrantInput(MailInput):
         if set(self.commands) - EXCHANGE_COMMANDS:
             raise ValueError("Unsupported Exchange command grant")
         return self
+
+
+class RuleSeedInput(MailInput):
+    rule: dict
+    hidden: StrictBool = False
+    read_only: StrictBool = False

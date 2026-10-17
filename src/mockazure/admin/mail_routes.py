@@ -103,3 +103,25 @@ async def delete_grant(tenant_id: UUID, grant_id: UUID, request: Request):
             )
         )
     return Response(status_code=204)
+
+
+@router.post("/mailboxes/{user_id}/rules", status_code=201)
+async def seed_rule(tenant_id: UUID, user_id: UUID, request: Request):
+    from mockazure.directory.mutations import AdminActor
+    from mockazure.mail.rules import _mutate_rule
+    from mockazure.mail.schemas import RuleSeedInput
+
+    value = await parsed(request, RuleSeedInput)
+    async with request.app.state.database.sessions.begin() as session:
+        mailbox = await resolve_mailbox(session, tenant_id, str(user_id))
+        return await _mutate_rule(
+            session,
+            AdminActor(),
+            mailbox,
+            "create",
+            None,
+            value.rule,
+            datetime.now(UTC),
+            hidden=value.hidden,
+            read_only=value.read_only,
+        )

@@ -29,4 +29,8 @@ current authorization checks, forwarding and immutable transactional mail facts.
 Graph UPN update now supports verified-domain rename; historical facts remain immutable.
 Own test DB:compose.test.m4.yaml, loopback55441; set MOCKAZURE_TEST_DB_PORT=55441.
 Networks10.231.92/24 and10.231.93/24; fresh own .runtime/test-db.password.
-Next: Task3 canonical Graph inbox rule lifecycle. Full M4 runtime remains unprovisioned.
+Task3 implemented Graph inbox rule CRUD, hidden/read-only rules, serialized ordering
+and immutable PostgreSQL page versions with principal-bound continuations.
+233 unit/mail/rule/migration tests25.82s;5 focused rule tests8.29s.
+Next: Task4 Exchange commands and original compiled EXO transport.
+Full M4 runtime remains unprovisioned; allocate separate ports/subnets before setup.

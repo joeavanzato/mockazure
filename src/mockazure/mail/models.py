@@ -45,6 +45,7 @@ class Mailbox(Base):
     )
     tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
     user_id: Mapped[UUID] = mapped_column(primary_key=True)
+    rule_revision: Mapped[int] = mapped_column(BigInteger, default=0)
     exchange_guid: Mapped[UUID] = mapped_column(default=uuid4)
     primary_smtp: Mapped[str] = mapped_column(String(320))
     alias: Mapped[str] = mapped_column(String(128))
@@ -97,3 +98,41 @@ class ExchangeCommandGrant(Base):
     client_id: Mapped[UUID | None]
     mailbox_user_id: Mapped[UUID | None]
     commands: Mapped[list] = mapped_column(JSONB)
+
+
+class MailRule(Base):
+    __tablename__ = "mail_rules"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "user_id"], ["mail_mailboxes.tenant_id", "mail_mailboxes.user_id"]
+        ),
+        UniqueConstraint(
+            "tenant_id", "user_id", "family", "sequence", deferrable=True, initially="DEFERRED"
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    user_id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    family: Mapped[str] = mapped_column(String(10), default="inbox")
+    sequence: Mapped[int]
+    payload: Mapped[dict] = mapped_column(JSONB)
+    hidden: Mapped[bool] = mapped_column(default=False)
+    read_only: Mapped[bool] = mapped_column(default=False)
+
+
+class MailRuleVersion(Base):
+    __tablename__ = "mail_rule_versions"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "user_id"], ["mail_mailboxes.tenant_id", "mail_mailboxes.user_id"]
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    user_id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    valid_from: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    valid_to: Mapped[int | None] = mapped_column(BigInteger)
+    sequence: Mapped[int]
+    family: Mapped[str] = mapped_column(String(10))
+    hidden: Mapped[bool]
+    payload: Mapped[dict] = mapped_column(JSONB)

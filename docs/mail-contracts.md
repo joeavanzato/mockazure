@@ -162,3 +162,20 @@ GUID; absent archives fail statistics lookup.
 Mail configuration mutations append native facts to the shared immutable evidence
 source table in the same transaction. Task6 will add UAL projection, enqueueing and
 pending-source recovery before M4 qualification; Task2 alone does not claim UAL output.
+
+
+## Inbox rule ordering and paging
+
+Mutation serializes on the mailbox row. Priorities are normalized to consecutive
+one-based positions, with insertion positions clamped to the current rule list.
+The unique priority constraint is deferred until commit so concurrent reorder
+cannot leave duplicates. Opaque IDs remain stable. Hidden rules do not appear
+through Graph, and directly modifying/deleting read-only rules fails.
+
+Local bounds:1000 rules per mailbox, maximum100 items per page, accepted top1..1000.
+Select is supported; filter/expand/orderby are explicitly rejected for this profile.
+The nextLink preserves the original query and mailbox rule revision for one hour;
+later update/deletion cannot rewrite that page. It is bound to tenant, generation,
+client, subject, permission claims, mailbox and API version. Current identity,
+entitlement and mailbox access checks still apply at every page. Version retention
+is currently conservative; lifecycle cleanup is an M6 hardening concern.
