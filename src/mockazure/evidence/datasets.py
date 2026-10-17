@@ -475,7 +475,9 @@ async def export_evidence(session_factory, tenant_id, query):
                     ).model_dump(mode="json")
                 record = EvidenceRecord(
                     family=row.family,
-                    api_version=source.facts.get("version", "beta"),
+                    api_version=source.facts.get(
+                        "version", "v1.0" if source.kind == "security" else "beta"
+                    ),
                     payload=row.payload,
                     occurred_at=observation.occurred_at,
                     available_at=observation.available_at,

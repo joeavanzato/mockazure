@@ -5,74 +5,65 @@ Branch: feat/security-administration
 Base main: 5cdcf5a0b1228f44cc8561e2e4217e0058355b26
 
 The user authorized uninterrupted M3C, M4, M5 and M6 delivery with reasonable
-decisions recorded, no routine design/plan approval pauses. PRs remain for user
-merge. No real tenants, VTW access, host trust/DNS/firewall changes or registry
-publication. Preserve existing worktrees and runtimes.
+decisions recorded, no routine approval pauses. Native implementation; one
+independent final reviewer per milestone. PRs remain for user merge. No real
+tenants, VTW access, host trust/DNS/firewall changes or registry publication.
+Preserve existing worktrees and runtimes.
 
-## Completed tasks
+## Completed implementation
 
 1. Official structural schemas and permission IDs: 356542f.
-   Metadata v1.0/beta pin 34b8e9c29032c82352a6fd7138be0a864a842bb2.
-   REST permission reference and two supplementary existing group permissions
-   have independent revision/hash/license provenance in security/data.
-2. Canonical application/SP/device reads and persistent security snapshots:
-   3169e34. Upgrade preserves OAuth clients and stable distinct application
-   object IDs. Tenant/caller/query/expiry-bound paging stores rows in PostgreSQL;
-   one INSERT SELECT captures a coherent collection without an all-rows Python list.
+2. Canonical application/SP/device reads and persistent snapshots: 3169e34.
+3. Canonical object/owner/credential mutations and audit:
+   - Application/SP object ID and appId routes have matching writes/actions/owners.
+   - Device id/deviceId routes share tenant-unique alternate keys and user-only owners.
+   - Device creation/owner writes require delegated access; operation-specific
+     roles restrict Cloud Device Administrator and Windows 365 Administrator.
+   - Secret/certificate writes affect actual local OAuth; failed replacement rolls
+     back; future/revoked credentials cannot authenticate. Deleted applications
+     cannot be reenabled by the ordinary administrative enable endpoint.
+   - Default reads mask certificate key bytes; explicit select returns public DER.
+   - Owner expansion preserves snapshots and limits user disclosure.
+   - Control-plane bootstrap redirects and configured permission GUIDs are visible
+     through Graph and survive subsequent mutations. New admin credential metadata
+     has its actual creation time; legacy unknown start times remain the migration
+     fallback and do not change previous authentication validity.
+   - Security audit facts/outbox are atomic, validate public v1.0 differences before
+     enqueue, publish to Graph, and export/reimport without private credential data.
+     Native security exports retain v1.0 rather than being mislabeled beta.
+   - Resource SP catalogs refresh from the pinned permission catalog.
+   - Unsupported write switches (including appRoleAssignmentRequired) are rejected.
+     Non-Windows app-only extensionAttributes are currently outside this declared
+     write profile; they return an explicit error, not a successful ineffective write.
+   - Bootstrap is configuration, not invented Graph activity; admin identity writes
+     share the security lock and normalized rows.
 
-## Active task 3
+## Next work
 
-Implemented and tested in the current checkpoint:
-- Application/SP/device mutation routes; tenant-local objects and owners.
-- App-only ownership checks and delegated device permission restrictions.
-- Secret and public-certificate credential changes affect real local OAuth.
-  Future-start credentials fail; revocation blocks new tokens while existing
-  access-token behavior remains unchanged.
-- Security audit facts and projection share the evidence outbox transaction.
-  Private credential data is excluded from public audit differences.
-- Owner expansion survives intervening ownership edits and limits user disclosure.
-- Canonical Graph configured permissions are exposed as real permission GUIDs.
-- Control-plane identity writes share the security lock.
+Task 4: effective delegated grants and application role assignments from the
+canonical identity.Grant rows used by OAuth. Read its task brief/ledger before
+starting; Tasks 5–10 cover roles, method inventory, policy persistence/enforcement,
+real-client qualification and final regression/review/PR. M3C is not qualified yet.
 
-Task 3 is **not complete**. Before recording task-done:
-- Finish operation parity for alternate-key mutations and credential/owner routes;
-  reads already support application/SP appId lookup.
-- Exercise and finish device alternate-key/uniqueness and operation-specific role
-  constraints, including owner types and non-Windows update restrictions.
-- Check credential key disclosure (default versus explicit select), certificate
-  replacement/error paths, deletion versus administrative re-enable, and
-  cross-tenant owner references using existing foreign objects.
-- Verify security audit export/reimport and a published Graph audit read, beyond
-  source projection validation; do not waive existing gates.
-- Keep unsupported write fields explicit; do not store a policy switch as if it
-  were enforced when no evaluator consumes it.
-- Review source-visible operational state for bootstrap/migration paths.
-- Run task checks, commit, then task-done against task base 3169e347d6b5330fda6dbae180476c24f9a34d6a.
+## Verification and continuation
 
-No final milestone review or qualification has happened yet. Tasks 4–10 remain:
-effective grants, roles, method inventory, policy persistence/enforcement,
-real-client qualification, full regression/review/PR.
-
-## Evidence and continuation
-
-- Baseline: 144 checks passed.
-- Reference/unit regression: 162 checks passed.
-- Task 2 regression: 208 checks passed in 62.30s.
-- Task 3 core regression: 210 checks passed in 50.51s.
-- Additional audit null-field/secret rejection checks: 2 passed.
-- Checkpoint export/security validation: 12 passed in 17.99s.
-  Output: work/security-checkpoint-validation.log.
-- Full temporary ledger and task briefs:
-  .superpowers/sdd/2026-10-16-mockazure-security/
+- Task 3 affected regression: 230 passed in 111.25s.
+  work/task3-final.log. Ruff and git diff checks pass.
+- RED/GREEN evidence includes six operation parity gaps, three bootstrap metadata
+  gaps, invalid source differences and a real security audit export/reimport failure.
+- Full ledger/task briefs: .superpowers/sdd/2026-10-16-mockazure-security/
 - Python: .venv/Scripts/python.exe; Ruff: .venv/Scripts/ruff.exe.
-- Test DB project: mockazure-security-tests, loopback port55438.
-  Set MOCKAZURE_TEST_DB_PORT=55438 for integration tests.
-  Compose: work/compose.security-tests.yaml. Own secret: .runtime/test-db.password.
-- Do not run concurrent integration suites against the same test runtime.
-- Writes under D: use the authorized sandbox escalation; never move work into VTW.
-- Native execution: no implementation subagents; one independent final reviewer
-  at each completed milestone.
+- Test DB: mockazure-security-tests, loopback55438.
+  Set MOCKAZURE_TEST_DB_PORT=55438. Compose: work/compose.security-tests.yaml.
+  Own ignored secret: .runtime/test-db.password. Do not run concurrent DB suites.
+- Writes under D: use authorized sandbox escalation.
 - Hourly heartbeat continue-mockazure-m3c-through-m5 is named
   Continue MockAzure through M6 and remains active.
-- M4, M5 and M6 follow in order. The release scale target is 100,000 users and
-  1,000,000 evidence records; report actual measurements and unmet gates honestly.
+- Continue M4, M5, M6 in order. M6 includes actual measurements at
+  100,000 users/1,000,000 evidence records; no unverified scale claims.
+
+## Additional primary operation references
+
+- https://learn.microsoft.com/en-us/graph/api/device-post-registeredowners?view=graph-rest-1.0
+- https://learn.microsoft.com/en-us/graph/api/device-update?view=graph-rest-1.0
+- https://learn.microsoft.com/en-us/graph/api/device-delete?view=graph-rest-1.0

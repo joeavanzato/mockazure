@@ -37,7 +37,6 @@ SP_FIELDS = {
     "description",
     "tags",
     "accountEnabled",
-    "appRoleAssignmentRequired",
     "keyCredentials",
 }
 DEVICE_FIELDS = {
@@ -139,7 +138,11 @@ async def owner_public(session, tenant, identifier):
             "displayName": user.display_name,
             "userPrincipalName": user.upn,
         }
-    return await public_security_object(session, tenant, "servicePrincipal", identifier)
+    from mockazure.providers.graph.security.serialization import serialize_security
+
+    return serialize_security(
+        await public_security_object(session, tenant, "servicePrincipal", identifier)
+    )
 
 
 async def owner_list(session, tenant, identifier):
@@ -172,7 +175,7 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
             session, actor.tenant_id, body.get("appId"), by_appid=True
         )
         authorization_target = backing.object_id
-    await authorize_mutation(session, actor, kind, operation, authorization_target)
+    await authorize_mutation(session, actor, kind, operation, authorization_target, body=body)
     result = None
     if operation in {"create", "update"}:
         data = validated(kind, operation, body)
@@ -214,6 +217,7 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
                 if not data.get("displayName"):
                     invalid("displayName is required")
                 data.setdefault("deviceId", str(uuid4()))
+                data["deviceId"] = str(uuid_value(data["deviceId"]))
                 row = SecurityObject(tenant_id=actor.tenant_id, kind="device", properties={})
                 session.add(row)
                 await session.flush()
@@ -232,6 +236,9 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
             if "requiredResourceAccess" in data:
                 row.required_permissions = configured_permissions(data["requiredResourceAccess"])
             profile = dict(row.profile)
+            if not profile.keys() & {"web", "publicClient", "spa"}:
+                platform = "publicClient" if row.client_mode == "public" else "web"
+                profile[platform] = {"redirectUris": list(row.redirect_uris)}
             profile.update({k: v for k, v in data.items() if k != "keyCredentials"})
             if any(key in data for key in ("web", "publicClient", "spa")):
                 redirect_uris = []
@@ -299,7 +306,9 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
             )
     elif operation in {"add_owner", "remove_owner"}:
         owner_id = uuid_value(body["owner_id"])
-        await owner_public(session, actor.tenant_id, owner_id)
+        owner_value = await owner_public(session, actor.tenant_id, owner_id)
+        if kind == "device" and owner_value["@odata.type"] != "#microsoft.graph.user":
+            invalid("A registered device owner must be a user")
         before = dict(before) | {"owners": await owner_list(session, actor.tenant_id, identifier)}
         owner = await session.get(SecurityOwner, (actor.tenant_id, identifier, owner_id))
         if operation == "add_owner":

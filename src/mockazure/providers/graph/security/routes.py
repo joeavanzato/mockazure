@@ -89,6 +89,11 @@ def router_for(version):
             try:
                 async with request.app.state.database.sessions.begin() as session:
                     actor = await principal(request, session)
+                    if identifier and request.url.path.split("/")[2].startswith(resource + "("):
+                        obj = await public_security_object(
+                            session, actor.tenant_id, kind, identifier, by_appid=True
+                        )
+                        identifier = obj["id"]
                     result = await mutate_security(
                         session, actor, kind, operation, identifier, body, datetime.now(UTC)
                     )
@@ -122,11 +127,17 @@ def router_for(version):
                 actor = await principal(request, session)
                 await permitted(actor, read_requirement(kind), session)
                 await lock_security(session, actor.tenant_id)
-                await public_security_object(session, actor.tenant_id, kind, identifier)
-                values = await owner_list(session, actor.tenant_id, UUID(identifier))
+                obj = await public_security_object(
+                    session,
+                    actor.tenant_id,
+                    kind,
+                    identifier,
+                    by_appid=request.url.path.split("/")[2].startswith(resource + "("),
+                )
+                values = await owner_list(session, actor.tenant_id, UUID(obj["id"]))
                 values = disclose_owners(values, actor)
                 return {
-                    "@odata.context": context_url(request, resource + "/owners"),
+                    "@odata.context": context_url(request, resource + "/" + relation),
                     "value": [project(request, value) for value in values],
                 }
 
@@ -157,32 +168,24 @@ def router_for(version):
             return await write(request, identifier, "remove_owner", {"owner_id": owner})
 
         router.add_api_route("/" + resource, create, methods=["POST"])
-        router.add_api_route("/" + resource + "/{identifier}", update, methods=["PATCH"])
-        router.add_api_route("/" + resource + "/{identifier}", remove, methods=["DELETE"])
-        relation = "registeredOwners" if kind == "device" else "owners"
-        router.add_api_route("/" + resource + "/{identifier}/" + relation, owners, methods=["GET"])
-        router.add_api_route(
-            "/" + resource + "/{identifier}/" + relation + "/$ref", add_owner, methods=["POST"]
-        )
-        router.add_api_route(
-            "/" + resource + "/{identifier}/" + relation + "/{owner}/$ref",
-            remove_owner,
-            methods=["DELETE"],
-        )
-        if kind != "device":
-            router.add_api_route(
-                "/" + resource + "/{identifier}/addPassword", add_secret, methods=["POST"]
-            )
-            router.add_api_route(
-                "/" + resource + "/{identifier}/removePassword", remove_secret, methods=["POST"]
-            )
-
         router.add_api_route("/" + resource, collection, methods=["GET"])
-        if kind != "device":
+        relation = "registeredOwners" if kind == "device" else "owners"
+        key = "deviceId" if kind == "device" else "appId"
+        for prefix, reader in [
+            ("/" + resource + "/{identifier}", item),
+            ("/" + resource + "(" + key + "='{identifier}')", alternate),
+        ]:
+            router.add_api_route(prefix, reader, methods=["GET"])
+            router.add_api_route(prefix, update, methods=["PATCH"])
+            router.add_api_route(prefix, remove, methods=["DELETE"])
+            router.add_api_route(prefix + "/" + relation, owners, methods=["GET"])
+            router.add_api_route(prefix + "/" + relation + "/$ref", add_owner, methods=["POST"])
             router.add_api_route(
-                "/" + resource + "(appId='{identifier}')", alternate, methods=["GET"]
+                prefix + "/" + relation + "/{owner}/$ref", remove_owner, methods=["DELETE"]
             )
-        router.add_api_route("/" + resource + "/{identifier}", item, methods=["GET"])
+            if kind != "device":
+                router.add_api_route(prefix + "/addPassword", add_secret, methods=["POST"])
+                router.add_api_route(prefix + "/removePassword", remove_secret, methods=["POST"])
 
     for resource, kind in [
         ("applications", "application"),

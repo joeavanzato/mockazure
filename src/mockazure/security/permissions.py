@@ -31,30 +31,45 @@ async def actor_object_id(session, actor):
     )
 
 
-async def authorize_mutation(session, actor, kind, operation, identifier=None):
+async def authorize_mutation(session, actor, kind, operation, identifier=None, *, body=None):
     if kind == "device":
         apps = (
             {"Device.ReadWrite.All", "Directory.ReadWrite.All"}
             if operation not in {"create", "add_owner", "remove_owner"}
             else set()
         )
+        if operation == "delete":
+            apps = {"Device.ReadWrite.All"}
+        roles = {"Global Administrator", "Intune Administrator", "Windows 365 Administrator"}
+        if operation in {"update", "delete"}:
+            roles.add("Cloud Device Administrator")
         await permitted(
             actor,
             OperationRequirement(
                 "graph",
                 frozenset(apps),
                 frozenset({"Directory.AccessAsUser.All"}),
-                frozenset(
-                    {
-                        "Global Administrator",
-                        "Intune Administrator",
-                        "Windows 365 Administrator",
-                        "Cloud Device Administrator",
-                    }
-                ),
+                frozenset(roles),
             ),
             session,
         )
+        if actor.token_kind == "delegated" and operation == "update":
+            assigned = set(
+                await session.scalars(
+                    select(DirectoryRole.role).where(
+                        DirectoryRole.tenant_id == actor.tenant_id,
+                        DirectoryRole.user_id == actor.subject_id,
+                    )
+                )
+            )
+            if not assigned & {"Global Administrator", "Intune Administrator"}:
+                allowed = set()
+                if "Cloud Device Administrator" in assigned:
+                    allowed.add("accountEnabled")
+                if "Windows 365 Administrator" in assigned:
+                    allowed.update({"displayName", "operatingSystem", "operatingSystemVersion"})
+                if set(body or {}) - allowed:
+                    forbidden()
         return
     full = {"Application.ReadWrite.All", "Directory.ReadWrite.All"}
     await permitted(

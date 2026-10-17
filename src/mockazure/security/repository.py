@@ -3,7 +3,7 @@
 from uuid import UUID, uuid5
 
 from sqlalchemy import String, case, cast, column, func, literal, select, text, true, union_all
-from sqlalchemy.dialects.postgresql import JSONB, insert
+from sqlalchemy.dialects.postgresql import JSONB, array, insert
 
 from mockazure.identity.models import Application, Credential, ServicePrincipal
 from mockazure.managed_identity.models import ManagedIdentity
@@ -88,7 +88,10 @@ async def ensure_resource_principals(session, tenant):
                 kind="resourceServicePrincipal",
                 properties=properties,
             )
-            .on_conflict_do_nothing()
+            .on_conflict_do_update(
+                index_elements=[SecurityObject.tenant_id, SecurityObject.id],
+                set_={"properties": properties},
+            )
         )
 
 
@@ -206,7 +209,20 @@ def identity_source(tenant, kind):
                 },
                 JSONB,
             )
-            .op("||")(row.profile)
+            .op("||")(
+                case(
+                    (row.profile.has_any(array(["web", "publicClient", "spa"])), row.profile),
+                    else_=row.profile.op("||")(
+                        case(
+                            (
+                                row.client_mode == "public",
+                                document(publicClient=document(redirectUris=row.redirect_uris)),
+                            ),
+                            else_=document(web=document(redirectUris=row.redirect_uris)),
+                        )
+                    ),
+                )
+            )
             .op("||")(
                 document(
                     id=cast(row.object_id, String),
@@ -296,7 +312,8 @@ async def public_security_object(session, tenant, kind, identifier, *, by_appid=
         value = UUID(str(identifier))
     except ValueError:
         missing()
-    column = source.c.payload["appId"].as_string() if by_appid else source.c.id
+    key = "deviceId" if kind == "device" else "appId"
+    column = source.c.payload[key].as_string() if by_appid else source.c.id
     result = await session.scalar(
         select(source.c.payload).where(column == (str(value) if by_appid else value))
     )

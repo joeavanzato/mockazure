@@ -49,7 +49,7 @@ class IdentityRepository:
         row = await self.session.scalar(
             select(model).where(model.tenant_id == tenant_id, key == object_id)
         )
-        if row is None:
+        if row is None or getattr(row, "deleted_at", None) is not None:
             raise IdentityError(404, "IdentityNotFound", "Identity not found in tenant")
         return row
 

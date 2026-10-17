@@ -15,7 +15,6 @@ from mockazure.evidence.schemas import (
     SourceRef,
 )
 from mockazure.evidence.sources import enqueue_projection
-from mockazure.providers.graph.schema_reference import validate_payload
 
 PRIVATE_FIELDS = {
     "secretText",
@@ -39,7 +38,9 @@ def safe(value):
 def validate_security_facts(facts):
     if set(facts) != {"audit"} or not isinstance(facts["audit"], dict):
         raise ValueError("Invalid security evidence fact")
-    validate_payload("v1.0", "directoryAudit", facts["audit"])
+    from mockazure.evidence.datasets import validate_public_payload
+
+    validate_public_payload("v1.0", "directoryAudit", facts["audit"])
     if safe(facts) != facts:
         raise ValueError("Private credential field in evidence")
     for target in facts["audit"]["targetResources"]:
