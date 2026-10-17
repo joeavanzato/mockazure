@@ -92,13 +92,13 @@ Preserve existing worktrees and runtimes.
 
 ## Next work
 
-Task9 in progress: qualify real MSAL/Graph Python and PowerShell plus original security
-collectors on isolated .runtime/m3c. Task10: final regression, independent review
-and PR. Task8 base was ac54770747639b18276bfeeacbf4c1c780501274;
-run task-done if the native ledger does not yet record completion.
-M3C is not qualified yet. See docs/security-contracts.md for implemented bounds.
-Read work/security-qualification-notes.md for source-inspected collector dependencies
-and candidate unused ports; it is preparation, not acceptance evidence.
+Task9 is qualified: 20 runtime gates, three real SDK profiles in both modes,
+and20 original collector cases passed in236.926497s. Full regression474passed
+in534.66s; final acceptance/new harness tests6passed. See security-verification.json.
+
+Task10: update capability discovery/docs, one independent whole-branch review,
+verified fixes and fresh qualification/PR. M3C is not yet published.
+Continue directly to M4, M5 and M6 after the qualified M3C PR; user merges.
 
 ## Verification and continuation
 
@@ -142,3 +142,18 @@ licensing regression passed in the focused run. Ruff and diff checks pass.
 Qualification scripts and runtime gates remain unfinished; these results do not
 qualify M3C. Its own runtime uses HTTPS32443, PostgreSQL55440, planned native
 API32444/32445 and managed identity32446. No host networking settings changed.
+
+## Task 9 runtime qualification
+
+Verified API closure commits57f524f and25abb8d are pushed. Final source-bound
+qualification passed all20runtime gates, three native/container SDK profiles
+with15checks per application/delegated mode, and all20original collector cases.
+Qualification took236.926497s. Original output records verified:
+Hawk credentials10; MES policies2, grants184, methods4, role assignments6.
+All cases include both successful and denied access; no new output waiver.
+
+The complete unit/integration regression passed474tests in534.66s.
+The MSAL form_post recommendation is the sole warning. The final new gate
+and distribution acceptance run passed6tests in0.43s. Ruff/diff checks pass.
+Final review is pending. Source fingerprints and hashes remain authoritative;
+work/security-report.json and docs/security-verification.json record the evidence.

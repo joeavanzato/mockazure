@@ -1,0 +1,108 @@
+name: mockazure-m3c
+x-application: &application
+  image: mockazure:security
+  volumes:
+    - ./.runtime/m3c/instance:/instance:ro
+  networks: [internal]
+services:
+  db:
+    init: true
+    image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
+    environment:
+      POSTGRES_USER: mockazure_m3c
+      POSTGRES_DB: mockazure_m3c
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets: [db_password]
+    volumes:
+      - ./.runtime/m3c/postgres:/var/lib/postgresql
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mockazure_m3c -d mockazure_m3c"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  migrate:
+    <<: *application
+    command: ["db", "upgrade", "--config", "/instance/container.json"]
+    depends_on:
+      db: {condition: service_healthy}
+  identity-init:
+    <<: *application
+    command: ["identity", "initialize", "--config", "/instance/container.json"]
+    volumes:
+      - ./.runtime/m3c/instance:/instance
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+  api:
+    <<: *application
+    entrypoint: ["python", "/project/integrations/trace_server.py"]
+    volumes:
+      - ./.runtime/m3c/instance:/instance:ro
+      - ./integrations:/project/integrations:ro
+      - ./.runtime/m3c/api-state:/state
+    depends_on:
+      identity-init: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import ssl,urllib.request; urllib.request.urlopen('https://localhost:8443/_mock/ready',context=ssl.create_default_context(cafile='/instance/ca.pem'),timeout=3)"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  api2:
+    <<: *application
+    entrypoint: ["python", "/project/integrations/trace_server.py"]
+    volumes:
+      - ./.runtime/m3c/instance:/instance:ro
+      - ./integrations:/project/integrations:ro
+      - ./.runtime/m3c/api2-state:/state
+    depends_on:
+      identity-init: {condition: service_completed_successfully}
+  worker:
+    <<: *application
+    init: true
+    command: ["worker", "--config", "/instance/container.json"]
+    depends_on:
+      identity-init: {condition: service_completed_successfully}
+  worker2:
+    <<: *application
+    init: true
+    command: ["worker", "--config", "/instance/container.json"]
+    depends_on:
+      identity-init: {condition: service_completed_successfully}
+  managed-identity:
+    <<: *application
+    command: ["managed-identity", "serve", "--config", "/instance/container.json"]
+    networks:
+      internal:
+        aliases: [identity.mockazure.test]
+    depends_on:
+      identity-init: {condition: service_completed_successfully}
+  local-tls:
+    image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
+    volumes:
+      - ./deploy/haproxy-m3c.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      internal:
+        aliases: [login.mockazure.test, graph.mockazure.test, outlook.mockazure.test, management.mockazure.test]
+    depends_on:
+      api: {condition: service_healthy}
+  ingress:
+    image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
+    volumes:
+      - ./deploy/haproxy-m3c.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports: ["127.0.0.1:32443:443", "127.0.0.1:55440:5432", "127.0.0.1:32446:8080"]
+    networks: [internal, ingress]
+    depends_on:
+      api: {condition: service_healthy}
+secrets:
+  db_password:
+    file: ./.runtime/m3c/db.password
+networks:
+  internal:
+    external: true
+    name: mockazure-m3c-clients-isolated
+  ingress:
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+    ipam:
+      config:
+        - subnet: 10.231.91.0/24
