@@ -130,6 +130,26 @@ async def dispatch(request, service):
             content_parts[1],
             content_parts[2] if len(content_parts) == 3 else "",
         )
+    if (
+        service == "file"
+        and len(content_parts) >= 2
+        and content_parts[1]
+        and (
+            (len(content_parts) == 3 and content_parts[2])
+            or args.get("restype") == "directory"
+            or "sharesnapshot" in args
+            or args.get("comp") == "snapshot"
+            or (args.get("restype") == "share" and request.method == "DELETE")
+        )
+    ):
+        from mockazure.providers.storage.file_routes import dispatch_file
+
+        return await dispatch_file(
+            request,
+            content_parts[0],
+            content_parts[1],
+            content_parts[2] if len(content_parts) == 3 else "",
+        )
     parts = request.scope["path"].strip("/").split("/")
     if len(parts) > 2 or not parts or not parts[0]:
         raise StorageError(
@@ -275,6 +295,12 @@ async def dispatch(request, service):
                 status_code=201, headers=headers(request) | properties_headers(item, service)
             )
         if action == "list":
+            if service == "file" and "snapshots" in includes:
+                from mockazure.storage.file_listing import list_share_snapshots
+
+                result = await list_share_snapshots(session, request, access, now)
+                if result is not None:
+                    return result
             maximum = int(args.get("maxresults", "5000"))
             if not 1 <= maximum <= 5000:
                 raise StorageError(400, "InvalidQueryParameterValue", "maxresults must be 1..5000")

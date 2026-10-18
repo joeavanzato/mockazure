@@ -3313,6 +3313,1875 @@
       "unsupportedHeaders": [
         "x-ms-if-tags"
       ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Share_CreateSnapshot",
+      "nativeOperationId": "Share_CreateSnapshot",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}?restype=share&comp=snapshot",
+      "sourcePath": "/{shareName}?restype=share&comp=snapshot",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-file-request-intent",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "restype",
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/shares/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Directory_Create",
+      "nativeOperationId": "Directory_Create",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}?restype=directory",
+      "sourcePath": "/{shareName}/{directory}?restype=directory",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-attributes",
+        "x-ms-file-change-time",
+        "x-ms-file-creation-time",
+        "x-ms-file-last-write-time",
+        "x-ms-file-permission",
+        "x-ms-file-request-intent",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "restype",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [
+        "x-ms-file-permission-format",
+        "x-ms-file-permission-key",
+        "x-ms-group",
+        "x-ms-mode",
+        "x-ms-owner"
+      ],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Directory_GetProperties",
+      "nativeOperationId": "Directory_GetProperties",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{shareName}/{directory}?restype=directory",
+      "sourcePath": "/{shareName}/{directory}?restype=directory",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "restype",
+        "sharesnapshot",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/read"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Directory_Delete",
+      "nativeOperationId": "Directory_Delete",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "DELETE",
+      "path": "/{account}/{shareName}/{directory}?restype=directory",
+      "sourcePath": "/{shareName}/{directory}?restype=directory",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "restype",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/delete"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Directory_SetProperties",
+      "nativeOperationId": "Directory_SetProperties",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}?restype=directory&comp=properties",
+      "sourcePath": "/{shareName}/{directory}?restype=directory&comp=properties",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-attributes",
+        "x-ms-file-change-time",
+        "x-ms-file-creation-time",
+        "x-ms-file-last-write-time",
+        "x-ms-file-permission",
+        "x-ms-file-request-intent",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "restype",
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [
+        "x-ms-file-permission-format",
+        "x-ms-file-permission-key",
+        "x-ms-group",
+        "x-ms-mode",
+        "x-ms-owner"
+      ],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Directory_SetMetadata",
+      "nativeOperationId": "Directory_SetMetadata",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}?restype=directory&comp=metadata",
+      "sourcePath": "/{shareName}/{directory}?restype=directory&comp=metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "restype",
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Directory_ListFilesAndDirectoriesSegment",
+      "nativeOperationId": "Directory_ListFilesAndDirectoriesSegment",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{shareName}/{directory}?restype=directory&comp=list",
+      "sourcePath": "/{shareName}/{directory}?restype=directory&comp=list",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ListFilesAndDirectoriesSegmentResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-extended-info",
+        "x-ms-file-request-intent",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "restype",
+        "comp",
+        "prefix",
+        "sharesnapshot",
+        "marker",
+        "maxresults",
+        "timeout",
+        "include"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/read"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_Create",
+      "nativeOperationId": "File_Create",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}",
+      "sourcePath": "/{shareName}/{directory}/{fileName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-cache-control",
+        "x-ms-content-disposition",
+        "x-ms-content-encoding",
+        "x-ms-content-language",
+        "x-ms-content-length",
+        "x-ms-content-md5",
+        "x-ms-content-type",
+        "x-ms-file-attributes",
+        "x-ms-file-change-time",
+        "x-ms-file-creation-time",
+        "x-ms-file-last-write-time",
+        "x-ms-file-permission",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-meta-*",
+        "x-ms-type",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [
+        "x-ms-file-file-type",
+        "x-ms-file-permission-format",
+        "x-ms-file-permission-key",
+        "x-ms-group",
+        "x-ms-mode",
+        "x-ms-owner"
+      ],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-type": "file"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_Download",
+      "nativeOperationId": "File_Download",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{shareName}/{directory}/{fileName}",
+      "sourcePath": "/{shareName}/{directory}/{fileName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "format": "file"
+        },
+        "206": {
+          "type": "object",
+          "format": "file"
+        }
+      },
+      "statusCodes": [
+        200,
+        206,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-range",
+        "x-ms-range-get-content-md5",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "timeout",
+        "sharesnapshot"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/read"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [
+        "x-ms-structured-body"
+      ],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_GetProperties",
+      "nativeOperationId": "File_GetProperties",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "HEAD",
+      "path": "/{account}/{shareName}/{directory}/{fileName}",
+      "sourcePath": "/{shareName}/{directory}/{fileName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "sharesnapshot",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/read"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_Delete",
+      "nativeOperationId": "File_Delete",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "DELETE",
+      "path": "/{account}/{shareName}/{directory}/{fileName}",
+      "sourcePath": "/{shareName}/{directory}/{fileName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/delete"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_SetHTTPHeaders",
+      "nativeOperationId": "File_SetHTTPHeaders",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=properties",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=properties",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-cache-control",
+        "x-ms-content-disposition",
+        "x-ms-content-encoding",
+        "x-ms-content-language",
+        "x-ms-content-length",
+        "x-ms-content-md5",
+        "x-ms-content-type",
+        "x-ms-file-attributes",
+        "x-ms-file-change-time",
+        "x-ms-file-creation-time",
+        "x-ms-file-last-write-time",
+        "x-ms-file-permission",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [
+        "x-ms-file-permission-format",
+        "x-ms-file-permission-key",
+        "x-ms-group",
+        "x-ms-mode",
+        "x-ms-owner"
+      ],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_SetMetadata",
+      "nativeOperationId": "File_SetMetadata",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=metadata",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_AcquireLease",
+      "nativeOperationId": "File_AcquireLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=lease",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=lease&acquire",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-client-request-id",
+        "x-ms-file-request-intent",
+        "x-ms-lease-action",
+        "x-ms-lease-duration",
+        "x-ms-proposed-lease-id",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "acquire"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_ReleaseLease",
+      "nativeOperationId": "File_ReleaseLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=lease",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=lease&release",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-client-request-id",
+        "x-ms-file-request-intent",
+        "x-ms-lease-action",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "release"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_ChangeLease",
+      "nativeOperationId": "File_ChangeLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=lease",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=lease&change",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-client-request-id",
+        "x-ms-file-request-intent",
+        "x-ms-lease-action",
+        "x-ms-lease-id",
+        "x-ms-proposed-lease-id",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "change"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_BreakLease",
+      "nativeOperationId": "File_BreakLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=lease",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=lease&break",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-client-request-id",
+        "x-ms-file-request-intent",
+        "x-ms-lease-action",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "break"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_UploadRange",
+      "nativeOperationId": "File_UploadRange",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=range",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=range",
+      "aliases": [],
+      "requestSchema": {
+        "type": "object",
+        "format": "file"
+      },
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "Content-Length",
+        "Content-MD5",
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-last-write-time",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-range",
+        "x-ms-version",
+        "x-ms-write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/write"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [
+        "x-ms-structured-body",
+        "x-ms-structured-content-length"
+      ],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.File_GetRangeList",
+      "nativeOperationId": "File_GetRangeList",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{shareName}/{directory}/{fileName}?comp=rangelist",
+      "sourcePath": "/{shareName}/{directory}/{fileName}?comp=rangelist",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ShareFileRangeList"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-allow-trailing-dot",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-range",
+        "x-ms-version"
+      ],
+      "queryOptions": [
+        "comp",
+        "sharesnapshot",
+        "prevsharesnapshot",
+        "timeout"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/fileshares/files/read"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "maxUpdateBytes": 4194304,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "FileREST 2025-11-05 selected profile only; no SMB/NFS transport, handles, rename, URL copy or custom security descriptors.",
+        "Files OAuth requires backup intent and current privileged data grants; share snapshot/create/delete remain key/SAS only.",
+        "256 MiB/file, 4 MiB range update, 5000 entries/page, 200 snapshots/share; only single explicit byte ranges.",
+        "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
+        "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
+        "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+      ],
+      "tests": [
+        "tests/integration/test_files_rest_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "unsupportedHeaders": [
+        "x-ms-file-support-rename"
+      ],
+      "authModes": [
+        "shared_key",
+        "account_sas",
+        "service_sas",
+        "oauth_backup_intent"
+      ]
     }
   ]
 }

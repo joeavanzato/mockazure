@@ -1,0 +1,1737 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Create File (FileREST API) - Azure Files | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="The Create File operation creates a new file or replaces a file." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/create-file" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Create File (FileREST API) - Azure Files" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/create-file" />
+			<meta property="og:description" content="The Create File operation creates a new file or replaces a file." />
+			<meta name="platform_id" content="224c70da-4130-31e4-ed1b-f69ff421ece3" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="wgries" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="wmgries" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2022-03-05T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="91d8ba34-13ba-8cec-4028-863722cbe699" />
+	
+		<meta name="document_version_independent_id" content="2aa546f7-8126-0c23-9d5c-377bc94f1494" />
+	
+		<meta name="updated_at" content="2026-03-26T22:22:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-File.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/18aa560175170ade8d2639bec8940b50d0b3c1a2/docs-ref-conceptual/storageservices/Create-File.md" />
+	
+		<meta name="git_commit_id" content="18aa560175170ade8d2639bec8940b50d0b3c1a2" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="3154" />
+	
+		<meta name="asset_id" content="api/storageservices/create-file" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/Create-File.md" />
+	
+		<meta name="previous_tlsh_hash" content="E04A6792650D8B24FFC14D076E116A5494F4CC9D97707940172D3590F5AE0E2B57166CDFAF23FE88233306024391BE2EB6C2EB3AD55D73665629B098808D3246AB997EF7F9" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Create-File.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/create-file?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Create-File.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-File.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/Create-File.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="create-file">Create File</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>The <code>Create File</code> operation creates a new file or replaces a file. This operation is supported in version 2025-05-05 and later for File Shares with NFS protocol enabled. When you call <code>Create File</code>, you only initialize the file. To add content to a file, you call the <code>Put Range</code> operation. Beginning with version 2026-02-06, you can also create file with content up to 4MiB using <code>Create File</code> operation.</p>
+<h2 id="protocol-availability">Protocol availability</h2>
+<table>
+<thead>
+<tr>
+<th>Enabled file share protocol</th>
+<th style="text-align: center;">Available</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SMB</td>
+<td style="text-align: center;"><img src="media/yes-icon.png" alt="Yes" data-linktype="relative-path"></td>
+</tr>
+<tr>
+<td>NFS</td>
+<td style="text-align: center;"><img src="media/yes-icon.png" alt="Yes" data-linktype="relative-path"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="request">Request</h2>
+<p>The <code>Create File</code> request is constructed as follows. We recommend that you use HTTPS.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td><code>https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<p>Replace the path components that are shown in the request URI with your own, as described in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Path component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>myaccount</code></td>
+<td>The name of your storage account.</td>
+</tr>
+<tr>
+<td><code>myshare</code></td>
+<td>The name of your file share.</td>
+</tr>
+<tr>
+<td><code>mydirectorypath</code></td>
+<td>Optional. The path to the directory where the file is to be created. If the directory path is omitted, the file is created within the specified share.<br><br> If the directory is specified, it must already exist within the share before you can create the file.</td>
+</tr>
+<tr>
+<td><code>myfile</code></td>
+<td>The name of the file to create.</td>
+</tr>
+</tbody>
+</table>
+<p>For information about path-naming restrictions, see <a href="naming-and-referencing-shares--directories--files--and-metadata" data-linktype="relative-path">Name and reference shares, directories, files, and metadata</a>.</p>
+<h3 id="uri-parameters">URI parameters</h3>
+<p>You can specify the following additional parameters on the request URI:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>timeout</code></td>
+<td>Optional. The <code>timeout</code> parameter is expressed in seconds. For more information, see <a href="setting-timeouts-for-file-service-operations" data-linktype="relative-path">Set time-outs for file service operations</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-headers">Request headers</h3>
+<p>The required and optional request headers are described in the following tables:</p>
+<h4 id="common-request-headers">Common request headers</h4>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization</code></td>
+<td>Required. Specifies the authorization scheme, account name, and signature. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>Date</code> or <code>x-ms-date</code></td>
+<td>Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is supported in version 2025-05-05 and later for File Shares with NFS protocol enabled.<br><br>For more information, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for the Azure Storage services</a>.</td>
+</tr>
+<tr>
+<td><code>Content-Length</code></td>
+<td>Specifies the number of bytes being transmitted in the request body. Version 2019-02-02 to 2025-11-05: Optional. Must be zero if present. Version 2026-02-06 or later: Required, if content is included in the request body.<br><br>If no content is present and the header is included, then its value must be zero. If the size of the file specified in <code>x-ms-content-length</code> header is less than <code>Content-Length</code>, the operation fails with error code 400.</td>
+</tr>
+<tr>
+<td><code>x-ms-content-length: byte value</code></td>
+<td>Required. This header specifies the maximum size for the file, up to 4 tebibytes (TiB).</td>
+</tr>
+<tr>
+<td><code>Content-MD5</code></td>
+<td>Optional. Supported in version 2026-02-06 or later. An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, Azure Files compares the hash of the content that has arrived with the header value that was sent. If the two hashes don't match, the operation fails with error code 400 (Bad Request).</td>
+</tr>
+<tr>
+<td><code>Content-Type</code> or <code>x-ms-content-type</code></td>
+<td>Optional. The MIME content type of the file. The default type is <code>application/octet-stream</code>.</td>
+</tr>
+<tr>
+<td><code>Content-Encoding</code> or <code>x-ms-content-encoding</code></td>
+<td>Optional. Specifies which content encodings have been applied to the file. This value is returned to the client when the <a href="get-file" data-linktype="relative-path">Get File</a> operation is performed on the file resource, and you can use it to decode file content.</td>
+</tr>
+<tr>
+<td><code>Content-Language</code> or <code>x-ms-content-language</code></td>
+<td>Optional. Specifies the natural languages that are used by this resource.</td>
+</tr>
+<tr>
+<td><code>Cache-Control</code> or <code>x-ms-cache-control</code></td>
+<td>Optional. Azure Files stores this value but doesn't use or modify it.</td>
+</tr>
+<tr>
+<td><code>x-ms-content-md5</code></td>
+<td>Optional. Sets the file's MD5 hash.</td>
+</tr>
+<tr>
+<td><code>x-ms-content-disposition</code></td>
+<td>Optional. Sets the file's <code>Content-Disposition</code> header.</td>
+</tr>
+<tr>
+<td><code>x-ms-type: file</code></td>
+<td>Required. Set this header to <code>file</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-meta-name:value</code></td>
+<td>Optional. Name-value pairs that are associated with the file as metadata. Metadata names must adhere to the naming rules for <a href="/en-us/dotnet/csharp/language-reference" data-linktype="absolute-path">C# identifiers</a>.<br><br> <strong>Note</strong>: File metadata that's specified via Azure Files isn't accessible from a Server Message Block (SMB) client.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-creation-time: { now ¦ &lt;DateTime&gt; }</code></td>
+<td>Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) creation time property for the file. A value of <code>now</code> can be used to indicate the time of the request. The default value is <code>now</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-last-write-time: { now ¦ &lt;DateTime&gt; }</code></td>
+<td>Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) last write property for the file. You can use a value of <code>now</code> to indicate the time of the request. The default value is <code>now</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-lease-id:&lt;ID&gt;</code></td>
+<td>Required if the file has an active lease. Available for version 2019-02-02 and later.<br><br>This header is ignored if the file is located on a File Share with NFS protocol enabled, which doesn't support file leases.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see <a href="/en-us/azure/storage/files/storage-files-monitoring" data-linktype="absolute-path">Monitor Azure Files</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-request-intent</code></td>
+<td>Required if <code>Authorization</code> header specifies an OAuth token. Acceptable value is <code>backup</code>. This header specifies that the <code>Microsoft.Storage/storageAccounts/fileServices/readFileBackupSemantics/action</code> or <code>Microsoft.Storage/storageAccounts/fileServices/writeFileBackupSemantics/action</code> should be granted if they're included in the RBAC policy assigned to the identity that is authorized using the <code>Authorization</code> header. Available for version 2022-11-02 and later.</td>
+</tr>
+<tr>
+<td><code>x-ms-allow-trailing-dot: { &lt;Boolean&gt; }</code></td>
+<td>Optional. Version 2022-11-02 and later. The Boolean value specifies if a trailing dot present in request url should be trimmed or not.<br><br>This header is ignored if the target is located on a File Share with NFS protocol enabled, which supports trailing dot by default.<br><br>For more information, see <a href="naming-and-referencing-shares--directories--files--and-metadata" data-linktype="relative-path">Naming and referencing shares, directories, files, and metadata</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-structured-body</code></td>
+<td>Required if the message format of the request body is structured. The value of this header contains the message schema version and properties. <br><br>Currently, the only value supported is <code>XSM/1.0; properties=crc64</code>, indicating the request uses crc64 checksum segments in the encoded message. If the value does not match this, the operation fails with error code 400 (Bad Request). The request will also fail if the content provided in the request does not match the provided checksum for a given segment. Available for version 2026-06-06 and later. Only supported for requests with a Content-Length greater than zero.</td>
+</tr>
+<tr>
+<td><code>x-ms-structured-content-length</code></td>
+<td>Required if the message format of the request body is structured, i.e. <code>x-ms-structured-body</code> is specified with the request. The value of this header is the length of the file content and will always be smaller than the <code>Content-Length</code> header value due to message encoding. <br><br>If the value of the header does not match the length of the block content provided in the request, the operation fails with error code 400 (Bad Request). Available for version 2026-06-06 and later.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="smb-only-request-headers">SMB only request headers</h4>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x-ms-file-change-time: { now ¦ &lt;DateTime&gt; }</code></td>
+<td>Optional. Version 2021-06-08 and later. The Coordinated Universal Time (UTC) change time property for the file, in the ISO 8601 format. You can use a value of <code>now</code> to indicate the time of the request. The default value is <code>now</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-permission: { inherit ¦ &lt;SDDL&gt; ¦ &lt;binary&gt; }</code></td>
+<td>In version 2019-02-02 through 2021-04-10, this header is required if <code>x-ms-file-permission-key</code> isn't specified. As of version 2021-06-08, both headers are optional. This permission is the security descriptor for the file that's specified in the <a href="/en-us/windows/win32/secauthz/security-descriptor-definition-language" data-linktype="absolute-path">Security Descriptor Definition Language (SDDL)</a> or (version 2024-11-04 or later) in base64-encoded <a href="/en-us/openspecs/windows_protocols/ms-dtyp/7d4dac05-9cef-4563-a058-f108abecce1d" data-linktype="absolute-path">binary security descriptor format</a>. You can specify which format to use with the <code>x-ms-file-permission-format</code> header. You can use this header if the permissions size is 8 kibibytes (KiB) or less. Otherwise, you can use <code>x-ms-file-permission-key</code>. If you specify the header, it must have an owner, group, and <a href="/en-us/windows/win32/secauthz/access-control-lists" data-linktype="absolute-path">discretionary access control list (DACL)</a>. You can pass a value of <code>inherit</code> to inherit from the parent directory.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-permission-format: { sddl ¦ binary }</code></td>
+<td>Optional. Version 2024-11-04 or later. Specifies whether the value passed in <code>x-ms-file-permission</code> is in SDDL or in binary format. If <code>x-ms-file-permission</code> is set to <code>inherit</code>, this header shouldn't be set. If <code>x-ms-file-permission</code> is set to any other value than <code>inherit</code>, and if this header isn't set, the default value of <code>sddl</code> is used.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-permission-key: &lt;PermissionKey&gt;</code></td>
+<td>In version 2019-02-02 through 2021-04-10, this header is required if <code>x-ms-file-permission</code> isn't specified. As of version 2021-06-08, both headers are optional. If neither header is specified, the default value of <code>inherit</code> is used for the <code>x-ms-file-permission</code> header.<br><br>You can create the key by calling the <code>Create Permission</code> API.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-attributes</code></td>
+<td>Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. This header contains the file system attributes to be set on the file. For more information, see the list of <a href="#file-system-attributes" data-linktype="self-bookmark">available attributes</a>. The default value is <code>None</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-property-semantics: { New ¦ Restore }</code></td>
+<td>Optional. Supported in version 2026-02-06 or later. The default value is <code>New</code>.<br><br><code>New</code>/<code>Restore</code> semantics adjust how to apply the <code>x-ms-file-permission</code> header to the file. When the <code>x-ms-file-permission</code> header is set to <code>inherit</code>, these semantics have no effect on the file permission. When a specific permission is specified using <code>x-ms-file-permission</code> header, <code>New</code> semantics use default win32 file creation rules and may apply a slightly different permission that was specified based on the parent directory permissions, while <code>Restore</code> semantics use default update semantics and will assign the permission to the file exactly as specified. <br><br><code>New</code> semantics also add the Archive attribute to the file, even if not specified in <code>x-ms-file-attributes</code> header.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="nfs-only-request-headers">NFS only request headers</h4>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x-ms-mode</code></td>
+<td>Optional. Version 2025-05-05 and later. The mode bits to be set on the file. Mode is represented in the 12-bit numeric octal format or the symbolic 'rwx' format. The default value is 0644. See <a href="#posix-file-permissions-mode" data-linktype="self-bookmark">POSIX file permissions (mode)</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-owner</code></td>
+<td>Optional. Version 2025-05-05 and later. The user identifier (UID) of the file owner to be set on the file. The default value is 0 (root).</td>
+</tr>
+<tr>
+<td><code>x-ms-group</code></td>
+<td>Optional. Version 2025-05-05 and later. The group identifier (GID) of the file owner to be set on the file. The default value is 0 (root group).</td>
+</tr>
+<tr>
+<td><code>x-ms-file-file-type</code></td>
+<td>Optional. Version 2025-05-05 and later. The type of the file. Must be 'Regular' if present.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body">Request body</h3>
+<p>None if <code>Content-Length</code> is zero.
+Required if <code>Content-Length</code> header is set to non zero. This is supported in version 2026-02-06 or later. The number of bytes specified in the request body and Content-Length header must match to perform the create file with data operation. The maximum number of bytes that can be specified in the request body is 4MiB.</p>
+<h3 id="sample-request">Sample request</h3>
+<pre><code class="lang-http">Request Syntax:  
+PUT https://myaccount.file.core.windows.net/myshare/myfile HTTP/1.1  
+  
+Request Headers:  
+x-ms-version: 2020-02-10
+x-ms-date: Mon, 27 Jan 2014 22:41:55 GMT  
+Content-Type: text/plain; charset=UTF-8  
+x-ms-content-length: 1024  
+Authorization: SharedKey myaccount:YhuFJjN4fAR8/AmBrqBz7MG2uFinQ4rkh4dscbj598g=  
+</code></pre>
+<h3 id="sample-request-with-content-length-header">Sample request with <code>Content-Length</code> header</h3>
+<pre><code class="lang-http">Request Syntax:  
+PUT https://myaccount.file.core.windows.net/myshare/myfile HTTP/1.1  
+  
+Request Headers:  
+x-ms-version: 2026-02-06
+x-ms-date: Mon, 27 Jan 2014 22:41:55 GMT  
+Content-Type: text/plain; charset=UTF-8  
+x-ms-content-length: 1024
+Content-Length: 512
+Authorization: SharedKey myaccount:YhuFJjN4fAR8/AmBrqBz7MG2uFinQ4rkh4dscbj598g=  
+</code></pre>
+<h2 id="response">Response</h2>
+<p>The response includes an HTTP status code and a set of response headers.</p>
+<h3 id="status-code">Status code</h3>
+<p>A successful operation returns status code 201 (Created). For information about status codes, see <a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a>.</p>
+<h3 id="response-headers">Response headers</h3>
+<p>The response for this operation includes the headers in the following tables. The response may also include additional standard HTTP headers. All standard headers conform to the <a href="https://go.microsoft.com/fwlink/?LinkId=73147" data-linktype="external">HTTP/1.1 protocol specification</a>.</p>
+<h4 id="common-response-headers">Common response headers</h4>
+<table>
+<thead>
+<tr>
+<th>Response header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ETag</code></td>
+<td>The ETag contains a value that represents the version of the file. The value is enclosed in quotation marks.</td>
+</tr>
+<tr>
+<td><code>Last-Modified</code></td>
+<td>Returns the date and time when the file was last modified. The date format follows RFC 1123. For more information, see <a href="representation-of-date-time-values-in-headers" data-linktype="relative-path">Represent date/time values in headers</a>.<br><br> Any operation that modifies the directory or its properties updates the last modified time. Operations on files don't affect the last modified time of the directory.</td>
+</tr>
+<tr>
+<td><code>x-ms-request-id</code></td>
+<td>Uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see <a href="troubleshooting-api-operations" data-linktype="relative-path">Troubleshoot API operations</a></td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Indicates the Azure Files version that's used to execute the request.</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>A UTC date/time value that's generated by the service, which indicates the time when the response was initiated.</td>
+</tr>
+<tr>
+<td><code>x-ms-request-server-encrypted: true/false</code></td>
+<td>Version 2017-04-17 and later. The value of this header is set to <code>true</code> if you have successfully encrypted the contents of the request by using the specified algorithm. If the encryption is unsuccessful, the value is <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-creation-time</code></td>
+<td>The UTC date/time value that represents the creation time property for the file.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-last-write-time</code></td>
+<td>The UTC date/time value that represents the last write time property for the file.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-change-time</code></td>
+<td>The UTC date/time that value that represents the change time property for the file.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-file-id</code></td>
+<td>The file ID of the file.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-parent-id</code></td>
+<td>The parent file ID of the file.</td>
+</tr>
+<tr>
+<td><code>Content-MD5</code></td>
+<td>Version 2026-02-06 and later. This header is returned so that the client can check for message content integrity. The value of this header is computed by the File service.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Used to troubleshoot requests and their corresponding responses. The value of this header is equal to the value of the <code>x-ms-client-request-id</code> header if it's present in the request and the value contains no more than 1,024 visible ASCII characters. If the <code>x-ms-client-request-id</code> header isn't present in the request, it isn't present in the response.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="smb-only-response-headers">SMB only response headers</h4>
+<table>
+<thead>
+<tr>
+<th>Response header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x-ms-file-permission-key</code></td>
+<td>Version 2019-02-02 and later. The key of the permission of the file.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-attributes</code></td>
+<td>Version 2019-02-02 and later. The file system attributes of the file. For more information, see the <a href="#file-system-attributes" data-linktype="self-bookmark">list of available attributes</a>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="nfs-only-response-headers">NFS only response headers</h4>
+<table>
+<thead>
+<tr>
+<th>Response header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x-ms-mode</code></td>
+<td>Version 2025-05-05 and later. The mode of the file. See <a href="#posix-file-permissions-mode" data-linktype="self-bookmark">POSIX file permissions (mode)</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-owner</code></td>
+<td>Version 2025-05-05 and later. The user identifier (UID) of the file owner.</td>
+</tr>
+<tr>
+<td><code>x-ms-group</code></td>
+<td>Version 2025-05-05 and later. The group identifier (GID) of the file owner.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-file-type</code></td>
+<td>Version 2025-05-05 and later. The type of the file, the possible value is: 'Regular'.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response-body">Response body</h3>
+<p>None.</p>
+<h3 id="sample-response">Sample response</h3>
+<pre><code class="lang-http">Response Status:  
+HTTP/1.1 201 Created  
+  
+Response Headers:  
+Transfer-Encoding: chunked  
+Date: Mon, 27 Jan 2014 23:00:12 GMT  
+ETag: "0x8CB14C3E29B7E82"  
+Last-Modified: Mon, 27 Jan 2014 23:00:06 GMT  
+x-ms-version: 2014-02-14  
+Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
+</code></pre>
+<h2 id="authorization">Authorization</h2>
+<p>Only the account owner can call this operation.</p>
+<h2 id="file-system-attributes">File system attributes</h2>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Win32 file attribute</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ReadOnly</td>
+<td>FILE_ATTRIBUTE_READONLY</td>
+<td>A file that's read-only. Applications can read the file, but they can't write to it or delete it.</td>
+</tr>
+<tr>
+<td>Hidden</td>
+<td>FILE_ATTRIBUTE_HIDDEN</td>
+<td>The file is hidden. It isn't included in an ordinary directory listing.</td>
+</tr>
+<tr>
+<td>System</td>
+<td>FILE_ATTRIBUTE_SYSTEM</td>
+<td>A file that the operating system uses a part of, or uses exclusively.</td>
+</tr>
+<tr>
+<td>None</td>
+<td>FILE_ATTRIBUTE_NORMAL</td>
+<td>A file that doesn't have other attributes set. This attribute is valid only when used alone.</td>
+</tr>
+<tr>
+<td>Archive</td>
+<td>FILE_ATTRIBUTE_ARCHIVE</td>
+<td>A file that's an archive file. Applications ordinarily use this attribute to mark files for backup or removal.</td>
+</tr>
+<tr>
+<td>Temporary</td>
+<td>FILE_ATTRIBUTE_TEMPORARY</td>
+<td>A file that's being used for temporary storage.</td>
+</tr>
+<tr>
+<td>Offline</td>
+<td>FILE_ATTRIBUTE_OFFLINE</td>
+<td>The data of a file isn't available immediately. This file system attribute is presented primarily to provide compatibility with Windows. Azure Files doesn't support it with offline storage options.</td>
+</tr>
+<tr>
+<td>NotContentIndexed</td>
+<td>FILE_ATTRIBUTE_NOT_CONTENT_INDEXED</td>
+<td>The file isn't to be indexed by the content indexing service.</td>
+</tr>
+<tr>
+<td>NoScrubData</td>
+<td>FILE_ATTRIBUTE_NO_SCRUB_DATA</td>
+<td>The user data stream that's <em>not</em> to be read by the background data integrity scanner. This file system attribute is presented primarily to provide compatibility with Windows.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="posix-file-permissions-mode">POSIX file permissions (mode)</h2>
+<p>POSIX file permissions can be specified either numerically in a 12-bit numeric octal format or in a symbolic "rwx" format.
+Examples:</p>
+<ul>
+<li>"0644" or "rw-r--r--": User (file owner) has read, write permission. Group has read permission. Others have read permission.</li>
+<li>"0755" or "rwxr-xr-x": User (file owner) has read, write, and execute permission. Group has read and execute permission. Others have read and execute permission.</li>
+</ul>
+<h3 id="numeric-octal-format">Numeric octal format</h3>
+<p>The three lowest order octal numbers represent the permissions for owner/user, group, and others and are indicated using an octal number (0-7), formed using a bitwise combination of '4' (Read), '2' (Write), '1' (Execute).
+The highest order octal number (0-7) is used to indicate a combination of '4' (SetUID), '2' (SetGID), '1' (StickyBit) permissions.</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0700</td>
+<td>User (file owner) has read, write, and execute permission.</td>
+</tr>
+<tr>
+<td>0400</td>
+<td>User has read permission.</td>
+</tr>
+<tr>
+<td>0200</td>
+<td>User has write permission.</td>
+</tr>
+<tr>
+<td>0100</td>
+<td>User has execute permission.</td>
+</tr>
+<tr>
+<td>0070</td>
+<td>Group has read, write, and execute permission.</td>
+</tr>
+<tr>
+<td>0040</td>
+<td>Group has read permission.</td>
+</tr>
+<tr>
+<td>0020</td>
+<td>Group has write permission.</td>
+</tr>
+<tr>
+<td>0010</td>
+<td>Group has execute permission.</td>
+</tr>
+<tr>
+<td>0007</td>
+<td>Others have read, write, and execute permission.</td>
+</tr>
+<tr>
+<td>0004</td>
+<td>Others have read permission.</td>
+</tr>
+<tr>
+<td>0002</td>
+<td>Others have write permission.</td>
+</tr>
+<tr>
+<td>0001</td>
+<td>Others have execute permission.</td>
+</tr>
+<tr>
+<td>4000</td>
+<td>Set effective user ID on file.</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>Set effective group ID on file.</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>Set to indicate that the file can be deleted or renamed only by file owner, directory owner, or root user.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="symbolic-rwx-format">Symbolic "rwx" format</h3>
+<p>Permissions for owner/user, group, and others are indicated using a combination of 'r' (Read), 'w' (Write), and 'x' (Execute) characters.</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rwx------</td>
+<td>User (file owner) has read, write, and execute permission.</td>
+</tr>
+<tr>
+<td>r--------</td>
+<td>User has read permission.</td>
+</tr>
+<tr>
+<td>-w-------</td>
+<td>User has write permission.</td>
+</tr>
+<tr>
+<td>--x------</td>
+<td>User has execute permission.</td>
+</tr>
+<tr>
+<td>---rwx---</td>
+<td>Group has read, write, and execute permission.</td>
+</tr>
+<tr>
+<td>---r-----</td>
+<td>Group has read permission.</td>
+</tr>
+<tr>
+<td>----w----</td>
+<td>Group has write permission.</td>
+</tr>
+<tr>
+<td>-----x---</td>
+<td>Group has execute permission.</td>
+</tr>
+<tr>
+<td>------rwx</td>
+<td>Others have read, write, and execute permission.</td>
+</tr>
+<tr>
+<td>------r--</td>
+<td>Others have read permission.</td>
+</tr>
+<tr>
+<td>-------w-</td>
+<td>Others have write permission.</td>
+</tr>
+<tr>
+<td>--------x</td>
+<td>Others have execute permission.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="remarks">Remarks</h2>
+<p>To create a new file, first initialize it by calling <code>Create File</code> and specifying its maximum size, up to 4 TiB. When you're performing this operation, don't include content in the request body. After you've created the file, call <code>Put Range</code> to add content to the file or to modify it.</p>
+<p>From version 2026-02-06 and later, you can create file with the data up to 4MiB by providing content in the request body. After you've created file with the data, call <code>Put Range</code> to append more data to the file or to modify it. The maximum size of the file created is up to 4 TiB.</p>
+<p>You can change the size of the file by calling <code>Set File Properties</code>.</p>
+<p>If the share or parent directory doesn't exist, then the operation fails with status code 412 (Precondition Failed).</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The file properties <code>cache-control</code>, <code>content-type</code>, <code>content-md5</code>, <code>content-encoding</code>, and <code>content-language</code> are separate from the file system properties that are available to SMB clients. SMB clients are unable to read, write, or modify these property values.</p>
+</div>
+<p>To create the file, if the existing file has an active lease, the client must specify a valid lease ID on the request. If the client either doesn't specify a lease ID or specifies an invalid lease ID, Azure Files returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file doesn't have an active lease, Azure Files returns status code 412 (Precondition Failed) in this instance also. If the client specifies a lease ID on a file that doesn't yet exist, Azure Files returns status code 412 (Precondition Failed) for requests that are made against version 2019-02-02 and later.</p>
+<p>If an existing file with an active lease is overwritten by a <code>Create File</code> operation, the lease persists on the updated file until it's released.</p>
+<p><code>Create File</code> isn't supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot fails with status code 400 (InvalidQueryParameterValue).</p>
+<h2 id="see-also">See also</h2>
+<p><a href="operations-on-files" data-linktype="relative-path">Operations on Files</a></p>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-03-26T22:22:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-03-26
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

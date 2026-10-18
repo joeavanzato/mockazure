@@ -79,7 +79,7 @@ headers reject rather than returning success without applying the request.
 List pages use ordered names and `NextMarker`, with a maximum of 5,000 entries;
 the local marker is a continuation key, not an Azure opaque token.
 The Files list accepts metadata and snapshot inclusion as used by Az.Storage;
-C1 has no snapshot creation, so this currently enumerates its live shares only.
+C3 adds immutable share snapshots and includes them in this listing when requested.
 
 ## Qualification and remaining work
 
@@ -99,8 +99,8 @@ restore invalidation and listener isolation. Native-client results are recorded
 separately; adding a runner is not proof of a passing qualification.
 
 C2 adds Blob bytes, block commits, ranges, leases, snapshots and retention.
-FileREST content is C3 work; Files OAuth currently has domain tests, with
-end-to-end content qualification still pending. Queues, Tables and Key Vault
+C3 adds FileREST content and HTTP OAuth backup-intent tests; native byte
+qualification is recorded separately below. Queues, Tables and Key Vault
 content remain subsequent phase D work.
 
 C1 was verified against all four pinned client ecosystems, including a new local
@@ -166,3 +166,54 @@ skip), including preceding-head upgrade preservation and downgrade refusal. The
 original Python 12.27.0 Blob SDK passed a 2,340,000-byte round trip and the stated
 workflow; all four original namespace clients and cross-language reads passed.
 Report source fingerprint: `823d68cbda15298420221eebf9be5308027127c51be2dd5351be8e7fd82ec595`.
+
+
+## Files content profile (C3)
+
+The selected FileREST content profile requires `2025-11-05`. It supports
+nested directories, file creation/read/delete, properties and metadata, range
+write/clear/read/list, directory paging and share snapshots. Files are limited
+to 256 MiB, range updates to 4 MiB, pages to 5,000 entries and snapshots to 200
+per share. Snapshots retain independent immutable content references. Snapshot
+reads, listing and deletion are supported; writes into snapshots reject.
+
+Paths are case preserving and case insensitive, with the documented component,
+path, reserved-name and trailing-dot rules. XML-invalid filename characters
+are percent encoded in directory listings. Empty-directory deletion succeeds;
+nonempty deletion rejects. Custom SDDL/permission keys, rename, URL copy, handles,
+NFS properties and SMB/NFS transports remain unsupported. The permission profile
+uses inherited defaults; it does not simulate SMB ACL evaluation.
+
+Shared Key, account/service SAS and current OAuth data grants protect content.
+OAuth requires `x-ms-file-request-intent: backup` and the appropriate privileged
+backup semantics. Share snapshot/create/delete operations in this profile use
+Shared Key or account SAS; service SAS is limited to content operations. Infinite file leases support acquire/change/release/break, with stale
+lease writes rejected. Blob-style HTTP `If-*` headers are not FileREST conditions
+in this profile and reject. ReadOnly attributes protect byte writes/deletion.
+
+Range clear zeros every requested byte, but deallocates only complete 512-byte
+sectors. File properties follow replacement semantics for the HTTP property
+group. Byte revisions use immutable PostgreSQL content chunks. Current range
+writes stream the full replacement revision in bounded 1 MiB chunks: memory is
+bounded but repeated small writes cause write amplification. C4/G2 qualify
+large-object durability and performance; no high-throughput claim is implied.
+
+Typed storage-state export includes live/snapshot trees, properties, ranges and
+verified content references, omitting lease IDs, keys and continuations. Restore
+checks byte ownership/hash/size before mutation, rotates account keys and clears
+old lease/cursor authority. Deletion releases content pins; maintenance removes
+expired cursors. Migration 063 preserves prior Storage state and refuses to
+remove live Files state on downgrade. Content bytes use the existing content
+export/restore mechanism.
+
+`python -m tools.verify_file_content` runs the four original namespace clients,
+the original Python Blob workflow and the original Python Files byte/snapshot/
+lease workflow over local HTTPS. Native results are recorded after execution.
+Four-ecosystem binary qualification and 256 MiB restart/restore remain C4 gates.
+
+C3 native verification: original Python Files SDK 12.23.0 passed a 1,710,000-byte
+workflow; all four namespace clients/cross-language reads and the Python Blob
+workflow also passed. Source fingerprint:
+`b9a65423295050a8f6b59e37d21353887ff26817572716b8084cded8a15b0eb9`.
+The SDK requires aligned clear ranges locally, so its run clears 1,024 aligned
+bytes; direct REST regression tests separately cover unaligned zeroing/allocation.

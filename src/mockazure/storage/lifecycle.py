@@ -29,6 +29,13 @@ from mockazure.storage.blob_lifecycle import (
     validate_blobs,
 )
 from mockazure.storage.endpoints import account_endpoints
+from mockazure.storage.file_lifecycle import (
+    FileTreeInput,
+    export_files,
+    prune_files,
+    restore_files,
+    validate_files,
+)
 from mockazure.storage.models import StorageAccount, StorageDelegationKey, StorageNamespace
 
 
@@ -111,6 +118,7 @@ class AccountInput(IdentityInput):
     id: str = Field(min_length=1, max_length=2048)
     configuration: dict
     services: dict = Field(default_factory=dict)
+    files: list[FileTreeInput] = Field(default_factory=list, max_length=10000)
     blobs: list[BlobInput] = Field(default_factory=list, max_length=100000)
     namespaces: list[NamespaceInput] = Field(default_factory=list, max_length=10000)
 
@@ -136,6 +144,11 @@ class AccountInput(IdentityInput):
             {(n.service, n.name) for n in self.namespaces}
         ) != len(self.namespaces):
             raise ValueError("Invalid or duplicate Storage namespace")
+        shares = {n.name for n in self.namespaces if n.service == "file"}
+        if any(t.share not in shares for t in self.files) or len(
+            {(t.share, t.stamp) for t in self.files}
+        ) != len(self.files):
+            raise ValueError("Invalid File tree namespace or duplicate snapshot")
         containers = {n.name for n in self.namespaces if n.service == "blob"}
         if any(b.container not in containers for b in self.blobs) or len(
             {(b.container, b.name) for b in self.blobs}
@@ -175,6 +188,8 @@ class StorageStateInput(IdentityInput):
         if len(keys) != len(set(keys)) or len(names) != len(set(names)):
             raise ValueError("Duplicate account ID or name")
         for values in (
+            [t.id for a in self.accounts for t in a.files],
+            [n.id for a in self.accounts for t in a.files for n in t.nodes],
             [b.id for a in self.accounts for b in a.blobs],
             [v.id for a in self.accounts for b in a.blobs for v in b.versions],
             [v.id for a in self.accounts for b in a.blobs for v in b.blocks],
@@ -231,6 +246,7 @@ async def export_storage_accounts(session, tenant):
                     },
                 },
                 services=state.services,
+                files=await export_files(session, tenant, state.scope_key),
                 blobs=await export_blobs(session, tenant, state.scope_key),
                 namespaces=[
                     NamespaceInput(
@@ -267,6 +283,7 @@ async def replace_storage_accounts(session, tenant, value: StorageStateInput):
     # Entire document validation precedes deletion, including ownership and global name conflicts.
     try:
         for item in value.accounts:
+            await validate_files(session, tenant, item.files)
             await validate_blobs(session, tenant, item.blobs)
             scope = parse_scope(item.id)
             parent = await resolve_scope(session, tenant, parse_scope(scope.parent_keys[-1]))
@@ -367,6 +384,7 @@ async def replace_storage_accounts(session, tenant, value: StorageStateInput):
             )
     await session.flush()
     for item in value.accounts:
+        await restore_files(session, tenant, parse_scope(item.id).key, item.files)
         await restore_blobs(session, tenant, parse_scope(item.id).key, item.blobs)
     for sub in await session.scalars(select(Subscription).where(Subscription.tenant_id == tenant)):
         sub.revision += 1
@@ -396,6 +414,9 @@ async def prune_storage_accounts(session, tenant, now, limit=500):
                 StorageDelegationKey.tenant_id == tenant, StorageDelegationKey.id.in_(ids)
             )
         )
-    return len(ids) + (
-        await prune_blobs(session, tenant, now, limit - len(ids)) if len(ids) < limit else 0
-    )
+    removed = len(ids)
+    if removed < limit:
+        removed += await prune_blobs(session, tenant, now, limit - removed)
+    if removed < limit:
+        removed += await prune_files(session, tenant, now, limit - removed)
+    return removed
