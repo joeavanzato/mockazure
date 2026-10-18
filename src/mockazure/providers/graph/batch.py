@@ -72,7 +72,7 @@ def validated_items(items, version):
             not isinstance(headers, dict)
             or any(
                 not isinstance(k, str)
-                or k.lower() not in {"consistencylevel", "accept"}
+                or k.lower() not in {"consistencylevel", "accept", "prefer"}
                 or not isinstance(v, str)
                 or len(v) > 256
                 or not v.isascii()

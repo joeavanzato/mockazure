@@ -183,7 +183,20 @@ def main():
         "source": f"schemas/{args.version}-Prod.csdl",
         "sha256": hashlib.sha256(args.input.read_bytes()).hexdigest(),
         "version": args.version,
-        "types": extract(args.input, ("organization",) if args.version == "v1.0" else ()),
+        "types": extract(
+            args.input,
+            (
+                "organization",
+                "mailFolder",
+                "message",
+                "fileAttachment",
+                "itemAttachment",
+                "referenceAttachment",
+                "mailboxSettings",
+            )
+            if args.version == "v1.0"
+            else (),
+        ),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")

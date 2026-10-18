@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     graph_directory_window_seconds: int = Field(default=60, ge=1, le=3600)
     graph_collection_request_limit: int = Field(default=600, ge=1, le=10000000)
     graph_collection_window_seconds: int = Field(default=60, ge=1, le=3600)
+    content_max_object_bytes: int = Field(default=256 * 1024 * 1024, ge=1, le=1024**4)
     pool_size: int = Field(default=5, ge=1, le=100)
     pool_max_overflow: int = Field(default=5, ge=0, le=100)
 

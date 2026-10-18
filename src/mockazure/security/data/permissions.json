@@ -352,6 +352,48 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Mail.Read",
+      "kind": "application",
+      "id": "810c84a8-4a9e-49e6-bf7d-12d183f40d01",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.Read",
+      "kind": "delegated",
+      "id": "570282fd-fa5c-430d-a7fd-fc8dc98a9dca",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Mail.ReadBasic",
+      "kind": "application",
+      "id": "6be147d2-ea4f-4b5a-a3fa-3eab6f3c140a",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.ReadBasic",
+      "kind": "delegated",
+      "id": "a4b8392a-d8d1-4954-a029-8e668a39a170",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Mail.ReadBasic.All",
+      "kind": "application",
+      "id": "693c5e45-0940-467d-9b8a-1022fb9d42ef",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.ReadWrite",
+      "kind": "application",
+      "id": "e2a3a72e-5f79-4c64-b1b1-878b674786c9",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.ReadWrite",
+      "kind": "delegated",
+      "id": "024d486e-b451-40bb-833d-3e66d98c5c73",
+      "adminConsentRequired": false
+    },
+    {
       "name": "MailboxSettings.Read",
       "kind": "application",
       "id": "40f97065-369a-49f4-947c-6a255697ae91",

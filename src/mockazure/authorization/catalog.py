@@ -16,6 +16,13 @@ CATALOG = (
         for name in ("MailboxSettings.Read", "MailboxSettings.ReadWrite")
         for kind in ("application", "delegated")
     ),
+    *(
+        PermissionDefinition("graph", name, kind, kind == "application")
+        for name in ("Mail.Read", "Mail.ReadWrite")
+        for kind in ("application", "delegated")
+    ),
+    PermissionDefinition("graph", "Mail.ReadBasic", "delegated", False),
+    PermissionDefinition("graph", "Mail.ReadBasic.All", "application", True),
     PermissionDefinition("graph", "Directory.AccessAsUser.All", "delegated", True),
     *(
         PermissionDefinition("graph", name, kind, True)

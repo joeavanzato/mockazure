@@ -189,3 +189,68 @@ async def put_collection_state(tenant_id: UUID, request: Request):
     value = await parsed(request, ExchangeCollectionState)
     async with request.app.state.database.sessions.begin() as session:
         return await replace_collection_state(session, tenant_id, value)
+
+
+@router.post("/content/import")
+async def import_content(tenant_id: UUID, request: Request):
+    from mockazure.mail.content_models import MailContentImport
+    from mockazure.mail.messages import import_mail_content
+
+    try:
+        batch = MailContentImport.model_validate(await read_json(request, limit=8 * 1024 * 1024))
+    except (ValidationError, GraphError, UnicodeError):
+        raise AdminError(422, "InvalidMailContent", "Invalid mailbox content import") from None
+    async with request.app.state.database.sessions.begin() as session:
+        return await import_mail_content(session, tenant_id, batch)
+
+
+@router.get("/content/{user_id}/export")
+async def export_content(tenant_id: UUID, user_id: UUID, request: Request):
+    import json
+
+    from fastapi.responses import StreamingResponse
+    from starlette.background import BackgroundTask
+
+    from mockazure.mail.messages import export_mail_content, mail_export_records, state_for
+
+    pairs = list(request.query_params.multi_items())
+    if pairs not in ([], [("format", "ndjson")]):
+        raise AdminError(422, "InvalidExportFormat", "Use format=ndjson for streamed export")
+    if not pairs:
+        async with request.app.state.database.sessions.begin() as session:
+            return await export_mail_content(session, tenant_id, user_id)
+    session = request.app.state.database.sessions()
+    try:
+        await session.connection(execution_options={"isolation_level": "REPEATABLE READ"})
+        box = await resolve_mailbox(session, tenant_id, str(user_id))
+        if await state_for(session, box) is None:
+            raise AdminError(409, "StatisticsOnlyMailbox", "Mailbox has no content-backed state")
+
+        async def body():
+            try:
+                async for record in mail_export_records(session, tenant_id, user_id):
+                    yield (json.dumps(record, ensure_ascii=False) + "\n").encode("utf-8")
+            finally:
+                await session.close()
+
+        return StreamingResponse(
+            body(), media_type="application/x-ndjson", background=BackgroundTask(session.close)
+        )
+    except BaseException:
+        await session.close()
+        raise
+
+
+@router.post("/content/{user_id}/reset")
+async def reset_content(tenant_id: UUID, user_id: UUID, request: Request):
+    from pydantic import BaseModel, ConfigDict, Field
+
+    from mockazure.mail.messages import reset_mail_content
+
+    class ResetInput(BaseModel):
+        model_config = ConfigDict(extra="forbid")
+        expected_revision: int = Field(ge=0, strict=True)
+
+    value = await parsed(request, ResetInput)
+    async with request.app.state.database.sessions.begin() as session:
+        return await reset_mail_content(session, tenant_id, user_id, value.expected_revision)

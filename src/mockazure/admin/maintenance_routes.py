@@ -8,7 +8,9 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from mockazure.admin.mail_routes import tenant_required
 from mockazure.auditlog.cleanup import cleanup_audit
+from mockazure.content.repository import prune_content
 from mockazure.mail.cleanup import cleanup_rules
+from mockazure.mail.message_cleanup import cleanup_mail_content
 
 router = APIRouter(prefix="/_mock/tenants/{tenant_id}/maintenance")
 
@@ -33,10 +35,32 @@ async def cleanup(tenant_id: UUID, request: Request, value: CleanupInput):
         async with database.sessions.begin() as session:
             await tenant_required(session, tenant_id)
             mail = await cleanup_rules(session, tenant_id, now, remaining)
+    remaining -= mail["deleted"]
+    mail_content = {"deleted": 0, "remaining": None}
+    if remaining:
+        async with database.sessions.begin() as session:
+            await tenant_required(session, tenant_id)
+            mail_content = await cleanup_mail_content(session, tenant_id, now, remaining)
+    remaining -= mail_content["deleted"]
+    content = {"deleted": 0, "remaining": None}
+    if remaining:
+        async with database.sessions.begin() as session:
+            await tenant_required(session, tenant_id)
+            content = await prune_content(session, tenant_id, now, remaining)
     return {
         "max_rows": value.max_rows,
-        "deleted": audit["deleted"] + mail["deleted"],
+        "deleted": audit["deleted"]
+        + mail["deleted"]
+        + mail_content["deleted"]
+        + content["deleted"],
         "audit": audit,
         "mail": mail,
-        "remaining": bool(audit["remaining"] or mail["remaining"] is not False),
+        "content": content,
+        "mail_content": mail_content,
+        "remaining": bool(
+            audit["remaining"]
+            or mail["remaining"] is not False
+            or mail_content["remaining"] is not False
+            or content["remaining"] is not False
+        ),
     }
