@@ -39,6 +39,14 @@ def form(transaction, csrf, stage, app_name=""):
             '<label>Password <input name="password" type="password" '
             'autocomplete="current-password" required></label><button>Sign in</button>'
         )
+    elif stage == "password-change":
+        content = (
+            "<p>Choose a new password before continuing.</p>"
+            '<label>New password <input name="new_password" type="password" '
+            'autocomplete="new-password" required></label>'
+            '<label>Confirm password <input name="confirm_password" type="password" '
+            'autocomplete="new-password" required></label><button>Change password</button>'
+        )
     elif stage == "consent":
         content = (
             "<p>Allow "

@@ -1,7 +1,7 @@
 {
   "source": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
   "sourceSha256": "30b1873c2369e5ef00bc13958980acbe60c2f5672e542a211823d487a702ae92",
-  "retrievedAt": "2026-10-17",
+  "retrievedAt": "2026-10-18",
   "descriptionOrigin": "Local label; action identifiers extracted from official resource-action table cells.",
   "roles": {
     "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3": {
@@ -871,6 +871,24 @@
         }
       ]
     },
+    "729827e3-9c14-49f7-bb1b-9608f156bbb8": {
+      "description": "Microsoft Entra built-in role: Helpdesk Administrator.",
+      "rolePermissions": [
+        {
+          "allowedResourceActions": [
+            "microsoft.azure.serviceHealth/allEntities/allTasks",
+            "microsoft.azure.supportTickets/allEntities/allTasks",
+            "microsoft.directory/bitlockerKeys/key/read",
+            "microsoft.directory/deviceLocalCredentials/standard/read",
+            "microsoft.directory/users/invalidateAllRefreshTokens",
+            "microsoft.directory/users/password/update",
+            "microsoft.office365.serviceHealth/allEntities/allTasks",
+            "microsoft.office365.supportTickets/allEntities/allTasks",
+            "microsoft.office365.webPortal/allEntities/standard/read"
+          ]
+        }
+      ]
+    },
     "8ac3fc64-6eca-42ea-9e69-59f4c7b60eb2": {
       "description": "Microsoft Entra built-in role: Hybrid Identity Administrator.",
       "rolePermissions": [
@@ -1020,6 +1038,17 @@
             "microsoft.directory/users/reprocessLicenseAssignment",
             "microsoft.directory/users/usageLocation/update",
             "microsoft.office365.serviceHealth/allEntities/allTasks",
+            "microsoft.office365.webPortal/allEntities/standard/read"
+          ]
+        }
+      ]
+    },
+    "966707d0-3269-4727-9be2-8c3a10f19b9d": {
+      "description": "Microsoft Entra built-in role: Password Administrator.",
+      "rolePermissions": [
+        {
+          "allowedResourceActions": [
+            "microsoft.directory/users/password/update",
             "microsoft.office365.webPortal/allEntities/standard/read"
           ]
         }
@@ -1265,6 +1294,42 @@
         }
       ]
     },
+    "f28a1f50-f6e7-4571-818b-6a12f2af6b6c": {
+      "description": "Microsoft Entra built-in role: SharePoint Administrator.",
+      "rolePermissions": [
+        {
+          "allowedResourceActions": [
+            "microsoft.azure.serviceHealth/allEntities/allTasks",
+            "microsoft.azure.supportTickets/allEntities/allTasks",
+            "microsoft.backup/oneDriveForBusinessProtectionPolicies/allProperties/allTasks",
+            "microsoft.backup/oneDriveForBusinessRestoreSessions/allProperties/allTasks",
+            "microsoft.backup/restorePoints/sites/allProperties/allTasks",
+            "microsoft.backup/restorePoints/userDrives/allProperties/allTasks",
+            "microsoft.backup/sharePointProtectionPolicies/allProperties/allTasks",
+            "microsoft.backup/sharePointRestoreSessions/allProperties/allTasks",
+            "microsoft.backup/siteProtectionUnits/allProperties/allTasks",
+            "microsoft.backup/siteRestoreArtifacts/allProperties/allTasks",
+            "microsoft.backup/userDriveProtectionUnits/allProperties/allTasks",
+            "microsoft.backup/userDriveRestoreArtifacts/allProperties/allTasks",
+            "microsoft.directory/groups.unified/assignedLabels/update",
+            "microsoft.directory/groups.unified/basic/update",
+            "microsoft.directory/groups.unified/create",
+            "microsoft.directory/groups.unified/delete",
+            "microsoft.directory/groups.unified/members/update",
+            "microsoft.directory/groups.unified/owners/update",
+            "microsoft.directory/groups.unified/restore",
+            "microsoft.directory/groups/hiddenMembers/read",
+            "microsoft.office365.migrations/allEntities/allProperties/allTasks",
+            "microsoft.office365.network/performance/allProperties/read",
+            "microsoft.office365.serviceHealth/allEntities/allTasks",
+            "microsoft.office365.sharePoint/allEntities/allTasks",
+            "microsoft.office365.supportTickets/allEntities/allTasks",
+            "microsoft.office365.usageReports/allEntities/allProperties/read",
+            "microsoft.office365.webPortal/allEntities/standard/read"
+          ]
+        }
+      ]
+    },
     "fe930be7-5e62-47db-91af-98c3a49a38b1": {
       "description": "Microsoft Entra built-in role: User Administrator.",
       "rolePermissions": [
@@ -1360,42 +1425,6 @@
             "microsoft.directory/groups.security/members/update",
             "microsoft.directory/groups.security/owners/update",
             "microsoft.directory/groups.security/visibility/update",
-            "microsoft.office365.supportTickets/allEntities/allTasks",
-            "microsoft.office365.usageReports/allEntities/allProperties/read",
-            "microsoft.office365.webPortal/allEntities/standard/read"
-          ]
-        }
-      ]
-    },
-    "f28a1f50-f6e7-4571-818b-6a12f2af6b6c": {
-      "description": "Microsoft Entra built-in role: SharePoint Administrator.",
-      "rolePermissions": [
-        {
-          "allowedResourceActions": [
-            "microsoft.azure.serviceHealth/allEntities/allTasks",
-            "microsoft.azure.supportTickets/allEntities/allTasks",
-            "microsoft.backup/oneDriveForBusinessProtectionPolicies/allProperties/allTasks",
-            "microsoft.backup/oneDriveForBusinessRestoreSessions/allProperties/allTasks",
-            "microsoft.backup/restorePoints/sites/allProperties/allTasks",
-            "microsoft.backup/restorePoints/userDrives/allProperties/allTasks",
-            "microsoft.backup/sharePointProtectionPolicies/allProperties/allTasks",
-            "microsoft.backup/sharePointRestoreSessions/allProperties/allTasks",
-            "microsoft.backup/siteProtectionUnits/allProperties/allTasks",
-            "microsoft.backup/siteRestoreArtifacts/allProperties/allTasks",
-            "microsoft.backup/userDriveProtectionUnits/allProperties/allTasks",
-            "microsoft.backup/userDriveRestoreArtifacts/allProperties/allTasks",
-            "microsoft.directory/groups.unified/assignedLabels/update",
-            "microsoft.directory/groups.unified/basic/update",
-            "microsoft.directory/groups.unified/create",
-            "microsoft.directory/groups.unified/delete",
-            "microsoft.directory/groups.unified/members/update",
-            "microsoft.directory/groups.unified/owners/update",
-            "microsoft.directory/groups.unified/restore",
-            "microsoft.directory/groups/hiddenMembers/read",
-            "microsoft.office365.migrations/allEntities/allProperties/allTasks",
-            "microsoft.office365.network/performance/allProperties/read",
-            "microsoft.office365.serviceHealth/allEntities/allTasks",
-            "microsoft.office365.sharePoint/allEntities/allTasks",
             "microsoft.office365.supportTickets/allEntities/allTasks",
             "microsoft.office365.usageReports/allEntities/allProperties/read",
             "microsoft.office365.webPortal/allEntities/standard/read"

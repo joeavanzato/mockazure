@@ -122,6 +122,13 @@ def validate_public_payload(version, family, payload):
             nested(name, value)
     for target in payload.get("targetResources") or []:
         security_kind = {
+            "phoneAuthenticationMethod": "phoneAuthenticationMethod",
+            "emailAuthenticationMethod": "emailAuthenticationMethod",
+            "microsoftAuthenticatorAuthenticationMethod": (
+                "microsoftAuthenticatorAuthenticationMethod"
+            ),
+            "fido2AuthenticationMethod": "fido2AuthenticationMethod",
+            "longRunningOperation": "longRunningOperation",
             "Application": "application",
             "ServicePrincipal": "servicePrincipal",
             "Device": "device",
@@ -156,6 +163,18 @@ def validate_public_payload(version, family, payload):
             continue
         for change in target.get("modifiedProperties") or []:
             name = change["displayName"]
+            if target.get("type") == "User" and name == "passwordProfile":
+                for side in ("oldValue", "newValue"):
+                    value = json.loads(change[side]) if change.get(side) else None
+                    if value is not None:
+                        if not isinstance(value, dict) or set(value) - {
+                            "forceChangePasswordNextSignIn"
+                        }:
+                            raise ValueError(
+                                "Only the public password-change requirement is evidence"
+                            )
+                        validate_payload(version, "passwordProfile", value, partial=True)
+                continue
             allowed = set().union(*PUBLIC_FIELDS.values()) | {
                 "members",
                 "owners",

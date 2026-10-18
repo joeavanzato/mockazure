@@ -32,6 +32,16 @@ async def capabilities(request: Request):
 
     settings = request.app.state.settings
     return {
+        "method_management_profile": {
+            "version": "v1.0",
+            "beta_writes": False,
+            "phone_email": ["POST", "PATCH", "DELETE"],
+            "authenticator_fido2": ["DELETE"],
+            "password_reset": "delegated-cloud-admin",
+            "password_change_required": True,
+            "credential_epoch_revocation": True,
+            "self_delete_session_freshness_seconds": 600,
+        },
         "activity_profile": {
             "version": "v1.0",
             "audience": "https://manage.office.com",

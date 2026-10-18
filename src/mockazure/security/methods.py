@@ -57,7 +57,9 @@ async def method_user(session, tenant, identifier):
     except ValueError:
         key = func.lower(User.upn) == str(identifier).lower()
     user = await session.scalar(
-        select(User).where(
+        select(User)
+        .execution_options(populate_existing=True)
+        .where(
             User.tenant_id == tenant,
             User.deleted_at.is_(None),
             key,

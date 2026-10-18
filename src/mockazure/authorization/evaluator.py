@@ -46,15 +46,33 @@ async def require_current_identity(context: PrincipalContext, session) -> None:
         raise AuthorizationDenied("Application identity is unavailable")
     if context.token_kind == "delegated":
         user = await session.scalar(
-            select(User).where(
+            select(User)
+            .execution_options(populate_existing=True)
+            .where(
                 User.tenant_id == context.tenant_id,
                 User.id == context.subject_id,
                 User.enabled.is_(True),
                 User.deleted_at.is_(None),
             )
         )
-        if user is None:
+        if user is None or user.password_change_required:
             raise AuthorizationDenied("Signed-in user cannot access this resource")
+        if context.session_id is not None:
+            from datetime import UTC, datetime
+
+            from mockazure.oauth.models import LoginSession
+
+            login = await session.get(LoginSession, context.session_id, populate_existing=True)
+            if (
+                login is None
+                or login.tenant_id != context.tenant_id
+                or login.user_id != user.id
+                or login.client_id != context.client_id
+                or login.revoked_at is not None
+                or login.expires_at <= datetime.now(UTC)
+                or login.credential_version != user.credential_version
+            ):
+                raise AuthorizationDenied("Signed-in session is no longer valid")
 
 
 async def authorize(context: PrincipalContext, operation: OperationRequirement, session) -> None:
@@ -77,7 +95,9 @@ async def authorize(context: PrincipalContext, operation: OperationRequirement, 
     if not context.permissions & operation.delegated_permissions:
         raise AuthorizationDenied("Delegated permission is required")
     user = await session.scalar(
-        select(User).where(
+        select(User)
+        .execution_options(populate_existing=True)
+        .where(
             User.tenant_id == context.tenant_id,
             User.id == context.subject_id,
             User.enabled.is_(True),

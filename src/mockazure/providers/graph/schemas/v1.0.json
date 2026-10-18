@@ -6021,6 +6021,47 @@
         "unknownFutureValue"
       ]
     },
+    "longRunningOperation": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastActionDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "resourceLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "graph.longRunningOperationStatus",
+          "nullable": true
+        },
+        "statusDetail": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "longRunningOperationStatus": {
+      "enum": [
+        "notStarted",
+        "running",
+        "succeeded",
+        "failed",
+        "unknownFutureValue"
+      ]
+    },
     "macOSCompliancePolicy": {
       "properties": {
         "id": {
@@ -7815,6 +7856,15 @@
           "nullable": true
         },
         "password": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "passwordResetResponse": {
+      "properties": {
+        "newPassword": {
           "type": "Edm.String",
           "nullable": true
         }
