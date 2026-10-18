@@ -8,7 +8,7 @@
 storage. The activity feed is a separate authorized service over durable audit publication.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker, PowerShell.
 **Spec:** [Approved program design](../specs/2026-10-17-coverage-expansion-design.md).
-**Status:** Implemented and qualified in PRs #19–#22; awaiting merge. The checklist below preserves the original execution plan.
+**Status:** Implemented and qualified in PRs #19–#22. The checklist below preserves the original execution plan.
 
 Current implementation and qualification evidence: [coverage results](../../coverage-expansion-results.md).
 

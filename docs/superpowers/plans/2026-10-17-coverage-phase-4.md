@@ -10,7 +10,7 @@ sessions. Intune observations supply trusted device state; simulated method outc
 explicit and separate from real hardware proof. No parallel policy engine.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker, PowerShell.
 **Spec:** [Approved program design](../specs/2026-10-17-coverage-expansion-design.md).
-**Status:** Implemented and qualified in PRs #23–#24; awaiting merge. The checklist below preserves the original execution plan.
+**Status:** Implemented and qualified in PRs #23–#24. The checklist below preserves the original execution plan.
 
 Current implementation and qualification evidence: [coverage results](../../coverage-expansion-results.md).
 
