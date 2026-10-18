@@ -20,6 +20,10 @@ from mockazure.directory.types import FACT_FIELDS, PUBLIC_FIELDS, DirectoryChang
 
 
 async def reserve_revision(session: AsyncSession, tenant_id: UUID) -> int:
+    from mockazure.security.repository import lock_security
+
+    # Authorization state always locks before the directory watermark, including deletes.
+    await lock_security(session, tenant_id)
     await session.execute(
         insert(DirectoryState)
         .values(tenant_id=tenant_id, revision=0, generation=uuid4())

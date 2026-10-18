@@ -418,6 +418,12 @@ async def mfa(request: Request):
             return await complete_device(row, session, now, approved=True, request=request)
         raw = secrets.token_urlsafe(48)
         row.code_hash, row.code_expires_at = digest(raw), now + timedelta(seconds=300)
+        from mockazure.security.authentication_context import bound_context
+
+        context = await bound_context(session, row, now)
+        if context is not None:
+            # The completed form is closed; its proof lives through the issued code only.
+            context.expires_at = row.code_expires_at
         return pages.callback(row, {"code": raw})
 
 

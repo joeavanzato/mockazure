@@ -111,6 +111,11 @@ async def device_page(request: Request, user_code: str = ""):
         )
         session.add(row)
         await session.flush()
+        from mockazure.security.authentication_context import inherit_device_binding
+        from mockazure.security.repository import lock_security
+
+        await lock_security(session, row.tenant_id)
+        await inherit_device_binding(session, row, now)
         response = pages.form(row, csrf, "login", app.display_name)
         response.set_cookie(COOKIE, cookie, max_age=900, secure=True, httponly=True, samesite="lax")
         return response

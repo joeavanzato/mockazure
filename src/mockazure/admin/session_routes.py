@@ -103,6 +103,11 @@ async def bind_context(tenant_id: UUID, session_id: UUID, request: Request):
             raise IdentityError(404, "NotFound", "Current enabled local directory device not found")
         row = await ensure_context(repo.session, identity, now)
         row.device_id, row.platform = body.device_id, body.platform
+        if isinstance(identity, AuthorizationTransaction) and identity.device_id:
+            device = await repo.session.get(DeviceAuthorization, identity.device_id)
+            if device and device.tenant_id == tenant_id and device.expires_at > now:
+                linked = await ensure_context(repo.session, device, now)
+                linked.device_id, linked.platform = body.device_id, body.platform
         return {"session_id": session_id, "device_id": body.device_id, "platform": body.platform}
 
 

@@ -238,10 +238,14 @@ async def enforce_policies(session, request, identity, user, flow, now, *, allow
         "session_id": identity.id,
         "client_id": identity.client_id,
     }
-    from mockazure.security.authentication_context import valid_method_outcome
+    from mockazure.security.authentication_context import (
+        inherit_device_binding,
+        valid_method_outcome,
+    )
     from mockazure.security.method_policies import enforcement_enabled
 
     await lock_security(session, identity.tenant_id)
+    await inherit_device_binding(session, identity, now)
     if (
         identity.mfa == "completed"
         and await enforcement_enabled(session, identity.tenant_id)

@@ -78,6 +78,30 @@ async def copy_context(session, source, target, now):
     await session.flush()
 
 
+async def inherit_device_binding(session, identity, now):
+    """The linked device authorization owns device facts; the browser owns MFA completion."""
+    from mockazure.oauth.device_models import DeviceAuthorization
+    from mockazure.oauth.models import AuthorizationTransaction
+
+    if not isinstance(identity, AuthorizationTransaction) or not identity.device_id:
+        return
+    device = await session.get(DeviceAuthorization, identity.device_id, populate_existing=True)
+    if (
+        device is None
+        or device.tenant_id != identity.tenant_id
+        or device.client_id != identity.client_id
+        or device.expires_at <= now
+    ):
+        return
+    source = await bound_context(session, device, now)
+    if source is None:
+        return
+    target = await ensure_context(session, identity, now)
+    target.device_id, target.platform = source.device_id, source.platform
+    target.user_id = identity.user_id
+    await session.flush()
+
+
 async def complete_method(session, identity, method_id, now):
     if not isinstance(method_id, str) or method_id not in await eligible_mfa_methods(
         session, identity.tenant_id, identity.user_id

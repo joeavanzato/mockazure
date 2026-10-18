@@ -33,6 +33,24 @@ def call(client, headers, method, path, body=None, status=200):
     return response.json() if response.content else None
 
 
+def wait_for_replicas(command, client, replicas, *, attempts=120):
+    for _ in range(attempts):
+        states = json.loads(command(["docker", "inspect", *replicas], capture=True))
+        healthy = len(states) == len(replicas) and all(
+            row["State"].get("Running") is True
+            and row["State"].get("Health", {}).get("Status") == "healthy"
+            for row in states
+        )
+        if healthy:
+            try:
+                if client.get("/_mock/ready").status_code == 200:
+                    return
+            except httpx.HTTPError:
+                pass
+        time.sleep(0.5)
+    raise AssertionError("Local replicas did not recover")
+
+
 def collection_fixture(client, headers, tenant, *, seed=42, count=101):
     base = "/_mock/tenants/" + tenant["id"]
 
@@ -364,15 +382,8 @@ def qualify(
     def restart():
         report["restart_started_at"] = datetime.now(UTC).isoformat()
         command(compose + ["restart", "api"], timeout=300)
-        for _ in range(120):
-            try:
-                if client.get("/_mock/ready").status_code == 200:
-                    report["restart_completed_at"] = datetime.now(UTC).isoformat()
-                    return
-            except httpx.HTTPError:
-                pass
-            time.sleep(0.5)
-        raise AssertionError("Local replicas did not recover")
+        wait_for_replicas(command, client, replicas)
+        report["restart_completed_at"] = datetime.now(UTC).isoformat()
 
     boundary = Barrier(8, action=restart)
 
