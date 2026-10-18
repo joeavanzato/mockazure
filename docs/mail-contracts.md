@@ -629,6 +629,11 @@ atomically replaces typed operational grants; {"grants":[]} resets them. Every t
 must already be a current mailbox/principal in that tenant. Imports validate the whole
 batch before replacement. These administrative fixtures explicitly establish authority;
 collectionState permission imports never do. API restart preserves grants in PostgreSQL.
+Exports omit grants for deleted mailboxes/users/groups and groups no longer security-enabled,
+so an unchanged operational export remains restorable. Stored inactive ACEs remain
+visible as permission evidence until replacement/reset. Trustee resolution combines
+directory names and mailbox SMTP aliases; distinct matching principals are rejected
+as ambiguous before any authority or audit mutation.
 
 
 ## Exchange security configuration

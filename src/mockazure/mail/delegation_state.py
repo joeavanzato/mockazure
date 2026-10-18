@@ -4,11 +4,15 @@ from typing import Literal
 from uuid import UUID
 
 from pydantic import Field, StrictBool, model_validator
-from sqlalchemy import delete, select
+from sqlalchemy import delete, func, or_, select
+from sqlalchemy.orm import aliased
 
 from mockazure.admin.errors import AdminError
+from mockazure.directory.models import Group
+from mockazure.identity.models import User
 from mockazure.mail.delegation import lock_delegation, resolve_trustee
 from mockazure.mail.delegation_models import MailboxDelegation
+from mockazure.mail.models import Mailbox
 from mockazure.mail.repository import resolve_mailbox
 from mockazure.mail.schemas import MailInput
 from mockazure.providers.graph.errors import GraphError
@@ -46,9 +50,44 @@ class DelegationState(MailInput):
 
 async def export_delegation(session, tenant):
     await lock_delegation(session, tenant)
+    # Operational exports contain only grants that the typed restore can accept.
+    # Keep inactive ACE rows in storage for permission evidence until reset/replace.
+    mailbox_user = aliased(User)
+    current_user = (
+        select(User.id)
+        .where(
+            User.tenant_id == tenant,
+            User.id == MailboxDelegation.principal_id,
+            User.deleted_at.is_(None),
+        )
+        .exists()
+    )
+    current_group = (
+        select(Group.id)
+        .where(
+            Group.tenant_id == tenant,
+            Group.id == MailboxDelegation.principal_id,
+            Group.deleted_at.is_(None),
+            func.coalesce(Group.profile["securityEnabled"].as_boolean(), True).is_(True),
+        )
+        .exists()
+    )
     rows = await session.scalars(
         select(MailboxDelegation)
-        .where(MailboxDelegation.tenant_id == tenant)
+        .join(
+            Mailbox,
+            (Mailbox.tenant_id == MailboxDelegation.tenant_id)
+            & (Mailbox.user_id == MailboxDelegation.mailbox_id),
+        )
+        .join(
+            mailbox_user,
+            (mailbox_user.tenant_id == Mailbox.tenant_id) & (mailbox_user.id == Mailbox.user_id),
+        )
+        .where(
+            MailboxDelegation.tenant_id == tenant,
+            mailbox_user.deleted_at.is_(None),
+            or_(current_user, current_group),
+        )
         .order_by(
             MailboxDelegation.mailbox_id,
             MailboxDelegation.principal_id,

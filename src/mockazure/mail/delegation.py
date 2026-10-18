@@ -63,21 +63,22 @@ async def resolve_trustee(session, tenant, identity):
     rows = [(v.id, v.upn) for v in users] + [
         (v.id, v.profile.get("mail") or v.display_name) for v in group_rows
     ]
-    if not rows:
-        # Mailbox SMTP aliases can differ from the user's UPN.
-        try:
-            box = await resolve_mailbox(session, tenant, identity)
-        except GraphError as exc:
-            if exc.status == 404:
-                raise GraphError(
-                    404, "TrusteeNotFound", "Current delegation principal was not found"
-                ) from None
-            raise
+    # Resolve mailbox aliases even when a directory name matched. A display name
+    # must not shadow a different principal's SMTP identity.
+    try:
+        box = await resolve_mailbox(session, tenant, identity)
+    except GraphError as exc:
+        if exc.status != 404:
+            raise GraphError(400, "AmbiguousTrustee", "Delegation principal is ambiguous") from None
+    else:
         user = await session.get(User, box.user_id)
-        rows = [(user.id, user.upn)]
-    if len(rows) != 1:
+        rows.append((user.id, user.upn))
+    candidates = dict(rows)
+    if not candidates:
+        raise GraphError(404, "TrusteeNotFound", "Current delegation principal was not found")
+    if len(candidates) != 1:
         raise GraphError(400, "AmbiguousTrustee", "Delegation principal is ambiguous")
-    return rows[0]
+    return next(iter(candidates.items()))
 
 
 async def effective_principals(session, tenant, user_id):

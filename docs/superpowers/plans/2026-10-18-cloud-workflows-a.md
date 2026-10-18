@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** A1-A4 implemented and locally qualified; whole-branch review pending. GitHub Actions cannot start because of an account billing/spending-limit block.
+**Status:** A1-A4 implemented and locally qualified; whole-branch review completed and both Important findings fixed. GitHub Actions cannot start because of an account billing/spending-limit block.
 
 ## Global Constraints
 
