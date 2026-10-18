@@ -30,6 +30,9 @@ SURFACES = {
         "Get-MgUser",
         "Get-MgGroup",
         "Get-MgGroupMember",
+        "Get-MgGroupMemberOf",
+        "Get-MgGroupTransitiveMemberOf",
+        "Get-MgDirectoryObjectById",
         "Get-MgUserMemberOf",
         "Get-MgUserTransitiveMemberOf",
         "Get-MgGroupTransitiveMember",
@@ -55,6 +58,9 @@ SURFACES = {
         "Get-MgOauth2PermissionGrant",
         "Get-MgDevice",
         "Get-MgDeviceRegisteredOwner",
+        "Get-MgDeviceRegisteredUser",
+        "Get-MgUserAppRoleAssignment",
+        "Get-MgGroupAppRoleAssignment",
         "Get-MgPolicyConditionalAccessPolicy",
         "Get-MgIdentityConditionalAccessPolicy",
         "Get-MgIdentityConditionalAccessNamedLocation",
@@ -70,15 +76,12 @@ SURFACES = {
         "Get-EXOMailbox",
         "Get-Mailbox",
         "Get-CASMailbox",
-        "Get-MailboxPermission",
-        "Get-RecipientPermission",
         "Get-MailboxStatistics",
         "Get-EXOMailboxStatistics",
         "Get-InboxRule",
         "Get-SweepRule",
         "Get-MessageTraceV2",
         "Get-MessageTraceDetailV2",
-        "Search-UnifiedAuditLog",
     ],
     "arm.inventory-activity": [
         "Get-AzSubscription",
@@ -89,6 +92,15 @@ SURFACES = {
         "Get-AzActivityLog",
     ],
 }
+
+
+def operation_mapping(command):
+    manifest = json.loads((ROOT / "integrations/contracts/coverage-operations.json").read_text())
+    return [
+        {key: operation[key] for key in ("method", "path", "status")}
+        for operation in manifest["operations"]
+        if command.lower() in {name.lower() for name in operation.get("collectorCommands", [])}
+    ]
 
 
 def main():
@@ -109,7 +121,6 @@ def main():
         "next_gaps": [
             "Exchange RemoteDomain and TransportConfig collector calls",
             "Mailbox messages and attachments",
-            "Device registeredUsers relationship",
             "SharePoint/OneDrive evidence and audit collectors",
             "Provider-specific Azure diagnostics and storage logs",
             "Defender hunting and Purview operations beyond existing UAL reads",
@@ -157,13 +168,44 @@ def main():
                     continue
                 surface = lookup.get(name_key)
                 call["surface"] = surface
+                operations = operation_mapping(call["command"])
+                if operations:
+                    call["operations"] = operations
                 call["status"] = (
                     "implemented-profile-needs-parameter-check"
                     if surface
                     else "unmapped-review-required"
                 )
         result["files"].sort(key=lambda x: x["path"])
-        inventory["collectors"][name] = {"revision": revision, **result}
+        # PowerShell hashtable enumeration is process-dependent; stabilize artifact key order.
+        files = []
+        for file in result["files"]:
+            file["calls"] = [
+                {
+                    key: call[key]
+                    for key in ("parameters", "line", "command", "surface", "status", "operations")
+                    if key in call
+                }
+                for call in file["calls"]
+            ]
+            files.append(
+                {
+                    key: file[key]
+                    for key in (
+                        "calls",
+                        "path",
+                        "dynamic_command_lines",
+                        "url_templates",
+                        "function_definitions",
+                        "sha256",
+                    )
+                }
+            )
+        inventory["collectors"][name] = {
+            "revision": revision,
+            "files": files,
+            "method": result["method"],
+        }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(inventory, indent=2) + "\n", encoding="utf-8")
     calls = [

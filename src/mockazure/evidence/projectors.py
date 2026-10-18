@@ -85,6 +85,8 @@ def project_directory(source: SourceEnvelope) -> ProjectionBatch:
         ("group", "create"): "Add group",
         ("group", "update"): "Update group",
         ("group", "delete"): "Delete group",
+        ("group", "add_owner"): "Add owner to group",
+        ("group", "remove_owner"): "Remove owner from group",
         ("group", "add_member"): "Add member to group",
         ("group", "remove_member"): "Remove member from group",
     }

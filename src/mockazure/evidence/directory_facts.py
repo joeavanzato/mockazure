@@ -19,7 +19,16 @@ from mockazure.providers.graph.schema_reference import validate_payload
 class DirectoryFacts(StrictModel):
     schema_version: Literal[2]
     operation: Literal[
-        "create", "update", "delete", "add_member", "remove_member", "import", "license", "unknown"
+        "create",
+        "update",
+        "delete",
+        "add_member",
+        "remove_member",
+        "add_owner",
+        "remove_owner",
+        "import",
+        "license",
+        "unknown",
     ]
     object_kind: Literal["user", "group", "directory"]
     provenance: str = Field(max_length=200)
@@ -136,8 +145,8 @@ async def capture_directory_facts(
         difference(k, v["before"], v["after"]) for k, v in sorted(differences.items())
     ]
     targets = [primary]
-    if command.action in {"add_member", "remove_member"}:
-        member_id = command.values["member_id"]
+    if command.action in {"add_member", "remove_member", "add_owner", "remove_owner"}:
+        member_id = command.values["owner_id" if command.action.endswith("_owner") else "member_id"]
         for model in (User, Group):
             member = await session.scalar(
                 select(model).where(model.tenant_id == obj.tenant_id, model.id == member_id)
@@ -145,6 +154,23 @@ async def capture_directory_facts(
             if member is not None:
                 targets.append(target_snapshot(public_object(member)))
                 break
+        else:
+            principal = await session.scalar(
+                select(ServicePrincipal).where(
+                    ServicePrincipal.tenant_id == obj.tenant_id, ServicePrincipal.id == member_id
+                )
+            )
+            if principal is not None:
+                application = await session.get(Application, principal.client_id)
+                targets.append(
+                    {
+                        "id": str(principal.id),
+                        "type": "ServicePrincipal",
+                        "displayName": principal.profile.get("displayName")
+                        or (application.display_name if application else None),
+                        "modifiedProperties": [],
+                    }
+                )
     facts = DirectoryFacts(
         schema_version=2,
         operation=command.action,
@@ -158,7 +184,11 @@ async def capture_directory_facts(
         modified_properties=differences,
         actor_id=(actor.subject_id or actor.client_id) if provider else None,
         client_id=actor.client_id if provider else None,
-        target_ids=[command.values["member_id"]] if command.action.endswith("_member") else [],
+        target_ids=[command.values["member_id"]]
+        if command.action.endswith("_member")
+        else [command.values["owner_id"]]
+        if command.action.endswith("_owner")
+        else [],
     ).model_dump(mode="json")
     validate_directory_facts(facts)
     return facts

@@ -1,0 +1,842 @@
+{
+  "scope": "Coverage expansion operation profiles; not whole Graph or collector certification",
+  "schemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "operations": [
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/directoryObjects/getByIds",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryobject-getbyids?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [
+          "Directory.Read.All"
+        ],
+        "delegated": [
+          "Directory.Read.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "1..1000 GUID IDs",
+        "user/group/application/servicePrincipal/device only",
+        "types case-insensitive"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_get_by_ids_mixed_visibility"
+      ],
+      "status": "implemented",
+      "sourceSha256": "6ef61bed92eb490e2d5b4f707f840e183aa4d85577093e039c89adff5c9f8bab",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDirectoryObjectById"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/directoryObjects/{identifier}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryobject-get?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [
+          "Directory.Read.All"
+        ],
+        "delegated": [
+          "Directory.Read.All"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Bounded local profile; see COVERAGE.md"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_get_by_ids_mixed_visibility"
+      ],
+      "status": "implemented",
+      "sourceSha256": "6fee3f2421dfd03c1d12480c4ee086cac86f4bdc5b545b1d74819863a1b33608",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDirectoryObject"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups/{object_id}/memberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list-memberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All",
+          "Group.Read.All",
+          "GroupMember.Read.All"
+        ],
+        "delegated": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All",
+          "Group.Read.All",
+          "GroupMember.Read.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Group targets only; cycle-safe",
+        "100 default / 999 maximum page"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_relationship_cycles_and_paging"
+      ],
+      "status": "implemented",
+      "sourceSha256": "2fcb58695c319a8368b6b1f5f9a73fe2f96d79973356c492fb083479b99012bf",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgGroupMemberOf"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/memberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-memberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Bounded local profile; see COVERAGE.md"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_me_alias_requires_delegated_identity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "b42d551128730515f8119379346356870adc62857a1bd6b2ed5cac2e600b7407",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups/{object_id}/transitiveMemberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list-transitivememberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All"
+        ],
+        "delegated": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All",
+          "Group.Read.All",
+          "GroupMember.Read.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Group targets only; cycle-safe",
+        "100 default / 999 maximum page"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_relationship_cycles_and_paging"
+      ],
+      "status": "implemented",
+      "sourceSha256": "c238db44a0ba94209ae23108320fe816a4a3694bdd9051e6413b4acab47eb06c",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgGroupTransitiveMemberOf"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/transitiveMemberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-transitivememberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Bounded local profile; see COVERAGE.md"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_me_alias_requires_delegated_identity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "95e777c0c7b4a1d36d3649010658f6723825eb872ed1644784561c2aa210b788",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{identifier}/ownedObjects",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-ownedobjects?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read (self)",
+          "User.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "User.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName only; displayName null without target permission",
+        "group/application/servicePrincipal/device targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "e665c708447d91ea27f0fd917cf191fa03ae8c9b038d5ad052699a8caac1062d",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgUserOwnedObject"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/ownedObjects",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-ownedobjects?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read (self)",
+          "User.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "User.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName only; displayName null without target permission",
+        "group/application/servicePrincipal/device targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "e665c708447d91ea27f0fd917cf191fa03ae8c9b038d5ad052699a8caac1062d",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/groups/{object_id}/owners/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-post-owners?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported owner/group administrator role profile"
+      },
+      "queryOptions": [],
+      "limits": [
+        "Static security groups only",
+        "Last active user owner cannot be removed",
+        "User or servicePrincipal targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "8607ad5a91b881dec6c268fdd99e7f2fb8842c9658c0bf6d09c1d771653277e0",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "New-MgGroupOwnerByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/groups/{object_id}/owners/{member_id}/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-delete-owners?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported owner/group administrator role profile"
+      },
+      "queryOptions": [],
+      "limits": [
+        "Static security groups only",
+        "Last active user owner cannot be removed",
+        "User or servicePrincipal targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "4d05856c336e837686f1b3555c98b632816d70a10eb2b9fee5e2b6aa6459cd58",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Remove-MgGroupOwnerByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/devices/{identifier}/registeredUsers",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-list-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "user",
+      "permissions": {
+        "application": [
+          "Device.Read.All",
+          "Device.ReadWrite.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Device.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Directory Readers",
+          "Global Reader",
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName/userPrincipalName projection; unreadable fields null"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip",
+        "tests/integration/test_directory_collection_completion.py::test_review_registered_users_requires_delegated_directory_role"
+      ],
+      "status": "implemented",
+      "sourceSha256": "29e8f52701e7c2a653b4530fe9366cd789bd0d2453524cd32d8c6778c5941bd9",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDeviceRegisteredUser"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/devices/{identifier}/registeredUsers/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-post-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.AccessAsUser.All"
+        ],
+        "roles": [
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local active user references only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "2bbae24ddd740d5a046d758667beea1d2b6c91c988d129d349b6503c5d43e350",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "New-MgDeviceRegisteredUserByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/devices(deviceId='{identifier}')/registeredUsers",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-list-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "user",
+      "permissions": {
+        "application": [
+          "Device.Read.All",
+          "Device.ReadWrite.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Device.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Directory Readers",
+          "Global Reader",
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName/userPrincipalName projection; unreadable fields null"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip",
+        "tests/integration/test_directory_collection_completion.py::test_review_registered_users_requires_delegated_directory_role"
+      ],
+      "status": "implemented",
+      "sourceSha256": "29e8f52701e7c2a653b4530fe9366cd789bd0d2453524cd32d8c6778c5941bd9",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/devices(deviceId='{identifier}')/registeredUsers/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-post-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.AccessAsUser.All"
+        ],
+        "roles": [
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local active user references only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "2bbae24ddd740d5a046d758667beea1d2b6c91c988d129d349b6503c5d43e350",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/devices/{identifier}/registeredUsers/{user_id}/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-delete-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.AccessAsUser.All"
+        ],
+        "roles": [
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Deletes edge only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "fe966ff156ff5407468314b0d52512d56681fa6c939eef6d2195284a52898496",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Remove-MgDeviceRegisteredUserByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{principal_id}/appRoleAssignments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-approleassignments?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "appRoleAssignment",
+      "permissions": {
+        "application": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All"
+        ],
+        "delegated": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for delegated reads"
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Imported user/group evidence is read-only and does not grant OAuth permissions",
+        "User view includes direct group memberships only",
+        "Imported assignment IDs are local GUIDs"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_assignment_navigation_parity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "abf4152a398eb0dc25a4ba177a0acea433aee17a4bfb2e573026ac5db77db3d7",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgUserAppRoleAssignment"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups/{principal_id}/appRoleAssignments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list-approleassignments?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "appRoleAssignment",
+      "permissions": {
+        "application": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for delegated reads"
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Imported user/group evidence is read-only and does not grant OAuth permissions",
+        "User view includes direct group memberships only",
+        "Imported assignment IDs are local GUIDs"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_assignment_navigation_parity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "033b67c3b45cc4c4388d2774bda1c6b04dffea8c50c88fb26143b6a04fb93356",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgGroupAppRoleAssignment"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/appRoleAssignments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-approleassignments?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "appRoleAssignment",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for delegated reads"
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Imported user/group evidence is read-only and does not grant OAuth permissions",
+        "User view includes direct group memberships only",
+        "Imported assignment IDs are local GUIDs"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_assignment_navigation_parity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "abf4152a398eb0dc25a4ba177a0acea433aee17a4bfb2e573026ac5db77db3d7",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/organization",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/organization-list?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "organization",
+      "permissions": {
+        "application": [
+          "Organization.Read.All",
+          "Directory.Read.All",
+          "Organization.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "User.Read (basic)",
+          "Organization.Read.All",
+          "Directory.Read.All",
+          "Organization.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for full delegated projection"
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "16 optional typed fields plus existing id/displayName/verifiedDomains",
+        "No item route or Graph writes"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_organization_role_fields_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "7377bbf1867c6c11c3b2a2c499f46fd9653c231edf95c162a95d4d0d3af5e746",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgOrganization"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleDefinitions",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/rbacapplication-list-roledefinitions?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "unifiedRoleDefinition",
+      "permissions": {
+        "application": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Global Administrator",
+          "Privileged Role Administrator",
+          "Global Reader",
+          "Directory Readers"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "27 built-ins; action identifiers pinned separately in role_details.json",
+        "Locally generated description; permissions descriptive only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_organization_role_fields_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "1ff9496a0006aee186220f2e155a2fbf12ab9d3029b420361fe881379aa4cfd8",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgRoleManagementDirectoryRoleDefinition"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleDefinitions/{identifier}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/unifiedroledefinition-get?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "unifiedRoleDefinition",
+      "permissions": {
+        "application": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Global Administrator",
+          "Privileged Role Administrator",
+          "Global Reader",
+          "Directory Readers"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "27 built-ins; action identifiers pinned separately in role_details.json",
+        "Locally generated description; permissions descriptive only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_organization_role_fields_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "1bfad7445c722823787c83387442a04d7cfd772b4b985791a4443dcde7986048",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgRoleManagementDirectoryRoleDefinition"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/directoryObjects/microsoft.graph.getByIds",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryobject-getbyids?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [
+          "Directory.Read.All"
+        ],
+        "delegated": [
+          "Directory.Read.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "1..1000 GUID IDs",
+        "user/group/application/servicePrincipal/device only",
+        "types case-insensitive"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_get_by_ids_mixed_visibility"
+      ],
+      "status": "implemented",
+      "sourceSha256": "6ef61bed92eb490e2d5b4f707f840e183aa4d85577093e039c89adff5c9f8bab",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDirectoryObjectById"
+      ],
+      "aliasOf": "/v1.0/directoryObjects/getByIds",
+      "clientReference": "Microsoft.Graph.DirectoryObjects 2.35.1; SHA-256 pinned in integrations/manifest.json"
+    }
+  ]
+}

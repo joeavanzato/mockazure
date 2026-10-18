@@ -19,10 +19,18 @@ from mockazure.providers.graph.permissions import (
 from mockazure.providers.graph.serialization import selected_fields, serialize_object
 
 router = APIRouter()
+ORGANIZATION_FULL_PERMISSIONS = frozenset(
+    {
+        "Organization.Read.All",
+        "Directory.Read.All",
+        "Organization.ReadWrite.All",
+        "Directory.ReadWrite.All",
+    }
+)
 ORGANIZATION = OperationRequirement(
     "graph",
-    frozenset({"Organization.Read.All", "Directory.Read.All"}),
-    frozenset({"User.Read", "Organization.Read.All", "Directory.Read.All"}),
+    ORGANIZATION_FULL_PERMISSIONS,
+    ORGANIZATION_FULL_PERMISSIONS | {"User.Read"},
     DIRECTORY_ROLES,
     "organization",
 )
@@ -76,6 +84,18 @@ async def organization(request: Request, response: Response):
     async with request.app.state.database.sessions() as session:
         context = await principal(request, session)
         await permitted(context, ORGANIZATION, session)
+        full = context.permissions & ORGANIZATION_FULL_PERMISSIONS
+        if full:
+            await permitted(
+                context,
+                OperationRequirement(
+                    "graph",
+                    ORGANIZATION_FULL_PERMISSIONS,
+                    ORGANIZATION_FULL_PERMISSIONS,
+                    DIRECTORY_ROLES,
+                ),
+                session,
+            )
         tenant = await session.get(Tenant, context.tenant_id)
         data = {
             "id": str(tenant.id),
@@ -84,6 +104,11 @@ async def organization(request: Request, response: Response):
                 {"name": tenant.domain, "isDefault": True, "isInitial": True, "type": "Managed"}
             ],
         }
+        if request.url.path.startswith("/v1.0/"):
+            from mockazure.directory.organization import ORGANIZATION_FIELDS, organization_profile
+
+            profile = await organization_profile(session, context.tenant_id)
+            data.update({key: profile.get(key) if full else None for key in ORGANIZATION_FIELDS})
         response.headers["request-id"] = request.state.request_id
         return {
             "@odata.context": context_url(request, "organization"),

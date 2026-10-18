@@ -138,7 +138,7 @@ def validate_public_payload(version, family, payload):
                 name = change["displayName"]
                 if name not in schema(version)["types"][security_kind][
                     "properties"
-                ] and name not in {"owners", "registeredOwners"}:
+                ] and name not in {"owners", "registeredOwners", "registeredUsers"}:
                     raise ValueError("Undeclared security audit property")
                 for side in ("oldValue", "newValue"):
                     value = json.loads(change[side]) if change.get(side) is not None else None
@@ -146,7 +146,7 @@ def validate_public_payload(version, family, payload):
                         continue
                     if safe(value) != value:
                         raise ValueError("Private credential data is not public evidence")
-                    if name in {"owners", "registeredOwners"}:
+                    if name in {"owners", "registeredOwners", "registeredUsers"}:
                         if not isinstance(value, list) or len(value) > 100:
                             raise ValueError("Invalid security owner difference")
                         for identifier in value:

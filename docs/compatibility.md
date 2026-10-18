@@ -26,6 +26,16 @@ PowerShell qualification uses locally acquired tokens; native credential acquisi
 is not claimed for every module. Complete collect-everything entry points remain
 outside this baseline. [Collector patch details](../integrations/collector-patches/README.md).
 
+## Directory coverage expansion qualification
+
+The 2026-10-17 directory qualification ran `python -m tools.verify_directory_coverage`
+on a freshly initialized Docker lab with original msgraph-sdk 1.64.0 and Microsoft
+Graph PowerShell 2.35.1. Both resolved four mixed directory objects, traversed three
+group-membership pages (page size one), and deserialized organization contact fields
+and built-in role permissions. Initialization, HTTPS identity readiness, persistent
+restart and missing-storage guards also passed. This qualifies those exact operations;
+it does not certify every Graph command or refresh the historical whole-product gates.
+
 ## Preserved upstream limitations
 
 Original Hawk JSON append creates concatenated documents for multiple suspicious rules.

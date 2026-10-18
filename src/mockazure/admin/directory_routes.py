@@ -87,3 +87,20 @@ async def cleanup(tenant_id: UUID, request: Request):
         if await session.get(Tenant, tenant_id) is None:
             raise AdminError(404, "TenantNotFound", "Tenant not found")
         return await prune_history(session, tenant_id, datetime.now(UTC))
+
+
+@router.get("/collectionState")
+async def read_collection_state(tenant_id: UUID, request: Request):
+    from mockazure.directory.organization import collection_state
+
+    async with request.app.state.database.sessions.begin() as session:
+        return await collection_state(session, tenant_id)
+
+
+@router.put("/collectionState")
+async def write_collection_state(tenant_id: UUID, request: Request):
+    from mockazure.directory.organization import replace_collection_state
+
+    body = await read_json(request)
+    async with request.app.state.database.sessions.begin() as session:
+        return await replace_collection_state(session, tenant_id, body)

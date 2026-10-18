@@ -318,6 +318,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(audit_query_router_for("beta"))
     app.include_router(mail_router_for("v1.0"))
     app.include_router(mail_router_for("beta"))
+    from mockazure.providers.graph.object_routes import router as object_router
+    from mockazure.providers.graph.security.device_user_routes import router as device_user_router
+
+    app.include_router(device_user_router())
+    app.include_router(object_router())
     app.include_router(router_for("v1.0"))
     app.include_router(router_for("beta"))
     app.include_router(exchange_router)
