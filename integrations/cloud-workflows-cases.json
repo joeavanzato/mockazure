@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "phases": {
+    "A": {
+      "workflows": [
+        {
+          "id": "exchange.unified-audit",
+          "service": "exchange",
+          "operationIds": [
+            "Search-UnifiedAuditLog"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "exact_ids",
+            "paging",
+            "utc_dates",
+            "formatted"
+          ]
+        }
+      ],
+      "notApplicable": {
+        "python": "Exchange cmdlets require the PowerShell module; no Python Exchange SDK is claimed.",
+        "dotnet": "Exchange cmdlets require the PowerShell module; no .NET Exchange SDK is claimed.",
+        "typescript": "Exchange cmdlets require the PowerShell module; no TypeScript Exchange SDK is claimed."
+      }
+    }
+  }
+}

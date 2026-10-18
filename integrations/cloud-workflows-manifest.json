@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "clientManifest": "integrations/manifest.json",
+  "enabledPhases": [
+    "A"
+  ],
+  "clients": {
+    "powershell": {
+      "ExchangeOnlineManagement": "3.11.0"
+    }
+  },
+  "status": "Incremental A1 profile; B-F and the all-phase matrix remain unimplemented."
+}

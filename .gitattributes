@@ -2,3 +2,5 @@
 reference/** -text
 src/mockazure/providers/arm/data/schemas/** -text -whitespace
 src/mockazure/providers/arm/data/role-sources/** -text -whitespace
+src/mockazure/cloud/data/**/*.md -text -whitespace
+src/mockazure/cloud/data/**/LICENSE.* -text -whitespace

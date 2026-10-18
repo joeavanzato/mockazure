@@ -47,6 +47,7 @@ def checked_parameters(name, values):
             invalid("Integer command parameter required")
         elif kind == "string[]" and (
             not isinstance(value, (str, list))
+            or isinstance(value, str) and (len(value) > 320 or "\0" in value)
             or isinstance(value, list)
             and any(not isinstance(v, str) or len(v) > 320 or "\0" in v for v in value)
         ):
@@ -147,6 +148,10 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
     name = canonical[name.lower()]
     parameters = checked_parameters(name, parameters)
 
+    if name == "Search-UnifiedAuditLog":
+        from mockazure.mail.unified_audit import search_unified_audit
+
+        return await search_unified_audit(session, actor, parameters, now)
     if name in {"Get-MessageTraceV2", "Get-MessageTraceDetailV2"}:
         from mockazure.mail.trace import query_trace, query_trace_detail
 

@@ -42,6 +42,21 @@ SWEEP_PARAMETERS = {
     "ExceptIfPinned": "bool",
 }
 PARAMETERS = {
+    "Search-UnifiedAuditLog": {
+        "StartDate": "datetime",
+        "EndDate": "datetime",
+        "Formatted": "switch",
+        "FreeText": "string",
+        "IPAddresses": "string[]",
+        "ObjectIds": "string[]",
+        "Operations": "string[]",
+        "RecordType": "string",
+        "ResultSize": "int",
+        "SessionCommand": "string",
+        "SessionId": "string",
+        "SiteIds": "string[]",
+        "UserIds": "string[]",
+    },
     "Get-OrganizationConfig": {},
     "Get-TransportConfig": {"Identity": "string"},
     "Get-AcceptedDomain": {"Identity": "string", "ResultSize": "string"},
@@ -133,7 +148,7 @@ def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
             f"[{'object' if name in nullable else kind}]\x24{name}"
             for name, kind in parameters.items()
         )
-        writes = not command.startswith("Get-")
+        writes = not command.startswith(("Get-", "Search-"))
         binding = "CmdletBinding(SupportsShouldProcess=\x24true)" if writes else "CmdletBinding()"
         guard = (
             "    if (-not \x24PSCmdlet.ShouldProcess('local mailbox configuration', '"
@@ -143,6 +158,16 @@ def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
             else ""
         )
 
+        date_conversion = (
+            "            if ($value -is [datetime]) { "
+            + (
+                "if ($value.Kind -eq [DateTimeKind]::Unspecified) { "
+                "$value = [datetime]::SpecifyKind($value, [DateTimeKind]::Utc) }; "
+                if command == "Search-UnifiedAuditLog"
+                else ""
+            )
+            + "$value = $value.ToUniversalTime().ToString('o') }\n"
+        )
         recipient_projection = (
             "    foreach ($row in $result.value) {\n"
             "        foreach ($field in @('ForwardTo','RedirectTo','ForwardAsAttachmentTo',"
@@ -168,8 +193,8 @@ def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
             + ")) {\n"
             + "            $value = $entry.Value\n"
             + "            if ($value -is [System.Management.Automation.SwitchParameter]) "
-            "{ $value = [bool]$value }\n" + "            if ($value -is [datetime]) "
-            "{ $value = $value.ToUniversalTime().ToString('o') }\n"
+            "{ $value = [bool]$value }\n"
+            + date_conversion
             + "            $parameters[$entry.Key] = $value\n        }\n    }\n"
             + f"    $body = @{{ CmdletInput = @{{ CmdletName = '{command}'; "
             "Parameters = $parameters } } | ConvertTo-Json -Depth 16\n"

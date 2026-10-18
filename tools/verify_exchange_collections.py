@@ -8,7 +8,7 @@ from tools.verify_default import ROOT
 from tools.verify_default import main as smoke
 
 
-def qualify(directory, command, compose, client, headers, tenant, check):
+def qualify(directory, command, compose, client, headers, tenant, check, *, workflows=False):
     state = directory / "exchange-clients"
     state.mkdir()
     base = "/_mock/tenants/" + tenant["id"]
@@ -124,6 +124,10 @@ def qualify(directory, command, compose, client, headers, tenant, check):
     (state / "client.json").write_text(json.dumps(config))
     (state / "secret.json").write_text(json.dumps({"secret": secret["secret"]}))
     check("exchange_collection_fixture")
+    if workflows:
+        from tools.verify_exchange_workflows import prepare
+
+        prepare(request, base, tenant, state)
     api = command(compose + ["ps", "-q", "api"], capture=True)
     common = [
         "docker",
@@ -208,6 +212,19 @@ def qualify(directory, command, compose, client, headers, tenant, check):
         command(["docker", "exec", api, "python", "-c", probe])
         command(common + ["/project/integrations/powershell/Test-ExchangeCollections.ps1"])
         check("original_exchange_six_collection_commands")
+        if workflows:
+            audit_client = [
+                "TZ=/state/test-timezone" if item == "TZ=UTC" else item for item in common
+            ]
+            command(audit_client + ["/project/integrations/powershell/Test-ExchangeWorkflows.ps1"])
+            workflow_report = json.loads(
+                (state / "exchange-workflow-report.json").read_text(encoding="utf-8-sig")
+            )
+            assert workflow_report["passed"] and workflow_report["records"] == 1101
+            (directory / "exchange-workflow-report.json").write_text(
+                json.dumps(workflow_report, indent=2) + "\n"
+            )
+            check("original_exchange_unified_audit_1101_exact_ids")
         # Original collector sources are verified against the pinned archive before and after.
         import hashlib
         from datetime import datetime

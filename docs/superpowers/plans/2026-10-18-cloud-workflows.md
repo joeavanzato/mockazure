@@ -6,7 +6,7 @@
 **Architecture:** One authoritative PostgreSQL state with focused service modules and service-specific public protocols. Shared transactions, content, current authorization and durable publication connect complete workflows without a generic success stub.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Windows/Docker, official Python/PowerShell/.NET/JavaScript-TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
-**Status:** Written for review on 2026-10-18; implementation has not started.
+**Status:** Approved; native implementation is in progress, beginning with A1. Later phases remain pending until their verification gates pass.
 
 ## Global Constraints
 

@@ -521,3 +521,48 @@ saved delta links across database/API restart. No real tenant is contacted.
 Attachment collection pages additionally cap serialized data at8 MiB, reserving16 KiB
 for the response envelope and continuation. A page can contain fewer attachments than
 `$top`; follow its `@odata.nextLink`. An individual oversized JSON projection returns413.
+
+
+## Exchange unified audit search
+
+`Search-UnifiedAuditLog` reads the same canonical, published audit records used by
+Graph UAL and the Management Activity feed. `Identity` and the serialized
+`AuditData.Id` preserve the source record ID. It supports the bounded parameter
+and output profile in `src/mockazure/cloud/data/exchange/operations.json`.
+That catalog pins Microsoft's actual command documentation and license; verify it
+offline with `python -m tools.acquire_cloud_contracts --service exchange --verify-only`.
+
+StartDate and EndDate are required. Unspecified native PowerShell dates and ISO
+date-only strings mean UTC; explicit offsets are normalized. Equal bounds return
+no records. ResultSize defaults to 100 and accepts 1 through 5,000. Repeat the same
+SessionId and filters until the command returns no records. ReturnNextPreviewPage
+promises chronological order and caps at 5,000; ReturnLargeSet caps at 50,000 and
+does not promise ordering. Mixing session modes caps that session at 10,000.
+Formatted emits a record-type name and indented JSON AuditData. Unsupported options
+fail explicitly rather than silently ignoring them.
+
+Each search snapshot binds the tenant, client, subject, token kind, filters and
+evidence generation. Concurrent calls advance its persisted position atomically.
+Subsequent publication does not change snapshot membership. Current Exchange token
+permission, tenant-wide command authority and audit entitlement are rechecked on
+every page; delegated callers also need Audit Logs or View-Only Audit Logs.
+Mailbox-scoped command grants cannot authorize a tenant-wide audit search.
+
+The following are **local emulator limits**, not Microsoft service guarantees:
+one-hour session lifetime, 32 MiB materialized payload per session, and 1,000
+unexpired sessions per tenant. Filter arrays accept up to 100 entries, each at most
+320 characters; scalar filter values use the same entry bound. Expired/reset sessions return 410; narrowed-query
+guidance accompanies a 413 snapshot limit, and session quota returns 429 with
+Retry-After: 60. Shared maintenance cleanup removes snapshot items within its
+row budget and retains seven-day session tombstones. One-shot searches do not
+retain session state. Portable evidence exports contain the original records,
+not active search handles; restore/reset does not revive old paging authority.
+
+`python -m tools.verify_cloud_workflows --phase A --ecosystems python powershell
+dotnet typescript --report work/cloud/A.json` currently qualifies the A1 audit
+workflow with the original ExchangeOnlineManagement 3.11.0 module and bounded
+server-generated proxies. The other ecosystem cells explicitly say not applicable
+to Exchange cmdlets. This is not qualification of later A tasks or the all-phase
+Graph/Azure matrix. Reports record source identity, client version, local transport
+adaptations and exact-ID/paging/date assertions; missing cells cannot pass.
+The original MES JSON-array concatenation limitation remains unchanged.

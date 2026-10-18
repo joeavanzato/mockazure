@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, 
 
 EXCHANGE_COMMANDS = frozenset(
     {
+        "Search-UnifiedAuditLog",
         "Get-OrganizationConfig",
         "Get-TransportConfig",
         "Get-AcceptedDomain",

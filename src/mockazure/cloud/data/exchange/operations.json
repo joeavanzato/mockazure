@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "operations": [
+    {
+      "operationId": "Search-UnifiedAuditLog",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Search-UnifiedAuditLog",
+      "parameterSets": [
+        {
+          "name": "Default",
+          "required": [
+            "StartDate",
+            "EndDate"
+          ],
+          "parameters": {
+            "StartDate": "datetime",
+            "EndDate": "datetime",
+            "Formatted": "switch",
+            "FreeText": "string",
+            "IPAddresses": "string[]",
+            "ObjectIds": "string[]",
+            "Operations": "string[]",
+            "RecordType": "string",
+            "ResultSize": "int",
+            "SessionCommand": "string",
+            "SessionId": "string",
+            "SiteIds": "string[]",
+            "UserIds": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "UnifiedAuditLogSearchResult",
+        "fields": {
+          "Identity": "string",
+          "CreationDate": "datetime",
+          "RecordType": "integer|string",
+          "UserIds": "string[]",
+          "Operations": "string[]",
+          "AuditData": "JSON string",
+          "ResultIndex": "integer",
+          "ResultCount": "integer",
+          "AuditSearchRequestMetadata": {
+            "moreRecordsAvailable": "boolean"
+          }
+        }
+      },
+      "permissions": {
+        "application": [
+          "Exchange.ManageAsApp",
+          "current tenant-wide Exchange command authority"
+        ],
+        "delegated": [
+          "Exchange.Manage",
+          "current tenant-wide Exchange command authority",
+          "Audit Logs or View-Only Audit Logs"
+        ],
+        "entitlement": "audit_tier standard or premium"
+      },
+      "limits": {
+        "defaultResultSize": 100,
+        "maxResultSize": 5000,
+        "largeSet": 50000,
+        "preview": 5000,
+        "mixedSessionModes": 10000,
+        "localSessionSeconds": 3600,
+        "localSnapshotBytes": 33554432,
+        "localActiveSessionsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Search-UnifiedAuditLog.md",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "23f1537e1c591c1114994484d25e4c684c4f37cb7f97befd1dc79e09c3ad47ed",
+          "localPath": "Search-UnifiedAuditLog.md",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "HighCompleteness preview and undocumented LegacyFlow/LongerRetentionEnabled are rejected.",
+        "Only pinned audit record types are accepted.",
+        "Session expiry, snapshot byte and concurrent-session quotas are explicit local limits.",
+        "Date-only and offset ISO8601 transport timestamps are supported; the PowerShell proxy handles native dates.",
+        "Only preview promises chronological order; local large-set storage order is deterministic.",
+        "The command page does not publish a complete output DTO; listed output fields are a bounded documented profile.",
+        "One-shot ResultSize follows its dedicated parameter contract despite broader ambiguous SessionCommand guidance."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_unified_audit.py",
+        "tests/unit/test_cloud_contracts.py",
+        "tests/unit/test_exchange_proxy_dates.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented",
+      "kind": "exchangeCommand",
+      "statusCodes": [
+        200,
+        400,
+        403,
+        410,
+        413,
+        429
+      ],
+      "headers": {
+        "429": {
+          "Retry-After": "60 (local session quota)"
+        }
+      }
+    }
+  ]
+}
