@@ -242,7 +242,7 @@ async def test_namespace_migration_refuses_lossy_downgrade(database, settings):
                 config.attributes["connection"] = connection
                 command.downgrade(config, "060")
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "061"
+            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "062"
             assert connection.scalar(text("SELECT name FROM storage_namespaces")) == "preserved"
     finally:
         engine.dispose()

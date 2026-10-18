@@ -1,0 +1,2043 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>List Blobs (REST API) - Azure Storage | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="The List Blobs operation returns a list of the blobs under the specified container." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="List Blobs (REST API) - Azure Storage" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs" />
+			<meta property="og:description" content="The List Blobs operation returns a list of the blobs under the specified container." />
+			<meta name="platform_id" content="fe1bed79-d4f8-9e7b-37d2-bef612a121d9" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="seanmcc" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="seanmcc-msft" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2026-07-08T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="406315d3-f58b-286e-4f15-bc58fe096eb5" />
+	
+		<meta name="document_version_independent_id" content="bef469c7-aac0-2c6b-eba7-8a54afa86b1e" />
+	
+		<meta name="updated_at" content="2026-07-23T22:26:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Blobs.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/List-Blobs.md" />
+	
+		<meta name="git_commit_id" content="3c20a0dc9f09889a7964959c2b74751172169bc1" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="6387" />
+	
+		<meta name="asset_id" content="api/storageservices/list-blobs" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/List-Blobs.md" />
+	
+		<meta name="previous_tlsh_hash" content="CC79EF13960CCB24FF926D053D56AA1B9CF0C4599AB06D88153A75D4764E2E675B5668D6EB937F8833324382019EBD0EE3C4FB3CE53833E65164E48C804C764BDA8E3BB6D5" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/List-Blobs.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/List-Blobs.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Blobs.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/List-Blobs.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="list-blobs">List Blobs</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>The <code>List Blobs</code> operation returns a list of the blobs under the specified container.</p>
+<h2 id="request">Request</h2>
+<p>You can construct the <code>List Blobs</code> request as follows. HTTPS is recommended. Replace <em>myaccount</em> with the name of your storage account.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>https://myaccount.blob.core.windows.net/mycontainer?restype=container&amp;comp=list</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="emulated-storage-service-uri">Emulated storage service URI</h3>
+<p>When you make a request against the emulated storage service, specify the emulator hostname and Azure Blob Storage port as <code>127.0.0.1:10000</code>, followed by the emulated storage account name.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>http://127.0.0.1:10000/devstoreaccount1/mycontainer?restype=container&amp;comp=list</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<p>For more information, see <a href="/en-us/azure/storage/common/storage-use-azurite" data-linktype="absolute-path">Use Azurite emulator for local Azure Storage development</a>.</p>
+<h3 id="uri-parameters">URI parameters</h3>
+<p>You can specify the following additional parameters on the URI.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prefix</code></td>
+<td>Optional. Filters the results to return only blobs with names that begin with the specified prefix. In accounts that have a hierarchical namespace, an error will occur in cases where the name of a file appears in the middle of the prefix path. For example, you might attempt to find blobs that are named <code>readmefile.txt</code> by using the prefix path <code>folder1/folder2/readme/readmefile.txt</code>. An error will appear if any subfolder contains a file named <code>readme</code>.</td>
+</tr>
+<tr>
+<td><code>delimiter</code></td>
+<td>Optional. When the request includes this parameter, the operation returns a <code>BlobPrefix</code> element in the response body. This element acts as a placeholder for all blobs with names that begin with the same substring, up to the appearance of the delimiter character. The delimiter can be a single character or a string.</td>
+</tr>
+<tr>
+<td><code>marker</code></td>
+<td>Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. You can then use the marker value in a subsequent call to request the next set of list items.<br><br> The marker value is opaque to the client.</td>
+</tr>
+<tr>
+<td><code>maxresults</code></td>
+<td>Optional. Specifies the maximum number of blobs to return, including all <code>BlobPrefix</code> elements. If the request doesn't specify <code>maxresults</code>, or specifies a value greater than 5,000, the server will return up to 5,000 items. If there are additional results to return, the service returns a continuation token in the <code>NextMarker</code> response element. In certain cases, the service might return fewer results than specified by <code>maxresults</code>, and also return a continuation token.<br><br> Setting <code>maxresults</code> to a value less than or equal to zero results in error response code 400 (Bad Request).</td>
+</tr>
+<tr>
+<td><code>include={snapshots,metadata,uncommittedblobs,copy,deleted,tags,versions,</code><br><code>deletedwithversions,immutabilitypolicy,legalhold,permissions}</code></td>
+<td>Optional. Specifies one or more datasets to include in the response:<br><br> -   <code>snapshots</code>: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br>-   <code>metadata</code>: Specifies that blob metadata be returned in the response.<br>-   <code>uncommittedblobs</code>: Specifies that blobs for which blocks have been uploaded, but which haven't been committed by using <a href="put-block-list" data-linktype="relative-path">Put Block List</a>, be included in the response.<br>-   <code>copy</code>: Version 2012-02-12 and later. Specifies that metadata related to any current or previous <code>Copy Blob</code> operation should be included in the response.<br>-<code>deleted</code>: Version 2017-07-29 and later. Specifies that soft-deleted blobs should be included in the response. <br>-<code>tags</code>: Version 2019-12-12 and later. Specifies that user-defined, blob index tags should be included in the response. <br>-<code>versions</code>: Version 2019-12-12 and later. Specifies that versions of blobs should be included in the enumeration.<br>-<code>deletedwithversions</code>: Version 2020-10-02 and later. Specifies that deleted blobs with any versions (active or deleted) should be included in the response. Items that you've permanently deleted appear in the response until they are processed by garbage collection. Use the tag <code>\&lt;HasVersionsOnly\&gt;</code>, and the value <code>true</code>. <br>-<code>immutabilitypolicy</code>: Version 2020-06-12 and later. Specifies that the enumeration should include the immutability policy until date, and the immutability policy mode of the blobs.<br>-<code>legalhold</code>: Version 2020-06-12 and later. Specifies that the enumeration should include the legal hold of blobs.<br>-<code>permissions</code>: Version 2020-06-12 and later. Supported only for accounts with a hierarchical namespace enabled. If a request includes this parameter, then the owner, group, permissions, and access control list for the listed blobs or directories will be included in the enumeration. <br><br> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").</td>
+</tr>
+<tr>
+<td><code>showonly={deleted,files,directories}</code></td>
+<td>Optional. Specifies one of these datasets to be returned in the response:<br><br>-<code>deleted</code>: Optional. Version 2020-08-04 and later. Only for accounts enabled with hierarchical namespace. When a request includes this parameter, the list only contains soft-deleted blobs. Note that POSIX ACL authorization fallback is not supported for listing soft deleted blobs. If <code>include=deleted</code> is also specified, the request fails with Bad Request (400).<br>-<code>files</code>: Optional. Version 2020-12-06 and later. Only for accounts enabled with hierarchical namespace. When a request includes this parameter, the list only contains files. <br>-<code>directories</code>: Optional. Version 2020-12-06 and later. Only for accounts enabled with hierarchical namespace. When a request includes this parameter, the list only contains directories.</td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>Optional. The <code>timeout</code> parameter is expressed in seconds. For more information, see <a href="setting-timeouts-for-blob-service-operations" data-linktype="relative-path">Setting timeouts for Blob Storage operations</a>.</td>
+</tr>
+<tr>
+<td><code>startFrom</code></td>
+<td>Optional. Version 2023-05-03 and newer. The <code>startFrom</code> parameter specifies a fully qualified path within the container, similar to how the prefix parameter is used to list blobs starting from a defined location within prefix’s specified range. For example, listing under prefix folder1/folder2 with startFrom as folder1/folder2/folder3/readmefile.txt will start listing from folder1/folder2/folder3/readmefile.txt.</td>
+</tr>
+<tr>
+<td><code>endBefore</code></td>
+<td>Optional. Version 2026-06-06 and later. Currently supported only for <a href="#response-body-apache-arrow" data-linktype="self-bookmark">Apache Arrow</a> listings. The <code>endBefore</code> parameter specifies a fully qualified path within the container, and ends the listing when all results that precede <code>endBefore</code> have been returned. Results are exclusive of <code>endBefore</code>. You can combine <code>endBefore</code> with <code>startFrom</code> to return a range of blobs. For more information, see <a href="#list-a-range-of-blobs" data-linktype="self-bookmark">List a range of blobs</a>.</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<p>Note</p>
+<p>The <code>endBefore</code> parameter is currently in public preview.</p>
+</div>
+<h3 id="request-headers">Request headers</h3>
+<p>The following table describes required and optional request headers.</p>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Accept</code></td>
+<td>Optional. Version 2026-06-06 and later. Specifies the format of the response payload. If not specified, the response body will be returned in XML.  Supported values are:<br>- <code>application/xml</code><br>- <code>application/vnd.apache.arrow.stream</code> (versions after 2026-06-06 only)</td>
+</tr>
+<tr>
+<td><code>Authorization</code></td>
+<td>Required. Specifies the authorization scheme, account name, and signature. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>Date</code> or <code>x-ms-date</code></td>
+<td>Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Required for all authorized requests, and optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for the Azure Storage services</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see <a href="/en-us/azure/storage/blobs/monitor-blob-storage" data-linktype="absolute-path">Monitor Azure Blob Storage</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-upn</code></td>
+<td>Optional. Valid only when a hierarchical namespace is enabled for the account, and <code>include=permissions</code> is provided in the request. If <code>true</code>, the user identity values returned in the &lt;Owner&gt;, &lt;Group&gt;, and &lt;Acl&gt; fields are transformed from Microsoft Entra object IDs to user principal names. If <code>false</code>, the values are returned as Microsoft Entra object IDs. The default value is <code>false</code>. Note that group and application object IDs aren't translated because they don't have unique friendly names.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body">Request body</h3>
+<p>None.</p>
+<h3 id="sample-request">Sample request</h3>
+<p>See <a href="enumerating-blob-resources" data-linktype="relative-path">Enumerating blob resources</a> for a sample request.</p>
+<h2 id="response"> Response</h2>
+<p>The response includes an HTTP status code, a set of response headers, and a response body. By default, the response body is in XML format.</p>
+<p>Beginning with version 2026-06-06, you can request <a href="#response-body-apache-arrow" data-linktype="self-bookmark">Apache Arrow</a> instead by using the <code>Accept</code> request header. In certain edge cases, the Storage service may fall back and return XML even if Arrow was explicitly requested. The <code>Content-Type</code> response header is the source of truth for responses.</p>
+<h3 id="status-code">Status code</h3>
+<p>A successful operation returns status code 200 (OK). For information about status codes, see <a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a>.</p>
+<h3 id="response-headers">Response headers</h3>
+<p>The response for this operation includes the following headers. The response can also include additional, standard HTTP headers. All standard headers conform to the <a href="https://go.microsoft.com/fwlink/?linkid=150478" data-linktype="external">HTTP/1.1 protocol specification</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Response header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Content-Type</code></td>
+<td>Specifies the format in which the results are returned. This value is <code>application/xml</code> for an XML response, or <code>application/vnd.apache.arrow.stream</code> for an <a href="#response-body-apache-arrow" data-linktype="self-bookmark">Apache Arrow</a> response.</td>
+</tr>
+<tr>
+<td><code>x-ms-request-id</code></td>
+<td>This header uniquely identifies the request that was made, and can be used for troubleshooting the request. For more information, see <a href="troubleshooting-api-operations" data-linktype="relative-path">Troubleshooting API operations</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Indicates the version of Blob Storage used to run the request. This header is returned for requests made by using version 2009-09-19 and later.<br><br> This header is also returned for anonymous requests, without a version specified, if the container was marked for public access by using the 2009-09-19 version of Blob Storage.</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>A UTC date/time value that indicates the time at which the response was initiated. The service generates this value.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the <code>x-ms-client-request-id</code> header, if it's present in the request. The value is at most 1024 visible ASCII characters. If the <code>x-ms-client-request-id</code> header isn't present in the request, this header won't be present in the response.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response-body-xml">Response body (XML)</h3>
+<p>The format of the response body depends on the <code>Accept</code> request header. By default, or when the <code>Accept</code> header is set to <code>application/xml</code>, the response body is in XML format, which is described in the rest of this section. Beginning with version 2026-06-06, when the <code>Accept</code> header is set to <code>application/vnd.apache.arrow.stream</code>, the response body is in the <a href="https://arrow.apache.org/" data-linktype="external">Apache Arrow</a> streaming format instead. For more information, see <a href="#response-body-apache-arrow" data-linktype="self-bookmark">Response body (Apache Arrow)</a>.</p>
+<p>The format of the XML response is as follows.</p>
+<p>Note that the <code>Prefix</code>, <code>Marker</code>, <code>MaxResults</code>, and <code>Delimiter</code> elements are present only if they were specified on the request URI. If <code>NextMarker</code> is empty, then the list results are complete. If the <code>NextMarker</code> is <em>not</em> empty, the list results may or may not be complete.  If you want to list all blobs, continue to call <code>List Blobs</code> with subsequent marker values until <code>NextMarker</code> is empty.</p>
+<p>Snapshots, blob metadata, and uncommitted blobs are included in the response only if they are specified with the <code>include</code> parameter on the request URI.</p>
+<p>In version 2009-09-19 and later, the blob's properties are encapsulated within a <code>Properties</code> element.</p>
+<p>Beginning with version 2009-09-19, <code>List Blobs</code> returns the following renamed elements in the response body:</p>
+<ul>
+<li><p><code>Last-Modified</code> (previously <code>LastModified</code>)</p>
+</li>
+<li><p><code>Content-Length</code> (previously <code>Size</code>)</p>
+</li>
+<li><p><code>Content-Type</code> (previously <code>ContentType</code>)</p>
+</li>
+<li><p><code>Content-Encoding</code> (previously <code>ContentEncoding</code>)</p>
+</li>
+<li><p><code>Content-Language</code> (previously <code>ContentLanguage</code>)</p>
+</li>
+</ul>
+<p>The <code>Content-MD5</code> element appears for blobs created with version 2009-09-19 and later. In version 2012-02-12 and later, Blob Storage calculates the <code>Content-MD5</code> value when you upload a blob by using <a href="put-blob" data-linktype="relative-path">Put Blob</a>. Blob Storage doesn't calculate this when you create a blob by using <a href="put-block-list" data-linktype="relative-path">Put Block List</a>. You can explicitly set the <code>Content-MD5</code> value when you create the blob, or by calling the <a href="put-block-list" data-linktype="relative-path">Put Block List</a> or <a href="set-blob-properties" data-linktype="relative-path">Set Blob Properties</a> operations.</p>
+<p>For versions from 2009-09-19 and later, but prior to version 2015-02-21, you can't call <code>List Blobs</code> on a container that includes append blobs. The service returns status code 409 (Conflict) if the result of the listing contains an append blob.</p>
+<p><code>LeaseState</code> and <code>LeaseDuration</code> appear only in version 2012-02-12 and later.</p>
+<p><code>CopyId</code>, <code>CopyStatus</code>, <code>CopySource</code>, <code>CopyProgress</code>, <code>CopyCompletionTime</code>, and <code>CopyStatusDescription</code> only appear in version 2012-02-12 and later, when this operation includes the <code>include={copy}</code> parameter. These elements don't appear if this blob has never been the destination in a <code>Copy Blob</code> operation. The elements don't appear if this blob has been modified after a concluded <code>Copy Blob</code> operation, by using <code>Set Blob Properties</code>, <code>Put Blob</code>, or <code>Put Block List</code>. These elements also don't appear with a blob created by <a href="copy-blob" data-linktype="relative-path">Copy Blob</a>, before version 2012-02-12.</p>
+<p>In version 2013-08-15 and later, the <code>EnumerationResults</code> element contains a <code>ServiceEndpoint</code> attribute that specifies the blob endpoint. This element also contains a <code>ContainerName</code> field that specifies the name of the container. In previous versions, these two attributes were combined together in the <code>ContainerName</code> field. Also in version 2013-08-15 and later, the <code>Url</code> element under <code>Blob</code> has been removed.</p>
+<p>For version 2015-02-21 and later, <code>List Blobs</code> returns blobs of all types (block, page, and append blobs).</p>
+<p>For version 2015-12-11 and later, <code>List Blobs</code> returns the <code>ServerEncrypted</code> element. This element is set to <code>true</code> if the blob and application metadata are completely encrypted, and <code>false</code> otherwise.</p>
+<p>For version 2016-05-31 and later, <code>List Blobs</code> returns the <code>IncrementalCopy</code> element for incremental copy blobs and snapshots, with the value set to <code>true</code>.</p>
+<p>For version 2017-04-17 and later, <code>List Blobs</code> returns the <code>AccessTier</code> element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see <a href="/en-us/azure/virtual-machines/windows/disks-types#premium-ssd" data-linktype="absolute-path">High-performance premium storage and managed disks for VMs</a>. For Blob Storage or general-purpose v2 accounts, valid values are <code>Hot</code>, <code>Cool</code>, <code>Cold</code>, <code>Smart</code>, and <code>Archive</code>. If the blob is in the rehydrate pending state, then <code>ArchiveStatus</code> element is returned with one of the valid values (<code>rehydrate-pending-to-hot</code>, <code>rehydrate-pending-to-cool</code>, or <code>rehydrate-pending-to-cold</code>). For detailed information about block blob tiering see <a href="/en-us/azure/storage/storage-blob-storage-tiers" data-linktype="absolute-path">Blob storage tiers</a>.</p>
+<p>For version 2017-04-17 and later, <code>List Blobs</code> returns the <code>AccessTierInferred</code> element on Blob Storage or general-purpose v2 accounts. If the block blob doesn't have the access tier set, tier information is inferred from storage account properties, and this value is set to <code>true</code>. This header is present only if the tier is inferred from the account property.</p>
+<p>For version 2017-04-17 and later, <code>List Blobs</code> returns the <code>AccessTierChangeTime</code> element on Blob Storage or general-purpose v2 accounts. This is returned only if the tier on block blob was ever set. For more information, see <a href="representation-of-date-time-values-in-headers" data-linktype="relative-path">Representation of date-time values in headers</a>.</p>
+<p>For version 2017-07-29 and later, <code>Deleted</code>, <code>DeletedTime</code>, and <code>RemainingRetentionDays</code> appear when this operation includes the <code>include={deleted}</code> parameter. These elements don't appear if this blob wasn't deleted. These elements appear for blobs or snapshots that are deleted with the <code>DELETE</code> operation, when the soft-delete feature was enabled. The <code>Deleted</code> element is set to <code>true</code> for blobs and snapshots that are soft-deleted. <code>Deleted-Time</code> corresponds to the time when the blob was deleted. <code>RemainingRetentionDays</code> indicates the number of days after which a soft-deleted blob is permanently deleted.</p>
+<p>For version 2017-11-09 and later, <code>Creation-Time</code> returns the time at which this blob was created.</p>
+<p>For version 2019-02-02 and later, <code>List Blobs</code> returns the <code>CustomerProvidedKeySha256</code> element if the blob is encrypted with a customer-provided key. The value will be set to the SHA-256 hash of the key used to encrypt the blob. Additionally, if the operation includes the <code>include={metadata}</code> parameter, and there is application metadata present on a blob encrypted with a customer-provided key, the <code>Metadata</code> element will have an <code>Encrypted="true"</code> attribute. This attribute indicates that the blob has metadata that can't be decrypted as part of the <code>List Blobs</code> operation. To access the metadata for these blobs, call <a href="get-blob-properties" data-linktype="relative-path">Get Blob Properties</a> or <a href="get-blob-metadata" data-linktype="relative-path">Get Blob Metadata</a> with the customer-provided key.</p>
+<p>For version 2019-02-02 and later, <code>List Blobs</code> returns the <code>EncryptionScope</code> element if the blob is encrypted with an encryption scope. The value will be set to the name of the encryption scope used to encrypt the blob. If the operation includes the <code>include={metadata}</code> parameter, application metadata on the blob is transparently decrypted, and available in the <code>Metadata</code> element.</p>
+<p>For version 2019-12-12 and later, <code>List Blobs</code> returns the <code>RehydratePriority</code> element on Blob Storage or general-purpose v2 accounts, if the object is in the <code>rehydrate pending</code> state. Valid values are <code>High</code> and <code>Standard</code>.</p>
+<p>For version 2019-12-12 and later, <code>List Blobs</code> returns the <code>VersionId</code> element for blobs and generated blob versions, when versioning is enabled on the account.</p>
+<p>For version 2019-12-12 and later, <code>List Blobs</code> returns the <code>IsCurrentVersion</code> element for the current version of the blob. The value is set to <code>true</code>. This element enables you to differentiate the current version from the read-only, automatically generated versions.</p>
+<p>For version 2019-12-12 and later, <code>List Blobs</code> returns the <code>TagCount</code> element for blobs with any tags. The <code>Tags</code> element appears only when this operation includes the <code>include={tags}</code> parameter. These elements don't appear if there are no tags on the blob.</p>
+<p>For version 2019-12-12 and later, <code>List Blobs</code> returns the <code>Sealed</code> element for append blobs. The <code>Sealed</code> element appears only when the append blob has been sealed. These elements don't appear if the append blob isn't sealed.</p>
+<p>For version 2020-02-10 and later, <code>List Blobs</code> returns the <code>LastAccessTime</code> element. The element shows when the blob's data was last accessed, according to the storage account's last access time tracking policy. The element isn't returned if the storage account doesn't have this policy, or the policy is disabled. For information about setting the account's last access time tracking policy, see the <a href="/en-us/rest/api/storagerp/blobservices/setserviceproperties" data-linktype="absolute-path">Blob Service API</a>. The <code>LastAccessTime</code> element doesn't track the last time when the blob's metadata is accessed.</p>
+<p>For version 2020-06-12 and later, <code>List Blobs</code> returns the <code>ImmutabilityPolicyUntilDate</code> and <code>ImmutabilityPolicyMode</code> elements, when this operation includes the <code>include={immutabilitypolicy}</code> parameter.</p>
+<p>For version 2020-06-12 and later, <code>List Blobs</code> returns the <code>LegalHold</code> element, when this operation includes the <code>include={legalhold}</code> parameter.</p>
+<p>For version 2020-06-12 and later, for accounts with a hierarchical namespace enabled, <code>List Blobs</code> returns the <code>Owner</code>, <code>Group</code>, <code>Permissions</code>, and <code>Acl</code> elements. The request must contain the <code>include={permissions}</code> parameter. Note that the <code>Acl</code> element is a combined list of access and default access control lists that were set on the file or directory.</p>
+<p>For version 2020-06-12 and later, for accounts with a hierarchical namespace enabled, <code>List Blobs</code> with a delimiter returns the <code>Properties</code> element in the <code>BlobPrefix</code> element. This corresponds with the properties on the directory.</p>
+<p>For version 2020-08-04 and later, for accounts with a hierarchical namespace enabled, <code>List Blobs</code> returns the <code>DeletionId</code> element for deleted blobs. <code>DeletionId</code> is an unsigned, 64-bit identifier. The element uniquely identifies a soft-deleted path, to distinguish it from other deleted blobs with the same path.</p>
+<p>For version 2020-10-02 and later, for accounts with a hierarchical namespace enabled, <code>List Blobs</code> returns the <code>ResourceType</code> property element for the path. This can be either <code>file</code> or <code>directory</code>.</p>
+<p>For version 2021-02-12 and later, <code>List Blobs</code> will percent-encode (per RFC 2396) all <code>Blob</code> <code>Name</code> or <code>BlobPrefix</code> <code>Name</code> element values. Specifically, it will do so for those values that contain characters that aren't valid in XML (U+FFFE or U+FFFF). If encoded, the <code>Name</code> element will include an <code>Encoded=true</code> attribute. Note that this only occurs for the <code>Name</code> element values containing the characters invalid in XML, not the remaining <code>Name</code> elements in the response.</p>
+<p>For version 2021-06-08 and later, for accounts with a hierarchical namespace enabled, <code>List Blobs</code> returns the <code>Placeholder</code> properties element. It returns this element in the <code>BlobPrefix</code> element for placeholder directories, when listing deleted blobs with a delimiter. These placeholder directories exist to facilitate navigation to soft-deleted blobs.</p>
+<p>For version 2021-06-08 and later, for accounts with a hierarchical namespace enabled, <code>List Blobs</code> returns the <code>EncryptionContext</code> element. If the encryption context property value is set it will return the set value.</p>
+<p>For version  2020-02-10 and later, for accounts with a hierarchical namespace enabled, <code>List Blobs</code> returns the <code>Expiry-Time</code> element for deleted blobs. <code>Expiry-Time</code> is the time when the file will expire, and is returned for the file if the expiry is set on the same.</p>
+<p>For version  2026-02-06 and later, <code>List Blobs</code> returns the <code>SmartAccessTier</code> element for blobs in <code>Smart</code> tier. <code>SmartAccessTier</code> is the current billing tier of a blob in the <code>Smart</code> tier. Valid values are <code>Hot</code>, <code>Cool</code>, and <code>Cold</code>. For detailed information about block blob tiering see <a href="/en-us/azure/storage/storage-blob-storage-tiers" data-linktype="absolute-path">Blob storage tiers</a>.</p>
+<blockquote>
+<p>Note: <code>Smart</code> tier is currently in public preview.</p>
+</blockquote>
+<pre><code class="lang-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;  
+&lt;EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer"&gt;  
+  &lt;Prefix&gt;string-value&lt;/Prefix&gt;  
+  &lt;Marker&gt;string-value&lt;/Marker&gt;  
+  &lt;MaxResults&gt;int-value&lt;/MaxResults&gt;  
+  &lt;Delimiter&gt;string-value&lt;/Delimiter&gt;  
+  &lt;Blobs&gt;  
+    &lt;Blob&gt;  
+      &lt;Name&gt;blob-name&lt;/Name&gt;  
+      &lt;Snapshot&gt;date-time-value&lt;/Snapshot&gt;  
+      &lt;VersionId&gt;date-time-vlue&lt;/VersionId&gt;
+      &lt;IsCurrentVersion&gt;true&lt;/IsCurrentVersion&gt;
+      &lt;Deleted&gt;true&lt;/Deleted&gt;
+      &lt;Properties&gt; 
+        &lt;Creation-Time&gt;date-time-value&lt;/Creation-Time&gt;
+        &lt;Last-Modified&gt;date-time-value&lt;/Last-Modified&gt;  
+        &lt;Etag&gt;etag&lt;/Etag&gt;
+        &lt;Owner&gt;owner user id&lt;/Owner&gt;
+        &lt;Group&gt;owning group id&lt;/Group&gt;
+        &lt;Permissions&gt;permission string&lt;/Permissions&gt;
+        &lt;Acl&gt;access control list&lt;/Acl&gt;
+        &lt;ResourceType&gt;file | directory&lt;/ResourceType&gt;
+        &lt;Placeholder&gt;true&lt;/Placeholder&gt;
+        &lt;Content-Length&gt;size-in-bytes&lt;/Content-Length&gt;  
+        &lt;Content-Type&gt;blob-content-type&lt;/Content-Type&gt;  
+        &lt;Content-Encoding /&gt;  
+        &lt;Content-Language /&gt;  
+        &lt;Content-MD5 /&gt;  
+        &lt;Cache-Control /&gt;  
+        &lt;x-ms-blob-sequence-number&gt;sequence-number&lt;/x-ms-blob-sequence-number&gt;  
+        &lt;BlobType&gt;BlockBlob|PageBlob|AppendBlob&lt;/BlobType&gt;  
+        &lt;AccessTier&gt;tier&lt;/AccessTier&gt;  
+        &lt;LeaseStatus&gt;locked|unlocked&lt;/LeaseStatus&gt;  
+        &lt;LeaseState&gt;available | leased | expired | breaking | broken&lt;/LeaseState&gt;  
+        &lt;LeaseDuration&gt;infinite | fixed&lt;/LeaseDuration&gt;  
+        &lt;CopyId&gt;id&lt;/CopyId&gt;  
+        &lt;CopyStatus&gt;pending | success | aborted | failed &lt;/CopyStatus&gt;  
+        &lt;CopySource&gt;source url&lt;/CopySource&gt;  
+        &lt;CopyProgress&gt;bytes copied/bytes total&lt;/CopyProgress&gt;  
+        &lt;CopyCompletionTime&gt;datetime&lt;/CopyCompletionTime&gt;  
+        &lt;CopyStatusDescription&gt;error string&lt;/CopyStatusDescription&gt;  
+        &lt;ServerEncrypted&gt;true&lt;/ServerEncrypted&gt; 
+        &lt;CustomerProvidedKeySha256&gt;encryption-key-sha256&lt;/CustomerProvidedKeySha256&gt;
+        &lt;EncryptionContext&gt;encryption-context&lt;/EncryptionContext&gt;
+        &lt;EncryptionScope&gt;encryption-scope-name&lt;/EncryptionScope&gt;
+        &lt;IncrementalCopy&gt;true&lt;/IncrementalCopy&gt;
+        &lt;AccessTierInferred&gt;true&lt;/AccessTierInferred&gt;
+        &lt;AccessTierChangeTime&gt;datetime&lt;/AccessTierChangeTime&gt;
+        &lt;DeletedTime&gt;datetime&lt;/DeletedTime&gt;
+        &lt;RemainingRetentionDays&gt;no-of-days&lt;/RemainingRetentionDays&gt;
+        &lt;TagCount&gt;number of tags between 1 to 10&lt;/TagCount&gt;
+        &lt;RehydratePriority&gt;rehydrate priority&lt;/RehydratePriority&gt;
+        &lt;Expiry-Time&gt;date-time-value&lt;/Expiry-Time&gt;
+        &lt;SmartAccessTier&gt;tier&lt;/SmartAccessTier&gt;  
+      &lt;/Properties&gt;  
+      &lt;Metadata&gt;     
+        &lt;Name&gt;value&lt;/Name&gt;  
+      &lt;/Metadata&gt;  
+      &lt;Tags&gt;
+          &lt;TagSet&gt;
+              &lt;Tag&gt;
+                  &lt;Key&gt;TagName&lt;/Key&gt;
+                  &lt;Value&gt;TagValue&lt;/Value&gt;
+              &lt;/Tag&gt;
+          &lt;/TagSet&gt;
+      &lt;/Tags&gt;
+      &lt;OrMetadata /&gt;
+    &lt;/Blob&gt;  
+    &lt;BlobPrefix&gt;  
+      &lt;Name&gt;blob-prefix&lt;/Name&gt;  
+    &lt;/BlobPrefix&gt;  
+  &lt;/Blobs&gt;  
+  &lt;NextMarker /&gt;  
+&lt;/EnumerationResults&gt;  
+</code></pre>
+<h3 id="response-body-apache-arrow">Response body (Apache Arrow)</h3>
+<p>Beginning with version 2026-06-06, the <code>List Blobs</code> operation can return results in the <a href="https://arrow.apache.org/" data-linktype="external">Apache Arrow</a> streaming format.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>Apache Arrow support for <code>List Blobs</code> is currently in public preview.</p>
+</div>
+<p>To work with Arrow responses, install the Apache Arrow library for your preferred language. For installation instructions, see the Apache Arrow <a href="https://arrow.apache.org/install/" data-linktype="external">installation guide</a>. Azure Storage uses Arrow IPC metadata version V5 (Arrow 1.0.0 and later) and format version 1.0. The minimum library version required depends on your language.</p>
+<p>The Apache Arrow response format supports the same authorization methods as the XML format.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The Apache Arrow response format isn't supported for accounts that have a hierarchical namespace enabled. If an Arrow response is requested for an account that has a hierarchical namespace enabled, the service returns error 409 (Conflict).</p>
+</div>
+<h4 id="specify-the-response-format">Specify the response format</h4>
+<p>To control the format of the response body, set the <code>Accept</code> request header. To request the Apache Arrow format, you must also set the <code>x-ms-version</code> header to 2026-06-06 or later. The following table describes the values to use:</p>
+<table>
+<thead>
+<tr>
+<th>Response format</th>
+<th><code>Accept</code> header value</th>
+<th>Response <code>Content-Type</code></th>
+<th>Minimum version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XML (default)</td>
+<td><code>application/xml</code>, or omitted</td>
+<td><code>application/xml</code></td>
+<td>All versions</td>
+</tr>
+<tr>
+<td>Apache Arrow</td>
+<td><code>application/vnd.apache.arrow.stream</code></td>
+<td><code>application/vnd.apache.arrow.stream</code></td>
+<td>2026-06-06</td>
+</tr>
+</tbody>
+</table>
+<p>Note that if the request results in an error, the response is returned in XML format, as described in <a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a>, even when the Arrow <code>Accept</code> header is provided. Clients should be able to handle either an XML or Arrow response when requesting the Arrow format by checking the <code>Content-Type</code> response header.</p>
+<h4 id="arrow-response-schema">Arrow response schema</h4>
+<p>An Arrow response is composed of one or more record batches. Each record batch can contain the following fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Data type</th>
+<th>Nullable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Name</code></td>
+<td><code>utf8</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Creation-Time</code></td>
+<td><code>timestamp</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Last-Modified</code></td>
+<td><code>timestamp</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>BlobType</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ResourceType</code></td>
+<td><code>utf8</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Etag</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Content-Length</code></td>
+<td><code>uint64</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Content-Encoding</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Content-Language</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Content-CRC64</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Content-MD5</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Content-Disposition</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Cache-Control</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>x-ms-blob-sequence-number</code></td>
+<td><code>uint64</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>AccessTier</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>AccessTierInferred</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>AccessTierChangeTime</code></td>
+<td><code>timestamp</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>SmartAccessTier</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>LeaseState</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>LeaseStatus</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>LeaseDuration</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>IncrementalCopy</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ServerEncrypted</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CustomerProvidedKeySha256</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>EncryptionScope</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>RehydratePriority</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Sealed</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ArchiveStatus</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CopyId</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CopyStatus</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CopySource</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CopyProgress</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CopyCompletionTime</code></td>
+<td><code>timestamp</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CopyStatusDescription</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CopyDestinationSnapshot</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ImmutabilityPolicyUntilDate</code></td>
+<td><code>timestamp</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ImmutabilityPolicyMode</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>VersionId</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>IsCurrentVersion</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Snapshot</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>LegalHold</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Deleted</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>HasVersionsOnly</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>DeletedTime</code></td>
+<td><code>timestamp</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>RemainingRetentionDays</code></td>
+<td><code>uint64</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>LastAccessTime</code></td>
+<td><code>timestamp</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Tags</code></td>
+<td><code>map&lt;utf8, utf8&gt;</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>OrMetadata</code></td>
+<td><code>map&lt;utf8, utf8&gt;</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>OrsPolicySourceBlob</code></td>
+<td><code>utf8</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>TagCount</code></td>
+<td><code>uint64</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Metadata</code></td>
+<td><code>map&lt;utf8, utf8&gt;</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Encrypted</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>The following fields are included in the response schema metadata:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Data type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NumberOfRecords</code></td>
+<td>String</td>
+<td>The total number of rows in the response.</td>
+</tr>
+<tr>
+<td><code>NextMarker</code></td>
+<td>String</td>
+<td>An identifier for the portion of the list to be returned with the next list operation. The operation returns a non-empty marker value if the list returned wasn't complete. You can then use the marker value in a subsequent call to request the next set of list items, until the returned marker is empty, indicating the end of the enumeration. The marker value is opaque to the client.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>ResourceType</code> field indicates the kind of item in each record: <code>blob</code> for a blob, or <code>blobprefix</code> for a blob prefix.</p>
+<p>Empty fields are represented by a null value. When all values for a field are null, the field is omitted from the record batch. Empty list results contain a single empty record batch.</p>
+<p>When a blob is encrypted with a customer-provided key and has application metadata, the <code>Encrypted</code> field is set to <code>true</code> and the metadata is null. This behavior is analogous to the <code>Encrypted</code> attribute that's set on the <code>Metadata</code> field for XML responses. To access the metadata for these blobs, call <a href="get-blob-properties" data-linktype="relative-path">Get Blob Properties</a> or <a href="get-blob-metadata" data-linktype="relative-path">Get Blob Metadata</a>.</p>
+<p>The continuation token (<code>NextMarker</code>) currently uses the same format for XML and Arrow responses, but this is subject to change. We don't recommend switching between the XML and Arrow formats while continuing a listing with a marker.</p>
+<h3 id="sample-response">Sample response</h3>
+<p>See <a href="enumerating-blob-resources" data-linktype="relative-path">Enumerating blob resources</a> for sample XML and Apache Arrow responses.</p>
+<h2 id="authorization">Authorization</h2>
+<p>Authorization is required when calling any data access operation in Azure Storage. You can authorize the <code>List Blobs</code> operation as described below.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Microsoft recommends using Microsoft Entra ID with managed identities to authorize requests to Azure Storage. Microsoft Entra ID provides superior security and ease of use compared to Shared Key authorization.</p>
+</div>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_microsoft-entra-id" role="tab" aria-controls="tabpanel_1_microsoft-entra-id" data-tab="microsoft-entra-id" tabindex="0" aria-selected="true" data-linktype="self-bookmark">Microsoft Entra ID (recommended)</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_shared-access-signatures" role="tab" aria-controls="tabpanel_1_shared-access-signatures" data-tab="shared-access-signatures" tabindex="-1" data-linktype="self-bookmark">Shared access signatures (SAS)</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_shared-key" role="tab" aria-controls="tabpanel_1_shared-key" data-tab="shared-key" tabindex="-1" data-linktype="self-bookmark">Shared key</a>
+</li>
+</ul>
+<section id="tabpanel_1_microsoft-entra-id" role="tabpanel" data-tab="microsoft-entra-id">
+
+<p>Azure Storage supports using Microsoft Entra ID to authorize requests to blob data. With Microsoft Entra ID, you can use Azure role-based access control (Azure RBAC) to grant permissions to a security principal. The security principal may be a user, group, application service principal, or Azure managed identity. The security principal is authenticated by Microsoft Entra ID to return an OAuth 2.0 token. The token can then be used to authorize a request against the Blob service.</p>
+<p>To learn more about authorization using Microsoft Entra ID, see <a href="authorize-with-azure-active-directory" data-linktype="relative-path">Authorize access to blobs using Microsoft Entra ID</a>.</p>
+<h3 id="permissions">Permissions</h3>
+<p>Listed below are the RBAC action necessary for a Microsoft Entra user, group, managed identity, or service principal to call the <code>List Blobs</code> operation, and the least privileged built-in Azure RBAC role that includes this action:</p>
+<ul>
+<li><strong>Azure RBAC action:</strong> <a href="/en-us/azure/role-based-access-control/permissions/storage#microsoftstorage" data-linktype="absolute-path">Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read</a></li>
+<li><strong>Least privileged built-in role:</strong> <a href="/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-reader" data-linktype="absolute-path">Storage Blob Data Reader</a></li>
+</ul>
+<p>If specifying <code>include=tags</code>:</p>
+<ul>
+<li><strong>Azure RBAC action:</strong> <a href="/en-us/azure/role-based-access-control/permissions/storage#microsoftstorage" data-linktype="absolute-path">Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/read</a></li>
+<li><strong>Least privileged built-in role:</strong> <a href="/en-us/azure/role-based-access-control/built-in-roles/storage#storage-blob-data-owner" data-linktype="absolute-path">Storage Blob Data Owner</a></li>
+</ul>
+<p>To learn more about assigning roles using Azure RBAC, see <a href="/en-us/azure/storage/blobs/assign-azure-role-data-access" data-linktype="absolute-path">Assign an Azure role for access to blob data</a>.</p>
+</section>
+<section id="tabpanel_1_shared-access-signatures" role="tabpanel" data-tab="shared-access-signatures" aria-hidden="true" hidden="hidden">
+
+<p>A shared access signature (SAS) provides secure delegated access to resources in a storage account. With a SAS, you have granular control over how a client can access data. You can specify what resource the client may access, what permissions they have to those resources, and how long the SAS is valid.</p>
+<p>The <code>List Blobs</code> operation supports three types of shared access signatures: <a href="#user-delegation-sas" data-linktype="self-bookmark">user delegation SAS</a>, <a href="#service-sas" data-linktype="self-bookmark">service SAS</a>, and <a href="#account-sas" data-linktype="self-bookmark">account SAS</a>.</p>
+<p>As a security best practice, we recommend that you use Microsoft Entra credentials rather than the storage account key, which can be more easily compromised. If your application design requires shared access signatures, use Microsoft Entra credentials to create a user delegation SAS, when possible.</p>
+<p>When Shared Key access is disallowed for the storage account, a service SAS token or an account SAS token will not be permitted on a request to Blob Storage. To learn more, see <a href="/en-us/azure/storage/common/shared-key-authorization-prevent#understand-how-disallowing-shared-key-affects-sas-tokens" data-linktype="absolute-path">Understand how disallowing Shared Key affects SAS tokens</a>.</p>
+<h3 id="user-delegation-sas">User delegation SAS</h3>
+<p>A user delegation SAS is secured with Microsoft Entra credentials and also by the permissions specified for the SAS.</p>
+<p>Calling the <code>List Blobs</code> operation using a SAS token delegated to a container resource requires the <strong>List (l)</strong> permission as part of the user delegation SAS token.</p>
+<p>To learn more about the user delegation SAS, see <a href="create-user-delegation-sas" data-linktype="relative-path">Create a user delegation SAS</a>.</p>
+<h3 id="service-sas">Service SAS</h3>
+<p>A service SAS is secured with the storage account key. A service SAS delegates access to a resource in a single Azure Storage service, such as blob storage.</p>
+<p>Calling the <code>List Blobs</code> operation using a SAS token delegated to a container resource requires the <strong>List (l)</strong> permission as part of the service SAS token.</p>
+<p>To learn more about the service SAS, see <a href="create-service-sas" data-linktype="relative-path">Create a service SAS</a>.</p>
+<h3 id="account-sas">Account SAS</h3>
+<p>An account SAS is secured with the storage account key. An account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service or user delegation SAS are also available via an account SAS.</p>
+<p>The following table indicates the signed resource type and signed permissions to specify when delegating access:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Signed service</th>
+<th>Signed resource type</th>
+<th>Signed permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List Blobs</td>
+<td>Blob (b)</td>
+<td>Container (c)</td>
+<td>List (l)</td>
+</tr>
+</tbody>
+</table>
+<p>To learn more about the account SAS, see <a href="create-account-sas" data-linktype="relative-path">Create an account SAS</a>.</p>
+</section>
+<section id="tabpanel_1_shared-key" role="tabpanel" data-tab="shared-key" aria-hidden="true" hidden="hidden">
+
+<p>The <code>List Blobs</code> operation supports <a href="authorize-with-shared-key" data-linktype="relative-path">Shared Key authorization</a>. Authorizing with account keys is not recommended for most scenarios, as it's less secure.</p>
+<p>Microsoft recommends disallowing Shared Key authorization for the storage account when possible. For more information, see <a href="/en-us/azure/storage/common/shared-key-authorization-prevent" data-linktype="absolute-path">Prevent authorization with Shared Key</a>.</p>
+</section>
+</div>
+<h2 id="remarks">Remarks</h2>
+<h3 id="blob-properties-in-the-response">Blob properties in the response</h3>
+<p>If you have requested that uncommitted blobs be included in the enumeration, note that some properties aren't set until the blob is committed. Some properties might not be returned in the response.</p>
+<p>The <code>x-ms-blob-sequence-number</code> element is only returned for page blobs.</p>
+<p>The <code>OrMetadata</code> element is only returned for block blobs.</p>
+<p>For page blobs, the value returned in the <code>Content-Length</code> element corresponds to the value of the blob's <code>x-ms-blob-content-length</code> header.</p>
+<p>The <code>Content-MD5</code> element appears in the response body, only if it has been set on the blob by using version 2009-09-19 or later. You can set the <code>Content-MD5</code> property when the blob is created, or by calling <a href="set-blob-properties" data-linktype="relative-path">Set Blob Properties</a>. In version 2012-02-12 and later, <code>Put Blob</code> sets a block blob’s MD5 value, even when the <code>Put Blob</code> request doesn’t include an MD5 header.</p>
+<h3 id="metadata-in-the-response">Metadata in the response</h3>
+<p>The <code>Metadata</code> element is present only if the <code>include=metadata</code> parameter was specified on the URI. Within the <code>Metadata</code> element, the value of each name-value pair is listed within an element corresponding to the pair's name.</p>
+<p>Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of Blob Storage. Beginning with this version, all metadata names must adhere to the naming conventions for <a href="/en-us/dotnet/csharp/language-reference" data-linktype="absolute-path">C# identifiers</a>.</p>
+<p>If a metadata name-value pair violates these naming restrictions, the response body indicates the problematic name within an <code>x-ms-invalid-name</code> element. The following XML fragment shows this:</p>
+<pre><code>  
+…  
+&lt;Metadata&gt;  
+  &lt;MyMetadata1&gt;first value&lt;/MyMetadata1&gt;  
+  &lt;MyMetadata2&gt;second value&lt;/MyMetadata2&gt;  
+  &lt;x-ms-invalid-name&gt;invalid-metadata-name&lt;/x-ms-invalid-name&gt;  
+&lt;/Metadata&gt;  
+…  
+  
+</code></pre>
+<h3 id="tags-in-the-response">Tags in the response</h3>
+<p>The <code>Tags</code> element is present only if the <code>include=tags</code> parameter was specified on the URI, and if there are tags on the blob. Within the <code>TagSet</code> element, up to 10 <code>Tag</code> elements are returned, each containing the <code>key</code> and <code>value</code> of the user-defined, blob index tags. The ordering of tags isn't guaranteed in the response.</p>
+<p>The <code>Tags</code> and <code>TagCount</code> elements aren't returned if there are no tags on the blob.</p>
+<p>The storage service maintains strong consistency between a blob and its tags, but the secondary index is eventually consistent. Tags can be visible in a response to <code>List Blobs</code> before they are visible to <code>Find Blobs by Tags</code> operations.</p>
+<h3 id="snapshots-in-the-response">Snapshots in the response</h3>
+<p>Snapshots are listed in the response only if the <code>include=snapshots</code> parameter was specified on the URI. Snapshots listed in the response don't include the <code>LeaseStatus</code> element, because snapshots can't have active leases.</p>
+<p>Using service version 2021-06-08 and above, you can call <code>List Blobs</code> with a delimiter and include snapshots in the enumeration. For service versions prior to 2021-06-08,  a request that includes both returns an InvalidQueryParameter error (HTTP status code 400 – Bad Request).</p>
+<h3 id="uncommitted-blobs-in-the-response">Uncommitted blobs in the response</h3>
+<p>Uncommitted blobs are listed in the response only if the <code>include=uncommittedblobs</code> parameter was specified on the URI. Uncommitted blobs listed in the response don't include any of the following elements:</p>
+<ul>
+<li><p><code>Last-Modified</code></p>
+</li>
+<li><p><code>Etag</code></p>
+</li>
+<li><p><code>Content-Type</code></p>
+</li>
+<li><p><code>Content-Encoding</code></p>
+</li>
+<li><p><code>Content-Language</code></p>
+</li>
+<li><p><code>Content-MD5</code></p>
+</li>
+<li><p><code>Cache-Control</code></p>
+</li>
+<li><p><code>Metadata</code></p>
+</li>
+</ul>
+<h3 id="deleted-blobs-in-the-response">Deleted blobs in the response</h3>
+<p>Deleted blobs are listed in the response only if the <code>include=deleted</code> parameter was specified on the URI. Deleted blobs listed in the response don't include the <strong>Lease</strong> elements, because deleted blobs can't have active leases.</p>
+<p>Deleted snapshots are included in list response if <code>include=deleted,snapshot</code> was specified on the URI.</p>
+<h3 id="object-replication-metadata-in-the-response">Object replication metadata in the response</h3>
+<p>The <code>OrMetadata</code> element is present when an object replication policy has been evaluated on a blob, and the <code>List Blobs</code> call was made by using version 2019-12-12 or later. Within the <code>OrMetadata</code> element, the value of each name-value pair is listed within an element corresponding to the pair's name. The format of the name is <code>or-{policy-id}_{rule-id}</code>, where <code>{policy-id}</code> is a GUID that represents the object replication policy identifier on the storage account. <code>{rule-id}</code> is a GUID that represents the rule identifier on the storage container. Valid values are <code>complete</code> or <code>failed</code>.</p>
+<pre><code>  
+…  
+&lt;OrMetadata&gt;  
+  &lt;or-e524bba7-4323-4b93-91f8-d09d5d0b7057_d86c51de-ef02-4264-bdcf-dcd389a6c7ac&gt;complete&lt;/or-e524bba7-4323-4b93-91f8-d09d5d0b7057_d86c51de-ef02-4264-bdcf-dcd389a6c7ac&gt;  
+  &lt;or-2b302b5d-fcd5-44d6-a5ed-455bf27e17ea_4a398ff5-2a89-4090-879b-10248f23428e&gt;failed&lt;/or-2b302b5d-fcd5-44d6-a5ed-455bf27e17ea_4a398ff5-2a89-4090-879b-10248f23428e&gt;  
+&lt;/OrMetadata&gt;  
+…  
+  
+</code></pre>
+<h3 id="immutability-policy-in-the-response">Immutability policy in the response</h3>
+<p>The <code>ImmutabilityPolicyUntilDate</code> and <code>ImmutabilityPolicyMode</code> elements are present only if the <code>include=immutabilitypolicy</code> parameter was specified on the URI.</p>
+<pre><code>&lt;Properties&gt; 
+   &lt;ImmutabilityPolicyUntilDate&gt;date-time-value&lt;/ImmutabilityPolicyUntilDate&gt;   
+   &lt;ImmutabilityPolicyMode&gt;unlocked | locked &lt;/ImmutabilityPolicyMode&gt;  
+&lt;/Properties&gt; 
+</code></pre>
+<h3 id="legal-hold-in-the-response">Legal hold in the response</h3>
+<p>The <code>LegalHold</code> element is present only if the <code>include=legalhold</code> parameter was specified on the URI.</p>
+<pre><code>&lt;Properties&gt; 
+  &lt;LegalHold&gt;true | false &lt;/LegalHold&gt;  
+&lt;/Properties&gt; 
+</code></pre>
+<h3 id="returning-result-sets-by-using-a-marker-value">Returning result sets by using a marker value</h3>
+<p>If you specify a value for the <code>maxresults</code> parameter, and the number of blobs to return exceeds this value, or exceeds the default value for <code>maxresults</code>, the response body contains a <code>NextMarker</code> element. This element indicates the next blob to return on a subsequent request. In certain cases, the service might return the <code>NextMarker</code> element even though the number of results returned is less than the value of <code>maxresults</code>.</p>
+<p>To return the next set of items, specify the value of <code>NextMarker</code> as the marker parameter on the URI for the subsequent request. Note that the value of <code>NextMarker</code> should be treated as opaque.</p>
+<h3 id="using-a-delimiter-to-traverse-the-blob-namespace">Using a delimiter to traverse the blob namespace</h3>
+<p>The <code>delimiter</code> parameter enables the caller to traverse the blob namespace by using a user-configured delimiter. In this way, you can traverse a virtual hierarchy of blobs as though it were a file system. The delimiter can be a single character or a string.</p>
+<p>When the request includes this parameter, the operation returns a <code>BlobPrefix</code> element. The <code>BlobPrefix</code> element is returned in place of all blobs with names that begin with the same substring, up to the appearance of the delimiter character. The value of the <code>BlobPrefix</code> element is <em>substring+delimiter</em>, where <em>substring</em> is the common substring that begins one or more blob names, and <em>delimiter</em> is the value of the <code>delimiter</code> parameter.</p>
+<p>You can use the value of <code>BlobPrefix</code> to make a subsequent call to list the blobs that begin with this prefix. You do this by specifying the value of <code>BlobPrefix</code> for the <code>prefix</code> parameter on the request URI.</p>
+<p>Note that each <code>BlobPrefix</code> element returned counts toward the maximum result, just as each <code>Blob</code> element does.</p>
+<p>Blobs are listed in alphabetical order in the response body, with upper-case letters listed first. Note that for accounts with a hierarchical namespace enabled, <code>/</code> is treated as the lowest sort order. This difference in behavior is only applicable to listing recursively.</p>
+<h3 id="list-a-range-of-blobs">List a range of blobs</h3>
+<p>The <code>startFrom</code> and <code>endBefore</code> parameters let you list a range of blobs within a container. <code>startFrom</code> sets the lower bound of the range, and <code>endBefore</code> sets the upper bound. Results are inclusive of <code>startFrom</code> and exclusive of <code>endBefore</code>.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The <code>endBefore</code> parameter is currently supported only for <a href="#response-body-apache-arrow" data-linktype="self-bookmark">Apache Arrow</a> listings, which require version 2026-06-06 or later. The <code>startFrom</code> parameter is supported for both XML and Apache Arrow listings.</p>
+</div>
+<p>For example, given blobs named <em>a.txt</em>, <em>b.txt</em>, <em>c.txt</em>, and <em>d.txt</em>, a request with <code>startFrom=b.txt</code> and <code>endBefore=d.txt</code> returns only <em>b.txt</em> and <em>c.txt</em>.</p>
+<p>If the value of <code>endBefore</code> precedes the value of <code>startFrom</code>, the request returns error response code 400 (Bad Request).</p>
+<h3 id="copy-errors-in-copy-status-description">Copy errors in Copy Status Description</h3>
+<p><code>CopyStatusDescription</code> contains more information about the <code>Copy Blob</code> failure.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The <code>CopySource</code> element contains the URL of the source blob, including any request parameters used in the copy operation. If a Shared Access Signature (SAS) token was used to access the source blob, the SAS token will appear in the <code>CopySource</code> value, except that the signature (<code>sig</code> query parameter) will be removed.</p>
+</div>
+<ul>
+<li><p>When a copy attempt fails, <code>CopyStatus</code> is set to <code>pending</code> if Blob Storage is still retrying the operation. The <code>CopyStatusDescription</code> text describes the failure that might have occurred during the last copy attempt.</p>
+</li>
+<li><p>When <code>CopyStatus</code> is set to <code>failed</code>, the <code>CopyStatusDescription</code> text describes the error that caused the copy operation to fail.</p>
+</li>
+</ul>
+<p>The following table describes the fields of every <code>CopyStatusDescription</code> value.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP status code</td>
+<td>Standard three-digit integer specifying the failure.</td>
+</tr>
+<tr>
+<td>Error code</td>
+<td>Keyword that describes the error. It's provided by Azure in the &lt;ErrorCode&gt; element. If no &lt;ErrorCode&gt; element appears, the service returns a keyword that contains standard error text associated with the three-digit HTTP status code in the HTTP specification. For more information, see <a href="common-rest-api-error-codes" data-linktype="relative-path">Common REST API error codes</a>.</td>
+</tr>
+<tr>
+<td>Information</td>
+<td>Detailed description of the failure, in quotes.</td>
+</tr>
+</tbody>
+</table>
+<p>The following table describes the <code>CopyStatus</code> and <code>CopyStatusDescription</code> values of common failure scenarios.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Description text shown here can change without warning, even without a version change. Don't rely on matching this exact text.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Copy Status value</th>
+<th>Copy Status Description value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Copy operation completed successfully.</td>
+<td>success</td>
+<td>empty</td>
+</tr>
+<tr>
+<td>User aborted the copy operation before it completed.</td>
+<td>aborted</td>
+<td>empty</td>
+</tr>
+<tr>
+<td>A failure occurred when reading from the source blob during a copy operation. The operation will be retried.</td>
+<td>pending</td>
+<td>502 BadGateway "Encountered a retryable error when reading the source. Will retry. Time of failure: &lt;time&gt;"</td>
+</tr>
+<tr>
+<td>A failure occurred when writing to the destination blob of a copy operation. The operation will be retried.</td>
+<td>pending</td>
+<td>500 InternalServerError "Encountered a retryable error. Will retry. Time of failure: &lt;time&gt;"</td>
+</tr>
+<tr>
+<td>An unrecoverable failure occurred when reading from the source blob of a copy operation.</td>
+<td>failed</td>
+<td>404 ResourceNotFound "Copy failed when reading the source." When the service reports this underlying error, it returns <code>ResourceNotFound</code> in the &lt;ErrorCode&gt; element. If no &lt;ErrorCode&gt; element appeared in the response, a standard string representation of the HTTP status, such as <code>NotFound</code>, appears.</td>
+</tr>
+<tr>
+<td>The timeout period limiting all copy operations elapsed. (Currently the timeout period is two weeks.)</td>
+<td>failed</td>
+<td>500 OperationCancelled "The copy exceeded the maximum allowed time."</td>
+</tr>
+<tr>
+<td>The copy operation failed too often when reading from the source, and didn’t meet a minimum ratio of attempts to successes. (This timeout prevents retrying a very poor source over two weeks before failing).</td>
+<td>failed</td>
+<td>500 OperationCancelled "The copy failed when reading the source."</td>
+</tr>
+</tbody>
+</table>
+<h3 id="billing">Billing</h3>
+<p>Pricing requests can originate from clients that use Blob Storage APIs, either directly through the Blob Storage REST API, or from an Azure Storage client library. These requests accrue charges per transaction. The type of transaction affects how the account is charged. For example, read transactions accrue to a different billing category than write transactions. The following table shows the billing category for <code>List Blobs</code> requests based on the storage account type:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Storage account type</th>
+<th>Billing category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List Blobs</td>
+<td>Premium block blob<br>Standard general-purpose v2<br>Standard general-purpose v1</td>
+<td>List and Create Container operations</td>
+</tr>
+</tbody>
+</table>
+<p>To learn about pricing for the specified billing category, see <a href="https://azure.microsoft.com/pricing/details/storage/blobs/" data-linktype="external">Azure Blob Storage Pricing</a>.</p>
+<h2 id="see-also">See also</h2>
+<p><a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a><br>
+<a href="blob-service-error-codes" data-linktype="relative-path">Blob Storage error codes</a></p>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-07-23T22:26:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-07-23
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

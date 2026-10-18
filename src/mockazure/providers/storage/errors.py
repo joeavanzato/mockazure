@@ -48,7 +48,9 @@ def response(request, error, service):
     ]:
         SubElement(root, key).text = value
     return Response(
-        b"" if request.method == "HEAD" else tostring(root, encoding="utf-8", xml_declaration=True),
+        b""
+        if request.method == "HEAD" or error.status == 304
+        else tostring(root, encoding="utf-8", xml_declaration=True),
         status_code=error.status,
         headers=head,
         media_type="application/xml",

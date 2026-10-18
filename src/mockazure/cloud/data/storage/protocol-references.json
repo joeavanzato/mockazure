@@ -135,6 +135,110 @@
       "localPath": "references/list-shares.html",
       "retrievedAt": "2026-10-18",
       "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/Put-Blob.md",
+      "sha256": "3aa0ec66ae09f27e5c0d1e87dafe6a6a2842b5ce5fde349eff50faedd9ee261a",
+      "localPath": "references/put-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-block",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/Put-Block.md",
+      "sha256": "597ae6960ca22e0114dae325b6616942bca373e0eeda7f55290f136c22046a2a",
+      "localPath": "references/put-block.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-block-list",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/Put-Block-List.md",
+      "sha256": "92ea24c7294d02420fe234864937bdbb78298950594fa50c0cd506c8fa44c213",
+      "localPath": "references/put-block-list.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-block-list",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Get-Block-List.md",
+      "sha256": "ede4ea70739b132996b59b364902069da31ab3a799efef97178cb1427106d08f",
+      "localPath": "references/get-block-list.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/Get-Blob.md",
+      "sha256": "f7e2329a8ee55b1752c722299c8cd86302be36ea12f46c6d4f2e4f8d0c983018",
+      "localPath": "references/get-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/01b1bfc52c2a9104d1000d2bda90fb178dffd7bd/docs-ref-conceptual/storageservices/Get-Blob-Properties.md",
+      "sha256": "7ce3126ae92ede0bea39f0cd8dab5fb13f1036b507391424f2113c6e8c5e8f71",
+      "localPath": "references/get-blob-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/788bc9a3b971a055687ad66dfb9cc300173f5ce6/docs-ref-conceptual/storageservices/Delete-Blob.md",
+      "sha256": "4455114eed8ea72f6a3a5d8557037aa64db2d4782a37e966e0886e60832b7a5d",
+      "localPath": "references/delete-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/undelete-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Undelete-Blob.md",
+      "sha256": "81a0b5276bf0a3078d848c5ebbe0e3cabe9c4fede9fbd06611415a0ed7f0b28e",
+      "localPath": "references/undelete-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Lease-Blob.md",
+      "sha256": "c0ce6b3341033cbee91f3df68dbb0b541b0dad347d9142c07ac9d2e3dbb9dd59",
+      "localPath": "references/lease-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0a5023e1638964f12809b25898b1c88b83233704/docs-ref-conceptual/storageservices/Snapshot-Blob.md",
+      "sha256": "f8c4ecac45e02b6b667f81ee363bd7a5e9e8b71661bfb9d2b6c419126ab08233",
+      "localPath": "references/snapshot-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/List-Blobs.md",
+      "sha256": "87496b50661811989eff3aea6fc7c59145bf04c0d0f3e60c6f7a640c0a51a7cb",
+      "localPath": "references/list-blobs.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/788bc9a3b971a055687ad66dfb9cc300173f5ce6/docs-ref-conceptual/storageservices/Specifying-Conditional-Headers-for-Blob-Service-Operations.md",
+      "sha256": "3c82a17f1fe4ffda7cf3d24a1b1df9139d0281fb1307601d323d9871ce1ee7d7",
+      "localPath": "references/specifying-conditional-headers-for-blob-service-operations.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-metadata",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Get-Blob-Metadata.md",
+      "sha256": "6aa5ed745250dd1eeac853f089a667797a358ccc94ae13943cb34a1a1ce00f8d",
+      "localPath": "references/get-blob-metadata.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
     }
   ]
 }

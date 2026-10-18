@@ -11,6 +11,7 @@ from sqlalchemy import delete, func, select, text, update
 from mockazure.admin.errors import AdminError
 from mockazure.cloud.events import lock_cloud_state
 from mockazure.cloud.models import CloudEvent
+from mockazure.content.models import StreamUpload
 from mockazure.evidence.repository import lock_state
 from mockazure.identity.types import IdentityInput
 from mockazure.providers.arm.contracts import validate_arm_payload
@@ -20,6 +21,13 @@ from mockazure.providers.arm.models import ArmResource, Subscription
 from mockazure.providers.arm.scopes import parse_scope
 from mockazure.security.repository import lock_security
 from mockazure.storage.accounts import PROPERTIES, TYPE, account_name, checked_payload, new_key
+from mockazure.storage.blob_lifecycle import (
+    BlobInput,
+    export_blobs,
+    prune_blobs,
+    restore_blobs,
+    validate_blobs,
+)
 from mockazure.storage.endpoints import account_endpoints
 from mockazure.storage.models import StorageAccount, StorageDelegationKey, StorageNamespace
 
@@ -103,6 +111,7 @@ class AccountInput(IdentityInput):
     id: str = Field(min_length=1, max_length=2048)
     configuration: dict
     services: dict = Field(default_factory=dict)
+    blobs: list[BlobInput] = Field(default_factory=list, max_length=100000)
     namespaces: list[NamespaceInput] = Field(default_factory=list, max_length=10000)
 
     @model_validator(mode="after")
@@ -127,6 +136,11 @@ class AccountInput(IdentityInput):
             {(n.service, n.name) for n in self.namespaces}
         ) != len(self.namespaces):
             raise ValueError("Invalid or duplicate Storage namespace")
+        containers = {n.name for n in self.namespaces if n.service == "blob"}
+        if any(b.container not in containers for b in self.blobs) or len(
+            {(b.container, b.name) for b in self.blobs}
+        ) != len(self.blobs):
+            raise ValueError("Invalid Blob namespace or duplicate name")
         for service, properties in self.services.items():
             validate_arm_payload(
                 service.title() + "ServiceProperties",
@@ -134,10 +148,20 @@ class AccountInput(IdentityInput):
                 namespace="storage",
             )
             if (
-                set(properties) - {"cors"}
+                set(properties)
+                - (
+                    {"cors", "isVersioningEnabled", "deleteRetentionPolicy"}
+                    if service == "blob"
+                    else {"cors"}
+                )
                 or len(properties.get("cors", {}).get("corsRules", [])) > 5
             ):
                 raise ValueError("Unsupported service properties")
+            retention = properties.get("deleteRetentionPolicy", {})
+            if set(retention) - {"enabled", "days"} or (
+                retention.get("enabled") and not 1 <= retention.get("days", 0) <= 365
+            ):
+                raise ValueError("Invalid supported delete retention policy")
         return self
 
 
@@ -150,6 +174,13 @@ class StorageStateInput(IdentityInput):
         names = [parse_scope(row.id).resource_parts[-1] for row in self.accounts]
         if len(keys) != len(set(keys)) or len(names) != len(set(names)):
             raise ValueError("Duplicate account ID or name")
+        for values in (
+            [b.id for a in self.accounts for b in a.blobs],
+            [v.id for a in self.accounts for b in a.blobs for v in b.versions],
+            [v.id for a in self.accounts for b in a.blobs for v in b.blocks],
+        ):
+            if len(values) != len(set(values)):
+                raise ValueError("Duplicate Blob state identity")
         return self
 
 
@@ -200,6 +231,7 @@ async def export_storage_accounts(session, tenant):
                     },
                 },
                 services=state.services,
+                blobs=await export_blobs(session, tenant, state.scope_key),
                 namespaces=[
                     NamespaceInput(
                         service=n.service,
@@ -235,6 +267,7 @@ async def replace_storage_accounts(session, tenant, value: StorageStateInput):
     # Entire document validation precedes deletion, including ownership and global name conflicts.
     try:
         for item in value.accounts:
+            await validate_blobs(session, tenant, item.blobs)
             scope = parse_scope(item.id)
             parent = await resolve_scope(session, tenant, parse_scope(scope.parent_keys[-1]))
             if parent.provisioning_state == "Deleting":
@@ -251,6 +284,7 @@ async def replace_storage_accounts(session, tenant, value: StorageStateInput):
         raise AdminError(
             422, "InvalidStorageState", "Invalid account ownership, parent or name"
         ) from None
+    await session.execute(delete(StreamUpload).where(StreamUpload.tenant_id == tenant))
     if old_keys:
         await session.execute(
             update(CloudEvent)
@@ -331,6 +365,9 @@ async def replace_storage_accounts(session, tenant, value: StorageStateInput):
                     policies=[p.model_dump() for p in namespace.policies],
                 )
             )
+    await session.flush()
+    for item in value.accounts:
+        await restore_blobs(session, tenant, parse_scope(item.id).key, item.blobs)
     for sub in await session.scalars(select(Subscription).where(Subscription.tenant_id == tenant)):
         sub.revision += 1
     await session.flush()
@@ -359,4 +396,6 @@ async def prune_storage_accounts(session, tenant, now, limit=500):
                 StorageDelegationKey.tenant_id == tenant, StorageDelegationKey.id.in_(ids)
             )
         )
-    return len(ids)
+    return len(ids) + (
+        await prune_blobs(session, tenant, now, limit - len(ids)) if len(ids) < limit else 0
+    )

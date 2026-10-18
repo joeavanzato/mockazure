@@ -78,7 +78,7 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     if level not in args.get("srt", ""):
         denied("AuthorizationResourceTypeMismatch")
     needed = {"create": "cw", "read": "r", "list": "l", "delete": "d", "metadata": "w"}.get(
-        action, ""
+        action, DATA_PERMISSIONS.get(action, "")
     )
     if not needed or not set(needed) & set(args.get("sp", "")):
         denied("AuthorizationPermissionMismatch")

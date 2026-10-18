@@ -34,7 +34,7 @@ snapshots support offline verification without inventing a repository revision.
 | Delete container | `Microsoft.Storage/storageAccounts/blobServices/containers/delete` | Actions |
 | Set container ACL | `Microsoft.Storage/storageAccounts/blobServices/containers/setAcl/action` | Actions |
 | Get user delegation key | `Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey/action` | Actions, account or ancestor scope |
-| Blob content read/list, write, delete | `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/{read\|write\|delete}` | DataActions; domain authorization prepared for C2 |
+| Blob content read/list, write, delete | `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/{read\|write\|delete}` | DataActions on the selected C2 Blob routes |
 | File content read/list, write, delete | `Microsoft.Storage/storageAccounts/fileServices/fileshares/files/{read\|write\|delete}` plus the corresponding `readFileBackupSemantics/action` or `writeFileBackupSemantics/action` | DataActions; `x-ms-file-request-intent: backup`; domain authorization prepared for C3 |
 
 FileREST share management in this profile uses Shared Key or account SAS;
@@ -98,15 +98,71 @@ File backup intent, key rotation, network policy, stored policy revocation,
 restore invalidation and listener isolation. Native-client results are recorded
 separately; adding a runner is not proof of a passing qualification.
 
-Blob bytes/blocks/ranges/leases/snapshots and FileREST content are C2/C3 work.
-Until those routes land, content SAS and Files OAuth tests exercise the real
-authorization domain only, and do not claim an end-to-end content round trip.
-Queues, Tables and Key Vault content remain subsequent phase D work.
+C2 adds Blob bytes, block commits, ranges, leases, snapshots and retention.
+FileREST content is C3 work; Files OAuth currently has domain tests, with
+end-to-end content qualification still pending. Queues, Tables and Key Vault
+content remain subsequent phase D work.
 
 C1 was verified against all four pinned client ecosystems, including a new local
 account and cross-language reads of every created namespace. The core regression
 gate passed 57 tests; the subsequent policy/managed-identity gate passed 15.
 The broader run reported 1,289 passing tests, one skipped test, nine missing/stale
 release-artifact gates, and one native test port collision (fixed and rerun).
-Final release-artifact qualification remains part of G3. Blob/File content
-qualification is still pending C2-C4.
+Final release-artifact qualification remains part of G3. Four-ecosystem binary
+qualification remains part of C4.
+
+
+## Blob content profile (C2)
+
+Blob content requests require `2025-11-05`; the older versions supported by
+namespace operations do not imply content support. This profile stores bytes
+in the existing immutable PostgreSQL content chunks and streams reads/writes.
+The local maximum is 256 MiB per object, with 1 MiB storage chunks. It supports
+BlockBlob upload, download, HEAD, metadata/properties, block staging/commit/list,
+single explicit byte ranges, MD5 validation, ETag/time conditions, and Blob
+lease acquire/renew/release/change/break. Suffix/multiple ranges, CRC64, customer
+encryption headers, tags, tiers, page/append blobs and copy-from-URL reject.
+
+Account SAS works on byte operations as well as namespaces. Create-only SAS can
+create a new Blob but cannot overwrite or mutate existing content; the pinned
+2025-11 profile requires write permission for Put Block and Put Block List.
+Service/user-delegation SAS signed download response overrides are applied after
+signature validation. Snapshot/version-specific SAS resources remain outside
+this profile. Current OAuth authority and account network/key settings are
+checked on every operation. A lease is checked before cache validators.
+
+Snapshots retain immutable bytes and do not inherit the base Blob's lease.
+Versioning and soft-delete retention are opt-in account service settings in
+the typed `/_mock/tenants/{tenant}/cloud/storageState` document:
+
+```json
+{"services":{"blob":{"isVersioningEnabled":true,"deleteRetentionPolicy":{"enabled":true,"days":7}}}}
+```
+
+This fragment belongs to an exported account entry, not the entire PUT body.
+The corresponding ARM service-property writes are still unsupported. Retention
+is 1–365 days when enabled; permanent-delete APIs are unsupported. Blob listing
+supports metadata, snapshots, versions and deleted objects, with flat/hierarchy
+prefix/delimiter behavior. Continuations are opaque, expire after one hour and
+are bound to query/account/container/reset generation. This differs from the
+C1 namespace list's name marker.
+
+Typed exports include Blob versions, staged blocks and immutable content
+references. They omit SAS secrets, account keys, leases and continuations.
+Restore validates byte hashes, sizes and ownership before mutation, rotates
+account keys and invalidates old uploads. Content payload transfer uses the
+existing content export/restore system. Migration 062 preserves namespace state
+and refuses downgrades with live Blob/staging state. Bounded maintenance prunes
+expired continuations, seven-day staged blocks and expired soft-deleted content.
+
+`python -m tools.verify_blob_content` runs the four original namespace clients
+then the original Python Blob SDK through actual local HTTPS for byte/block,
+range, snapshot, lease, conditional-write, paging and deletion interactions.
+C4 remains responsible for the 256 MiB restart/restore and four-ecosystem binary
+qualification. A C2 result does not claim that all of phase C is qualified.
+
+C2 verification: 87 affected unit/integration tests passed (one explicit slow-content
+skip), including preceding-head upgrade preservation and downgrade refusal. The
+original Python 12.27.0 Blob SDK passed a 2,340,000-byte round trip and the stated
+workflow; all four original namespace clients and cross-language reads passed.
+Report source fingerprint: `823d68cbda15298420221eebf9be5308027127c51be2dd5351be8e7fd82ec595`.

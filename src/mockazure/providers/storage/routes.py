@@ -113,6 +113,23 @@ async def dispatch(request, service):
         version = "2025-11-05"
     if version not in {"2019-07-07", "2025-01-05", "2025-11-05"}:
         raise StorageError(400, "InvalidHeaderValue", "Unsupported Storage request version")
+    content_parts = request.scope["path"].lstrip("/").split("/", 2)
+    if service == "blob" and (
+        (len(content_parts) == 3 and content_parts[1] and content_parts[2])
+        or (
+            len(content_parts) == 2
+            and args.get("restype") == "container"
+            and args.get("comp") == "list"
+        )
+    ):
+        from mockazure.providers.storage.blob_routes import dispatch_blob
+
+        return await dispatch_blob(
+            request,
+            content_parts[0],
+            content_parts[1],
+            content_parts[2] if len(content_parts) == 3 else "",
+        )
     parts = request.scope["path"].strip("/").split("/")
     if len(parts) > 2 or not parts or not parts[0]:
         raise StorageError(

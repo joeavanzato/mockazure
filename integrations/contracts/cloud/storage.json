@@ -1563,6 +1563,1756 @@
         "2019-07-07",
         "2025-01-05"
       ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_ListBlobFlatSegment",
+      "nativeOperationId": "Container_ListBlobFlatSegment",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{containerName}?restype=container&comp=list",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ListBlobsFlatSegmentResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+      ],
+      "queryOptions": [
+        "comp",
+        "include",
+        "marker",
+        "maxresults",
+        "prefix",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}?restype=container&comp=list&flat",
+      "unsupportedHeaders": []
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_ListBlobHierarchySegment",
+      "nativeOperationId": "Container_ListBlobHierarchySegment",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{containerName}?restype=container&comp=list",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ListBlobsHierarchySegmentResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+      ],
+      "queryOptions": [
+        "comp",
+        "delimiter",
+        "include",
+        "marker",
+        "maxresults",
+        "prefix",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}?restype=container&comp=list&hierarchy",
+      "unsupportedHeaders": []
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_Download",
+      "nativeOperationId": "Blob_Download",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{containerName}/{blob}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "format": "file"
+        },
+        "206": {
+          "type": "object",
+          "format": "file"
+        }
+      },
+      "statusCodes": [
+        200,
+        206,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-range",
+        "x-ms-range-get-content-md5",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+      ],
+      "queryOptions": [
+        "snapshot",
+        "timeout",
+        "versionid"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}",
+      "unsupportedHeaders": [
+        "x-ms-encryption-algorithm",
+        "x-ms-encryption-key",
+        "x-ms-encryption-key-sha256",
+        "x-ms-if-tags",
+        "x-ms-range-get-content-crc64",
+        "x-ms-structured-body"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_GetProperties",
+      "nativeOperationId": "Blob_GetProperties",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "HEAD",
+      "path": "/{account}/{containerName}/{blob}",
+      "aliases": [
+        {
+          "method": "GET",
+          "path": "/{account}/{containerName}/{blob}?comp=metadata",
+          "responseBody": null,
+          "source": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-metadata"
+        },
+        {
+          "method": "HEAD",
+          "path": "/{account}/{containerName}/{blob}?comp=metadata",
+          "responseBody": null,
+          "source": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-metadata"
+        }
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+      ],
+      "queryOptions": [
+        "snapshot",
+        "timeout",
+        "versionid"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Get-Blob-Metadata.md",
+          "sha256": "6aa5ed745250dd1eeac853f089a667797a358ccc94ae13943cb34a1a1ce00f8d",
+          "localPath": "references/get-blob-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}",
+      "unsupportedHeaders": [
+        "x-ms-encryption-algorithm",
+        "x-ms-encryption-key",
+        "x-ms-encryption-key-sha256",
+        "x-ms-if-tags"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_Delete",
+      "nativeOperationId": "Blob_Delete",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "DELETE",
+      "path": "/{account}/{containerName}/{blob}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-delete-snapshots",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/delete"
+      ],
+      "queryOptions": [
+        "snapshot",
+        "timeout",
+        "versionid"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.BlockBlob_Upload",
+      "nativeOperationId": "BlockBlob_Upload",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}",
+      "aliases": [],
+      "requestSchema": {
+        "type": "object",
+        "format": "file"
+      },
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "Content-Length",
+        "Content-MD5",
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-blob-cache-control",
+        "x-ms-blob-content-disposition",
+        "x-ms-blob-content-encoding",
+        "x-ms-blob-content-language",
+        "x-ms-blob-content-md5",
+        "x-ms-blob-content-type",
+        "x-ms-blob-type",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?BlockBlob",
+      "unsupportedHeaders": [
+        "x-ms-access-tier",
+        "x-ms-content-crc64",
+        "x-ms-encryption-algorithm",
+        "x-ms-encryption-key",
+        "x-ms-encryption-key-sha256",
+        "x-ms-encryption-scope",
+        "x-ms-if-tags",
+        "x-ms-immutability-policy-mode",
+        "x-ms-immutability-policy-until-date",
+        "x-ms-legal-hold",
+        "x-ms-structured-body",
+        "x-ms-structured-content-length",
+        "x-ms-tags"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-blob-type": "BlockBlob"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_Undelete",
+      "nativeOperationId": "Blob_Undelete",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=undelete",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=undelete",
+      "unsupportedHeaders": []
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_SetHTTPHeaders",
+      "nativeOperationId": "Blob_SetHTTPHeaders",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=properties",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-blob-cache-control",
+        "x-ms-blob-content-disposition",
+        "x-ms-blob-content-encoding",
+        "x-ms-blob-content-language",
+        "x-ms-blob-content-md5",
+        "x-ms-blob-content-type",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=properties&SetHTTPHeaders",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_SetMetadata",
+      "nativeOperationId": "Blob_SetMetadata",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=metadata",
+      "unsupportedHeaders": [
+        "x-ms-encryption-algorithm",
+        "x-ms-encryption-key",
+        "x-ms-encryption-key-sha256",
+        "x-ms-encryption-scope",
+        "x-ms-if-tags"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_AcquireLease",
+      "nativeOperationId": "Blob_AcquireLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=lease",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-action",
+        "x-ms-lease-duration",
+        "x-ms-proposed-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=lease&acquire",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "acquire"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_ReleaseLease",
+      "nativeOperationId": "Blob_ReleaseLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=lease",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-action",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=lease&release",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "release"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_RenewLease",
+      "nativeOperationId": "Blob_RenewLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=lease",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-action",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=lease&renew",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "renew"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_ChangeLease",
+      "nativeOperationId": "Blob_ChangeLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=lease",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-action",
+        "x-ms-lease-id",
+        "x-ms-proposed-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=lease&change",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "change"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_BreakLease",
+      "nativeOperationId": "Blob_BreakLease",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=lease",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-action",
+        "x-ms-lease-break-period",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=lease&break",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ],
+      "requiredHeaderValues": {
+        "x-ms-lease-action": "break"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Blob_CreateSnapshot",
+      "nativeOperationId": "Blob_CreateSnapshot",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=snapshot",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=snapshot",
+      "unsupportedHeaders": [
+        "x-ms-encryption-algorithm",
+        "x-ms-encryption-key",
+        "x-ms-encryption-key-sha256",
+        "x-ms-encryption-scope",
+        "x-ms-if-tags"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.BlockBlob_StageBlock",
+      "nativeOperationId": "BlockBlob_StageBlock",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=block",
+      "aliases": [],
+      "requestSchema": {
+        "type": "object",
+        "format": "file"
+      },
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "Content-Length",
+        "Content-MD5",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "blockid",
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=block",
+      "unsupportedHeaders": [
+        "x-ms-content-crc64",
+        "x-ms-encryption-algorithm",
+        "x-ms-encryption-key",
+        "x-ms-encryption-key-sha256",
+        "x-ms-encryption-scope",
+        "x-ms-structured-body",
+        "x-ms-structured-content-length"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.BlockBlob_CommitBlockList",
+      "nativeOperationId": "BlockBlob_CommitBlockList",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}/{blob}?comp=blocklist",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/BlockLookupList"
+      },
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "Content-MD5",
+        "If-Match",
+        "If-Modified-Since",
+        "If-None-Match",
+        "If-Unmodified-Since",
+        "x-ms-blob-cache-control",
+        "x-ms-blob-content-disposition",
+        "x-ms-blob-content-encoding",
+        "x-ms-blob-content-language",
+        "x-ms-blob-content-md5",
+        "x-ms-blob-content-type",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-meta-*",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write"
+      ],
+      "queryOptions": [
+        "comp",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=blocklist",
+      "unsupportedHeaders": [
+        "x-ms-access-tier",
+        "x-ms-content-crc64",
+        "x-ms-encryption-algorithm",
+        "x-ms-encryption-key",
+        "x-ms-encryption-key-sha256",
+        "x-ms-encryption-scope",
+        "x-ms-if-tags",
+        "x-ms-immutability-policy-mode",
+        "x-ms-immutability-policy-until-date",
+        "x-ms-legal-hold",
+        "x-ms-tags"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.BlockBlob_GetBlockList",
+      "nativeOperationId": "BlockBlob_GetBlockList",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{containerName}/{blob}?comp=blocklist",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/BlockList"
+        }
+      },
+      "statusCodes": [
+        200,
+        304,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        416,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+      ],
+      "queryOptions": [
+        "blocklisttype",
+        "comp",
+        "snapshot",
+        "timeout"
+      ],
+      "limits": {
+        "maxContentBytes": 268435456,
+        "chunkBytes": 1048576,
+        "pageSize": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Selected BlockBlob profile: no append/page blobs, URL copy, tags, tiers, customer encryption keys or permanent delete.",
+        "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
+        "Versioning and delete retention require explicit cloud/storageState account service configuration.",
+        "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+      ],
+      "tests": [
+        "tests/integration/test_blob_workflows.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "sourcePath": "/{containerName}/{blob}?comp=blocklist",
+      "unsupportedHeaders": [
+        "x-ms-if-tags"
+      ]
     }
   ]
 }
