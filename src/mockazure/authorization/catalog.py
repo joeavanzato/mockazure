@@ -10,6 +10,8 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("activity", "ActivityFeed.Read", "application", True),
+    PermissionDefinition("activity", "ActivityFeed.ReadDlp", "application", True),
     PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "application", True),
     PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "delegated", True),
     PermissionDefinition(

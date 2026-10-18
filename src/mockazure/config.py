@@ -108,7 +108,7 @@ class Settings(BaseSettings):
         for profile in self.client_profiles.values():
             if authority in {
                 urlsplit(getattr(profile, name)).netloc.lower()
-                for name in ("login", "graph", "exchange", "arm")
+                for name in ("login", "graph", "exchange", "arm", "activity")
             }:
                 return profile
         return self.endpoints
@@ -120,7 +120,7 @@ class Settings(BaseSettings):
             raise ValueError("Supported client profiles are host and container")
         authorities = {}
         for profile in value.values():
-            for name in ("login", "graph", "exchange", "arm"):
+            for name in ("login", "graph", "exchange", "arm", "activity"):
                 authority = urlsplit(getattr(profile, name)).netloc.lower()
                 if authority in authorities and authorities[authority] != profile:
                     raise ValueError("Profile authorities must be unambiguous")

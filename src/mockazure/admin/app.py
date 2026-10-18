@@ -7,6 +7,10 @@ from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException
 
+from mockazure.activity.errors import ActivityError
+from mockazure.activity.errors import handle as activity_error_handler
+from mockazure.activity.routes import router as activity_router
+from mockazure.admin.activity_routes import router as activity_admin_router
 from mockazure.admin.arm_routes import router as arm_admin_router
 from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.collection_routes import router as collection_admin_router
@@ -68,6 +72,14 @@ from mockazure.tenants.repository import TenantConflict
 
 def error_response(request, status, code, message):
     path = request.url.path
+    if path.startswith("/api/v1.0/"):
+        from mockazure.activity.errors import response
+
+        return response(
+            ActivityError(
+                400 if status == 422 else status, "AF50000" if status >= 500 else "AF20002", message
+            )
+        )
     if (
         path.startswith(("/v1.0/", "/beta/", "/adminapi/", "/AdminApi/"))
         or path == "/subscriptions"
@@ -278,6 +290,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             "Method not allowed" if error.status_code == 405 else "Resource not found",
         )
 
+    app.add_exception_handler(ActivityError, activity_error_handler)
+    app.include_router(activity_router)
+    app.include_router(activity_admin_router)
     app.include_router(workload_admin_router)
     app.include_router(content_admin_router)
     app.include_router(mail_admin_router)

@@ -20,7 +20,7 @@ def parse_scopes(raw, app, endpoints):
                 alias, name = item.rsplit("/", 1)
                 resolved = resolve_resource(alias, endpoints)
             else:
-                resolved, name = RESOURCES[0], item
+                resolved, name = next(r for r in RESOURCES if r.service == "graph"), item
             if resource and resource != resolved.service:
                 raise ValueError()
             resource = resolved.service

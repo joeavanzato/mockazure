@@ -58,7 +58,7 @@ def role_map():
             for entry in resource_permissions(resource)
             if entry["kind"] == "application"
         }
-        for resource in ("graph", "exchange")
+        for resource in ("graph", "exchange", "activity")
     }
 
 
@@ -77,7 +77,7 @@ def grant_source(tenant, kind):
     resource = case(
         *[
             (Grant.resource == name, str(resource_id(tenant, name)))
-            for name in ("graph", "exchange", "arm")
+            for name in ("graph", "exchange", "arm", "activity")
         ]
     )
     if kind == "oAuth2PermissionGrant":
@@ -115,6 +115,7 @@ def grant_source(tenant, kind):
             resourceDisplayName=case(
                 (Grant.resource == "graph", "Microsoft Graph"),
                 (Grant.resource == "exchange", "Office 365 Exchange Online"),
+                (Grant.resource == "activity", "Office 365 Management APIs"),
             ),
             createdDateTime=select(GrantRoleMetadata.created_at)
             .where(
@@ -212,7 +213,7 @@ async def client_principal(session, tenant, identifier):
 
 def resource_name(tenant, identifier):
     identifier = uuid_value(identifier)
-    for name in ("graph", "exchange", "arm"):
+    for name in ("graph", "exchange", "arm", "activity"):
         if identifier == resource_id(tenant, name):
             return name
     invalid("The resource must be a declared tenant-local API service principal")

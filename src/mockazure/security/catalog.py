@@ -27,6 +27,7 @@ def permission_name(identifier: UUID, kind: str) -> str:
 
 def resource_app_id(resource: str) -> UUID:
     identifiers = {
+        "activity": "c5393580-f805-4401-95e8-94b7a6ef2fc2",
         "graph": "00000003-0000-0000-c000-000000000000",
         "exchange": "00000002-0000-0ff1-ce00-000000000000",
         "arm": "797f4846-ba00-4fd7-ba43-dac1f8f63013",
@@ -40,6 +41,14 @@ def resource_app_id(resource: str) -> UUID:
 def resource_permissions(resource):
     if resource == "graph":
         return permission_catalog()["permissions"]
+    if resource == "activity":
+        return [
+            {"name": name, "kind": "application", "id": identifier, "adminConsentRequired": True}
+            for name, identifier in [
+                ("ActivityFeed.Read", "594c1fb6-4f81-4475-ae41-0c394909246c"),
+                ("ActivityFeed.ReadDlp", "4807a72c-ad38-4250-94c9-4eabfe26cd55"),
+            ]
+        ]
     if resource == "exchange":
         # Official Exchange managed-identity documentation, cited in the execution record.
         return [

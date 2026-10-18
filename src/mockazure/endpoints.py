@@ -5,7 +5,7 @@ from ipaddress import ip_address
 from urllib.parse import urlsplit
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 
 def local_origin(value: str) -> str:
@@ -44,9 +44,17 @@ class EndpointProfile(BaseModel):
     graph: str = "https://localhost:8443"
     exchange: str = "https://localhost:8443"
     arm: str = "https://localhost:8443"
+    activity: str = "https://localhost:8443"
     browser_login: str = "https://localhost:8443"
 
-    @field_validator("login", "graph", "exchange", "arm", "browser_login")
+    @model_validator(mode="before")
+    @classmethod
+    def legacy_activity_origin(cls, value):
+        if isinstance(value, dict) and "activity" not in value:
+            value = {**value, "activity": value.get("login", "https://localhost:8443")}
+        return value
+
+    @field_validator("login", "graph", "exchange", "arm", "activity", "browser_login")
     @classmethod
     def origins(cls, value: str) -> str:
         return local_origin(value)
@@ -63,6 +71,11 @@ class ResourceDescriptor:
 
 
 RESOURCES = (
+    ResourceDescriptor(
+        "activity",
+        "https://manage.office.com",
+        ("https://manage.office.com", "c5393580-f805-4401-95e8-94b7a6ef2fc2"),
+    ),
     ResourceDescriptor(
         "graph", "00000003-0000-0000-c000-000000000000", ("https://graph.microsoft.com",)
     ),
