@@ -328,6 +328,10 @@ def provision():
             resource_ids=[r["id"] for r in resources],
         )
         save(record, state)
+        from tools.qualification_mfa import ensure_mobile_method
+
+        ensure_mobile_method(client, state["tenant_id"], state["user_id"])
+        ensure_mobile_method(client, state["tenant_id"], state["negative_user_id"])
         public_state = {
             k: v
             for k, v in state.items()

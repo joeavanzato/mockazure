@@ -21,6 +21,12 @@ from msgraph import GraphServiceClient
 from msgraph.graph_request_adapter import GraphRequestAdapter, options
 from msgraph_core import GraphClientFactory
 
+try:
+    from .mfa_form import mfa_form_values
+except ImportError:  # Direct script execution in the isolated client container.
+    from mfa_form import mfa_form_values
+
+
 config = json.loads(Path("/state/client.json").read_text())
 user = json.loads(Path(config["user_file"]).read_text())
 
@@ -37,6 +43,8 @@ def approve(transport, url):
         ("/consent", {"decision": "approve"}),
         ("/mfa", {"decision": "complete"}),
     ):
+        if path == "/mfa":
+            values = mfa_form_values(response.text, values)
         response = transport.post(
             config["endpoints"]["login"] + path,
             data={**fields, **values},

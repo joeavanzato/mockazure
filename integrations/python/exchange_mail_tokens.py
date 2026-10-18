@@ -10,6 +10,11 @@ from urllib.parse import parse_qsl, urlsplit
 import msal
 import requests
 
+try:
+    from .mfa_form import mfa_form_values
+except ImportError:  # Direct script execution in the isolated client container.
+    from mfa_form import mfa_form_values
+
 
 def acquire(config):
     with requests.Session() as transport:
@@ -39,6 +44,8 @@ def acquire(config):
             ("/consent", {"decision": "approve"}),
             ("/mfa", {"decision": "complete"}),
         ):
+            if path == "/mfa":
+                values = mfa_form_values(response.text, values)
             response = transport.post(
                 config["endpoints"]["login"] + path,
                 data=fields | values,

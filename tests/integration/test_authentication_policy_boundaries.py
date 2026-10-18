@@ -399,3 +399,64 @@ async def test_registered_mfa_survives_device_code_and_api_restart(database, set
                 },
             )
             assert refreshed.status_code == 200, refreshed.text
+
+
+async def test_authenticator_group_policy_change_invalidates_issued_mfa(database, settings):
+    from sqlalchemy import delete
+
+    from mockazure.directory.models import DirectoryRelation
+    from tests.integration.graph_support import persisted_group
+
+    async with identity_client(database, settings, legacy_method_policy=False) as (
+        client,
+        tenant,
+        control,
+        *_,
+    ):
+        user, app = await provision(client, tenant)
+        method = await enroll(
+            client,
+            tenant,
+            user["id"],
+            "microsoftAuthenticator",
+            displayName="Local push descriptor",
+        )
+        async with database.sessions.begin() as session:
+            group = await persisted_group(session, UUID(tenant))
+            group_id = group.id
+            session.add(
+                DirectoryRelation(
+                    tenant_id=UUID(tenant),
+                    group_id=group_id,
+                    object_id=UUID(user["id"]),
+                    relation="member",
+                )
+            )
+        writer = await headers_for(database, settings, tenant, control, None, WRITE)
+        path = BASE + "/authenticationMethodConfigurations/MicrosoftAuthenticator"
+        configured = await client.patch(
+            path,
+            headers=writer,
+            json=config(
+                "MicrosoftAuthenticator",
+                includeTargets=[
+                    {"id": str(group_id), "targetType": "group", "authenticationMode": "push"}
+                ],
+            ),
+        )
+        assert configured.status_code == 204, configured.text
+        fields, page = await challenge(client, tenant, user, app)
+        assert method["id"] in page.text
+        callback = await client.post(
+            "/mfa", data=fields | {"decision": "complete", "method_id": method["id"]}
+        )
+        assert callback.status_code == 303, callback.text
+        async with database.sessions.begin() as session:
+            await session.execute(
+                delete(DirectoryRelation).where(
+                    DirectoryRelation.tenant_id == UUID(tenant),
+                    DirectoryRelation.group_id == group_id,
+                )
+            )
+        rejected = await redeem(client, tenant, app, callback)
+        assert rejected.status_code == 400 and rejected.json()["error"] == "interaction_required"
