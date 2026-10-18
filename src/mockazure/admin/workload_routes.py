@@ -176,3 +176,40 @@ async def facts(tenant_id: UUID, request: Request):
             ],
             "next_after": rows[top - 1].source_revision if len(rows) > top else None,
         }
+
+
+class ConversationAccessInput(WorkloadInput):
+    scope: str = Field(min_length=1, max_length=512)
+    resource_kind: Literal["team", "channel", "chat"]
+    resource_id: str = Field(min_length=1, max_length=512)
+    principal_kind: Literal["user", "application"]
+    principal_id: UUID
+    permission: str = Field(min_length=1, max_length=64)
+
+
+@router.post("/teams/access", status_code=201)
+async def conversation_access(tenant_id: UUID, request: Request):
+    from mockazure.workloads.team_access import set_access
+
+    try:
+        data = ConversationAccessInput.model_validate(await read_json(request, limit=16384))
+    except ValueError:
+        raise AdminError(422, "InvalidConsent", "Invalid conversation access record") from None
+    async with tenant_session(request, tenant_id) as session:
+        row = await set_access(session, tenant_id, data)
+        return {"id": str(row.id), **data.model_dump(mode="json")}
+
+
+@router.delete("/teams/access/{grant_id}", status_code=204)
+async def remove_conversation_access(tenant_id: UUID, grant_id: UUID, request: Request):
+    from mockazure.workloads.models import ConversationAccess
+    from mockazure.workloads.repository import scope_row
+
+    async with tenant_session(request, tenant_id) as session:
+        row = await session.get(ConversationAccess, grant_id)
+        if row is None or row.tenant_id != tenant_id:
+            raise AdminError(404, "ConsentNotFound", "Conversation access record was not found")
+        state = await scope_row(session, tenant_id, "teams", row.scope, lock=True)
+        state.grant_revision += 1
+        await session.delete(row)
+    return Response(status_code=204)

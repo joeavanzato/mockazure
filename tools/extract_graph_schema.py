@@ -8,6 +8,13 @@ from xml.etree import ElementTree as ET
 
 EDM = "{http://docs.oasis-open.org/odata/ns/edm}"
 ROOTS = (
+    "team",
+    "channel",
+    "chat",
+    "chatMessage",
+    "conversationMember",
+    "aadUserConversationMember",
+    "chatMessageHostedContent",
     "security.activeDirectoryDomainEvidence",
     "security.aiAgentEvidence",
     "security.amazonResourceEvidence",

@@ -54,7 +54,7 @@ class WorkloadContent(WorkloadInput):
 class WorkloadManifest(WorkloadInput):
     version: Literal[1] = 1
     tenant_id: UUID
-    workload: Literal["sharepoint"]
+    workload: Literal["sharepoint", "teams"]
     scope: str = Field(min_length=1, max_length=512)
     content: list[WorkloadContent] = Field(default_factory=list, max_length=1000)
 

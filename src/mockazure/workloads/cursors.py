@@ -36,7 +36,7 @@ async def issue_cursor(session, actor, state, now, predecessor=None):
         .values(
             token_hash=hashlib.sha256(token.encode()).hexdigest(),
             tenant_id=actor.tenant_id,
-            workload="sharepoint",
+            workload=state.get("workload", "sharepoint"),
             state=state,
             expires_at=now + timedelta(hours=1),
         )

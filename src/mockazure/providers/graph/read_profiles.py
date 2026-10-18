@@ -3,6 +3,8 @@
 from typing import Literal, get_args
 
 ReadResource = Literal[
+    "teams",
+    "chats",
     "sites",
     "drives",
     "users",
@@ -32,6 +34,8 @@ READ_RESOURCES = frozenset(get_args(ReadResource))
 COLLECTION_ROOTS = {
     name: name
     for name in (
+        "teams",
+        "chats",
         "sites",
         "drives",
         "applications",

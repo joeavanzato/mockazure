@@ -17,6 +17,8 @@ from mockazure.workloads.models import WorkloadRelation as E
 from mockazure.workloads.models import WorkloadScope as S
 from mockazure.workloads.models import WorkloadVersion as V
 from mockazure.workloads.sites import EDGES, validate_site_drive_record
+from mockazure.workloads.teams import EDGES as TEAM_EDGES
+from mockazure.workloads.teams import validate_team_record, validate_tree
 
 
 @dataclass(frozen=True)
@@ -130,8 +132,11 @@ async def related(session, tenant, workload, scope, source_kind, source_id, rela
 
 
 async def import_workload(session, tenant_id: UUID, workload: str, batch: WorkloadImport):
-    if workload != "sharepoint":
+    if workload not in {"sharepoint", "teams"}:
         raise AdminError(422, "UnsupportedWorkload", "Unsupported workload import")
+    canonical = {"site", "drive"} if workload == "sharepoint" else {"team", "chat"}
+    edge_types = EDGES if workload == "sharepoint" else TEAM_EDGES
+    validator = validate_site_drive_record if workload == "sharepoint" else validate_team_record
     if batch.manifest is not None:
         from mockazure.workloads.lifecycle import restored_records
 
@@ -141,11 +146,27 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
     for record in batch.records:
         if record.payload.get("id") != record.id:
             raise AdminError(422, "InvalidIdentity", "Payload id must match record identity")
-        if record.kind in {"site", "drive"} and record.key()[1] != record.id:
-            raise AdminError(422, "InvalidIdentity", "Site and drive keys equal their public IDs")
-        validate_site_drive_record(record.kind, record.payload)
+        if record.kind in canonical and record.key()[1] != record.id:
+            raise AdminError(
+                422, "InvalidIdentity", "Canonical resource keys equal their public IDs"
+            )
+        validator(record.kind, record.payload)
+        if workload == "teams" and record.kind == "filesFolderReference":
+            from mockazure.providers.graph.errors import GraphError
+            from mockazure.workloads.drives import resolve_drive_item
+
+            try:
+                folder = await resolve_drive_item(
+                    session, tenant_id, record.payload["driveId"], record.payload["itemId"]
+                )
+            except GraphError:
+                raise AdminError(
+                    422, "InvalidFolderReference", "Canonical local folder is required"
+                ) from None
+            if "folder" not in folder["row"].payload:
+                raise AdminError(422, "InvalidFolderReference", "Reference must identify a folder")
         if record.content_id and (
-            record.kind not in {"driveItem", "driveItemVersion"}
+            record.kind not in {"driveItem", "driveItemVersion", "chatMessageHostedContent"}
             or (record.kind == "driveItem" and "file" not in record.payload)
         ):
             raise AdminError(422, "InvalidContent", "Only file items and versions can have bytes")
@@ -178,12 +199,12 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
     if deleted - existing.keys():
         raise AdminError(404, "WorkloadRecordNotFound", "Tombstone record does not exist")
     keys = (existing.keys() | incoming.keys()) - deleted
-    if ("site", batch.scope) not in keys and keys:
+    if workload == "sharepoint" and ("site", batch.scope) not in keys and keys:
         raise AdminError(422, "InvalidScope", "Site scope must contain its canonical site")
     if any(kind == "site" and identifier != batch.scope for kind, identifier in keys):
         raise AdminError(422, "InvalidScope", "Only the canonical site belongs to this scope")
     for key in incoming:
-        if key[0] not in {"site", "drive"}:
+        if key[0] not in canonical:
             continue
         other = await session.scalar(
             select(V.scope).where(
@@ -237,7 +258,7 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
         raise AdminError(422, "DuplicateRelationship", "Relationship already exists")
     parent, roots, paths, versions, public_children = {}, {}, set(), set(), set()
     for source, relation, target in all_edges:
-        if (source[0], relation, target[0]) not in EDGES or target not in keys:
+        if (source[0], relation, target[0]) not in edge_types or target not in keys:
             raise AdminError(422, "InvalidRelationship", "Relationship type or target is invalid")
         if source[0] in {"user", "group"}:
             try:
@@ -308,12 +329,18 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
                     422, "InvalidDriveTree", "Public item IDs must be unique within a drive"
                 )
             drive_public_ids.add(identity)
+    if workload == "teams":
+        validate_tree(keys, all_edges, batch.scope)
     blobs = {
         identifier: await object_row(session, tenant_id, identifier, lock=True, finalized=True)
         for identifier in sorted({r.content_id for r in batch.records if r.content_id})
     }
     for record in batch.records:
-        if record.content_id and record.payload.get("size") != blobs[record.content_id].size:
+        if (
+            record.content_id
+            and workload == "sharepoint"
+            and record.payload.get("size") != blobs[record.content_id].size
+        ):
             raise AdminError(422, "ContentSizeMismatch", "Payload size must match stored bytes")
     state.revision += 1
     revision = state.revision
