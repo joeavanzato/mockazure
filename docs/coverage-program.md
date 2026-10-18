@@ -41,3 +41,6 @@ The full local result, combined original-client result, unit/integration regress
 clean install and package parity report are separate gates. Passing one does not waive
 another. The existing original MES audit JSON defect and all original-versus-patched
 collector labels remain in [compatibility](compatibility.md).
+
+[Observed qualification results](coverage-expansion-results.md) include the combined
+original-client run and the full-size local recovery measurements.

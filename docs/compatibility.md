@@ -79,6 +79,34 @@ This qualifies the listed requests, not arbitrary mail queries, shared-mailbox
 permissions, sending or complete tenant collection. The dedicated CI job repeats
 this bounded101-message workflow; the256MiB storage test remains opt-in.
 
+## Cross-workload coverage qualification
+
+The 2026-10-18 `python -m tools.verify_coverage_program` fresh Docker run passed
+all ten stages: directory, Exchange, mail content, SharePoint/OneDrive, Teams,
+Intune, Activity feed, authentication-method management, authentication policies,
+and two-tenant collection recovery. The original Graph SDK 1.64.0 and PowerShell
+2.35.1 executed the supported generated operations; Exchange used the previously
+approved bounded bootstrap. Archive and extracted-tree hashes were checked before
+and after the run. The combined tenant retained earlier workloads while later
+stages queried and mutated their own records.
+
+The policy stage read the policy root and typed configurations, changed SMS and
+Authenticator targets through the original clients, exercised supported Conditional
+Access role/platform/compliance fields, completed actual local HTTPS registered-method
+MFA, and verified that disabling that method blocks refresh. Fresh tenants enforce
+method eligibility; upgraded tenants retain their explicit legacy profile until the
+first successful method-policy write. Local browser adapters select an offered method,
+and historical qualification fixtures now explicitly enroll a mobile method. These
+adapters simulate user interaction; Microsoft client modules remain unchanged.
+
+The combined recovery step used 404 primary metadata records and a 2 MiB object,
+eight readers, two API replicas, issued-cursor retries and restart. The full-size
+100,000-record/256 MiB profile is a separate gate; see
+[reproduction and measurement boundaries](coverage-program.md). The secondary tenant
+exercises mailbox/drive isolation; the integration suite supplies other workload
+isolation cases. This is bounded API compatibility, not complete Hawk/MES tenant
+collection or every operation offered by those Microsoft modules.
+
 ## Preserved upstream limitations
 
 Original Hawk JSON append creates concatenated documents for multiple suspicious rules.
