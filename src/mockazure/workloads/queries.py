@@ -13,7 +13,7 @@ from mockazure.providers.graph.schema_reference import schema
 from mockazure.workloads.cursors import binding, issue_cursor, resolve_cursor
 from mockazure.workloads.models import WorkloadScope as S
 from mockazure.workloads.models import WorkloadVersion as V
-from mockazure.workloads.repository import visible
+from mockazure.workloads.repository import scope_row, visible
 from mockazure.workloads.resource_access import access_predicate
 
 
@@ -102,7 +102,7 @@ async def page_state(
             invalid("A continuation cannot change its query")
         state = await resolve_cursor(session, actor, resource, token, datetime.now(UTC))
         for name, saved in state["scopes"].items():
-            row = await session.get(S, (actor.tenant_id, "sharepoint", name))
+            row = await scope_row(session, actor.tenant_id, "sharepoint", name, lock="read")
             if row is None or str(row.generation) != saved["generation"]:
                 raise GraphError(410, "resyncRequired", "Workload state was reset")
             if row.grant_revision != saved["grants"] or not await session.scalar(
@@ -118,7 +118,9 @@ async def page_state(
     )
     if scope is not None:
         query = query.where(S.scope == scope)
-    scopes = list(await session.scalars(query.order_by(S.scope).limit(10001)))
+    scopes = list(
+        await session.scalars(query.order_by(S.scope).limit(10001).with_for_update(read=True))
+    )
     if len(scopes) > 10000:
         raise GraphError(
             413, "responseTooLarge", "Collect explicit sites instead of more than10000 site scopes"

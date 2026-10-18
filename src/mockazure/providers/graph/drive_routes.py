@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse, StreamingResponse
-from sqlalchemy import and_, select
+from sqlalchemy import and_, or_, select
 from starlette.background import BackgroundTask
 
 from mockazure.admin.errors import AdminError
@@ -211,3 +211,124 @@ async def drive_endpoint(drive_path: str, request: Request):
             )
         )
         return await collection_response(request, session, actor, query, kind, page, token)
+
+
+async def drive_alias(request, source_kind, source_id, tail):
+    from uuid import UUID
+
+    from mockazure.workloads.queries import snapshots
+
+    async with request.app.state.database.sessions.begin() as session:
+        actor = await principal(request, session)
+        await authorize_operation(session, actor, "drive")
+        if source_id is None:
+            if actor.token_kind != "delegated":
+                invalid("/me requires delegated authentication")
+            source_id = str(actor.subject_id)
+        if source_kind in {"user", "group"}:
+            try:
+                source_id = str(UUID(source_id))
+            except ValueError:
+                invalid("User/group drive aliases require a directory object ID")
+        query = (
+            select(V)
+            .join(
+                E,
+                and_(
+                    E.tenant_id == V.tenant_id,
+                    E.workload == V.workload,
+                    E.scope == V.scope,
+                    E.target_kind == V.kind,
+                    E.target_id == V.id,
+                ),
+            )
+            .where(
+                V.tenant_id == actor.tenant_id,
+                V.workload == "sharepoint",
+                V.kind == "drive",
+                V.deleted.is_(False),
+                V.valid_to.is_(None),
+                E.source_kind == source_kind,
+                E.source_id == source_id,
+                E.relation == "drives",
+                E.valid_to.is_(None),
+            )
+        )
+        if tail is None:
+            page, token = await page_state(request, session, actor, "drive", "drive")
+            # Alias payloads come from the saved canonical drive revisions.
+            query = (
+                select(V)
+                .join(
+                    E,
+                    and_(
+                        E.tenant_id == V.tenant_id,
+                        E.workload == V.workload,
+                        E.scope == V.scope,
+                        E.target_kind == V.kind,
+                        E.target_id == V.id,
+                    ),
+                )
+                .where(
+                    V.tenant_id == actor.tenant_id,
+                    V.workload == "sharepoint",
+                    V.kind == "drive",
+                    V.deleted.is_(False),
+                    snapshots(page),
+                    E.source_kind == source_kind,
+                    E.source_id == source_id,
+                    E.relation == "drives",
+                    or_(
+                        *[
+                            and_(E.scope == name, visible(E, saved["upper"]))
+                            for name, saved in page["scopes"].items()
+                        ]
+                    )
+                    if page["scopes"]
+                    else False,
+                )
+            )
+            return await collection_response(request, session, actor, query, "drive", page, token)
+        drives = list(await session.scalars(query.limit(2)))
+        if len(drives) != 1:
+            raise GraphError(404, "itemNotFound", "A unique default drive was not imported")
+        drive = drives[0]
+        await authorize_site(session, actor, drive.scope, "drive")
+    # Reuse the canonical adapter, including authorization and original alias cursor binding.
+    return await drive_endpoint(drive.id + ("/" + tail if tail else ""), request)
+
+
+for source_kind, root in (("user", "users"), ("group", "groups")):
+
+    def register_alias(kind, root):
+        async def collection(source_id: str, request: Request):
+            return await drive_alias(request, kind, source_id, None)
+
+        async def item(source_id: str, request: Request):
+            return await drive_alias(request, kind, source_id, "")
+
+        async def navigation(source_id: str, tail: str, request: Request):
+            return await drive_alias(request, kind, source_id, tail)
+
+        router.add_api_route(f"/v1.0/{root}/{{source_id}}/drives", collection, methods=["GET"])
+        router.add_api_route(f"/v1.0/{root}/{{source_id}}/drive", item, methods=["GET"])
+        router.add_api_route(
+            f"/v1.0/{root}/{{source_id}}/drive/{{tail:path}}", navigation, methods=["GET"]
+        )
+
+    register_alias(source_kind, root)
+
+
+@router.get("/v1.0/me/drives")
+async def my_drives(request: Request):
+    return await drive_alias(request, "user", None, None)
+
+
+@router.get("/v1.0/me/drive")
+async def my_drive(request: Request):
+    return await drive_alias(request, "user", None, "")
+
+
+@router.get("/v1.0/me/drive/{tail:path}")
+async def my_drive_navigation(tail: str, request: Request):
+    return await drive_alias(request, "user", None, tail)

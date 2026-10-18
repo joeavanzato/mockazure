@@ -1,5 +1,6 @@
 """Graph v1.0 site discovery, list evidence and selected application grants."""
 
+from datetime import UTC, datetime
 from uuid import UUID
 
 from fastapi import APIRouter, Request, Response
@@ -9,6 +10,7 @@ from mockazure.admin.errors import AdminError
 from mockazure.providers.graph.body import read_json
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import principal
+from mockazure.workloads.facts import record_permission_fact
 from mockazure.workloads.models import WorkloadGrant as G
 from mockazure.workloads.models import WorkloadRelation as E
 from mockazure.workloads.models import WorkloadVersion as V
@@ -189,9 +191,22 @@ async def site_endpoint(site_path: str, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         actor = await principal(request, session)
         # Require an operation-level permission before looking up identifiers.
-        operation = "permissions" if "/permissions" in site_path else "site"
+        operation = (
+            "permissions"
+            if "/permissions" in site_path
+            else "drive"
+            if "/drive" in site_path
+            else "site"
+        )
         await authorize_operation(session, actor, operation)
         site, parts = await resolve_site(session, actor, site_path)
+        operation = (
+            "permissions"
+            if parts and parts[0] == "permissions"
+            else "drive"
+            if parts and parts[0] in {"drive", "drives"}
+            else "site"
+        )
         await authorize_site(session, actor, site.id, operation)
         if parts and parts[0] == "permissions":
             if len(parts) > 2:
@@ -235,7 +250,15 @@ async def site_endpoint(site_path: str, request: Request):
                     )
                 except (ValueError, KeyError, TypeError, AdminError):
                     invalid("Application grant requires a current local principal")
-                # Native audit publication is added by the site permission adapter.
+                await record_permission_fact(
+                    session,
+                    actor,
+                    "site.permission.create",
+                    site.id,
+                    {},
+                    grant_view(row),
+                    datetime.now(UTC),
+                )
                 from fastapi.responses import JSONResponse
 
                 return JSONResponse(grant_view(row), status_code=201)
@@ -243,40 +266,103 @@ async def site_endpoint(site_path: str, request: Request):
                 if request.query_params:
                     invalid()
                 try:
-                    await remove_grant(session, actor.tenant_id, UUID(parts[1]), scope=site.id)
+                    identifier = UUID(parts[1])
+                    prior = await session.get(G, identifier)
+                    if (
+                        prior is None
+                        or prior.tenant_id != actor.tenant_id
+                        or prior.scope != site.id
+                        or prior.principal_kind != "application"
+                    ):
+                        missing()
+                    before = grant_view(prior)
+                    await remove_grant(session, actor.tenant_id, identifier, scope=site.id)
+                    await record_permission_fact(
+                        session,
+                        actor,
+                        "site.permission.delete",
+                        site.id,
+                        before,
+                        {},
+                        datetime.now(UTC),
+                    )
                 except (ValueError, AdminError):
                     missing()
                 return Response(status_code=204)
             if request.method != "GET":
                 raise GraphError(405, "notAllowed", "Unsupported site permission operation")
-            opts = options(request, "permission", item=True)
-            grants = list(
-                await session.scalars(
-                    select(G)
-                    .where(
-                        G.tenant_id == actor.tenant_id,
-                        G.workload == "sharepoint",
-                        G.scope == site.id,
-                        G.principal_kind == "application",
-                    )
-                    .order_by(G.id)
-                )
-            )
-            values = [grant_view(row) for row in grants]
+            from mockazure.workloads.cursors import issue_cursor
+            from mockazure.workloads.queries import link
+
             if len(parts) == 2:
-                value = next((row for row in values if row["id"] == parts[1]), None)
-                if value is None:
+                opts = options(request, "permission", item=True)
+                try:
+                    identifier = UUID(parts[1])
+                except ValueError:
                     missing()
+                row = await session.get(G, identifier)
+                if (
+                    row is None
+                    or row.tenant_id != actor.tenant_id
+                    or row.scope != site.id
+                    or row.principal_kind != "application"
+                ):
+                    missing()
+                value = grant_view(row)
                 return {
-                    k: v
-                    for k, v in value.items()
-                    if opts["select"] is None or k in opts["select"] or k == "id"
+                    key: value
+                    for key, value in value.items()
+                    if opts["select"] is None or key in opts["select"] or key == "id"
                 }
-            return {"value": values}
+            page, token = await page_state(
+                request, session, actor, "permission", "permissions", site.id
+            )
+            if "grant_rows" not in page:
+                rows = list(
+                    await session.scalars(
+                        select(G)
+                        .where(
+                            G.tenant_id == actor.tenant_id,
+                            G.workload == "sharepoint",
+                            G.scope == site.id,
+                            G.principal_kind == "application",
+                        )
+                        .order_by(G.id)
+                        .limit(10001)
+                    )
+                )
+                if len(rows) > 10000:
+                    raise GraphError(
+                        413, "responseTooLarge", "Permission snapshot exceeds10000grants"
+                    )
+                page["grant_rows"] = [grant_view(row) for row in rows]
+            opts = page["options"]
+            rows = page["grant_rows"][page["offset"] : page["offset"] + opts["top"]]
+            result = {
+                "value": [
+                    {
+                        k: v
+                        for k, v in row.items()
+                        if opts["select"] is None or k in opts["select"] or k == "id"
+                    }
+                    for row in rows
+                ]
+            }
+            if page["offset"] + len(rows) < len(page["grant_rows"]):
+                page["offset"] += len(rows)
+                handle = await issue_cursor(session, actor, page, datetime.now(UTC), token)
+                result["@odata.nextLink"] = link(request, request.url.path, handle)
+            return result
         if request.method != "GET":
             raise GraphError(405, "notAllowed", "Only site permission mutations are implemented")
         if not parts:
             return project(site, options(request, "site", item=True)["select"])
+        if parts[0] == "drive":
+            from mockazure.providers.graph.drive_routes import drive_alias
+
+            # End this transaction before entering the canonical adapter (pool-size1 compatible).
+            await session.commit()
+            return await drive_alias(request, "site", site.id, "/".join(parts[1:]))
         source = site
         relation = parts.pop(0)
         grammar = {

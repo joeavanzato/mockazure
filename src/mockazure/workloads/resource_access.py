@@ -73,6 +73,13 @@ def access_predicate(context, scope, operation):
 
 async def authorize_site(session, context, site_id: str, operation: str):
     await authorize_operation(session, context, operation)
+    await scope_row(
+        session,
+        context.tenant_id,
+        "sharepoint",
+        site_id,
+        lock=True if operation == "permissions" else "read",
+    )
     if not await session.scalar(select(access_predicate(context, site_id, operation))):
         raise GraphError(
             403, "accessDenied", "The resource grant or signed-in user's site access is missing"

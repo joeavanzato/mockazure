@@ -54,7 +54,7 @@ async def scope_row(session, tenant, workload, scope, *, create=False, lock=Fals
         )
     query = select(S).where(S.tenant_id == tenant, S.workload == workload, S.scope == scope)
     if lock:
-        query = query.with_for_update()
+        query = query.with_for_update(read=lock == "read")
     return await session.scalar(query.execution_options(populate_existing=True))
 
 
