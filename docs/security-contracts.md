@@ -153,9 +153,9 @@ and IPv4/IPv6 named locations with All/AllTrusted selectors. Explicit exclusions
 are retained for evaluation. Nested object PATCH preserves omitted members; arrays
 replace their prior values.
 
-Grant controls are block or mfa with AND/OR operators; block cannot be combined with
-another control. Unsupported nonempty risk/device/platform/session/authentication
-strength/guest/role targets and controls are rejected for all states, including
+Grant controls are block, mfa or compliantDevice with AND/OR operators; block cannot be combined with
+another control. Unsupported nonempty risk/advanced-device/session/authentication
+strength/guest targets and controls are rejected for all states, including
 disabled/report-only. This stricter inspection profile avoids storing policies
 that could later be enabled without an evaluator. Empty optional unsupported
 conditions from standard SDK serialization are accepted as inactive.
@@ -176,8 +176,8 @@ selection, ordering, count and top; skip and relationship expansion are outside
 this profile. Count does not require the directory-specific ConsistencyLevel
 header. Licence and role access is checked again on each continuation.
 
-Storage is Task 7; enforcement is Task 8 and must pass its OAuth acceptance tests
-before this milestone is qualified.
+See [method policy and extended CA profile](../integrations/contracts/authentication-policies.md)
+for role/platform targeting, trusted device binding, Intune compliance and upgrade boundaries.
 
 Sources: [policy creation](https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-1.0),
 [policy update](https://learn.microsoft.com/en-us/graph/api/conditionalaccesspolicy-update?view=graph-rest-1.0),
@@ -201,8 +201,7 @@ classification, not user-agent inference. Refresh preserves the session category
 IP location matching uses the actual connection peer, including IPv4/IPv6.
 Forwarded headers do not override it. If a relevant location cannot be evaluated
 or the required licence is removed, a matching enabled policy fails closed.
-Across enabled policies, block wins; MFA requires the local flow's completed
-outcome. Enrolled method descriptors alone never satisfy MFA. Report-only
+Across enabled policies, block wins; fresh-profile MFA requires the local flow's selected, still-eligible enrollment outcome. Enrolled method descriptors alone never satisfy MFA. Report-only
 policies record results without enforcing; disabled policies never apply.
 A new policy is effective at redemption/refresh even for a pending older flow.
 

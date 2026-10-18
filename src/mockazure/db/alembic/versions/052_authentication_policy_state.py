@@ -30,7 +30,7 @@ def upgrade():
 
 def downgrade():
     op.execute("""DO $$ BEGIN
-        IF EXISTS(SELECT 1 FROM authentication_method_policy_state 
+        IF EXISTS(SELECT 1 FROM authentication_method_policy_state
             WHERE enforced OR configurations<>'{}'::jsonb)
           OR EXISTS(SELECT 1 FROM trusted_authentication_contexts)
         THEN RAISE EXCEPTION 'Cannot downgrade persisted authentication policy state'; END IF;

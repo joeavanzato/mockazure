@@ -1,0 +1,102 @@
+{
+  "schemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "scope": "Graph v1.0 bounded method policies and Conditional Access extensions",
+  "sources": [
+    {
+      "name": "authenticationmethodspolicy-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/authenticationmethodspolicy-get?view=graph-rest-1.0",
+      "sha256": "68033864b62620ed62d4c6959dcd5a9174f3e0f7a03ec8438a13b6befcacd3ad",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "smsauthenticationmethodconfiguration-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/smsauthenticationmethodconfiguration-get?view=graph-rest-1.0",
+      "sha256": "27a43c529dc40a382e01dc71925167273ed3999e9a904d68242cb5d4c94dbf6b",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "smsauthenticationmethodconfiguration-update",
+      "url": "https://learn.microsoft.com/en-us/graph/api/smsauthenticationmethodconfiguration-update?view=graph-rest-1.0",
+      "sha256": "6610468fc9c4efbb4748d2f7423adda1cc3886d8e850ac70e4cf9340cc201dd4",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "microsoftauthenticatorauthenticationmethodconfiguration-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/microsoftauthenticatorauthenticationmethodconfiguration-get?view=graph-rest-1.0",
+      "sha256": "15a9493046ff25a5834b89f497fe6ad90ae21f9714538a20b4dd958060249ab5",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "microsoftauthenticatorauthenticationmethodconfiguration-update",
+      "url": "https://learn.microsoft.com/en-us/graph/api/microsoftauthenticatorauthenticationmethodconfiguration-update?view=graph-rest-1.0",
+      "sha256": "2d076e7713d2ee9fcdd0e0d9f84261334e6fa0edd7a54d4948046e98449043ff",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/authenticationmethodspolicy",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/authenticationmethodspolicy?view=graph-rest-1.0",
+      "sha256": "e3890de814fbda8f1d813cbe3f88589fa8eafda7ece9d4a5815381895ce01d1f",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/smsauthenticationmethodconfiguration",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/smsauthenticationmethodconfiguration?view=graph-rest-1.0",
+      "sha256": "0bb60a4cdedadd17ee7afec150a812374f5b7b4e37629104ea540ce823388a42",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/microsoftauthenticatorauthenticationmethodconfiguration",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/microsoftauthenticatorauthenticationmethodconfiguration?view=graph-rest-1.0",
+      "sha256": "9868dd768aabf1a779f44254e84ce92cefbd7270e9c89e5fef1aed14071c9e4c",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/authenticationmethodtarget",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/authenticationmethodtarget?view=graph-rest-1.0",
+      "sha256": "8580de1cb6e513237300faf0331dbf9912468a50a2b120b9948670f99f6777ca",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/microsoftauthenticatorauthenticationmethodtarget",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/microsoftauthenticatorauthenticationmethodtarget?view=graph-rest-1.0",
+      "sha256": "cb6a2b46043e6e62351fb412d5a6342e49c490194b21a100d74e9dc212eabaf7",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/excludetarget",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/excludetarget?view=graph-rest-1.0",
+      "sha256": "f24b6272e6479a5039195e0c6951ca5f5ca047b6751bf7f6a81cb6fac74035aa",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/conditionalaccessusers",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/conditionalaccessusers?view=graph-rest-1.0",
+      "sha256": "5a1f24fe47b9a08382979e4410d318af227cde309fa4cc3972c7aa1b4f893a5c",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/conditionalaccessplatforms",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/conditionalaccessplatforms?view=graph-rest-1.0",
+      "sha256": "61164934deb8bfce1800fa5f464ee9dd374cb7256406c0e1b5cbcbf33e98e9bf",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/conditionalaccessgrantcontrols",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/conditionalaccessgrantcontrols?view=graph-rest-1.0",
+      "sha256": "63b390ff2b7f1ad0df00554ea11f705b8cb88d67230989ec7fb016132ef7e8bc",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "authenticator-target-patch-example",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-mfa-additional-context",
+      "sha256": "821d9233d3f79779132290216ba20f32a41b6171962f7e874065f31fd7947665",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/smsauthenticationmethodtarget",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/smsauthenticationmethodtarget?view=graph-rest-1.0",
+      "sha256": "7e8dafe0b0636e67787bb5bd7e74debbe5563f6dd0ec85ee57dfdf452e5250d4",
+      "retrievedAt": "2026-10-18"
+    }
+  ]
+}
