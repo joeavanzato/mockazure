@@ -2,12 +2,31 @@
   "schemaVersion": 1,
   "clientManifest": "integrations/manifest.json",
   "enabledPhases": [
-    "A"
+    "A",
+    "B"
   ],
   "clients": {
     "powershell": {
       "ExchangeOnlineManagement": "3.11.0"
     }
   },
-  "status": "Incremental A1 profile; B-F and the all-phase matrix remain unimplemented."
+  "status": "A Exchange and B ARM workflow profiles; remaining phases are not yet qualified.",
+  "phaseClients": {
+    "B": {
+      "python": {
+        "azure-mgmt-resource": "23.4.0"
+      },
+      "powershell": {
+        "Az.Accounts": "4.0.2",
+        "Az.Resources": "7.8.0"
+      },
+      "dotnet": {
+        "Azure.ResourceManager": "1.14.0",
+        "Azure.ResourceManager.Network": "1.17.0"
+      },
+      "typescript": {
+        "@azure/arm-resources": "8.0.0"
+      }
+    }
+  }
 }

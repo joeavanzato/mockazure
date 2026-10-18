@@ -46,6 +46,7 @@ from mockazure.providers.arm.inventory_routes import router as arm_inventory_rou
 from mockazure.providers.arm.mutation_routes import router as arm_mutation_router
 from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
+from mockazure.providers.arm.provider_job_routes import router as arm_provider_jobs_router
 from mockazure.providers.arm.provider_routes import router as arm_provider_router
 from mockazure.providers.arm.rbac_routes import router as arm_rbac_router
 from mockazure.providers.arm.resource_handlers import router as arm_resource_router
@@ -171,7 +172,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             )
             request.scope["path"] = re.sub(
                 r"(?i)/providers/microsoft\.storage/(storageaccounts|checknameavailability)(?=/|$)",
-                lambda match: match.group(0).lower(), request.scope["path"],
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
             )
         try:
             authorities = request.headers.getlist("host")
@@ -327,6 +329,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(arm_mutation_router)
     app.include_router(arm_operations_router)
     app.include_router(arm_rbac_router)
+    app.include_router(arm_provider_jobs_router)
     app.include_router(arm_resource_router)
     app.include_router(session_router)
     app.include_router(identity_router)

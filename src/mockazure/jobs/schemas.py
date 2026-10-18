@@ -16,10 +16,24 @@ class ExportSnapshot(BaseModel):
     tenant: TenantCreate
 
 
+class CloudExportSnapshot(ExportSnapshot):
+    schema_version: Literal[2] = 2
+    cloud: dict
+
+
+def parse_export(value):
+    if isinstance(value, (ExportSnapshot, CloudExportSnapshot)):
+        return value
+    return (
+        CloudExportSnapshot if value.get("schema_version") == 2 else ExportSnapshot
+    ).model_validate(value)
+
+
 class ImportRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
-    snapshot: ExportSnapshot
+    snapshot: ExportSnapshot | CloudExportSnapshot
     replacement: TenantCreate | None = None
+    target_tenant_id: UUID | None = None
 
 
 class JobView(BaseModel):

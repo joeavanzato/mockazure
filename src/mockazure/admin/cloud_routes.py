@@ -3,14 +3,17 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Request
+from pydantic import Field
 
 from mockazure.admin.mail_routes import tenant_required
+from mockazure.cloud.lifecycle import CloudInput, export_cloud, import_cloud, reset_cloud
 from mockazure.cloud.provider_state import (
     ProviderStateInput,
     export_provider_state,
     replace_provider_state,
 )
 from mockazure.identity.keys import read_wrapping_key
+from mockazure.identity.types import IdentityInput
 from mockazure.providers.arm.resource_lifecycle import (
     ResourceStateInput,
     export_provider_resources,
@@ -66,3 +69,31 @@ async def replace_resources(tenant_id: UUID, value: ResourceStateInput, request:
     async with request.app.state.database.sessions.begin() as session:
         await tenant_required(session, tenant_id)
         return await replace_provider_resources(session, tenant_id, value)
+
+
+class CloudReset(IdentityInput):
+    expected_generation: int = Field(ge=1, strict=True)
+
+
+@router.get("/state")
+async def export_combined(tenant_id: UUID, request: Request):
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await export_cloud(session, tenant_id)
+
+
+@router.put("/state")
+async def restore_combined(tenant_id: UUID, value: CloudInput, request: Request):
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        session.info["storage_cipher"] = read_wrapping_key(request.app.state.settings.data_dir)
+        await import_cloud(session, tenant_id, value.model_dump(mode="json"))
+        return await export_cloud(session, tenant_id)
+
+
+@router.post("/reset")
+async def reset_combined(tenant_id: UUID, value: CloudReset, request: Request):
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        await reset_cloud(session, tenant_id, value.expected_generation)
+        return await export_cloud(session, tenant_id)

@@ -106,7 +106,7 @@ def test_cloud_resource_operation_shapes_are_source_bound():
         assert operation["operationId"] == row["operationId"]
         assert schema["info"]["version"] == row["version"]
         for status, shape in row["responseSchemas"].items():
-            assert operation["responses"][status]["schema"] == shape
+            assert operation["responses"][status].get("schema") == shape
         observed.add(row["resourceType"])
     assert observed == set(profiles())
     verify_references("arm-providers")

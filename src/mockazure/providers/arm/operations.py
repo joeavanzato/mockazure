@@ -50,6 +50,11 @@ async def start_delete(subscription: str, group: str, request: Request):
     async with transaction(request, scope) as (session, actor, sub):
         await require_action(session, actor, scope, ACTION)
         row = await resolve_scope(session, actor.tenant_id, scope)
+        from mockazure.providers.arm.provider_jobs import require_unreferenced, subtree
+
+        await require_unreferenced(
+            session, actor.tenant_id, await subtree(session, actor.tenant_id, scope)
+        )
         prior = await session.get(Job, row.deletion_job_id) if row.deletion_job_id else None
         if prior and prior.state in {"pending", "running"}:
             identifier = prior.id
@@ -149,6 +154,9 @@ async def process_arm_delete(database, claim, wall_now):
             await lock_security(session, claim.tenant_id)
             state = await lock_state(session, claim.tenant_id)
             sub = await lock_subscription(session, claim.tenant_id, scope.subscription_id)
+            from mockazure.cloud.events import lock_cloud_state
+
+            await lock_cloud_state(session, claim.tenant_id)
             job = await session.scalar(select(Job).where(*fenced(claim, now())).with_for_update())
             if job is None or job.lease_until <= now():
                 return JobResult("stale", None, None)
@@ -168,6 +176,32 @@ async def process_arm_delete(database, claim, wall_now):
                 or row.provisioning_state != "Deleting"
             ):
                 raise ValueError("Deletion target no longer matches operation")
+            from mockazure.providers.arm.provider_jobs import require_unreferenced, subtree
+
+            await require_unreferenced(
+                session, claim.tenant_id, await subtree(session, claim.tenant_id, scope)
+            )
+            from sqlalchemy import func, update
+
+            await session.execute(
+                update(Job)
+                .where(
+                    Job.tenant_id == claim.tenant_id,
+                    Job.kind == "arm.provider.operation",
+                    Job.state.in_(("pending", "running")),
+                    func.lower(Job.payload["scope"].astext).startswith(
+                        scope.key + "/", autoescape=True
+                    ),
+                )
+                .values(
+                    state="failed",
+                    error_code="ParentDeleted",
+                    lease_owner=None,
+                    lease_until=None,
+                    claim_epoch=Job.claim_epoch + 1,
+                    updated_at=now(),
+                )
+            )
             await session.execute(
                 delete(ArmResource).where(
                     ArmResource.tenant_id == claim.tenant_id, ArmResource.scope_key == scope.key
@@ -198,6 +232,22 @@ async def process_arm_delete(database, claim, wall_now):
                 ),
             )
             await enqueue_projection(session, ref)
+            from mockazure.cloud.events import append_service_event
+            from mockazure.cloud.types import ServiceEvent
+
+            await append_service_event(
+                session,
+                ServiceEvent(
+                    claim.id,
+                    claim.tenant_id,
+                    scope.display_id,
+                    "arm",
+                    "Administrative",
+                    ACTION,
+                    when,
+                    {"status": "Succeeded"},
+                ),
+            )
             await session.flush()
             if job.lease_until <= now():
                 raise LeaseExpired()

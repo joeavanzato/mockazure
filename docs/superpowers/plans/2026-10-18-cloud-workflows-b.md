@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** B1-B3 implemented and locally verified; B4 pending. Native management client qualification remains the B4 gate.
+**Status:** B1-B4 implemented and reviewed. Four original client ecosystems passed local management qualification; hosted CI remains blocked by billing/spending limits.
 
 ## Global Constraints
 
@@ -118,7 +118,7 @@ assert inventory_after_failed_write == inventory_before
 
 **Interfaces:** Produce `async process_provider_operation(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult`; `async reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generation: int) -> None`; `async export_cloud(session: AsyncSession, tenant_id: UUID) -> dict`; `async import_cloud(session: AsyncSession, tenant_id: UUID, document: dict) -> None`; `async prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, limit: int) -> int`. Domain-owned lifecycle contributors are registered explicitly, not found by untrusted imports.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_provider_job_fencing exercises VM start/restart/powerOff/deallocate and resource deletion with a stale worker lease. test_delete_races_create holds the parent deletion lock while attempting child creation. test_cloud_export_restore restores relationships and checks credential exclusion; corrupted cross-tenant references reject the whole import.
+- [x] **Step 1 — Add the named failing scenarios.** test_provider_job_fencing exercises VM start/restart/powerOff/deallocate and resource deletion with a stale worker lease. test_delete_races_create holds the parent deletion lock while attempting child creation. test_cloud_export_restore restores relationships and checks credential exclusion; corrupted cross-tenant references reject the whole import.
 
 ```python
 assert stale_result.state == 'stale'
@@ -128,7 +128,7 @@ assert orphan_rows == 0
 assert leaked_secret_values == []
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_cloud_resource_lifecycle.py tests/integration/test_arm_delete_jobs.py tests/integration/test_arm_upgrade.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Implement official operation/status/result polling envelopes and retry headers, generation fences and simulated instanceView transitions. Coordinate group deletion with each data-plane's retention/delete rules; D3 supplies vault recoverability hooks. Add typed admin provisioning/export/reset and migration tests from baseline head 052. Qualify management clients through G1's shared harness, introduced alongside these workflows.
-- [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: make cloud resource lifecycles durable and queryable"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_cloud_resource_lifecycle.py tests/integration/test_arm_delete_jobs.py tests/integration/test_arm_upgrade.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Implement official operation/status/result polling envelopes and retry headers, generation fences and simulated instanceView transitions. Coordinate group deletion with each data-plane's retention/delete rules; D3 supplies vault recoverability hooks. Add typed admin provisioning/export/reset and migration tests from baseline head 052. Qualify management clients through G1's shared harness, introduced alongside these workflows.
+- [x] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: make cloud resource lifecycles durable and queryable"`. Preserve unrelated work. Push/review according to the program's phase PR rules.

@@ -2,6 +2,7 @@
 
 import copy
 from datetime import UTC, datetime
+from typing import Literal
 from uuid import UUID, uuid4
 
 from pydantic import Field, model_validator
@@ -49,6 +50,7 @@ class ResourceInput(IdentityInput):
     configuration: dict
     customer_id: UUID | None = None
     vm_id: UUID | None = None
+    power_state: Literal["running", "stopped", "deallocated"] | None = None
 
     @model_validator(mode="after")
     def checked(self):
@@ -57,7 +59,7 @@ class ResourceInput(IdentityInput):
         validate_wire(self.configuration, operation, profile)
         if self.customer_id is not None and profile["family"] != "workspace":
             raise ValueError("Customer identity belongs to workspaces only")
-        if self.vm_id is not None and profile["family"] != "vm":
+        if (self.vm_id is not None or self.power_state is not None) and profile["family"] != "vm":
             raise ValueError("VM identity belongs to VMs only")
         return self
 
@@ -123,11 +125,19 @@ async def export_provider_resources(session, tenant):
             if profile["family"] == "workspace"
             else None
         )
+        from mockazure.providers.arm.models import VmState
+
+        vm = (
+            await session.get(VmState, (tenant, row.scope_key))
+            if profile["family"] == "vm"
+            else None
+        )
         result.append(
             ResourceInput(
                 id=row.display_id,
                 configuration=configuration(row, profile),
                 customer_id=workspace.customer_id if workspace else None,
+                power_state=vm.power_state if vm else None,
                 vm_id=row.payload.get("properties", {}).get("vmId")
                 if profile["family"] == "vm"
                 else None,
@@ -144,6 +154,11 @@ async def replace_provider_resources(session, tenant, value: ResourceStateInput)
     old_keys = {row.scope_key for row in current}
     wanted = {parse_scope(row.id).key for row in value.resources}
     try:
+        from mockazure.cloud.lifecycle import retire_operations
+
+        # A domain-only restore must also revoke old provider-worker authority.
+        # Its surrounding transaction rolls retirement back if validation fails.
+        await retire_operations(session, tenant, include_groups=False)
         for item in value.resources:
             scope, resource_type, profile = identity(item.id)
             group = await resolve_scope(
@@ -234,6 +249,8 @@ async def replace_provider_resources(session, tenant, value: ResourceStateInput)
             row.payload.setdefault("properties", {})["provisioningState"] = "Succeeded"
             row.tags, row.location = config.get("tags", {}), config.get("location", row.location)
             row.revision += 1
+            row.deletion_job_id = None
+            row.provisioning_state = "Succeeded"
             row.changed_at = now
             await session.flush()
             if await session.get(ProviderResource, (tenant, scope.key)) is None:
@@ -274,6 +291,14 @@ async def replace_provider_resources(session, tenant, value: ResourceStateInput)
                 if await session.get(Vault, (tenant, scope.key)) is None:
                     session.add(Vault(tenant_id=tenant, scope_key=scope.key, name=row.name.lower()))
             elif profile["family"] == "vm":
+                from mockazure.providers.arm.models import VmState
+
+                vm = await session.get(VmState, (tenant, scope.key))
+                if vm is None:
+                    vm = VmState(tenant_id=tenant, scope_key=scope.key)
+                    session.add(vm)
+                vm.power_state = item.power_state or "running"
+
                 payload["properties"].update(
                     vmId=str(item.vm_id or uuid4()), timeCreated=row.created_at.isoformat()
                 )

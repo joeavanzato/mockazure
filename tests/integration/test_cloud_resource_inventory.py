@@ -39,6 +39,26 @@ async def create(client, path, value, headers, version):
     return result
 
 
+async def complete_delete(database, tenant):
+    from datetime import UTC, datetime
+
+    from mockazure.jobs.dispatch import dispatch_job
+    from mockazure.jobs.repository import claim_job
+
+    now = datetime.now(UTC)
+    async with database.sessions.begin() as session:
+        claim = await claim_job(
+            session,
+            owner=uuid4(),
+            now=now,
+            lease_seconds=30,
+            tenant_id=tenant,
+            kind="arm.provider.operation",
+        )
+    assert claim is not None
+    assert (await dispatch_job(database, claim, now)).state == "succeeded"
+
+
 async def test_related_compute_network_inventory(database, settings):
     async with graph_client(database, settings) as (client, tenant, app, user):
         sub, base, group, principal, headers = await prepare(
@@ -194,7 +214,8 @@ async def test_related_compute_network_inventory(database, settings):
         removed = await client.delete(
             vm["id"], params={"api-version": VERSIONS["Microsoft.Compute"]}, headers=headers
         )
-        assert removed.status_code in (200, 204), removed.text
+        assert removed.status_code == 202, removed.text
+        await complete_delete(database, tenant)
         assert (
             await client.get(
                 extension["id"],
@@ -309,7 +330,8 @@ async def test_resource_references_and_profiles_fail_atomically(database, settin
             await client.delete(
                 vnet["id"], params={"api-version": VERSIONS["Microsoft.Network"]}, headers=headers
             )
-        ).status_code in (200, 204)
+        ).status_code == 202
+        await complete_delete(database, tenant)
         response = await client.put(
             vnet["id"] + "/subnets/child",
             params={"api-version": VERSIONS["Microsoft.Network"]},
@@ -680,7 +702,7 @@ async def test_cloud_resource_migration_preserves_storage_keys(database, setting
                 assert connection.scalar(text("SELECT to_regclass('cloud_resources')")) is None
             migrate(settings.database_url.get_secret_value())
             with engine.connect() as connection:
-                assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "059"
+                assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "060"
         finally:
             engine.dispose()
         assert (await client.post(path + "/listKeys", params=ARGS, headers=headers)).json() == keys

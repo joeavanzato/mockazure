@@ -51,6 +51,7 @@ router = APIRouter()
 
 async def resource_view(session, row, profile, *, endpoints=None):
     result = copy.deepcopy(row.payload)
+    result.setdefault("properties", {})["provisioningState"] = row.provisioning_state
     result.update(id=row.display_id, name=row.name, type=row.resource_type)
     if profile["locationRequired"]:
         result.update(location=row.location, tags=copy.deepcopy(row.tags))
@@ -70,7 +71,9 @@ async def resource_view(session, row, profile, *, endpoints=None):
             .where(
                 ArmResource.tenant_id == row.tenant_id,
                 ArmResource.resource_type == child_type,
-                ArmResource.scope_key.startswith(row.scope_key + "/" + child.lower() + "/"),
+                ArmResource.scope_key.startswith(
+                    row.scope_key + "/" + child.lower() + "/", autoescape=True
+                ),
             )
             .order_by(ArmResource.scope_key)
         )
@@ -142,6 +145,12 @@ async def mutate_resource(
         raise ArmError(
             409, "InvalidOperation", "Inventory-only resources require typed provisioning"
         )
+    if row and row.deletion_job_id:
+        from mockazure.db.job_model import Job
+
+        active = await session.get(Job, row.deletion_job_id)
+        if active and active.state in {"pending", "running"}:
+            raise ArmError(409, "OperationInProgress", "Resource has a pending provider operation")
     before = await resource_view(session, row, profile) if row else {}
     if operation == "delete":
         status = 204 if 204 in contract["statusCodes"] else 200
@@ -152,7 +161,7 @@ async def mutate_resource(
                 select(ArmResource.scope_key).where(
                     ArmResource.tenant_id == actor.tenant_id,
                     (ArmResource.scope_key == scope.key)
-                    | ArmResource.scope_key.startswith(scope.key + "/"),
+                    | ArmResource.scope_key.startswith(scope.key + "/", autoescape=True),
                 )
             )
         )
@@ -277,6 +286,12 @@ async def mutate_resource(
                 "modifiedDate": now.isoformat(),
             },
         }
+    if profile["family"] == "vm":
+        from mockazure.providers.arm.models import VmState
+
+        await session.flush()
+        if await session.get(VmState, (actor.tenant_id, scope.key)) is None:
+            session.add(VmState(tenant_id=actor.tenant_id, scope_key=scope.key))
     await replace_references(session, ref, value)
     await session.flush()
     after = await resource_view(session, row, profile)
@@ -330,7 +345,9 @@ async def handle(request, subscription, namespace, resource_path, group=None):
                     scope.display_id + "/providers/" + namespace + "/" + "/".join(parts[:-1])
                 )
                 await require_action(session, actor, parent, resource_type + "/read")
-                query = query.where(ArmResource.scope_key.startswith(parent.key + "/"))
+                query = query.where(
+                    ArmResource.scope_key.startswith(parent.key + "/", autoescape=True)
+                )
             if state.last_key:
                 query = query.where(ArmResource.scope_key > state.last_key[0])
             rows = list(await session.scalars(query.order_by(ArmResource.scope_key).limit(101)))
@@ -359,6 +376,16 @@ async def handle(request, subscription, namespace, resource_path, group=None):
             return await resource_view(session, row, profile, endpoints=endpoint)
     supplied = await body(request) if request.method in {"PUT", "PATCH"} else {}
     async with transaction(request, scope) as (session, actor, sub):
+        if request.method == "DELETE" and 202 in contract["statusCodes"]:
+            from mockazure.providers.arm.provider_job_routes import accepted
+            from mockazure.providers.arm.provider_jobs import start_operation
+
+            existing = await session.get(ArmResource, (actor.tenant_id, scope.key))
+            if existing is not None:
+                return accepted(
+                    request,
+                    await start_operation(session, actor, scope, "delete", contract["version"]),
+                )
         result = await mutate_resource(
             session,
             actor,

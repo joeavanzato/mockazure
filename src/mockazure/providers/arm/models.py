@@ -185,3 +185,20 @@ class ResourceRelationship(Base):
     source_key: Mapped[str] = mapped_column(String(2048), primary_key=True)
     path: Mapped[str] = mapped_column(String(1024), primary_key=True)
     target_key: Mapped[str] = mapped_column(String(2048))
+
+
+class VmState(Base):
+    __tablename__ = "cloud_vm_states"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "scope_key"],
+            ["cloud_resources.tenant_id", "cloud_resources.scope_key"],
+            ondelete="CASCADE",
+        ),
+        CheckConstraint("power_state IN ('running','stopped','deallocated')"),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    scope_key: Mapped[str] = mapped_column(String(2048), primary_key=True)
+    power_state: Mapped[str] = mapped_column(
+        String(24), default="running", server_default="running"
+    )

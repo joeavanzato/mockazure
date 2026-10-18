@@ -135,3 +135,33 @@ jobs:
           python-version: "3.12"
       - run: uv sync --locked
       - run: uv run python -m tools.benchmark_coverage --small
+
+
+  cloud-workflows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        phase: [A, B]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.15.0"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+      - run: uv sync --locked --group clients
+      - run: uv run python tools/prepare_clients.py --manifest integrations/manifest.json --output work/vendor
+      - run: uv run python -m tools.verify_cloud_workflows --phase ${{ matrix.phase }} --ecosystems python powershell dotnet typescript --report work/cloud/${{ matrix.phase }}.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cloud-${{ matrix.phase }}-qualification
+          path: work/cloud/${{ matrix.phase }}.json
+          if-no-files-found: warn

@@ -10,7 +10,7 @@ from sqlalchemy import select
 from mockazure.keyvault.vaults import validate_vault
 from mockazure.providers.arm.contracts import DATA, check, document, manifest, object_shape, resolve
 from mockazure.providers.arm.inventory import checked_tags, clean_public
-from mockazure.providers.arm.models import ArmResource
+from mockazure.providers.arm.models import ArmResource, ResourceRelationship
 from mockazure.providers.arm.scopes import parse_scope
 
 
@@ -210,7 +210,7 @@ async def validate_resource(session, ref, value, profile, current=None):
         children = await session.scalars(
             select(ArmResource).where(
                 ArmResource.tenant_id == ref.tenant_id,
-                ArmResource.scope_key.startswith(scope.key + "/subnets/"),
+                ArmResource.scope_key.startswith(scope.key + "/subnets/", autoescape=True),
                 ArmResource.resource_type == "Microsoft.Network/virtualNetworks/subnets",
             )
         )
@@ -241,7 +241,9 @@ async def validate_resource(session, ref, value, profile, current=None):
                 ArmResource.tenant_id == ref.tenant_id,
                 ArmResource.resource_type == ref.resource_type,
                 ArmResource.scope_key != scope.key,
-                ArmResource.scope_key.startswith(scope.parent_keys[-1] + "/subnets/"),
+                ArmResource.scope_key.startswith(
+                    scope.parent_keys[-1] + "/subnets/", autoescape=True
+                ),
             )
         )
         for sibling in siblings:
@@ -252,6 +254,31 @@ async def validate_resource(session, ref, value, profile, current=None):
                 if a.version == b.version
             ):
                 raise ValueError("Subnet ranges overlap")
+        linked_nics = await session.scalars(
+            select(ArmResource)
+            .join(
+                ResourceRelationship,
+                (ResourceRelationship.tenant_id == ArmResource.tenant_id)
+                & (ResourceRelationship.source_key == ArmResource.scope_key),
+            )
+            .where(
+                ResourceRelationship.tenant_id == ref.tenant_id,
+                ResourceRelationship.target_key == scope.key,
+                ArmResource.resource_type == "Microsoft.Network/networkInterfaces",
+            )
+        )
+        for nic in linked_nics.unique():
+            for item in nic.payload.get("properties", {}).get("ipConfigurations", []):
+                config = item.get("properties", {})
+                target = config.get("subnet", {}).get("id")
+                if (
+                    target
+                    and parse_scope(target).key == scope.key
+                    and config.get("privateIPAllocationMethod") == "Static"
+                ):
+                    address = ip_address(config.get("privateIPAddress", ""))
+                    if not any(address in net for net in ranges):
+                        raise ValueError("Subnet change would strand a static NIC address")
     elif family == "nic":
         configs = props.get("ipConfigurations", [])
         if not 1 <= len(configs) <= 8 or len({c.get("name") for c in configs}) != len(configs):
@@ -303,7 +330,9 @@ async def validate_resource(session, ref, value, profile, current=None):
         siblings = await session.scalars(
             select(ArmResource).where(
                 ArmResource.tenant_id == ref.tenant_id,
-                ArmResource.scope_key.startswith(scope.parent_keys[-1] + "/securityrules/"),
+                ArmResource.scope_key.startswith(
+                    scope.parent_keys[-1] + "/securityrules/", autoescape=True
+                ),
                 ArmResource.scope_key != scope.key,
             )
         )

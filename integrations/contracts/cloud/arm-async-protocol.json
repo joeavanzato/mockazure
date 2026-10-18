@@ -1,0 +1,30 @@
+{
+  "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations",
+  "revision": "3fcd0977b587522d27365fcc432cd01c8df2e7be",
+  "retrievedAt": "2026-10-18",
+  "sha256": "869f067ddb585de4b340dccbff97f01d00e6374d5334eaee5c90ea7dde2a23b9",
+  "localPath": "src/mockazure/cloud/data/arm-providers/references/arm-async-operations.html",
+  "license": "Microsoft documentation terms; snapshot for protocol conformance",
+  "envelopes": {
+    "asyncStatus": {
+      "required": [
+        "status"
+      ],
+      "status": [
+        "InProgress",
+        "Succeeded",
+        "Failed"
+      ]
+    },
+    "result": {
+      "pending": 202,
+      "actionComplete": 200,
+      "deleteComplete": 204
+    },
+    "headers": [
+      "Azure-AsyncOperation",
+      "Location",
+      "Retry-After"
+    ]
+  }
+}

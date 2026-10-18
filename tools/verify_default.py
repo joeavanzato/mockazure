@@ -23,15 +23,23 @@ def free_port():
         return sock.getsockname()[1]
 
 
+def default_ports():
+    api_port = free_port()
+    while api_port > 65530:
+        api_port = free_port()
+    db_port = free_port()
+    while db_port in range(api_port, api_port + 6):
+        db_port = free_port()
+    return api_port, db_port
+
+
 def main(*, qualify=None):
     run_id = uuid4().hex[:12]
     directory = ROOT / "work" / ("default-smoke-" + run_id)
     directory.mkdir(parents=True)
     project = "mockazure-default-" + run_id
     image = "mockazure:default-" + run_id
-    api_port, db_port = free_port(), free_port()
-    while db_port == api_port:
-        db_port = free_port()
+    api_port, db_port = default_ports()
     shutil.copyfile(ROOT / "compose.yaml", directory / "compose.yaml")
     (directory / "deploy").mkdir()
     for name in ("haproxy.cfg", "postgres-guard.sh"):

@@ -23,6 +23,9 @@ from mockazure.oauth.device_models import AuthenticationOutcome
 
 
 async def reset_evidence(session, tenant_id, expected_generation):
+    from mockazure.security.repository import lock_security
+
+    await lock_security(session, tenant_id)
     # Directory writes take this lock before EvidenceState; preserve that order.
     directory = await session.scalar(
         select(DirectoryState).where(DirectoryState.tenant_id == tenant_id).with_for_update()
@@ -37,6 +40,9 @@ async def reset_evidence(session, tenant_id, expected_generation):
     )
     state.legacy_auth_cutoff_at = max(datetime.now(UTC), latest) if latest else datetime.now(UTC)
     state.legacy_directory_revision = directory.revision if directory else 0
+    from mockazure.cloud.lifecycle import invalidate_cloud
+
+    await invalidate_cloud(session, tenant_id, include_groups=False)
     state.generation = uuid4()
     await session.flush()
     return state.generation

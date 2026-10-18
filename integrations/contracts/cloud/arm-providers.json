@@ -10262,6 +10262,428 @@
         "tests/integration/test_cloud_resource_inventory.py"
       ],
       "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "VirtualMachines_Deallocate",
+      "service": "arm-providers",
+      "resourceType": "Microsoft.Compute/virtualMachines",
+      "version": "2025-04-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null,
+        "202": null
+      },
+      "schemaSource": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+      "statusCodes": [
+        200,
+        202,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id",
+        "Azure-AsyncOperation",
+        "Location",
+        "Retry-After"
+      ],
+      "permissions": [
+        "Microsoft.Compute/virtualMachines/deallocate/action"
+      ],
+      "queryOptions": [
+        "api-version",
+        "hibernate"
+      ],
+      "collection": false,
+      "limits": {
+        "pageSize": 100,
+        "resourcesPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v3/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "8f69ddbcdd8f3df61a156a129e70db08b3a03f2ec710de07f30273ec27492de3",
+          "localPath": "schemas/specification/common-types/resource-management/v3/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0339076f3c6bbbeaa6a4d017b3216c50b92c4bf8d7282807480e682afe3e13c1",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dfc4ad5cee4225007819a3ce798a97c2f38fc5b18f5862b89fffd03d37266f3f",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Local simulated power state; no guest execution. Hibernation is unsupported.",
+        "Durable lease/generation fences; current scope authority for polling."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_resource_inventory.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "VirtualMachines_InstanceView",
+      "service": "arm-providers",
+      "resourceType": "Microsoft.Compute/virtualMachines",
+      "version": "2025-04-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/VirtualMachineInstanceView"
+        }
+      },
+      "schemaSource": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id",
+        "Azure-AsyncOperation",
+        "Location",
+        "Retry-After"
+      ],
+      "permissions": [
+        "Microsoft.Compute/virtualMachines/instanceView/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "collection": false,
+      "limits": {
+        "pageSize": 100,
+        "resourcesPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v3/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "8f69ddbcdd8f3df61a156a129e70db08b3a03f2ec710de07f30273ec27492de3",
+          "localPath": "schemas/specification/common-types/resource-management/v3/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0339076f3c6bbbeaa6a4d017b3216c50b92c4bf8d7282807480e682afe3e13c1",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dfc4ad5cee4225007819a3ce798a97c2f38fc5b18f5862b89fffd03d37266f3f",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Local simulated power state; no guest execution. Hibernation is unsupported.",
+        "Durable lease/generation fences; current scope authority for polling."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_resource_inventory.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "VirtualMachines_PowerOff",
+      "service": "arm-providers",
+      "resourceType": "Microsoft.Compute/virtualMachines",
+      "version": "2025-04-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null,
+        "202": null
+      },
+      "schemaSource": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+      "statusCodes": [
+        200,
+        202,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id",
+        "Azure-AsyncOperation",
+        "Location",
+        "Retry-After"
+      ],
+      "permissions": [
+        "Microsoft.Compute/virtualMachines/powerOff/action"
+      ],
+      "queryOptions": [
+        "api-version",
+        "skipShutdown"
+      ],
+      "collection": false,
+      "limits": {
+        "pageSize": 100,
+        "resourcesPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v3/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "8f69ddbcdd8f3df61a156a129e70db08b3a03f2ec710de07f30273ec27492de3",
+          "localPath": "schemas/specification/common-types/resource-management/v3/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0339076f3c6bbbeaa6a4d017b3216c50b92c4bf8d7282807480e682afe3e13c1",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dfc4ad5cee4225007819a3ce798a97c2f38fc5b18f5862b89fffd03d37266f3f",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Local simulated power state; no guest execution. Hibernation is unsupported.",
+        "Durable lease/generation fences; current scope authority for polling."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_resource_inventory.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "VirtualMachines_Restart",
+      "service": "arm-providers",
+      "resourceType": "Microsoft.Compute/virtualMachines",
+      "version": "2025-04-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null,
+        "202": null
+      },
+      "schemaSource": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+      "statusCodes": [
+        200,
+        202,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id",
+        "Azure-AsyncOperation",
+        "Location",
+        "Retry-After"
+      ],
+      "permissions": [
+        "Microsoft.Compute/virtualMachines/restart/action"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "collection": false,
+      "limits": {
+        "pageSize": 100,
+        "resourcesPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v3/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "8f69ddbcdd8f3df61a156a129e70db08b3a03f2ec710de07f30273ec27492de3",
+          "localPath": "schemas/specification/common-types/resource-management/v3/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0339076f3c6bbbeaa6a4d017b3216c50b92c4bf8d7282807480e682afe3e13c1",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dfc4ad5cee4225007819a3ce798a97c2f38fc5b18f5862b89fffd03d37266f3f",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Local simulated power state; no guest execution. Hibernation is unsupported.",
+        "Durable lease/generation fences; current scope authority for polling."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_resource_inventory.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "VirtualMachines_Start",
+      "service": "arm-providers",
+      "resourceType": "Microsoft.Compute/virtualMachines",
+      "version": "2025-04-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null,
+        "202": null
+      },
+      "schemaSource": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+      "statusCodes": [
+        200,
+        202,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id",
+        "Azure-AsyncOperation",
+        "Location",
+        "Retry-After"
+      ],
+      "permissions": [
+        "Microsoft.Compute/virtualMachines/start/action"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "collection": false,
+      "limits": {
+        "pageSize": 100,
+        "resourcesPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v3/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "8f69ddbcdd8f3df61a156a129e70db08b3a03f2ec710de07f30273ec27492de3",
+          "localPath": "schemas/specification/common-types/resource-management/v3/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0339076f3c6bbbeaa6a4d017b3216c50b92c4bf8d7282807480e682afe3e13c1",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dfc4ad5cee4225007819a3ce798a97c2f38fc5b18f5862b89fffd03d37266f3f",
+          "localPath": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Local simulated power state; no guest execution. Hibernation is unsupported.",
+        "Durable lease/generation fences; current scope authority for polling."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_resource_inventory.py"
+      ],
+      "status": "implemented"
     }
   ]
 }

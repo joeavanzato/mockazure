@@ -366,7 +366,8 @@ parents, plus subscription lists for top-level families (not VM extensions).
 Pages contain at most 100 resources, with a 10,000-resource/tenant local bound.
 Next links bind inventory revision and recheck current authority.
 
-Create/update/delete are currently synchronous. Native Activity Log facts and
+Create/update are synchronous; B4 adds asynchronous deletion where the published
+operation admits 202. Vault and Storage account deletion remain synchronous. Native Activity Log facts and
 internal service events commit atomically with canonical inventory and relationships.
 Provider registration, current source actions and linked-resource join/write actions
 are required; an unchanged write still checks current linked authority. Related
@@ -407,3 +408,79 @@ without changing existing Storage keys. Four-ecosystem management qualification
 remains B4; these REST tests alone are not SDK qualification.
 
 B3 local gate: **589 passed** across all unit and affected integration tests; 51 pinned ARM source hashes and the provider catalog verify offline. This is task-local evidence, with native management qualification still pending B4.
+
+
+## Durable lifecycle and management clients (B4)
+
+Compute API `2025-04-01` now exposes POST `start`, `restart`, `powerOff`,
+`deallocate` and GET `instanceView` under a VM. Initial power is running;
+start/restart yield running, powerOff stopped, deallocate deallocated. This is
+durable simulated state, without VM guests, billing or hibernation. `skipShutdown`
+accepts the published boolean; no guest shutdown is executed. `hibernate=true`
+is rejected. Body-bearing action calls and unsupported query options fail.
+
+Accepted actions and asynchronous resource deletes return 202 with local
+`Azure-AsyncOperation`, `Location` and `Retry-After` headers. Clients follow these
+opaque local monitor URLs, whose envelopes implement the [published ARM asynchronous
+protocol](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations).
+The exact local URL template is not a claim that every Azure provider publishes
+that same route. Status polling returns InProgress/Succeeded/Failed with native
+errors; result polling returns 202 pending, 200 for completed actions, 204 for
+completed deletion and 409 for failure. Current operation authority at subscription
+or resource-group scope is required on each poll, including after deletion.
+
+Jobs check both evidence/cloud generations and worker lease fencing. State changes,
+Activity Log facts and service events commit together. A stale lease cannot commit
+state or failure evidence; exhausted leases become visible failures. Repeated same
+pending actions reuse their job; conflicts return 409. Parent deletion cancels
+descendant operations, guards incoming relationships, and serializes against new
+child creation. Migration 060 adds VM power state; historical inventory from 052
+remains inventory-only rather than silently gaining executable authority.
+
+GET/PUT `/_mock/tenants/{tenant}/cloud/state` exports/restores typed subscriptions,
+groups, registrations, account settings, provider resources and VM power.
+POST `cloud/reset` requires `expected_generation` and resets operational domains,
+retaining parent subscriptions/groups. Restore validates the whole document
+atomically, rotates Storage keys, retires pending provider/group jobs, preserves
+stable resource IDs and prevents historical event republication. Exports exclude
+account credentials and identity grants. Bounded cleanup prunes retired event
+generations; active resource state has no implicit TTL.
+
+The existing export job accepts `?include_cloud=true` for schema 2. Restore through
+`/_mock/tenants/import` requires the original `target_tenant_id`; identity/tenant
+configuration is not replaced. Default schema 1 metadata export/import is unchanged.
+Schema 2 is configuration/state recovery, not binary Storage or secret backup;
+later data-plane phases must add their explicit lifecycle contributors.
+
+The management matrix uses original Python azure-mgmt-resource 23.4.0,
+Az.Accounts 4.0.2/Az.Resources 7.8.0, .NET Azure.ResourceManager 1.14.0 plus
+Azure.ResourceManager.Network 1.17.0, and TypeScript @azure/arm-resources 8.0.0.
+Each creates/reads 12 resource families, reads another language's objects, changes
+VM tags and deletes using native polling. The harness also checks final absence.
+Python explicitly configures its RequestsTransport CA. TypeScript resource IDs
+and Az Get-AzResource arguments omit the separator already supplied by those
+clients. .NET uses typed Network child models because its generic model emits
+`location:null` for location-less subnets/rules; its VM tag change uses a full PUT.
+No request-body rewrite or replacement SDK is used. All clients target only local
+HTTPS origins with the instance CA. Az runs in the isolated API network namespace.
+
+Reproduce with `python -m tools.verify_cloud_workflows --phase B --ecosystems python
+powershell dotnet typescript --report work/cloud/B.json`. The runner verifies the
+existing pinned module archives, runs npm ci and locked NuGet restore, builds into
+ignored work directories, then creates an isolated Compose instance. Node, .NET 9,
+Docker and the Python integration dependencies are required. Preparation can also
+run separately using `python -m tools.prepare_cloud_clients`. Successful execution
+is recorded in the phase report with actual package versions and source fingerprint;
+this matrix does not qualify the still-pending data planes or query services.
+
+
+The whole-phase review added literal SQL scope-prefix matching (underscores in
+valid names are not LIKE wildcards), subnet resize checks against existing static
+NIC addresses, atomic cancellation before restoring deleting groups, and worker
+fencing on standalone resourceState restore/reset. Six negative regression cases
+failed before these fixes; the combined review/lifecycle/inventory gate passed
+27 tests afterward. The A/B CI client matrix is configured, but current GitHub
+jobs do not start because of repository billing/spending limits. Local evidence
+must not be read as a successful hosted CI run.
+
+B4 final local verification: **596 passed** in 655.47s across all unit and affected integration tests; Ruff, diff checks and offline source verification passed. The fresh four-client matrix passed in 620.42s against runtime fingerprint `ea198038da78eb70768f36143ac713132978ff85c4f7e5b5f4ce2dcf64549c63` (pre-commit source HEAD `685dec1ecd6b283300c0ade4ddbd2489f030bb95`). It completed all 48 resource-family roundtrips/deletions and the four-language read ring. The qualification report checks this fingerprint before/after execution; later data-plane phases remain pending.
