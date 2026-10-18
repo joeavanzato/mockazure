@@ -934,8 +934,10 @@
       "tests": [
         "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
       ],
-      "status": "implemented",
-      "collectorCommands": []
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMailFolder"
+      ]
     },
     {
       "service": "graph",
@@ -1048,8 +1050,10 @@
       "tests": [
         "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
       ],
-      "status": "implemented",
-      "collectorCommands": []
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMessage"
+      ]
     },
     {
       "service": "graph",
@@ -1116,8 +1120,10 @@
       "tests": [
         "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
       ],
-      "status": "implemented",
-      "collectorCommands": []
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMessageContent"
+      ]
     },
     {
       "service": "graph",
@@ -1186,8 +1192,10 @@
       "tests": [
         "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
       ],
-      "status": "implemented",
-      "collectorCommands": []
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMessageAttachment"
+      ]
     },
     {
       "service": "graph",
@@ -2025,8 +2033,10 @@
       "tests": [
         "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
       ],
-      "status": "implemented",
-      "collectorCommands": []
+      "status": "qualified",
+      "collectorCommands": [
+        "Update-MgUserMessage"
+      ]
     },
     {
       "service": "graph",
@@ -2286,7 +2296,7 @@
         "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
         "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
       ],
-      "status": "implemented",
+      "status": "qualified",
       "collectorCommands": []
     },
     {
@@ -2623,8 +2633,10 @@
         "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
         "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
       ],
-      "status": "implemented",
-      "collectorCommands": []
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMailFolderMessageDelta"
+      ]
     },
     {
       "service": "graph",

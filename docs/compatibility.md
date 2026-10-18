@@ -61,6 +61,24 @@ HTTPS readiness and missing-storage checks passed. Complete Hawk tenant configur
 and MES mailbox-permission workflows remain outside this qualification because their
 additional commands/fields are still unsupported.
 
+## Mail content qualification
+
+The 2026-10-17 `python -m tools.verify_mail_content` run passed against the final
+mail implementation in a freshly initialized local Docker lab. Original msgraph-sdk
+1.64.0 and Microsoft Graph PowerShell2.35.1 each retrieved two folders and all101
+messages at page size25, verified exact MIME and file-attachment SHA-256 hashes,
+and resumed saved folder delta links after PostgreSQL and API restart. Generated
+property updates produced the expected changed message, and a local move produced
+the expected source-folder removal. Both module-tree checks passed before and after
+execution. All340 runtime source hashes matched the checkout.
+
+The PowerShell generated delta command was checked separately from saved-link
+resumption through the original Invoke-MgGraphRequest, using the existing local
+transport/authentication binding. No Microsoft command implementation was replaced.
+This qualifies the listed requests, not arbitrary mail queries, shared-mailbox
+permissions, sending or complete tenant collection. The dedicated CI job repeats
+this bounded101-message workflow; the256MiB storage test remains opt-in.
+
 ## Preserved upstream limitations
 
 Original Hawk JSON append creates concatenated documents for multiple suspicious rules.
