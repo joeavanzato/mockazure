@@ -1,7 +1,15 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, ForeignKey, ForeignKeyConstraint, String, UniqueConstraint, func
+from sqlalchemy import (
+    BigInteger,
+    DateTime,
+    ForeignKey,
+    ForeignKeyConstraint,
+    String,
+    UniqueConstraint,
+    func,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -9,6 +17,8 @@ from mockazure.db.models import Base
 
 
 class User(Base):
+    password_change_required: Mapped[bool] = mapped_column(default=False, server_default="false")
+    credential_version: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0")
     __tablename__ = "identity_users"
     __table_args__ = (UniqueConstraint("tenant_id", "id"), UniqueConstraint("tenant_id", "upn"))
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)

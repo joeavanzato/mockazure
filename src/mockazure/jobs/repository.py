@@ -211,6 +211,7 @@ async def fail_job(
         "ExportFailed",
         "InvalidEvidenceSource",
         "InvalidActivitySource",
+        "PasswordResetFailed",
         "UnsupportedJobKind",
         "ArmOperationFailed",
     }

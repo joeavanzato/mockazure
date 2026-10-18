@@ -53,8 +53,24 @@ async def require_current_identity(context: PrincipalContext, session) -> None:
                 User.deleted_at.is_(None),
             )
         )
-        if user is None:
+        if user is None or user.password_change_required:
             raise AuthorizationDenied("Signed-in user cannot access this resource")
+        if context.session_id is not None:
+            from datetime import UTC, datetime
+
+            from mockazure.oauth.models import LoginSession
+
+            login = await session.get(LoginSession, context.session_id)
+            if (
+                login is None
+                or login.tenant_id != context.tenant_id
+                or login.user_id != user.id
+                or login.client_id != context.client_id
+                or login.revoked_at is not None
+                or login.expires_at <= datetime.now(UTC)
+                or login.credential_version != user.credential_version
+            ):
+                raise AuthorizationDenied("Signed-in session is no longer valid")
 
 
 async def authorize(context: PrincipalContext, operation: OperationRequirement, session) -> None:

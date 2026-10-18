@@ -35,6 +35,7 @@ async def new_session(transaction, session, now):
         resource=transaction.resource,
         scopes=transaction.scopes,
         mfa=transaction.mfa,
+        credential_version=transaction.credential_version,
         created_at=now,
         expires_at=now + timedelta(hours=24),
     )

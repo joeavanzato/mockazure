@@ -169,6 +169,11 @@ async def login(request: Request):
         if not row.common:
             query = query.where(User.tenant_id == row.tenant_id)
         user = await session.scalar(query)
+        if user is not None:
+            from mockazure.security.repository import lock_security
+
+            await lock_security(session, user.tenant_id)
+            await session.refresh(user)
         if (
             not user
             or not user.enabled
@@ -212,6 +217,10 @@ async def login(request: Request):
             raise error
         await local_app(session, user.tenant_id, str(app.client_id))
         row.tenant_id, row.user_id, row.stage = user.tenant_id, user.id, "consent"
+        row.credential_version = user.credential_version
+        if user.password_change_required:
+            row.stage = "password-change"
+            return pages.form(row, fields["csrf"], "password-change", app.display_name)
         await enforce_policies(
             session,
             request,
@@ -266,12 +275,17 @@ async def consent_to_scopes(row, session):
 
 
 async def current_user(row, session, *, request=None, flow="authorization_code", now=None):
-    user = await session.get(User, row.user_id)
+    from mockazure.security.repository import lock_security
+
+    await lock_security(session, row.tenant_id)
+    user = await session.get(User, row.user_id, populate_existing=True)
     if (
         not user
         or not user.enabled
         or user.deleted_at is not None
         or user.tenant_id != row.tenant_id
+        or user.password_change_required
+        or user.credential_version != getattr(row, "credential_version", 0)
     ):
         error = invalid_grant()
         if (
@@ -414,3 +428,10 @@ async def redeem_code(fields, tenant, request, session, now):
     return await token_response(
         login_session, user, session, request.app.state.settings, now, nonce=row.nonce
     )
+
+
+@router.post("/password-change")
+async def password_change(request: Request):
+    from mockazure.oauth.password_change import change_password
+
+    return await change_password(request)

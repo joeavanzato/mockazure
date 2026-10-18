@@ -113,6 +113,8 @@ ROOTS = (
     "directoryRole",
     "authenticationMethod",
     "passwordAuthenticationMethod",
+    "longRunningOperation",
+    "passwordResetResponse",
     "phoneAuthenticationMethod",
     "emailAuthenticationMethod",
     "microsoftAuthenticatorAuthenticationMethod",

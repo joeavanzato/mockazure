@@ -12,6 +12,7 @@ from mockazure.evidence.projection import process_projection
 from mockazure.jobs.repository import fail_job, finish_export
 from mockazure.jobs.schemas import ExportSnapshot, JobClaim, JobResult
 from mockazure.providers.arm.operations import process_arm_delete
+from mockazure.security.password_reset import process_password_reset
 
 
 async def process_export(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult:
@@ -24,6 +25,7 @@ async def process_export(database: Database, claim: JobClaim, wall_now: datetime
 
 
 HANDLERS = {
+    "authentication.passwordReset": process_password_reset,
     "activity.publish": process_activity,
     "tenant.export": process_export,
     "evidence.project": process_projection,
@@ -47,6 +49,7 @@ async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) 
         code = {
             "evidence.project": "InvalidEvidenceSource",
             "activity.publish": "InvalidActivitySource",
+            "authentication.passwordReset": "PasswordResetFailed",
             "audit.query": "AuditQueryFailed",
             "arm.group.delete": "ArmOperationFailed",
         }.get(claim.kind, "ExportFailed")
