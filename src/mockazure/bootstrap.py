@@ -167,7 +167,7 @@ def initialize_compose(
             data_dir=".",
             listen_host="0.0.0.0",
             listen_port=8443,
-            data_listen_ports=[],
+            data_listen_ports=[8444, 8445, 8446, 8447, 8448],
             database_url=f"postgresql+psycopg://mockazure:{password}@db:5432/mockazure",
         )
         legacy_container = (json.dumps(container, indent=2) + "\n").encode()
@@ -183,7 +183,8 @@ def initialize_compose(
         if container_file.exists() and not upgrade_container:
             # Normalize only newly defaulted fields; never overwrite a divergent existing setting.
             previous = json.loads(container_file.read_text(encoding="utf-8"))
-            previous.setdefault("data_listen_ports", [])
+            if not previous.get("data_listen_ports"):
+                previous["data_listen_ports"] = [8444, 8445, 8446, 8447, 8448]
             for profile in previous.get("client_profiles", {}).values():
                 defaults = EndpointProfile.model_validate(profile).model_dump(mode="json")
                 for name in ("storage", "file", "queue", "table", "keyvault"):

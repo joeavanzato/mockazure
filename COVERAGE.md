@@ -40,13 +40,13 @@ origins here are references, not emulator traffic destinations. Resource scopes 
 `https://graph.microsoft.com/.default` identify token audiences; they do not select an
 upstream server. Use the configured local endpoints and generated CA.
 
-Jump to: [directory](#graph-directory) · [apps/devices](#graph-applications-service-principals-and-devices) ·
-[grants/roles](#graph-permission-grants-and-directory-roles) · [methods/policy](#graph-authentication-methods-reports-and-policy) ·
-[evidence](#graph-sign-ins-audits-risk-and-licensing) · [security](#graph-security-collections) ·
-[mail/UAL](#graph-mail-and-unified-audit-log) · [queries](#graph-query-and-protocol-coverage) ·
-[SharePoint/OneDrive](#graph-sharepoint-and-onedrive) · [Teams](#graph-teams-and-chats) ·
-[Intune](#graph-intune) · [gaps](#graph-gaps) · [Entra](#entra-authentication) · [Exchange](#exchange-online) ·
-[ARM](#azure-resource-manager-and-activity-logs) · [data setup](#populating-data-and-runtime-discovery).
+Jump to: [directory](#graph-directory) Â· [apps/devices](#graph-applications-service-principals-and-devices) Â·
+[grants/roles](#graph-permission-grants-and-directory-roles) Â· [methods/policy](#graph-authentication-methods-reports-and-policy) Â·
+[evidence](#graph-sign-ins-audits-risk-and-licensing) Â· [security](#graph-security-collections) Â·
+[mail/UAL](#graph-mail-and-unified-audit-log) Â· [queries](#graph-query-and-protocol-coverage) Â·
+[SharePoint/OneDrive](#graph-sharepoint-and-onedrive) Â· [Teams](#graph-teams-and-chats) Â·
+[Intune](#graph-intune) Â· [gaps](#graph-gaps) Â· [Entra](#entra-authentication) Â· [Exchange](#exchange-online) Â·
+[ARM](#azure-resource-manager-and-activity-logs) Â· [data setup](#populating-data-and-runtime-discovery).
 
 ## Graph directory
 
@@ -82,7 +82,7 @@ the options remain endpoint-specific.
 | Microsoft Graph URI | MockAzure support | Notes / unsupported parts | Official reference |
 | --- | --- | --- | --- |
 | `/v1.0/directoryObjects/{id}` | Partial: GET | Active user/group/application/servicePrincipal/device only; `$select`; tenant-scoped lookup. Unknown/deleted/foreign IDs return 404. | [Get object](https://learn.microsoft.com/en-us/graph/api/directoryobject-get?view=graph-rest-1.0) |
-| `/v1.0/directoryObjects/getByIds` | Partial: POST | 1–1000 GUID IDs; mixed types, deduplication and case-insensitive `types`; missing/deleted/foreign IDs omitted. Same five types; no query options. Supports the `microsoft.graph.getByIds` alias emitted by Graph PowerShell. | [Resolve IDs](https://learn.microsoft.com/en-us/graph/api/directoryobject-getbyids?view=graph-rest-1.0) |
+| `/v1.0/directoryObjects/getByIds` | Partial: POST | 1â€“1000 GUID IDs; mixed types, deduplication and case-insensitive `types`; missing/deleted/foreign IDs omitted. Same five types; no query options. Supports the `microsoft.graph.getByIds` alias emitted by Graph PowerShell. | [Resolve IDs](https://learn.microsoft.com/en-us/graph/api/directoryobject-getbyids?view=graph-rest-1.0) |
 | `/v1.0/groups/{id}/memberOf`, `/v1.0/groups/{id}/transitiveMemberOf` | Partial: GET | Group targets only, cycle-safe deduplication; `$select`, `$top`, snapshot paging. No directory-role/administrative-unit navigation. | [Direct](https://learn.microsoft.com/en-us/graph/api/group-list-memberof?view=graph-rest-1.0), [transitive](https://learn.microsoft.com/en-us/graph/api/group-list-transitivememberof?view=graph-rest-1.0) |
 | `/v1.0/users/{id}/ownedObjects`, `/v1.0/me/ownedObjects` | Partial: GET | Groups, applications, SPs and devices; ID/type/displayName projection. Unreadable displayName is null; `$select`, `$top`, durable paging. Delegated-only, including explicit `/users/{id}` addressing. | [Owned objects](https://learn.microsoft.com/en-us/graph/api/user-list-ownedobjects?view=graph-rest-1.0) |
 | `/v1.0/groups/{id}/owners/$ref`, `/v1.0/groups/{id}/owners/{owner}/$ref` | Partial: POST / DELETE | Local active user/SP references on static security groups; delegated role/ownership checks, atomic relationship history and audit facts. Last user owner cannot be removed. Existing v1.0 owner reads still omit SPs under the documented Microsoft staged-rollout profile. | [Add](https://learn.microsoft.com/en-us/graph/api/group-post-owners?view=graph-rest-1.0), [remove](https://learn.microsoft.com/en-us/graph/api/group-delete-owners?view=graph-rest-1.0) |
@@ -224,15 +224,15 @@ correctly reject an unsupported query or property.
 | Risky users/risk detections | Filter, select, top, nextLink | No orderby/count/expand/skip; cap 500. |
 | Registration report | Declared filter, server continuation | No client top/select/order/expand. Method inventory accepts no optional query parameters. |
 | Security collections | Filter/top/skip/count/nextLink; legacy alerts add select and one scalar orderby; incidents add expand=alerts | Default 100, cap 1000; top is page size. Legacy skip cap 500, others 100,000; expansion cap 10,000. Modern alerts/scores/profiles do not inherit legacy select/order support. |
-| Inbox rules | Select/top, snapshot nextLink | Max 1000 rules/mailbox; page cap 100, accepted top 1–1000. No filter/order/expand. |
-| UAL query lists/results | Select/top/nextLink; search filters in POST body | Page cap 100, accepted top 1–1000. Item query supports selection only. |
+| Inbox rules | Select/top, snapshot nextLink | Max 1000 rules/mailbox; page cap 100, accepted top 1â€“1000. No filter/order/expand. |
+| UAL query lists/results | Select/top/nextLink; search filters in POST body | Page cap 100, accepted top 1â€“1000. Item query supports selection only. |
 | Directory delta | Users/groups; select and issued state links | No arbitrary filter/top/order/expand. Mail-folder **message** delta and drive-root delta have separate profiles below. |
-| `POST /v1.0/$batch` (also beta) | 1–20 independent GETs; per-item authorization/errors | Allowlisted roots include directoryObjects, apps/SPs/devices, roles/grants, identity/conditionalAccess, reports, security, sites/drives, teams/chats and deviceManagement, plus users/groups/me and evidence roots. Unsupported inner operations still fail. The top-level `policies` root (authenticationMethodsPolicy) is **not** batch-enabled. No writes/dependencies, percent-encoded paths or external URLs; 8 MiB/item and 32 MiB aggregate response limits; redirects are not followed. [Batching](https://learn.microsoft.com/en-us/graph/json-batching). |
+| `POST /v1.0/$batch` (also beta) | 1â€“20 independent GETs; per-item authorization/errors | Allowlisted roots include directoryObjects, apps/SPs/devices, roles/grants, identity/conditionalAccess, reports, security, sites/drives, teams/chats and deviceManagement, plus users/groups/me and evidence roots. Unsupported inner operations still fail. The top-level `policies` root (authenticationMethodsPolicy) is **not** batch-enabled. No writes/dependencies, percent-encoded paths or external URLs; 8 MiB/item and 32 MiB aggregate response limits; redirects are not followed. [Batching](https://learn.microsoft.com/en-us/graph/json-batching). |
 | Throttling | Shared PostgreSQL budgets and one-shot read/page 429 for directory/evidence, app/device, role/grant/CA/report, security collections, sites/drives, teams/chats and deviceManagement; Exchange trace rolling window; ARM Activity faults; separate Activity feed publisher quota | Retry-After; scope is tenant/client/resource and shared across API instances. Ordinary `/me` and mail aliases share the user bucket; joinedTeams/chats/managedDevices aliases use their workload buckets. Method-policy routes are not a declared budget bucket. Batch charges inner calls only. Local quotas are configurable, not a promise to reproduce every Microsoft quota. |
-| Mail content | Message select/filter/orderby/top/count, folder/attachment select/top, folder-message delta | Default top 10, accepted 1–1000; Prefer page size can lower it. Ordered fields must lead the message filter. Only itemAttachment/item expansion; raw content accepts no query. See [mail profile](docs/mail-contracts.md). |
-| SharePoint/OneDrive | Select/top (1–1000), bounded order, site `search`, list-item fields expansion; root delta | No generic filter/count/search. `search` is unprefixed and required on `/sites`; ordering is a local extension where undocumented upstream. Delta accepts select/top/token, not order/expand. [Profile](integrations/contracts/site-drive.md). |
-| Teams/chats | Operation-specific selection, equality/date filters, ordering, replies expansion and paging | Message top 1–50; team/channel member top 1–999; joinedTeams, chat item/members and message item/raw reads have no optional query. Recognized chat date filters without matching explicit order are ignored. [Profile](integrations/contracts/teams.md). |
-| Intune | Collection select/top (1–1000), one allowed-field string equality filter, one allowed-field order; item select | No count/expand/search/delta; one-hour stored continuations. Assignment/status evidence does not calculate device compliance. [Profile](integrations/contracts/intune.md). |
+| Mail content | Message select/filter/orderby/top/count, folder/attachment select/top, folder-message delta | Default top 10, accepted 1â€“1000; Prefer page size can lower it. Ordered fields must lead the message filter. Only itemAttachment/item expansion; raw content accepts no query. See [mail profile](docs/mail-contracts.md). |
+| SharePoint/OneDrive | Select/top (1â€“1000), bounded order, site `search`, list-item fields expansion; root delta | No generic filter/count/search. `search` is unprefixed and required on `/sites`; ordering is a local extension where undocumented upstream. Delta accepts select/top/token, not order/expand. [Profile](integrations/contracts/site-drive.md). |
+| Teams/chats | Operation-specific selection, equality/date filters, ordering, replies expansion and paging | Message top 1â€“50; team/channel member top 1â€“999; joinedTeams, chat item/members and message item/raw reads have no optional query. Recognized chat date filters without matching explicit order are ignored. [Profile](integrations/contracts/teams.md). |
+| Intune | Collection select/top (1â€“1000), one allowed-field string equality filter, one allowed-field order; item select | No count/expand/search/delta; one-hour stored continuations. Assignment/status evidence does not calculate device compliance. [Profile](integrations/contracts/intune.md). |
 | Authentication-method policy | Root/configuration GET, configuration PATCH | No query options, beta routes or batch root. Method inventory and reset-operation status have their own query profiles above. |
 | Continuations | Local origins; tenant/caller/query binding; reauthorization | Family-specific lifetime/snapshot behavior. Use nextLink unchanged. An odata.context value does not implement GET /$metadata. |
 | Errors/authentication | Local token signature/audience/expiry/current identity checks; Graph-shaped errors | Missing provider route normally 501 MockAzureOperationNotImplemented; unsupported method 405; unsupported query usually 400. Missing objects/denied access are not coverage gaps. |
@@ -473,7 +473,7 @@ version-specific sources and local paging rules.
 | --- | --- | --- |
 | `POST https://api.security.microsoft.com/api/advancedhunting/run` | Unsupported | Legacy Defender XDR hunting transport; Microsoft documents its transition/retirement in favor of Graph. Neither this route nor Graph runHuntingQuery is implemented. [Reference](https://learn.microsoft.com/en-us/defender-xdr/api-advanced-hunting). |
 | `POST https://manage.office.com/api/v1.0/{tenant}/activity/feed/subscriptions/start?contentType=...` and `/subscriptions/stop` | Partial: implemented app-only pull profile | Client-isolated enabling/disabling; all five types, separate DLP permission; current identity and subscription enforcement. No webhooks/delegated access. [Contract](integrations/contracts/activity-feed.md). |
-| `GET .../activity/feed/subscriptions/list` and `/subscriptions/content?contentType=...` | Partial: implemented app-only pull profile | Raw arrays; publication windows ≤24h, seven-day retention, snapshot `NextPageUri` header; publisher quota/AF429/Retry-After. [Reference](https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference). |
+| `GET .../activity/feed/subscriptions/list` and `/subscriptions/content?contentType=...` | Partial: implemented app-only pull profile | Raw arrays; publication windows â‰¤24h, seven-day retention, snapshot `NextPageUri` header; publisher quota/AF429/Retry-After. [Reference](https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference). |
 | `GET .../activity/feed/audit/{contentId}` | Implemented: GET within the pull profile | Immutable common-schema audit arrays, original event IDs, current subscription/DLP checks and expiry. Canonical native UAL publication + explicit feed-only imports; preserved workload extensions. No claims of all product-specific schema rules. |
 | `.../activity/feed/subscriptions/notifications` and webhook delivery | Unsupported | Pull subscriptions do not imply notification history or external delivery. |
 
@@ -492,7 +492,7 @@ require the separate admin token. Provider operations use their local service ac
 | GET `/_mock/health`, `/_mock/ready`, `/_mock/capabilities` | Health, storage/key readiness, authenticated high-level discovery. This document records method/path boundaries beyond that summary. |
 | POST `/_mock/tenants/{tenant}/directory/import`, GET `/_mock/tenants/{tenant}/directory/export` | Public directory fixtures, not complete identity/credential/authorization backups. |
 | POST `/_mock/tenants/{tenant}/evidence/import`, GET `/_mock/tenants/{tenant}/evidence/export` | Supported historical families including UAL/Activity; [controls](docs/evidence.md) govern publication, retention/reset. |
-| POST `/_mock/tenants/{tenant}/collections/{family}/import` | Five security collections; atomic 1–1000 records, 8 MiB limit, replacement by ID at a new revision. No collection delete/reset/export/pruning integration yet. |
+| POST `/_mock/tenants/{tenant}/collections/{family}/import` | Five security collections; atomic 1â€“1000 records, 8 MiB limit, replacement by ID at a new revision. No collection delete/reset/export/pruning integration yet. |
 | `/_mock/tenants/{tenant}/activity/{state,settings,import,publish,drain,export,restore,reset,cleanup}` | Feed publication faults, bounded evidence lifecycle, generation fences; [methods and limits](integrations/contracts/activity-feed.md). |
 | POST `/_mock/tenants/{tenant}/workloads/{workload}/import`, GET `/export?scope=...`, POST `/reset` under the same workload prefix | `sharepoint`, `teams`, `intune` typed evidence; JSON/NDJSON/ZIP export, explicit revision/generation reset and validated restore through import. [Site/drive](integrations/contracts/site-drive.md), [Teams](integrations/contracts/teams.md), [Intune](integrations/contracts/intune.md). |
 | POST/DELETE `/_mock/tenants/{tenant}/workloads/sharepoint/grants[/{grant}]`, POST/DELETE `.../workloads/teams/access[/{grant}]` | POST collection / DELETE item only. Authoritative site user/app ACLs and Teams membership/RSC, separate from imported display evidence. |
@@ -540,3 +540,23 @@ hashes and stored bytes; restore validates tenant identity and finalized local c
 Teams query, membership/RSC, archive and client limits are detailed in the
 [Teams contract](integrations/contracts/teams.md) and its
 [pinned operation sources](integrations/contracts/teams.json).
+
+
+### Azure Storage data plane (C1 namespace profile)
+
+These are separate local service origins with `/{account}` path addressing;
+the table shows Microsoft's service-relative paths. Selected request versions
+are `2019-07-07`, `2025-01-05` and `2025-11-05`. [Contract and authorization details](docs/storage-contracts.md).
+
+| Microsoft service and URI | Supported operations | Notes and limits | Reference |
+| --- | --- | --- | --- |
+| Blob `/?comp=list` | Partial: GET | Persisted containers; prefix, marker, maxresults and metadata; 5,000/page. | [List containers](https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2) |
+| Blob `/{container}?restype=container` | Partial: PUT, GET, HEAD, DELETE | Create/read/delete persisted namespace and metadata; selected public ACL settings. No container leasing, immutability or soft delete. | [Create container](https://learn.microsoft.com/en-us/rest/api/storageservices/create-container) |
+| Blob `/{container}?restype=container&comp=metadata` | Partial: PUT, GET, HEAD | Metadata replacement and read; ETag conditions. | [Set metadata](https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-metadata) |
+| Blob `/{container}?restype=container&comp=acl` | Partial: PUT, GET | Five stored policies; account public-access gate; immediate local revocation. SAS cannot change ACL. | [Set ACL](https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl) |
+| Blob `/?restype=service&comp=userdelegationkey` | Partial: POST | Local OAuth, current scoped permission, encrypted key, seven-day bound. Content SAS authorization is tested separately from pending C2 byte routes. | [Delegation key](https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key) |
+| File `/?comp=list` | Partial: GET | Persisted FileREST shares; prefix, marker, maxresults and metadata. | [List shares](https://learn.microsoft.com/en-us/rest/api/storageservices/list-shares) |
+| File `/{share}?restype=share` | Partial: PUT, GET, HEAD, DELETE | Shared Key/account SAS namespace management; quota metadata. File byte operations, snapshots and SMB/NFS transport remain pending. | [Create share](https://learn.microsoft.com/en-us/rest/api/storageservices/create-share) |
+| File `/{share}?restype=share&comp=metadata` | Partial: PUT, GET, HEAD | Metadata replacement/read; current account authorization. | [Set metadata](https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-metadata) |
+| File `/{share}?restype=share&comp=acl` | Partial: PUT, GET | Five stored policies; credentials excluded from exports. | [Set ACL](https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-acl) |
+| Blob `/{container}/{blob}` and File `/{share}/{path}` | Unsupported HTTP content operations at C1 | C2/C3 implement bytes and workflows. Data permission, service SAS, user delegation SAS and Files backup-intent checks currently have domain tests, not HTTP content qualification. | [Blob REST](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api), [FileREST](https://learn.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api) |

@@ -52,5 +52,20 @@ def test_pre_storage_compose_metadata_upgrades_without_rotating_identity(tmp_pat
     assert files.admin_token_file.read_bytes() == token and files.ca_cert_file.read_bytes() == ca
     assert "MOCKAZURE_STORAGE_PORT=28444" in env.read_text(encoding="utf-8")
     current = json.loads(path.read_text(encoding="utf-8"))
-    assert current["data_listen_ports"] == []
+    assert current["data_listen_ports"] == [8444, 8445, 8446, 8447, 8448]
     assert current["client_profiles"]["container"]["storage"] == "https://localhost:8444"
+
+
+def test_compose_data_services_have_real_listener_ports(tmp_path):
+    import json
+
+    from mockazure.bootstrap import initialize_compose
+    from mockazure.config import load_settings
+    from mockazure.storage.endpoints import listener_ports
+
+    files = initialize_compose(tmp_path, api_port=28443, db_port=55434)
+    path = files.config_file.parent / "container.json"
+    data = json.loads(path.read_text())
+    assert data["data_listen_ports"] == [8444, 8445, 8446, 8447, 8448]
+    settings = load_settings(path)
+    assert listener_ports(settings) == (8443, 8444, 8445, 8446, 8447, 8448)

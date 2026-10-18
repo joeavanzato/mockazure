@@ -1,0 +1,1420 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Authorize with Shared Key (REST API) - Azure Storage | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Learn how to authorize a request to Azure Storage with Shared Key." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Authorize with Shared Key (REST API) - Azure Storage" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key" />
+			<meta property="og:description" content="Learn how to authorize a request to Azure Storage with Shared Key." />
+			<meta name="platform_id" content="694aa3d3-55d8-f907-c3df-8e6e9080f5bd" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="pauljewell" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="pauljewellmsft" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2024-11-15T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="fdd05329-f9bc-f309-8e4f-0ca3f69bd037" />
+	
+		<meta name="document_version_independent_id" content="ef078c19-d7d2-a895-b3f8-049fba1f3f9b" />
+	
+		<meta name="updated_at" content="2024-11-18T20:31:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md" />
+	
+		<meta name="git_commit_id" content="caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="3156" />
+	
+		<meta name="asset_id" content="api/storageservices/authorize-with-shared-key" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md" />
+	
+		<meta name="previous_tlsh_hash" content="E0CEEC82740DC745FF82BD4E9C4B62B884F0C04C6BF09985293D2762A0452D67577EA496E61BE35523364A420168FE0F12E2FB2D91787371A5B49CBAC14E33D7ABD833BAE4" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="authorize-with-shared-key">Authorize with Shared Key</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>Every request made against a storage service must be authorized, unless the request is for a blob or container resource that has been made available for public or signed access. One option for authorizing a request is by using Shared Key, described in this article.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>For optimal security, Microsoft recommends using Microsoft Entra ID with managed identities to authorize requests against blob, queue, and table data, whenever possible. Authorization with Microsoft Entra ID and managed identities provides superior security and ease of use over Shared Key authorization. To learn more, see <a href="authorize-with-azure-active-directory" data-linktype="relative-path">Authorize with Microsoft Entra ID</a>. To learn more about managed identities, see <a href="/en-us/entra/identity/managed-identities-azure-resources/overview" data-linktype="absolute-path">What are managed identities for Azure resources</a>.</p>
+<p>For resources hosted outside of Azure, such as on-premises applications, you can use managed identities through Azure Arc. For example, apps running on Azure Arc-enabled servers can use managed identities to connect to Azure services. To learn more, see <a href="/en-us/azure/azure-arc/servers/managed-identity-authentication" data-linktype="absolute-path">Authenticate against Azure resources with Azure Arc-enabled servers</a>.</p>
+<p>For scenarios where shared access signatures (SAS) are used, Microsoft recommends using a user delegation SAS. A user delegation SAS is secured with Microsoft Entra credentials instead of the account key. To learn about shared access signatures, see <a href="create-user-delegation-sas" data-linktype="relative-path">Create a user delegation SAS</a>.</p>
+</div>
+<p>The Blob, Queue, Table, and File services support the following Shared Key authorization schemes for version 2009-09-19 and later (for Blob, Queue, and Table service) and version 2014-02-14 and later (for File service):</p>
+<ul>
+<li><p><strong>Shared Key for Blob, Queue, and File Services.</strong> Use the Shared Key authorization scheme to make requests against the Blob, Queue, and File services. Shared Key authorization in version 2009-09-19 and later supports an augmented signature string for enhanced security and requires that you update your service to authorize using this augmented signature.</p>
+</li>
+<li><p><strong>Shared Key for Table Service.</strong> Use the Shared Key authorization scheme to make requests against the Table service using the REST API. Shared Key authorization for the Table service in version 2009-09-19 and later uses the same signature string as in previous versions of the Table service.</p>
+</li>
+<li><p><strong>Shared Key Lite.</strong> Use the Shared Key Lite authorization scheme to make requests against the Blob, Queue, Table, and File services. Shared Key Lite isn't supported for premium page blobs.</p>
+<p>For version 2009-09-19 and later of the Blob and Queue services, Shared Key Lite authorization supports using a signature string identical to what was supported against Shared Key in previous versions of the Blob and Queue services. You can therefore use Shared Key Lite to make requests against the Blob and Queue services without updating your signature string.</p>
+</li>
+</ul>
+<p>An authorized request requires two headers: the <code>Date</code> or <code>x-ms-date</code> header and the <code>Authorization</code> header. The following sections describe how to construct these headers.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Azure Storage support both HTTP and HTTPS, but using HTTPS is highly recommended.</p>
+</div>
+<div class="NOTE">
+<p>Note</p>
+<p>A container or blob can be made available for public access by setting a container's permissions. For more information, see <a href="/en-us/azure/storage/storage-manage-access-to-resources" data-linktype="absolute-path">Manage Access to Azure Storage Resources</a>. A container, blob, queue, or table can be made available for signed access via a shared access signature; a shared access signature is authorized through a different mechanism. See <a href="delegate-access-with-shared-access-signature" data-linktype="relative-path">Delegate access with a shared access signature</a> for more details.</p>
+</div>
+<h2 id="specifying-the-date-header">Specifying the Date header</h2>
+<p>All authorized requests must include the Coordinated Universal Time (UTC) timestamp for the request. You can specify the timestamp either in the <code>x-ms-date</code> header, or in the standard HTTP/HTTPS <code>Date</code> header. If both headers are specified on the request, the value of <code>x-ms-date</code> is used as the request's time of creation.</p>
+<p>The storage services ensure that a request is no older than 15 minutes by the time it reaches the service. This guards against certain security attacks, including replay attacks. When this check fails, the server returns response code 403 (Forbidden).</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The <code>x-ms-date</code> header is provided because some HTTP client libraries and proxies automatically set the <code>Date</code> header, and do not give the developer an opportunity to read its value in order to include it in the authorized request. If you set <code>x-ms-date</code>, construct the signature with an empty value for the <code>Date</code> header.</p>
+</div>
+<h2 id="specifying-the-authorization-header">Specifying the Authorization header</h2>
+<p>An authorized request must include the <code>Authorization</code> header. If this header is not included, the request is anonymous and only succeeds against a container or blob that is marked for public access, or against a container, blob, queue, or table for which a shared access signature has been provided for delegated access.</p>
+<p>To authorize a request, you must sign the request with the key for the account that is making the request and pass that signature as part of the request.</p>
+<p>The format for the <code>Authorization</code> header is as follows:</p>
+<pre><code>Authorization="[SharedKey|SharedKeyLite] &lt;AccountName&gt;:&lt;Signature&gt;"  
+</code></pre>
+<p>where <code>SharedKey</code> or <code>SharedKeyLite</code> is the name of the authorization scheme, <code>AccountName</code> is the name of the account requesting the resource, and <code>Signature</code> is a Hash-based Message Authentication Code (HMAC) constructed from the request and computed by using the SHA256 algorithm, and then encoded by using Base64 encoding.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>It is possible to request a resource that resides beneath a different account, if that resource is publicly accessible.</p>
+</div>
+<p>The following sections describe how to construct the <code>Authorization</code> header.</p>
+<h3 id="constructing-the-signature-string">Constructing the signature string</h3>
+<p>How you construct the signature string depends on which service and version you are authorizing against and which authorization scheme you are using. When constructing the signature string, keep in mind the following:</p>
+<ul>
+<li><p>The VERB portion of the string is the HTTP verb, such as GET or PUT, and must be uppercase.</p>
+</li>
+<li><p>For Shared Key authorization for the Blob, Queue, and File services, each header included in the signature string can appear only once. If any header is duplicated, the service returns status code 400 (Bad Request).</p>
+</li>
+<li><p>The values of all standard HTTP headers must be included in the string in the order shown in the signature format, without the header names. These headers can be empty if they are not being specified as part of the request; in that case, only the new-line character is required.</p>
+</li>
+<li><p>If the <code>x-ms-date</code> header is specified, you can ignore the <code>Date</code> header, regardless of whether it is specified on the request, and simply specify an empty line for the <code>Date</code> portion of the signature string. In this case, follow the instructions in the <a href="#constructing-the-canonicalized-headers-string" data-linktype="self-bookmark">Constructing the canonicalized headers string</a> section for adding the <code>x-ms-date</code> header.</p>
+<p>It is acceptable to specify both <code>x-ms-date</code> and <code>Date</code>; in this case, the service uses the value of <code>x-ms-date</code>.</p>
+</li>
+<li><p>If the <code>x-ms-date</code> header is not specified, specify the <code>Date</code> header in the signature string, without including the header name.</p>
+</li>
+<li><p>All new-line characters (\n) shown are required within the signature string.</p>
+</li>
+<li><p>The signature string includes canonicalized headers and canonicalized resource strings. Canonicalizing these strings puts them into a standard format that is recognized by Azure Storage. For detailed information on constructing the <code>CanonicalizedHeaders</code> and <code>CanonicalizedResource</code> strings that make up part of the signature string, see the appropriate sections later in this topic.</p>
+</li>
+</ul>
+<h4 id="blob-queue-and-file-services-shared-key-authorization">Blob, Queue, and File Services (Shared Key authorization)</h4>
+<p>To encode the Shared Key signature string for a request against the 2009-09-19 version and later of the Blob or Queue service, and version 2014-02-14 and later of the File service, use the following format:</p>
+<pre><code>StringToSign = VERB + "\n" +  
+               Content-Encoding + "\n" +  
+               Content-Language + "\n" +  
+               Content-Length + "\n" +  
+               Content-MD5 + "\n" +  
+               Content-Type + "\n" +  
+               Date + "\n" +  
+               If-Modified-Since + "\n" +  
+               If-Match + "\n" +  
+               If-None-Match + "\n" +  
+               If-Unmodified-Since + "\n" +  
+               Range + "\n" +  
+               CanonicalizedHeaders +   
+               CanonicalizedResource;  
+</code></pre>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>In the current version, the Content-Length field must be an empty string if the content length of the request is zero. In version 2014-02-14 and earlier, the content length was included even if zero. See below for more information on the old behavior.</p>
+</div>
+<p>The following example shows a signature string for a <a href="get-blob" data-linktype="relative-path">Get Blob</a> operation. Where there is no header value, the new-line character only is specified.</p>
+<pre><code>GET\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n/myaccount/mycontainer\ncomp:metadata\nrestype:container\ntimeout:20  
+</code></pre>
+<p>Breaking this down line-by-line shows each portion of the same string:</p>
+<pre><code>GET\n /*HTTP Verb*/  
+\n    /*Content-Encoding*/  
+\n    /*Content-Language*/  
+\n    /*Content-Length (empty string when zero)*/  
+\n    /*Content-MD5*/  
+\n    /*Content-Type*/  
+\n    /*Date*/  
+\n    /*If-Modified-Since */  
+\n    /*If-Match*/  
+\n    /*If-None-Match*/  
+\n    /*If-Unmodified-Since*/  
+\n    /*Range*/  
+x-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n    /*CanonicalizedHeaders*/  
+/myaccount /mycontainer\ncomp:metadata\nrestype:container\ntimeout:20    /*CanonicalizedResource*/  
+</code></pre>
+<p>Next, encode this string by using the HMAC-SHA256 algorithm over the UTF-8-encoded signature string, construct the <code>Authorization</code> header, and add the header to the request. The following example shows the <code>Authorization</code> header for the same operation:</p>
+<pre><code>Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=  
+</code></pre>
+<p>To use Shared Key authorization with version 2009-09-19 and later of the Blob and Queue services, you must update your code to use this augmented signature string.</p>
+<p>If you prefer to migrate your code to version 2009-09-19 or later of the Blob and Queue services with the fewest possible changes, you can modify your existing <code>Authorization</code> headers to use Shared Key Lite instead of Shared Key. The signature format required by Shared Key Lite is identical to that required for Shared Key by versions of the Blob and Queue services prior to 2009-09-19.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>If you are accessing the secondary location in a storage account for which read-access geo-replication (RA-GRS) is enabled, do not include the <code>-secondary</code> designation in the authorization header. For authorization purposes, the account name is always the name of the primary location, even for secondary access.</p>
+</div>
+<h5 id="content-length-header-in-version-2014-02-14-and-earlier">Content-Length header in version 2014-02-14 and earlier</h5>
+<p>When using version 2014-02-14 or earlier, if <code>Content-Length</code> is zero, then set the <code>Content-Length</code> part of the <code>StringToSign</code> to <code>0</code>. Normally this would be an empty string.</p>
+<p>For example, for the following request, the value of the <code>Content-Length</code> header is included in the <code>StringToSign</code> even when it is zero.</p>
+<pre><code>PUT http://myaccount/mycontainer?restype=container&amp;timeout=30 HTTP/1.1  
+x-ms-version: 2014-02-14  
+x-ms-date: Fri, 26 Jun 2015 23:39:12 GMT  
+Authorization: SharedKey myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=  
+Content-Length: 0
+</code></pre>
+<p>The <code>StringToSign</code> is constructed as follows:</p>
+<pre><code>Version 2014-02-14 and earlier:
+PUT\n\n\n\n0\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2014-02-14\n/myaccount/mycontainer\nrestype:container\ntimeout:30
+</code></pre>
+<p>Whereas in versions after to 2014-02-14, the <code>StringToSign</code> must contain an empty string for <code>Content-Length</code>:</p>
+<pre><code>Version 2015-02-21 and later:
+PUT\n\n\n\n\n\n\n\n\n\n\n\nx-ms-date:Fri, 26 Jun 2015 23:39:12 GMT\nx-ms-version:2015-02-21\n/myaccount/mycontainer\nrestype:container\ntimeout:30
+</code></pre>
+<h4 id="table-service-shared-key-authorization">Table service (Shared Key authorization)</h4>
+<p>You must use Shared Key authorization to authorize a request made against the Table service if your service is using the REST API to make the request. The format of the signature string for Shared Key against the Table service is the same for all versions.</p>
+<p>The Shared Key signature string for a request against the Table service differs slightly from that for a request against the Blob or Queue service, in that it does not include the <code>CanonicalizedHeaders</code> portion of the string. Additionally, the <code>Date</code> header in this case is never empty even if the request sets the <code>x-ms-date</code> header. If the request sets <code>x-ms-date</code>, that value is also used for the value of the <code>Date</code> header.</p>
+<p>To encode the signature string for a request against the Table service made using the REST API, use the following format:</p>
+<pre><code>StringToSign = VERB + "\n" +
+               Content-MD5 + "\n" +
+               Content-Type + "\n" +  
+               Date + "\n" +  
+               CanonicalizedResource;  
+</code></pre>
+<div class="NOTE">
+<p>Note</p>
+<p>Beginning with version 2009-09-19, the Table service requires that all REST calls include the <code>DataServiceVersion</code> and <code>MaxDataServiceVersion</code> headers. See <a href="setting-the-odata-data-service-version-headers" data-linktype="relative-path">Setting the OData Data Service Version Headers</a> for more information.</p>
+</div>
+<h4 id="blob-queue-and-file-services-shared-key-lite-authorization">Blob, Queue, and File services (Shared Key Lite authorization)</h4>
+<p>You can use Shared Key Lite authorization to authorize a request made against the 2009-09-19 version and later of the Blob and Queue services, and version 2014-02-14 and later of the File services. Shared Key Lite isn't supported for premium page blobs.</p>
+<p>The signature string for Shared Key Lite is identical to the signature string required for Shared Key authorization in versions of the Blob and Queue services prior to 2009-09-19. So if you wish to migrate your code with the least number of changes to version 2009-09-19 of the Blob and Queue services, you can modify your code to use Shared Key Lite, without changing the signature string itself. By using Shared Key Lite, you will not gain the enhanced security functionality provided by using Shared Key with version 2009-09-19 and later.</p>
+<p>To encode the signature string for a request against the Blob or Queue service, use the following format:</p>
+<pre><code>StringToSign = VERB + "\n" +  
+               Content-MD5 + "\n" +  
+               Content-Type + "\n" +  
+               Date + "\n" +  
+               CanonicalizedHeaders +   
+               CanonicalizedResource;  
+</code></pre>
+<p>The following example shows a signature string for a <a href="put-blob" data-linktype="relative-path">Put Blob</a> operation. Note that the Content-MD5 header line is empty. The headers shown in the string are name-value pairs that specify custom metadata values for the new blob.</p>
+<pre><code>PUT\n\ntext/plain; charset=UTF-8\n\nx-ms-date:Sun, 20 Sep 2009 20:36:40 GMT\nx-ms-meta-m1:v1\nx-ms-meta-m2:v2\n/testaccount1/mycontainer/hello.txt  
+</code></pre>
+<p>Next, encode this string by using the HMAC-SHA256 algorithm over the UTF-8-encoded signature string, construct the <code>Authorization</code> header, and add the header to the request. The following example shows the <code>Authorization</code> header for the same operation:</p>
+<pre><code>Authorization: SharedKeyLite myaccount:ctzMq410TV3wS7upTBcunJTDLEJwMAZuFPfr0mrrA08=  
+</code></pre>
+<h4 id="table-service-shared-key-lite-authorization">Table service (Shared Key Lite authorization)</h4>
+<p>You can use Shared Key Lite authorization to authorize a request made against any version of the Table service.</p>
+<p>To encode the signature string for a request against the Table service using Shared Key Lite, use the following format:</p>
+<pre><code>StringToSign = Date + "\n"
+               CanonicalizedResource  
+</code></pre>
+<p>The following example shows a signature string for a <a href="create-table" data-linktype="relative-path">Create Table</a> operation.</p>
+<pre><code>Sun, 11 Oct 2009 19:52:39 GMT\n/testaccount1/Tables  
+</code></pre>
+<p>Next, encode this string by using the HMAC-SHA256 algorithm, construct the <code>Authorization</code> header, and then add the header to the request. The following example shows the <code>Authorization</code> header for the same operation:</p>
+<pre><code>Authorization: SharedKeyLite testaccount1:uay+rilMVayH/SVI8X+a3fL8k/NxCnIePdyZSkqvydM=  
+</code></pre>
+<h3 id="constructing-the-canonicalized-headers-string">Constructing the canonicalized headers string</h3>
+<p>To construct the <code>CanonicalizedHeaders</code> portion of the signature string, follow these steps:</p>
+<ol>
+<li><p>Retrieve all headers for the resource that begin with <code>x-ms-</code>, including the <code>x-ms-date</code> header.</p>
+</li>
+<li><p>Convert each HTTP header name to lowercase.</p>
+</li>
+<li><p>Sort the headers lexicographically by header name, in ascending order. Each header can appear only once in the string.</p>
+<div class="NOTE">
+<p>Note</p>
+<p><a href="https://en.wikipedia.org/wiki/Lexicographical_order" data-linktype="external">Lexicographical ordering</a> might not always coincide with conventional alphabetical ordering.</p>
+</div>
+</li>
+<li><p>Replace any linear whitespace in the header value with a single space.</p>
+</li>
+</ol>
+<p>Linear whitespace includes carriage return/line feed (CRLF), spaces, and tabs. See <a href="https://tools.ietf.org/html/rfc2616#section-4.2" data-linktype="external">RFC 2616, section 4.2</a> for details. Do not replace any whitespace inside a quoted string.</p>
+<ol>
+<li><p>Trim any whitespace around the colon in the header.</p>
+</li>
+<li><p>Finally, append a new-line character to each canonicalized header in the resulting list. Construct the <code>CanonicalizedHeaders</code> string by concatenating all headers in this list into a single string.</p>
+</li>
+</ol>
+<p>The following shows an example of a canonicalized headers string:</p>
+<p><code>x-ms-date:Sat, 21 Feb 2015 00:48:38 GMT\nx-ms-version:2014-02-14\n</code></p>
+<div class="NOTE">
+<p>Note</p>
+<p>Prior to service version 2016-05-31, headers with empty values were omitted from the signature string. These are now represented in CanonicalizedHeaders by immediately following the colon character with the terminating new-line.</p>
+</div>
+<h3 id="constructing-the-canonicalized-resource-string">Constructing the canonicalized resource string</h3>
+<p>The <code>CanonicalizedResource</code> part of the signature string represents the storage services resource targeted by the request. Any portion of the <code>CanonicalizedResource</code> string that is derived from the resource's URI should be encoded exactly as it is in the URI.</p>
+<p>There are two supported formats for the <code>CanonicalizedResource</code> string:</p>
+<ul>
+<li><p>A format that supports Shared Key authorization for version 2009-09-19 and later of the Blob and Queue services, and for version 2014-02-14 and later of the File service.</p>
+</li>
+<li><p>A format that supports Shared Key and Shared Key Lite for all versions of the Table service, and Shared Key Lite for version 2009-09-19 and later of the Blob and Queue services. This format is identical to that used with previous versions of the storage services.</p>
+</li>
+</ul>
+<p>For help constructing the URI for the resource you are accessing, see one of the following topics:</p>
+<ul>
+<li><p>Blob service: <a href="naming-and-referencing-containers--blobs--and-metadata" data-linktype="relative-path">Naming and Referencing Containers, Blobs, and Metadata</a></p>
+</li>
+<li><p>Queue service: <a href="addressing-queue-service-resources" data-linktype="relative-path">Addressing Queue Service Resources</a></p>
+</li>
+<li><p>Table service: <a href="addressing-table-service-resources" data-linktype="relative-path">Addressing Table Service Resources</a></p>
+</li>
+<li><p>File service: <a href="naming-and-referencing-shares--directories--files--and-metadata" data-linktype="relative-path">Naming and Referencing Shares, Directories, Files, and Metadata</a></p>
+</li>
+</ul>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>If your storage account is replicated with read-access geo-replication (RA-GRS), and you are accessing a resource in the secondary location, do not include the <code>–secondary</code> designation in the <code>CanonicalizedResource</code> string. The resource URI used in the <code>CanonicalizedResource</code> string URI should be the URI of the resource at the primary location.</p>
+</div>
+<div class="NOTE">
+<p>Note</p>
+<p>If you are authorizing against the storage emulator, the account name will appear twice in the <code>CanonicalizedResource</code> string. This is expected. If you are authorizing against Azure storage services, the account name will appear only one time in the <code>CanonicalizedResource</code> string.</p>
+</div>
+<h4 id="shared-key-format-for-2009-09-19-and-later">Shared Key format for 2009-09-19 and later</h4>
+<p>This format supports Shared Key authorization for the 2009-09-19 version and later of the Blob and Queue services, and the 2014-02-14 version and later of the File services. Construct the <code>CanonicalizedResource</code> string in this format as follows:</p>
+<ol>
+<li><p>Beginning with an empty string (""), append a forward slash (/), followed by the name of the account that owns the resource being accessed.</p>
+</li>
+<li><p>Append the resource's encoded URI path, without any query parameters.</p>
+</li>
+<li><p>Retrieve all query parameters on the resource URI, including the <code>comp</code> parameter if it exists.</p>
+</li>
+<li><p>Convert all parameter names to lowercase.</p>
+</li>
+<li><p>Sort the query parameters lexicographically by parameter name, in ascending order.</p>
+</li>
+<li><p>URL-decode each query parameter name and value.</p>
+</li>
+<li><p>Include a new-line character (\n) before each name-value pair.</p>
+</li>
+<li><p>Append each query parameter name and value to the string in the following format, making sure to include the colon (:) between the name and the value:</p>
+<p><code>parameter-name:parameter-value</code></p>
+</li>
+<li><p>If a query parameter has more than one value, sort all values lexicographically, then include them in a comma-separated list:</p>
+<p><code>parameter-name:parameter-value-1,parameter-value-2,parameter-value-n</code></p>
+</li>
+</ol>
+<p>Keep in mind the following rules for constructing the canonicalized resource string:</p>
+<ul>
+<li><p>Avoid using the new-line character (\n) in values for query parameters. If it must be used, ensure that it does not affect the format of the canonicalized resource string.</p>
+</li>
+<li><p>Avoid using commas in query parameter values.</p>
+</li>
+</ul>
+<p>Here are some examples that show the <code>CanonicalizedResource</code> portion of the signature string, as it can be constructed from a given request URI:</p>
+<pre><code>Get Container Metadata  
+   GET http://myaccount.blob.core.windows.net/mycontainer?restype=container&amp;comp=metadata
+CanonicalizedResource:  
+    /myaccount/mycontainer\ncomp:metadata\nrestype:container  
+  
+List Blobs operation:  
+    GET http://myaccount.blob.core.windows.net/container?restype=container&amp;comp=list&amp;include=snapshots&amp;include=metadata&amp;include=uncommittedblobs  
+CanonicalizedResource:  
+    /myaccount/mycontainer\ncomp:list\ninclude:metadata,snapshots,uncommittedblobs\nrestype:container  
+  
+Get Blob operation against a resource in the secondary location:  
+   GET https://myaccount-secondary.blob.core.windows.net/mycontainer/myblob  
+CanonicalizedResource:  
+    /myaccount/mycontainer/myblob
+</code></pre>
+<h4 id="shared-key-lite-and-table-service-format-for-2009-09-19-and-later">Shared Key Lite and Table service format for 2009-09-19 and later</h4>
+<p>This format supports Shared Key and Shared Key Lite for all versions of the Table service, and Shared Key Lite for version 2009-09-19 and later of the Blob and Queue services and version 2014-02-14 and later of the File service. This format is identical to that used with previous versions of the storage services. Construct the <code>CanonicalizedResource</code> string in this format as follows:</p>
+<ol>
+<li><p>Beginning with an empty string (""), append a forward slash (/), followed by the name of the account that owns the resource being accessed.</p>
+</li>
+<li><p>Append the resource's encoded URI path. If the request URI addresses a component of the resource, append the appropriate query string. The query string should include the question mark and the <code>comp</code> parameter (for example, <code>?comp=metadata</code>). No other parameters should be included on the query string.</p>
+</li>
+</ol>
+<h3 id="encoding-the-signature">Encoding the signature</h3>
+<p>To encode the signature, call the HMAC-SHA256 algorithm on the UTF-8-encoded signature string and encode the result as Base64. Note that you also need to Base64-decode your storage account key. Use the following format (shown as pseudocode):</p>
+<pre><code>Signature=Base64(HMAC-SHA256(UTF8(StringToSign), Base64.decode(&lt;your_azure_storage_account_shared_key&gt;)))  
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="blob-service-rest-api" data-linktype="relative-path">Blob Service REST API</a></li>
+<li><a href="queue-service-rest-api" data-linktype="relative-path">Queue Service REST API</a></li>
+<li><a href="table-service-rest-api" data-linktype="relative-path">Table Service REST API</a></li>
+<li><a href="azure-storage-services-rest-api-reference" data-linktype="relative-path">Storage Services REST</a></li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2024-11-15T08:00:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2024-11-15
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

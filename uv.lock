@@ -314,6 +314,36 @@ wheels = [
 ]
 
 [[package]]
+name = "azure-storage-blob"
+version = "12.27.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-core" },
+    { name = "cryptography" },
+    { name = "isodate" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/02/32/0476f18ac82ef1def115dfabaa53170c5a71605c00b4e66c740b07abae71/azure_storage_blob-12.27.0.tar.gz", hash = "sha256:99e8e2cd2a6a723930c364ea0a0539d28e465bc77cf94ef12813c465dc09cb9a", size = 597402, upload-time = "2025-10-15T13:26:15.718Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b5/55/5c8aec0544007ec8f9ddd0e3b69939a3a41eb6c3897e2454797021753478/azure_storage_blob-12.27.0-py3-none-any.whl", hash = "sha256:b7bef8acb79825f96f2fa24c7535e2924fb3dbc4840a2eebb5f117175bde3657", size = 428916, upload-time = "2025-10-15T13:26:17.607Z" },
+]
+
+[[package]]
+name = "azure-storage-file-share"
+version = "12.23.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-core" },
+    { name = "cryptography" },
+    { name = "isodate" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5e/04/a44f6d064af89e614d63c68a5ea906a12eb1d3733f1605567f062ce4a435/azure_storage_file_share-12.23.0.tar.gz", hash = "sha256:670f27a44100ec6c08dd5e4bb98fcaa7b661f7799828edc523a28d6ed56b9f66", size = 365780, upload-time = "2025-10-15T15:47:49.578Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/82/ac/089ce5d913f72558c45f7a50663524ca20c558b700c7d958c04ca37450d1/azure_storage_file_share-12.23.0-py3-none-any.whl", hash = "sha256:6c7aecd86ace544629752c2753960f9db85fecaa7dbf5baa78f7edcee9f13360", size = 307379, upload-time = "2025-10-15T15:47:50.987Z" },
+]
+
+[[package]]
 name = "build"
 version = "1.6.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1157,6 +1187,8 @@ clients = [
     { name = "azure-mgmt-authorization" },
     { name = "azure-mgmt-monitor" },
     { name = "azure-mgmt-resource" },
+    { name = "azure-storage-blob" },
+    { name = "azure-storage-file-share" },
     { name = "msal" },
     { name = "msgraph-sdk" },
 ]
@@ -1188,6 +1220,8 @@ clients = [
     { name = "azure-mgmt-authorization", specifier = "==4.0.0" },
     { name = "azure-mgmt-monitor", specifier = "==6.0.2" },
     { name = "azure-mgmt-resource", specifier = "==23.4.0" },
+    { name = "azure-storage-blob", specifier = "==12.27.0" },
+    { name = "azure-storage-file-share", specifier = "==12.23.0" },
     { name = "msal", specifier = "==1.39.0" },
     { name = "msgraph-sdk", specifier = "==1.64.0" },
 ]

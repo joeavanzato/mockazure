@@ -1,0 +1,1568 @@
+{
+  "schemaVersion": 1,
+  "service": "storage",
+  "operations": [
+    {
+      "kind": "rest",
+      "operationId": "blob.Service_ListContainersSegment",
+      "nativeOperationId": "Service_ListContainersSegment",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/?comp=list",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ListContainersSegmentResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "include",
+        "marker",
+        "maxresults",
+        "prefix",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Service_GetUserDelegationKey",
+      "nativeOperationId": "Service_GetUserDelegationKey",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "POST",
+      "path": "/{account}/?restype=service&comp=userdelegationkey",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/KeyInfo"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/UserDelegationKey"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2025-11-05 namespace profile only.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_Create",
+      "nativeOperationId": "Container_Create",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}?restype=container",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-blob-public-access",
+        "x-ms-client-request-id",
+        "x-ms-default-encryption-scope",
+        "x-ms-deny-encryption-scope-override",
+        "x-ms-meta",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_GetProperties",
+      "nativeOperationId": "Container_GetProperties",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{containerName}?restype=container",
+      "aliases": [
+        "HEAD"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_Delete",
+      "nativeOperationId": "Container_Delete",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "DELETE",
+      "path": "/{account}/{containerName}?restype=container",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Modified-Since",
+        "If-Unmodified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_SetMetadata",
+      "nativeOperationId": "Container_SetMetadata",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}?restype=container&comp=metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Modified-Since",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-meta",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_GetAccessPolicy",
+      "nativeOperationId": "Container_GetAccessPolicy",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{containerName}?restype=container&comp=acl",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SignedIdentifiers"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "blob.Container_SetAccessPolicy",
+      "nativeOperationId": "Container_SetAccessPolicy",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{containerName}?restype=container&comp=acl",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/SignedIdentifiers"
+      },
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "If-Modified-Since",
+        "If-Unmodified-Since",
+        "x-ms-blob-public-access",
+        "x-ms-client-request-id",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "6f5156eaf06cf48a93430c305abe3e5781ca5c6445b290781035172f633c8dd2",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "bb5004847a6a7321b7fe5c20fa0a3a8ca083ebc6e593a0c7e0864b7f2961fe6a",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-11-05/generated_blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Service_ListSharesSegment",
+      "nativeOperationId": "Service_ListSharesSegment",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/?comp=list",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ListSharesResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-file-request-intent",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "include",
+        "marker",
+        "maxresults",
+        "prefix",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Share_Create",
+      "nativeOperationId": "Share_Create",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}?restype=share",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-access-tier",
+        "x-ms-enable-snapshot-virtual-directory-access",
+        "x-ms-enabled-protocols",
+        "x-ms-file-request-intent",
+        "x-ms-meta",
+        "x-ms-root-squash",
+        "x-ms-share-paid-bursting-enabled",
+        "x-ms-share-paid-bursting-max-bandwidth-mibps",
+        "x-ms-share-paid-bursting-max-iops",
+        "x-ms-share-provisioned-bandwidth-mibps",
+        "x-ms-share-provisioned-iops",
+        "x-ms-share-quota",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Share_GetProperties",
+      "nativeOperationId": "Share_GetProperties",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{shareName}?restype=share",
+      "aliases": [
+        "HEAD"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "restype",
+        "sharesnapshot",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Share_Delete",
+      "nativeOperationId": "Share_Delete",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "DELETE",
+      "path": "/{account}/{shareName}?restype=share",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-delete-snapshots",
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "restype",
+        "sharesnapshot",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Share_SetMetadata",
+      "nativeOperationId": "Share_SetMetadata",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}?restype=share&comp=metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-meta",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Share_GetAccessPolicy",
+      "nativeOperationId": "Share_GetAccessPolicy",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "GET",
+      "path": "/{account}/{shareName}?restype=share&comp=acl",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SignedIdentifiers"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "file.Share_SetAccessPolicy",
+      "nativeOperationId": "Share_SetAccessPolicy",
+      "service": "storage",
+      "version": "2025-11-05",
+      "method": "PUT",
+      "path": "/{account}/{shareName}?restype=share&comp=acl",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/SignedIdentifiers"
+      },
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-file-request-intent",
+        "x-ms-lease-id",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "See docs/storage-contracts.md operation permission mapping"
+      ],
+      "queryOptions": [
+        "comp",
+        "restype",
+        "timeout"
+      ],
+      "limits": {
+        "listPage": 5000,
+        "storedPolicies": 5,
+        "delegationMaxDays": 7
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3e594c84c18d22db74dc27c25624fc5155367087c68cd24854e20901484beb8",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-11-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+          "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+          "localPath": "references/versioning-for-the-azure-storage-services.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Local HTTPS path addressing; selected 2019-07-07, 2025-01-05 and 2025-11-05 namespace profiles.",
+        "Content bytes, snapshots, leases and SMB/NFS are not covered by C1.",
+        "Service and user-delegation SAS content authorization is tested at the domain boundary; content routes follow in C2/C3."
+      ],
+      "tests": [
+        "tests/integration/test_storage_authorization.py",
+        "tests/integration/test_storage_policies.py"
+      ],
+      "implementation": "implemented",
+      "state": "implemented",
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
+      ]
+    }
+  ]
+}
