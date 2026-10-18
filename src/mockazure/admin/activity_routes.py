@@ -246,7 +246,27 @@ async def cleanup(tenant_id: UUID, request: Request):
         )
         if cursors:
             await session.execute(delete(Cursor).where(Cursor.token_hash.in_(cursors)))
-        return {"pruned_contents": len(rows), "deleted_cursors": len(cursors)}
+        jobs = list(
+            await session.scalars(
+                select(Job)
+                .where(
+                    Job.tenant_id == tenant_id,
+                    Job.kind == "activity.publish",
+                    Job.state.in_(("succeeded", "failed")),
+                    Job.payload.has_key("records"),
+                )
+                .order_by(Job.id)
+                .limit(value.max_rows)
+                .with_for_update(skip_locked=True)
+            )
+        )
+        for job in jobs:
+            job.payload = {"generation": job.payload.get("generation")}
+        return {
+            "pruned_contents": len(rows),
+            "deleted_cursors": len(cursors),
+            "compacted_jobs": len(jobs),
+        }
 
 
 @router.post("/drain")

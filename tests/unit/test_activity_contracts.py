@@ -50,6 +50,11 @@ def test_common_schema_and_original_identity():
     ):
         with pytest.raises(ValueError):
             validate_record(invalid, tenant)
+    for value in (None, "", "unknown"):
+        optional = {**record, "ClientIP": value, "ObjectId": value, "ResultStatus": value}
+        assert validate_record(optional, tenant) == optional
+    for scope in (0, 1):
+        assert validate_record({**record, "Scope": scope}, tenant)["Scope"] == scope
     assert len(CONTENT_TYPES) == 5
 
 

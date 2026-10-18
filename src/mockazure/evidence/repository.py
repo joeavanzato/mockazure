@@ -340,6 +340,7 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
     await enqueue_activity(
         session,
         key[0],
+        key[1],
         key[2],
         [item.payload for item in batch.items if item.family == "auditLogRecord"],
     )

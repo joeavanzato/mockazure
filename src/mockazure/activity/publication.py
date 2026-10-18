@@ -73,7 +73,7 @@ async def publish_activity(
     return await store_records(session, tenant_id, records, published_at)
 
 
-async def enqueue_activity(session, tenant, source_id, records):
+async def enqueue_activity(session, tenant, source_kind, source_id, records):
     current = await session.get(ActivityState, tenant)
     if current is None or not records:
         return
@@ -84,7 +84,7 @@ async def enqueue_activity(session, tenant, source_id, records):
         .values(
             tenant_id=tenant,
             kind="activity.publish",
-            source_key=f"{current.generation}:{source_id}",
+            source_key=str(uuid5(current.generation, f"{source_kind}:{source_id}")),
             available_at=now + timedelta(seconds=current.settings.get("delay_seconds", 0)),
             payload={"generation": str(current.generation), "records": records},
             state="pending",
@@ -134,6 +134,7 @@ async def process_activity(database, claim, wall_now):
                 raise PublicationLeaseExpired()
             job.state, job.result, job.error_code = "succeeded", {"content_ids": identifiers}, None
             job.lease_owner = job.lease_until = None
+            job.payload = {"generation": str(current.generation)}
             job.updated_at = now()
             await session.flush()
             return JobResult("succeeded", job.result, None)

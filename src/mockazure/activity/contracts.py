@@ -63,6 +63,12 @@ def validate_record(record, tenant):
             or record[field] < 0
         ):
             raise ValueError("Audit enum is outside the pinned schema")
+    for field in ("ClientIP", "ObjectId", "ResultStatus"):
+        value = record.get(field)
+        if value is not None and (not isinstance(value, str) or "\0" in value):
+            raise ValueError("Common audit field must be a string or null")
+    if "Scope" in record and (type(record["Scope"]) is not int or record["Scope"] not in (0, 1)):
+        raise ValueError("Audit scope must be the pinned numeric enum")
     public_audit_data(record)
     return record
 

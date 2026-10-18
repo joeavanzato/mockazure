@@ -6,6 +6,11 @@ the token audience; it never causes forwarding. Old endpoint profiles default `a
 to their configured login origin. Host/container profiles export the new field.
 
 Pinned sources and permission identities: [operation manifest](activity-feed.json).
+ClientIP, ObjectId and ResultStatus accept strings or null; absence is allowed when
+canonical evidence has no value. Values are not coerced. Scope, when present, is the
+numeric Online (0) or Onprem (1) enum. Product-specific redefinitions such as Planner
+ResultStatus are outside this common-schema profile.
+
 Common record enum values come from the pinned Graph security CSDL numeric definitions;
 common required fields follow the Management API schema. These are distinct service wrappers.
 
@@ -46,7 +51,9 @@ pages and excludes content published before the new subscription start revision.
 The first subscription or admin configuration activates native publication. Subsequent
 canonical auditLogRecord publication enqueues a separate leased job in the same database
 transaction. The outbox copies immutable public facts, so Graph retention cannot erase a
-pending job. Common Graph metadata overrides duplicate dynamic common fields; public
+pending job. Keys include source kind and ID within the feed generation. Successful
+jobs immediately discard copied payloads; cleanup compacts legacy successful and failed
+jobs, preserving pending/running inputs. Common Graph metadata overrides duplicate dynamic common fields; public
 workload extension data survives. Missing required common data fails that feed job visibly
 without preventing the canonical Graph observation. No pre-activation automatic backfill.
 Admin publish can explicitly publish existing canonical record IDs. Original event IDs
