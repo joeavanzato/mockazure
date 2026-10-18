@@ -1,0 +1,163 @@
+{
+  "phase": "C",
+  "sourceCommit": "39f68e7f5e6c3a173115e2c38973ee3b5e9a5ebc",
+  "sourceFingerprint": "f40b76d4d552737c285456bf95e257ffd37f4851f1765869f175fa4b83d6192e",
+  "passed": true,
+  "ecosystems": {
+    "python": {
+      "status": "passed",
+      "clientVersions": {
+        "azure-storage-blob": "12.27.0",
+        "azure-storage-file-share": "12.23.0"
+      },
+      "transportAdaptations": [
+        "Explicit local HTTPS endpoints and instance CA",
+        "Loopback-IP path addressing for original .NET/Az.Storage URI builders",
+        "2019-07-07 legacy writes and selected 2025-01-05 reads for Az.Storage"
+      ],
+      "cases": [
+        {
+          "workflow": "storage-binary",
+          "operationIds": [
+            "blob.Container_Create",
+            "file.Share_Create",
+            "blob.BlockBlob_Upload",
+            "blob.Blob_Download",
+            "blob.Blob_GetProperties",
+            "file.File_Create",
+            "file.File_UploadRange",
+            "file.File_Download",
+            "file.File_GetProperties"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "namespace_roundtrip": true,
+            "byte_hashes": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true
+          }
+        }
+      ]
+    },
+    "typescript": {
+      "status": "passed",
+      "clientVersions": {
+        "@azure/storage-blob": "12.29.1",
+        "@azure/storage-file-share": "12.29.1"
+      },
+      "transportAdaptations": [
+        "Explicit local HTTPS endpoints and instance CA",
+        "Loopback-IP path addressing for original .NET/Az.Storage URI builders",
+        "2019-07-07 legacy writes and selected 2025-01-05 reads for Az.Storage"
+      ],
+      "cases": [
+        {
+          "workflow": "storage-binary",
+          "operationIds": [
+            "blob.Container_Create",
+            "file.Share_Create",
+            "blob.BlockBlob_Upload",
+            "blob.Blob_Download",
+            "blob.Blob_GetProperties",
+            "file.File_Create",
+            "file.File_UploadRange",
+            "file.File_Download",
+            "file.File_GetProperties"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "namespace_roundtrip": true,
+            "byte_hashes": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true
+          }
+        }
+      ]
+    },
+    "dotnet": {
+      "status": "passed",
+      "clientVersions": {
+        "Azure.Storage.Blobs": "12.26.0",
+        "Azure.Storage.Files.Shares": "12.24.0"
+      },
+      "transportAdaptations": [
+        "Explicit local HTTPS endpoints and instance CA",
+        "Loopback-IP path addressing for original .NET/Az.Storage URI builders",
+        "2019-07-07 legacy writes and selected 2025-01-05 reads for Az.Storage"
+      ],
+      "cases": [
+        {
+          "workflow": "storage-binary",
+          "operationIds": [
+            "blob.Container_Create",
+            "file.Share_Create",
+            "blob.BlockBlob_Upload",
+            "blob.Blob_Download",
+            "blob.Blob_GetProperties",
+            "file.File_Create",
+            "file.File_UploadRange",
+            "file.File_Download",
+            "file.File_GetProperties"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "namespace_roundtrip": true,
+            "byte_hashes": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true
+          }
+        }
+      ]
+    },
+    "powershell": {
+      "status": "passed",
+      "clientVersions": {
+        "Az.Accounts": "4.0.2",
+        "Az.Storage": "8.1.0"
+      },
+      "transportAdaptations": [
+        "Explicit local HTTPS endpoints and instance CA",
+        "Loopback-IP path addressing for original .NET/Az.Storage URI builders",
+        "2019-07-07 legacy writes and selected 2025-01-05 reads for Az.Storage"
+      ],
+      "cases": [
+        {
+          "workflow": "storage-binary",
+          "operationIds": [
+            "blob.Container_Create",
+            "file.Share_Create",
+            "blob.BlockBlob_Upload",
+            "blob.Blob_Download",
+            "blob.Blob_GetProperties",
+            "file.File_Create",
+            "file.File_UploadRange",
+            "file.File_Download",
+            "file.File_GetProperties"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "namespace_roundtrip": true,
+            "byte_hashes": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true
+          }
+        }
+      ]
+    }
+  },
+  "nativeReport": "D:\\projects\\mockazure\\.worktrees\\release\\work\\default-smoke-331f74cef668\\storage-binary-report.json",
+  "pythonBytesPerObject": 268435456,
+  "elapsedSeconds": 1488.0779999999795
+}
