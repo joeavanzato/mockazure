@@ -126,7 +126,7 @@ def member_exists(actor, kind, identifier, scope, user=None):
 def visibility(actor, row=V):
     if actor.token_kind == "application":
         return True
-    return member_exists(actor, row.kind, row.id, row.scope) | and_(
+    return member_exists(actor, row.kind, row.payload["id"].as_string(), row.scope) | and_(
         row.kind == "channel",
         row.payload["membershipType"].as_string() == "standard",
         member_exists(actor, "team", row.scope, row.scope),
@@ -196,7 +196,7 @@ async def set_access(session, tenant, data):
             V.workload == "teams",
             V.scope == data.scope,
             V.kind == data.resource_kind,
-            V.id == data.resource_id,
+            V.payload["id"].as_string() == data.resource_id,
             V.valid_to.is_(None),
             V.deleted.is_(False),
         )

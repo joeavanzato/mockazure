@@ -55,6 +55,13 @@ def collection_resource(path):
     parts = path.strip("/").split("/")
     if not parts or parts[0] not in {"v1.0", "beta"} or len(parts) < 2:
         return None
+    navigation = (
+        parts[2]
+        if len(parts) > 2 and parts[1] == "me"
+        else (parts[3] if len(parts) > 3 and parts[1] == "users" else None)
+    )
+    if navigation in {"chats", "joinedTeams"}:
+        return "chats" if navigation == "chats" else "teams"
     root = parts[1].split("(", 1)[0]
     if root in COLLECTION_ROOTS:
         return COLLECTION_ROOTS[root]

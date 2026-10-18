@@ -49,7 +49,9 @@ async def enforce_directory_budget(request):
     )
     evidence = resource is not None
     if not evidence:
-        if parts[2] not in {"users", "groups", "me"}:
+        if parts[2] not in {"users", "groups", "me"} or collection_resource(
+            request.scope["path"]
+        ) in {"teams", "chats"}:
             # New read profiles share the same persisted budget service. The batch
             # envelope never matches; each inner ASGI request is charged once.
             resource = collection_resource(request.url.path)

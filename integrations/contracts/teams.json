@@ -1,0 +1,261 @@
+{
+  "schemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "scope": "Bounded v1.0 Teams evidence reads; aliases and limitations in teams.md",
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}",
+      "operation": "team-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/team-get?view=graph-rest-1.0",
+      "sourceSha256": "a1135b1c6fb18a8f6893e665cfdb6429ae9dc33c9c151f39f02159e96200e772",
+      "retrievedAt": "2026-10-18",
+      "responseType": "team",
+      "permissionProfile": "team"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/users/{user}/joinedTeams",
+      "operation": "user-list-joinedteams",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-joinedteams?view=graph-rest-1.0",
+      "sourceSha256": "277716771586c1012e67ff27dc30b12dca0832b8d98ebd565576b83b0bb9e324",
+      "retrievedAt": "2026-10-18",
+      "responseType": "team",
+      "permissionProfile": "joinedTeams"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels",
+      "operation": "channel-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/channel-list?view=graph-rest-1.0",
+      "sourceSha256": "b8578d285220834a4b6d4e9c8f7562a008d8ea984d27d22cef081ff704846815",
+      "retrievedAt": "2026-10-18",
+      "responseType": "channel",
+      "permissionProfile": "channel"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}",
+      "operation": "channel-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/channel-get?view=graph-rest-1.0",
+      "sourceSha256": "bedd4c3f18237d8775d24695712bf6cc24858e24a3fb8d83e39c49fd5186a7f9",
+      "retrievedAt": "2026-10-18",
+      "responseType": "channel",
+      "permissionProfile": "channel"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/members",
+      "operation": "team-list-members",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/team-list-members?view=graph-rest-1.0",
+      "sourceSha256": "a83c5dcd836588986ee15c72c602a2146553ba0528969329d2ad1f7099cfeaff",
+      "retrievedAt": "2026-10-18",
+      "responseType": "conversationMember",
+      "permissionProfile": "teamMembers"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/members",
+      "operation": "channel-list-members",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/channel-list-members?view=graph-rest-1.0",
+      "sourceSha256": "e6d730a7984cad9a4292cecb8c0cb09853301e450e654c8fba45e7be24596373",
+      "retrievedAt": "2026-10-18",
+      "responseType": "conversationMember",
+      "permissionProfile": "channelMembers"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/users/{user}/chats",
+      "operation": "chat-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chat-list?view=graph-rest-1.0",
+      "sourceSha256": "6755c3a9d7eb9a24e1f614cd12505ce9a5824921432df92fae0b254456c75a03",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chat",
+      "permissionProfile": "chats"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}",
+      "operation": "chat-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chat-get?view=graph-rest-1.0",
+      "sourceSha256": "69172297e5bff1f1fed47637853a81ca46b5883e422b0be435ca6b9a72f3620b",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chat",
+      "permissionProfile": "chat"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}/members",
+      "operation": "chat-list-members",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chat-list-members?view=graph-rest-1.0",
+      "sourceSha256": "e7103b4458b30195af56220fe0d3f98c5cd1340ac7ff518acd591c36115fc316",
+      "retrievedAt": "2026-10-18",
+      "responseType": "conversationMember",
+      "permissionProfile": "chatMembers"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages",
+      "operation": "channel-list-messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/channel-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "379a57974f5866b170960f769da376ff8873038111adc6dec5a0b7943782561c",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessage",
+      "permissionProfile": "channelMessages"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}/messages",
+      "operation": "chat-list-messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chat-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "50fcb5dee90bd69264785b3b4561434ae569a9a4d3cc8688b16f46220099854e",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessage",
+      "permissionProfile": "chatMessages"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}",
+      "operation": "chatmessage-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessage-get?view=graph-rest-1.0",
+      "sourceSha256": "f45c45af812653feacf185da166cfd9c1853c0ff81c3051c836c663452d41e6f",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessage",
+      "permissionProfile": "channelMessages"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}/messages/{message}",
+      "operation": "chatmessage-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessage-get?view=graph-rest-1.0",
+      "sourceSha256": "f45c45af812653feacf185da166cfd9c1853c0ff81c3051c836c663452d41e6f",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessage",
+      "permissionProfile": "chatMessage"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies",
+      "operation": "chatmessage-list-replies",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessage-list-replies?view=graph-rest-1.0",
+      "sourceSha256": "fae5bc83e417753fc742f54dd0de623efa6d2e04c071bca3b63e56fe50b762ca",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessage",
+      "permissionProfile": "channelMessages"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{reply}",
+      "operation": "chatmessage-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessage-get?view=graph-rest-1.0",
+      "sourceSha256": "f45c45af812653feacf185da166cfd9c1853c0ff81c3051c836c663452d41e6f",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessage",
+      "permissionProfile": "channelMessages"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/filesFolder",
+      "operation": "channel-get-filesfolder",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/channel-get-filesfolder?view=graph-rest-1.0",
+      "sourceSha256": "5b223ee8436820f9ce7d072132dd7a997d0c1fad64cbf155bebb9224008a394b",
+      "retrievedAt": "2026-10-18",
+      "responseType": "driveItem",
+      "permissionProfile": "filesFolder"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/hostedContents",
+      "operation": "chatmessage-list-hostedcontents",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessage-list-hostedcontents?view=graph-rest-1.0",
+      "sourceSha256": "988e8e1b5b13b4f0c008a0228aa315673d46e176466d8b09f1f1a2746dfa6c61",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessageHostedContent",
+      "permissionProfile": "channelHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/hostedContents/{content}",
+      "operation": "chatmessagehostedcontent-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessagehostedcontent-get?view=graph-rest-1.0",
+      "sourceSha256": "47a35b018a7711dd8e53baef2b5bed67d0fa43f0316acff3e9893c76aece0351",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessageHostedContent",
+      "permissionProfile": "channelHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/hostedContents/{content}/$value",
+      "operation": "chatmessagehostedcontent-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessagehostedcontent-get?view=graph-rest-1.0",
+      "sourceSha256": "47a35b018a7711dd8e53baef2b5bed67d0fa43f0316acff3e9893c76aece0351",
+      "retrievedAt": "2026-10-18",
+      "responseType": "binary",
+      "permissionProfile": "channelHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{reply}/hostedContents",
+      "operation": "chatmessage-list-hostedcontents",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessage-list-hostedcontents?view=graph-rest-1.0",
+      "sourceSha256": "988e8e1b5b13b4f0c008a0228aa315673d46e176466d8b09f1f1a2746dfa6c61",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessageHostedContent",
+      "permissionProfile": "channelHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{reply}/hostedContents/{content}",
+      "operation": "chatmessagehostedcontent-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessagehostedcontent-get?view=graph-rest-1.0",
+      "sourceSha256": "47a35b018a7711dd8e53baef2b5bed67d0fa43f0316acff3e9893c76aece0351",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessageHostedContent",
+      "permissionProfile": "channelHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{reply}/hostedContents/{content}/$value",
+      "operation": "chatmessagehostedcontent-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessagehostedcontent-get?view=graph-rest-1.0",
+      "sourceSha256": "47a35b018a7711dd8e53baef2b5bed67d0fa43f0316acff3e9893c76aece0351",
+      "retrievedAt": "2026-10-18",
+      "responseType": "binary",
+      "permissionProfile": "channelHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}/messages/{message}/hostedContents",
+      "operation": "chatmessage-list-hostedcontents",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessage-list-hostedcontents?view=graph-rest-1.0",
+      "sourceSha256": "988e8e1b5b13b4f0c008a0228aa315673d46e176466d8b09f1f1a2746dfa6c61",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessageHostedContent",
+      "permissionProfile": "chatHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}/messages/{message}/hostedContents/{content}",
+      "operation": "chatmessagehostedcontent-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessagehostedcontent-get?view=graph-rest-1.0",
+      "sourceSha256": "47a35b018a7711dd8e53baef2b5bed67d0fa43f0316acff3e9893c76aece0351",
+      "retrievedAt": "2026-10-18",
+      "responseType": "chatMessageHostedContent",
+      "permissionProfile": "chatHosted"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}/messages/{message}/hostedContents/{content}/$value",
+      "operation": "chatmessagehostedcontent-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/chatmessagehostedcontent-get?view=graph-rest-1.0",
+      "sourceSha256": "47a35b018a7711dd8e53baef2b5bed67d0fa43f0316acff3e9893c76aece0351",
+      "retrievedAt": "2026-10-18",
+      "responseType": "binary",
+      "permissionProfile": "chatHosted"
+    }
+  ],
+  "evidenceTests": [
+    "tests/unit/test_teams_contracts.py",
+    "tests/integration/test_teams_evidence.py",
+    "tests/integration/test_teams_boundaries.py"
+  ]
+}

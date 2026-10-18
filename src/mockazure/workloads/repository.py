@@ -184,6 +184,7 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
                 V.name,
                 V.payload["id"].as_string().label("public_id"),
                 V.payload["folder"].label("folder"),
+                V.payload["membershipType"].as_string().label("membership_type"),
                 V.payload["webUrl"].as_string().label("url"),
             ).where(
                 V.tenant_id == tenant_id,
@@ -342,6 +343,14 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
             and record.payload.get("size") != blobs[record.content_id].size
         ):
             raise AdminError(422, "ContentSizeMismatch", "Payload size must match stored bytes")
+    if workload == "teams" and any(
+        record.kind == "channel"
+        and record.key() in existing
+        and existing[record.key()].membership_type != record.payload.get("membershipType")
+        for record in batch.records
+    ):
+        # Privacy transitions change visibility even without an explicit membership mutation.
+        state.grant_revision += 1
     state.revision += 1
     revision = state.revision
     for edge in close:
