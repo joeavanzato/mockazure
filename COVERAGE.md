@@ -2,9 +2,10 @@
 
 Endpoint map for **MockAzure**, reviewed on **2026-10-18** against implementation
 snapshot [`0ceb9db`](https://github.com/joeavanzato/mockazure/commit/0ceb9db53ed5d2664c726606ae2a54e64cf3cfb8).
-The table describes the source tree containing this file. The runtime matches the
-qualified coverage expansion at `c418245`; see [qualification results](docs/coverage-expansion-results.md)
-and [the coverage audit](docs/coverage-audit.md) for evidence, corrections and limits.
+The table describes the source tree containing this file. The earlier Graph coverage expansion was qualified at `c418245`; see
+[those qualification results](docs/coverage-expansion-results.md) and
+[the coverage audit](docs/coverage-audit.md). Later cloud workflow additions are
+listed below with their own profiles, tests and remaining qualification limits.
 Microsoft links describe the real API; the support and limits columns describe
 MockAzure. This is an operation map, not a claim of complete Microsoft service parity.
 No real tenant is needed or contacted.
@@ -460,7 +461,7 @@ and User Access Administrator with inherited access/current grant checks.
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/{start|restart|powerOff|deallocate}` | Partial: POST async actions | `2025-04-01` | Persisted simulated running/stopped/deallocated state, current RBAC, lease/generation fencing and native Activity Logs. No guest execution/hibernation. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/start), [profile](docs/arm-contracts.md#durable-lifecycle-and-management-clients-b4). |
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/instanceView` | Partial: GET | `2025-04-01` | Provisioning/power statuses only; no guest/agent telemetry. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/instance-view). |
 | Opaque local URLs returned in ARM `Azure-AsyncOperation` / `Location` headers | Partial: GET monitor/result | Version of initiating operation | Durable action/delete jobs, current RG/subscription authority, Retry-After and terminal failure envelopes; provider-specific Azure polling URL parity is not claimed. [Microsoft protocol](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations). |
-| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query, storage/Key Vault data planes | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
+| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query, Queue and Key Vault secret data planes | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
 
 Reserved path segments are case-insensitive. Percent-encoded ARM paths and unknown
 provider/version combinations are rejected. [ARM contracts](docs/arm-contracts.md) and
@@ -542,7 +543,7 @@ Teams query, membership/RSC, archive and client limits are detailed in the
 [pinned operation sources](integrations/contracts/teams.json).
 
 
-### Azure Storage data plane (C1 namespaces, C2 Blob content)
+### Azure Storage data plane (namespaces, Blob, Files REST and Tables)
 
 These are separate local service origins with `/{account}` path addressing;
 the table shows Microsoft's service-relative paths. Selected request versions
@@ -556,7 +557,7 @@ are `2019-07-07`, `2025-01-05` and `2025-11-05`. [Contract and authorization det
 | Blob `/{container}?restype=container&comp=acl` | Partial: PUT, GET | Five stored policies; account public-access gate; immediate local revocation. SAS cannot change ACL. | [Set ACL](https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl) |
 | Blob `/?restype=service&comp=userdelegationkey` | Partial: POST | Local OAuth, current scoped permission, encrypted key, seven-day bound. Content SAS uses current issuer grants and the selected C2 Blob routes. | [Delegation key](https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key) |
 | File `/?comp=list` | Partial: GET | Persisted FileREST shares; prefix, marker, maxresults and metadata. | [List shares](https://learn.microsoft.com/en-us/rest/api/storageservices/list-shares) |
-| File `/{share}?restype=share` | Partial: PUT, GET, HEAD, DELETE | Shared Key/account SAS namespace management; quota metadata. File byte operations, snapshots and SMB/NFS transport remain pending. | [Create share](https://learn.microsoft.com/en-us/rest/api/storageservices/create-share) |
+| File `/{share}?restype=share` | Partial: PUT, GET, HEAD, DELETE | Shared Key/account SAS namespace management; quota metadata. File byte operations and snapshots are listed below; SMB/NFS transport is deferred. | [Create share](https://learn.microsoft.com/en-us/rest/api/storageservices/create-share) |
 | File `/{share}?restype=share&comp=metadata` | Partial: PUT, GET, HEAD | Metadata replacement/read; current account authorization. | [Set metadata](https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-metadata) |
 | File `/{share}?restype=share&comp=acl` | Partial: PUT, GET | Five stored policies; credentials excluded from exports. | [Set ACL](https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-acl) |
 | Blob `/{container}/{blob}` | Partial: PUT, GET, HEAD, DELETE | `2025-11-05` BlockBlob bytes; 256 MiB local cap, immutable 1 MiB chunks, explicit single Range, MD5, ETag/time conditions, current data permissions. No append/page blobs, tiering, tags or URL copy. | [Put Blob](https://learn.microsoft.com/en-us/rest/api/storageservices/put-blob), [Get Blob](https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob) |
@@ -570,6 +571,12 @@ are `2019-07-07`, `2025-01-05` and `2025-11-05`. [Contract and authorization det
 | File `/{share}/{directory}?restype=directory[&comp=list/metadata/properties]` | Partial: CRUD/list/properties/metadata | Nonempty directory deletion rejects; 5,000-entry pages, opaque one-hour query/reset-bound cursors; required IDs/timestamps and XML filename encoding. No custom permission key. | [Directory listing](https://learn.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files) |
 | File `PUT /{share}?restype=share&comp=snapshot`; reads with `sharesnapshot=` | Partial: immutable share snapshots | Independent bytes/properties; list and delete snapshots, up to 200/share. No snapshot mutation. Share lifecycle uses key/SAS, not OAuth in this profile. | [Snapshot Share](https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-share) |
 | File `PUT /{share}/{path}?comp=lease` | Partial: four infinite lease actions | Acquire/change/release/break; stale lease writes fail. No renew or Blob-style HTTP preconditions. C4 large-object/four-client qualification remains pending. | [Lease File](https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file) |
+
+
+| Table `/Tables` and `/Tables('{table}')` | Partial: POST/GET collection; DELETE table | REST `2019-02-02`; durable case-insensitive names, typed lifecycle; current account key/SAS/OAuth checks. No Table ACL/service-properties/stats. | [Create Table](https://learn.microsoft.com/en-us/rest/api/storageservices/create-table), [profile](docs/table-contracts.md) |
+| Table `/{table}` and `/{table}(PartitionKey='{p}',RowKey='{r}')` | Partial: POST insert; GET/PUT/PATCH/MERGE/DELETE entity | Eight EDM types, precision-preserving Int64/date/binary, conditional ETags, merge/replace/upsert. Nulls omitted. JSON metadata modes; no Atom/Cosmos behavior. | [Insert Entity](https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity), [Update](https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2) |
+| Table `/{table}()` | Partial: GET | Typed filter comparisons/logical operators, `$select`, `$top`, 1,000/page; one-hour opaque query/account/table/generation-bound continuations with current authorization. Signed key ranges constrain results. No query functions/expansion. | [Query Entities](https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities) |
+| Table `/$batch` | Partial: POST | One atomic MIME changeset, <=100 distinct entities in one partition and <=4 MiB; rollback and per-operation authorization. No mixed query/mutation or multiple changesets. Four-client D qualification pending. | [Transactions](https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions) |
 
 
 Storage compatibility qualification in progress (C4): the original Az.Storage

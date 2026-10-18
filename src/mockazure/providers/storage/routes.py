@@ -95,6 +95,10 @@ async def handle(request, service):
 
 
 async def dispatch(request, service):
+    if service == "table":
+        from mockazure.providers.storage.table_routes import dispatch_table
+
+        return await dispatch_table(request)
     if service not in {"blob", "file"}:
         raise StorageError(
             501,

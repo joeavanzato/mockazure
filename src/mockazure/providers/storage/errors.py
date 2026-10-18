@@ -17,7 +17,8 @@ def headers(request):
     result = {
         "x-ms-request-id": request.state.request_id,
         "x-ms-version": request.headers.get("x-ms-version", "2025-11-05")
-        if request.headers.get("x-ms-version") in {"2019-07-07", "2025-01-05", "2025-11-05"}
+        if request.headers.get("x-ms-version")
+        in {"2019-02-02", "2019-07-07", "2025-01-05", "2025-11-05"}
         else "2025-11-05",
     }
 

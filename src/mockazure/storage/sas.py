@@ -56,7 +56,9 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     args = dict(pairs)
     if (
         len(args) != len(pairs)
-        or args.get("sv") != "2025-11-05"
+        or args.get("sv")
+        not in ({"2019-02-02", "2025-11-05"} if service == "table" else {"2025-11-05"})
+        or (service == "table" and any(k in args for k in ("tn", "spk", "srk", "epk", "erk")))
         or args.get("ses")
         or args.get("si")
     ):
@@ -65,7 +67,12 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
         account
         + "\n"
         + "\n".join(
-            args.get(k, "") for k in ("sp", "ss", "srt", "st", "se", "sip", "spr", "sv", "ses")
+            args.get(k, "")
+            for k in (
+                ("sp", "ss", "srt", "st", "se", "sip", "spr", "sv", "ses")
+                if args.get("sv", "") >= "2020-12-06"
+                else ("sp", "ss", "srt", "st", "se", "sip", "spr", "sv")
+            )
         )
         + "\n"
     )
@@ -86,6 +93,12 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
 
 
 DATA_PERMISSIONS = {
+    "insert_entity": "a",
+    "replace_entity": "u",
+    "merge_entity": "u",
+    "delete_entity": "d",
+    "read_entity": "r",
+    "query_entities": "r",
     "read_blob": "r",
     "write_blob": "cw",
     "delete_blob": "d",
@@ -98,6 +111,8 @@ DATA_PERMISSIONS = {
 
 
 async def authorize_service_sas(session, keys, account, request, service, action, resource, now):
+    if service == "table":
+        return authorize_table_sas(keys, account, request, action, resource, now), False
     args = dict(request.query_params.multi_items())
     if (
         len(args) != len(request.query_params.multi_items())
@@ -197,3 +212,41 @@ async def authorize_service_sas(session, keys, account, request, service, action
             denied()
         await require_delegation_issuer(session, delegation, service, action, resource)
     return frozenset(effective["sp"]), bool(delegation)
+
+
+def authorize_table_sas(keys, account, request, action, resource, now):
+    args = dict(request.query_params.multi_items())
+    name = resource.split("/")[0].lower()
+    if (
+        len(args) != len(request.query_params.multi_items())
+        or args.get("sv") != "2019-02-02"
+        or args.get("si")
+        or args.get("tn", "").lower() != name
+        or not name
+        or any(k in args for k in ("skoid", "srt", "ss", "ses"))
+        or ("srk" in args and "spk" not in args)
+        or ("erk" in args and "epk" not in args)
+    ):
+        denied()
+    value = "\n".join(
+        [args.get(k, "") for k in ("sp", "st", "se")]
+        + ["/table/" + account.name + "/" + name]
+        + [args.get(k, "") for k in ("si", "sip", "spr", "sv", "spk", "srk", "epk", "erk")]
+    )
+    if not matches(keys, args.get("sig"), value.encode()):
+        denied()
+    check_constraints(args, request, now)
+    needed = DATA_PERMISSIONS.get(action)
+    if (
+        not needed
+        or needed not in args.get("sp", "")
+        or "".join(c for c in "raud" if c in args.get("sp", "")) != args.get("sp")
+    ):
+        denied("AuthorizationPermissionMismatch")
+    if (
+        action in {"replace_entity", "merge_entity"}
+        and not request.headers.get("If-Match")
+        and "a" not in args.get("sp", "")
+    ):
+        denied("AuthorizationPermissionMismatch")
+    return frozenset(args["sp"])

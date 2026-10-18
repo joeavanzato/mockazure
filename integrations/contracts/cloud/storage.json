@@ -5763,6 +5763,2343 @@
       "compatibleVersions": [
         "2019-07-07"
       ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_QueryEntities",
+      "nativeOperationId": "Table_QueryEntities",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "GET",
+      "path": "/{account}/{table}()",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/TableEntityQueryResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_QueryEntityWithPartitionAndRowKey",
+      "nativeOperationId": "Table_QueryEntityWithPartitionAndRowKey",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "GET",
+      "path": "/{account}/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_UpdateEntity",
+      "nativeOperationId": "Table_UpdateEntity",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "PUT",
+      "path": "/{account}/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
+      "aliases": [],
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": {}
+      },
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_MergeEntity",
+      "nativeOperationId": "Table_MergeEntity",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "PATCH",
+      "path": "/{account}/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
+      "aliases": [
+        "MERGE /{account}/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')"
+      ],
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": {}
+      },
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_DeleteEntity",
+      "nativeOperationId": "Table_DeleteEntity",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "DELETE",
+      "path": "/{account}/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_InsertEntity",
+      "nativeOperationId": "Table_InsertEntity",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "POST",
+      "path": "/{account}/{table}",
+      "aliases": [],
+      "requestSchema": {
+        "type": "object",
+        "additionalProperties": {}
+      },
+      "responseSchemas": {
+        "201": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "204": null
+      },
+      "statusCodes": [
+        201,
+        204,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_Query",
+      "nativeOperationId": "Table_Query",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "GET",
+      "path": "/{account}/Tables",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/TableQueryResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_Create",
+      "nativeOperationId": "Table_Create",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "POST",
+      "path": "/{account}/Tables",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/TablePropertiesCreate"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "#/definitions/TableResponse"
+        },
+        "204": null
+      },
+      "statusCodes": [
+        201,
+        204,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Table_Delete",
+      "nativeOperationId": "Table_Delete",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "DELETE",
+      "path": "/{account}/Tables('{table}')",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        412,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "Accept",
+        "Content-Type",
+        "x-ms-version",
+        "x-ms-date",
+        "If-Match",
+        "Prefer",
+        "DataServiceVersion",
+        "MaxDataServiceVersion"
+      ],
+      "permissions": [
+        "Current account key, account/service SAS or scoped Table data RBAC; management grants do not imply entity access"
+      ],
+      "queryOptions": [
+        "$filter",
+        "$select",
+        "$top",
+        "NextTableName",
+        "NextPartitionKey",
+        "NextRowKey",
+        "timeout"
+      ],
+      "limits": {
+        "properties": 252,
+        "entityBytes": 1048576,
+        "stringUtf16Bytes": 65536,
+        "binaryBytes": 65536,
+        "pageEntities": 1000,
+        "filterComparisons": 15
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "589c7bbedb9eff5643770557929725760b8a0c00b3649552fd7dff5207621f71",
+          "localPath": "schemas/specification/cosmos-db/data-plane/Tables/stable/2019-02-02/table.json",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-the-table-service-data-model",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Understanding-the-Table-Service-Data-Model.md",
+          "sha256": "eb5171a6f3800db7bc6bd9b105cbc39771d50b437f83a3f779f87c072521a86d",
+          "localPath": "references/understanding-the-table-service-data-model.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md",
+          "sha256": "ca9407479337ac06606d67e6f82c24f9fabce8e9a7263b57d9168583eeebc4e0",
+          "localPath": "references/querying-tables-and-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/payload-format-for-table-service-operations",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Payload-Format-for-Table-Service-Operations.md",
+          "sha256": "6a6b7ecf3c30c06966196f8aa3e335e5ae494c2901a5a81247f04b143fca9a76",
+          "localPath": "references/payload-format-for-table-service-operations.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Create-Table.md",
+          "sha256": "7ec0db1cf059e22a41068b1d9b133fd7ad50d0539284695f337acff14e6874e1",
+          "localPath": "references/create-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-table",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Table.md",
+          "sha256": "902981dec30ce284a55fe4f3fb758a2ff77a894ba334df8ffedba9713f851425",
+          "localPath": "references/delete-table.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-tables",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Tables.md",
+          "sha256": "7815c741be24ec68df4b143afee9846d12e489d9cb3f952e3865cd1a1bfa4522",
+          "localPath": "references/query-tables.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/5aa18ddd75b176e8df15bb6b2149a18be19ff347/docs-ref-conceptual/storageservices/Insert-Entity.md",
+          "sha256": "9914060841e89a4e0a00550485598f8990f54751d639a3a2adad53ad3c052996",
+          "localPath": "references/insert-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Entities.md",
+          "sha256": "aa26ba0cf3757132259afedd0f0a9600337fde4d1a5239e92105bad9b9643b52",
+          "localPath": "references/query-entities.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Update-Entity2.md",
+          "sha256": "b2038660424f2aa479254e332609f51a06ac42fe04a65feb2d5603a9e0f16b31",
+          "localPath": "references/update-entity2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Merge-Entity.md",
+          "sha256": "c27db9fccaa7d5058ad3da7c64dbe11e27e818c9f695be2a9a768090a63fe2dd",
+          "localPath": "references/merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-merge-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Merge-Entity.md",
+          "sha256": "ef5740a58c8b93143c42fc2a68e6054ba2b533278403763c21a76982c476b7b6",
+          "localPath": "references/insert-or-merge-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/insert-or-replace-entity",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/becaf40d909fb29c700803ec0b59a5ba921f0cd2/docs-ref-conceptual/storageservices/Insert-Or-Replace-Entity.md",
+          "sha256": "06094ee750243d6fb54eb0e83fef026b4f6b96ce0175ecaa7b3f0f30612fd434",
+          "localPath": "references/insert-or-replace-entity.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-entity1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/2461c63e2a14e5af9d36a3b420a5482dc20343a1/docs-ref-conceptual/storageservices/Delete-Entity1.md",
+          "sha256": "1949ce97f9f2fcd2ddafdd25806643a552040686b7e1f28b3a62bcd87b6a26ae",
+          "localPath": "references/delete-entity1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/query-timeout-and-pagination",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Query-Timeout-and-Pagination.md",
+          "sha256": "1eab79dfa8f27063a7f82b204191611e1697e847b7affaa8d88c94b532321e77",
+          "localPath": "references/query-timeout-and-pagination.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/table-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Table-Service-Error-Codes.md",
+          "sha256": "548cf879948bc46bd9f69588effa29c53a7390ad8efe6659da8a3625a4bc7db4",
+          "localPath": "references/table-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "table.Batch",
+      "service": "storage",
+      "version": "2019-02-02",
+      "method": "POST",
+      "path": "/{account}/$batch",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {},
+      "statusCodes": [
+        202,
+        400,
+        403,
+        413
+      ],
+      "headers": [
+        "Content-Type",
+        "x-ms-version"
+      ],
+      "permissions": [
+        "Every entity operation reauthorized under the outer authenticated request"
+      ],
+      "queryOptions": [],
+      "limits": {
+        "operations": 100,
+        "requestBytes": 4194304,
+        "partitions": 1
+      },
+      "sources": [
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Performing-Entity-Group-Transactions.md",
+          "sha256": "961f2eb3e14c58817f475451229052fb3eb38c74ac2bab15564e8b98a4f06715",
+          "localPath": "references/performing-entity-group-transactions.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+          "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+          "localPath": "references/authorize-with-shared-key.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+          "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+          "localPath": "references/create-account-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+          "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+          "localPath": "references/create-service-sas.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+          "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+          "localPath": "references/authorize-with-azure-active-directory.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "REST 2019-02-02 JSON profile only; no Atom or Cosmos behavior.",
+        "One mutation changeset only; no query batches or multiple changesets.",
+        "Ad-hoc Table SAS only; no stored-policy or user-delegation SAS.",
+        "No Table ACL, service properties/stats, query functions or locale collation.",
+        "Local 1 MiB request/entity representation cap, 8 KiB filter, nesting depth32 and one-hour cursors.",
+        "Original Python12.7.0 over local verified HTTPS tested; four-ecosystem D qualification pending."
+      ],
+      "tests": [
+        "tests/unit/test_table_edm.py",
+        "tests/integration/test_table_workflows.py",
+        "tests/integration/test_table_authorization.py",
+        "tests/integration/test_table_lifecycle.py",
+        "tests/integration/test_table_sdk.py"
+      ],
+      "status": "implemented",
+      "clientVersions": {
+        "python": {
+          "azure-data-tables": "12.7.0"
+        }
+      },
+      "sourceKind": "documentation"
     }
   ]
 }

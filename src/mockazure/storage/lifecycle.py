@@ -37,6 +37,12 @@ from mockazure.storage.file_lifecycle import (
     validate_files,
 )
 from mockazure.storage.models import StorageAccount, StorageDelegationKey, StorageNamespace
+from mockazure.storage.table_lifecycle import (
+    TableInput,
+    export_tables,
+    prune_tables,
+    restore_tables,
+)
 
 
 class PolicyInput(IdentityInput):
@@ -118,6 +124,7 @@ class AccountInput(IdentityInput):
     id: str = Field(min_length=1, max_length=2048)
     configuration: dict
     services: dict = Field(default_factory=dict)
+    tables: list[TableInput] = Field(default_factory=list, max_length=10000)
     files: list[FileTreeInput] = Field(default_factory=list, max_length=10000)
     blobs: list[BlobInput] = Field(default_factory=list, max_length=100000)
     namespaces: list[NamespaceInput] = Field(default_factory=list, max_length=10000)
@@ -144,6 +151,10 @@ class AccountInput(IdentityInput):
             {(n.service, n.name) for n in self.namespaces}
         ) != len(self.namespaces):
             raise ValueError("Invalid or duplicate Storage namespace")
+        if (self.tables and "table" not in supported) or len(
+            {t.name.lower() for t in self.tables}
+        ) != len(self.tables):
+            raise ValueError("Invalid or duplicate account Tables")
         shares = {n.name for n in self.namespaces if n.service == "file"}
         if any(t.share not in shares for t in self.files) or len(
             {(t.share, t.stamp) for t in self.files}
@@ -246,6 +257,7 @@ async def export_storage_accounts(session, tenant):
                     },
                 },
                 services=state.services,
+                tables=await export_tables(session, tenant, state.scope_key),
                 files=await export_files(session, tenant, state.scope_key),
                 blobs=await export_blobs(session, tenant, state.scope_key),
                 namespaces=[
@@ -384,6 +396,7 @@ async def replace_storage_accounts(session, tenant, value: StorageStateInput):
             )
     await session.flush()
     for item in value.accounts:
+        await restore_tables(session, tenant, parse_scope(item.id).key, item.tables)
         await restore_files(session, tenant, parse_scope(item.id).key, item.files)
         await restore_blobs(session, tenant, parse_scope(item.id).key, item.blobs)
     for sub in await session.scalars(select(Subscription).where(Subscription.tenant_id == tenant)):
@@ -419,4 +432,6 @@ async def prune_storage_accounts(session, tenant, now, limit=500):
         removed += await prune_blobs(session, tenant, now, limit - removed)
     if removed < limit:
         removed += await prune_files(session, tenant, now, limit - removed)
+    if removed < limit:
+        removed += await prune_tables(session, tenant, now, limit - removed)
     return removed

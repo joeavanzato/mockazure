@@ -12,6 +12,20 @@ PREFIX = "Microsoft.Storage/storageAccounts/"
 
 
 def operation_permission(service, action):
+    if service == "table":
+        actions = {
+            "insert_entity": "add/action",
+            "replace_entity": "update/action",
+            "merge_entity": "update/action",
+            "delete_entity": "delete",
+            "query_entities": "read",
+            "read_entity": "read",
+        }
+        if action in actions:
+            return PREFIX + "tableServices/tables/entities/" + actions[action], True
+        suffix = {"list": "read", "create": "write", "delete": "delete"}.get(action)
+        if suffix:
+            return PREFIX + "tableServices/tables/" + suffix, False
     if service not in {"blob", "file"}:
         raise StorageError(
             501, "MockAzureOperationNotImplemented", "Storage permission mapping unavailable"
@@ -60,9 +74,11 @@ def scopes(account_id, service, resource):
             parsed.key
             + "/"
             + (
-                "blobservices/default/containers/"
-                if service == "blob"
-                else "fileservices/default/fileshares/"
+                {
+                    "blob": "blobservices/default/containers/",
+                    "file": "fileservices/default/fileshares/",
+                    "table": "tableservices/default/tables/",
+                }[service]
             )
             + resource.split("/")[0]
         )
@@ -72,6 +88,12 @@ def scopes(account_id, service, resource):
 async def require_oauth(session, actor, account, service, action, resource, request):
     permission, data = operation_permission(service, action)
     needed = [(permission, data)]
+    if (
+        service == "table"
+        and action in {"replace_entity", "merge_entity"}
+        and not request.headers.get("If-Match")
+    ):
+        needed.append((PREFIX + "tableServices/tables/entities/add/action", True))
     if service == "file":
         if not data or request.headers.get("x-ms-file-request-intent") != "backup":
             raise StorageError(
@@ -85,6 +107,17 @@ async def require_oauth(session, actor, account, service, action, resource, requ
             else "writeFileBackupSemantics/action"
         )
         needed.append((PREFIX + "fileServices/" + suffix, True))
+    if service == "table" and action in {"insert_entity", "replace_entity", "merge_entity"}:
+        full_write = PREFIX + "tableServices/tables/entities/write"
+        grants = await grant_query(
+            session, actor, full_write, audience="https://storage.azure.com/", data=True
+        )
+        if await session.scalar(
+            grants.where(
+                RoleAssignment.scope_key.in_(scopes(account.scope_key, service, resource))
+            ).limit(1)
+        ):
+            return frozenset({full_write})
     for value, is_data in needed:
         grants = await grant_query(
             session, actor, value, audience="https://storage.azure.com/", data=is_data

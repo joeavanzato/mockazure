@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** Proposed implementation plan; no tasks executed.
+**Status:** D1 Table workflows are implemented with 91 affected regressions and 33 final targeted checks passing, including the original Python SDK over local HTTPS. D2-D4 and the full four-ecosystem structured-service gate remain pending.
 
 ## Global Constraints
 
