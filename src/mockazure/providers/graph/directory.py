@@ -29,7 +29,7 @@ from mockazure.providers.graph.probes import context_url, principal
 from mockazure.providers.graph.query.ast import Any, Boolean, Compare, In, StartsWith
 from mockazure.providers.graph.query.contracts import contract_for, unsupported
 from mockazure.providers.graph.query.parser import parse_query
-from mockazure.providers.graph.relationships import relationship_page, relationship_values
+from mockazure.providers.graph.relationships import relationship_page
 from mockazure.providers.graph.serialization import serialize_object
 from mockazure.security.activity import activity_collection, add_activity
 
@@ -84,21 +84,26 @@ def authorized_query(request, context, version, kind):
     return query
 
 
-async def expand_members(session, context, version, object_id, query, data, snapshot=None):
+async def expand_members(request, session, context, version, object_id, query, data, snapshot=None):
+    if not query.expand:
+        return
+    if snapshot is None:
+        snapshot = await current_revision(session, context.tenant_id)
     for expansion in query.expand:
         await authorize_directory(
             session, context, GraphOperation(version, "members", "GET"), object_id
         )
-        data["members"] = await relationship_values(
+        page = await relationship_page(
             session,
             context,
             version,
             object_id,
             "members",
             expansion.select,
+            snapshot,
             limit=20,
-            snapshot=snapshot,
         )
+        data["members"] = page.value
 
 
 def router_for(version: str) -> APIRouter:
@@ -208,7 +213,7 @@ def router_for(version: str) -> APIRouter:
             for obj in page.items:
                 data = serialize_object(obj, query.select, readable_fields(context, kind, obj.id))
                 await expand_members(
-                    session, context, version, obj.id, query, data, state.upper_revision
+                    request, session, context, version, obj.id, query, data, state.upper_revision
                 )
                 value.append(data)
             result = {"@odata.context": context_url(request, resource), "value": value}
@@ -255,7 +260,7 @@ def router_for(version: str) -> APIRouter:
                 public_object(row), query.select, readable_fields(context, kind, row.id)
             )
             await add_activity(session, context, row.id, query.select, data)
-            await expand_members(session, context, version, row.id, query, data)
+            await expand_members(request, session, context, version, row.id, query, data)
             return {"@odata.context": context_url(request, kind + "s/$entity"), **data}
 
     @router.get("/groups/{object_id}/members")

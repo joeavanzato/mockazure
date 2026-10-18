@@ -35,12 +35,12 @@ origins here are references, not emulator traffic destinations. Resource scopes 
 `https://graph.microsoft.com/.default` identify token audiences; they do not select an
 upstream server. Use the configured local endpoints and generated CA.
 
-Jump to: [directory](#graph-directory) Â· [apps/devices](#graph-applications-service-principals-and-devices) Â·
-[grants/roles](#graph-permission-grants-and-directory-roles) Â· [methods/policy](#graph-authentication-methods-reports-and-policy) Â·
-[evidence](#graph-sign-ins-audits-risk-and-licensing) Â· [security](#graph-security-collections) Â·
-[mail/UAL](#graph-mail-and-unified-audit-log) Â· [queries](#graph-query-and-protocol-coverage) Â·
-[gaps](#graph-gaps) Â· [Entra](#entra-authentication) Â· [Exchange](#exchange-online) Â·
-[ARM](#azure-resource-manager-and-activity-logs) Â· [data setup](#populating-data-and-runtime-discovery).
+Jump to: [directory](#graph-directory) · [apps/devices](#graph-applications-service-principals-and-devices) ·
+[grants/roles](#graph-permission-grants-and-directory-roles) · [methods/policy](#graph-authentication-methods-reports-and-policy) ·
+[evidence](#graph-sign-ins-audits-risk-and-licensing) · [security](#graph-security-collections) ·
+[mail/UAL](#graph-mail-and-unified-audit-log) · [queries](#graph-query-and-protocol-coverage) ·
+[gaps](#graph-gaps) · [Entra](#entra-authentication) · [Exchange](#exchange-online) ·
+[ARM](#azure-resource-manager-and-activity-logs) · [data setup](#populating-data-and-runtime-discovery).
 
 ## Graph directory
 
@@ -70,8 +70,8 @@ Directory mutations publish sanitized audit facts, not merely changes to static 
 These operation profiles use canonical PostgreSQL tenant state. Beta equivalents are not
 implied. Exact methods, route templates, permissions, source hashes and regression tests
 are recorded in [the operation manifest](integrations/contracts/coverage-operations.json).
-Common query/batch/throttling expansion is a separate phase; the options below are the
-current bounded profiles.
+Query, batch and throttling profiles are listed below and in the operation manifest;
+the options remain endpoint-specific.
 
 | Microsoft Graph URI | MockAzure support | Notes / unsupported parts | Official reference |
 | --- | --- | --- | --- |
@@ -200,17 +200,17 @@ correctly reject an unsupported query or property.
 
 | Surface / feature | Implemented behavior | Important limits |
 | --- | --- | --- |
-| Users/groups | Declared filter/select/orderby/top/count, opaque nextLink; group expand=members with inner selection | Default 100, cap 999/page; members expansion cap 20. Advanced combinations require ConsistencyLevel: eventual and applicable count. No search/skip or user expansion. |
+| Users/groups | Declared filter/select/orderby/top/count, opaque nextLink; group expand=members with inner selection | Default 100, cap 999/page; members expansion contains at most 20 entries without nested nextLink; use the members collection for complete results. Advanced combinations require ConsistencyLevel: eventual and applicable count. No search/skip or user expansion. |
 | Apps/SPs/devices, grants, roles, CA | Typed filter/selection, SQL snapshots/paging; specific owner/principal/role-definition expansions | Property/operator allowlists differ. No arbitrary expansion/search. See [query contracts](src/mockazure/providers/graph/security/queries.py). |
-| Sign-ins/directory audits | Filter, top, declared timestamp orderby, nextLink | No select/count/expand/skip/search. Page cap 1000. |
+| Sign-ins/directory audits | Filter, top, timestamp ordering, nextLink | Directory-audit ordering is documented; sign-in ordering is a retained local extension. No select/count/expand/skip/search. Page cap 1000. |
 | Risky users/risk detections | Filter, select, top, nextLink | No orderby/count/expand/skip; cap 500. |
 | Registration report | Declared filter, server continuation | No client top/select/order/expand. Method inventory accepts no optional query parameters. |
 | Security collections | Filter/top/skip/count/nextLink; legacy alerts add select and one scalar orderby; incidents add expand=alerts | Default 100, cap 1000; top is page size. Legacy skip cap 500, others 100,000; expansion cap 10,000. Modern alerts/scores/profiles do not inherit legacy select/order support. |
-| Inbox rules | Select/top, snapshot nextLink | Max 1000 rules/mailbox; page cap 100, accepted top 1â€“1000. No filter/order/expand. |
-| UAL query lists/results | Select/top/nextLink; search filters in POST body | Page cap 100, accepted top 1â€“1000. Item query supports selection only. |
+| Inbox rules | Select/top, snapshot nextLink | Max 1000 rules/mailbox; page cap 100, accepted top 1–1000. No filter/order/expand. |
+| UAL query lists/results | Select/top/nextLink; search filters in POST body | Page cap 100, accepted top 1–1000. Item query supports selection only. |
 | Delta | Users/groups; select and issued state links | No arbitrary filter/top/order/expand. Local deletion/relationship semantics in directory contract. |
-| `POST /v1.0/$batch` (also beta) | 1â€“20 independent GETs; per-item authorization/errors | Roots: users, groups, me, organization, auditLogs, identityProtection, subscribedSkus. No writes/dependencies, external URLs, security collections or other roots. [Batching](https://learn.microsoft.com/en-us/graph/json-batching). |
-| Throttling | Shared directory fixed-window budget/injected 429; Exchange trace rolling window; ARM Activity faults | Retry-After in those profiles. Not every Microsoft quota or uniform throttling on all Graph endpoints. |
+| `POST /v1.0/$batch` (also beta) | 1–20 independent GETs; per-item authorization/errors | Adds directoryObjects, apps/SPs/devices, roles/grants, identity policies, reports and security reads to the existing roots. Per-item 403/404/query errors and 429 remain visible. No writes/dependencies or external URLs. [Batching](https://learn.microsoft.com/en-us/graph/json-batching). |
+| Throttling | Shared PostgreSQL budgets and one-shot read/page 429 for directory, app/device, role/grant/policy/report and security collection buckets; Exchange trace rolling window; ARM Activity faults | Retry-After; scope is tenant/client/resource and shared across API instances. `/me` shares the user bucket; batch charges inner calls only. Local quotas are configurable, not a promise to reproduce every Microsoft quota. |
 | Continuations | Local origins; tenant/caller/query binding; reauthorization | Family-specific lifetime/snapshot behavior. Use nextLink unchanged. An odata.context value does not implement GET /$metadata. |
 | Errors/authentication | Local token signature/audience/expiry/current identity checks; Graph-shaped errors | Missing provider route normally 501 MockAzureOperationNotImplemented; unsupported method 405; unsupported query usually 400. Missing objects/denied access are not coverage gaps. |
 
@@ -331,7 +331,7 @@ require the separate admin token. Provider operations use their local service ac
 | GET `/_mock/health`, `/_mock/ready`, `/_mock/capabilities` | Health, storage/key readiness, authenticated high-level discovery. This document records method/path boundaries beyond that summary. |
 | POST `/_mock/tenants/{tenant}/directory/import`, GET `/_mock/tenants/{tenant}/directory/export` | Public directory fixtures, not complete identity/credential/authorization backups. |
 | POST `/_mock/tenants/{tenant}/evidence/import`, GET `/_mock/tenants/{tenant}/evidence/export` | Supported historical families including UAL/Activity; [controls](docs/evidence.md) govern publication, retention/reset. |
-| POST `/_mock/tenants/{tenant}/collections/{family}/import` | Five security collections; atomic 1â€“1000 records, 8 MiB limit, replacement by ID at a new revision. No collection delete/reset/export/pruning integration yet. |
+| POST `/_mock/tenants/{tenant}/collections/{family}/import` | Five security collections; atomic 1–1000 records, 8 MiB limit, replacement by ID at a new revision. No collection delete/reset/export/pruning integration yet. |
 | Identity, licensing, methods, mailbox, ARM, managed-host provisioning | Configure state/entitlements through CLI/documented admin routes. [Identity](docs/identity.md), [mail](docs/mail-contracts.md), [ARM](docs/arm-contracts.md). |
 
 An empty response from an implemented route means no matching visible local data; a missing

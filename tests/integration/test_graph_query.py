@@ -150,8 +150,9 @@ async def test_transitive_cycles_and_expansion_boundaries(database, settings):
         inverse = await client.get(f"/v1.0/users/{user_id}/transitiveMemberOf", headers=headers)
         assert {row["id"] for row in inverse.json()["value"]} == {str(x) for x in ids}
         expansion = await client.get(f"/v1.0/groups/{ids[0]}?$expand=members", headers=headers)
-        assert expansion.status_code == 400
-        assert "20" in expansion.json()["error"]["message"]
+        assert expansion.status_code == 200, expansion.text
+        assert len(expansion.json()["members"]) == 20
+        assert "members@odata.nextLink" not in expansion.json()
         direct = await client.get(f"/v1.0/groups/{ids[0]}/members", headers=headers)
         assert len(direct.json()["value"]) == 22
 
