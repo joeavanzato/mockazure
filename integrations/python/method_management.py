@@ -35,7 +35,7 @@ def delegated(config):
             http_client=transport,
         )
         flow = app.initiate_auth_code_flow(
-            ["UserAuthenticationMethod.ReadWrite.All"],
+            config.get("delegated_scopes", ["UserAuthenticationMethod.ReadWrite.All"]),
             redirect_uri="http://localhost:8123/callback",
         )
         response = transport.get(flow["auth_uri"], timeout=30)
@@ -52,6 +52,10 @@ def delegated(config):
             ("/consent", {"decision": "approve"}),
             ("/mfa", {"decision": "complete"}),
         ):
+            if path == "/mfa":
+                selection = re.search(r'<option value="([^"]+)"', response.text)
+                if selection:
+                    body = {**body, "method_id": html.unescape(selection[1])}
             response = transport.post(
                 config["endpoints"]["login"] + path,
                 data={**fields, **body},

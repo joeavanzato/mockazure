@@ -93,6 +93,16 @@ def qualify(directory, command, compose, client, headers, tenant, check):
     call(
         "PUT", base + f"/identity/users/{admin['id']}/roles/Privileged Authentication Administrator"
     )
+    call(
+        "POST",
+        base + f"/security/users/{admin['id']}/authenticationMethods",
+        {
+            "@odata.type": "#microsoft.graph.phoneAuthenticationMethod",
+            "phoneType": "mobile",
+            "phoneNumber": "+1 5555550199",
+        },
+        201,
+    )
     (state / "admin-user.json").write_text(
         json.dumps({"username": admin["upn"], "password": "Native local admin password 42!"}),
         encoding="utf-8",
@@ -103,7 +113,7 @@ def qualify(directory, command, compose, client, headers, tenant, check):
             "POST",
             base + "/identity/users",
             {
-                "upn": label + "@" + tenant["domain"],
+                "upn": "method-" + label + "@" + tenant["domain"],
                 "display_name": label,
                 "password": "Initial native password 42!",
             },
@@ -212,7 +222,7 @@ def qualify(directory, command, compose, client, headers, tenant, check):
         "/login",
         data={
             **fields,
-            "username": "python@" + tenant["domain"],
+            "username": "method-python@" + tenant["domain"],
             "password": "Native temporary password 72!",
         },
     )
