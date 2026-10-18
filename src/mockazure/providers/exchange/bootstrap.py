@@ -4,6 +4,7 @@ import re
 from urllib.parse import urlsplit
 
 from mockazure.endpoints import local_origin
+from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
 
 RULE_PARAMETERS = {
     "Mailbox": "string",
@@ -167,6 +168,9 @@ PARAMETERS.update(
 )
 
 
+PARAMETERS.update(SECURITY_PARAMETERS)
+
+
 def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
     parsed = urlsplit(endpoint)
     local_origin(f"{parsed.scheme}://{parsed.netloc}")
@@ -183,7 +187,15 @@ def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:
         if command not in PARAMETERS:
             raise ValueError("Unsupported proxy command")
         parameters = PARAMETERS[command]
-        nullable = {"ForwardingAddress", "ForwardingSmtpAddress"}
+        nullable = {
+            "ForwardingAddress",
+            "ForwardingSmtpAddress",
+            "TNEFEnabled",
+            "Comment",
+            "TlsSenderCertificateName",
+            "TlsDomain",
+            "TlsSettings",
+        }
         declarations = ", ".join(
             f"[{'object' if name in nullable else kind}]\x24{name}"
             for name, kind in parameters.items()

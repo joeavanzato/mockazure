@@ -229,6 +229,8 @@ def qualify(directory, command, compose, client, headers, tenant, check, *, work
             )
             check("original_exchange_unified_audit_1101_exact_ids")
             check("original_exchange_recipients_and_delegation")
+            assert workflow_report["security_configuration"]
+            check("original_exchange_security_configuration")
         # Original collector sources are verified against the pinned archive before and after.
         import hashlib
         from datetime import datetime

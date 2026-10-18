@@ -43,6 +43,32 @@ try {
  if(@(Get-EXOMailboxPermission -Identity $config.mailbox_upn | Where-Object {$_.User -eq $delegate.upn}).Count){throw 'FullAccess removal mismatch'}
  if(@(Get-EXORecipientPermission -Identity $config.mailbox_upn | Where-Object {$_.Trustee -eq $delegate.upn}).Count){throw 'SendAs removal mismatch'}
  if(@((Get-Mailbox -Identity $config.mailbox_upn).GrantSendOnBehalfTo).Count){throw 'SendOnBehalf removal mismatch'}
+ $configurationCases=@(
+   @{Kind='RemoteDomain';Create=@{DomainName='*.example.test'};Update=@{AutoForwardEnabled=$false};Field='AutoForwardEnabled';Expected=$false},
+   @{Kind='InboundConnector';Create=@{SenderDomains=@('*.example.test');ConnectorType='Partner'};Update=@{RequireTls=$false};Field='RequireTls';Expected=$false},
+   @{Kind='OutboundConnector';Create=@{RecipientDomains=@('example.test');UseMXRecord=$true;ConnectorType='Partner'};Update=@{Enabled=$false};Field='Enabled';Expected=$false},
+   @{Kind='AuthenticationPolicy';Create=@{};Update=@{AllowBasicAuthSmtp=$true};Field='AllowBasicAuthSmtp';Expected=$true},
+   @{Kind='OrganizationRelationship';Create=@{DomainNames=@('example.test')};Update=@{FreeBusyAccessEnabled=$true};Field='FreeBusyAccessEnabled';Expected=$true},
+   @{Kind='SharingPolicy';Create=@{Domains=@('*:CalendarSharingFreeBusySimple')};Update=@{Enabled=$false};Field='Enabled';Expected=$false}
+ )
+ foreach($case in $configurationCases){
+   $create=@{Name='Native '+$case.Kind;Confirm=$false}+$case.Create
+   $created=& ('New-'+$case.Kind) @create
+   if(-not $created.Guid){throw 'Missing configuration GUID'}
+   $update=@{Identity=$created.Guid;Confirm=$false}+$case.Update
+   & ('Set-'+$case.Kind) @update
+   $read=& ('Get-'+$case.Kind) -Identity $created.Identity
+   if($read.($case.Field) -ne $case.Expected -or $read.Guid -ne $created.Guid){throw 'Configuration roundtrip mismatch'}
+   & ('Remove-'+$case.Kind) -Identity $created.Identity -Confirm:$false
+   $absent=$false
+   try { & ('Get-'+$case.Kind) -Identity $created.Identity -ErrorAction Stop | Out-Null } catch { if($_.Exception.Message -match '404|not found'){ $absent=$true } else { throw } }
+   if(-not $absent){throw 'Removed configuration remains visible'}
+ }
+ if(-not (Get-AdminAuditLogConfig).UnifiedAuditLogIngestionEnabled){throw 'Unexpected audit ingestion default'}
+ Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $false -Confirm:$false
+ if((Get-AdminAuditLogConfig).UnifiedAuditLogIngestionEnabled){throw 'Audit ingestion disable failed'}
+ Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $true -Confirm:$false
+ if(-not (Get-AdminAuditLogConfig).UnifiedAuditLogIngestionEnabled){throw 'Audit ingestion restore failed'}
  $expected=Get-Content /state/audit-expected.json -Raw | ConvertFrom-Json
  $start=[datetime]::SpecifyKind(([datetimeoffset]$expected.start).UtcDateTime,[DateTimeKind]::Unspecified)
  $end=[datetime]::SpecifyKind(([datetimeoffset]$expected.end).UtcDateTime,[DateTimeKind]::Unspecified)
@@ -66,5 +92,5 @@ try {
  }
  $formatted=@(Search-UnifiedAuditLog -StartDate $start -EndDate $end -ResultSize 1 -Formatted -Operations Set-Mailbox -FreeText workflow)
  if($formatted[0].RecordType -ne 'ExchangeAdmin'){throw 'Formatted record type mismatch'}
- @{passed=$true;client='ExchangeOnlineManagement';version='3.11.0';records=$all.Count;page_sizes=$sizes;timezone=[TimeZoneInfo]::Local.Id;utc_unspecified_dates=$true;recipient_delegation=$true;recipient_count=$listed.Count} | ConvertTo-Json -Depth 5 | Set-Content /state/exchange-workflow-report.json
+ @{passed=$true;client='ExchangeOnlineManagement';version='3.11.0';records=$all.Count;page_sizes=$sizes;timezone=[TimeZoneInfo]::Local.Id;utc_unspecified_dates=$true;security_configuration=$true;recipient_delegation=$true;recipient_count=$listed.Count} | ConvertTo-Json -Depth 5 | Set-Content /state/exchange-workflow-report.json
 } finally {Disconnect-ExchangeOnline -Confirm:$false | Out-Null}

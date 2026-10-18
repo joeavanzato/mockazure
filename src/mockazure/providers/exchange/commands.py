@@ -10,6 +10,7 @@ from mockazure.mail.models import Mailbox, MailRule
 from mockazure.mail.repository import resolve_mailbox
 from mockazure.mail.rules import mutate_rule
 from mockazure.mail.schemas import smtp_address
+from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
 from mockazure.mail.sweep import mutate_sweep
 from mockazure.providers.exchange.bootstrap import PARAMETERS
 from mockazure.providers.exchange.serialization import (
@@ -39,7 +40,11 @@ def checked_parameters(name, values):
         key = canonical[key.lower()]
         kind = PARAMETERS[name][key]
         if value is None:
-            if key not in {"ForwardingAddress", "ForwardingSmtpAddress", "GrantSendOnBehalfTo"}:
+            if key not in {"ForwardingAddress", "ForwardingSmtpAddress", "GrantSendOnBehalfTo"} | (
+                {"TNEFEnabled", "Comment", "TlsSenderCertificateName", "TlsDomain", "TlsSettings"}
+                if name in SECURITY_PARAMETERS
+                else set()
+            ):
                 invalid("Null command parameter")
         elif kind in {"bool", "switch"} and type(value) is not bool:
             invalid("Boolean command parameter required")
@@ -148,6 +153,13 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
         invalid("Unsupported Exchange command")
     name = canonical[name.lower()]
     parameters = checked_parameters(name, parameters)
+
+    from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
+
+    if name in SECURITY_PARAMETERS:
+        from mockazure.mail.security_configuration import invoke_security_configuration
+
+        return await invoke_security_configuration(session, actor, name, parameters, now)
 
     if name == "Get-Recipient":
         from mockazure.mail.recipients import query_recipients

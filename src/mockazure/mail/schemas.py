@@ -5,7 +5,9 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, model_validator
 
-EXCHANGE_COMMANDS = frozenset(
+from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
+
+EXCHANGE_COMMANDS = frozenset(SECURITY_PARAMETERS) | frozenset(
     {
         "Get-Recipient",
         "Get-EXORecipient",

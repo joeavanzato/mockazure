@@ -35,7 +35,7 @@ async def record_mail_audit(session, actor, operation, target, before, after, no
 def project_mail(source):
     facts = validate_mail_facts(source.facts)
     changed = changed_properties(facts["before"], facts["after"])
-    if not changed:
+    if not changed or not facts.get("auditIngestionEnabled", True):
         return ProjectionBatch(
             source=source.ref, generation=source.generation, items=(), receipt_status="suppressed"
         )
@@ -52,8 +52,9 @@ def project_mail(source):
         actor_id = app["servicePrincipalId"]
         actor_name, user_type, user_number = None, "ServicePrincipal", 6
     mailbox = facts["mailbox"]
-    object_id = mailbox["upn"]
-    if facts["operation"] != "Set-Mailbox":
+    configuration = "configurationIdentity" in mailbox
+    object_id = mailbox["configurationIdentity"] if configuration else mailbox["upn"]
+    if not configuration and facts["operation"] != "Set-Mailbox":
         rule = facts["after"] or facts["before"]
         if item_id := rule.get("id", rule.get("RuleIdentity")):
             object_id += "\\" + item_id
@@ -74,8 +75,6 @@ def project_mail(source):
         "ExternalAccess": False,
         "TokenObjectId": actor_id,
         "TokenTenantId": str(source.ref.tenant_id),
-        "MailboxOwnerUPN": mailbox["upn"],
-        "MailboxOwnerId": mailbox["id"],
         "ModifiedProperties": [
             {
                 "Name": key,
@@ -85,6 +84,8 @@ def project_mail(source):
             for key in changed
         ],
     }
+    if not configuration:
+        data.update(MailboxOwnerUPN=mailbox["upn"], MailboxOwnerId=mailbox["id"])
     if app:
         data["AppId"] = app["appId"]
     payload = {

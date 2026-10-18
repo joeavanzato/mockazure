@@ -28,6 +28,30 @@ def sample():
                 "clientVersions": {"ExchangeOnlineManagement": "3.11.0"},
                 "cases": [
                     {
+                        "workflow": "exchange.security-configuration",
+                        "operationIds": [
+                            verb + "-" + kind
+                            for kind in (
+                                "RemoteDomain",
+                                "InboundConnector",
+                                "OutboundConnector",
+                                "AuthenticationPolicy",
+                                "OrganizationRelationship",
+                                "SharingPolicy",
+                            )
+                            for verb in ("Get", "New", "Set", "Remove")
+                        ]
+                        + ["Get-AdminAuditLogConfig", "Set-AdminAuditLogConfig"],
+                        "transport": "module",
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {
+                            "six_families_roundtrip": True,
+                            "audit_ingestion_toggle": True,
+                            "configuration_absence": True,
+                        },
+                    },
+                    {
                         "workflow": "exchange.unified-audit",
                         "operationIds": ["Search-UnifiedAuditLog"],
                         "transport": "module",
@@ -79,15 +103,15 @@ def test_qualification_matrix_completeness():
     with pytest.raises(ValueError):
         validate(missing, {"python", "powershell", "dotnet", "typescript"})
     rest = copy.deepcopy(good)
-    rest["ecosystems"]["powershell"]["cases"][0]["transport"] = "rest"
+    rest["ecosystems"]["powershell"]["cases"][1]["transport"] = "rest"
     with pytest.raises(ValueError):
         validate(rest, set(good["ecosystems"]))
     unknown = copy.deepcopy(good)
-    unknown["ecosystems"]["powershell"]["cases"][0]["operationIds"] = ["Invented-Command"]
+    unknown["ecosystems"]["powershell"]["cases"][1]["operationIds"] = ["Invented-Command"]
     with pytest.raises(ValueError):
         validate(unknown, set(good["ecosystems"]))
     failed = copy.deepcopy(good)
-    failed["ecosystems"]["powershell"]["cases"][0]["assertions"]["paging"] = False
+    failed["ecosystems"]["powershell"]["cases"][1]["assertions"]["paging"] = False
     with pytest.raises(ValueError):
         validate(failed, set(good["ecosystems"]))
     with pytest.raises(ValueError):
@@ -104,6 +128,17 @@ def test_qualification_rejects_unpinned_client_version():
 
 def test_qualification_rejects_missing_delegation_workflow():
     report = sample()
-    report["ecosystems"]["powershell"]["cases"] = report["ecosystems"]["powershell"]["cases"][:1]
+    report["ecosystems"]["powershell"]["cases"] = [
+        case
+        for case in report["ecosystems"]["powershell"]["cases"]
+        if case["workflow"] != "exchange.recipients-and-delegation"
+    ]
+    with pytest.raises(ValueError, match="workflow"):
+        validator()(report, {"python", "powershell", "dotnet", "typescript"})
+
+
+def test_qualification_rejects_missing_configuration_workflow():
+    report = sample()
+    report["ecosystems"]["powershell"]["cases"] = report["ecosystems"]["powershell"]["cases"][1:]
     with pytest.raises(ValueError, match="workflow"):
         validator()(report, {"python", "powershell", "dotnet", "typescript"})

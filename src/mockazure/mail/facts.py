@@ -11,7 +11,7 @@ from mockazure.evidence.schemas import EvidenceSettings, SourceInput, SourceRef
 
 
 def validate_mail_facts(facts):
-    if not isinstance(facts, dict) or set(facts) != {
+    if not isinstance(facts, dict) or set(facts) - {"auditIngestionEnabled"} != {
         "operation",
         "actor",
         "mailbox",
@@ -27,6 +27,8 @@ def validate_mail_facts(facts):
     for name in ("actor", "mailbox", "before", "after"):
         if not isinstance(facts[name], dict):
             raise ValueError("Invalid mail evidence object")
+    if "auditIngestionEnabled" in facts and type(facts["auditIngestionEnabled"]) is not bool:
+        raise ValueError("Invalid ingestion eligibility")
     from mockazure.mail.audit_schemas import public_audit_data
 
     public_audit_data(facts)
@@ -41,6 +43,9 @@ async def record_mail_fact(session, actor, operation, mailbox, before, after, no
 
     if not changed_properties(before, after):
         return None
+    from mockazure.mail.security_configuration import audit_ingestion_enabled
+
+    eligible = await audit_ingestion_enabled(session, actor.tenant_id)
     state = await lock_state(session, actor.tenant_id)
     when = await evidence_now(session, actor.tenant_id, now)
     ref = SourceRef(tenant_id=actor.tenant_id, kind="mail", id=uuid4())
@@ -52,6 +57,7 @@ async def record_mail_fact(session, actor, operation, mailbox, before, after, no
             available_at=when
             + timedelta(seconds=EvidenceSettings.model_validate(state.settings).delay_seconds),
             facts={
+                "auditIngestionEnabled": eligible,
                 "operation": operation,
                 "actor": await actor_snapshot(session, actor),
                 "mailbox": mailbox,

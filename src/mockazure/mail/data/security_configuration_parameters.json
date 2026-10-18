@@ -1,0 +1,200 @@
+{
+  "Get-AdminAuditLogConfig": {},
+  "Get-AuthenticationPolicy": {
+    "Identity": "string"
+  },
+  "Get-InboundConnector": {
+    "Identity": "string",
+    "ResultSize": "string"
+  },
+  "Get-OrganizationRelationship": {
+    "Identity": "string"
+  },
+  "Get-OutboundConnector": {
+    "Identity": "string",
+    "IncludeTestModeConnectors": "bool",
+    "IsTransportRuleScoped": "bool",
+    "ResultSize": "string"
+  },
+  "Get-RemoteDomain": {
+    "Identity": "string",
+    "ResultSize": "string"
+  },
+  "Get-SharingPolicy": {
+    "Identity": "string"
+  },
+  "New-AuthenticationPolicy": {
+    "Name": "string",
+    "AllowBasicAuthActiveSync": "switch",
+    "AllowBasicAuthAutodiscover": "switch",
+    "AllowBasicAuthImap": "switch",
+    "AllowBasicAuthMapi": "switch",
+    "AllowBasicAuthOfflineAddressBook": "switch",
+    "AllowBasicAuthOutlookService": "switch",
+    "AllowBasicAuthPop": "switch",
+    "AllowBasicAuthPowershell": "switch",
+    "AllowBasicAuthReportingWebServices": "switch",
+    "AllowBasicAuthRpc": "switch",
+    "AllowBasicAuthSmtp": "switch",
+    "AllowBasicAuthWebServices": "switch"
+  },
+  "New-InboundConnector": {
+    "Name": "string",
+    "SenderDomains": "string[]",
+    "CloudServicesMailEnabled": "bool",
+    "Comment": "string",
+    "ConnectorSource": "string",
+    "ConnectorType": "string",
+    "Enabled": "bool",
+    "RequireTls": "bool",
+    "RestrictDomainsToCertificate": "bool",
+    "RestrictDomainsToIPAddresses": "bool",
+    "SenderIPAddresses": "string[]",
+    "TlsSenderCertificateName": "string",
+    "TreatMessagesAsInternal": "bool"
+  },
+  "New-OrganizationRelationship": {
+    "Name": "string",
+    "DomainNames": "string[]",
+    "DeliveryReportEnabled": "bool",
+    "Enabled": "bool",
+    "FreeBusyAccessEnabled": "bool",
+    "FreeBusyAccessLevel": "string",
+    "MailTipsAccessEnabled": "bool",
+    "MailTipsAccessLevel": "string",
+    "PhotosEnabled": "bool"
+  },
+  "New-OutboundConnector": {
+    "Name": "string",
+    "AllAcceptedDomains": "bool",
+    "CloudServicesMailEnabled": "bool",
+    "Comment": "string",
+    "ConnectorSource": "string",
+    "ConnectorType": "string",
+    "Enabled": "bool",
+    "IsTransportRuleScoped": "bool",
+    "RecipientDomains": "string[]",
+    "RouteAllMessagesViaOnPremises": "bool",
+    "SenderRewritingEnabled": "bool",
+    "SmartHosts": "string[]",
+    "TestMode": "bool",
+    "TlsDomain": "string",
+    "TlsSettings": "string",
+    "UseMXRecord": "bool"
+  },
+  "New-RemoteDomain": {
+    "Name": "string",
+    "DomainName": "string"
+  },
+  "New-SharingPolicy": {
+    "Name": "string",
+    "Domains": "string[]",
+    "Default": "switch",
+    "Enabled": "bool"
+  },
+  "Remove-AuthenticationPolicy": {
+    "Identity": "string"
+  },
+  "Remove-InboundConnector": {
+    "Identity": "string"
+  },
+  "Remove-OrganizationRelationship": {
+    "Identity": "string"
+  },
+  "Remove-OutboundConnector": {
+    "Identity": "string"
+  },
+  "Remove-RemoteDomain": {
+    "Identity": "string"
+  },
+  "Remove-SharingPolicy": {
+    "Identity": "string"
+  },
+  "Set-AdminAuditLogConfig": {
+    "Force": "switch",
+    "UnifiedAuditLogIngestionEnabled": "bool"
+  },
+  "Set-AuthenticationPolicy": {
+    "Identity": "string",
+    "AllowBasicAuthActiveSync": "switch",
+    "AllowBasicAuthAutodiscover": "switch",
+    "AllowBasicAuthImap": "switch",
+    "AllowBasicAuthMapi": "switch",
+    "AllowBasicAuthOfflineAddressBook": "switch",
+    "AllowBasicAuthOutlookService": "switch",
+    "AllowBasicAuthPop": "switch",
+    "AllowBasicAuthPowershell": "switch",
+    "AllowBasicAuthReportingWebServices": "switch",
+    "AllowBasicAuthRpc": "switch",
+    "AllowBasicAuthSmtp": "switch",
+    "AllowBasicAuthWebServices": "switch"
+  },
+  "Set-InboundConnector": {
+    "Identity": "string",
+    "CloudServicesMailEnabled": "bool",
+    "Comment": "string",
+    "ConnectorSource": "string",
+    "ConnectorType": "string",
+    "Enabled": "bool",
+    "Name": "string",
+    "RequireTls": "bool",
+    "RestrictDomainsToCertificate": "bool",
+    "RestrictDomainsToIPAddresses": "bool",
+    "SenderDomains": "string[]",
+    "SenderIPAddresses": "string[]",
+    "TlsSenderCertificateName": "string",
+    "TreatMessagesAsInternal": "bool"
+  },
+  "Set-OrganizationRelationship": {
+    "Identity": "string",
+    "DeliveryReportEnabled": "bool",
+    "DomainNames": "string[]",
+    "Enabled": "bool",
+    "Force": "switch",
+    "FreeBusyAccessEnabled": "bool",
+    "FreeBusyAccessLevel": "string",
+    "MailTipsAccessEnabled": "bool",
+    "MailTipsAccessLevel": "string",
+    "Name": "string",
+    "PhotosEnabled": "bool"
+  },
+  "Set-OutboundConnector": {
+    "Identity": "string",
+    "AllAcceptedDomains": "bool",
+    "CloudServicesMailEnabled": "bool",
+    "Comment": "string",
+    "ConnectorSource": "string",
+    "ConnectorType": "string",
+    "Enabled": "bool",
+    "IsTransportRuleScoped": "bool",
+    "Name": "string",
+    "RecipientDomains": "string[]",
+    "RouteAllMessagesViaOnPremises": "bool",
+    "SenderRewritingEnabled": "bool",
+    "SmartHosts": "string[]",
+    "TestMode": "bool",
+    "TlsDomain": "string",
+    "TlsSettings": "string",
+    "UseMXRecord": "bool"
+  },
+  "Set-RemoteDomain": {
+    "Identity": "string",
+    "AllowedOOFType": "string",
+    "AutoForwardEnabled": "bool",
+    "AutoReplyEnabled": "bool",
+    "DeliveryReportEnabled": "bool",
+    "IsInternal": "bool",
+    "MeetingForwardNotificationEnabled": "bool",
+    "Name": "string",
+    "NDREnabled": "bool",
+    "TargetDeliveryDomain": "bool",
+    "TNEFEnabled": "bool"
+  },
+  "Set-SharingPolicy": {
+    "Identity": "string",
+    "Default": "switch",
+    "Domains": "string[]",
+    "Enabled": "bool",
+    "Name": "string"
+  }
+}

@@ -629,3 +629,52 @@ atomically replaces typed operational grants; {"grants":[]} resets them. Every t
 must already be a current mailbox/principal in that tenant. Imports validate the whole
 batch before replacement. These administrative fixtures explicitly establish authority;
 collectionState permission imports never do. API restart preserves grants in PostgreSQL.
+
+
+## Exchange security configuration
+
+The selected Get/New/Set/Remove commands for RemoteDomain, InboundConnector,
+OutboundConnector, AuthenticationPolicy, OrganizationRelationship and SharingPolicy
+persist strict typed configuration in PostgreSQL. Get/Set-AdminAuditLogConfig supports
+the cloud `UnifiedAuditLogIngestionEnabled` setting and Set's `Force` switch.
+On-premises audit filters, `AdminAuditLogEnabled`, `Identity` on AdminAuditLogConfig,
+legacy Exchange token switches and unlisted fields fail explicitly.
+
+The [26-command catalog](../integrations/contracts/cloud/exchange.json) records each
+exact parameter set, output projection and pinned Microsoft command source. Sources
+are bundled at revision `c5386f4fae7364d13ae8759abb6bbe1fc1be0dde`, with SHA-256
+and CC-BY-4.0 attribution. This is a bounded Exchange command contract; the private
+PowerShell transport is not a Graph REST schema. Generated auditLogRecord objects
+continue to validate against the pinned Microsoft Graph v1.0 structural schema.
+
+Names are case-insensitively unique within each family. Name/GUID resolve only in the
+current tenant; explicit missing identities return 404, not an unfiltered collection.
+Remote domains are also unique by domain. The default catch-all remote domain has a
+stable local GUID and cannot be removed or renamed. Other families start empty.
+One sharing policy can be marked Default; selecting another clears the old default
+in the same transaction. Mutations enforce current tenant-wide command authority and
+emit immutable ExchangeAdmin evidence without mailbox-owner fields. Returned fields
+are the selected typed projection, not all production directory properties.
+
+Connectors validate routing/TLS combinations and selected domain/IP fields. Their
+state does not execute SMTP, relay traffic or perform DNS/federation calls. Authentication
+policy flags store the documented configuration; no basic-auth protocol is emulated.
+Sharing/organization relationship state does not grant calendar sharing access.
+
+Setting UnifiedAuditLogIngestionEnabled to false blocks Search-UnifiedAuditLog and
+Graph audit query APIs. Native Exchange facts capture ingestion eligibility when
+recorded, so re-enabling before a worker drains cannot publish suppressed events.
+Previously published evidence stays intact and becomes searchable after re-enabling.
+This initial publication gate covers native Exchange emitters; explicit fixture/imported
+evidence and other workload fact producers are not gated. Configuration changes use
+the setting effective before the change: disabling can be audited; re-enabling from
+disabled does not retroactively create a record.
+
+`GET`/`PUT /_mock/tenants/{tenant}/mail/securityConfiguration` exports/replaces
+`{records: [{id, kind, properties}], unified_audit_log_ingestion_enabled: true}`.
+Every record is validated before replacement; IDs survive round trips and API restart.
+An empty records array resets named configuration and recreates the default remote
+domain. Fixture operations change operational configuration without impersonating
+service cmdlets or granting OAuth/RBAC authority. Tenant deletion cascades the state.
+Migration 055 preserves prior mail/delegation state and refuses a downgrade that would
+discard configuration or a disabled ingestion setting.

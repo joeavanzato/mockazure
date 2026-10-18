@@ -99,3 +99,20 @@ def test_recipient_delegation_contracts_have_public_fields_and_current_profile()
         v for v in cases()["A"]["workflows"] if v["id"] == "exchange.recipients-and-delegation"
     )
     assert set(definition["operationIds"]) == set(operations)
+
+
+def test_security_configuration_contracts_match_dispatch():
+    from mockazure.mail.security_configuration_contracts import PARAMETERS
+    from mockazure.providers.exchange.bootstrap import PARAMETERS as proxies
+
+    contracts = loader()
+    contracts.verify_references("exchange")
+    assert len(PARAMETERS) == 26
+    for name, parameters in PARAMETERS.items():
+        row = contracts.load_contract("exchange", name)
+        assert row["parameterSets"][0]["parameters"] == parameters == proxies[name]
+        assert row["status"] == "implemented-bounded" and row["limitations"]
+    assert set(PARAMETERS["Set-AdminAuditLogConfig"]) == {
+        "Force",
+        "UnifiedAuditLogIngestionEnabled",
+    }

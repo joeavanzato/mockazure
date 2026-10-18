@@ -19,6 +19,9 @@ WORKLOADS = {
 
 
 async def authorize_query(session, actor, operation):
+    from mockazure.mail.security_configuration import require_audit_ingestion
+
+    await require_audit_ingestion(session, actor.tenant_id)
     if actor.audience != "00000003-0000-0000-c000-000000000000":
         raise AuthorizationDenied("Graph audience required")
     await authorize(actor, operation_requirement("audit." + operation), session)

@@ -86,6 +86,9 @@ def inputs(parameters):
 
 
 async def authorize_search(session, actor):
+    from mockazure.mail.security_configuration import require_audit_ingestion
+
+    await require_audit_ingestion(session, actor.tenant_id)
     await require_exchange_command(session, actor, "Search-UnifiedAuditLog", tenant_wide=True)
     settings = await session.get(MailSettings, actor.tenant_id)
     if settings is None or settings.audit_tier not in {"standard", "premium"}:

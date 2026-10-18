@@ -273,3 +273,23 @@ async def put_delegation_state(tenant_id: UUID, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         await tenant_required(session, tenant_id)
         return await replace_delegation(session, tenant_id, value)
+
+
+@router.get("/securityConfiguration")
+async def get_security_configuration(tenant_id: UUID, request: Request):
+    from mockazure.mail.security_configuration import export_security_configuration
+
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await export_security_configuration(session, tenant_id)
+
+
+@router.put("/securityConfiguration")
+async def put_security_configuration(tenant_id: UUID, request: Request):
+    from mockazure.mail.security_configuration import replace_security_configuration
+    from mockazure.mail.security_configuration_schemas import SecurityState
+
+    value = await parsed(request, SecurityState)
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await replace_security_configuration(session, tenant_id, value)

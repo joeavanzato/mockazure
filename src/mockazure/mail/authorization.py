@@ -12,10 +12,12 @@ from mockazure.identity.models import DirectoryRole, ServicePrincipalRole, User
 from mockazure.mail.contracts import operation_requirement
 from mockazure.mail.models import ExchangeCommandGrant, MailSettings
 from mockazure.mail.schemas import EXCHANGE_COMMANDS
+from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
 
 GRAPH = "00000003-0000-0000-c000-000000000000"
 EXCHANGE = next(resource.audience for resource in RESOURCES if resource.service == "exchange")
-READER_COMMANDS = frozenset(
+
+READER_COMMANDS = frozenset(k for k in SECURITY_PARAMETERS if k.startswith("Get-")) | frozenset(
     {
         "Get-Recipient",
         "Get-EXORecipient",

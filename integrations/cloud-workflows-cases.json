@@ -45,6 +45,47 @@
             "behalf_mutations",
             "revoked_permissions_absent"
           ]
+        },
+        {
+          "id": "exchange.security-configuration",
+          "service": "exchange",
+          "operationIds": [
+            "Get-AdminAuditLogConfig",
+            "Get-AuthenticationPolicy",
+            "Get-InboundConnector",
+            "Get-OrganizationRelationship",
+            "Get-OutboundConnector",
+            "Get-RemoteDomain",
+            "Get-SharingPolicy",
+            "New-AuthenticationPolicy",
+            "New-InboundConnector",
+            "New-OrganizationRelationship",
+            "New-OutboundConnector",
+            "New-RemoteDomain",
+            "New-SharingPolicy",
+            "Remove-AuthenticationPolicy",
+            "Remove-InboundConnector",
+            "Remove-OrganizationRelationship",
+            "Remove-OutboundConnector",
+            "Remove-RemoteDomain",
+            "Remove-SharingPolicy",
+            "Set-AdminAuditLogConfig",
+            "Set-AuthenticationPolicy",
+            "Set-InboundConnector",
+            "Set-OrganizationRelationship",
+            "Set-OutboundConnector",
+            "Set-RemoteDomain",
+            "Set-SharingPolicy"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "six_families_roundtrip",
+            "audit_ingestion_toggle",
+            "configuration_absence"
+          ]
         }
       ],
       "notApplicable": {
