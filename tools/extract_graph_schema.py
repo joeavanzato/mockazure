@@ -8,6 +8,11 @@ from xml.etree import ElementTree as ET
 
 EDM = "{http://docs.oasis-open.org/odata/ns/edm}"
 ROOTS = (
+    "authenticationMethodsPolicy",
+    "smsAuthenticationMethodConfiguration",
+    "microsoftAuthenticatorAuthenticationMethodConfiguration",
+    "smsAuthenticationMethodTarget",
+    "microsoftAuthenticatorAuthenticationMethodTarget",
     "managedDevice",
     "detectedApp",
     "deviceConfigurationAssignment",

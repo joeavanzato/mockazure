@@ -6,7 +6,7 @@ from ipaddress import ip_address, ip_network
 from sqlalchemy import select
 
 from mockazure.directory.models import Group
-from mockazure.identity.models import Application
+from mockazure.identity.models import Application, DirectoryRole
 from mockazure.licensing.service import entitlements
 from mockazure.oauth.errors import OAuthError
 from mockazure.providers.graph.relationships import relation_ids
@@ -87,7 +87,51 @@ async def evaluate_policies(session, tenant, user, resource, context, now) -> Po
     except ValueError:
         pass
     resource_id = str(resource_app_id(resource))
+    from types import SimpleNamespace
+
+    from mockazure.security.authentication_context import (
+        bound_context,
+        existing_device,
+        valid_method_outcome,
+    )
+    from mockazure.security.method_policies import enforcement_enabled
+    from mockazure.security.roles import role_ids
+    from mockazure.workloads.intune import device_observation
+
+    identity = SimpleNamespace(
+        id=context.get("session_id"),
+        tenant_id=tenant,
+        user_id=user.id,
+        client_id=context.get("client_id"),
+    )
+    trusted = await bound_context(session, identity, now) if identity.id else None
     completed = context.get("mfa") == "completed"
+    if await enforcement_enabled(session, tenant):
+        completed = (
+            completed and bool(identity.id) and await valid_method_outcome(session, identity, now)
+        )
+    device = (
+        await existing_device(session, tenant, trusted.device_id)
+        if trusted and trusted.device_id
+        else None
+    )
+    platform = trusted.platform if device else None
+    if device:
+        from mockazure.workloads.repository import scope_row
+
+        # Hold the observation scope through issuance; import/reset cannot change it midway.
+        await scope_row(session, tenant, "intune", "deviceManagement", lock="read")
+    observation = await device_observation(session, tenant, trusted.device_id) if device else None
+    compliant = observation is not None and observation.compliant is True
+    roles = {
+        role_ids()[name]
+        for name in await session.scalars(
+            select(DirectoryRole.role).where(
+                DirectoryRole.tenant_id == tenant, DirectoryRole.user_id == user.id
+            )
+        )
+        if name in role_ids()
+    }
     blocked, requires_mfa, active = False, False, False
     results = []
     for row in policies:
@@ -102,9 +146,11 @@ async def evaluate_policies(session, tenant, user, resource, context, now) -> Po
                 "All" in users.get("includeUsers", [])
                 or intersects(users.get("includeUsers", []), str(user.id))
                 or bool(groups & set(users.get("includeGroups", [])))
+                or bool(roles & set(users.get("includeRoles", [])))
             )
             and str(user.id) not in users.get("excludeUsers", [])
             and not groups & set(users.get("excludeGroups", []))
+            and not roles & set(users.get("excludeRoles", []))
             and (
                 "All" in applications.get("includeApplications", [])
                 or resource_id in applications.get("includeApplications", [])
@@ -112,6 +158,12 @@ async def evaluate_policies(session, tenant, user, resource, context, now) -> Po
             and resource_id not in applications.get("excludeApplications", [])
             and ("all" in clients or context.get("client_app_type") in clients)
         )
+        platforms = conditions.get("platforms")
+        if platforms:
+            included = platforms.get("includePlatforms", [])
+            excluded = platforms.get("excludePlatforms", [])
+            match = match and ("all" in included or platform in included)
+            match = match and not ("all" in excluded or platform in excluded)
         network = conditions.get("locations")
         unknown_peer = bool(match and network and peer is None)
         if network and not unknown_peer:
@@ -126,19 +178,28 @@ async def evaluate_policies(session, tenant, user, resource, context, now) -> Po
         elif not match:
             result = "reportOnlyNotApplied" if report else "notApplied"
         else:
-            denied = "block" in controls or unknown_peer or not licensed
-            mfa = "mfa" in controls
+            hard_denial = "block" in controls or unknown_peer or not licensed
+            values = {"mfa": completed, "compliantDevice": compliant, "block": False}
+            operator = policy["grantControls"]["operator"]
+            satisfied = (all if operator == "AND" else any)(values[c] for c in controls)
+            can_prompt = (
+                "mfa" in controls
+                and not completed
+                and (operator == "OR" or all(values[c] for c in controls if c != "mfa"))
+            )
+            denied = hard_denial or not satisfied and not can_prompt
+            mfa = not hard_denial and not satisfied and can_prompt
             if report:
                 result = (
                     "reportOnlyFailure"
                     if denied
-                    else ("reportOnlyInterrupted" if mfa and not completed else "reportOnlySuccess")
+                    else ("reportOnlyInterrupted" if mfa else "reportOnlySuccess")
                 )
             else:
                 active = True
                 blocked |= denied
                 requires_mfa |= mfa
-                result = "failure" if denied or mfa and not completed else "success"
+                result = "failure" if denied or mfa else "success"
         results.append(
             {
                 "id": str(row.id),
@@ -170,15 +231,45 @@ async def client_category(session, identity, flow):
 async def enforce_policies(session, request, identity, user, flow, now, *, allow_mfa_prompt=False):
     peer = request.client.host if request.client else None
     category = await client_category(session, identity, flow)
-    context = {"ip_address": peer, "client_app_type": category, "mfa": identity.mfa}
+    context = {
+        "ip_address": peer,
+        "client_app_type": category,
+        "mfa": identity.mfa,
+        "session_id": identity.id,
+        "client_id": identity.client_id,
+    }
+    from mockazure.security.authentication_context import valid_method_outcome
+    from mockazure.security.method_policies import enforcement_enabled
+
+    await lock_security(session, identity.tenant_id)
+    if (
+        identity.mfa == "completed"
+        and await enforcement_enabled(session, identity.tenant_id)
+        and not await valid_method_outcome(session, identity, now)
+    ):
+        from mockazure.evidence.authentication import annotate_failure
+
+        raise await annotate_failure(
+            OAuthError(
+                "interaction_required", "The completed local MFA method is no longer eligible"
+            ),
+            session,
+            request,
+            identity.tenant_id,
+            identity.client_id,
+            user.id,
+            flow,
+            now,
+            error_code=50076,
+            resource=identity.resource,
+            mfa="not_performed",
+        )
     decision = await evaluate_policies(
         session, identity.tenant_id, user, identity.resource, context, now
     )
     request.state.policy_decision = decision
     request.state.policy_client_app_type = category
-    if decision.blocked or (
-        decision.requires_mfa and identity.mfa != "completed" and not allow_mfa_prompt
-    ):
+    if decision.blocked or (decision.requires_mfa and not allow_mfa_prompt):
         from mockazure.evidence.authentication import annotate_failure
 
         error = OAuthError(

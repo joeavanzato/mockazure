@@ -129,6 +129,10 @@ def validate_public_payload(version, family, payload):
             ),
             "fido2AuthenticationMethod": "fido2AuthenticationMethod",
             "longRunningOperation": "longRunningOperation",
+            "smsAuthenticationMethodConfiguration": "smsAuthenticationMethodConfiguration",
+            "microsoftAuthenticatorAuthenticationMethodConfiguration": (
+                "microsoftAuthenticatorAuthenticationMethodConfiguration"
+            ),
             "Application": "application",
             "ServicePrincipal": "servicePrincipal",
             "Device": "device",
@@ -143,6 +147,19 @@ def validate_public_payload(version, family, payload):
 
             for change in target.get("modifiedProperties") or []:
                 name = change["displayName"]
+                if name == "includeTargets" and security_kind in {
+                    "smsAuthenticationMethodConfiguration",
+                    "microsoftAuthenticatorAuthenticationMethodConfiguration",
+                }:
+                    target_kind = security_kind.replace("Configuration", "Target")
+                    for side in ("oldValue", "newValue"):
+                        values = json.loads(change[side]) if change.get(side) is not None else None
+                        if values is not None:
+                            if not isinstance(values, list) or len(values) > 1000:
+                                raise ValueError("Invalid method policy target difference")
+                            for value in values:
+                                validate_payload(version, target_kind, value, partial=True)
+                    continue
                 if name not in schema(version)["types"][security_kind][
                     "properties"
                 ] and name not in {"owners", "registeredOwners", "registeredUsers"}:

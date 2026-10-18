@@ -204,7 +204,12 @@ async def enroll_method(session, tenant, user, body):
             tenant_id=tenant,
             id=key,
             kind="authenticationMethod",
-            properties={"userId": str(user.id), "payload": payload, "provenance": "lab-enrollment"},
+            properties={
+                "userId": str(user.id),
+                "payload": payload,
+                "provenance": "lab-enrollment",
+                "registrationId": str(uuid4()),
+            },
         )
     )
     await session.flush()

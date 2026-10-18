@@ -343,7 +343,28 @@ async def consent(request: Request):
         )
         await consent_to_scopes(row, session)
         row.stage = "mfa"
-        return pages.form(row, fields["csrf"], "mfa", app.display_name)
+        from mockazure.security.method_policies import eligible_mfa_methods, enforcement_enabled
+
+        methods = (
+            await eligible_mfa_methods(session, row.tenant_id, row.user_id)
+            if await enforcement_enabled(session, row.tenant_id)
+            else None
+        )
+        if methods is not None:
+            from mockazure.security.methods import stored_methods
+
+            descriptors = await stored_methods(session, row.tenant_id, user)
+            methods = [
+                (
+                    value["id"],
+                    "SMS to mobile phone"
+                    if "phoneNumber" in value
+                    else "Microsoft Authenticator: " + value.get("displayName", "Local enrollment"),
+                )
+                for value in descriptors
+                if value["id"] in methods
+            ]
+        return pages.form(row, fields["csrf"], "mfa", app.display_name, methods=methods)
 
 
 @router.post("/mfa")
@@ -375,6 +396,11 @@ async def mfa(request: Request):
             return pages.callback(row, {"error": "access_denied"})
         if decision not in ("complete", "skip"):
             raise OAuthError("invalid_request", "Choose a simulated MFA outcome")
+        from mockazure.security.authentication_context import complete_method
+        from mockazure.security.method_policies import enforcement_enabled
+
+        if decision == "complete" and await enforcement_enabled(session, row.tenant_id):
+            await complete_method(session, row, fields.get("method_id"), now)
         row.mfa = "completed" if decision == "complete" else "not_performed"
         user = await current_user(row, session)
         await enforce_policies(
