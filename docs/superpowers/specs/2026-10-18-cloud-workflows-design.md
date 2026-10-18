@@ -2,7 +2,7 @@
 
 Date: 2026-10-18
 
-Status: written specification for review. Conversational architecture and scope are approved; this document does not claim implementation or qualification of the proposed features.
+Status: specification approved by the user on 2026-10-18; implementation plans are being prepared for review. This document does not claim implementation or qualification of the proposed features.
 
 Design baseline: qualified coverage expansion and coverage audit at commit `7660ca9`. This is a source baseline, not a claim that its branch is merged into main. Verify and reconcile main before implementation. Native execution remains the selected working style.
 
