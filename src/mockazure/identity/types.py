@@ -48,7 +48,7 @@ class UserCreate(IdentityInput):
 
 
 class RequiredPermission(IdentityInput):
-    resource: Literal["graph", "exchange", "arm", "activity"]
+    resource: Literal["graph", "exchange", "arm", "activity", "storage", "keyvault"]
     kind: Literal["application", "delegated"]
     permissions: list[str] = Field(min_length=1, max_length=64)
 

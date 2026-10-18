@@ -10,6 +10,12 @@ from mockazure.cloud.provider_state import (
     export_provider_state,
     replace_provider_state,
 )
+from mockazure.identity.keys import read_wrapping_key
+from mockazure.storage.lifecycle import (
+    StorageStateInput,
+    export_storage_accounts,
+    replace_storage_accounts,
+)
 
 router = APIRouter(prefix="/_mock/tenants/{tenant_id}/cloud")
 
@@ -26,3 +32,18 @@ async def replace(tenant_id: UUID, value: ProviderStateInput, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         await tenant_required(session, tenant_id)
         return await replace_provider_state(session, tenant_id, value)
+
+
+@router.get("/storageState")
+async def export_storage(tenant_id: UUID, request: Request):
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await export_storage_accounts(session, tenant_id)
+
+
+@router.put("/storageState")
+async def replace_storage(tenant_id: UUID, value: StorageStateInput, request: Request):
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        session.info["storage_cipher"] = read_wrapping_key(request.app.state.settings.data_dir)
+        return await replace_storage_accounts(session, tenant_id, value)

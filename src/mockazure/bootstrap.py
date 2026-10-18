@@ -79,7 +79,11 @@ def initialize_compose(
     project_dir: Path, *, api_port: int = 8443, db_port: int = 55432
 ) -> InstanceFiles:
     project_dir = project_dir.resolve()
-    if not 1 <= api_port <= 65535 or not 1 <= db_port <= 65535 or api_port == db_port:
+    if (
+        not 1 <= api_port <= 65530
+        or not 1 <= db_port <= 65535
+        or db_port in range(api_port, api_port + 6)
+    ):
         raise ValueError("Compose ports must be distinct valid TCP ports")
     runtime = project_dir / ".runtime"
     instance = runtime / "instance"
@@ -94,6 +98,10 @@ def initialize_compose(
         if any(present) and not all(present):
             raise ValueError("Partial Compose initialization; restore missing files")
         base_environment = f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
+        data_environment = "".join(
+            f"MOCKAZURE_{name}_PORT={api_port + offset}\n"
+            for offset, name in enumerate(("STORAGE", "FILE", "QUEUE", "TABLE", "KEYVAULT"), 1)
+        )
         legacy_storage = runtime / "postgres"
         cluster = legacy_storage / "18/docker"
 
@@ -110,7 +118,11 @@ def initialize_compose(
         storage = "postgres-data"
         upgrade_environment = False
         if all(present):
-            existing_environment = environment_file.read_text()
+            existing_environment = environment_file.read_text(encoding="utf-8")
+            if existing_environment.endswith(data_environment):
+                existing_environment = existing_environment.removesuffix(data_environment)
+            else:
+                upgrade_environment = True
             if existing_environment == base_environment:
                 if not valid_legacy_cluster():
                     raise ValueError(
@@ -155,6 +167,7 @@ def initialize_compose(
             data_dir=".",
             listen_host="0.0.0.0",
             listen_port=8443,
+            data_listen_ports=[],
             database_url=f"postgresql+psycopg://mockazure:{password}@db:5432/mockazure",
         )
         legacy_container = (json.dumps(container, indent=2) + "\n").encode()
@@ -167,10 +180,19 @@ def initialize_compose(
         upgrade_container = (
             container_file.exists() and container_file.read_bytes() == legacy_container
         )
+        if container_file.exists() and not upgrade_container:
+            # Normalize only newly defaulted fields; never overwrite a divergent existing setting.
+            previous = json.loads(container_file.read_text(encoding="utf-8"))
+            previous.setdefault("data_listen_ports", [])
+            for profile in previous.get("client_profiles", {}).values():
+                defaults = EndpointProfile.model_validate(profile).model_dump(mode="json")
+                for name in ("storage", "file", "queue", "table", "keyvault"):
+                    profile.setdefault(name, defaults[name])
+            upgrade_container = previous == container
         expected = {
             container_file: (json.dumps(container, indent=2) + "\n").encode(),
             environment_file: (
-                base_environment + f"MOCKAZURE_POSTGRES_STORAGE={storage}\n"
+                base_environment + f"MOCKAZURE_POSTGRES_STORAGE={storage}\n" + data_environment
             ).encode(),
         }
         for path, content in expected.items():

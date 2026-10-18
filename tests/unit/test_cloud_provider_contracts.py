@@ -71,3 +71,23 @@ def test_data_roles_preserve_microsoft_permission_definitions():
                 assert roles[name][field] == source["permissions"][0][field]
     assert len(observed) == 16
     assert roles["Contributor"]["dataActions"] == [] and roles["Owner"]["dataActions"] == []
+
+
+def test_storage_operations_match_actual_swagger_shapes_and_actions():
+    from mockazure.cloud.contracts import _catalog
+
+    contracts = [
+        row for row in _catalog("arm-providers")["operations"] if row["version"] == "2025-06-01"
+    ]
+    assert len(contracts) == 17
+    schema = document(manifest()["roots"]["storage"])
+    for row in contracts:
+        operation = schema["paths"][row["path"]][row["method"].lower()]
+        assert operation["operationId"] == row["operationId"]
+        for code, response in row["responseSchemas"].items():
+            assert operation["responses"][code]["schema"] == response
+        if row["operationId"].endswith("_ListKeys"):
+            assert row["permissions"] == ["Microsoft.Storage/storageAccounts/listKeys/action"]
+        elif row["operationId"].endswith("_RegenerateKey"):
+            assert row["permissions"] == ["Microsoft.Storage/storageAccounts/regenerateKey/action"]
+    verify_references("arm-providers")

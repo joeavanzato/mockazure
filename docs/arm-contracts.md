@@ -277,3 +277,79 @@ nonempty provider/event stores. PostgreSQL and application restarts preserve sta
 B1 has direct signed-token HTTP and database integration coverage; the original
 management SDK/module matrix is completed in B4 alongside usable account/resource
 workflows. No new four-ecosystem qualification is claimed by this foundation alone.
+
+
+### Storage account management (B2)
+
+Storage account operations use the pinned Microsoft.Storage **2025-06-01** Swagger,
+including request/response definitions and referenced common types. The provider
+catalog lists 17 implemented operations: subscription/group lists, check-name,
+account GET/PUT/PATCH/DELETE, listKeys/regenerateKey, and GET/PUT for four service
+property resources. PUT completes synchronously with **200**, as permitted by the
+official create operation. Unsupported versions, queries (including `$expand`),
+read-only input fields, and operations fail explicitly.
+
+Register Microsoft.Storage before creating accounts. Supported kinds are Storage,
+StorageV2 and BlobStorage with Standard LRS/GRS/RAGRS/ZRS/GZRS/RAGZRS; FileStorage and
+BlockBlobStorage use Premium LRS/ZRS. Locations are eastus/westus2. Kind/location
+cannot change in this profile. The local limit is 1,000 operational accounts per
+tenant; lists are complete within that bound. Names are instance-global. Current
+scoped ARM actions govern every operation; Reader cannot retrieve or rotate keys.
+Control-plane grants do not grant Storage data actions.
+
+Supported account settings include tags (15, 128-character names), access tier,
+public network access, IP rules, Shared Key/public-blob/OAuth defaults, HTTPS/TLS
+minimum settings, and large-file-share enablement. HNS/NFS/SFTP/local-user features,
+customer-managed encryption, identity and network security perimeter inputs are
+rejected. TLS 1.3 is rejected despite its published enum because the same Microsoft
+contract explicitly describes it as unsupported. The local default minimum is
+TLS1_2. Replication/SKU/tier are stored configuration; no Azure infrastructure is
+provisioned. Service-property GET/PUT supports CORS configuration only at this stage;
+retention/versioning enforcement arrives with the data planes.
+
+`properties.primaryEndpoints` advertises four separate configured local HTTPS
+origins using development-style **/account/** path addressing. The default ports
+are the login port +1 through +5 for Blob, Files, Queue, Table and Key Vault; a
+default native instance therefore uses 8444..8448. Explicit profiles can override
+the origins and `data_listen_ports` can override native listeners. Native serve
+binds all planned ports; a collision fails startup. Compose ingress forwards these
+five services to the API; `init --compose` adds the corresponding port metadata
+without rotating credentials, CA or database storage. This is a local endpoint
+adaptation, not Microsoft public DNS. Data-plane operations remain independently
+tracked in phases C/D; advertising an endpoint does not implement blob/file IO.
+
+Network evaluation uses the observed peer IP only. Forwarded-address, private-endpoint
+and Azure-service headers cannot grant trust. PublicNetworkAccess Disabled denies
+public data access; default Deny permits only matching configured IP ranges.
+Private/loopback IP rules are an explicit local-test adaptation. VNet/resource rules
+and AzureServices bypass are stored for inspection but grant no local transport
+trust. TLS/HTTP enforcement and service authentication are owned by the upcoming
+data handlers, not inferred from successful management writes.
+
+Migration 058 keeps encrypted account keys and service settings in a separate
+tenant/account-FK table. Each account has two independently rotatable 64-byte keys;
+listKeys is the only ordinary management response returning values. Rotation facts
+contain key name/time only. State mutations, Activity Log facts and internal events
+share a transaction. Credential FK cascades prevent orphan keys on account/group
+deletion. Generic inventory imports cannot overwrite operational accounts; inventory-
+only account rows remain visible through generic ARM inventory, but do not appear
+in operational account lists and return 409 on provider access until explicitly
+provisioned through the typed fixture or recreated.
+
+Authenticated local GET/PUT `/_mock/tenants/{tenant}/cloud/storageState` exports and
+atomically replaces typed account configuration and service settings. All parents,
+names, schemas and tenant ownership are validated before replacement. Exports omit
+keys; restore rotates both credentials and invalidates old account event publication.
+An empty accounts list resets account state, removing parent-bound credentials;
+unchanged account IDs retain scoped grants. Account state has no TTL, so its bounded
+prune contributor returns zero; FK cascades perform deletion cleanup. B4 integrates
+these typed contributors with combined cloud lifecycle operations.
+
+The original MSAL **1.39.0** confidential client acquired Storage and Key Vault
+tokens over real local HTTPS with the instance CA, without any tenant network calls.
+Local validation checks signature, issuer, tenant and distinct audiences; ARM rejects
+both data tokens. Account integration tests additionally cover rotation, permission
+denials, atomic rollback, import isolation, endpoints, networks, lifecycle and upgrade
+from 057. The four-ecosystem management matrix remains B4; data signing is C1.
+
+B2 final local gate: **576 passed** across unit, account/provider, OAuth, ARM inventory/mutation/deletion checks; Ruff and offline source verification passed. This count is task-local evidence, not a new all-program release qualification.

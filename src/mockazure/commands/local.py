@@ -80,7 +80,13 @@ def serve(config: Path = typer.Option(Path(".runtime/instance/native.json"))):
                 log_level="warning",
             )
         )
-        run(server.serve())
+        from mockazure.storage.endpoints import open_listeners
+        listeners = open_listeners(settings)
+        try:
+            run(server.serve(sockets=listeners))
+        finally:
+            for listener in listeners:
+                listener.close()
     except (ValueError, OSError):
         typer.echo("Server startup failed; check configuration and certificate files.", err=True)
         raise typer.Exit(2) from None

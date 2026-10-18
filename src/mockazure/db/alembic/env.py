@@ -23,6 +23,7 @@ from mockazure.security import (
     reset_model,  # noqa: F401
 )
 from mockazure.security import models as security_models  # noqa: F401
+from mockazure.storage import models as storage_models  # noqa: F401
 from mockazure.workloads import models as workload_models  # noqa: F401
 
 connection = context.config.attributes["connection"]

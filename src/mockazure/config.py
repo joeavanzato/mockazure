@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     database_url: SecretStr
     listen_host: str = "127.0.0.1"
     listen_port: int = Field(default=8443, ge=1, le=65535)
+    data_listen_ports: tuple[int, ...] | None = None
     managed_identity_listen_host: str = "127.0.0.1"
     managed_identity_listen_port: int = Field(default=49446, ge=1, le=65535)
     admin_base_url: AnyHttpUrl = "https://localhost:8443"
@@ -100,7 +101,12 @@ class Settings(BaseSettings):
         if self.service_endpoints is not None:
             return self.service_endpoints
         origin = str(self.admin_base_url).rstrip("/")
-        return EndpointProfile(**{name: origin for name in EndpointProfile.model_fields})
+        return EndpointProfile(
+            **{
+                name: origin
+                for name in ("login", "graph", "exchange", "arm", "activity", "browser_login")
+            }
+        )
 
     def advertised_endpoints(self, authority: str) -> EndpointProfile:
         # Return configuration only. Host selects an explicit profile, never supplies URLs.
@@ -108,7 +114,18 @@ class Settings(BaseSettings):
         for profile in self.client_profiles.values():
             if authority in {
                 urlsplit(getattr(profile, name)).netloc.lower()
-                for name in ("login", "graph", "exchange", "arm", "activity")
+                for name in (
+                    "login",
+                    "graph",
+                    "exchange",
+                    "arm",
+                    "activity",
+                    "storage",
+                    "file",
+                    "queue",
+                    "table",
+                    "keyvault",
+                )
             }:
                 return profile
         return self.endpoints
@@ -120,7 +137,18 @@ class Settings(BaseSettings):
             raise ValueError("Supported client profiles are host and container")
         authorities = {}
         for profile in value.values():
-            for name in ("login", "graph", "exchange", "arm", "activity"):
+            for name in (
+                "login",
+                "graph",
+                "exchange",
+                "arm",
+                "activity",
+                "storage",
+                "file",
+                "queue",
+                "table",
+                "keyvault",
+            ):
                 authority = urlsplit(getattr(profile, name)).netloc.lower()
                 if authority in authorities and authorities[authority] != profile:
                     raise ValueError("Profile authorities must be unambiguous")
@@ -148,7 +176,13 @@ def load_settings(config_file: Path, environ: Mapping[str, str] | None = None) -
                 if name in Settings.model_fields:
                     values[name] = (
                         json.loads(value)
-                        if name in ("allowed_hosts", "service_endpoints", "client_profiles")
+                        if name
+                        in (
+                            "allowed_hosts",
+                            "service_endpoints",
+                            "client_profiles",
+                            "data_listen_ports",
+                        )
                         else value
                     )
         values["data_dir"] = (config_file.parent / values["data_dir"]).resolve()

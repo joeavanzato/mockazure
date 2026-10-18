@@ -281,6 +281,1312 @@
         "tests/integration/test_cloud_provider_registry.py::test_provider_discovery_and_version"
       ],
       "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_CheckNameAvailability",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/StorageAccountCheckNameAvailabilityParameters"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/CheckNameAvailabilityResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/checkNameAvailability/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_List",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/StorageAccountListResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_ListByResourceGroup",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/StorageAccountListResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_GetProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/StorageAccount"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_Create",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "PUT",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/StorageAccountCreateParameters"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/StorageAccount"
+        }
+      },
+      "statusCodes": [
+        200,
+        202,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/write"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_Update",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "PATCH",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/StorageAccountUpdateParameters"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/StorageAccount"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/write"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_Delete",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "DELETE",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {},
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/delete"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "BlobServices_GetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/BlobServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "BlobServices_SetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "PUT",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/BlobServiceProperties"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/BlobServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/blobServices/write"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "FileServices_GetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/FileServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "FileServices_SetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "PUT",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/FileServiceProperties"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/FileServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/fileServices/write"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_ListKeys",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/StorageAccountListKeysResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/listKeys/action"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "QueueServices_GetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/QueueServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/queueServices/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "QueueServices_SetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "PUT",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/QueueServiceProperties"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/QueueServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/queueServices/write"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "StorageAccounts_RegenerateKey",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/StorageAccountRegenerateKeyParameters"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/StorageAccountListKeysResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/regenerateKey/action"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "TableServices_GetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/TableServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/tableServices/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "TableServices_SetServiceProperties",
+      "service": "arm-providers",
+      "version": "2025-06-01",
+      "method": "PUT",
+      "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
+      "aliases": [],
+      "requestSchema": {
+        "$ref": "#/definitions/TableServiceProperties"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/TableServiceProperties"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Storage/storageAccounts/tableServices/write"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "accountsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b",
+          "localPath": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous local provisioning; supported common kinds/SKUs only.",
+        "Four distinct local origins with /account/ path addressing.",
+        "CORS service settings only; data-plane execution follows in phases C/D.",
+        "Account keys excluded from generic inventory and logical exports."
+      ],
+      "tests": [
+        "tests/integration/test_storage_account_management.py"
+      ],
+      "schemaSource": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "status": "implemented",
+      "evidence": [
+        "tests/integration/test_storage_account_management.py",
+        "tests/unit/test_cloud_provider_contracts.py"
+      ]
     }
   ]
 }

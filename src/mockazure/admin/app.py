@@ -48,6 +48,7 @@ from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
 from mockazure.providers.arm.provider_routes import router as arm_provider_router
 from mockazure.providers.arm.rbac_routes import router as arm_rbac_router
+from mockazure.providers.arm.storage_routes import router as arm_storage_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
 from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
@@ -166,6 +167,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                 r"(?i)/providers/microsoft\.authorization/(roledefinitions|roleassignments)(?=/|$)",
                 lambda match: match.group(0).lower(),
                 request.scope["path"],
+            )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.storage/(storageaccounts|checknameavailability)(?=/|$)",
+                lambda match: match.group(0).lower(), request.scope["path"],
             )
         try:
             authorities = request.headers.getlist("host")
@@ -313,6 +318,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
     app.include_router(cloud_admin_router)
+    app.include_router(arm_storage_router)
     app.include_router(arm_provider_router)
     app.include_router(arm_router)
     app.include_router(arm_inventory_router)
