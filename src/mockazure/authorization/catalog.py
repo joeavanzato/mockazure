@@ -10,6 +10,20 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "application", True),
+    PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "delegated", True),
+    PermissionDefinition(
+        "graph", "DeviceManagementManagedDevices.ReadWrite.All", "application", True
+    ),
+    PermissionDefinition(
+        "graph", "DeviceManagementManagedDevices.ReadWrite.All", "delegated", True
+    ),
+    PermissionDefinition("graph", "DeviceManagementConfiguration.Read.All", "application", True),
+    PermissionDefinition("graph", "DeviceManagementConfiguration.Read.All", "delegated", True),
+    PermissionDefinition(
+        "graph", "DeviceManagementConfiguration.ReadWrite.All", "application", True
+    ),
+    PermissionDefinition("graph", "DeviceManagementConfiguration.ReadWrite.All", "delegated", True),
     PermissionDefinition("graph", "Channel.ReadBasic.All", "application", True),
     PermissionDefinition("graph", "Channel.ReadBasic.All", "delegated", False),
     PermissionDefinition("graph", "ChannelMember.Read.All", "application", True),

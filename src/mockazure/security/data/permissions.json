@@ -312,6 +312,54 @@
       "adminConsentRequired": true
     },
     {
+      "name": "DeviceManagementConfiguration.Read.All",
+      "kind": "application",
+      "id": "dc377aa6-52d8-4e23-b271-2a7ae04cedf3",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementConfiguration.Read.All",
+      "kind": "delegated",
+      "id": "f1493658-876a-4c87-8fa7-edb559b3476a",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementConfiguration.ReadWrite.All",
+      "kind": "application",
+      "id": "9241abd9-d0e6-425a-bd4f-47ba86e767a4",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementConfiguration.ReadWrite.All",
+      "kind": "delegated",
+      "id": "0883f392-0a7a-443d-8c76-16a6d39c7b63",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.Read.All",
+      "kind": "application",
+      "id": "2f51be20-0bb4-4fed-bf7b-db946066c75e",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.Read.All",
+      "kind": "delegated",
+      "id": "314874da-47d6-4978-88dc-cf0d37f0bb82",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.ReadWrite.All",
+      "kind": "application",
+      "id": "243333ab-4d21-40cb-a475-36241daa0842",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.ReadWrite.All",
+      "kind": "delegated",
+      "id": "44642bfe-8385-4adc-8fc6-fe3cb2c375c3",
+      "adminConsentRequired": true
+    },
+    {
       "name": "Directory.AccessAsUser.All",
       "kind": "delegated",
       "id": "0e263e50-5827-48a4-b97c-d940288653c7",

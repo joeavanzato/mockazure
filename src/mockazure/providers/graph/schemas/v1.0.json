@@ -41,6 +41,17 @@
       ],
       "base": "conversationMember"
     },
+    "actionState": {
+      "enum": [
+        "none",
+        "pending",
+        "canceled",
+        "active",
+        "done",
+        "failed",
+        "notSupported"
+      ]
+    },
     "activityType": {
       "enum": [
         "signin",
@@ -346,6 +357,16 @@
       },
       "required": []
     },
+    "allDevicesAssignmentTarget": {
+      "properties": {},
+      "required": [],
+      "base": "deviceAndAppManagementAssignmentTarget"
+    },
+    "allLicensedUsersAssignmentTarget": {
+      "properties": {},
+      "required": [],
+      "base": "deviceAndAppManagementAssignmentTarget"
+    },
     "alternativeSecurityId": {
       "properties": {
         "identityProvider": {
@@ -362,6 +383,418 @@
         }
       },
       "required": []
+    },
+    "androidCompliancePolicy": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "deviceThreatProtectionEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceThreatProtectionRequiredSecurityLevel": {
+          "type": "graph.deviceThreatProtectionLevel",
+          "nullable": false
+        },
+        "minAndroidSecurityPatchLevel": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "osMaximumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "osMinimumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "passwordExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinutesOfInactivityBeforeLock": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordPreviousPasswordBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordRequiredType": {
+          "type": "graph.androidRequiredPasswordType",
+          "nullable": false
+        },
+        "securityBlockJailbrokenDevices": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityDisableUsbDebugging": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityPreventInstallAppsFromUnknownSources": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityRequireCompanyPortalAppIntegrity": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityRequireGooglePlayServices": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityRequireSafetyNetAttestationBasicIntegrity": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityRequireSafetyNetAttestationCertifiedDevice": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityRequireUpToDateSecurityProviders": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityRequireVerifyApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageRequireEncryption": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "deviceThreatProtectionEnabled",
+        "deviceThreatProtectionRequiredSecurityLevel",
+        "passwordRequired",
+        "passwordRequiredType",
+        "securityBlockJailbrokenDevices",
+        "securityDisableUsbDebugging",
+        "securityPreventInstallAppsFromUnknownSources",
+        "securityRequireCompanyPortalAppIntegrity",
+        "securityRequireGooglePlayServices",
+        "securityRequireSafetyNetAttestationBasicIntegrity",
+        "securityRequireSafetyNetAttestationCertifiedDevice",
+        "securityRequireUpToDateSecurityProviders",
+        "securityRequireVerifyApps",
+        "storageRequireEncryption"
+      ],
+      "base": "deviceCompliancePolicy"
+    },
+    "androidGeneralDeviceConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "appsBlockClipboardSharing": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appsBlockCopyPaste": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appsBlockYouTube": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appsHideList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "appsInstallAllowList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "appsLaunchBlockList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "bluetoothBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cameraBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockDataRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockMessaging": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockVoiceRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockWiFiTethering": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "compliantAppListType": {
+          "type": "graph.appListType",
+          "nullable": false
+        },
+        "compliantAppsList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "deviceSharingAllowed": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "diagnosticDataBlockSubmission": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "factoryResetBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "googleAccountBlockAutoSync": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "googlePlayStoreBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeApps": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "kioskModeBlockSleepButton": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeBlockVolumeButtons": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "locationServicesBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "nfcBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordBlockFingerprintUnlock": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordBlockTrustAgents": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinutesOfInactivityBeforeScreenTimeout": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordPreviousPasswordBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordRequiredType": {
+          "type": "graph.androidRequiredPasswordType",
+          "nullable": false
+        },
+        "passwordSignInFailureCountBeforeFactoryReset": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "powerOffBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "screenCaptureBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "securityRequireVerifyApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageBlockGoogleBackup": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageBlockRemovableStorage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageRequireDeviceEncryption": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageRequireRemovableStorageEncryption": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "voiceAssistantBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "voiceDialingBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "webBrowserBlockAutofill": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "webBrowserBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "webBrowserBlockJavaScript": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "webBrowserBlockPopups": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "webBrowserCookieSettings": {
+          "type": "graph.webBrowserCookieSettings",
+          "nullable": false
+        },
+        "wiFiBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "appsBlockClipboardSharing",
+        "appsBlockCopyPaste",
+        "appsBlockYouTube",
+        "bluetoothBlocked",
+        "cameraBlocked",
+        "cellularBlockDataRoaming",
+        "cellularBlockMessaging",
+        "cellularBlockVoiceRoaming",
+        "cellularBlockWiFiTethering",
+        "compliantAppListType",
+        "deviceSharingAllowed",
+        "diagnosticDataBlockSubmission",
+        "factoryResetBlocked",
+        "googleAccountBlockAutoSync",
+        "googlePlayStoreBlocked",
+        "kioskModeBlockSleepButton",
+        "kioskModeBlockVolumeButtons",
+        "locationServicesBlocked",
+        "nfcBlocked",
+        "passwordBlockFingerprintUnlock",
+        "passwordBlockTrustAgents",
+        "passwordRequired",
+        "passwordRequiredType",
+        "powerOffBlocked",
+        "screenCaptureBlocked",
+        "securityRequireVerifyApps",
+        "storageBlockGoogleBackup",
+        "storageBlockRemovableStorage",
+        "storageRequireDeviceEncryption",
+        "storageRequireRemovableStorageEncryption",
+        "voiceAssistantBlocked",
+        "voiceDialingBlocked",
+        "webBrowserBlockAutofill",
+        "webBrowserBlocked",
+        "webBrowserBlockJavaScript",
+        "webBrowserBlockPopups",
+        "webBrowserCookieSettings",
+        "wiFiBlocked"
+      ],
+      "base": "deviceConfiguration"
+    },
+    "androidRequiredPasswordType": {
+      "enum": [
+        "deviceDefault",
+        "alphabetic",
+        "alphanumeric",
+        "alphanumericWithSymbols",
+        "lowSecurityBiometric",
+        "numeric",
+        "numericComplex",
+        "any"
+      ]
     },
     "apiApplication": {
       "properties": {
@@ -410,6 +843,36 @@
         }
       },
       "required": []
+    },
+    "appListItem": {
+      "properties": {
+        "appId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "appStoreUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "publisher": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "appListType": {
+      "enum": [
+        "none",
+        "appsInListCompliant",
+        "appsNotInListCompliant"
+      ]
     },
     "appRole": {
       "properties": {
@@ -1796,6 +2259,29 @@
       "required": [],
       "open": true
     },
+    "complianceState": {
+      "enum": [
+        "unknown",
+        "compliant",
+        "noncompliant",
+        "conflict",
+        "error",
+        "inGracePeriod",
+        "configManager"
+      ]
+    },
+    "complianceStatus": {
+      "enum": [
+        "unknown",
+        "notApplicable",
+        "compliant",
+        "remediated",
+        "nonCompliant",
+        "error",
+        "conflict",
+        "notAssigned"
+      ]
+    },
     "conditionalAccessApplications": {
       "properties": {
         "applicationFilter": {
@@ -2244,6 +2730,42 @@
         "includeUsers"
       ]
     },
+    "configurationManagerClientEnabledFeatures": {
+      "properties": {
+        "compliancePolicy": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceConfiguration": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "inventory": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "modernApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "resourceAccess": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsUpdateForBusiness": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "compliancePolicy",
+        "deviceConfiguration",
+        "inventory",
+        "modernApps",
+        "resourceAccess",
+        "windowsUpdateForBusiness"
+      ]
+    },
     "connectionDirection": {
       "enum": [
         "unknown",
@@ -2352,6 +2874,77 @@
         "saturday"
       ]
     },
+    "defenderCloudBlockLevelType": {
+      "enum": [
+        "notConfigured",
+        "high",
+        "highPlus",
+        "zeroTolerance"
+      ]
+    },
+    "defenderDetectedMalwareActions": {
+      "properties": {
+        "highSeverity": {
+          "type": "graph.defenderThreatAction",
+          "nullable": false
+        },
+        "lowSeverity": {
+          "type": "graph.defenderThreatAction",
+          "nullable": false
+        },
+        "moderateSeverity": {
+          "type": "graph.defenderThreatAction",
+          "nullable": false
+        },
+        "severeSeverity": {
+          "type": "graph.defenderThreatAction",
+          "nullable": false
+        }
+      },
+      "required": [
+        "highSeverity",
+        "lowSeverity",
+        "moderateSeverity",
+        "severeSeverity"
+      ]
+    },
+    "defenderMonitorFileActivity": {
+      "enum": [
+        "userDefined",
+        "disable",
+        "monitorAllFiles",
+        "monitorIncomingFilesOnly",
+        "monitorOutgoingFilesOnly"
+      ]
+    },
+    "defenderPromptForSampleSubmission": {
+      "enum": [
+        "userDefined",
+        "alwaysPrompt",
+        "promptBeforeSendingPersonalData",
+        "neverSendData",
+        "sendAllDataWithoutPrompting"
+      ]
+    },
+    "defenderScanType": {
+      "enum": [
+        "userDefined",
+        "disabled",
+        "quick",
+        "full"
+      ]
+    },
+    "defenderThreatAction": {
+      "enum": [
+        "deviceDefault",
+        "clean",
+        "quarantine",
+        "remove",
+        "allow",
+        "userDefined",
+        "block"
+      ]
+    },
     "delegateMeetingMessageDeliveryOptions": {
       "enum": [
         "sendToDelegateAndInformationToPrincipal",
@@ -2367,6 +2960,61 @@
         }
       },
       "required": []
+    },
+    "detectedApp": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "deviceCount": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "platform": {
+          "type": "graph.detectedAppPlatformType",
+          "nullable": false
+        },
+        "publisher": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sizeInByte": {
+          "type": "Edm.Int64",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "deviceCount",
+        "platform",
+        "sizeInByte"
+      ],
+      "base": "entity"
+    },
+    "detectedAppPlatformType": {
+      "enum": [
+        "unknown",
+        "windows",
+        "windowsMobile",
+        "windowsHolographic",
+        "ios",
+        "macOS",
+        "chromeOS",
+        "androidOSP",
+        "androidDeviceAdministrator",
+        "androidWorkProfile",
+        "androidDedicatedAndFullyManaged",
+        "unknownFutureValue"
+      ]
     },
     "device": {
       "properties": {
@@ -2508,6 +3156,225 @@
       "open": true,
       "base": "directoryObject"
     },
+    "deviceActionResult": {
+      "properties": {
+        "actionName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "actionState": {
+          "type": "graph.actionState",
+          "nullable": false
+        },
+        "lastUpdatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "startDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        }
+      },
+      "required": [
+        "actionState",
+        "lastUpdatedDateTime",
+        "startDateTime"
+      ]
+    },
+    "deviceAndAppManagementAssignmentTarget": {
+      "properties": {},
+      "required": []
+    },
+    "deviceComplianceDeviceStatus": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "complianceGracePeriodExpirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "deviceDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceModel": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastReportedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "status": {
+          "type": "graph.complianceStatus",
+          "nullable": false
+        },
+        "userName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "complianceGracePeriodExpirationDateTime",
+        "lastReportedDateTime",
+        "status"
+      ],
+      "base": "entity"
+    },
+    "deviceCompliancePolicy": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version"
+      ],
+      "base": "entity"
+    },
+    "deviceCompliancePolicyAssignment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "target": {
+          "type": "graph.deviceAndAppManagementAssignmentTarget",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "deviceConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version"
+      ],
+      "base": "entity"
+    },
+    "deviceConfigurationAssignment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "target": {
+          "type": "graph.deviceAndAppManagementAssignmentTarget",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "deviceConfigurationDeviceStatus": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "complianceGracePeriodExpirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "deviceDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceModel": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastReportedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "status": {
+          "type": "graph.complianceStatus",
+          "nullable": false
+        },
+        "userName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "complianceGracePeriodExpirationDateTime",
+        "lastReportedDateTime",
+        "status"
+      ],
+      "base": "entity"
+    },
     "deviceDetail": {
       "properties": {
         "browser": {
@@ -2540,6 +3407,221 @@
         }
       },
       "required": []
+    },
+    "deviceEnrollmentType": {
+      "enum": [
+        "unknown",
+        "userEnrollment",
+        "deviceEnrollmentManager",
+        "appleBulkWithUser",
+        "appleBulkWithoutUser",
+        "windowsAzureADJoin",
+        "windowsBulkUserless",
+        "windowsAutoEnrollment",
+        "windowsBulkAzureDomainJoin",
+        "windowsCoManagement",
+        "windowsAzureADJoinUsingDeviceAuth",
+        "appleUserEnrollment",
+        "appleUserEnrollmentWithServiceAccount",
+        "unknownFutureValue"
+      ]
+    },
+    "deviceHealthAttestationState": {
+      "properties": {
+        "attestationIdentityKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "bitLockerStatus": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "bootAppSecurityVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "bootDebugging": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "bootManagerSecurityVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "bootManagerVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "bootRevisionListInfo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "codeIntegrity": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "codeIntegrityCheckVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "codeIntegrityPolicy": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentNamespaceUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "dataExcutionPolicy": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceHealthAttestationStatus": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "earlyLaunchAntiMalwareDriverProtection": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "healthAttestationSupportedStatus": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "healthStatusMismatchInfo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "issuedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "lastUpdateDateTime": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operatingSystemKernelDebugging": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operatingSystemRevListInfo": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "pcr0": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "pcrHashAlgorithm": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resetCount": {
+          "type": "Edm.Int64",
+          "nullable": false
+        },
+        "restartCount": {
+          "type": "Edm.Int64",
+          "nullable": false
+        },
+        "safeMode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "secureBoot": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "secureBootConfigurationPolicyFingerPrint": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "testSigning": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "tpmVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "virtualSecureMode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "windowsPE": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "issuedDateTime",
+        "resetCount",
+        "restartCount"
+      ]
+    },
+    "deviceManagementExchangeAccessState": {
+      "enum": [
+        "none",
+        "unknown",
+        "allowed",
+        "blocked",
+        "quarantined"
+      ]
+    },
+    "deviceManagementExchangeAccessStateReason": {
+      "enum": [
+        "none",
+        "unknown",
+        "exchangeGlobalRule",
+        "exchangeIndividualRule",
+        "exchangeDeviceRule",
+        "exchangeUpgrade",
+        "exchangeMailboxPolicy",
+        "other",
+        "compliant",
+        "notCompliant",
+        "notEnrolled",
+        "unknownLocation",
+        "mfaRequired",
+        "azureADBlockDueToAccessPolicy",
+        "compromisedPassword",
+        "deviceNotKnownWithManagedApp"
+      ]
+    },
+    "deviceRegistrationState": {
+      "enum": [
+        "notRegistered",
+        "registered",
+        "revoked",
+        "keyConflict",
+        "approvalPending",
+        "certificateReset",
+        "notRegisteredPendingEnrollment",
+        "unknown"
+      ]
+    },
+    "deviceThreatProtectionLevel": {
+      "enum": [
+        "unavailable",
+        "secured",
+        "low",
+        "medium",
+        "high",
+        "notSet"
+      ]
+    },
+    "diagnosticDataSubmissionMode": {
+      "enum": [
+        "userDefined",
+        "none",
+        "basic",
+        "enhanced",
+        "full"
+      ]
     },
     "directoryAudit": {
       "properties": {
@@ -2896,6 +3978,18 @@
       ],
       "base": "baseItemVersion"
     },
+    "edgeCookiePolicy": {
+      "enum": [
+        "userDefined",
+        "allow",
+        "blockThirdParty",
+        "blockAll"
+      ]
+    },
+    "edgeSearchEngineBase": {
+      "properties": {},
+      "required": []
+    },
     "emailAddress": {
       "properties": {
         "address": {
@@ -2964,6 +4058,16 @@
     "eventMessageDetail": {
       "properties": {},
       "required": []
+    },
+    "exclusionGroupAssignmentTarget": {
+      "properties": {
+        "groupId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "groupAssignmentTarget"
     },
     "externalAudienceScope": {
       "enum": [
@@ -3478,6 +4582,16 @@
         "unknownFutureValue"
       ]
     },
+    "groupAssignmentTarget": {
+      "properties": {
+        "groupId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "deviceAndAppManagementAssignmentTarget"
+    },
     "groupType": {
       "enum": [
         "unifiedGroups",
@@ -3692,6 +4806,790 @@
         }
       },
       "required": []
+    },
+    "iosCompliancePolicy": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "deviceThreatProtectionEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceThreatProtectionRequiredSecurityLevel": {
+          "type": "graph.deviceThreatProtectionLevel",
+          "nullable": false
+        },
+        "managedEmailProfileRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "osMaximumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "osMinimumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "passcodeBlockSimple": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeMinimumCharacterSetCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeMinutesOfInactivityBeforeLock": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodePreviousPasscodeBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeRequiredType": {
+          "type": "graph.requiredPasswordType",
+          "nullable": false
+        },
+        "securityBlockJailbrokenDevices": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "deviceThreatProtectionEnabled",
+        "deviceThreatProtectionRequiredSecurityLevel",
+        "managedEmailProfileRequired",
+        "passcodeBlockSimple",
+        "passcodeRequired",
+        "passcodeRequiredType",
+        "securityBlockJailbrokenDevices"
+      ],
+      "base": "deviceCompliancePolicy"
+    },
+    "iosGeneralDeviceConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "accountBlockModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "activationLockAllowWhenSupervised": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "airDropBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "airDropForceUnmanagedDropTarget": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "airPlayForcePairingPasswordForOutgoingRequests": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appleNewsBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appleWatchBlockPairing": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appleWatchForceWristDetection": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appsSingleAppModeList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "appStoreBlockAutomaticDownloads": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appStoreBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appStoreBlockInAppPurchases": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appStoreBlockUIAppInstallation": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appStoreRequirePassword": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appsVisibilityList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "appsVisibilityListType": {
+          "type": "graph.appListType",
+          "nullable": false
+        },
+        "bluetoothBlockModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cameraBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockDataRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockGlobalBackgroundFetchWhileRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockPerAppDataModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockPersonalHotspot": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockVoiceRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "certificatesBlockUntrustedTlsCertificates": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "classroomAppBlockRemoteScreenObservation": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "classroomAppForceUnpromptedScreenObservation": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "compliantAppListType": {
+          "type": "graph.appListType",
+          "nullable": false
+        },
+        "compliantAppsList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "configurationProfileBlockChanges": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "definitionLookupBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceBlockEnableRestrictions": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceBlockEraseContentAndSettings": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceBlockNameModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "diagnosticDataBlockSubmission": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "diagnosticDataBlockSubmissionModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "documentsBlockManagedDocumentsInUnmanagedApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "documentsBlockUnmanagedDocumentsInManagedApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "emailInDomainSuffixes": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "enterpriseAppBlockTrust": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "enterpriseAppBlockTrustModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "faceTimeBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "findMyFriendsBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "gameCenterBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "gamingBlockGameCenterFriends": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "gamingBlockMultiplayer": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "hostPairingBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iBooksStoreBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iBooksStoreBlockErotica": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudBlockActivityContinuation": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudBlockBackup": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudBlockDocumentSync": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudBlockManagedAppsSync": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudBlockPhotoLibrary": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudBlockPhotoStreamSync": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudBlockSharedPhotoStream": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iCloudRequireEncryptedBackup": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iTunesBlockExplicitContent": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iTunesBlockMusicService": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "iTunesBlockRadio": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "keyboardBlockAutoCorrect": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "keyboardBlockDictation": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "keyboardBlockPredictive": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "keyboardBlockShortcuts": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "keyboardBlockSpellCheck": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowAssistiveSpeak": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowAssistiveTouchSettings": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowAutoLock": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowColorInversionSettings": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowRingerSwitch": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowScreenRotation": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowSleepButton": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowTouchscreen": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowVoiceOverSettings": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowVolumeButtons": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAllowZoomSettings": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeAppStoreUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "kioskModeBuiltInAppId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "kioskModeManagedAppId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "kioskModeRequireAssistiveTouch": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeRequireColorInversion": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeRequireMonoAudio": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeRequireVoiceOver": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "kioskModeRequireZoom": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenBlockControlCenter": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenBlockNotificationView": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenBlockPassbook": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenBlockTodayView": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "mediaContentRatingApps": {
+          "type": "graph.ratingAppsType",
+          "nullable": false
+        },
+        "mediaContentRatingAustralia": {
+          "type": "graph.mediaContentRatingAustralia",
+          "nullable": true
+        },
+        "mediaContentRatingCanada": {
+          "type": "graph.mediaContentRatingCanada",
+          "nullable": true
+        },
+        "mediaContentRatingFrance": {
+          "type": "graph.mediaContentRatingFrance",
+          "nullable": true
+        },
+        "mediaContentRatingGermany": {
+          "type": "graph.mediaContentRatingGermany",
+          "nullable": true
+        },
+        "mediaContentRatingIreland": {
+          "type": "graph.mediaContentRatingIreland",
+          "nullable": true
+        },
+        "mediaContentRatingJapan": {
+          "type": "graph.mediaContentRatingJapan",
+          "nullable": true
+        },
+        "mediaContentRatingNewZealand": {
+          "type": "graph.mediaContentRatingNewZealand",
+          "nullable": true
+        },
+        "mediaContentRatingUnitedKingdom": {
+          "type": "graph.mediaContentRatingUnitedKingdom",
+          "nullable": true
+        },
+        "mediaContentRatingUnitedStates": {
+          "type": "graph.mediaContentRatingUnitedStates",
+          "nullable": true
+        },
+        "messagesBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "networkUsageRules": {
+          "type": "Collection(graph.iosNetworkUsageRule)",
+          "nullable": true
+        },
+        "notificationsBlockSettingsModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeBlockFingerprintModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeBlockFingerprintUnlock": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeBlockModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeBlockSimple": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeMinimumCharacterSetCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeMinutesOfInactivityBeforeLock": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeMinutesOfInactivityBeforeScreenTimeout": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodePreviousPasscodeBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passcodeRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passcodeRequiredType": {
+          "type": "graph.requiredPasswordType",
+          "nullable": false
+        },
+        "passcodeSignInFailureCountBeforeWipe": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "podcastsBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "safariBlockAutofill": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "safariBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "safariBlockJavaScript": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "safariBlockPopups": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "safariCookieSettings": {
+          "type": "graph.webBrowserCookieSettings",
+          "nullable": false
+        },
+        "safariManagedDomains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "safariPasswordAutoFillDomains": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "safariRequireFraudWarning": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "screenCaptureBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "siriBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "siriBlockedWhenLocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "siriBlockUserGeneratedContent": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "siriRequireProfanityFilter": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "spotlightBlockInternetResults": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "voiceDialingBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wallpaperBlockModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wiFiConnectOnlyToConfiguredNetworks": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "accountBlockModification",
+        "activationLockAllowWhenSupervised",
+        "airDropBlocked",
+        "airDropForceUnmanagedDropTarget",
+        "airPlayForcePairingPasswordForOutgoingRequests",
+        "appleNewsBlocked",
+        "appleWatchBlockPairing",
+        "appleWatchForceWristDetection",
+        "appStoreBlockAutomaticDownloads",
+        "appStoreBlocked",
+        "appStoreBlockInAppPurchases",
+        "appStoreBlockUIAppInstallation",
+        "appStoreRequirePassword",
+        "appsVisibilityListType",
+        "bluetoothBlockModification",
+        "cameraBlocked",
+        "cellularBlockDataRoaming",
+        "cellularBlockGlobalBackgroundFetchWhileRoaming",
+        "cellularBlockPerAppDataModification",
+        "cellularBlockPersonalHotspot",
+        "cellularBlockVoiceRoaming",
+        "certificatesBlockUntrustedTlsCertificates",
+        "classroomAppBlockRemoteScreenObservation",
+        "classroomAppForceUnpromptedScreenObservation",
+        "compliantAppListType",
+        "configurationProfileBlockChanges",
+        "definitionLookupBlocked",
+        "deviceBlockEnableRestrictions",
+        "deviceBlockEraseContentAndSettings",
+        "deviceBlockNameModification",
+        "diagnosticDataBlockSubmission",
+        "diagnosticDataBlockSubmissionModification",
+        "documentsBlockManagedDocumentsInUnmanagedApps",
+        "documentsBlockUnmanagedDocumentsInManagedApps",
+        "enterpriseAppBlockTrust",
+        "enterpriseAppBlockTrustModification",
+        "faceTimeBlocked",
+        "findMyFriendsBlocked",
+        "gameCenterBlocked",
+        "gamingBlockGameCenterFriends",
+        "gamingBlockMultiplayer",
+        "hostPairingBlocked",
+        "iBooksStoreBlocked",
+        "iBooksStoreBlockErotica",
+        "iCloudBlockActivityContinuation",
+        "iCloudBlockBackup",
+        "iCloudBlockDocumentSync",
+        "iCloudBlockManagedAppsSync",
+        "iCloudBlockPhotoLibrary",
+        "iCloudBlockPhotoStreamSync",
+        "iCloudBlockSharedPhotoStream",
+        "iCloudRequireEncryptedBackup",
+        "iTunesBlockExplicitContent",
+        "iTunesBlockMusicService",
+        "iTunesBlockRadio",
+        "keyboardBlockAutoCorrect",
+        "keyboardBlockDictation",
+        "keyboardBlockPredictive",
+        "keyboardBlockShortcuts",
+        "keyboardBlockSpellCheck",
+        "kioskModeAllowAssistiveSpeak",
+        "kioskModeAllowAssistiveTouchSettings",
+        "kioskModeAllowAutoLock",
+        "kioskModeAllowColorInversionSettings",
+        "kioskModeAllowRingerSwitch",
+        "kioskModeAllowScreenRotation",
+        "kioskModeAllowSleepButton",
+        "kioskModeAllowTouchscreen",
+        "kioskModeAllowVoiceOverSettings",
+        "kioskModeAllowVolumeButtons",
+        "kioskModeAllowZoomSettings",
+        "kioskModeRequireAssistiveTouch",
+        "kioskModeRequireColorInversion",
+        "kioskModeRequireMonoAudio",
+        "kioskModeRequireVoiceOver",
+        "kioskModeRequireZoom",
+        "lockScreenBlockControlCenter",
+        "lockScreenBlockNotificationView",
+        "lockScreenBlockPassbook",
+        "lockScreenBlockTodayView",
+        "mediaContentRatingApps",
+        "messagesBlocked",
+        "notificationsBlockSettingsModification",
+        "passcodeBlockFingerprintModification",
+        "passcodeBlockFingerprintUnlock",
+        "passcodeBlockModification",
+        "passcodeBlockSimple",
+        "passcodeRequired",
+        "passcodeRequiredType",
+        "podcastsBlocked",
+        "safariBlockAutofill",
+        "safariBlocked",
+        "safariBlockJavaScript",
+        "safariBlockPopups",
+        "safariCookieSettings",
+        "safariRequireFraudWarning",
+        "screenCaptureBlocked",
+        "siriBlocked",
+        "siriBlockedWhenLocked",
+        "siriBlockUserGeneratedContent",
+        "siriRequireProfanityFilter",
+        "spotlightBlockInternetResults",
+        "voiceDialingBlocked",
+        "wallpaperBlockModification",
+        "wiFiConnectOnlyToConfiguredNetworks"
+      ],
+      "base": "deviceConfiguration"
+    },
+    "iosNetworkUsageRule": {
+      "properties": {
+        "cellularDataBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularDataBlockWhenRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "managedApps": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "cellularDataBlocked",
+        "cellularDataBlockWhenRoaming"
+      ]
     },
     "ipNamedLocation": {
       "properties": {
@@ -4123,6 +6021,208 @@
         "unknownFutureValue"
       ]
     },
+    "macOSCompliancePolicy": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "deviceThreatProtectionEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceThreatProtectionRequiredSecurityLevel": {
+          "type": "graph.deviceThreatProtectionLevel",
+          "nullable": false
+        },
+        "firewallBlockAllIncoming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "firewallEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "firewallEnableStealthMode": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "osMaximumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "osMinimumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "passwordBlockSimple": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumCharacterSetCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinutesOfInactivityBeforeLock": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordPreviousPasswordBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordRequiredType": {
+          "type": "graph.requiredPasswordType",
+          "nullable": false
+        },
+        "storageRequireEncryption": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "systemIntegrityProtectionEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "deviceThreatProtectionEnabled",
+        "deviceThreatProtectionRequiredSecurityLevel",
+        "firewallBlockAllIncoming",
+        "firewallEnabled",
+        "firewallEnableStealthMode",
+        "passwordBlockSimple",
+        "passwordRequired",
+        "passwordRequiredType",
+        "storageRequireEncryption",
+        "systemIntegrityProtectionEnabled"
+      ],
+      "base": "deviceCompliancePolicy"
+    },
+    "macOSGeneralDeviceConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "compliantAppListType": {
+          "type": "graph.appListType",
+          "nullable": false
+        },
+        "compliantAppsList": {
+          "type": "Collection(graph.appListItem)",
+          "nullable": true
+        },
+        "emailInDomainSuffixes": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "passwordBlockSimple": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumCharacterSetCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinutesOfInactivityBeforeLock": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinutesOfInactivityBeforeScreenTimeout": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordPreviousPasswordBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordRequiredType": {
+          "type": "graph.requiredPasswordType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "compliantAppListType",
+        "passwordBlockSimple",
+        "passwordRequired",
+        "passwordRequiredType"
+      ],
+      "base": "deviceConfiguration"
+    },
     "mailFolder": {
       "properties": {
         "id": {
@@ -4234,12 +6334,465 @@
       },
       "required": []
     },
+    "managedDevice": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "activationLockBypassCode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "androidSecurityPatchLevel": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "azureADDeviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "azureADRegistered": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "complianceGracePeriodExpirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "complianceState": {
+          "type": "graph.complianceState",
+          "nullable": false
+        },
+        "configurationManagerClientEnabledFeatures": {
+          "type": "graph.configurationManagerClientEnabledFeatures",
+          "nullable": true
+        },
+        "deviceActionResults": {
+          "type": "Collection(graph.deviceActionResult)",
+          "nullable": true
+        },
+        "deviceCategoryDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceEnrollmentType": {
+          "type": "graph.deviceEnrollmentType",
+          "nullable": false
+        },
+        "deviceHealthAttestationState": {
+          "type": "graph.deviceHealthAttestationState",
+          "nullable": true
+        },
+        "deviceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deviceRegistrationState": {
+          "type": "graph.deviceRegistrationState",
+          "nullable": false
+        },
+        "easActivated": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "easActivationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "easDeviceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "emailAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enrolledDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "enrollmentProfileName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ethernetMacAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "exchangeAccessState": {
+          "type": "graph.deviceManagementExchangeAccessState",
+          "nullable": false
+        },
+        "exchangeAccessStateReason": {
+          "type": "graph.deviceManagementExchangeAccessStateReason",
+          "nullable": false
+        },
+        "exchangeLastSuccessfulSyncDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "freeStorageSpaceInBytes": {
+          "type": "Edm.Int64",
+          "nullable": false
+        },
+        "iccid": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "imei": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isEncrypted": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "isSupervised": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "jailBroken": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastSyncDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "managedDeviceName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "managedDeviceOwnerType": {
+          "type": "graph.managedDeviceOwnerType",
+          "nullable": false
+        },
+        "managementAgent": {
+          "type": "graph.managementAgentType",
+          "nullable": false
+        },
+        "managementCertificateExpirationDate": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "managementState": {
+          "type": "graph.managementState",
+          "nullable": false
+        },
+        "manufacturer": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "meid": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "model": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "notes": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operatingSystem": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "osVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "partnerReportedThreatState": {
+          "type": "graph.managedDevicePartnerReportedHealthState",
+          "nullable": false
+        },
+        "phoneNumber": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "physicalMemoryInBytes": {
+          "type": "Edm.Int64",
+          "nullable": false
+        },
+        "remoteAssistanceSessionErrorDetails": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "remoteAssistanceSessionUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "requireUserEnrollmentApproval": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "serialNumber": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subscriberCarrier": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "totalStorageSpaceInBytes": {
+          "type": "Edm.Int64",
+          "nullable": false
+        },
+        "udid": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userPrincipalName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "wiFiMacAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "complianceGracePeriodExpirationDateTime",
+        "complianceState",
+        "deviceEnrollmentType",
+        "deviceRegistrationState",
+        "easActivated",
+        "easActivationDateTime",
+        "enrolledDateTime",
+        "exchangeAccessState",
+        "exchangeAccessStateReason",
+        "exchangeLastSuccessfulSyncDateTime",
+        "freeStorageSpaceInBytes",
+        "isEncrypted",
+        "isSupervised",
+        "lastSyncDateTime",
+        "managedDeviceOwnerType",
+        "managementAgent",
+        "managementCertificateExpirationDate",
+        "managementState",
+        "partnerReportedThreatState",
+        "physicalMemoryInBytes",
+        "totalStorageSpaceInBytes"
+      ],
+      "base": "entity"
+    },
+    "managedDeviceOwnerType": {
+      "enum": [
+        "unknown",
+        "company",
+        "personal",
+        "unknownFutureValue"
+      ]
+    },
+    "managedDevicePartnerReportedHealthState": {
+      "enum": [
+        "unknown",
+        "activated",
+        "deactivated",
+        "secured",
+        "lowSeverity",
+        "mediumSeverity",
+        "highSeverity",
+        "unresponsive",
+        "compromised",
+        "misconfigured"
+      ]
+    },
+    "managementAgentType": {
+      "enum": [
+        "eas",
+        "mdm",
+        "easMdm",
+        "intuneClient",
+        "easIntuneClient",
+        "configurationManagerClient",
+        "configurationManagerClientMdm",
+        "configurationManagerClientMdmEas",
+        "unknown",
+        "jamf",
+        "googleCloudDevicePolicyController",
+        "microsoft365ManagedMdm",
+        "msSense"
+      ]
+    },
+    "managementState": {
+      "enum": [
+        "managed",
+        "retirePending",
+        "retireFailed",
+        "wipePending",
+        "wipeFailed",
+        "unhealthy",
+        "deletePending",
+        "retireIssued",
+        "wipeIssued",
+        "wipeCanceled",
+        "retireCanceled",
+        "discovered",
+        "unknownFutureValue"
+      ]
+    },
     "mdmAuthority": {
       "enum": [
         "unknown",
         "intune",
         "sccm",
         "office365"
+      ]
+    },
+    "mediaContentRatingAustralia": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingAustraliaMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingAustraliaTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingCanada": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingCanadaMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingCanadaTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingFrance": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingFranceMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingFranceTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingGermany": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingGermanyMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingGermanyTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingIreland": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingIrelandMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingIrelandTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingJapan": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingJapanMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingJapanTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingNewZealand": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingNewZealandMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingNewZealandTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingUnitedKingdom": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingUnitedKingdomMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingUnitedKingdomTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
+      ]
+    },
+    "mediaContentRatingUnitedStates": {
+      "properties": {
+        "movieRating": {
+          "type": "graph.ratingUnitedStatesMoviesType",
+          "nullable": false
+        },
+        "tvRating": {
+          "type": "graph.ratingUnitedStatesTelevisionType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "movieRating",
+        "tvRating"
       ]
     },
     "message": {
@@ -5714,6 +8267,212 @@
       },
       "required": []
     },
+    "ratingAppsType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "agesAbove4",
+        "agesAbove9",
+        "agesAbove12",
+        "agesAbove17"
+      ]
+    },
+    "ratingAustraliaMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "parentalGuidance",
+        "mature",
+        "agesAbove15",
+        "agesAbove18"
+      ]
+    },
+    "ratingAustraliaTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "preschoolers",
+        "children",
+        "general",
+        "parentalGuidance",
+        "mature",
+        "agesAbove15",
+        "agesAbove15AdultViolence"
+      ]
+    },
+    "ratingCanadaMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "parentalGuidance",
+        "agesAbove14",
+        "agesAbove18",
+        "restricted"
+      ]
+    },
+    "ratingCanadaTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "children",
+        "childrenAbove8",
+        "general",
+        "parentalGuidance",
+        "agesAbove14",
+        "agesAbove18"
+      ]
+    },
+    "ratingFranceMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "agesAbove10",
+        "agesAbove12",
+        "agesAbove16",
+        "agesAbove18"
+      ]
+    },
+    "ratingFranceTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "agesAbove10",
+        "agesAbove12",
+        "agesAbove16",
+        "agesAbove18"
+      ]
+    },
+    "ratingGermanyMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "agesAbove6",
+        "agesAbove12",
+        "agesAbove16",
+        "adults"
+      ]
+    },
+    "ratingGermanyTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "agesAbove6",
+        "agesAbove12",
+        "agesAbove16",
+        "adults"
+      ]
+    },
+    "ratingIrelandMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "parentalGuidance",
+        "agesAbove12",
+        "agesAbove15",
+        "agesAbove16",
+        "adults"
+      ]
+    },
+    "ratingIrelandTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "children",
+        "youngAdults",
+        "parentalSupervision",
+        "mature"
+      ]
+    },
+    "ratingJapanMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "parentalGuidance",
+        "agesAbove15",
+        "agesAbove18"
+      ]
+    },
+    "ratingJapanTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "explicitAllowed"
+      ]
+    },
+    "ratingNewZealandMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "parentalGuidance",
+        "mature",
+        "agesAbove13",
+        "agesAbove15",
+        "agesAbove16",
+        "agesAbove18",
+        "restricted",
+        "agesAbove16Restricted"
+      ]
+    },
+    "ratingNewZealandTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "parentalGuidance",
+        "adults"
+      ]
+    },
+    "ratingUnitedKingdomMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "universalChildren",
+        "parentalGuidance",
+        "agesAbove12Video",
+        "agesAbove12Cinema",
+        "agesAbove15",
+        "adults"
+      ]
+    },
+    "ratingUnitedKingdomTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "caution"
+      ]
+    },
+    "ratingUnitedStatesMoviesType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "general",
+        "parentalGuidance",
+        "parentalGuidance13",
+        "restricted",
+        "adults"
+      ]
+    },
+    "ratingUnitedStatesTelevisionType": {
+      "enum": [
+        "allAllowed",
+        "allBlocked",
+        "childrenAll",
+        "childrenAbove7",
+        "general",
+        "parentalGuidance",
+        "childrenAbove14",
+        "adults"
+      ]
+    },
     "recipient": {
       "properties": {
         "emailAddress": {
@@ -5948,6 +8707,13 @@
       },
       "required": [
         "isSignedRequestRequired"
+      ]
+    },
+    "requiredPasswordType": {
+      "enum": [
+        "deviceDefault",
+        "alphanumeric",
+        "numeric"
       ]
     },
     "requiredResourceAccess": {
@@ -6216,6 +8982,13 @@
     "root": {
       "properties": {},
       "required": []
+    },
+    "safeSearchFilterType": {
+      "enum": [
+        "userDefined",
+        "strict",
+        "moderate"
+      ]
     },
     "samlSingleSignOnSettings": {
       "properties": {
@@ -11943,6 +14716,13 @@
       },
       "required": []
     },
+    "stateManagementSetting": {
+      "enum": [
+        "notConfigured",
+        "blocked",
+        "allowed"
+      ]
+    },
     "storagePlanInformation": {
       "properties": {
         "upgradeAvailable": {
@@ -13115,6 +15895,13 @@
       },
       "required": []
     },
+    "visibilitySetting": {
+      "enum": [
+        "notConfigured",
+        "hide",
+        "show"
+      ]
+    },
     "vulnerabilityState": {
       "properties": {
         "cve": {
@@ -13166,6 +15953,15 @@
         "redirectUriSettings"
       ]
     },
+    "webBrowserCookieSettings": {
+      "enum": [
+        "browserDefault",
+        "blockAlways",
+        "allowCurrentWebSite",
+        "allowFromWebsitesVisited",
+        "allowAlways"
+      ]
+    },
     "webauthnAuthenticationExtensionsClientOutputs": {
       "properties": {},
       "required": [],
@@ -13200,6 +15996,1190 @@
         }
       },
       "required": []
+    },
+    "weeklySchedule": {
+      "enum": [
+        "userDefined",
+        "everyday",
+        "sunday",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday"
+      ]
+    },
+    "windows10CompliancePolicy": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "bitLockerEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "codeIntegrityEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "earlyLaunchAntiMalwareDriverEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "mobileOsMaximumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "mobileOsMinimumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "osMaximumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "osMinimumVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "passwordBlockSimple": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumCharacterSetCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinutesOfInactivityBeforeLock": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordPreviousPasswordBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordRequiredToUnlockFromIdle": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordRequiredType": {
+          "type": "graph.requiredPasswordType",
+          "nullable": false
+        },
+        "requireHealthyDeviceReport": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "secureBootEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageRequireEncryption": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "bitLockerEnabled",
+        "codeIntegrityEnabled",
+        "earlyLaunchAntiMalwareDriverEnabled",
+        "passwordBlockSimple",
+        "passwordRequired",
+        "passwordRequiredToUnlockFromIdle",
+        "passwordRequiredType",
+        "requireHealthyDeviceReport",
+        "secureBootEnabled",
+        "storageRequireEncryption"
+      ],
+      "base": "deviceCompliancePolicy"
+    },
+    "windows10GeneralConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "version": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "accountsBlockAddingNonMicrosoftAccountEmail": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "antiTheftModeBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "appsAllowTrustedAppsSideloading": {
+          "type": "graph.stateManagementSetting",
+          "nullable": false
+        },
+        "appsBlockWindowsStoreOriginatedApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "bluetoothAllowedServices": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "bluetoothBlockAdvertising": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "bluetoothBlockDiscoverableMode": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "bluetoothBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "bluetoothBlockPrePairing": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cameraBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockDataWhenRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockVpn": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cellularBlockVpnWhenRoaming": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "certificatesBlockManualRootCertificateInstallation": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "connectedDevicesServiceBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "copyPasteBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "cortanaBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderBlockEndUserAccess": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderCloudBlockLevel": {
+          "type": "graph.defenderCloudBlockLevelType",
+          "nullable": false
+        },
+        "defenderDaysBeforeDeletingQuarantinedMalware": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "defenderDetectedMalwareActions": {
+          "type": "graph.defenderDetectedMalwareActions",
+          "nullable": true
+        },
+        "defenderFileExtensionsToExclude": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "defenderFilesAndFoldersToExclude": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "defenderMonitorFileActivity": {
+          "type": "graph.defenderMonitorFileActivity",
+          "nullable": false
+        },
+        "defenderProcessesToExclude": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "defenderPromptForSampleSubmission": {
+          "type": "graph.defenderPromptForSampleSubmission",
+          "nullable": false
+        },
+        "defenderRequireBehaviorMonitoring": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderRequireCloudProtection": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderRequireNetworkInspectionSystem": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderRequireRealTimeMonitoring": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanArchiveFiles": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanDownloads": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanIncomingMail": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanMappedNetworkDrivesDuringFullScan": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanMaxCpu": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "defenderScanNetworkFiles": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanRemovableDrivesDuringFullScan": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanScriptsLoadedInInternetExplorer": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "defenderScanType": {
+          "type": "graph.defenderScanType",
+          "nullable": false
+        },
+        "defenderScheduledQuickScanTime": {
+          "type": "Edm.TimeOfDay",
+          "nullable": true
+        },
+        "defenderScheduledScanTime": {
+          "type": "Edm.TimeOfDay",
+          "nullable": true
+        },
+        "defenderSignatureUpdateIntervalInHours": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "defenderSystemScanSchedule": {
+          "type": "graph.weeklySchedule",
+          "nullable": false
+        },
+        "developerUnlockSetting": {
+          "type": "graph.stateManagementSetting",
+          "nullable": false
+        },
+        "deviceManagementBlockFactoryResetOnMobile": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "deviceManagementBlockManualUnenroll": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "diagnosticsDataSubmissionMode": {
+          "type": "graph.diagnosticDataSubmissionMode",
+          "nullable": false
+        },
+        "edgeAllowStartPagesModification": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockAccessToAboutFlags": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockAddressBarDropdown": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockAutofill": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockCompatibilityList": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockDeveloperTools": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockExtensions": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockInPrivateBrowsing": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockJavaScript": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockLiveTileDataCollection": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockPasswordManager": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockPopups": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockSearchSuggestions": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockSendingDoNotTrackHeader": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeBlockSendingIntranetTrafficToInternetExplorer": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeClearBrowsingDataOnExit": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeCookiePolicy": {
+          "type": "graph.edgeCookiePolicy",
+          "nullable": false
+        },
+        "edgeDisableFirstRunPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeEnterpriseModeSiteListLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "edgeFirstRunUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "edgeHomepageUrls": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "edgeRequireSmartScreen": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeSearchEngine": {
+          "type": "graph.edgeSearchEngineBase",
+          "nullable": true
+        },
+        "edgeSendIntranetTrafficToInternetExplorer": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "edgeSyncFavoritesWithInternetExplorer": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "enterpriseCloudPrintDiscoveryEndPoint": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enterpriseCloudPrintDiscoveryMaxLimit": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "enterpriseCloudPrintMopriaDiscoveryResourceIdentifier": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enterpriseCloudPrintOAuthAuthority": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enterpriseCloudPrintOAuthClientIdentifier": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enterpriseCloudPrintResourceIdentifier": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "experienceBlockDeviceDiscovery": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "experienceBlockErrorDialogWhenNoSIM": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "experienceBlockTaskSwitcher": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "gameDvrBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "internetSharingBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "locationServicesBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenAllowTimeoutConfiguration": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenBlockActionCenterNotifications": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenBlockCortana": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenBlockToastNotifications": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lockScreenTimeoutInSeconds": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "logonBlockFastUserSwitching": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "microsoftAccountBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "microsoftAccountBlockSettingsSync": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "networkProxyApplySettingsDeviceWide": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "networkProxyAutomaticConfigurationUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "networkProxyDisableAutoDetect": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "networkProxyServer": {
+          "type": "graph.windows10NetworkProxyServer",
+          "nullable": true
+        },
+        "nfcBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "oneDriveDisableFileSync": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordBlockSimple": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordExpirationDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumCharacterSetCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinimumLength": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordMinutesOfInactivityBeforeScreenTimeout": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordPreviousPasswordBlockCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "passwordRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordRequiredType": {
+          "type": "graph.requiredPasswordType",
+          "nullable": false
+        },
+        "passwordRequireWhenResumeFromIdleState": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "passwordSignInFailureCountBeforeFactoryReset": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "personalizationDesktopImageUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "personalizationLockScreenImageUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "privacyAdvertisingId": {
+          "type": "graph.stateManagementSetting",
+          "nullable": false
+        },
+        "privacyAutoAcceptPairingAndConsentPrompts": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "privacyBlockInputPersonalization": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "resetProtectionModeBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "safeSearchFilter": {
+          "type": "graph.safeSearchFilterType",
+          "nullable": false
+        },
+        "screenCaptureBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "searchBlockDiacritics": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "searchDisableAutoLanguageDetection": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "searchDisableIndexerBackoff": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "searchDisableIndexingEncryptedItems": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "searchDisableIndexingRemovableDrive": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "searchEnableAutomaticIndexSizeManangement": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "searchEnableRemoteQueries": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockAccountsPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockAddProvisioningPackage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockAppsPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockChangeLanguage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockChangePowerSleep": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockChangeRegion": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockChangeSystemTime": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockDevicesPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockEaseOfAccessPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockEditDeviceName": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockGamingPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockNetworkInternetPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockPersonalizationPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockPrivacyPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockRemoveProvisioningPackage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockSettingsApp": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockSystemPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockTimeLanguagePage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "settingsBlockUpdateSecurityPage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "sharedUserAppDataAllowed": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "smartScreenBlockPromptOverride": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "smartScreenBlockPromptOverrideForFiles": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "smartScreenEnableAppInstallControl": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startBlockUnpinningAppsFromTaskbar": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuAppListVisibility": {
+          "type": "graph.windowsStartMenuAppListVisibilityType",
+          "nullable": false
+        },
+        "startMenuHideChangeAccountSettings": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideFrequentlyUsedApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideHibernate": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideLock": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHidePowerButton": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideRecentJumpLists": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideRecentlyAddedApps": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideRestartOptions": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideShutDown": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideSignOut": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideSleep": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideSwitchAccount": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuHideUserTile": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "startMenuLayoutEdgeAssetsXml": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "startMenuLayoutXml": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "startMenuMode": {
+          "type": "graph.windowsStartMenuModeType",
+          "nullable": false
+        },
+        "startMenuPinnedFolderDocuments": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderDownloads": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderFileExplorer": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderHomeGroup": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderMusic": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderNetwork": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderPersonalFolder": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderPictures": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderSettings": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "startMenuPinnedFolderVideos": {
+          "type": "graph.visibilitySetting",
+          "nullable": false
+        },
+        "storageBlockRemovableStorage": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageRequireMobileDeviceEncryption": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageRestrictAppDataToSystemVolume": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "storageRestrictAppInstallToSystemVolume": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "tenantLockdownRequireNetworkDuringOutOfBoxExperience": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "usbBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "voiceRecordingBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "webRtcBlockLocalhostIpAddress": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wiFiBlockAutomaticConnectHotspots": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wiFiBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wiFiBlockManualConfiguration": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wiFiScanInterval": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "windowsSpotlightBlockConsumerSpecificFeatures": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsSpotlightBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsSpotlightBlockOnActionCenter": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsSpotlightBlockTailoredExperiences": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsSpotlightBlockThirdPartyNotifications": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsSpotlightBlockWelcomeExperience": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsSpotlightBlockWindowsTips": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsSpotlightConfigureOnLockScreen": {
+          "type": "graph.windowsSpotlightEnablementSettings",
+          "nullable": false
+        },
+        "windowsStoreBlockAutoUpdate": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsStoreBlocked": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "windowsStoreEnablePrivateStoreOnly": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wirelessDisplayBlockProjectionToThisDevice": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wirelessDisplayBlockUserInputFromReceiver": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "wirelessDisplayRequirePinForPairing": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "displayName",
+        "lastModifiedDateTime",
+        "version",
+        "accountsBlockAddingNonMicrosoftAccountEmail",
+        "antiTheftModeBlocked",
+        "appsAllowTrustedAppsSideloading",
+        "appsBlockWindowsStoreOriginatedApps",
+        "bluetoothBlockAdvertising",
+        "bluetoothBlockDiscoverableMode",
+        "bluetoothBlocked",
+        "bluetoothBlockPrePairing",
+        "cameraBlocked",
+        "cellularBlockDataWhenRoaming",
+        "cellularBlockVpn",
+        "cellularBlockVpnWhenRoaming",
+        "certificatesBlockManualRootCertificateInstallation",
+        "connectedDevicesServiceBlocked",
+        "copyPasteBlocked",
+        "cortanaBlocked",
+        "defenderBlockEndUserAccess",
+        "defenderCloudBlockLevel",
+        "defenderMonitorFileActivity",
+        "defenderPromptForSampleSubmission",
+        "defenderRequireBehaviorMonitoring",
+        "defenderRequireCloudProtection",
+        "defenderRequireNetworkInspectionSystem",
+        "defenderRequireRealTimeMonitoring",
+        "defenderScanArchiveFiles",
+        "defenderScanDownloads",
+        "defenderScanIncomingMail",
+        "defenderScanMappedNetworkDrivesDuringFullScan",
+        "defenderScanNetworkFiles",
+        "defenderScanRemovableDrivesDuringFullScan",
+        "defenderScanScriptsLoadedInInternetExplorer",
+        "defenderScanType",
+        "defenderSystemScanSchedule",
+        "developerUnlockSetting",
+        "deviceManagementBlockFactoryResetOnMobile",
+        "deviceManagementBlockManualUnenroll",
+        "diagnosticsDataSubmissionMode",
+        "edgeAllowStartPagesModification",
+        "edgeBlockAccessToAboutFlags",
+        "edgeBlockAddressBarDropdown",
+        "edgeBlockAutofill",
+        "edgeBlockCompatibilityList",
+        "edgeBlockDeveloperTools",
+        "edgeBlocked",
+        "edgeBlockExtensions",
+        "edgeBlockInPrivateBrowsing",
+        "edgeBlockJavaScript",
+        "edgeBlockLiveTileDataCollection",
+        "edgeBlockPasswordManager",
+        "edgeBlockPopups",
+        "edgeBlockSearchSuggestions",
+        "edgeBlockSendingDoNotTrackHeader",
+        "edgeBlockSendingIntranetTrafficToInternetExplorer",
+        "edgeClearBrowsingDataOnExit",
+        "edgeCookiePolicy",
+        "edgeDisableFirstRunPage",
+        "edgeRequireSmartScreen",
+        "edgeSendIntranetTrafficToInternetExplorer",
+        "edgeSyncFavoritesWithInternetExplorer",
+        "experienceBlockDeviceDiscovery",
+        "experienceBlockErrorDialogWhenNoSIM",
+        "experienceBlockTaskSwitcher",
+        "gameDvrBlocked",
+        "internetSharingBlocked",
+        "locationServicesBlocked",
+        "lockScreenAllowTimeoutConfiguration",
+        "lockScreenBlockActionCenterNotifications",
+        "lockScreenBlockCortana",
+        "lockScreenBlockToastNotifications",
+        "logonBlockFastUserSwitching",
+        "microsoftAccountBlocked",
+        "microsoftAccountBlockSettingsSync",
+        "networkProxyApplySettingsDeviceWide",
+        "networkProxyDisableAutoDetect",
+        "nfcBlocked",
+        "oneDriveDisableFileSync",
+        "passwordBlockSimple",
+        "passwordRequired",
+        "passwordRequiredType",
+        "passwordRequireWhenResumeFromIdleState",
+        "privacyAdvertisingId",
+        "privacyAutoAcceptPairingAndConsentPrompts",
+        "privacyBlockInputPersonalization",
+        "resetProtectionModeBlocked",
+        "safeSearchFilter",
+        "screenCaptureBlocked",
+        "searchBlockDiacritics",
+        "searchDisableAutoLanguageDetection",
+        "searchDisableIndexerBackoff",
+        "searchDisableIndexingEncryptedItems",
+        "searchDisableIndexingRemovableDrive",
+        "searchEnableAutomaticIndexSizeManangement",
+        "searchEnableRemoteQueries",
+        "settingsBlockAccountsPage",
+        "settingsBlockAddProvisioningPackage",
+        "settingsBlockAppsPage",
+        "settingsBlockChangeLanguage",
+        "settingsBlockChangePowerSleep",
+        "settingsBlockChangeRegion",
+        "settingsBlockChangeSystemTime",
+        "settingsBlockDevicesPage",
+        "settingsBlockEaseOfAccessPage",
+        "settingsBlockEditDeviceName",
+        "settingsBlockGamingPage",
+        "settingsBlockNetworkInternetPage",
+        "settingsBlockPersonalizationPage",
+        "settingsBlockPrivacyPage",
+        "settingsBlockRemoveProvisioningPackage",
+        "settingsBlockSettingsApp",
+        "settingsBlockSystemPage",
+        "settingsBlockTimeLanguagePage",
+        "settingsBlockUpdateSecurityPage",
+        "sharedUserAppDataAllowed",
+        "smartScreenBlockPromptOverride",
+        "smartScreenBlockPromptOverrideForFiles",
+        "smartScreenEnableAppInstallControl",
+        "startBlockUnpinningAppsFromTaskbar",
+        "startMenuAppListVisibility",
+        "startMenuHideChangeAccountSettings",
+        "startMenuHideFrequentlyUsedApps",
+        "startMenuHideHibernate",
+        "startMenuHideLock",
+        "startMenuHidePowerButton",
+        "startMenuHideRecentJumpLists",
+        "startMenuHideRecentlyAddedApps",
+        "startMenuHideRestartOptions",
+        "startMenuHideShutDown",
+        "startMenuHideSignOut",
+        "startMenuHideSleep",
+        "startMenuHideSwitchAccount",
+        "startMenuHideUserTile",
+        "startMenuMode",
+        "startMenuPinnedFolderDocuments",
+        "startMenuPinnedFolderDownloads",
+        "startMenuPinnedFolderFileExplorer",
+        "startMenuPinnedFolderHomeGroup",
+        "startMenuPinnedFolderMusic",
+        "startMenuPinnedFolderNetwork",
+        "startMenuPinnedFolderPersonalFolder",
+        "startMenuPinnedFolderPictures",
+        "startMenuPinnedFolderSettings",
+        "startMenuPinnedFolderVideos",
+        "storageBlockRemovableStorage",
+        "storageRequireMobileDeviceEncryption",
+        "storageRestrictAppDataToSystemVolume",
+        "storageRestrictAppInstallToSystemVolume",
+        "tenantLockdownRequireNetworkDuringOutOfBoxExperience",
+        "usbBlocked",
+        "voiceRecordingBlocked",
+        "webRtcBlockLocalhostIpAddress",
+        "wiFiBlockAutomaticConnectHotspots",
+        "wiFiBlocked",
+        "wiFiBlockManualConfiguration",
+        "windowsSpotlightBlockConsumerSpecificFeatures",
+        "windowsSpotlightBlocked",
+        "windowsSpotlightBlockOnActionCenter",
+        "windowsSpotlightBlockTailoredExperiences",
+        "windowsSpotlightBlockThirdPartyNotifications",
+        "windowsSpotlightBlockWelcomeExperience",
+        "windowsSpotlightBlockWindowsTips",
+        "windowsSpotlightConfigureOnLockScreen",
+        "windowsStoreBlockAutoUpdate",
+        "windowsStoreBlocked",
+        "windowsStoreEnablePrivateStoreOnly",
+        "wirelessDisplayBlockProjectionToThisDevice",
+        "wirelessDisplayBlockUserInputFromReceiver",
+        "wirelessDisplayRequirePinForPairing"
+      ],
+      "base": "deviceConfiguration"
+    },
+    "windows10NetworkProxyServer": {
+      "properties": {
+        "address": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "exceptions": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "useForLocalAddresses": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "address",
+        "useForLocalAddresses"
+      ]
+    },
+    "windowsSpotlightEnablementSettings": {
+      "enum": [
+        "notConfigured",
+        "disabled",
+        "enabled"
+      ]
+    },
+    "windowsStartMenuAppListVisibilityType": {
+      "enum": [
+        "userDefined",
+        "collapse",
+        "remove",
+        "disableSettingsApp"
+      ]
+    },
+    "windowsStartMenuModeType": {
+      "enum": [
+        "userDefined",
+        "fullScreen",
+        "nonFullScreen"
+      ]
     },
     "workingHours": {
       "properties": {

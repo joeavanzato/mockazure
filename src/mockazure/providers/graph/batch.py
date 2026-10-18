@@ -48,6 +48,7 @@ def validated_items(items, version):
         if path.startswith(version + "/"):
             path = path[len(version) + 1 :]
         if path.split("/")[0].split("(", 1)[0] not in {
+            "deviceManagement",
             "teams",
             "chats",
             "sites",

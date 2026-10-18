@@ -1,0 +1,330 @@
+{
+  "schemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "scope": "Bounded v1.0 Intune observation reads; limitations in intune.md",
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/managedDevices",
+      "operation": "intune-devices-manageddevice-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-list?view=graph-rest-1.0",
+      "sourceSha256": "19ec2d709d52d0154f67dcfb49b978732c97fae01a8f57daa907c0e6d84787c1",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/managedDevices/{id}",
+      "operation": "intune-devices-manageddevice-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-get?view=graph-rest-1.0",
+      "sourceSha256": "6f7e6447accba00a6745b3c7ec2e800a38a1487abad38439953b0752df8ebd98",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/detectedApps",
+      "operation": "intune-devices-detectedapp-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-devices-detectedapp-list?view=graph-rest-1.0",
+      "sourceSha256": "78102f5bfa2282b9aeef117aca0af0668274b3ed4592a450a0910190f1119934",
+      "retrievedAt": "2026-10-18",
+      "responseType": "detectedApp"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/detectedApps/{id}",
+      "operation": "intune-devices-detectedapp-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-devices-detectedapp-get?view=graph-rest-1.0",
+      "sourceSha256": "0fa512c22eca8a6e0fb1801a581c4c0bc2ff1410c379750c0adf0409149358c5",
+      "retrievedAt": "2026-10-18",
+      "responseType": "detectedApp"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceConfigurations",
+      "operation": "intune-deviceconfig-deviceconfiguration-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfiguration-list?view=graph-rest-1.0",
+      "sourceSha256": "ce1aa351ac093536b25075f6fcb6bc05b2bb8141b357f3d7a66650361dd68e38",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceConfiguration"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceConfigurations/{id}",
+      "operation": "intune-deviceconfig-deviceconfiguration-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfiguration-get?view=graph-rest-1.0",
+      "sourceSha256": "5e3990d80c4372a4ba2ea53c2792e0bf657b10fc31b82b437f4708fa86c01977",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceConfiguration"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceCompliancePolicies",
+      "operation": "intune-deviceconfig-devicecompliancepolicy-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicy-list?view=graph-rest-1.0",
+      "sourceSha256": "d9a2cbd9b19291299ffd455a23f2be74703dc2a86d6c469d3769d08cdd9509d5",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceCompliancePolicy"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceCompliancePolicies/{id}",
+      "operation": "intune-deviceconfig-devicecompliancepolicy-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicy-get?view=graph-rest-1.0",
+      "sourceSha256": "97624c42d1947908cf8ba0327b37dd883e88ddeeb24c6150cf8f539d74073a56",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceCompliancePolicy"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceConfigurations/{policy}/assignments",
+      "operation": "intune-deviceconfig-deviceconfigurationassignment-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationassignment-list?view=graph-rest-1.0",
+      "sourceSha256": "cc224bcb49414afbf40bca08f5f36090c9f159e3413a18195b05be2e3e7874c8",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceConfigurationAssignment"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceConfigurations/{policy}/assignments/{id}",
+      "operation": "intune-deviceconfig-deviceconfigurationassignment-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationassignment-get?view=graph-rest-1.0",
+      "sourceSha256": "fd8c85c7552c21ee48c66e6627423913e9e96c6530586efb718d19b75162c9ab",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceConfigurationAssignment"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceCompliancePolicies/{policy}/assignments",
+      "operation": "intune-deviceconfig-devicecompliancepolicyassignment-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicyassignment-list?view=graph-rest-1.0",
+      "sourceSha256": "1a437d0db3122235b6e14f1b86eac7f3375b53572ee1e71ab6263de5eb56a6b9",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceCompliancePolicyAssignment"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceCompliancePolicies/{policy}/assignments/{id}",
+      "operation": "intune-deviceconfig-devicecompliancepolicyassignment-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicyassignment-get?view=graph-rest-1.0",
+      "sourceSha256": "eb25e15056fb5bbab39002269b1dba3de9aee9ada733fee438af5ed182e35c93",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceCompliancePolicyAssignment"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceConfigurations/{policy}/deviceStatuses",
+      "operation": "intune-deviceconfig-deviceconfigurationdevicestatus-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationdevicestatus-list?view=graph-rest-1.0",
+      "sourceSha256": "ee4fba7269256fff9bb0b7c2a96bf8e2870df7734cc4f608ae55f75055d3fa72",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceConfigurationDeviceStatus"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceConfigurations/{policy}/deviceStatuses/{id}",
+      "operation": "intune-deviceconfig-deviceconfigurationdevicestatus-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationdevicestatus-get?view=graph-rest-1.0",
+      "sourceSha256": "8471dad5677d3a7873928e73a513d098201d422fc503994a563ef44ccf15ffe1",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceConfigurationDeviceStatus"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceCompliancePolicies/{policy}/deviceStatuses",
+      "operation": "intune-deviceconfig-devicecompliancedevicestatus-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancedevicestatus-list?view=graph-rest-1.0",
+      "sourceSha256": "f1245c143c856ffa3eace0704456aa93885b928026e0ae6fdfc80a9373e491f5",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceComplianceDeviceStatus"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/deviceCompliancePolicies/{policy}/deviceStatuses/{id}",
+      "operation": "intune-deviceconfig-devicecompliancedevicestatus-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancedevicestatus-get?view=graph-rest-1.0",
+      "sourceSha256": "c843e4bba05734052a346c3a8c920db8ef85d150011e4fa75a55d2304b8b5d3f",
+      "retrievedAt": "2026-10-18",
+      "responseType": "deviceComplianceDeviceStatus"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/detectedApps/{app}/managedDevices",
+      "operation": "intune-devices-manageddevice-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-list?view=graph-rest-1.0",
+      "sourceSha256": "19ec2d709d52d0154f67dcfb49b978732c97fae01a8f57daa907c0e6d84787c1",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/deviceManagement/detectedApps/{app}/managedDevices/{id}",
+      "operation": "intune-devices-manageddevice-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-get?view=graph-rest-1.0",
+      "sourceSha256": "6f7e6447accba00a6745b3c7ec2e800a38a1487abad38439953b0752df8ebd98",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/users/{user}/managedDevices",
+      "operation": "user-managedDevices-navigation",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0",
+      "sourceSha256": "b4c8ce8f897f8cb32a3985d89999450b8bf4b5c1c5cb24bc3ff7993a5e187f95",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/users/{user}/managedDevices/{id}",
+      "operation": "user-managedDevices-navigation",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0",
+      "sourceSha256": "b4c8ce8f897f8cb32a3985d89999450b8bf4b5c1c5cb24bc3ff7993a5e187f95",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/me/managedDevices",
+      "operation": "user-managedDevices-navigation",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0",
+      "sourceSha256": "b4c8ce8f897f8cb32a3985d89999450b8bf4b5c1c5cb24bc3ff7993a5e187f95",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/me/managedDevices/{id}",
+      "operation": "user-managedDevices-navigation",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0",
+      "sourceSha256": "b4c8ce8f897f8cb32a3985d89999450b8bf4b5c1c5cb24bc3ff7993a5e187f95",
+      "retrievedAt": "2026-10-18",
+      "responseType": "managedDevice"
+    }
+  ],
+  "references": [
+    {
+      "operation": "intune-devices-manageddevice-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-list?view=graph-rest-1.0",
+      "sha256": "19ec2d709d52d0154f67dcfb49b978732c97fae01a8f57daa907c0e6d84787c1",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-devices-manageddevice-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-get?view=graph-rest-1.0",
+      "sha256": "6f7e6447accba00a6745b3c7ec2e800a38a1487abad38439953b0752df8ebd98",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-devices-detectedapp-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-devices-detectedapp-list?view=graph-rest-1.0",
+      "sha256": "78102f5bfa2282b9aeef117aca0af0668274b3ed4592a450a0910190f1119934",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-devices-detectedapp-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-devices-detectedapp-get?view=graph-rest-1.0",
+      "sha256": "0fa512c22eca8a6e0fb1801a581c4c0bc2ff1410c379750c0adf0409149358c5",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-deviceconfiguration-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfiguration-list?view=graph-rest-1.0",
+      "sha256": "ce1aa351ac093536b25075f6fcb6bc05b2bb8141b357f3d7a66650361dd68e38",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-deviceconfiguration-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfiguration-get?view=graph-rest-1.0",
+      "sha256": "5e3990d80c4372a4ba2ea53c2792e0bf657b10fc31b82b437f4708fa86c01977",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-devicecompliancepolicy-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicy-list?view=graph-rest-1.0",
+      "sha256": "d9a2cbd9b19291299ffd455a23f2be74703dc2a86d6c469d3769d08cdd9509d5",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-devicecompliancepolicy-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicy-get?view=graph-rest-1.0",
+      "sha256": "97624c42d1947908cf8ba0327b37dd883e88ddeeb24c6150cf8f539d74073a56",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-deviceconfigurationassignment-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationassignment-list?view=graph-rest-1.0",
+      "sha256": "cc224bcb49414afbf40bca08f5f36090c9f159e3413a18195b05be2e3e7874c8",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-devicecompliancepolicyassignment-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicyassignment-list?view=graph-rest-1.0",
+      "sha256": "1a437d0db3122235b6e14f1b86eac7f3375b53572ee1e71ab6263de5eb56a6b9",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-deviceconfigurationdevicestatus-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationdevicestatus-list?view=graph-rest-1.0",
+      "sha256": "ee4fba7269256fff9bb0b7c2a96bf8e2870df7734cc4f608ae55f75055d3fa72",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-devicecompliancedevicestatus-list",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancedevicestatus-list?view=graph-rest-1.0",
+      "sha256": "f1245c143c856ffa3eace0704456aa93885b928026e0ae6fdfc80a9373e491f5",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "user-resource",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0",
+      "sha256": "b4c8ce8f897f8cb32a3985d89999450b8bf4b5c1c5cb24bc3ff7993a5e187f95",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "license-identifiers",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/users/licensing-service-plan-reference",
+      "sha256": "9b9868af061bbbeac44efddd34ea39303952527d08cad7e000a4b315cd1056f7",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "resource-manageddevice",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/intune-devices-manageddevice?view=graph-rest-1.0",
+      "sha256": "2513107dce4b908fa98de8d1b9d2ea28ee9d3d7c6744ba11949f02d914c35441",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "resource-detectedapp",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/intune-devices-detectedapp?view=graph-rest-1.0",
+      "sha256": "987da29c0570b8ef8e84f3f4b44a5947c9ce1ec8b3ad932b44c4df244ffda1ef",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-deviceconfigurationassignment-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationassignment-get?view=graph-rest-1.0",
+      "sha256": "fd8c85c7552c21ee48c66e6627423913e9e96c6530586efb718d19b75162c9ab",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-devicecompliancepolicyassignment-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancepolicyassignment-get?view=graph-rest-1.0",
+      "sha256": "eb25e15056fb5bbab39002269b1dba3de9aee9ada733fee438af5ed182e35c93",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-deviceconfigurationdevicestatus-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-deviceconfigurationdevicestatus-get?view=graph-rest-1.0",
+      "sha256": "8471dad5677d3a7873928e73a513d098201d422fc503994a563ef44ccf15ffe1",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "operation": "intune-deviceconfig-devicecompliancedevicestatus-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/intune-deviceconfig-devicecompliancedevicestatus-get?view=graph-rest-1.0",
+      "sha256": "c843e4bba05734052a346c3a8c920db8ef85d150011e4fa75a55d2304b8b5d3f",
+      "retrieved": "2026-10-18"
+    }
+  ],
+  "evidenceTests": [
+    "tests/unit/test_intune_contracts.py",
+    "tests/integration/test_intune_evidence.py"
+  ]
+}

@@ -32,6 +32,28 @@ async def capabilities(request: Request):
 
     settings = request.app.state.settings
     return {
+        "intune_profile": {
+            "version": "v1.0",
+            "beta": False,
+            "scope": "deviceManagement",
+            "tenant_license": "INTUNE_A",
+            "page_rows": 1000,
+            "page_bytes": 8 * 1024 * 1024,
+            "cursor_seconds": 3600,
+            "observed_compliance_only": True,
+            "public_writes": False,
+            "scope_tags_and_intune_rbac": False,
+            "platform_types": [
+                "windows10GeneralConfiguration",
+                "iosGeneralDeviceConfiguration",
+                "androidGeneralDeviceConfiguration",
+                "macOSGeneralDeviceConfiguration",
+                "windows10CompliancePolicy",
+                "iosCompliancePolicy",
+                "androidCompliancePolicy",
+                "macOSCompliancePolicy",
+            ],
+        },
         "teams_profile": {
             "version": "v1.0",
             "beta": False,
