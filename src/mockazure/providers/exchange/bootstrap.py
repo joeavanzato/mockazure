@@ -98,6 +98,46 @@ PARAMETERS = {
 
 PARAMETERS.update(
     {
+        "Get-Recipient": {
+            "Identity": "string",
+            "Anr": "string",
+            "RecipientType": "string[]",
+            "RecipientTypeDetails": "string[]",
+            "ResultSize": "string",
+            "Filter": "string",
+            "SortBy": "string",
+        },
+        "Add-MailboxPermission": {
+            "Identity": "string",
+            "User": "string",
+            "AccessRights": "string[]",
+            "InheritanceType": "string",
+            "Deny": "switch",
+            "AutoMapping": "bool",
+        },
+        "Remove-MailboxPermission": {
+            "Identity": "string",
+            "User": "string",
+            "AccessRights": "string[]",
+            "InheritanceType": "string",
+            "Deny": "switch",
+        },
+        "Add-RecipientPermission": {
+            "Identity": "string",
+            "Trustee": "string",
+            "AccessRights": "string[]",
+        },
+        "Remove-RecipientPermission": {
+            "Identity": "string",
+            "Trustee": "string",
+            "AccessRights": "string[]",
+        },
+    }
+)
+PARAMETERS["Set-Mailbox"]["GrantSendOnBehalfTo"] = "object"
+
+PARAMETERS.update(
+    {
         "Get-MessageTraceV2": {
             "EndDate": "datetime",
             "FromIP": "string",

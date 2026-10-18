@@ -580,6 +580,12 @@
       "adminConsentRequired": false
     },
     {
+      "name": "Mail.Read.Shared",
+      "kind": "delegated",
+      "id": "7b9103a5-4610-446b-9670-80643382c1fa",
+      "adminConsentRequired": false
+    },
+    {
       "name": "Mail.ReadBasic",
       "kind": "application",
       "id": "6be147d2-ea4f-4b5a-a3fa-3eab6f3c140a",
@@ -598,6 +604,12 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Mail.ReadBasic.Shared",
+      "kind": "delegated",
+      "id": "b11fa0e7-fdb7-4dc9-b1f1-59facd463480",
+      "adminConsentRequired": false
+    },
+    {
       "name": "Mail.ReadWrite",
       "kind": "application",
       "id": "e2a3a72e-5f79-4c64-b1b1-878b674786c9",
@@ -607,6 +619,30 @@
       "name": "Mail.ReadWrite",
       "kind": "delegated",
       "id": "024d486e-b451-40bb-833d-3e66d98c5c73",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Mail.ReadWrite.Shared",
+      "kind": "delegated",
+      "id": "5df07973-7d5d-46ed-9847-1271055cbd51",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Mail.Send",
+      "kind": "application",
+      "id": "b633e1c5-b582-4048-a93e-9f11b44c7e96",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.Send",
+      "kind": "delegated",
+      "id": "e383f46e-2787-4529-855e-0e479a3ffac0",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Mail.Send.Shared",
+      "kind": "delegated",
+      "id": "a367ab51-6b49-43bf-a716-a1fb06d2a174",
       "adminConsentRequired": false
     },
     {

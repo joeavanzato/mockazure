@@ -17,6 +17,10 @@ GRAPH = "00000003-0000-0000-c000-000000000000"
 EXCHANGE = next(resource.audience for resource in RESOURCES if resource.service == "exchange")
 READER_COMMANDS = frozenset(
     {
+        "Get-Recipient",
+        "Get-EXORecipient",
+        "Get-EXOMailboxPermission",
+        "Get-EXORecipientPermission",
         "Get-Mailbox",
         "Get-EXOMailbox",
         "Get-EXOMailboxStatistics",
@@ -32,7 +36,7 @@ READER_COMMANDS = frozenset(
 )
 
 
-def content_requirement(name):
+def content_requirement(name, *, shared=False):
     if name == "settings":
         app_perms = delegated_perms = {"MailboxSettings.Read", "MailboxSettings.ReadWrite"}
     elif name == "write":
@@ -44,6 +48,12 @@ def content_requirement(name):
         delegated_perms = {"Mail.ReadBasic", "Mail.Read", "Mail.ReadWrite"}
     else:
         raise AuthorizationDenied("Unsupported content operation")
+    shared_perms = {
+        "read": {"Mail.ReadBasic.Shared", "Mail.Read.Shared", "Mail.ReadWrite.Shared"},
+        "raw": {"Mail.Read.Shared", "Mail.ReadWrite.Shared"},
+        "write": {"Mail.ReadWrite.Shared"},
+    }.get(name, set())
+    delegated_perms = shared_perms if shared else delegated_perms | shared_perms
     return OperationRequirement("graph", frozenset(app_perms), frozenset(delegated_perms))
 
 
@@ -59,9 +69,17 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
     if operation.startswith("content."):
         if actor.audience != GRAPH:
             raise AuthorizationDenied("Graph audience is required")
-        await authorize(actor, content_requirement(operation.removeprefix("content.")), session)
-        if actor.token_kind == "delegated" and actor.subject_id != mailbox.user_id:
-            raise AuthorizationDenied("Delegated mailbox ownership is required")
+        shared = actor.token_kind == "delegated" and actor.subject_id != mailbox.user_id
+        await authorize(
+            actor, content_requirement(operation.removeprefix("content."), shared=shared), session
+        )
+        if shared:
+            from mockazure.mail.delegation import has_delegation
+
+            if not await has_delegation(
+                session, actor.tenant_id, mailbox.user_id, actor.subject_id, "FullAccess"
+            ):
+                raise AuthorizationDenied("Current FullAccess mailbox delegation is required")
         return
     if operation.startswith("rules."):
         if actor.audience != GRAPH:
@@ -140,3 +158,13 @@ async def require_exchange_command(
     )
     if permitted is None:
         raise AuthorizationDenied("Exchange command and recipient scope are required")
+
+
+def basic_content_only(actor, mailbox):
+    shared = actor.token_kind == "delegated" and actor.subject_id != mailbox.user_id
+    permissions = (
+        {"Mail.Read.Shared", "Mail.ReadWrite.Shared"}
+        if shared
+        else {"Mail.Read", "Mail.ReadWrite", "Mail.Read.Shared", "Mail.ReadWrite.Shared"}
+    )
+    return not bool(actor.permissions & permissions)

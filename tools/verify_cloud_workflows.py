@@ -90,7 +90,9 @@ def main():
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
     if args.phase != "A" or set(args.ecosystems) != ECOSYSTEMS:
-        parser.error("Only the complete A1 Exchange matrix is currently executable")
+        parser.error(
+            "Only the current A1-A2 Exchange matrix is executable; later phases remain unavailable"
+        )
     from tools.prepare_clients import prepare
     from tools.verify_default import main as smoke
     from tools.verify_exchange_workflows import qualify
@@ -136,7 +138,31 @@ def main():
                             "utc_dates": observed["utc_unspecified_dates"],
                             "formatted": True,
                         },
-                    }
+                    },
+                    {
+                        "workflow": "exchange.recipients-and-delegation",
+                        "operationIds": [
+                            "Get-Recipient",
+                            "Get-EXORecipient",
+                            "Get-EXOMailboxPermission",
+                            "Get-EXORecipientPermission",
+                            "Add-MailboxPermission",
+                            "Remove-MailboxPermission",
+                            "Add-RecipientPermission",
+                            "Remove-RecipientPermission",
+                            "Set-Mailbox",
+                        ],
+                        "transport": "module",
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {
+                            "identity_selectors": observed["recipient_delegation"],
+                            "paging": observed["recipient_count"] == 2,
+                            "permission_mutations": observed["recipient_delegation"],
+                            "behalf_mutations": observed["recipient_delegation"],
+                            "revoked_permissions_absent": observed["recipient_delegation"],
+                        },
+                    },
                 ],
             },
         }

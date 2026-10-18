@@ -39,7 +39,31 @@ def sample():
                             "utc_dates": True,
                             "formatted": True,
                         },
-                    }
+                    },
+                    {
+                        "workflow": "exchange.recipients-and-delegation",
+                        "operationIds": [
+                            "Get-Recipient",
+                            "Get-EXORecipient",
+                            "Get-EXOMailboxPermission",
+                            "Get-EXORecipientPermission",
+                            "Add-MailboxPermission",
+                            "Remove-MailboxPermission",
+                            "Add-RecipientPermission",
+                            "Remove-RecipientPermission",
+                            "Set-Mailbox",
+                        ],
+                        "transport": "module",
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {
+                            "identity_selectors": True,
+                            "paging": True,
+                            "permission_mutations": True,
+                            "behalf_mutations": True,
+                            "revoked_permissions_absent": True,
+                        },
+                    },
                 ],
             }
         },
@@ -76,3 +100,10 @@ def test_qualification_rejects_unpinned_client_version():
     report["ecosystems"]["powershell"]["clientVersions"]["ExchangeOnlineManagement"] = "0.0.0"
     with pytest.raises(ValueError):
         validate(report, set(report["ecosystems"]))
+
+
+def test_qualification_rejects_missing_delegation_workflow():
+    report = sample()
+    report["ecosystems"]["powershell"]["cases"] = report["ecosystems"]["powershell"]["cases"][:1]
+    with pytest.raises(ValueError, match="workflow"):
+        validator()(report, {"python", "powershell", "dotnet", "typescript"})

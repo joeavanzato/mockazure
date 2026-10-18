@@ -216,3 +216,8 @@ async def folder_statistics(tenant: str, key: str, scope: str, request: Request)
         raise GraphError(
             403, "Authorization_RequestDenied", "Exchange command permission required"
         ) from None
+
+
+from mockazure.providers.exchange.recipient_routes import router as recipient_router  # noqa: E402
+
+router.include_router(recipient_router)

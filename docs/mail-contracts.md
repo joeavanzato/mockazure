@@ -403,8 +403,9 @@ The [pinned Exchange manifest](../integrations/contracts/exchange-mail.json)
 lists accepted command parameters, returned fields, sources and limits. Public
 reads expose imported state: organization audit/OAuth flags, transport settings,
 accepted domains, transport rules, mailbox ACLs and SendAs permissions. Missing
-optional fields are absent rather than guessed. Transport descriptions/actions
-are evidence; neither rule delivery nor an ACL enforcement engine is simulated.
+optional fields are absent rather than guessed. Transport descriptions/actions are evidence; rule delivery is not simulated.
+Imported ACLs are evidence only; the separate operational delegation profile below
+enforces supported FullAccess and sending permissions.
 Mailbox ACL records are separate from ExchangeCommandGrant and never authorize
 commands. Every read checks current token permissions, roles/grants and relevant
 service entitlement; mailbox reads additionally check current recipient scope.
@@ -451,9 +452,12 @@ Imported MIME, including malformed binary source data, is returned exactly; meta
 is supplied separately and is not silently reconstructed from MIME. Graph bodies use
 stored text/HTML with bounded format conversion. Header properties require `$select`.
 Mail.ReadBasic omits body/bodyPreview/uniqueBody and cannot access attachments or raw
-content. Full reads require Mail.Read or Mail.ReadWrite. Mailbox settings use their
-separate permissions. Delegated access is limited to the signed-in mailbox; shared
-mailboxes and application access policies are not implied by Exchange ACL evidence.
+content. Full reads require Mail.Read/Mail.ReadWrite for application access, or the corresponding
+delegated own/shared scopes. Access to another mailbox additionally requires a current
+operational FullAccess grant. Shared basic scope still omits bodies, even when the token
+also has the non-shared Mail.Read scope. Mailbox settings retain separate permissions
+and ownership checks. Imported ACL evidence grants no access; application access
+policies and per-folder Outlook sharing ACLs are not simulated.
 
 The [operation manifest](../integrations/contracts/coverage-operations.json) pins
 real v1.0 paths and source hashes. No beta routes are added. Message filters support
@@ -566,3 +570,62 @@ to Exchange cmdlets. This is not qualification of later A tasks or the all-phase
 Graph/Azure matrix. Reports record source identity, client version, local transport
 adaptations and exact-ID/paging/date assertions; missing cells cannot pass.
 The original MES JSON-array concatenation limitation remains unchanged.
+
+
+## Exchange recipients and operational delegation
+
+The [cloud operation catalog](../integrations/contracts/cloud/exchange.json) pins nine
+command pages and operation-level limits. Recipient discovery includes explicitly
+provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox identities;
+it does not invent mail enablement for every directory user or enumerate contacts,
+mail users, distribution lists or group mailboxes. Tenant-local UUID/Exchange GUID,
+UPN, primary/alias SMTP, alias and unique display-name lookups are supported. Ambiguity
+fails with 400. An explicit absent identity fails with 404 rather than using the
+Microsoft-documented unfiltered-list fallback.
+
+Classic Get-Recipient supports Anr, recipient kinds, SortBy, ResultSize and a single
+case-insensitive string -eq/-ne/-like predicate; -like accepts * wildcards. Compiled
+Get-EXORecipient supports its observed identity selectors, supported explicit Properties,
+Minimum property set, type selection, eq/ne filter and 1–1,000-row pages. It uses
+ReadIdsAndParamsFromHeaders with XParameter-Identity or the encoded Recipient key path.
+Continuation is a UUID-ordered current-state scan, not a frozen snapshot. Each page
+reauthorizes before limits are applied. Unsupported predicates/property sets fail.
+
+The unchanged ExchangeOnlineManagement 3.11.0 compiled permission commands use different
+wire models from their PowerShell output. Get-EXOMailboxPermission consumes a
+PermissionId-keyed DTO with User, MailboxIdentity and nested PermissionList entries;
+Get-EXORecipientPermission expands RecipientPermission on the Recipient entity.
+The original module performs the output conversion. Both compiled permission profiles
+are qualified for Identity; unscoped listing and extra filters are not claimed.
+The module exposes PageSize on Connect-ExchangeOnline, not on Get-EXORecipient.
+
+Add/Remove-MailboxPermission support FullAccess; Add/Remove-RecipientPermission support
+SendAs. Set-Mailbox GrantSendOnBehalfTo accepts replacement arrays, null, and Add/Remove
+maps. Get-Mailbox returns canonical delegate IDs. Current users and security-group
+trustees are resolved in the owning tenant. Nested current security-group membership
+is evaluated on access; deletion/membership removal and explicit deny revoke access.
+Children/Descendents-only ACEs do not authorize the mailbox object. AutoMapping is
+persisted and audited, but Outlook Autodiscover is not simulated. Other rights,
+SID history and a complete Exchange inheritance/ownership engine are outside this profile.
+
+FullAccess permits the existing Graph content workflows with Mail.Read.Shared,
+Mail.ReadBasic.Shared or Mail.ReadWrite.Shared as appropriate. These delegated scopes
+also permit the caller's own mailbox. FullAccess does not authorize sending or Exchange
+management. The internal require_send_identity checker distinguishes Mail.Send,
+Mail.Send.Shared, SendAs and SendOnBehalf; using another user's sending mailbox also
+requires FullAccess. Graph send endpoints are delivered in the later mail workflow
+phase, not claimed here. See Microsoft's [shared mail](https://learn.microsoft.com/en-us/graph/outlook-share-messages-folders)
+and [send from another user](https://learn.microsoft.com/en-us/graph/outlook-send-mail-from-other-user)
+contracts; selected permission IDs come from the hash-verified pinned permission reference.
+
+Migration 054 adds tenant- and principal-bound operational delegation, separately from
+display-only collectionState records and Exchange command grants. Command authorization,
+changes and immutable native audit facts share a transaction. Permission audit ObjectId
+is the mailbox UPN; rule/item operations retain their item suffix. No-op writes do not
+create duplicate facts. Downgrade refuses nonempty operational delegation.
+
+Authenticated local GET/PUT /_mock/tenants/{tenant}/mail/delegationState exports and
+atomically replaces typed operational grants; {"grants":[]} resets them. Every target
+must already be a current mailbox/principal in that tenant. Imports validate the whole
+batch before replacement. These administrative fixtures explicitly establish authority;
+collectionState permission imports never do. API restart preserves grants in PostgreSQL.

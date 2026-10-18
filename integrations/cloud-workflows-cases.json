@@ -19,6 +19,32 @@
             "utc_dates",
             "formatted"
           ]
+        },
+        {
+          "id": "exchange.recipients-and-delegation",
+          "service": "exchange",
+          "operationIds": [
+            "Get-Recipient",
+            "Get-EXORecipient",
+            "Get-EXOMailboxPermission",
+            "Get-EXORecipientPermission",
+            "Add-MailboxPermission",
+            "Remove-MailboxPermission",
+            "Add-RecipientPermission",
+            "Remove-RecipientPermission",
+            "Set-Mailbox"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "identity_selectors",
+            "paging",
+            "permission_mutations",
+            "behalf_mutations",
+            "revoked_permissions_absent"
+          ]
         }
       ],
       "notApplicable": {

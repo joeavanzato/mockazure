@@ -20,6 +20,22 @@ def prepare(request, base, tenant, state):
     zone = ZoneInfo.from_file(io.BytesIO(tzif))
     assert datetime.now(zone).utcoffset() == timedelta(hours=-5)
     (state / "test-timezone").write_bytes(tzif)
+    delegate = request(
+        "POST",
+        base + "/identity/users",
+        {
+            "upn": "workflow-delegate@" + tenant["domain"],
+            "display_name": "Workflow delegate",
+            "password": "local-workflow-delegate-password",
+        },
+        201,
+    )
+    request(
+        "PUT",
+        base + f"/mail/mailboxes/{delegate['id']}",
+        {"primary_smtp": delegate["upn"], "alias": "workflow-delegate"},
+    )
+    (state / "delegate-expected.json").write_text(json.dumps(delegate), encoding="utf-8")
     when = datetime.now(UTC) - timedelta(hours=1)
     records = []
     for index in range(1101):

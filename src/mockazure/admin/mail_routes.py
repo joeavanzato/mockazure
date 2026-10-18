@@ -254,3 +254,22 @@ async def reset_content(tenant_id: UUID, user_id: UUID, request: Request):
     value = await parsed(request, ResetInput)
     async with request.app.state.database.sessions.begin() as session:
         return await reset_mail_content(session, tenant_id, user_id, value.expected_revision)
+
+
+@router.get("/delegationState")
+async def get_delegation_state(tenant_id: UUID, request: Request):
+    from mockazure.mail.delegation_state import export_delegation
+
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await export_delegation(session, tenant_id)
+
+
+@router.put("/delegationState")
+async def put_delegation_state(tenant_id: UUID, request: Request):
+    from mockazure.mail.delegation_state import DelegationState, replace_delegation
+
+    value = await parsed(request, DelegationState)
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await replace_delegation(session, tenant_id, value)

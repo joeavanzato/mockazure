@@ -25,7 +25,7 @@ async def test_archive_database_is_stable_and_absent_when_disabled():
         updated_at=datetime.now(UTC),
         tenant_id=uuid4(),
     )
-    session = SimpleNamespace(get=AsyncMock(return_value=user))
+    session = SimpleNamespace(get=AsyncMock(return_value=user), scalars=AsyncMock(return_value=[]))
     first = await mailbox_view(session, box)
     assert first["ArchiveDatabase"]
     assert first["ArchiveDatabase"] == (await mailbox_view(session, box))["ArchiveDatabase"]

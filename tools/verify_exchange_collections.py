@@ -221,10 +221,14 @@ def qualify(directory, command, compose, client, headers, tenant, check, *, work
                 (state / "exchange-workflow-report.json").read_text(encoding="utf-8-sig")
             )
             assert workflow_report["passed"] and workflow_report["records"] == 1101
+            assert (
+                workflow_report["recipient_delegation"] and workflow_report["recipient_count"] == 2
+            )
             (directory / "exchange-workflow-report.json").write_text(
                 json.dumps(workflow_report, indent=2) + "\n"
             )
             check("original_exchange_unified_audit_1101_exact_ids")
+            check("original_exchange_recipients_and_delegation")
         # Original collector sources are verified against the pinned archive before and after.
         import hashlib
         from datetime import datetime

@@ -73,3 +73,29 @@ def test_audit_scalar_filters_use_the_same_bounds_as_arrays(value):
         with pytest.raises(GraphError) as error:
             checked_parameters("Search-UnifiedAuditLog", {"UserIds": shape})
         assert error.value.status == 400
+
+
+def test_recipient_delegation_contracts_have_public_fields_and_current_profile():
+    contracts = loader()
+    operations = [
+        "Get-Recipient",
+        "Get-EXORecipient",
+        "Get-EXOMailboxPermission",
+        "Get-EXORecipientPermission",
+        "Add-MailboxPermission",
+        "Remove-MailboxPermission",
+        "Add-RecipientPermission",
+        "Remove-RecipientPermission",
+        "Set-Mailbox",
+    ]
+    for name in operations:
+        row = contracts.load_contract("exchange", name)
+        assert row["status"] == "implemented-bounded"
+        assert row["responseSchemas"].get("fields") or row["responseSchemas"]["type"] == "void"
+        assert row["limitations"]
+    from tools.verify_cloud_workflows import cases
+
+    definition = next(
+        v for v in cases()["A"]["workflows"] if v["id"] == "exchange.recipients-and-delegation"
+    )
+    assert set(definition["operationIds"]) == set(operations)

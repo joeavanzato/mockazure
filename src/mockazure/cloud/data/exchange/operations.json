@@ -116,6 +116,777 @@
           "Retry-After": "60 (local session quota)"
         }
       }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-Recipient",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-Recipient",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "Anr": "string",
+            "RecipientType": "string[]",
+            "RecipientTypeDetails": "string[]",
+            "ResultSize": "string",
+            "Filter": "string",
+            "SortBy": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "Recipient",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "DisplayName": "string",
+          "Alias": "string",
+          "PrimarySmtpAddress": "string",
+          "UserPrincipalName": "string",
+          "ExternalDirectoryObjectId": "string",
+          "RecipientType": "string",
+          "RecipientTypeDetails": "string",
+          "ExchangeGuid": "string",
+          "EmailAddresses": "string[]"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-Recipient.md",
+          "sha256": "628c7792670e7e531d53dc40707f0b3889acd7945ca869e26a5ef2e79877658b",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-Recipient.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "One eq/ne string filter predicate; classic -like accepts * only. No composite OPATH expression. Queries run on current state; pages are not immutable snapshots."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization",
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "unlimited": true
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-EXORecipient",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-EXORecipient",
+      "compiledClient": true,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "UserPrincipalName": "string",
+            "PrimarySmtpAddress": "string",
+            "ExternalDirectoryObjectId": "guid",
+            "RecipientType": "string[]",
+            "RecipientTypeDetails": "string[]",
+            "ResultSize": "string",
+            "Filter": "string",
+            "Properties": "string[]",
+            "PropertySets": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "Recipient",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "DisplayName": "string",
+          "Alias": "string",
+          "PrimarySmtpAddress": "string",
+          "UserPrincipalName": "string",
+          "ExternalDirectoryObjectId": "string",
+          "RecipientType": "string",
+          "RecipientTypeDetails": "string",
+          "ExchangeGuid": "string",
+          "EmailAddresses": "string[]",
+          "ObjectKey": "base64 string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-EXORecipient.md",
+          "sha256": "39f1107558805a5e67cabc611b458f238a4627ca6e3a8776c838261a019f9a21",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-EXORecipient.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "One eq/ne string filter predicate; classic -like accepts * only. No composite OPATH expression. Queries run on current state; pages are not immutable snapshots.",
+        "Only Minimum property set and explicitly supported Properties; Anr and arbitrary property sets fail. PageSize is a connection option. Continuation rechecks current command and recipient scope."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization",
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "unlimited": true,
+        "maximumPageSize": 1000
+      },
+      "transport": {
+        "method": "GET",
+        "paths": [
+          "/adminapi/beta/{tenant}/Recipient",
+          "/adminapi/beta/{tenant}/Recipient('{base64-identity}')"
+        ],
+        "identityHeader": "XParameter-Identity when ReadIdsAndParamsFromHeaders=True",
+        "paging": "@odata.nextLink; Prefer odata.maxpagesize=1..1000"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-EXOMailboxPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-EXOMailboxPermission",
+      "compiledClient": true,
+      "parameterSets": [
+        {
+          "name": "bounded identity profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "MailboxPermission",
+        "fields": {
+          "Identity": "string",
+          "User": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "Deny": "boolean"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-EXOMailboxPermission.md",
+          "sha256": "404bab8e671b99920793db0c8b7b4329191f2183c5291000c35835467a89607e",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-EXOMailboxPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "Compiled permission qualification is identity-only. No unscoped listing, User/Trustee/AccessRights filters or ResultSize profile claimed."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      },
+      "transport": {
+        "method": "GET",
+        "path": "/adminapi/beta/{tenant}/Mailbox('{key}')/MailboxPermission?isEncoded=true"
+      },
+      "wireResponseSchema": {
+        "type": "MailboxPermission",
+        "key": "PermissionId",
+        "fields": {
+          "PermissionId": "string",
+          "MailboxIdentity": "string",
+          "User": "string",
+          "PermissionList": "MailboxPermissionInfo[]"
+        },
+        "MailboxPermissionInfo": {
+          "AccessRights": "string[]",
+          "Deny": "boolean",
+          "IsInherited": "boolean",
+          "InheritanceType": "string"
+        }
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-EXORecipientPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-EXORecipientPermission",
+      "compiledClient": true,
+      "parameterSets": [
+        {
+          "name": "bounded identity profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "RecipientPermission",
+        "fields": {
+          "Identity": "string",
+          "Trustee": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "AccessControlType": "string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-EXORecipientPermission.md",
+          "sha256": "3b161a63823a15f7c7ffee6f23b1bbfbd14da8a5a9ddeee83ea9bd34540e39d9",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-EXORecipientPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "Compiled permission qualification is identity-only. No unscoped listing, User/Trustee/AccessRights filters or ResultSize profile claimed."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      },
+      "transport": {
+        "method": "GET",
+        "path": "/adminapi/beta/{tenant}/Recipient('{key}')?$expand=RecipientPermission&isEncoded=true&$select=RecipientPermission,ExternalDirectoryObjectId"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Add-MailboxPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Add-MailboxPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "User",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "User": "string",
+            "AccessRights": "string[]",
+            "InheritanceType": "string",
+            "Deny": "switch",
+            "AutoMapping": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "MailboxPermission",
+        "fields": {
+          "Identity": "string",
+          "User": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "Deny": "boolean"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Add-MailboxPermission.md",
+          "sha256": "e3e304d362f02d5d0f198d83ae06a6cb34772aec368b57d3ceebc4b45d56dadf",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Add-MailboxPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-MailboxPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-MailboxPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "User",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "User": "string",
+            "AccessRights": "string[]",
+            "InheritanceType": "string",
+            "Deny": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-MailboxPermission.md",
+          "sha256": "aeebf574998c219f419dfecff5926be934a88eab6a44283884d24620172fba1a",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-MailboxPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Add-RecipientPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Add-RecipientPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Trustee",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Trustee": "string",
+            "AccessRights": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "RecipientPermission",
+        "fields": {
+          "Identity": "string",
+          "Trustee": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "AccessControlType": "string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Add-RecipientPermission.md",
+          "sha256": "652a7e9ce45354c751afd958cf29d1604fcdcc8ce3dac78efe060ab73022fd28",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Add-RecipientPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-RecipientPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-RecipientPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Trustee",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Trustee": "string",
+            "AccessRights": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-RecipientPermission.md",
+          "sha256": "06181a2e8bce5e42741c5f6ba34b212a291e70d3da58ffd5455ec7fd366d7603",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-RecipientPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-Mailbox",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-Mailbox",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "ForwardingAddress": "object",
+            "ForwardingSmtpAddress": "object",
+            "DeliverToMailboxAndForward": "bool",
+            "GrantSendOnBehalfTo": "object"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-Mailbox.md",
+          "sha256": "fd1c8f03605327e7a835ab5c8acaa7eff87dddab182c0ddf47bccbf84eb599d5",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-Mailbox.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "GrantSendOnBehalfTo accepts replacement identity array, null, or Add/Remove map; Get-Mailbox returns canonical delegate IDs."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
     }
   ]
 }

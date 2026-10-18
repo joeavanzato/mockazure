@@ -55,7 +55,8 @@ def project_mail(source):
     object_id = mailbox["upn"]
     if facts["operation"] != "Set-Mailbox":
         rule = facts["after"] or facts["before"]
-        object_id += "\\" + rule.get("id", rule.get("RuleIdentity", ""))
+        if item_id := rule.get("id", rule.get("RuleIdentity")):
+            object_id += "\\" + item_id
     item_operation = facts["operation"] in {"Update", "Move", "Copy", "SoftDelete"}
     data = {
         "Id": str(identifier),

@@ -7,7 +7,11 @@ from fastapi import APIRouter, Request, Response
 from fastapi.responses import JSONResponse
 
 from mockazure.authorization.evaluator import AuthorizationDenied, authorize
-from mockazure.mail.authorization import content_requirement, require_mailbox_access
+from mockazure.mail.authorization import (
+    basic_content_only,
+    content_requirement,
+    require_mailbox_access,
+)
 from mockazure.mail.message_delta import delta_page
 from mockazure.mail.message_mutations import mutate_message
 from mockazure.mail.message_queries import (
@@ -36,7 +40,7 @@ def register(path, operation, self_path):
                 if self_path and actor.token_kind != "delegated":
                     raise GraphError(400, "BadRequest", "/me requires delegated authentication")
                 permission = "read" if operation == "delta" else "write"
-                await authorize(actor, content_requirement(permission), session)
+                await authorize(actor, content_requirement(permission, shared=None), session)
                 identity = str(actor.subject_id) if self_path else request.path_params["user_id"]
                 box = await resolve_mailbox(session, actor.tenant_id, identity)
                 await require_mailbox_access(session, actor, box, "content." + permission)
@@ -125,7 +129,7 @@ def register(path, operation, self_path):
                     cursor["upper"],
                     cursor["offset"],
                 )
-                basic = not bool(actor.permissions & {"Mail.Read", "Mail.ReadWrite"})
+                basic = basic_content_only(actor, box)
                 values = [
                     {
                         "id": immutable_identifier(row.immutable_id)
