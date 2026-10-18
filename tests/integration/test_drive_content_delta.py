@@ -149,7 +149,7 @@ async def test_cleanup_retains_cursor_versions_and_expires_capability_pins(datab
         import hashlib
         from urllib.parse import parse_qs, urlsplit
 
-        token = parse_qs(urlsplit(latest.json()["@odata.deltaLink"]).query)["$deltatoken"][0]
+        token = parse_qs(urlsplit(latest.json()["@odata.deltaLink"]).query)["token"][0]
         retained = hashlib.sha256(token.encode()).hexdigest()
         async with database.sessions.begin() as session:
             past = datetime.now(UTC) - timedelta(days=2)
@@ -175,3 +175,57 @@ async def test_cleanup_retains_cursor_versions_and_expires_capability_pins(datab
                     )
                 )
             )
+
+
+async def test_generated_root_item_delta_and_function_tokens(database, settings):
+    from urllib.parse import parse_qs, urlsplit
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        fixture = await seed_site(client, database, tenant, user)
+        auth = await headers_for(database, settings, tenant, app, None, {"Files.Read.All"})
+        base = "/v1.0/drives/" + quote(fixture["drive"], safe="")
+        for root in ("root", "items/root", "items/" + quote(fixture["root"], safe="")):
+            path = base + "/" + root + "/delta"
+            first = await client.get(path + "?token=latest", headers=auth)
+            assert first.status_code == 200, first.text
+            token = parse_qs(urlsplit(first.json()["@odata.deltaLink"]).query)["token"][0]
+            for next_path in (path + "?token=" + token, path + "(token='" + token + "')"):
+                resumed = await client.get(next_path, headers=auth)
+                assert resumed.status_code == 200, resumed.text
+                assert resumed.json()["value"] == []
+        unsupported = await client.get(
+            base + "/items/" + quote(fixture["item"], safe="") + "/delta", headers=auth
+        )
+        assert unsupported.status_code == 400
+
+
+async def test_drive_alias_and_download_use_one_connection(database, settings):
+    import asyncio
+
+    from mockazure.db.engine import close_database, create_database
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        fixture = await seed_site(client, database, tenant, user)
+        auth = await headers_for(database, settings, tenant, app, None, {"Files.Read.All"})
+        isolated = create_database(
+            settings.model_copy(update={"pool_size": 1, "pool_max_overflow": 0})
+        )
+        original = client._transport.app.state.database
+        client._transport.app.state.database = isolated
+        try:
+            path = (
+                "/v1.0/sites/"
+                + quote(fixture["site"], safe="")
+                + "/drive/items/"
+                + quote(fixture["item"], safe="")
+                + "/content"
+            )
+            async with asyncio.timeout(5):
+                redirect = await client.get(path, headers=auth)
+                assert redirect.status_code == 302, redirect.text
+                result = await client.get(redirect.headers["location"])
+                assert result.content == b"local drive evidence\x00bytes"
+                assert isolated.engine.pool.checkedout() == 0
+        finally:
+            client._transport.app.state.database = original
+            await close_database(isolated)

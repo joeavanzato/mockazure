@@ -1,6 +1,8 @@
 """Graph v1.0 drive evidence and local capability byte streaming."""
 
+import re
 from datetime import UTC, datetime
+from urllib.parse import urlencode
 
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse, StreamingResponse
@@ -90,10 +92,6 @@ async def drive_endpoint(drive_path: str, request: Request):
         await authorize_site(session, actor, drive.scope, "drive")
         if not tail:
             return project(drive, options(request, "drive", item=True)["select"])
-        if tail in {"root/delta", "root/delta()", "root/microsoft.graph.delta()"}:
-            from mockazure.workloads.drive_delta import delta_response
-
-            return await delta_response(request, session, actor, drive)
         by_path = False
         if tail.startswith("root:"):
             raw = tail[5:]
@@ -121,6 +119,22 @@ async def drive_endpoint(drive_path: str, request: Request):
             return await item_projection(
                 request, session, actor, item, options(request, "driveItem", item=True)
             )
+        delta_match = re.fullmatch(
+            r"(?:microsoft\.graph\.)?delta(?:\((?:token='([a-f0-9]{64}|latest)')?\))?", operation
+        )
+        if delta_match:
+            from mockazure.workloads.drive_delta import delta_response
+
+            root = await resolve_drive_item(session, actor.tenant_id, drive_id, "root")
+            if item.id != root["row"].id:
+                invalid("Only drive-root delta is supported")
+            scope = dict(request.scope)
+            scope["path"] = request.scope["path"].rsplit("/", 1)[0] + "/delta"
+            if delta_match[1]:
+                if request.query_params:
+                    invalid("A delta function token cannot change its query")
+                scope["query_string"] = urlencode({"token": delta_match[1]}).encode()
+            return await delta_response(Request(scope, request.receive), session, actor, drive)
         parts = operation.split("/")
         if parts[0] == "content":
             if len(parts) != 1 or request.query_params:

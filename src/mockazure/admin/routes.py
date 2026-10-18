@@ -32,6 +32,21 @@ async def capabilities(request: Request):
 
     settings = request.app.state.settings
     return {
+        "site_drive_profile": {
+            "version": "v1.0",
+            "beta": False,
+            "cursor_seconds": 3600,
+            "capability_seconds": 300,
+            "import_entries": 1000,
+            "import_bytes": 8 * 1024 * 1024,
+            "page_rows": 1000,
+            "page_bytes": 8 * 1024 * 1024,
+            "list_item_expansion": "fields only",
+            "selected_scope": "site",
+            "delegated_access": "explicit user site ACL",
+            "public_content_writes": False,
+            "native_permission_facts_to_ual": False,
+        },
         "graph_read_budgets": {
             "resources": sorted(READ_RESOURCES),
             "collection_limit": settings.graph_collection_request_limit,
@@ -84,6 +99,13 @@ async def capabilities(request: Request):
             "graph.conditionalAccess.policies",
             "graph.conditionalAccess.namedLocations",
             "graph.conditionalAccess.enforcement",
+            "graph.sites.read",
+            "graph.sites.listEvidence",
+            "graph.sites.selectedApplicationGrants",
+            "graph.drives.read",
+            "graph.drives.permissionsAndVersions.read",
+            "graph.drives.localContent.read",
+            "graph.drives.rootDelta",
             "graph.mail.inboxRules",
             "graph.mail.folders.read",
             "graph.mail.messages.read",
@@ -116,6 +138,9 @@ async def capabilities(request: Request):
         ],
         "limitations": [
             "Local identities only; no upstream fallback",
+            "Sites/drives: imported v1.0 evidence; no public content edits or sharing writes",
+            "Site grants retain native facts without an inferred Purview operation mapping",
+            "Issued download capabilities stay valid for five minutes after grant revocation",
             "Bounded queries and Conditional Access targets/IP locations/"
             "block/MFA/report-only profile",
             "Physical MFA, passwordless and SSPR services are outside the descriptor profile",
@@ -138,6 +163,11 @@ async def capabilities(request: Request):
             "Tenant exports remain metadata-only; directory datasets are separate public fixtures",
         ],
         "admin_operations": [
+            "workloads.sharepoint.import",
+            "workloads.sharepoint.export",
+            "workloads.sharepoint.reset",
+            "workloads.sharepoint.grants",
+            "workloads.sharepoint.facts",
             "mail.collectionState",
             "mail.content.import",
             "mail.content.export",

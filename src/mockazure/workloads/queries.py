@@ -1,8 +1,9 @@
 """Bounded workload query options and snapshot paging shared by Graph adapters."""
 
 import copy
+import json
 from datetime import UTC, datetime
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode
 
 from sqlalchemy import and_, or_, select
 
@@ -88,15 +89,22 @@ def project(row, selected):
 
 def link(request, resource, token, delta=False):
     origin = request.app.state.settings.advertised_endpoints(request.headers.get("host", "")).graph
-    return origin + resource + "?" + urlencode({"$deltatoken" if delta else "$skiptoken": token})
+    return (
+        origin
+        + quote(resource, safe="/,:!()$='@")
+        + "?"
+        + urlencode({"token" if delta else "$skiptoken": token})
+    )
 
 
 async def page_state(
     request, session, actor, kind, operation, scope=None, *, search=False, delta=False
 ):
-    resource = request.url.path
+    resource = request.scope["path"]
     values = dict(request.query_params)
     token = values.get("$skiptoken") or values.get("$deltatoken")
+    if delta and values.get("token") not in {None, "latest"}:
+        token = values["token"]
     if token:
         if len(request.query_params.multi_items()) != 1:
             invalid("A continuation cannot change its query")
@@ -148,6 +156,13 @@ def snapshots(state):
     return or_(*clauses) if clauses else False
 
 
+PAGE_BYTES = 8 * 1024 * 1024 - 16 * 1024
+
+
+def value_size(value):
+    return len(json.dumps(value, ensure_ascii=False, allow_nan=False).encode("utf-8")) + 2
+
+
 async def collection_response(request, session, actor, query, kind, state, token, render=None):
     opts = state["options"]
     field = (
@@ -158,22 +173,31 @@ async def collection_response(request, session, actor, query, kind, state, token
         else V.payload["lastModifiedDateTime"].as_string()
     )
     ordering = field.desc() if opts["order"][-1] == "desc" else field.asc()
-    rows = list(
-        await session.scalars(
-            query.order_by(ordering.nulls_last(), V.id)
-            .offset(state["offset"])
-            .limit(opts["top"] + 1)
-        )
+    rows = await session.stream_scalars(
+        query.order_by(ordering.nulls_last(), V.id)
+        .offset(state["offset"])
+        .limit(opts["top"] + 1)
+        .execution_options(yield_per=1)
     )
-    result = {
-        "@odata.context": context_url(request, kind),
-        "value": [
-            await render(row, opts) if render else project(row, opts["select"])
-            for row in rows[: opts["top"]]
-        ],
-    }
-    if len(rows) > opts["top"]:
-        state["offset"] += opts["top"]
+    values, size, more = [], 0, False
+    try:
+        async for row in rows:
+            value = await render(row, opts) if render else project(row, opts["select"])
+            length = value_size(value)
+            if len(values) == opts["top"] or size + length > PAGE_BYTES:
+                if not values:
+                    raise GraphError(
+                        413, "responseTooLarge", "One record exceeds the page byte budget"
+                    )
+                more = True
+                break
+            values.append(value)
+            size += length
+    finally:
+        await rows.close()
+    result = {"@odata.context": context_url(request, kind), "value": values}
+    if more:
+        state["offset"] += len(values)
         handle = await issue_cursor(session, actor, state, datetime.now(UTC), token)
-        result["@odata.nextLink"] = link(request, request.url.path, handle)
+        result["@odata.nextLink"] = link(request, request.scope["path"], handle)
     return result

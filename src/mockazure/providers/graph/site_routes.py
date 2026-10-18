@@ -351,7 +351,7 @@ async def site_endpoint(site_path: str, request: Request):
             if page["offset"] + len(rows) < len(page["grant_rows"]):
                 page["offset"] += len(rows)
                 handle = await issue_cursor(session, actor, page, datetime.now(UTC), token)
-                result["@odata.nextLink"] = link(request, request.url.path, handle)
+                result["@odata.nextLink"] = link(request, request.scope["path"], handle)
             return result
         if request.method != "GET":
             raise GraphError(405, "notAllowed", "Only site permission mutations are implemented")

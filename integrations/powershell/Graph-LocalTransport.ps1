@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][string]$LocalOrigin)
+param([Parameter(Mandatory)][string]$LocalOrigin, [switch]$AllowLocalContentRedirect)
 $local = [uri]$LocalOrigin
 if ($local.Scheme -cne 'https' -or $local.UserInfo -or $local.Query -or $local.Fragment -or $local.AbsolutePath -ne '/' -or
     ($local.Host -notin @('localhost','127.0.0.1') -and -not $local.Host.EndsWith('.mockazure.test'))) {
@@ -26,7 +26,39 @@ while ($handler) {
         if (-not $option) { throw 'Pinned SDK redirect option unavailable' }
         $settings = $option.GetValue($handler)
         $settings.MaxRedirect = 0
-        if ($settings.MaxRedirect -ne 0) { throw 'Could not disable SDK redirects' }
+        if ($AllowLocalContentRedirect) {
+            # A managed predicate also works on the SDK's async transport thread.
+            if (-not ('MockAzure.LocalContentRedirect' -as [type])) {
+                Add-Type -TypeDefinition @"
+using System;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+namespace MockAzure {
+    public static class LocalContentRedirect {
+        public static Func<HttpResponseMessage, bool> ForOrigin(string origin) {
+            return response => {
+                Uri target = response.Headers.Location;
+                Uri source = response.RequestMessage == null ? null : response.RequestMessage.RequestUri;
+                return target != null && target.IsAbsoluteUri && source != null &&
+                    response.StatusCode == System.Net.HttpStatusCode.Found &&
+                    source.GetLeftPart(UriPartial.Authority) == origin &&
+                    source.AbsolutePath.StartsWith("/v1.0/", StringComparison.Ordinal) &&
+                    source.AbsolutePath.EndsWith("/content", StringComparison.Ordinal) &&
+                    target.Scheme == "https" && target.UserInfo == "" &&
+                    target.GetLeftPart(UriPartial.Authority) == origin &&
+                    target.Query == "" && target.Fragment == "" &&
+                    Regex.IsMatch(target.AbsolutePath, "^/content/[a-f0-9]{64}$");
+            };
+        }
+    }
+}
+"@
+            }
+            $settings.ShouldRedirect = [MockAzure.LocalContentRedirect]::ForOrigin($script:MockAzureGraphOrigin)
+            $settings.AllowRedirectOnSchemeChange = $false
+            $settings.MaxRedirect = 1
+        }
+        if ($settings.MaxRedirect -ne [int][bool]$AllowLocalContentRedirect) { throw 'Could not constrain SDK redirects' }
         $disabled = $true
     }
     if ($handler -is [System.Net.Http.SocketsHttpHandler] -and $handler.AllowAutoRedirect) {

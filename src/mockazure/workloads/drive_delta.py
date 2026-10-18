@@ -4,12 +4,13 @@ from datetime import UTC, datetime
 
 from sqlalchemy import exists, literal, or_, select, union_all
 
+from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import context_url
 from mockazure.workloads.cursors import issue_cursor
 from mockazure.workloads.drives import drive_tree
 from mockazure.workloads.models import WorkloadRelation as E
 from mockazure.workloads.models import WorkloadVersion as V
-from mockazure.workloads.queries import link, page_state
+from mockazure.workloads.queries import PAGE_BYTES, link, page_state, value_size
 from mockazure.workloads.repository import scope_row, visible
 
 
@@ -68,35 +69,40 @@ async def delta_response(request, session, actor, drive):
         events = union_all(changed, removed).subquery("delta_events")
     else:
         events = changed.subquery("delta_events")
-    rows = (
-        []
-        if options["latest"] and token is None
-        else (
-            await session.execute(
-                select(events)
-                .order_by(events.c.id)
-                .offset(state["offset"])
-                .limit(options["top"] + 1)
-            )
+    values, size, more = [], 0, False
+    if not (options["latest"] and token is None):
+        rows = await session.stream(
+            select(events)
+            .order_by(events.c.id)
+            .offset(state["offset"])
+            .limit(options["top"] + 1)
+            .execution_options(yield_per=1)
         )
-        .mappings()
-        .all()
-    )
-    values = []
-    for row in rows[: options["top"]]:
-        value = (
-            {"id": row["id"], "deleted": {"state": "deleted"}}
-            if row["removed"]
-            else {
-                key: value
-                for key, value in row["payload"].items()
-                if options["select"] is None or key in options["select"] or key == "id"
-            }
-        )
-        values.append(value)
-    more = len(rows) > options["top"]
+        try:
+            async for row in rows.mappings():
+                value = (
+                    {"id": row["id"], "deleted": {"state": "deleted"}}
+                    if row["removed"]
+                    else {
+                        key: value
+                        for key, value in row["payload"].items()
+                        if options["select"] is None or key in options["select"] or key == "id"
+                    }
+                )
+                length = value_size(value)
+                if len(values) == options["top"] or size + length > PAGE_BYTES:
+                    if not values:
+                        raise GraphError(
+                            413, "responseTooLarge", "One record exceeds the page byte budget"
+                        )
+                    more = True
+                    break
+                values.append(value)
+                size += length
+        finally:
+            await rows.close()
     if more:
-        state["offset"] += options["top"]
+        state["offset"] += len(values)
     else:
         state["checkpoint"] = True
         state["offset"] = 0
@@ -105,6 +111,6 @@ async def delta_response(request, session, actor, drive):
         "@odata.context": context_url(request, "driveItem"),
         "value": values,
         "@odata.nextLink" if more else "@odata.deltaLink": link(
-            request, request.url.path, handle, delta=not more
+            request, request.scope["path"], handle, delta=not more
         ),
     }

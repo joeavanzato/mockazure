@@ -10,9 +10,11 @@ class WorkloadInput(BaseModel):
 
     @field_validator("*", mode="after")
     @classmethod
-    def safe_text(cls, value):
+    def safe_text(cls, value, info):
         if isinstance(value, str):
-            value.encode("utf-8")
+            encoded = value.encode("utf-8")
+            if info.field_name in {"id", "scope"} and len(encoded) > 512:
+                raise ValueError("Workload identity exceeds 512 UTF-8 bytes")
             if any(ord(c) < 32 for c in value):
                 raise ValueError("Control characters are unsupported")
         return value

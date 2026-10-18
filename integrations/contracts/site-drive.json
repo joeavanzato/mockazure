@@ -1,0 +1,232 @@
+{
+  "schemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "scope": "Implemented v1.0 site/drive collection profile; limits and aliases in site-drive.md",
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}",
+      "operation": "site-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/site-get?view=graph-rest-1.0",
+      "sourceSha256": "5cc7167acf6c7b700b8feba65f103545fa43ba98b7607eb6acb4c95b2b5a9911",
+      "retrievedAt": "2026-10-18",
+      "responseType": "site",
+      "permissionProfile": "site"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{hostname}:/{relative-path}",
+      "operation": "site-getbypath",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/site-getbypath?view=graph-rest-1.0",
+      "sourceSha256": "13bdbfd13811b844493ba0a47384d0b0765fc93a9472d415746dadb70182ed14",
+      "retrievedAt": "2026-10-18",
+      "responseType": "site",
+      "permissionProfile": "site"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites?search={query}",
+      "operation": "site-search",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/site-search?view=graph-rest-1.0",
+      "sourceSha256": "ce46746d3be9d429725bf8d93d5bebe255c6a9eb27323f08959920a26312e98b",
+      "retrievedAt": "2026-10-18",
+      "responseType": "site",
+      "permissionProfile": "search"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}/lists",
+      "operation": "list-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/list-list?view=graph-rest-1.0",
+      "sourceSha256": "7e68ac728675b28e9670a5974ebddf8e6064f1e89c91f0241ea0c2fac32ecdb3",
+      "retrievedAt": "2026-10-18",
+      "responseType": "list",
+      "permissionProfile": "site"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}/lists/{list-id}",
+      "operation": "list-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/list-get?view=graph-rest-1.0",
+      "sourceSha256": "1631bf41ad0c9e5e886efd5e876c39fcce6f1d5220ad9bdedc0873eadd773819",
+      "retrievedAt": "2026-10-18",
+      "responseType": "list",
+      "permissionProfile": "site"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}/lists/{list-id}/items",
+      "operation": "listitem-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/listitem-list?view=graph-rest-1.0",
+      "sourceSha256": "5b710e95df54923c451930b8b40639af83232d05d9d18e0202cb4791373e345d",
+      "retrievedAt": "2026-10-18",
+      "responseType": "listItem",
+      "permissionProfile": "site"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}/lists/{list-id}/items/{item-id}",
+      "operation": "listitem-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/listitem-get?view=graph-rest-1.0",
+      "sourceSha256": "f302dd29af6c2abb8b6ef088e37a7ad418ecd83815f5606e53b1e2455fea17ac",
+      "retrievedAt": "2026-10-18",
+      "responseType": "listItem",
+      "permissionProfile": "site"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}/drives",
+      "operation": "drive-list",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/drive-list?view=graph-rest-1.0",
+      "sourceSha256": "4ae916748520c73ee40b0874b4f502184489e9f819e61138f9d97cf8d29d79ac",
+      "retrievedAt": "2026-10-18",
+      "responseType": "drive",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}",
+      "operation": "drive-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/drive-get?view=graph-rest-1.0",
+      "sourceSha256": "c2ca35f52c2b232f8ec39d75361f390397e81726af315f3e36ded1f5653f6d4a",
+      "retrievedAt": "2026-10-18",
+      "responseType": "drive",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}",
+      "operation": "driveitem-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitem-get?view=graph-rest-1.0",
+      "sourceSha256": "79fde7c08cc8cf0db51a4a5e579e18db4c6eed6b6249300cc3bbee5fd72af0c0",
+      "retrievedAt": "2026-10-18",
+      "responseType": "driveItem",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}/children",
+      "operation": "driveitem-list-children",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0",
+      "sourceSha256": "d417b16520bb98c284a9c5ab06b1d275a39e5d57c50435d478cdeb6c2086cd6b",
+      "retrievedAt": "2026-10-18",
+      "responseType": "driveItem",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}/permissions",
+      "operation": "driveitem-list-permissions",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitem-list-permissions?view=graph-rest-1.0",
+      "sourceSha256": "7d383ce979221010a06357e9a6e83653667652cf560321af43bbee33c5a5c391",
+      "retrievedAt": "2026-10-18",
+      "responseType": "permission",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}/permissions/{permission-id}",
+      "operation": "permission-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/permission-get?view=graph-rest-1.0",
+      "sourceSha256": "fd6426b0d6c3e1920db5c62123ed11de8c79511e490a329192422eb52f111c94",
+      "retrievedAt": "2026-10-18",
+      "responseType": "permission",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}/versions",
+      "operation": "driveitem-list-versions",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitem-list-versions?view=graph-rest-1.0",
+      "sourceSha256": "8aa58dad651b3f7b380cc3a3861c26ee404ba2c71c8dd24d7d481b81d5dcf9c5",
+      "retrievedAt": "2026-10-18",
+      "responseType": "driveItemVersion",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}/versions/{version-id}",
+      "operation": "driveitemversion-get",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitemversion-get?view=graph-rest-1.0",
+      "sourceSha256": "b2222ac0e3cb179f8c9b5837075116c5a5541cb15211d7ad4611bf17878a122c",
+      "retrievedAt": "2026-10-18",
+      "responseType": "driveItemVersion",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}/content",
+      "operation": "driveitem-get-content",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0",
+      "sourceSha256": "59f47c99aa30632e7d27351f703eb1c857b8434cd2293b67c467aaa9fc63c53f",
+      "retrievedAt": "2026-10-18",
+      "responseType": null,
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/items/{item-id}/versions/{version-id}/content",
+      "operation": "driveitemversion-get-contents",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitemversion-get-contents?view=graph-rest-1.0",
+      "sourceSha256": "8702a4f13ceb2f3270a6e93773e8b563356cb4e52d3350f8a154e1dd99f5ee6a",
+      "retrievedAt": "2026-10-18",
+      "responseType": null,
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/drives/{drive-id}/root/delta",
+      "operation": "driveitem-delta",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0",
+      "sourceSha256": "6dc72fdcb88c6cc15689861cde0c74c1cdb5f461db583d76cfe7508888d571c5",
+      "retrievedAt": "2026-10-18",
+      "responseType": "driveItem",
+      "permissionProfile": "drive"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}/permissions",
+      "operation": "site-list-permissions",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/site-list-permissions?view=graph-rest-1.0",
+      "sourceSha256": "181af4ac627600072d1d596c60eabb3581dd27733df718e86ca7849296cf6827",
+      "retrievedAt": "2026-10-18",
+      "responseType": "permission",
+      "permissionProfile": "permissions"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/sites/{site-id}/permissions/{permission-id}",
+      "operation": "site-get-permission",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/site-get-permission?view=graph-rest-1.0",
+      "sourceSha256": "90742384793ed3159a2fe289ed75c264d231685b7b64721d6e24829fc5b9d54f",
+      "retrievedAt": "2026-10-18",
+      "responseType": "permission",
+      "permissionProfile": "permissions"
+    },
+    {
+      "method": "POST",
+      "path": "/v1.0/sites/{site-id}/permissions",
+      "operation": "site-post-permissions",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/site-post-permissions?view=graph-rest-1.0",
+      "sourceSha256": "237aea12b9957954d033c4cb1a610997902142eea95774837341763a5ef0cbb2",
+      "retrievedAt": "2026-10-18",
+      "responseType": "permission",
+      "permissionProfile": "permissions"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/sites/{site-id}/permissions/{permission-id}",
+      "operation": "site-delete-permission",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/site-delete-permission?view=graph-rest-1.0",
+      "sourceSha256": "cf59e8a28982714117725a78191bf321cda787819add76e871703079769c9ba8",
+      "retrievedAt": "2026-10-18",
+      "responseType": null,
+      "permissionProfile": "permissions"
+    }
+  ],
+  "evidenceTests": [
+    "tests/integration/test_site_drive_evidence.py",
+    "tests/integration/test_drive_content_delta.py",
+    "tests/integration/test_workload_upgrade.py"
+  ],
+  "clientManifest": "integrations/site-drive-manifest.json"
+}

@@ -226,3 +226,53 @@ async def test_delegated_site_grant_requires_operational_role_and_membership(dat
         assert (await client.post(path, headers=auth, json=body)).status_code == 403
         await site_grant(client, tenant, fixture["site"], user)
         assert (await client.post(path, headers=auth, json=body)).status_code == 201
+
+
+async def test_encoded_child_page_has_byte_bound_and_survives_rename(
+    database, settings, monkeypatch
+):
+    import copy
+
+    from mockazure.workloads import queries
+
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        fixture = await seed_site(client, database, tenant, user, suffix="percent%25#?")
+        batch = copy.deepcopy(fixture["batch"])
+        batch["expected_revision"] = 1
+        second = copy.deepcopy(batch["records"][3])
+        second["id"] += "-second"
+        second["payload"].update(id=second["id"], name="second.txt")
+        batch["records"].append(second)
+        batch["edges"].append(
+            {
+                "source": {"kind": "driveItem", "id": fixture["root"]},
+                "relation": "children",
+                "target": {"kind": "driveItem", "id": second["id"]},
+            }
+        )
+        admin = f"/_mock/tenants/{tenant}/workloads/sharepoint/import"
+        assert (await client.post(admin, json=batch)).status_code == 200
+        auth = await headers_for(database, settings, tenant, app, None, {"Files.Read.All"})
+        monkeypatch.setattr(queries, "PAGE_BYTES", 110)
+        path = (
+            "/v1.0/drives/"
+            + quote(fixture["drive"], safe="")
+            + "/items/"
+            + quote(fixture["root"], safe="")
+            + "/children"
+        )
+        first = await client.get(path + "?$select=id,name&$top=100", headers=auth)
+        assert first.status_code == 200, first.text
+        assert len(first.json()["value"]) == 1
+        link = first.json()["@odata.nextLink"]
+        assert "%2525%23%3F" in link
+        batch["expected_revision"] = 2
+        second["payload"]["name"] = "renamed.txt"
+        assert (await client.post(admin, json=batch)).status_code == 200
+        next_page = await client.get(link, headers=auth)
+        assert next_page.status_code == 200, next_page.text
+        assert next_page.json()["value"][0]["name"] == "second.txt"
+        assert "@odata.nextLink" not in next_page.json()
+        assert (await client.get(link + "&$top=5", headers=auth)).status_code == 400
+        denied = await headers_for(database, settings, tenant, app, None, {"User.Read.All"})
+        assert (await client.get(link, headers=denied)).status_code == 403
