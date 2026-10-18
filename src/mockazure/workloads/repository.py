@@ -132,11 +132,23 @@ async def related(session, tenant, workload, scope, source_kind, source_id, rela
 
 
 async def import_workload(session, tenant_id: UUID, workload: str, batch: WorkloadImport):
-    if workload not in {"sharepoint", "teams"}:
+    if workload not in {"sharepoint", "teams", "intune"}:
         raise AdminError(422, "UnsupportedWorkload", "Unsupported workload import")
     canonical = {"site", "drive"} if workload == "sharepoint" else {"team", "chat"}
     edge_types = EDGES if workload == "sharepoint" else TEAM_EDGES
     validator = validate_site_drive_record if workload == "sharepoint" else validate_team_record
+    if workload == "intune":
+        from mockazure.workloads.intune import licensed, validate_intune_record
+        from mockazure.workloads.intune_contracts import EDGES as INTUNE_EDGES
+        from mockazure.workloads.intune_contracts import ROOTS, SCOPE
+
+        if batch.scope != SCOPE:
+            raise AdminError(422, "InvalidScope", "Intune requires the deviceManagement scope")
+        if not await licensed(session, tenant_id):
+            raise AdminError(
+                403, "IntuneLicenseRequired", "An active tenant Intune entitlement is required"
+            )
+        canonical, edge_types, validator = set(ROOTS.values()), INTUNE_EDGES, validate_intune_record
     if batch.manifest is not None:
         from mockazure.workloads.lifecycle import restored_records
 
@@ -332,6 +344,10 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
             drive_public_ids.add(identity)
     if workload == "teams":
         validate_tree(keys, all_edges, batch.scope)
+    if workload == "intune":
+        from mockazure.workloads.intune import validate_intune_state
+
+        await validate_intune_state(session, tenant_id, incoming, deleted, keys, all_edges)
     blobs = {
         identifier: await object_row(session, tenant_id, identifier, lock=True, finalized=True)
         for identifier in sorted({r.content_id for r in batch.records if r.content_id})

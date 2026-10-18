@@ -3,6 +3,7 @@
 from typing import Literal, get_args
 
 ReadResource = Literal[
+    "deviceManagement",
     "teams",
     "chats",
     "sites",
@@ -34,6 +35,7 @@ READ_RESOURCES = frozenset(get_args(ReadResource))
 COLLECTION_ROOTS = {
     name: name
     for name in (
+        "deviceManagement",
         "teams",
         "chats",
         "sites",
@@ -60,6 +62,8 @@ def collection_resource(path):
         if len(parts) > 2 and parts[1] == "me"
         else (parts[3] if len(parts) > 3 and parts[1] == "users" else None)
     )
+    if navigation == "managedDevices":
+        return "deviceManagement"
     if navigation in {"chats", "joinedTeams"}:
         return "chats" if navigation == "chats" else "teams"
     root = parts[1].split("(", 1)[0]
