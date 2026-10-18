@@ -248,3 +248,16 @@ def test_forged_completion_and_parity_are_rejected(tmp_path, monkeypatch, change
         values["probes"]["docker"]["migration_head"] = "old"
     with pytest.raises((AssertionError, ValueError)):
         builder.validate_artifact_report(values, tmp_path, "a" * 64)
+
+
+def test_candidate_probe_uses_current_capability_request_contract():
+    import json
+    import sys
+
+    from tools.build_release import PROBE
+
+    result = subprocess.run([sys.executable, "-c", PROBE], capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    value = json.loads(result.stdout)
+    assert value["migration_head"] == "052"
+    assert value["capabilities"]["authentication_policy_profile"]["new_tenants_enforced"] is True

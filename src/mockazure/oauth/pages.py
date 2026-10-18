@@ -27,7 +27,7 @@ def page(title, content):
     )
 
 
-def form(transaction, csrf, stage, app_name=""):
+def form(transaction, csrf, stage, app_name="", *, methods=None):
     fields = (
         '<input type="hidden" name="transaction" value="' + str(transaction.id) + '">'
         '<input type="hidden" name="csrf" value="' + escape(csrf, quote=True) + '">'
@@ -58,12 +58,32 @@ def form(transaction, csrf, stage, app_name=""):
         )
     else:
         content = (
-            "<p>This is simulated MFA for a local lab. It is not a real second factor "
-            "or conditional-access policy.</p>"
+            "<p>This is simulated MFA for a local lab. It does not establish "
+            "proof from a physical authenticator.</p>"
             '<button name="decision" value="complete">Simulate MFA success</button>'
             '<button name="decision" value="skip">Continue without simulated MFA</button>'
             '<button name="decision" value="deny">Deny sign-in</button>'
         )
+        if methods is not None:
+            options = "".join(
+                '<option value="' + escape(value, quote=True) + '">' + escape(label) + "</option>"
+                for value, label in methods
+            )
+            content = (
+                (
+                    '<label>Registered local method <select name="method_id">'
+                    + options
+                    + "</select></label>"
+                    + content
+                )
+                if methods
+                else (
+                    "<p>No enabled registered MFA method is available.</p>"
+                    + content.replace(
+                        '<button name="decision" value="complete">Simulate MFA success</button>', ""
+                    )
+                )
+            )
     return page(
         stage.title(), '<form method="post" action="/' + stage + '">' + fields + content + "</form>"
     )

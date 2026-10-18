@@ -242,10 +242,6 @@ async def mutate_directory(
     validate_values(command)
     # Serialize all directory writes for this tenant; the returned watermark is commit ordered.
     revision = await reserve_revision(session, tenant_id)
-    if command.action == "delete":
-        from mockazure.security.repository import lock_security
-
-        await lock_security(session, tenant_id)
     provider = isinstance(actor, PrincipalContext)
     if provider:
         if actor.tenant_id != tenant_id:

@@ -10,6 +10,11 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "Policy.Read.AuthenticationMethod", "application", True),
+    PermissionDefinition("graph", "Policy.Read.AuthenticationMethod", "delegated", True),
+    PermissionDefinition("graph", "Policy.ReadWrite.AuthenticationMethod", "application", True),
+    PermissionDefinition("graph", "Policy.ReadWrite.AuthenticationMethod", "delegated", True),
+
     PermissionDefinition("activity", "ActivityFeed.Read", "application", True),
     PermissionDefinition("activity", "ActivityFeed.ReadDlp", "application", True),
     PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "application", True),

@@ -110,3 +110,28 @@ jobs:
       - run: uv sync --locked
       - run: uv run python tools/prepare_clients.py --manifest integrations/method-management-manifest.json --output work/method-management-clients-vendor
       - run: uv run python -m tools.verify_method_management
+
+  authentication-policies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.12"
+      - run: uv sync --locked
+      - run: uv run python tools/prepare_clients.py --manifest integrations/method-management-manifest.json --output work/method-management-clients-vendor
+      - run: uv run python -m tools.verify_authentication_policies
+
+  collection-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.12"
+      - run: uv sync --locked
+      - run: uv run python -m tools.benchmark_coverage --small

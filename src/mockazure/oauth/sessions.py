@@ -42,6 +42,9 @@ async def new_session(transaction, session, now):
     )
     session.add(result)
     await session.flush()
+    from mockazure.security.authentication_context import copy_context
+
+    await copy_context(session, transaction, result, now)
     return result
 
 
@@ -192,6 +195,20 @@ async def cleanup_expired(session, tenant_id, now, limit=500):
 
     if not 1 <= limit <= 1000:
         raise ValueError("Cleanup limit must be between 1 and 1000")
+    from mockazure.security.authentication_models import AuthenticationContext
+
+    expired_contexts = (
+        select(AuthenticationContext.session_id)
+        .where(
+            AuthenticationContext.tenant_id == tenant_id, AuthenticationContext.expires_at <= now
+        )
+        .order_by(AuthenticationContext.expires_at)
+        .limit(limit)
+        .with_for_update(skip_locked=True)
+    )
+    await session.execute(
+        delete(AuthenticationContext).where(AuthenticationContext.session_id.in_(expired_contexts))
+    )
     for model, key in (
         (RefreshHandle, RefreshHandle.digest),
         (AuthorizationTransaction, AuthorizationTransaction.id),

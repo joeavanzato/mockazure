@@ -2772,6 +2772,212 @@
       ],
       "status": "implemented",
       "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/policies/authenticationMethodsPolicy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethodspolicy-get?view=graph-rest-1.0",
+      "sourceSha256": "68033864b62620ed62d4c6959dcd5a9174f3e0f7a03ec8438a13b6befcacd3ad",
+      "retrievedAt": "2026-10-18",
+      "requestType": null,
+      "responseType": "authenticationMethodsPolicy",
+      "permissions": {
+        "application": [
+          "Policy.Read.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.Read.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Get-MgPolicyAuthenticationMethodPolicy"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/policies/authenticationMethodsPolicy/authenticationMethodConfigurations",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethodspolicy-get?view=graph-rest-1.0",
+      "sourceSha256": "68033864b62620ed62d4c6959dcd5a9174f3e0f7a03ec8438a13b6befcacd3ad",
+      "retrievedAt": "2026-10-18",
+      "requestType": null,
+      "responseType": "authenticationMethodConfiguration",
+      "permissions": {
+        "application": [
+          "Policy.Read.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.Read.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Get-MgPolicyAuthenticationMethodPolicyAuthenticationMethodConfiguration"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/policies/authenticationMethodsPolicy/authenticationMethodConfigurations/{configuration}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/smsauthenticationmethodconfiguration-get?view=graph-rest-1.0",
+      "sourceSha256": "27a43c529dc40a382e01dc71925167273ed3999e9a904d68242cb5d4c94dbf6b",
+      "retrievedAt": "2026-10-18",
+      "requestType": null,
+      "responseType": "authenticationMethodConfiguration",
+      "permissions": {
+        "application": [
+          "Policy.Read.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.Read.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Get-MgPolicyAuthenticationMethodPolicyAuthenticationMethodConfiguration"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/policies/authenticationMethodsPolicy/authenticationMethodConfigurations/{configuration}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/smsauthenticationmethodconfiguration-update?view=graph-rest-1.0",
+      "sourceSha256": "6610468fc9c4efbb4748d2f7423adda1cc3886d8e850ac70e4cf9340cc201dd4",
+      "retrievedAt": "2026-10-18",
+      "requestType": "authenticationMethodConfiguration",
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Policy.ReadWrite.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.ReadWrite.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Update-MgPolicyAuthenticationMethodPolicyAuthenticationMethodConfiguration"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/identity/conditionalAccess/policies",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-1.0",
+      "sourceSha256": "0d82b701cab345fb3c96d7a035787827975d7ad66b72f4e603115e3f91367afa",
+      "retrievedAt": "2026-10-18",
+      "requestType": "conditionalAccessPolicy",
+      "responseType": "conditionalAccessPolicy",
+      "permissions": {
+        "application": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ],
+        "delegated": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Enabled P1/P2 tenant service plan",
+        "Known built-in role and simulated platform targeting",
+        "MFA/compliantDevice AND/OR; block exclusive",
+        "Trusted device binding and current Intune compliance; unknown fails closed",
+        "No risk, advanced device filters, session, strength, guest or custom-role conditions",
+        "Read permission alternative and delegated roles described in security contracts"
+      ],
+      "tests": [
+        "tests/integration/test_conditional_access_extended.py::test_compliance_unknown_and_or_report_only"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "New-MgIdentityConditionalAccessPolicy"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/identity/conditionalAccess/policies/{identifier}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/conditionalaccesspolicy-update?view=graph-rest-1.0",
+      "sourceSha256": "36530b0c3ee40cab9881e92f746f08eeabb64cfc85cbd5ec80d90a15b2fe2a4b",
+      "retrievedAt": "2026-10-18",
+      "requestType": "conditionalAccessPolicy",
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ],
+        "delegated": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Enabled P1/P2 tenant service plan",
+        "Known built-in role and simulated platform targeting",
+        "MFA/compliantDevice AND/OR; block exclusive",
+        "Trusted device binding and current Intune compliance; unknown fails closed",
+        "No risk, advanced device filters, session, strength, guest or custom-role conditions",
+        "Read permission alternative and delegated roles described in security contracts"
+      ],
+      "tests": [
+        "tests/integration/test_conditional_access_extended.py::test_compliance_unknown_and_or_report_only"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Update-MgIdentityConditionalAccessPolicy"
+      ]
     }
   ],
   "queryProfiles": [

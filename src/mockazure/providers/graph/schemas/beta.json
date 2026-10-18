@@ -47,6 +47,14 @@
         "type"
       ]
     },
+    "advancedConfigState": {
+      "enum": [
+        "default",
+        "enabled",
+        "disabled",
+        "unknownFutureValue"
+      ]
+    },
     "agentic.agentSignIn": {
       "properties": {
         "agentSubjectParentId": {
@@ -849,6 +857,43 @@
       ],
       "base": "entity"
     },
+    "authenticationMethodConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "excludeTargets": {
+          "type": "Collection(graph.excludeTarget)",
+          "nullable": true
+        },
+        "state": {
+          "type": "graph.authenticationMethodState",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "authenticationMethodFeatureConfiguration": {
+      "properties": {
+        "excludeTarget": {
+          "type": "graph.featureTarget",
+          "nullable": true
+        },
+        "includeTarget": {
+          "type": "graph.featureTarget",
+          "nullable": true
+        },
+        "state": {
+          "type": "graph.advancedConfigState",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "authenticationMethodSignInState": {
       "enum": [
         "notSupported",
@@ -858,6 +903,156 @@
         "ready",
         "notConfigured",
         "unknownFutureValue"
+      ]
+    },
+    "authenticationMethodState": {
+      "enum": [
+        "enabled",
+        "disabled"
+      ]
+    },
+    "authenticationMethodTarget": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "isRegistrationRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "targetType": {
+          "type": "graph.authenticationMethodTargetType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "isRegistrationRequired",
+        "targetType"
+      ],
+      "base": "entity"
+    },
+    "authenticationMethodTargetType": {
+      "enum": [
+        "user",
+        "group",
+        "unknownFutureValue"
+      ]
+    },
+    "authenticationMethodsPolicy": {
+      "properties": {
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "microsoftAuthenticatorPlatformSettings": {
+          "type": "graph.microsoftAuthenticatorPlatformSettings",
+          "nullable": false
+        },
+        "policyMigrationState": {
+          "type": "graph.authenticationMethodsPolicyMigrationState",
+          "nullable": true
+        },
+        "policyVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "reconfirmationInDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "registrationEnforcement": {
+          "type": "graph.registrationEnforcement",
+          "nullable": true
+        },
+        "reportSuspiciousActivitySettings": {
+          "type": "graph.reportSuspiciousActivitySettings",
+          "nullable": true
+        },
+        "systemCredentialPreferences": {
+          "type": "graph.systemCredentialPreferences",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "microsoftAuthenticatorPlatformSettings"
+      ],
+      "base": "policyDeletableItem"
+    },
+    "authenticationMethodsPolicyMigrationState": {
+      "enum": [
+        "preMigration",
+        "migrationInProgress",
+        "migrationComplete",
+        "unknownFutureValue"
+      ]
+    },
+    "authenticationMethodsRegistrationCampaign": {
+      "properties": {
+        "enforceRegistrationAfterAllowedSnoozes": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "excludeTargets": {
+          "type": "Collection(graph.excludeTarget)",
+          "nullable": false
+        },
+        "includeTargets": {
+          "type": "Collection(graph.authenticationMethodsRegistrationCampaignIncludeTarget)",
+          "nullable": false
+        },
+        "snoozeDurationInDays": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "state": {
+          "type": "graph.advancedConfigState",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeTargets",
+        "includeTargets",
+        "snoozeDurationInDays",
+        "state"
+      ]
+    },
+    "authenticationMethodsRegistrationCampaignIncludeTarget": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "targetedAuthenticationMethod": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "targetType": {
+          "type": "graph.authenticationMethodTargetType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "targetType"
       ]
     },
     "authenticationPhoneType": {
@@ -2176,6 +2371,22 @@
       },
       "required": []
     },
+    "enforceAppPIN": {
+      "properties": {
+        "excludeTargets": {
+          "type": "Collection(graph.excludeTarget)",
+          "nullable": false
+        },
+        "includeTargets": {
+          "type": "Collection(graph.includeTarget)",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeTargets",
+        "includeTargets"
+      ]
+    },
     "entity": {
       "properties": {
         "id": {
@@ -2185,6 +2396,22 @@
       },
       "required": [
         "id"
+      ]
+    },
+    "excludeTarget": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "targetType": {
+          "type": "graph.authenticationMethodTargetType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "targetType"
       ]
     },
     "expirationPattern": {
@@ -2234,6 +2461,27 @@
       "enum": [
         "passthru",
         "aadPreAuthentication"
+      ]
+    },
+    "featureTarget": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "targetType": {
+          "type": "graph.featureTargetType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "featureTargetType": {
+      "enum": [
+        "group",
+        "administrativeUnit",
+        "role",
+        "unknownFutureValue"
       ]
     },
     "fido2AuthenticationMethod": {
@@ -2665,6 +2913,22 @@
         "low",
         "normal",
         "high"
+      ]
+    },
+    "includeTarget": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "targetType": {
+          "type": "graph.authenticationMethodTargetType",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "targetType"
       ]
     },
     "incomingTokenType": {
@@ -3361,6 +3625,100 @@
         "microsoftAuthenticator",
         "outlookMobile",
         "unknownFutureValue"
+      ]
+    },
+    "microsoftAuthenticatorAuthenticationMethodConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "excludeTargets": {
+          "type": "Collection(graph.excludeTarget)",
+          "nullable": true
+        },
+        "state": {
+          "type": "graph.authenticationMethodState",
+          "nullable": true
+        },
+        "featureSettings": {
+          "type": "graph.microsoftAuthenticatorFeatureSettings",
+          "nullable": true
+        },
+        "isSoftwareOathEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "authenticationMethodConfiguration"
+    },
+    "microsoftAuthenticatorAuthenticationMethodTarget": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "isRegistrationRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "targetType": {
+          "type": "graph.authenticationMethodTargetType",
+          "nullable": false
+        },
+        "authenticationMode": {
+          "type": "graph.microsoftAuthenticatorAuthenticationMode",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "isRegistrationRequired",
+        "targetType",
+        "authenticationMode"
+      ],
+      "base": "authenticationMethodTarget"
+    },
+    "microsoftAuthenticatorAuthenticationMode": {
+      "enum": [
+        "deviceBasedPush",
+        "push",
+        "any"
+      ]
+    },
+    "microsoftAuthenticatorFeatureSettings": {
+      "properties": {
+        "companionAppAllowedState": {
+          "type": "graph.authenticationMethodFeatureConfiguration",
+          "nullable": true
+        },
+        "displayAppInformationRequiredState": {
+          "type": "graph.authenticationMethodFeatureConfiguration",
+          "nullable": true
+        },
+        "displayLocationInformationRequiredState": {
+          "type": "graph.authenticationMethodFeatureConfiguration",
+          "nullable": true
+        },
+        "numberMatchingRequiredState": {
+          "type": "graph.authenticationMethodFeatureConfiguration",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "microsoftAuthenticatorPlatformSettings": {
+      "properties": {
+        "enforceAppPIN": {
+          "type": "graph.enforceAppPIN",
+          "nullable": false
+        }
+      },
+      "required": [
+        "enforceAppPIN"
       ]
     },
     "modifiedProperty": {
@@ -4275,6 +4633,35 @@
         }
       },
       "required": []
+    },
+    "registrationEnforcement": {
+      "properties": {
+        "authenticationMethodsRegistrationCampaign": {
+          "type": "graph.authenticationMethodsRegistrationCampaign",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "reportSuspiciousActivitySettings": {
+      "properties": {
+        "includeTarget": {
+          "type": "graph.includeTarget",
+          "nullable": false
+        },
+        "state": {
+          "type": "graph.advancedConfigState",
+          "nullable": false
+        },
+        "voiceReportingCode": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": [
+        "includeTarget",
+        "state"
+      ]
     },
     "requestSchedule": {
       "properties": {
@@ -6087,6 +6474,53 @@
       },
       "required": []
     },
+    "smsAuthenticationMethodConfiguration": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "excludeTargets": {
+          "type": "Collection(graph.excludeTarget)",
+          "nullable": true
+        },
+        "state": {
+          "type": "graph.authenticationMethodState",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "authenticationMethodConfiguration"
+    },
+    "smsAuthenticationMethodTarget": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "isRegistrationRequired": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "targetType": {
+          "type": "graph.authenticationMethodTargetType",
+          "nullable": false
+        },
+        "isUsableForSignIn": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "isRegistrationRequired",
+        "targetType",
+        "isUsableForSignIn"
+      ],
+      "base": "authenticationMethodTarget"
+    },
     "spaApplication": {
       "properties": {
         "redirectUris": {
@@ -6150,6 +6584,27 @@
         "servicePlans"
       ],
       "base": "entity"
+    },
+    "systemCredentialPreferences": {
+      "properties": {
+        "excludeTargets": {
+          "type": "Collection(graph.excludeTarget)",
+          "nullable": false
+        },
+        "includeTargets": {
+          "type": "Collection(graph.includeTarget)",
+          "nullable": false
+        },
+        "state": {
+          "type": "graph.advancedConfigState",
+          "nullable": false
+        }
+      },
+      "required": [
+        "excludeTargets",
+        "includeTargets",
+        "state"
+      ]
     },
     "targetResource": {
       "properties": {

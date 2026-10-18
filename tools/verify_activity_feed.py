@@ -136,6 +136,7 @@ def qualify(directory, command, compose, client, headers, tenant, check):
             "filterStartDateTime": (now - timedelta(hours=1)).isoformat(),
             "filterEndDateTime": (now + timedelta(minutes=1)).isoformat(),
             "serviceFilter": "Exchange",
+            "operationFilters": ["New-InboxRule"],
         },
         201,
         auth=graph,

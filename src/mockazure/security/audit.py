@@ -76,7 +76,13 @@ async def record_security_audit(session, actor, operation, target, before, after
             or target["type"] in {"longRunningOperation", "User"}
         )
         else "Policy"
-        if target["type"] in {"conditionalAccessPolicy", "ipNamedLocation"}
+        if target["type"]
+        in {
+            "conditionalAccessPolicy",
+            "ipNamedLocation",
+            "smsAuthenticationMethodConfiguration",
+            "microsoftAuthenticatorAuthenticationMethodConfiguration",
+        }
         else "RoleManagement"
         if target["type"] == "unifiedRoleAssignment"
         else "ApplicationManagement"

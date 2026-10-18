@@ -10,7 +10,7 @@ def test_policy_schema_and_supported_matrix():
     from mockazure.security.policies import validate_policy
 
     for state in ("enabled", "disabled", "enabledForReportingButNotEnforced"):
-        for control in ("block", "mfa"):
+        for control in ("block", "mfa", "compliantDevice"):
             assert validate_policy(policy_body(state, control))["state"] == state
     invalid = []
     for key, value in (
@@ -19,7 +19,7 @@ def test_policy_schema_and_supported_matrix():
         ("secret", "hidden"),
         ("sessionControls", {"signInFrequency": {"isEnabled": True}}),
         ("grantControls", {"operator": "XOR", "builtInControls": ["mfa"]}),
-        ("grantControls", {"operator": "OR", "builtInControls": ["compliantDevice"]}),
+        ("grantControls", {"operator": "OR", "builtInControls": ["domainJoinedDevice"]}),
         ("grantControls", {"operator": "OR", "builtInControls": []}),
         ("grantControls", {"operator": "AND", "builtInControls": ["block", "mfa"]}),
         ("grantControls", None),
@@ -27,7 +27,7 @@ def test_policy_schema_and_supported_matrix():
         invalid.append(policy_body() | {key: value})
     for name, value in (
         ("userRiskLevels", ["high"]),
-        ("platforms", {"includePlatforms": ["android"]}),
+        ("platforms", {"includePlatforms": ["unknownFutureValue"]}),
         ("clientAppTypes", ["exchangeActiveSync"]),
         ("devices", {"deviceFilter": {"mode": "include"}}),
         ("users", {"includeUsers": ["GuestsOrExternalUsers"]}),

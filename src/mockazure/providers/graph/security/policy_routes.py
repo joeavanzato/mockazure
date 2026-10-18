@@ -46,6 +46,20 @@ def router_for(version):
                 body = await read_json(request) if method != "DELETE" else None
                 if body is not None and kind == "conditionalAccessPolicy":
                     body = typed_body(body, kind)
+                    if version != "v1.0":
+                        conditions = body.get("conditions")
+                        conditions = conditions if isinstance(conditions, dict) else {}
+                        users = conditions.get("users")
+                        users = users if isinstance(users, dict) else {}
+                        controls = body.get("grantControls")
+                        controls = controls if isinstance(controls, dict) else {}
+                        if (
+                            conditions.get("platforms")
+                            or users.get("includeRoles")
+                            or users.get("excludeRoles")
+                            or "compliantDevice" in (controls.get("builtInControls") or [])
+                        ):
+                            raise GraphError(501, "NotSupported", "Extended policies require v1.0")
                 value = await mutate_policy(session, actor, kind, method, identifier, body)
                 if method == "POST":
                     return JSONResponse(value, status_code=201)

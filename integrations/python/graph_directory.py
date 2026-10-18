@@ -29,6 +29,11 @@ from msgraph.generated.users.users_request_builder import UsersRequestBuilder
 from msgraph.graph_request_adapter import GraphRequestAdapter, options
 from msgraph_core import GraphClientFactory
 
+try:
+    from .mfa_form import mfa_form_values
+except ImportError:  # Direct script execution in the isolated client container.
+    from mfa_form import mfa_form_values
+
 
 def acquire(config):
     authority = config["endpoints"]["login"] + "/" + config["tenant_id"]
@@ -78,6 +83,8 @@ def acquire(config):
                 ("/consent", {"decision": "approve"}),
                 ("/mfa", {"decision": "complete"}),
             ):
+                if path == "/mfa":
+                    values = mfa_form_values(response.text, values)
                 response = transport.post(
                     config["endpoints"]["login"] + path,
                     data={**fields, **values},

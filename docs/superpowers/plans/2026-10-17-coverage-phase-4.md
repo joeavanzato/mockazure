@@ -9,8 +9,10 @@ bounded Conditional Access conditions against actual local authentication state.
 sessions. Intune observations supply trusted device state; simulated method outcomes stay
 explicit and separate from real hardware proof. No parallel policy engine.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker, PowerShell.
-**Spec:** [Proposed program design](../specs/2026-10-17-coverage-expansion-design.md).
-**Status:** Proposed; two PRs, 4A then 4B. No general security management expansion.
+**Spec:** [Approved program design](../specs/2026-10-17-coverage-expansion-design.md).
+**Status:** Implemented and qualified in PRs #23–#24; awaiting merge. The checklist below preserves the original execution plan.
+
+Current implementation and qualification evidence: [coverage results](../../coverage-expansion-results.md).
 
 ## Global Constraints
 

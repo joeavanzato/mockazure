@@ -21,6 +21,12 @@ from msgraph.generated.users.item.authentication.methods.item.reset_password.res
     ResetPasswordPostRequestBody,
 )
 
+try:
+    from .mfa_form import mfa_form_values
+except ImportError:  # Direct script execution in the isolated client container.
+    from mfa_form import mfa_form_values
+
+
 PASSWORD_ID = "28c10230-6103-485e-b985-444c60001490"
 
 
@@ -35,7 +41,7 @@ def delegated(config):
             http_client=transport,
         )
         flow = app.initiate_auth_code_flow(
-            ["UserAuthenticationMethod.ReadWrite.All"],
+            config.get("delegated_scopes", ["UserAuthenticationMethod.ReadWrite.All"]),
             redirect_uri="http://localhost:8123/callback",
         )
         response = transport.get(flow["auth_uri"], timeout=30)
@@ -52,6 +58,8 @@ def delegated(config):
             ("/consent", {"decision": "approve"}),
             ("/mfa", {"decision": "complete"}),
         ):
+            if path == "/mfa":
+                body = mfa_form_values(response.text, body)
             response = transport.post(
                 config["endpoints"]["login"] + path,
                 data={**fields, **body},

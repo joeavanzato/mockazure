@@ -137,8 +137,18 @@ Login, consent and simulated MFA use persistent transactions with a Secure,
 HttpOnly, SameSite cookie and CSRF checks. Device approvals use the same forms.
 User consent can grant configured User.Read; admin-required scopes need a local
 Global Administrator or management preconsent. Simulated MFA is visibly a lab
-outcome rather than a physical second factor. M3C evaluates the declared
-Conditional Access profile around that outcome; see security-contracts.md.
+outcome rather than a physical second factor. Fresh tenants require selection of an
+eligible registered mobile SMS or Authenticator method to complete it. The current
+method policy is checked again at token issuance and refresh. Upgraded tenants retain
+the legacy generic outcome until their first successful method-policy write.
+See [method policies and trusted device context](../integrations/contracts/authentication-policies.md)
+and [Conditional Access](security-contracts.md) for the bounded enforcement profile.
+
+Completed trusted context remains available through its issued code's redemption
+lifetime, even when the original interactive form expires; cleanup uses that lifetime.
+For linked device-code flows, the device authorization owns the trusted device/platform
+binding. Admin binding through its browser flow updates the same authority, and every
+browser policy evaluation reads it before approval. Completing MFA preserves the binding.
 
 Codes expire after 300 seconds and redeem once across replicas. Device requests
 expire after 900 seconds; initial polling is five seconds, with durable slow_down
@@ -150,7 +160,7 @@ GET/DELETE /_mock/tenants/{tenant}/identity/sessions lists metadata/revokes sess
 Existing access tokens retain their claims until expiry, subject to supported
 resource-side user/role checks. No universal instantaneous access-token revocation
 is claimed. Authentication successes and consent/MFA denial outcomes are persisted
-without raw credentials; full audit/sign-in projection belongs to M3.
+without raw credentials and projected into supported audit/sign-in evidence.
 
 ## Reproduce the dedicated M2 lab
 

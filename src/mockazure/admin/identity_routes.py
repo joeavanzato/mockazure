@@ -71,6 +71,18 @@ async def create_application(tenant_id: UUID, data: ApplicationCreate, request: 
         return public_application(await repo.create_application(tenant_id, data))
 
 
+@router.get("/authentication-policy-profile")
+async def authentication_policy_profile(tenant_id: UUID, request: Request):
+    from mockazure.security.method_policies import enforcement_enabled
+
+    async with transaction(request, tenant_id) as repo:
+        enabled = await enforcement_enabled(repo.session, tenant_id)
+        return {
+            "method_policy_enforced": enabled,
+            "profile": "registered-methods" if enabled else "legacy-simulation",
+        }
+
+
 @router.get("/{collection}")
 async def list_identities(
     tenant_id: UUID,

@@ -7,8 +7,10 @@
 **Architecture:** Extend canonical directory/security/mail stores and operation-level
 contracts. Reuse current authorization, typed SQL queries and durable continuations.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker, PowerShell.
-**Spec:** [Proposed program design](../specs/2026-10-17-coverage-expansion-design.md).
-**Status:** Proposed; await review before runtime work. Slices 1A, 1B, 1C are separate PRs.
+**Spec:** [Approved program design](../specs/2026-10-17-coverage-expansion-design.md).
+**Status:** Implemented and qualified in PRs #15–#17; awaiting merge. The checklist below preserves the original execution plan.
+
+Current implementation and qualification evidence: [coverage results](../../coverage-expansion-results.md).
 
 ## Global Constraints
 

@@ -19,6 +19,11 @@ from azure.mgmt.authorization import AuthorizationManagementClient
 from azure.mgmt.monitor import MonitorManagementClient
 from azure.mgmt.resource import ResourceManagementClient, SubscriptionClient
 
+try:
+    from .mfa_form import mfa_form_values
+except ImportError:  # Direct script execution in the isolated client container.
+    from mfa_form import mfa_form_values
+
 
 class LocalSession(requests.Session):
     def __init__(self, origin, ca_file):
@@ -93,6 +98,8 @@ def acquire(config):
                 ("/consent", {"decision": "approve"}),
                 ("/mfa", {"decision": "complete"}),
             ):
+                if path == "/mfa":
+                    values = mfa_form_values(response.text, values)
                 response = session.post(
                     config["endpoints"]["login"] + path,
                     data=fields | values,

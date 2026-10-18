@@ -32,6 +32,16 @@ async def capabilities(request: Request):
 
     settings = request.app.state.settings
     return {
+        "authentication_policy_profile": {
+            "version": "v1.0",
+            "configurations": ["Sms", "MicrosoftAuthenticator"],
+            "new_tenants_enforced": True,
+            "upgrades_legacy_until_policy_write": True,
+            "simulated_methods": ["sms", "authenticator-push"],
+            "trusted_device_binding": "admin-only",
+            "physical_attestation": False,
+            "conditional_access": ["roles", "platforms", "mfa", "compliantDevice", "AND", "OR"],
+        },
         "method_management_profile": {
             "version": "v1.0",
             "beta_writes": False,

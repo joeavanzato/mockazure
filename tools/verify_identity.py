@@ -120,6 +120,10 @@ def browser_code(client, base, config, user):
         ("/consent", {"decision": "approve"}),
         ("/mfa", {"decision": "complete"}),
     ):
+        if path == "/mfa":
+            from integrations.python.mfa_form import mfa_form_values
+
+            data = mfa_form_values(response.text, data)
         response = client.post(base + path, data={**fields, **data})
         if response.status_code not in (200, 303):
             raise RuntimeError("Local browser approval failed")

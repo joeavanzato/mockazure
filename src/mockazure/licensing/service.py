@@ -24,6 +24,10 @@ from mockazure.providers.graph.body import invalid
 
 
 async def lock_directory(session, tenant_id):
+    from mockazure.security.repository import lock_security
+
+    # Entitlements participate in the same issuance barrier as methods and memberships.
+    await lock_security(session, tenant_id)
     await session.execute(
         insert(DirectoryState)
         .values(tenant_id=tenant_id, revision=0, generation=uuid4())

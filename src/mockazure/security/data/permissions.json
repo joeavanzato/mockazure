@@ -682,6 +682,18 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Policy.Read.AuthenticationMethod",
+      "kind": "application",
+      "id": "8e3bc81b-d2f3-4b7b-838c-32c88218d2f0",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Policy.Read.AuthenticationMethod",
+      "kind": "delegated",
+      "id": "a6ff13ac-1851-4993-8ca9-a671d70de2d5",
+      "adminConsentRequired": true
+    },
+    {
       "name": "Policy.Read.ConditionalAccess",
       "kind": "application",
       "id": "37730810-e9ba-4e46-b07e-8ca78d182097",
@@ -692,6 +704,18 @@
       "kind": "delegated",
       "id": "633e0fce-8c58-4cfb-9495-12bbd5a24f7c",
       "adminConsentRequired": false
+    },
+    {
+      "name": "Policy.ReadWrite.AuthenticationMethod",
+      "kind": "application",
+      "id": "29c18626-4985-4dcd-85c0-193eef327366",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Policy.ReadWrite.AuthenticationMethod",
+      "kind": "delegated",
+      "id": "7e823077-d88e-468f-a337-e18f1f0e6c7c",
+      "adminConsentRequired": true
     },
     {
       "name": "Policy.ReadWrite.ConditionalAccess",

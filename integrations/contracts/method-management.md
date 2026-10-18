@@ -74,7 +74,7 @@ No real Microsoft tenant or hybrid password-writeback endpoint is contacted.
 Unsupported: public Authenticator/FIDO2 enrollment or attestation, passwordless/OATH/TAP,
 SMS-primary-sign-in activation, preferred/default MFA method configuration, real challenge
 providers, hybrid password writeback, beta mutations, and arbitrary query options. Method
-policies and extended Conditional Access are the separate next phase.
+policies and extended Conditional Access are documented in [their profile](authentication-policies.md).
 
 Qualification: `python -m tools.verify_method_management`, using pinned original Graph Python
 SDK and Graph PowerShell modules and the actual HTTPS issuer. Each client performs eight
