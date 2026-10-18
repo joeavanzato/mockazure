@@ -4,6 +4,7 @@ import re
 from urllib.parse import urlsplit
 
 from mockazure.endpoints import local_origin
+from mockazure.mail.role_management_contracts import PARAMETERS as ROLE_PARAMETERS
 from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
 
 RULE_PARAMETERS = {
@@ -169,6 +170,7 @@ PARAMETERS.update(
 
 
 PARAMETERS.update(SECURITY_PARAMETERS)
+PARAMETERS.update(ROLE_PARAMETERS)
 
 
 def fixed_proxy_source(command_names: tuple[str, ...], endpoint: str) -> str:

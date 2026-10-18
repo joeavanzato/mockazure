@@ -10,6 +10,7 @@ from mockazure.licensing import models as licensing_models  # noqa: F401
 from mockazure.mail import collection_models as mail_collection_models  # noqa: F401
 from mockazure.mail import (
     delegation_models,  # noqa: F401
+    role_management_models,  # noqa: F401
     security_configuration_models,  # noqa: F401
     unified_audit_models,  # noqa: F401
 )

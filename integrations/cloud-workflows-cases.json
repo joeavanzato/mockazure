@@ -86,6 +86,28 @@
             "audit_ingestion_toggle",
             "configuration_absence"
           ]
+        },
+        {
+          "id": "exchange.role-management",
+          "service": "exchange",
+          "operationIds": [
+            "Get-RoleGroup",
+            "Get-RoleGroupMember",
+            "Add-RoleGroupMember",
+            "Remove-RoleGroupMember",
+            "Get-ManagementRoleAssignment",
+            "New-ManagementRoleAssignment",
+            "Remove-ManagementRoleAssignment"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "role_groups",
+            "membership_roundtrip",
+            "assignment_roundtrip"
+          ]
         }
       ],
       "notApplicable": {

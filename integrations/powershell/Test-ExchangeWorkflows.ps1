@@ -43,6 +43,18 @@ try {
  if(@(Get-EXOMailboxPermission -Identity $config.mailbox_upn | Where-Object {$_.User -eq $delegate.upn}).Count){throw 'FullAccess removal mismatch'}
  if(@(Get-EXORecipientPermission -Identity $config.mailbox_upn | Where-Object {$_.Trustee -eq $delegate.upn}).Count){throw 'SendAs removal mismatch'}
  if(@((Get-Mailbox -Identity $config.mailbox_upn).GrantSendOnBehalfTo).Count){throw 'SendOnBehalf removal mismatch'}
+ $groups=@(Get-RoleGroup)
+ if('Recipient Management' -notin $groups.Name){throw 'Built-in role group missing'}
+ Add-RoleGroupMember -Identity 'Recipient Management' -Member $delegate.upn -Confirm:$false
+ $members=@(Get-RoleGroupMember -Identity 'Recipient Management')
+ if($delegate.id -notin $members.ExternalDirectoryObjectId){throw 'Role member add mismatch'}
+ Remove-RoleGroupMember -Identity 'Recipient Management' -Member $delegate.upn -Confirm:$false
+ if(@(Get-RoleGroupMember -Identity 'Recipient Management').Count){throw 'Role member remove mismatch'}
+ $assignment=New-ManagementRoleAssignment -Name 'Native recipient assignment' -Role 'Mail Recipients' -User $delegate.upn -RecipientRelativeWriteScope Organization -Confirm:$false
+ $read=Get-ManagementRoleAssignment -Identity $assignment.Guid
+ if($read.Role -ne 'Mail Recipients' -or $read.RoleAssignee -ne $delegate.id){throw 'Role assignment read mismatch'}
+ Remove-ManagementRoleAssignment -Identity $assignment.Guid -Confirm:$false
+ if(@(Get-ManagementRoleAssignment -RoleAssignee $delegate.id).Count){throw 'Role assignment removal mismatch'}
  $configurationCases=@(
    @{Kind='RemoteDomain';Create=@{DomainName='*.example.test'};Update=@{AutoForwardEnabled=$false};Field='AutoForwardEnabled';Expected=$false},
    @{Kind='InboundConnector';Create=@{SenderDomains=@('*.example.test');ConnectorType='Partner'};Update=@{RequireTls=$false};Field='RequireTls';Expected=$false},
@@ -92,5 +104,5 @@ try {
  }
  $formatted=@(Search-UnifiedAuditLog -StartDate $start -EndDate $end -ResultSize 1 -Formatted -Operations Set-Mailbox -FreeText workflow)
  if($formatted[0].RecordType -ne 'ExchangeAdmin'){throw 'Formatted record type mismatch'}
- @{passed=$true;client='ExchangeOnlineManagement';version='3.11.0';records=$all.Count;page_sizes=$sizes;timezone=[TimeZoneInfo]::Local.Id;utc_unspecified_dates=$true;security_configuration=$true;recipient_delegation=$true;recipient_count=$listed.Count} | ConvertTo-Json -Depth 5 | Set-Content /state/exchange-workflow-report.json
+ @{passed=$true;client='ExchangeOnlineManagement';version='3.11.0';records=$all.Count;page_sizes=$sizes;timezone=[TimeZoneInfo]::Local.Id;utc_unspecified_dates=$true;role_management=$true;security_configuration=$true;recipient_delegation=$true;recipient_count=$listed.Count} | ConvertTo-Json -Depth 5 | Set-Content /state/exchange-workflow-report.json
 } finally {Disconnect-ExchangeOnline -Confirm:$false | Out-Null}

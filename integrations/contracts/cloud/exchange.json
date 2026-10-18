@@ -2868,6 +2868,710 @@
         "maximumExplicitResultSize": 100000,
         "fixtureRecords": 10000
       }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-RoleGroup",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-RoleGroup",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "ResultSize": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleGroup",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "Roles": "string[]",
+          "Members": "string[]",
+          "ManagedBy": "string[]"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-RoleGroup.md",
+          "sha256": "6bd58c27efab54e3b8a42e5eee388ce9ab6c5044cfbc42fc243586533893c1be",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-RoleGroup.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-RoleGroupMember",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-RoleGroupMember",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "ResultSize": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleGroupMember",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "ExternalDirectoryObjectId": "string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-RoleGroupMember.md",
+          "sha256": "06718b5915730456753265732eaf4e05c9cf3033bdfcfee3947772799bdaca16",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-RoleGroupMember.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Add-RoleGroupMember",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Add-RoleGroupMember",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Member"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Member": "string",
+            "BypassSecurityGroupManagerCheck": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Add-RoleGroupMember.md",
+          "sha256": "625b2ade63f64ee00c16d0326c3ec9b982b88316005b853283732acf723922f0",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Add-RoleGroupMember.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-RoleGroupMember",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-RoleGroupMember",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Member"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Member": "string",
+            "BypassSecurityGroupManagerCheck": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-RoleGroupMember.md",
+          "sha256": "80c2df8a122beb86e5db1546877e62912140ac102bef28cfc145a2652d2a4106",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-RoleGroupMember.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-ManagementRoleAssignment",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-ManagementRoleAssignment",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "Role": "string",
+            "RoleAssignee": "string",
+            "RoleAssigneeType": "string",
+            "Enabled": "bool",
+            "Delegating": "bool",
+            "RecipientGroupScope": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleAssignment",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "Role": "string",
+          "RoleAssigneeName": "string",
+          "RoleAssigneeType": "string",
+          "RoleAssignee": "string",
+          "Enabled": "boolean",
+          "Delegating": "boolean",
+          "RecipientReadScope": "string",
+          "RecipientWriteScope": "string",
+          "RecipientGroupScope": "string|null"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-ManagementRoleAssignment.md",
+          "sha256": "8bc50b438053442d4163b6fea66e9b8674fe1cdaf55ea907d6a29f2a75c9e45d",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-ManagementRoleAssignment.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-ManagementRoleAssignment",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-ManagementRoleAssignment",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "User",
+          "required": [
+            "Role",
+            "User"
+          ],
+          "parameters": {
+            "Name": "string",
+            "Role": "string",
+            "User": "string",
+            "RecipientRelativeWriteScope": "string",
+            "RecipientGroupScope": "string",
+            "Force": "switch"
+          }
+        },
+        {
+          "name": "SecurityGroup",
+          "required": [
+            "Role",
+            "SecurityGroup"
+          ],
+          "parameters": {
+            "Name": "string",
+            "Role": "string",
+            "SecurityGroup": "string",
+            "RecipientRelativeWriteScope": "string",
+            "RecipientGroupScope": "string",
+            "Force": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleAssignment",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "Role": "string",
+          "RoleAssigneeName": "string",
+          "RoleAssigneeType": "string",
+          "RoleAssignee": "string",
+          "Enabled": "boolean",
+          "Delegating": "boolean",
+          "RecipientReadScope": "string",
+          "RecipientWriteScope": "string",
+          "RecipientGroupScope": "string|null"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-ManagementRoleAssignment.md",
+          "sha256": "cc4536c1f4b06657e815247937e6f089f868f078e6d36840a391e7b075f00332",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-ManagementRoleAssignment.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-ManagementRoleAssignment",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-ManagementRoleAssignment",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Force": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-ManagementRoleAssignment.md",
+          "sha256": "97d3b87466ad1e0ce083b5070145c0080e3516436896c087a04a492b25d1f9bc",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-ManagementRoleAssignment.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
     }
   ]
 }

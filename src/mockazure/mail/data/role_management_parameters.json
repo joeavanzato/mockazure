@@ -1,0 +1,42 @@
+{
+  "Get-RoleGroup": {
+    "Identity": "string",
+    "ResultSize": "string"
+  },
+  "Get-RoleGroupMember": {
+    "Identity": "string",
+    "ResultSize": "string"
+  },
+  "Add-RoleGroupMember": {
+    "Identity": "string",
+    "Member": "string",
+    "BypassSecurityGroupManagerCheck": "switch"
+  },
+  "Remove-RoleGroupMember": {
+    "Identity": "string",
+    "Member": "string",
+    "BypassSecurityGroupManagerCheck": "switch"
+  },
+  "Get-ManagementRoleAssignment": {
+    "Identity": "string",
+    "Role": "string",
+    "RoleAssignee": "string",
+    "RoleAssigneeType": "string",
+    "Enabled": "bool",
+    "Delegating": "bool",
+    "RecipientGroupScope": "string"
+  },
+  "New-ManagementRoleAssignment": {
+    "Name": "string",
+    "Role": "string",
+    "User": "string",
+    "SecurityGroup": "string",
+    "RecipientRelativeWriteScope": "string",
+    "RecipientGroupScope": "string",
+    "Force": "switch"
+  },
+  "Remove-ManagementRoleAssignment": {
+    "Identity": "string",
+    "Force": "switch"
+  }
+}

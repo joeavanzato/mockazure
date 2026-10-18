@@ -116,3 +116,22 @@ def test_security_configuration_contracts_match_dispatch():
         "Force",
         "UnifiedAuditLogIngestionEnabled",
     }
+
+
+def test_role_contracts_have_sources_and_exclusive_assignee_sets():
+    from mockazure.mail.role_management_contracts import PARAMETERS
+
+    contracts = loader()
+    contracts.verify_references("exchange")
+    assert len(PARAMETERS) == 7
+    for name in PARAMETERS:
+        row = contracts.load_contract("exchange", name)
+        assert row["limitations"] and len(row["sources"]) == 4
+        assert set().union(*(s["parameters"].keys() for s in row["parameterSets"])) == set(
+            PARAMETERS[name]
+        )
+    row = contracts.load_contract("exchange", "New-ManagementRoleAssignment")
+    assert {tuple(r["required"]) for r in row["parameterSets"]} == {
+        ("Role", "User"),
+        ("Role", "SecurityGroup"),
+    }

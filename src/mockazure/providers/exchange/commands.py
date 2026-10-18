@@ -154,7 +154,13 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
     name = canonical[name.lower()]
     parameters = checked_parameters(name, parameters)
 
+    from mockazure.mail.role_management_contracts import PARAMETERS as ROLE_PARAMETERS
     from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
+
+    if name in ROLE_PARAMETERS:
+        from mockazure.mail.role_management import invoke_role_management
+
+        return await invoke_role_management(session, actor, name, parameters, now)
 
     if name in SECURITY_PARAMETERS:
         from mockazure.mail.security_configuration import invoke_security_configuration

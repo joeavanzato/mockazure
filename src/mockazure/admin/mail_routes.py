@@ -293,3 +293,23 @@ async def put_security_configuration(tenant_id: UUID, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         await tenant_required(session, tenant_id)
         return await replace_security_configuration(session, tenant_id, value)
+
+
+@router.get("/roleState")
+async def get_role_state(tenant_id: UUID, request: Request):
+    from mockazure.mail.role_management import export_roles
+
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await export_roles(session, tenant_id)
+
+
+@router.put("/roleState")
+async def put_role_state(tenant_id: UUID, request: Request):
+    from mockazure.mail.role_management import replace_roles
+    from mockazure.mail.role_management_schemas import RoleState
+
+    value = await parsed(request, RoleState)
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await replace_roles(session, tenant_id, value)

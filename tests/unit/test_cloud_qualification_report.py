@@ -28,6 +28,26 @@ def sample():
                 "clientVersions": {"ExchangeOnlineManagement": "3.11.0"},
                 "cases": [
                     {
+                        "workflow": "exchange.role-management",
+                        "operationIds": [
+                            "Get-RoleGroup",
+                            "Get-RoleGroupMember",
+                            "Add-RoleGroupMember",
+                            "Remove-RoleGroupMember",
+                            "Get-ManagementRoleAssignment",
+                            "New-ManagementRoleAssignment",
+                            "Remove-ManagementRoleAssignment",
+                        ],
+                        "transport": "module",
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {
+                            "role_groups": True,
+                            "membership_roundtrip": True,
+                            "assignment_roundtrip": True,
+                        },
+                    },
+                    {
                         "workflow": "exchange.security-configuration",
                         "operationIds": [
                             verb + "-" + kind
@@ -103,15 +123,15 @@ def test_qualification_matrix_completeness():
     with pytest.raises(ValueError):
         validate(missing, {"python", "powershell", "dotnet", "typescript"})
     rest = copy.deepcopy(good)
-    rest["ecosystems"]["powershell"]["cases"][1]["transport"] = "rest"
+    rest["ecosystems"]["powershell"]["cases"][2]["transport"] = "rest"
     with pytest.raises(ValueError):
         validate(rest, set(good["ecosystems"]))
     unknown = copy.deepcopy(good)
-    unknown["ecosystems"]["powershell"]["cases"][1]["operationIds"] = ["Invented-Command"]
+    unknown["ecosystems"]["powershell"]["cases"][2]["operationIds"] = ["Invented-Command"]
     with pytest.raises(ValueError):
         validate(unknown, set(good["ecosystems"]))
     failed = copy.deepcopy(good)
-    failed["ecosystems"]["powershell"]["cases"][1]["assertions"]["paging"] = False
+    failed["ecosystems"]["powershell"]["cases"][2]["assertions"]["paging"] = False
     with pytest.raises(ValueError):
         validate(failed, set(good["ecosystems"]))
     with pytest.raises(ValueError):
@@ -139,6 +159,21 @@ def test_qualification_rejects_missing_delegation_workflow():
 
 def test_qualification_rejects_missing_configuration_workflow():
     report = sample()
-    report["ecosystems"]["powershell"]["cases"] = report["ecosystems"]["powershell"]["cases"][1:]
+    report["ecosystems"]["powershell"]["cases"] = [
+        r
+        for r in report["ecosystems"]["powershell"]["cases"]
+        if r["workflow"] != "exchange.security-configuration"
+    ]
+    with pytest.raises(ValueError, match="workflow"):
+        validator()(report, {"python", "powershell", "dotnet", "typescript"})
+
+
+def test_qualification_rejects_missing_role_workflow():
+    report = sample()
+    report["ecosystems"]["powershell"]["cases"] = [
+        r
+        for r in report["ecosystems"]["powershell"]["cases"]
+        if r["workflow"] != "exchange.role-management"
+    ]
     with pytest.raises(ValueError, match="workflow"):
         validator()(report, {"python", "powershell", "dotnet", "typescript"})

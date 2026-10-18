@@ -91,7 +91,7 @@ def main():
     args = parser.parse_args()
     if args.phase != "A" or set(args.ecosystems) != ECOSYSTEMS:
         parser.error(
-            "Only the current A1-A3 Exchange matrix is executable; later phases remain unavailable"
+            "Only the current A1-A4 Exchange matrix is executable; later phases remain unavailable"
         )
     from tools.prepare_clients import prepare
     from tools.verify_default import main as smoke
@@ -126,6 +126,21 @@ def main():
                     "Local port 443 TCP relay for the original module bootstrap",
                 ],
                 "cases": [
+                    {
+                        "workflow": "exchange.role-management",
+                        "operationIds": next(
+                            v["operationIds"]
+                            for v in cases()["A"]["workflows"]
+                            if v["id"] == "exchange.role-management"
+                        ),
+                        "transport": "module",
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {
+                            k: observed["role_management"]
+                            for k in ("role_groups", "membership_roundtrip", "assignment_roundtrip")
+                        },
+                    },
                     {
                         "workflow": "exchange.security-configuration",
                         "operationIds": next(

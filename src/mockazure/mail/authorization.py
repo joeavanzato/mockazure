@@ -11,30 +11,36 @@ from mockazure.endpoints import RESOURCES
 from mockazure.identity.models import DirectoryRole, ServicePrincipalRole, User
 from mockazure.mail.contracts import operation_requirement
 from mockazure.mail.models import ExchangeCommandGrant, MailSettings
+from mockazure.mail.role_management_contracts import PARAMETERS as ROLE_PARAMETERS
 from mockazure.mail.schemas import EXCHANGE_COMMANDS
 from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
 
 GRAPH = "00000003-0000-0000-c000-000000000000"
 EXCHANGE = next(resource.audience for resource in RESOURCES if resource.service == "exchange")
 
-READER_COMMANDS = frozenset(k for k in SECURITY_PARAMETERS if k.startswith("Get-")) | frozenset(
-    {
-        "Get-Recipient",
-        "Get-EXORecipient",
-        "Get-EXOMailboxPermission",
-        "Get-EXORecipientPermission",
-        "Get-Mailbox",
-        "Get-EXOMailbox",
-        "Get-EXOMailboxStatistics",
-        "Get-EXOMailboxFolderStatistics",
-        "Get-EXOCasMailbox",
-        "Get-OrganizationConfig",
-        "Get-TransportConfig",
-        "Get-AcceptedDomain",
-        "Get-TransportRule",
-        "Get-MailboxPermission",
-        "Get-RecipientPermission",
-    }
+
+READER_COMMANDS = (
+    frozenset(k for k in ROLE_PARAMETERS if k.startswith("Get-"))
+    | frozenset(k for k in SECURITY_PARAMETERS if k.startswith("Get-"))
+    | frozenset(
+        {
+            "Get-Recipient",
+            "Get-EXORecipient",
+            "Get-EXOMailboxPermission",
+            "Get-EXORecipientPermission",
+            "Get-Mailbox",
+            "Get-EXOMailbox",
+            "Get-EXOMailboxStatistics",
+            "Get-EXOMailboxFolderStatistics",
+            "Get-EXOCasMailbox",
+            "Get-OrganizationConfig",
+            "Get-TransportConfig",
+            "Get-AcceptedDomain",
+            "Get-TransportRule",
+            "Get-MailboxPermission",
+            "Get-RecipientPermission",
+        }
+    )
 )
 
 
@@ -135,6 +141,10 @@ async def require_exchange_command(
     if roles & {"Global Administrator", "Exchange Administrator"}:
         return
     if "Global Reader" in roles and operation in READER_COMMANDS:
+        return
+    from mockazure.mail.role_management import permits_command
+
+    if await permits_command(session, actor, operation, mailbox_user_id, tenant_wide=tenant_wide):
         return
     scope = (
         []

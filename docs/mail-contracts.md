@@ -678,3 +678,62 @@ domain. Fixture operations change operational configuration without impersonatin
 service cmdlets or granting OAuth/RBAC authority. Tenant deletion cascades the state.
 Migration 055 preserves prior mail/delegation state and refuses a downgrade that would
 discard configuration or a disabled ingestion setting.
+
+
+## Exchange role management
+
+Seven public commands now read/change authoritative local Exchange role state:
+Get-RoleGroup, Get-RoleGroupMember, Add/Remove-RoleGroupMember and
+Get/New/Remove-ManagementRoleAssignment. The exact selected parameters and output
+fields are in the [operation catalog](../integrations/contracts/cloud/exchange.json).
+Original ExchangeOnlineManagement 3.11.0 invokes the server-provided bounded proxies.
+
+The profile contains three built-in groups: Organization Management, Recipient
+Management and View-Only Organization Management. It contains five selected roles:
+
+| Role | Supported command authority |
+| --- | --- |
+| View-Only Recipients | Canonical recipient/mailbox/statistics/CAS/ACL reads listed in the explicit runtime map |
+| View-Only Configuration | Selected organization, transport, A3 configuration and role-state reads |
+| Mail Recipients | Recipient reads, Set-Mailbox and Add/Remove mailbox/recipient permission |
+| Remote and Accepted Domains | Get-AcceptedDomain and Get/New/Set/Remove-RemoteDomain |
+| Role Management | The seven role commands and organization bootstrap read |
+
+Organization Management has these five selected roles, Recipient Management has
+Mail Recipients, and View-Only Organization Management has the two view-only roles.
+This is a bounded subset even for Organization Management; it does not model every
+production role, command or parameter-level role entry. Existing Entra administrator
+roles and explicit local command grants continue to authorize their existing commands.
+
+Role-group membership accepts current users and directory security groups. Current
+nested directory security-group membership is resolved on each request. Nested Exchange
+role groups, linked groups, manager configuration and Entra shadow-group enumeration
+are not implemented. The local built-in groups have empty ManagedBy lists; the
+BypassSecurityGroupManagerCheck switch never bypasses current command authority.
+
+New-ManagementRoleAssignment supports mutually exclusive User or SecurityGroup sets.
+SecurityGroup can identify a supported built-in role group or a current directory
+security group. Name/GUID identify assignments; built-in baseline assignments are
+read-only projections, while explicit assignments are persisted and removable.
+RecipientRelativeWriteScope supports Organization only. RecipientGroupScope supports
+Mail Recipients only and restricts writes to **direct** current members of that group;
+nested members are excluded. The role's implicit organization read scope remains.
+Missing/deleted principals and scope groups cannot authorize requests. Removal affects
+already-issued tokens on the next request and the same check governs module advertisement.
+
+App data-access roles, custom management roles/scopes, delegating assignments,
+end-user assignment policies, OU/AU/exclusive scopes, arbitrary filters and complete
+Exchange parameter-level RBAC are unsupported and rejected. These commands do not
+create OAuth consent, mailbox data access, delegation or Purview audit roles.
+Microsoft's role/group documentation is bundled as hash-bound public-page snapshots
+with the content revisions reported by Microsoft; command pages use the pinned
+office-docs-powershell revision. Runtime and CI require no documentation network access.
+
+`GET`/`PUT /_mock/tenants/{tenant}/mail/roleState` exports/replaces
+`{members: [{group_name, principal_id}], assignments: [{id, name, role, principal_id,
+group_name, recipient_group_id}]}`. Each assignment has one principal_id or group_name.
+An empty state removes explicit memberships/assignments; built-in definitions remain.
+Validation completes before replacement, and fixture writes never create command audit
+events. Public mutations produce native ExchangeAdmin audit facts without mailbox-owner
+fields. Collection evidence cannot import these operational grants. Migration 056
+refuses to discard nonempty role state on downgrade.
