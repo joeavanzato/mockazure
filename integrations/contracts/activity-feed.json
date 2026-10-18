@@ -1,0 +1,84 @@
+{
+  "scope": "Management Activity v1.0 app-only local pull feed",
+  "audience": "https://manage.office.com",
+  "resourceAppId": "c5393580-f805-4401-95e8-94b7a6ef2fc2",
+  "applicationPermissions": {
+    "ActivityFeed.Read": "594c1fb6-4f81-4475-ae41-0c394909246c",
+    "ActivityFeed.ReadDlp": "4807a72c-ad38-4250-94c9-4eabfe26cd55"
+  },
+  "enumSchemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "sources": [
+    {
+      "name": "reference",
+      "url": "https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference",
+      "sha256": "cefd4d6a38e3480b23118cb651c2df9656b24e4503587e832d7ea0bc0285dd0d",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "name": "schema",
+      "url": "https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-schema",
+      "sha256": "08c671304d76f681b9b9171818c6411d252a34c874adaa51056a717e04b6d73c",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "name": "setup",
+      "url": "https://learn.microsoft.com/en-us/office/office-365-management-api/get-started-with-office-365-management-apis",
+      "sha256": "999f005af2c43b15d9c7ae8a90fc8dd476d37e8e573b62090012edb545948bdd",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "name": "troubleshooting",
+      "url": "https://learn.microsoft.com/en-us/office/office-365-management-api/troubleshooting-the-office-365-management-activity-api",
+      "sha256": "8cba2806d9537b4209ac1be686855fb7ff119301a1dd33ea6a6d8828168f12d4",
+      "retrieved": "2026-10-18"
+    },
+    {
+      "name": "Microsoft MPARR setup (reference only, never executed)",
+      "url": "https://raw.githubusercontent.com/microsoft/Microsoft-Purview-Advanced-Rich-Reports-MPARR-Collector/274cba221f0679fbf43eaa5dae37e1382f85a4c1/MPARR2/MPARR2_Setup.ps1",
+      "sha256": "be1e132f064ab4cd39bccbf460514b022daa851ca78e95eaa256ca6380ba6a9e",
+      "retrieved": "2026-10-18"
+    }
+  ],
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/api/v1.0/{tenant}/activity/feed/subscriptions/start",
+      "behavior": "Start/update client subscription; reject webhook configuration",
+      "sourceUrl": "https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference",
+      "sourceSha256": "cefd4d6a38e3480b23118cb651c2df9656b24e4503587e832d7ea0bc0285dd0d",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1.0/{tenant}/activity/feed/subscriptions/stop",
+      "behavior": "Disable client subscription and revoke list/retrieve",
+      "sourceUrl": "https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference",
+      "sourceSha256": "cefd4d6a38e3480b23118cb651c2df9656b24e4503587e832d7ea0bc0285dd0d",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1.0/{tenant}/activity/feed/subscriptions/list",
+      "behavior": "Client subscription array",
+      "sourceUrl": "https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference",
+      "sourceSha256": "cefd4d6a38e3480b23118cb651c2df9656b24e4503587e832d7ea0bc0285dd0d",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1.0/{tenant}/activity/feed/subscriptions/content",
+      "behavior": "Publication-time descriptor array and NextPageUri header",
+      "sourceUrl": "https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference",
+      "sourceSha256": "cefd4d6a38e3480b23118cb651c2df9656b24e4503587e832d7ea0bc0285dd0d",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1.0/{tenant}/activity/feed/audit/{contentId}",
+      "behavior": "Immutable raw audit array",
+      "sourceUrl": "https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference",
+      "sourceSha256": "cefd4d6a38e3480b23118cb651c2df9656b24e4503587e832d7ea0bc0285dd0d",
+      "retrievedAt": "2026-10-18"
+    }
+  ]
+}
