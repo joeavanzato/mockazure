@@ -73,6 +73,11 @@ SURFACES = {
     "graph.mail-rules": ["Get-MgUserMailFolderMessageRule"],
     "exchange.mail": [
         "Get-OrganizationConfig",
+        "Get-MailboxPermission",
+        "Get-RecipientPermission",
+        "Get-TransportRule",
+        "Get-TransportConfig",
+        "Get-AcceptedDomain",
         "Get-EXOMailbox",
         "Get-Mailbox",
         "Get-CASMailbox",
@@ -96,11 +101,24 @@ SURFACES = {
 
 def operation_mapping(command):
     manifest = json.loads((ROOT / "integrations/contracts/coverage-operations.json").read_text())
-    return [
+    result = [
         {key: operation[key] for key in ("method", "path", "status")}
         for operation in manifest["operations"]
         if command.lower() in {name.lower() for name in operation.get("collectorCommands", [])}
     ]
+
+    exchange = json.loads((ROOT / "integrations/contracts/exchange-mail.json").read_text())
+    for operation in exchange.get("collectionCommands", []):
+        if command.lower() == operation["name"].lower():
+            result.append(
+                {
+                    "method": operation["method"],
+                    "path": operation["path"],
+                    "command": operation["name"],
+                    "status": operation["status"],
+                }
+            )
+    return result
 
 
 def main():
@@ -119,7 +137,7 @@ def main():
         ),
         "collectors": {},
         "next_gaps": [
-            "Exchange RemoteDomain and TransportConfig collector calls",
+            "Exchange RemoteDomain/AdminAuditLogConfig and compiled permission collector calls",
             "Mailbox messages and attachments",
             "SharePoint/OneDrive evidence and audit collectors",
             "Provider-specific Azure diagnostics and storage logs",

@@ -8,6 +8,11 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, 
 EXCHANGE_COMMANDS = frozenset(
     {
         "Get-OrganizationConfig",
+        "Get-TransportConfig",
+        "Get-AcceptedDomain",
+        "Get-TransportRule",
+        "Get-MailboxPermission",
+        "Get-RecipientPermission",
         "Get-Mailbox",
         "Set-Mailbox",
         "Get-EXOMailbox",

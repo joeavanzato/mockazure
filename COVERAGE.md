@@ -274,20 +274,26 @@ semantics are linked to Microsoft PowerShell references.
 
 | Microsoft command | MockAzure support | Notes / unsupported parts |
 | --- | --- | --- |
-| [Get-OrganizationConfig](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-organizationconfig?view=exchange-ps) | Partial: read | Bounded tenant bootstrap/configuration probe, not every organization setting. |
+| [Get-OrganizationConfig](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-organizationconfig?view=exchange-ps) | Partial: read | Tenant identity plus imported audit, OAuth client and bounded organization settings. Missing optional fields stay absent. Tenant-wide command authority required. |
+| [Get-TransportConfig](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-transportconfig?view=exchange-ps) | Partial: read | Typed imported transport settings, optional tenant Identity; no transport engine or public settings writes. |
+| [Get-AcceptedDomain](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-accepteddomain?view=exchange-ps) | Partial: read | Imported authoritative/internal-relay domains; Identity/ResultSize. No domain verification or external relay. |
+| [Get-TransportRule](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-transportrule?view=exchange-ps) | Partial: read | Imported name, priority, state, mode, author/timestamps and bounded conditions/actions; Identity/State/ResultSize. No Filter/DlpPolicy or rule execution. |
+| [Get-MailboxPermission](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-mailboxpermission?view=exchange-ps), [Get-RecipientPermission](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-recipientpermission?view=exchange-ps) | Partial: read | Canonical mailbox scope; imported inherited/deny ACL rows and SendAs evidence. Identity, literal User/Trustee filters and ResultSize; recipient AccessRights=SendAs. ACL evidence grants no command authority. No Owner/soft-deleted/unresolved switches or compiled Get-EXO permission variants. |
 | [Get-Mailbox](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-mailbox?view=exchange-ps), [Get-EXOMailbox](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-exomailbox?view=exchange-ps) | Partial: read | Identity, selected properties/property sets, result-size/archive profile. |
 | [Set-Mailbox](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/set-mailbox?view=exchange-ps) | Partial: write | ForwardingAddress, ForwardingSmtpAddress, DeliverToMailboxAndForward; no delivery engine. |
 | [Get-EXOMailboxStatistics](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-exomailboxstatistics?view=exchange-ps), [Get-EXOMailboxFolderStatistics](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-exomailboxfolderstatistics?view=exchange-ps), [Get-EXOCasMailbox](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-exocasmailbox?view=exchange-ps) | Partial: read | Provisioned primary/archive folder counts/sizes/CAS flags; not a message-content store. |
 | [Get-InboxRule](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-inboxrule?view=exchange-ps), New-InboxRule, Set-InboxRule, Remove-InboxRule, Enable-InboxRule, Disable-InboxRule | Implemented within rule profile | Shared Graph/Exchange state, ordering, supported conditions/actions/exceptions, hidden-rule reads, command-specific authority. No rule execution. |
 | [Get-SweepRule](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-sweeprule?view=exchange-ps), New-SweepRule, Set-SweepRule, Remove-SweepRule | Implemented within rule profile | Persisted configuration; bounded sender/folder/age/exception parameters. |
 | [Get-MessageTraceV2](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-messagetracev2?view=exchange-ps), [Get-MessageTraceDetailV2](https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-messagetracedetailv2?view=exchange-ps) | Partial: read | Imported rows/details. UTC, 90-day lookback, max 10-day range, default 1000/max 5000 rows; EndDate/StartingRecipientAddress continuation. Duplicate Received+RecipientAddress pairs rejected on import. |
-| Search-UnifiedAuditLog, Get-TransportRule, Get-MailboxPermission, Get-RecipientPermission, other unlisted cmdlets | Unsupported | Graph UAL does not implement Search-UnifiedAuditLog. No general PowerShell command execution/remote PowerShell endpoint. |
+| Search-UnifiedAuditLog, Get-RemoteDomain, Get-AdminAuditLogConfig, other unlisted cmdlets | Unsupported | Graph UAL does not implement Search-UnifiedAuditLog. No general PowerShell command execution/remote PowerShell endpoint. |
 
 Exchange.ManageAsApp / delegated Exchange.Manage do not bypass command authority.
 Exchange entitlement and supported roles/grants remain required; Purview roles are separate.
 See [mail contracts](docs/mail-contracts.md) and [qualification](docs/compatibility.md),
 including original versus patched collector profiles and upstream output defects.
-Endpoint support is not full Hawk/MES certification.
+Endpoint support is not full Hawk/MES certification. Typed Exchange collection evidence
+is provisioned and round-tripped through `/_mock/tenants/{tenant_id}/mail/collectionState`;
+see the [command/field/parameter manifest](integrations/contracts/exchange-mail.json).
 
 ## Azure Resource Manager and Activity Logs
 

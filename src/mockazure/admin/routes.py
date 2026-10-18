@@ -92,6 +92,8 @@ async def capabilities(request: Request):
             "graph.security.secureScores.read",
             "graph.security.secureScoreControlProfiles.read",
             "exchange.organization.read",
+            "exchange.collection.configuration",
+            "exchange.collection.permissions",
             "exchange.mailbox.configuration",
             "exchange.mailbox.statistics",
             "exchange.inboxRules",
@@ -127,6 +129,7 @@ async def capabilities(request: Request):
             "Tenant exports remain metadata-only; directory datasets are separate public fixtures",
         ],
         "admin_operations": [
+            "mail.collectionState",
             "tenant.create",
             "tenant.get",
             "tenant.list",

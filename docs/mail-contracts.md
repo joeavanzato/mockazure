@@ -385,3 +385,44 @@ prefix returns404. Equivalent UUID/UPN/SMTP/alias identities remain supported.
 Mutating Exchange rule commands lock the mailbox before reading/merging and
 refresh ORM rule state under that lock; Graph and Exchange share the same order
 and immutable version/fact history.
+
+
+## Exchange collection configuration and permission evidence
+
+`GET` and `PUT /_mock/tenants/{tenant_id}/mail/collectionState` provide a typed,
+admin-authenticated export and atomic complete replacement. The six sections are
+`organization`, `transport`, `accepted_domains`, `transport_rules`,
+`mailbox_permissions` and `recipient_permissions`; omitted sections are cleared.
+An empty object resets this collection evidence without deleting mailboxes, rules,
+traces, or command grants. Existing canonical mailbox user IDs are required for
+permission rows. Imports reject unknown fields, duplicate record IDs and rule
+priorities, multiple default domains, and missing/foreign/deleted mailboxes.
+Exports omit permission records for deleted mailbox identities.
+
+The [pinned Exchange manifest](../integrations/contracts/exchange-mail.json)
+lists accepted command parameters, returned fields, sources and limits. Public
+reads expose imported state: organization audit/OAuth flags, transport settings,
+accepted domains, transport rules, mailbox ACLs and SendAs permissions. Missing
+optional fields are absent rather than guessed. Transport descriptions/actions
+are evidence; neither rule delivery nor an ACL enforcement engine is simulated.
+Mailbox ACL records are separate from ExchangeCommandGrant and never authorize
+commands. Every read checks current token permissions, roles/grants and relevant
+service entitlement; mailbox reads additionally check current recipient scope.
+Tenant-wide configuration cannot be read using only a mailbox-scoped grant.
+
+Permission Identity uses the canonical mailbox resolver (UUID, Exchange GUID,
+UPN, SMTP or alias); display-name collisions cannot redirect evidence. User and
+Trustee filters compare stored literal identifiers case-insensitively, without
+SID-history or directory-principal expansion. MailboxPermission requires Identity;
+RecipientPermission can list only authorized mailboxes. Unsupported command
+parameters fail explicitly. Explicit command grants and the bounded Global
+Reader/Exchange Administrator/Global Administrator profiles apply, not complete
+Exchange management-role-group evaluation.
+
+Migration 041 adds three tenant-scoped PostgreSQL tables and preserves existing
+mailbox configuration. Downgrade refuses to discard nonempty collection state.
+`python -m tools.verify_exchange_collections` qualifies original EXO 3.11.0 and
+original MES Get-TransportRules against a fresh local Docker lab. Full Hawk tenant
+configuration still needs Get-AdminAuditLogConfig/Get-RemoteDomain; the full MES
+mailbox-permission workflow also needs broader mailbox properties and recipient
+resolution. These entry points are not certified by the new command reads alone.

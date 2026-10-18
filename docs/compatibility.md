@@ -49,6 +49,18 @@ binding for the pinned module's authentication provider; Microsoft command code 
 unchanged. The preceding original Python/PowerShell directory checks also passed.
 This qualifies those request combinations, not every SDK command or query option.
 
+## Exchange collection qualification
+
+The 2026-10-17 `python -m tools.verify_exchange_collections` fresh Docker run passed
+with original ExchangeOnlineManagement 3.11.0 for all six added configuration and
+permission commands. Original MES `Get-TransportRules` exported the exact expected
+CSV row, including timestamp; both loaded collector source hashes matched the pinned
+archive. The module uses the existing bounded service-generated proxies and a local
+TCP relay for its port-443 bootstrap, with no host trust or DNS changes. Persistence,
+HTTPS readiness and missing-storage checks passed. Complete Hawk tenant configuration
+and MES mailbox-permission workflows remain outside this qualification because their
+additional commands/fields are still unsupported.
+
 ## Preserved upstream limitations
 
 Original Hawk JSON append creates concatenated documents for multiple suspicious rules.

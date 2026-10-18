@@ -66,9 +66,7 @@ def test_collector_mapping_is_operation_specific_and_leaves_unsupported_commands
     from tools.collector_coverage import SURFACES
 
     mapped = {command for commands in SURFACES.values() for command in commands}
-    assert (
-        not {"Get-MailboxPermission", "Get-RecipientPermission", "Search-UnifiedAuditLog"} & mapped
-    )
+    assert not {"Get-EXOMailboxPermission", "Search-UnifiedAuditLog"} & mapped
 
 
 def test_query_profiles_have_pinned_sources_and_explicit_local_extensions():
@@ -105,3 +103,24 @@ async def test_directory_expansion_capabilities_do_not_promise_nested_paging(tmp
     profile = next(row for row in manifest["queryProfiles"] if row["path"] == "/v1.0/groups")
     assert "without nested nextLink" in profile["notes"]
     assert "dedicated members collection" in profile["notes"]
+
+
+def test_exchange_collection_contracts_match_proxy_parameters():
+    from mockazure.providers.exchange.bootstrap import PARAMETERS
+    from tools.collector_coverage import operation_mapping
+
+    manifest = json.loads((ROOT / "integrations/contracts/exchange-mail.json").read_text())
+    assert len(manifest["collectionCommands"]) == 6
+    for command in manifest["collectionCommands"]:
+        assert command["parameters"] == PARAMETERS[command["name"]]
+        assert command["sourceUrl"].startswith("https://learn.microsoft.com/")
+        assert len(command["sourceSha256"]) == 64
+        assert command["responseFields"]
+        assert operation_mapping(command["name"]) == [
+            {
+                "method": "POST",
+                "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+                "command": command["name"],
+                "status": "implemented",
+            }
+        ]

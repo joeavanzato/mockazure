@@ -171,3 +171,21 @@ async def delete_audit_role(tenant_id: UUID, user_id: UUID, role: str, request: 
             )
         )
     return Response(status_code=204)
+
+
+@router.get("/collectionState")
+async def get_collection_state(tenant_id: UUID, request: Request):
+    from mockazure.mail.configuration import export_collection_state
+
+    async with request.app.state.database.sessions.begin() as session:
+        return await export_collection_state(session, tenant_id)
+
+
+@router.put("/collectionState")
+async def put_collection_state(tenant_id: UUID, request: Request):
+    from mockazure.mail.collection_schemas import ExchangeCollectionState
+    from mockazure.mail.configuration import replace_collection_state
+
+    value = await parsed(request, ExchangeCollectionState)
+    async with request.app.state.database.sessions.begin() as session:
+        return await replace_collection_state(session, tenant_id, value)
