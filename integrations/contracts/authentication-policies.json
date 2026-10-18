@@ -97,6 +97,18 @@
       "url": "https://learn.microsoft.com/en-us/graph/api/resources/smsauthenticationmethodtarget?view=graph-rest-1.0",
       "sha256": "7e8dafe0b0636e67787bb5bd7e74debbe5563f6dd0ec85ee57dfdf452e5250d4",
       "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "conditionalaccessroot-post-policies",
+      "url": "https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-1.0",
+      "sha256": "0d82b701cab345fb3c96d7a035787827975d7ad66b72f4e603115e3f91367afa",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "conditionalaccesspolicy-update",
+      "url": "https://learn.microsoft.com/en-us/graph/api/conditionalaccesspolicy-update?view=graph-rest-1.0",
+      "sha256": "36530b0c3ee40cab9881e92f746f08eeabb64cfc85cbd5ec80d90a15b2fe2a4b",
+      "retrievedAt": "2026-10-18"
     }
   ]
 }

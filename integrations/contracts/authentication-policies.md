@@ -62,7 +62,7 @@ Policy payloads can be collected through the typed Graph reads and audit exports
 Trusted authentication context is not a portable evidence assertion: database restart
 preserves it, expiry cleanup removes it, and a fresh imported tenant must authenticate
 again. Upgrade tests preserve legacy state without fabricating registrations. Downgrade
-is refused when it would discard enabled enforcement, changed policies, or live context.
+is refused when it would discard enabled enforcement, changed policies, or retained context.
 
 Qualification entry point: `python -m tools.verify_authentication_policies`, using the
 pinned original Graph Python SDK, Graph PowerShell and real local HTTPS issuer/forms.
