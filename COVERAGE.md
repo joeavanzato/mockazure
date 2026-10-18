@@ -346,7 +346,10 @@ version-specific sources and local paging rules.
 | Microsoft API URI | MockAzure status | Notes / reference |
 | --- | --- | --- |
 | `POST https://api.security.microsoft.com/api/advancedhunting/run` | Unsupported | Legacy Defender XDR hunting transport; Microsoft documents its transition/retirement in favor of Graph. Neither this route nor Graph runHuntingQuery is implemented. [Reference](https://learn.microsoft.com/en-us/defender-xdr/api-advanced-hunting). |
-| `https://manage.office.com/api/v1.0/{tenant}/activity/feed/` + `subscriptions/start`, `subscriptions/list`, `subscriptions/stop` or `subscriptions/content` | Unsupported | Office 365 Management Activity feed subscriptions/content retrieval. Shared audit schemas and Graph UAL search do not implement this separate service. [Reference](https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference). |
+| `POST https://manage.office.com/api/v1.0/{tenant}/activity/feed/subscriptions/start?contentType=...` and `/subscriptions/stop` | Partial: implemented app-only pull profile | Client-isolated enabling/disabling; all five types, separate DLP permission; current identity and subscription enforcement. No webhooks/delegated access. [Contract](integrations/contracts/activity-feed.md). |
+| `GET .../activity/feed/subscriptions/list` and `/subscriptions/content?contentType=...` | Partial: implemented app-only pull profile | Raw arrays; publication windows ≤24h, seven-day retention, snapshot `NextPageUri` header; publisher quota/AF429/Retry-After. [Reference](https://learn.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference). |
+| `GET .../activity/feed/audit/{contentId}` | Implemented: GET within the pull profile | Immutable common-schema audit arrays, original event IDs, current subscription/DLP checks and expiry. Canonical native UAL publication + explicit feed-only imports; preserved workload extensions. No claims of all product-specific schema rules. |
+| `.../activity/feed/subscriptions/notifications` and webhook delivery | Unsupported | Pull subscriptions do not imply notification history or external delivery. |
 
 ## Populating data and runtime discovery
 
@@ -359,6 +362,7 @@ require the separate admin token. Provider operations use their local service ac
 | POST `/_mock/tenants/{tenant}/directory/import`, GET `/_mock/tenants/{tenant}/directory/export` | Public directory fixtures, not complete identity/credential/authorization backups. |
 | POST `/_mock/tenants/{tenant}/evidence/import`, GET `/_mock/tenants/{tenant}/evidence/export` | Supported historical families including UAL/Activity; [controls](docs/evidence.md) govern publication, retention/reset. |
 | POST `/_mock/tenants/{tenant}/collections/{family}/import` | Five security collections; atomic 1–1000 records, 8 MiB limit, replacement by ID at a new revision. No collection delete/reset/export/pruning integration yet. |
+| `/_mock/tenants/{tenant}/activity/{state,settings,import,publish,drain,export,restore,reset,cleanup}` | Feed publication faults, bounded evidence lifecycle, generation fences; [methods and limits](integrations/contracts/activity-feed.md). |
 | Identity, licensing, methods, mailbox, ARM, managed-host provisioning | Configure state/entitlements through CLI/documented admin routes. [Identity](docs/identity.md), [mail](docs/mail-contracts.md), [ARM](docs/arm-contracts.md). |
 
 An empty response from an implemented route means no matching visible local data; a missing

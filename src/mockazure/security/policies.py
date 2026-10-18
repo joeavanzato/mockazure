@@ -294,7 +294,7 @@ async def validate_references(session, tenant, body):
                     continue
                 identifier = UUID(value)
                 if model is Application and identifier in {
-                    resource_app_id(r) for r in ("graph", "exchange", "arm")
+                    resource_app_id(r) for r in ("graph", "exchange", "arm", "activity")
                 }:
                     continue
                 column = model.client_id if model is Application else model.id

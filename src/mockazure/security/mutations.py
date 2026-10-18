@@ -72,7 +72,7 @@ def configured_permissions(values):
         resource = next(
             (
                 name
-                for name in ("graph", "exchange")
+                for name in ("graph", "exchange", "activity")
                 if uuid_value(entry["resourceAppId"]) == resource_app_id(name)
             ),
             None,

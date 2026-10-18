@@ -210,6 +210,7 @@ async def fail_job(
         "TransientError",
         "ExportFailed",
         "InvalidEvidenceSource",
+        "InvalidActivitySource",
         "UnsupportedJobKind",
         "ArmOperationFailed",
     }

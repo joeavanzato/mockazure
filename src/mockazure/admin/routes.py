@@ -32,6 +32,22 @@ async def capabilities(request: Request):
 
     settings = request.app.state.settings
     return {
+        "activity_profile": {
+            "version": "v1.0",
+            "audience": "https://manage.office.com",
+            "authentication": "application",
+            "content_types": [
+                "Audit.AzureActiveDirectory",
+                "Audit.Exchange",
+                "Audit.SharePoint",
+                "Audit.General",
+                "DLP.All",
+            ],
+            "webhooks": False,
+            "retention_days": 7,
+            "window_hours": 24,
+            "cursor_seconds": 3600,
+        },
         "intune_profile": {
             "version": "v1.0",
             "beta": False,

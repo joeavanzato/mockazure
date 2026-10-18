@@ -335,6 +335,15 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         )
     )
     row = await session.get(EvidenceSource, key)
+    from mockazure.activity.publication import enqueue_activity
+
+    await enqueue_activity(
+        session,
+        key[0],
+        key[1],
+        key[2],
+        [item.payload for item in batch.items if item.family == "auditLogRecord"],
+    )
     row.acknowledged_at = datetime.now(UTC)
     if batch.source.kind == "directory":
         from mockazure.directory.models import EvidenceOutbox

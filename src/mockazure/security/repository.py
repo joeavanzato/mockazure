@@ -47,6 +47,7 @@ async def ensure_resource_principals(session, tenant):
         ("graph", "Microsoft Graph"),
         ("exchange", "Office 365 Exchange Online"),
         ("arm", "Windows Azure Service Management API"),
+        ("activity", "Office 365 Management APIs"),
     ]:
         identifier = uuid5(tenant, "resource-service-principal:" + resource)
         properties = {
@@ -147,7 +148,7 @@ def required_access(row):
         .alias("required_name")
     )
     result = literal([], JSONB)
-    for resource in ("graph", "exchange"):
+    for resource in ("graph", "exchange", "activity"):
         mapping = {
             kind: {
                 item["name"]: item["id"]
