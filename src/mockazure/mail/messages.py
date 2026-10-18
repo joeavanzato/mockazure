@@ -215,6 +215,12 @@ async def import_mail_content(session, tenant_id: UUID, batch: MailContentImport
         )
     }
     for row in batch.messages:
+        if immutable_key(row.id) is not None:
+            raise AdminError(
+                422,
+                "ReservedMessageIdentity",
+                "Normal message IDs cannot use the immutable ID namespace",
+            )
         if row.folder_id not in parents:
             raise AdminError(422, "FolderNotFound", "Message parent folder was not found")
         if (
@@ -259,9 +265,31 @@ async def import_mail_content(session, tenant_id: UUID, batch: MailContentImport
             raise AdminError(
                 422, "AttachmentSizeMismatch", "Attachment size disagrees with local bytes"
             )
+    # Build final paths before writing: descendants must follow renamed/reparented ancestors.
+    display_names = {key: row.name for key, row in folders.items()}
+    display_names.update({row.id: row.displayName for row in batch.folders})
+    paths = {}
+    for identifier in parents:
+        chain, current_id = [], identifier
+        while current_id is not None and current_id not in paths:
+            chain.append(current_id)
+            current_id = parents[current_id]
+        path = paths.get(current_id, "")
+        for child in reversed(chain):
+            path += "/" + display_names[child]
+            if len(path) > 1024:
+                raise AdminError(422, "InvalidFolderTree", "Folder path exceeds 1024 characters")
+            paths[child] = path
     state = state or await state_for(session, box, create=True)
     state.revision += 1
     revision = state.revision
+    # Uniqueness is immediate; remove old aliases before assigning the validated final map.
+    for value in batch.folders:
+        if value.id in metadata:
+            metadata[value.id].well_known_name = None
+    await session.flush()
+    for identifier, row in folders.items():
+        row.path = paths[identifier]
     for value in batch.folders:
         row = folders.get(value.id)
         if row is None:
@@ -270,7 +298,7 @@ async def import_mail_content(session, tenant_id: UUID, batch: MailContentImport
                 user_id=box.user_id,
                 id=value.id,
                 name=value.displayName,
-                path="/" + value.displayName,
+                path=paths[value.id],
                 archive=False,
                 item_count=0,
                 size_bytes=0,

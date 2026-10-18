@@ -60,3 +60,13 @@ def test_attachment_content_type_cannot_break_http_headers():
                 "payload": {"contentType": "text/plain\r\nX-Injected: yes"},
             }
         )
+
+
+@pytest.mark.parametrize("stamp", ["2026-10-07T10:30:00.12345678Z", "20261007T10:30:00Z"])
+def test_received_time_rejects_precision_or_shape_outside_graph_profile(stamp):
+    from mockazure.mail.content_models import MessageImport
+
+    with pytest.raises(ValidationError):
+        MessageImport.model_validate(
+            {"id": "m", "folder_id": "inbox", "payload": {"receivedDateTime": stamp}}
+        )

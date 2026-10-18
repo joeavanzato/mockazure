@@ -6,6 +6,7 @@ from uuid import UUID
 from pydantic import Field, StrictBool, field_validator, model_validator
 
 from mockazure.mail.schemas import MailInput
+from mockazure.providers.arm.activity import instant
 from mockazure.providers.graph.schema_reference import validate_payload
 
 WELL_KNOWN = frozenset(
@@ -59,6 +60,8 @@ class MessageImport(MailInput):
         if value.keys() & {"id", "parentFolderId", "changeKey", "hasAttachments"}:
             raise ValueError("Message identity and derived properties are managed separately")
         validate_payload("v1.0", "message", value, partial=True)
+        if value.get("receivedDateTime") is not None:
+            instant(value["receivedDateTime"])
         return value
 
 

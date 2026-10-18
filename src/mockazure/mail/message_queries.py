@@ -11,12 +11,13 @@ from datetime import timedelta
 from html.parser import HTMLParser
 from urllib.parse import urlencode
 
-from sqlalchemy import DateTime, cast, func, or_, select
+from sqlalchemy import BigInteger, DateTime, and_, cast, func, or_, select
 from sqlalchemy.dialects.postgresql import insert
 
 from mockazure.content.repository import object_row, stream_content
 from mockazure.mail.message_models import MailContentCursor, MailMessage, MailMessageVersion
 from mockazure.mail.messages import immutable_identifier
+from mockazure.providers.arm.activity import instant
 from mockazure.providers.graph.continuations import decode_node, encode_node
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.query.ast import Boolean, Compare
@@ -47,15 +48,56 @@ CONTRACT = QueryContract(
 )
 
 
-def filter_column(field):
-    value = MailMessageVersion.payload[field.name]
+def timestamp_ticks(value):
+    # PostgreSQL timestamps round at six digits. Cast only whole seconds, then
+    # add the original seven-digit fraction as an integer (100ns since Unix epoch).
+    whole = cast(func.regexp_replace(value, r"\.[0-9]+", ""), DateTime(timezone=True))
+    fraction = func.coalesce(func.substring(value, r"\.([0-9]+)"), "")
+    return cast(func.extract("epoch", whole) * 10_000_000, BigInteger) + cast(
+        func.rpad(fraction, 7, "0"), BigInteger
+    )
+
+
+def filter_column(field, payload=None):
+    value = (MailMessageVersion.payload if payload is None else payload)[field.name]
     return (
-        cast(value.as_string(), DateTime(timezone=True))
+        timestamp_ticks(value.as_string())
         if field.data_type == "datetime"
         else value.as_boolean()
         if field.data_type == "bool"
         else value.as_string()
     )
+
+
+def mail_filter(node, payload=None):
+    if isinstance(node, Boolean):
+        children = [mail_filter(child, payload) for child in node.children]
+        return (and_ if node.op == "and" else or_)(*children)
+
+    def resolver(field):
+        return filter_column(field, payload)
+
+    if isinstance(node, Compare) and node.left.name == "receivedDateTime":
+        field = FILTER_FIELDS[node.left.name]
+        if node.op not in field.operators:
+            unsupported("Operator is not supported for this property")
+        column = resolver(field)
+        if node.right.value is None:
+            if node.op != "eq":
+                unsupported("Null only supports equality comparisons")
+            return column.is_(None)
+        try:
+            ticks = instant(node.right.value)[1] - 621355968000000000
+        except (ValueError, TypeError, OverflowError):
+            unsupported("Invalid receivedDateTime literal")
+        return {
+            "eq": column.__eq__,
+            "ge": column.__ge__,
+            "gt": column.__gt__,
+            "le": column.__le__,
+            "lt": column.__lt__,
+        }[node.op](ticks)
+    return compile_filter(node, CONTRACT, resolver=resolver)
 
 
 def preferences(request):
@@ -121,7 +163,7 @@ def query_options(request, kind, *, item=False, delta=False):
         unsupported("Invalid boolean query option")
     filtered = FilterParser(values["$filter"]).parse() if "$filter" in values else None
     if filtered:
-        compile_filter(filtered, CONTRACT, resolver=filter_column)
+        mail_filter(filtered)
     ordered = []
     if "$orderby" in values:
         for expression in values["$orderby"].split(","):
@@ -244,6 +286,8 @@ class PlainText(HTMLParser):
 def body_format(body, desired):
     if body is None or body.get("contentType") == desired:
         return body
+    if body.get("content") is None:
+        return {**body, "contentType": desired}
     if desired == "text":
         parser = PlainText()
         parser.feed(body.get("content", ""))
@@ -274,14 +318,15 @@ def message_view(row, options, *, basic=False):
         changeKey=str(revision),
         hasAttachments=any(not item["payload"].get("isInline", False) for item in row.attachments),
     )
-    for field in ("body", "uniqueBody"):
-        if field in value:
-            value[field] = body_format(value[field], options["body"])
     if not options["select"] or "internetMessageHeaders" not in options["select"]:
         value.pop("internetMessageHeaders", None)
     if basic:
         value = {k: v for k, v in value.items() if k not in BASIC_HIDDEN}
-    return selected(value, options["select"])
+    value = selected(value, options["select"])
+    for field in ("body", "uniqueBody"):
+        if field in value:
+            value[field] = body_format(value[field], options["body"])
+    return value
 
 
 async def folder_view(session, box, folder, metadata):
@@ -348,7 +393,7 @@ async def message_page(session, box, options, upper, offset, folder_id=None):
         query = query.where(MailMessageVersion.folder_id == folder_id)
     filtered = decode_node(options["filter"])
     if filtered:
-        query = query.where(compile_filter(filtered, CONTRACT, resolver=filter_column))
+        query = query.where(mail_filter(filtered))
     total = (
         await session.scalar(select(func.count()).select_from(query.subquery()))
         if options["count"]

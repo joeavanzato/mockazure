@@ -461,7 +461,10 @@ receivedDateTime comparisons, subject equality/startswith and isRead equality;
 ordering is bounded to receivedDateTime and subject. Combined ordering/filtering
 requires ordered properties first in the filter. Unsupported query options fail.
 Pages bind tenant, mailbox, client, signed-in user, permissions and snapshot, with
-one-hour expiry. File attachment JSON contentBytes is capped at4 MiB; select metadata
+one-hour expiry. Timestamp comparisons preserve seven fractional digits, including offset
+normalization. Normal imported message IDs cannot use the canonical `AAIk` immutable-ID
+encoding. Folder paths follow the validated tree across renames and reparenting.
+File attachment JSON contentBytes is capped at4 MiB; select metadata
 and use `/$value` to stream larger bytes. Item expansion covers a direct message;
 recursive attachments, calendar/contact items and reference downloads are unsupported.
 
@@ -514,3 +517,7 @@ archives with `python tools/prepare_clients.py --manifest
 integrations/mail-content-manifest.json --output work/mail-content-vendor`.
 The qualifier checks all101 imported messages, exact MIME/attachment hashes and
 saved delta links across database/API restart. No real tenant is contacted.
+
+Attachment collection pages additionally cap serialized data at8 MiB, reserving16 KiB
+for the response envelope and continuation. A page can contain fewer attachments than
+`$top`; follow its `@odata.nextLink`. An individual oversized JSON projection returns413.

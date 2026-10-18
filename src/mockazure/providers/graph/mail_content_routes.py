@@ -1,5 +1,6 @@
 """Graph v1.0 mailbox evidence, with ordinary authorization on every request."""
 
+import json
 from datetime import UTC, datetime
 from urllib.parse import quote
 from uuid import UUID
@@ -259,14 +260,27 @@ def register(path, kind, *, item=False, raw=False, folder_scope=False, self_path
                     start = cursor["offset"]
                     rows = cursor["rows"][start : start + options["top"]]
                     more = start + options["top"] < len(cursor["rows"])
-                    values = (
-                        [selected(row, options["select"]) for row in rows]
-                        if kind == "folders"
-                        else [
-                            await attachment_view(session, actor.tenant_id, row, options)
-                            for row in rows
-                        ]
-                    )
+                    if kind == "folders":
+                        values = [selected(row, options["select"]) for row in rows]
+                    else:
+                        values, page_bytes = [], 0
+                        # Reserve space for context and continuation; allocate at most one
+                        # additional bounded attachment before deciding to stop the page.
+                        budget = 8 * 1024 * 1024 - 16384
+                        for row in rows:
+                            value = await attachment_view(session, actor.tenant_id, row, options)
+                            size = len(json.dumps(value, ensure_ascii=False).encode("utf-8")) + 1
+                            if page_bytes + size > budget:
+                                if not values:
+                                    raise GraphError(
+                                        413,
+                                        "ErrorMessageSizeExceeded",
+                                        "Select attachment metadata or use /$value",
+                                    )
+                                more = True
+                                break
+                            values.append(value)
+                            page_bytes += size
                 result = {"@odata.context": context_url(request, resource), "value": values}
                 if total is not None:
                     result["@odata.count"] = total

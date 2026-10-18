@@ -3,7 +3,7 @@
 import hashlib
 import re
 from dataclasses import asdict
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
 from sqlalchemy import delete, exists, select, text
@@ -96,8 +96,16 @@ async def finalize_upload(session, tenant_id: UUID, upload_id: UUID) -> ContentR
     await session.execute(text("SELECT pg_advisory_xact_lock(:key)"), {"key": lock_key})
     row = await object_row(session, tenant_id, upload_id, lock=True)
     if row.state == "alias":
-        return reference(await object_row(session, tenant_id, row.canonical_id, finalized=True))
+        canonical = await object_row(
+            session, tenant_id, row.canonical_id, lock=True, finalized=True
+        )
+        # created_at is the internal retention age, not an exported evidence timestamp.
+        row.created_at = canonical.created_at = datetime.now(UTC)
+        await session.flush()
+        return reference(canonical)
     if row.state == "finalized":
+        row.created_at = datetime.now(UTC)
+        await session.flush()
         return reference(row)
     digest, total, ordinal = hashlib.sha256(), 0, 0
     chunks = await session.stream(
@@ -124,7 +132,9 @@ async def finalize_upload(session, tenant_id: UUID, upload_id: UUID) -> ContentR
         )
         .with_for_update()
     )
+    row.created_at = datetime.now(UTC)
     if canonical is not None:
+        canonical.created_at = row.created_at
         row.state, row.canonical_id = "alias", canonical.id
         await session.execute(
             delete(ContentChunk).where(

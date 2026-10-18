@@ -41,6 +41,8 @@ configuration export keeps its existing schema and does not claim to contain bin
 Workload repositories pin each live or historical blob reference and release pins only
 when the owning version can be removed. A cursor-retained version must retain its pin.
 The shared maintenance cleanup service prunes unreferenced uploads/objects older than
-24 hours within its existing deletion budget. Active downloads and reference creation
+24 hours within its existing deletion budget. Successful completion, including deduplication
+and completion retries, renews the canonical object's24-hour grace period under its lock.
+The internal `created_at` column records this retention age, not an evidence timestamp. Active downloads and reference creation
 lock the object against deletion. Reset refuses referenced bytes rather than cascading
 through mailbox, drive or Teams evidence. Migration downgrade likewise refuses data loss.

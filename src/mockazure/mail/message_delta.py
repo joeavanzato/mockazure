@@ -5,9 +5,8 @@ from types import SimpleNamespace
 from sqlalchemy import and_, literal, or_, select, union_all
 
 from mockazure.mail.message_models import MailMessageVersion
-from mockazure.mail.message_queries import CONTRACT, filter_column, message_page
+from mockazure.mail.message_queries import mail_filter, message_page, timestamp_ticks
 from mockazure.providers.graph.continuations import decode_node
-from mockazure.providers.graph.query.compiler import compile_filter
 
 
 def snapshot(box, revision, name):
@@ -51,13 +50,7 @@ async def delta_page(session, box, folder, options, lower, upper, offset):
     filtered = decode_node(options["filter"])
     if filtered:
         # Preserve folder read/unread events outside the received-time filter.
-        predicate = compile_filter(
-            filtered,
-            CONTRACT,
-            resolver=lambda field: (
-                after.c.payload[field.name].as_string().cast(filter_column(field).type)
-            ),
-        )
+        predicate = mail_filter(filtered, after.c.payload)
         changed = changed.where(
             or_(
                 predicate,
@@ -74,11 +67,7 @@ async def delta_page(session, box, folder, options, lower, upper, offset):
     query = select(events)
     if options["order"]:
         query = query.order_by(
-            events.c.payload["receivedDateTime"]
-            .as_string()
-            .cast(filter_column(CONTRACT.fields["receivedDateTime"]).type)
-            .desc()
-            .nulls_last()
+            timestamp_ticks(events.c.payload["receivedDateTime"].as_string()).desc().nulls_last()
         )
     query = (
         query.order_by(events.c.immutable_id, events.c.removed.desc())
