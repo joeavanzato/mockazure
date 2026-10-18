@@ -26,14 +26,17 @@ def validate_intune_record(kind, payload):
         raise ValueError("Unsupported Intune evidence kind")
     if kind in {"deviceConfiguration", "deviceCompliancePolicy"}:
         allowed = CONFIGURATIONS if kind == "deviceConfiguration" else POLICIES
-        derived = payload.get("@odata.type", "").removeprefix("#microsoft.graph.")
+        annotation = payload.get("@odata.type")
+        if not isinstance(annotation, str):
+            raise ValueError("An Intune platform type annotation must be a string")
+        derived = annotation.removeprefix("#microsoft.graph.")
         if derived not in allowed:
             raise ValueError("An explicitly supported Intune platform type is required")
     validate_payload("v1.0", kind, payload)
     if kind == "managedDevice":
         for field in ("azureADDeviceId", "userId"):
             if payload.get(field):
-                UUID(payload[field])
+                payload[field] = str(UUID(payload[field]))
 
 
 async def licensed(session, tenant):
