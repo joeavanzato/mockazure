@@ -52,3 +52,24 @@ def test_fixture_enrollment_propagates_authorization_failure():
         pytest.raises(httpx.HTTPStatusError),
     ):
         ensure_mobile_method(client, "tenant", "user")
+
+
+def test_identity_fixture_direct_script_can_load_shared_helper(tmp_path):
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    script = Path(__file__).resolve().parents[2] / "tools/prepare_identity.py"
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-I",
+            "-c",
+            "import runpy; runpy.run_path(" + repr(str(script)) + "); "
+            "from tools.qualification_mfa import ensure_mobile_method",
+        ],
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
