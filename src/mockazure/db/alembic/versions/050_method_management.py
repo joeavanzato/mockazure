@@ -27,9 +27,9 @@ def upgrade():
             status_detail varchar(200) NOT NULL, verifier varchar(256),
             created_at timestamptz NOT NULL, updated_at timestamptz NOT NULL,
             FOREIGN KEY (tenant_id,user_id) REFERENCES identity_users(tenant_id,id));
-        CREATE INDEX ix_authentication_password_resets_tenant_id 
+        CREATE INDEX ix_authentication_password_resets_tenant_id
             ON authentication_password_resets(tenant_id);
-        CREATE UNIQUE INDEX uq_authentication_reset_pending 
+        CREATE UNIQUE INDEX uq_authentication_reset_pending
             ON authentication_password_resets(tenant_id,user_id)
             WHERE status IN ('notStarted','running');
     """)

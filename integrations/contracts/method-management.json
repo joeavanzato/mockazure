@@ -1,0 +1,247 @@
+{
+  "schemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "scope": "Graph v1.0 method management and cloud-only delegated password reset",
+  "sources": [
+    {
+      "name": "authentication-post-phonemethods",
+      "url": "https://learn.microsoft.com/en-us/graph/api/authentication-post-phonemethods?view=graph-rest-1.0",
+      "sha256": "1dcbf82c350e49d97aa7fa691c3e134ca72798e999fcfd07f28312fd674d834b",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "phoneauthenticationmethod-update",
+      "url": "https://learn.microsoft.com/en-us/graph/api/phoneauthenticationmethod-update?view=graph-rest-1.0",
+      "sha256": "712e2f5bcb8c06cc5d38708fd28b0a3312941fb4e8e454c07cc7d149ffe51937",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "phoneauthenticationmethod-delete",
+      "url": "https://learn.microsoft.com/en-us/graph/api/phoneauthenticationmethod-delete?view=graph-rest-1.0",
+      "sha256": "8a2d91851ae67ea1e9551d4accadb2a7e0e7a8a401b85958cfec904ef2a38cb7",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "authentication-post-emailmethods",
+      "url": "https://learn.microsoft.com/en-us/graph/api/authentication-post-emailmethods?view=graph-rest-1.0",
+      "sha256": "4aafa0c3284b9ddcb583595d1b9ad7cedd877528dd0c9cec4fbdbd2da8fb0bb1",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "emailauthenticationmethod-update",
+      "url": "https://learn.microsoft.com/en-us/graph/api/emailauthenticationmethod-update?view=graph-rest-1.0",
+      "sha256": "4b4e70d1a83dd25a950eb2802e23e86f74552ee6b90af5764020891e41b8ca88",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "emailauthenticationmethod-delete",
+      "url": "https://learn.microsoft.com/en-us/graph/api/emailauthenticationmethod-delete?view=graph-rest-1.0",
+      "sha256": "32b2095b77322fb736532549e405beceeaed33e39b9fab61a024e36584d52554",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "microsoftauthenticatorauthenticationmethod-delete",
+      "url": "https://learn.microsoft.com/en-us/graph/api/microsoftauthenticatorauthenticationmethod-delete?view=graph-rest-1.0",
+      "sha256": "0b253cadcbe4fdf92dae972ea996a35b44a5d6112ad79498d3c736f022e4b453",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "fido2authenticationmethod-delete",
+      "url": "https://learn.microsoft.com/en-us/graph/api/fido2authenticationmethod-delete?view=graph-rest-1.0",
+      "sha256": "c3e22a78061d97ca01d9f4c21b4551c8ff2d000ba5b338fba4b7fd2cc736e305",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "authenticationmethod-resetpassword",
+      "url": "https://learn.microsoft.com/en-us/graph/api/authenticationmethod-resetpassword?view=graph-rest-1.0",
+      "sha256": "441f1e6be05aa6e2e7466571f4d5f1f19af71613c670522b42ebc3b422e381c4",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "longrunningoperation-get",
+      "url": "https://learn.microsoft.com/en-us/graph/api/longrunningoperation-get?view=graph-rest-1.0",
+      "sha256": "ebfb92ba57b78d23e3fab544afb9b8da580715071f013fdb032458150f0661ca",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/longrunningoperation",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/longrunningoperation?view=graph-rest-1.0",
+      "sha256": "3246f70621d272e793e5199a38069f8ace3a8d9cdee3405edace586ca5cc8446",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "resources/passwordresetresponse",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/passwordresetresponse?view=graph-rest-1.0",
+      "sha256": "79f065047362976f96f64bf91d995125d285ef1e1a06e0f9c6d1bf3825de850a",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "entra-roles",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
+      "sha256": "30b1873c2369e5ef00bc13958980acbe60c2f5672e542a211823d487a702ae92",
+      "retrievedAt": "2026-10-18"
+    },
+    {
+      "name": "privileged-roles",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/privileged-roles-permissions",
+      "sha256": "928d7406eace04ef9d755df63e7cd4e396ff191791b6fc78de3db2625be90b9c",
+      "retrievedAt": "2026-10-18"
+    }
+  ],
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/v1.0/users/{userId}/authentication/phoneMethods",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authentication-post-phonemethods?view=graph-rest-1.0",
+      "sourceSha256": "1dcbf82c350e49d97aa7fa691c3e134ca72798e999fcfd07f28312fd674d834b",
+      "retrievedAt": "2026-10-18",
+      "status": 201,
+      "operation": "authentication-post-phonemethods"
+    },
+    {
+      "method": "PATCH",
+      "path": "/v1.0/users/{userId}/authentication/phoneMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/phoneauthenticationmethod-update?view=graph-rest-1.0",
+      "sourceSha256": "712e2f5bcb8c06cc5d38708fd28b0a3312941fb4e8e454c07cc7d149ffe51937",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "phoneauthenticationmethod-update"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/users/{userId}/authentication/phoneMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/phoneauthenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "8a2d91851ae67ea1e9551d4accadb2a7e0e7a8a401b85958cfec904ef2a38cb7",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "phoneauthenticationmethod-delete"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/me/authentication/phoneMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/phoneauthenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "8a2d91851ae67ea1e9551d4accadb2a7e0e7a8a401b85958cfec904ef2a38cb7",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "phoneauthenticationmethod-delete"
+    },
+    {
+      "method": "POST",
+      "path": "/v1.0/users/{userId}/authentication/emailMethods",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authentication-post-emailmethods?view=graph-rest-1.0",
+      "sourceSha256": "4aafa0c3284b9ddcb583595d1b9ad7cedd877528dd0c9cec4fbdbd2da8fb0bb1",
+      "retrievedAt": "2026-10-18",
+      "status": 201,
+      "operation": "authentication-post-emailmethods"
+    },
+    {
+      "method": "PATCH",
+      "path": "/v1.0/users/{userId}/authentication/emailMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/emailauthenticationmethod-update?view=graph-rest-1.0",
+      "sourceSha256": "4b4e70d1a83dd25a950eb2802e23e86f74552ee6b90af5764020891e41b8ca88",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "emailauthenticationmethod-update"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/users/{userId}/authentication/emailMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/emailauthenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "32b2095b77322fb736532549e405beceeaed33e39b9fab61a024e36584d52554",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "emailauthenticationmethod-delete"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/me/authentication/emailMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/emailauthenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "32b2095b77322fb736532549e405beceeaed33e39b9fab61a024e36584d52554",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "emailauthenticationmethod-delete"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/users/{userId}/authentication/fido2Methods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/fido2authenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "c3e22a78061d97ca01d9f4c21b4551c8ff2d000ba5b338fba4b7fd2cc736e305",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "fido2authenticationmethod-delete"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/me/authentication/fido2Methods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/fido2authenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "c3e22a78061d97ca01d9f4c21b4551c8ff2d000ba5b338fba4b7fd2cc736e305",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "fido2authenticationmethod-delete"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/users/{userId}/authentication/microsoftAuthenticatorMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/microsoftauthenticatorauthenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "0b253cadcbe4fdf92dae972ea996a35b44a5d6112ad79498d3c736f022e4b453",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "microsoftauthenticatorauthenticationmethod-delete"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1.0/me/authentication/microsoftAuthenticatorMethods/{methodId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/microsoftauthenticatorauthenticationmethod-delete?view=graph-rest-1.0",
+      "sourceSha256": "0b253cadcbe4fdf92dae972ea996a35b44a5d6112ad79498d3c736f022e4b453",
+      "retrievedAt": "2026-10-18",
+      "status": 204,
+      "operation": "microsoftauthenticatorauthenticationmethod-delete"
+    },
+    {
+      "method": "POST",
+      "path": "/v1.0/users/{userId}/authentication/methods/{passwordMethodId}/resetPassword",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethod-resetpassword?view=graph-rest-1.0",
+      "sourceSha256": "441f1e6be05aa6e2e7466571f4d5f1f19af71613c670522b42ebc3b422e381c4",
+      "retrievedAt": "2026-10-18",
+      "status": 202,
+      "operation": "authenticationmethod-resetpassword"
+    },
+    {
+      "method": "POST",
+      "path": "/v1.0/users/{userId}/authentication/passwordMethods/{passwordMethodId}/resetPassword",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethod-resetpassword?view=graph-rest-1.0",
+      "sourceSha256": "441f1e6be05aa6e2e7466571f4d5f1f19af71613c670522b42ebc3b422e381c4",
+      "retrievedAt": "2026-10-18",
+      "status": 202,
+      "operation": "authenticationmethod-resetpassword"
+    },
+    {
+      "method": "GET",
+      "path": "/v1.0/users/{userId}/authentication/operations/{operationId}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/longrunningoperation-get?view=graph-rest-1.0",
+      "sourceSha256": "ebfb92ba57b78d23e3fab544afb9b8da580715071f013fdb032458150f0661ca",
+      "retrievedAt": "2026-10-18",
+      "status": 200,
+      "operation": "longrunningoperation-get"
+    },
+    {
+      "method": "POST",
+      "path": "/v1.0/users/{userId}/authentication/methods/{passwordMethodId}/microsoft.graph.resetPassword",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethod-resetpassword?view=graph-rest-1.0",
+      "sourceSha256": "441f1e6be05aa6e2e7466571f4d5f1f19af71613c670522b42ebc3b422e381c4",
+      "retrievedAt": "2026-10-18",
+      "status": 202,
+      "operation": "authenticationmethod-resetpassword",
+      "wireEvidence": "Original Microsoft.Graph.Identity.SignIns 2.35.1 Reset-MgUserAuthenticationMethodPassword; archive pinned in method-management-manifest.json"
+    },
+    {
+      "method": "POST",
+      "path": "/v1.0/users/{userId}/authentication/passwordMethods/{passwordMethodId}/microsoft.graph.resetPassword",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethod-resetpassword?view=graph-rest-1.0",
+      "sourceSha256": "441f1e6be05aa6e2e7466571f4d5f1f19af71613c670522b42ebc3b422e381c4",
+      "retrievedAt": "2026-10-18",
+      "status": 202,
+      "operation": "authenticationmethod-resetpassword",
+      "wireEvidence": "Original Microsoft.Graph.Identity.SignIns 2.35.1 Reset-MgUserAuthenticationMethodPassword; archive pinned in method-management-manifest.json"
+    }
+  ]
+}
