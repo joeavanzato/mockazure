@@ -570,24 +570,23 @@ are `2019-07-07`, `2025-01-05` and `2025-11-05`. [Contract and authorization det
 | File `PUT /{share}/{path}?comp=range`; `GET ...?comp=rangelist` | Partial: update/clear/list | 4 MiB updates; clear zeros requested bytes and deallocates complete 512-byte sectors. Bounded streaming replacement revision; write amplification remains. | [Put Range](https://learn.microsoft.com/en-us/rest/api/storageservices/put-range), [List Ranges](https://learn.microsoft.com/en-us/rest/api/storageservices/list-ranges) |
 | File `/{share}/{directory}?restype=directory[&comp=list/metadata/properties]` | Partial: CRUD/list/properties/metadata | Nonempty directory deletion rejects; 5,000-entry pages, opaque one-hour query/reset-bound cursors; required IDs/timestamps and XML filename encoding. No custom permission key. | [Directory listing](https://learn.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files) |
 | File `PUT /{share}?restype=share&comp=snapshot`; reads with `sharesnapshot=` | Partial: immutable share snapshots | Independent bytes/properties; list and delete snapshots, up to 200/share. No snapshot mutation. Share lifecycle uses key/SAS, not OAuth in this profile. | [Snapshot Share](https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-share) |
-| File `PUT /{share}/{path}?comp=lease` | Partial: four infinite lease actions | Acquire/change/release/break; stale lease writes fail. No renew or Blob-style HTTP preconditions. C4 large-object/four-client qualification remains pending. | [Lease File](https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file) |
-
-
+| File `PUT /{share}/{path}?comp=lease` | Partial: four infinite lease actions | Acquire/change/release/break; stale lease writes fail. No renew or Blob-style HTTP preconditions. C4 large-object/four-client qualification passed at 39f68e7. | [Lease File](https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file) |
 | Table `/Tables` and `/Tables('{table}')` | Partial: POST/GET collection; DELETE table | REST `2019-02-02`; durable case-insensitive names, typed lifecycle; current account key/SAS/OAuth checks. No Table ACL/service-properties/stats. | [Create Table](https://learn.microsoft.com/en-us/rest/api/storageservices/create-table), [profile](docs/table-contracts.md) |
 | Table `/{table}` and `/{table}(PartitionKey='{p}',RowKey='{r}')` | Partial: POST insert; GET/PUT/PATCH/MERGE/DELETE entity | Eight EDM types, precision-preserving Int64/date/binary, conditional ETags, merge/replace/upsert. Nulls omitted. JSON metadata modes; no Atom/Cosmos behavior. | [Insert Entity](https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity), [Update](https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2) |
 | Table `/{table}()` | Partial: GET | Typed filter comparisons/logical operators, `$select`, `$top`, 1,000/page; one-hour opaque query/account/table/generation-bound continuations with current authorization. Signed key ranges constrain results. No query functions/expansion. | [Query Entities](https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities) |
 | Table `/$batch` | Partial: POST | One atomic MIME changeset, <=100 distinct entities in one partition and <=4 MiB; rollback and per-operation authorization. No mixed query/mutation or multiple changesets. Four-client D qualification pending. | [Transactions](https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions) |
 
 
-Storage compatibility qualification in progress (C4): the original Az.Storage
+Storage compatibility qualification passed (C4, runtime 39f68e7): the original Az.Storage
 module uses 2019-07-07 writes/downloads and 2025-01-05 property reads in one
 command. Selected key-authenticated basic Blob/File operations support these
 profiles; advanced snapshot/version/lease and Files listing behavior still uses
 2025-11-05. See [the precise compatibility limits](docs/storage-contracts.md#native-compatibility-and-durability-qualification-c4)
 and operation-level `compatibleVersions` in the Storage catalog. Original
-Python, TypeScript, .NET and PowerShell binary workflows passed debug runs;
-full 256 MiB process-restart/restore qualification is pending and is not implied
-by those debug results.
+Python, TypeScript, .NET and PowerShell binary workflows passed the final native
+qualification, including restart, restore, rotated-key rejection and cross-client
+reads. Python stored 256 MiB per service; the other clients stored 3,145,745 bytes
+per service. [Source-matched report](docs/qualification/cloud-phase-c.json).
 
 
 Phase C review corrections: paused uploads/downloads no longer retain the global
@@ -595,7 +594,7 @@ Storage mutation lock; authorization time is checked after waits, and expired
 lease IDs cannot publish writes. Put Blob discards old staging, block pruning
 uses upload-idle time, historical block-list selectors stay isolated, and Blob
 lease acquire/break follow the documented matching-ID and default-period rules.
-Fifteen focused review regressions passed; the full source-matched four-client
-qualification remains pending. Upload reception uses a 1 MiB memory spool
+Fifteen focused review regressions passed within 106 affected tests; the full
+source-matched four-client qualification also passed at runtime 39f68e7. Upload reception uses a 1 MiB memory spool
 threshold, 256 MiB body cap and 300-second local deadline. Database-side File
 range updates still rewrite the full revision; no throughput parity is claimed.

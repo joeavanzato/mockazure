@@ -100,8 +100,8 @@ separately; adding a runner is not proof of a passing qualification.
 
 C2 adds Blob bytes, block commits, ranges, leases, snapshots and retention.
 C3 adds FileREST content and HTTP OAuth backup-intent tests; native byte
-qualification is recorded separately below. Queues, Tables and Key Vault
-content remain subsequent phase D work.
+qualification is recorded separately below. The [Table profile](table-contracts.md)
+adds D1 entity workflows; Queue and Key Vault content remain subsequent phase D work.
 
 C1 was verified against all four pinned client ecosystems, including a new local
 account and cross-language reads of every created namespace. The core regression
@@ -109,7 +109,7 @@ gate passed 57 tests; the subsequent policy/managed-identity gate passed 15.
 The broader run reported 1,289 passing tests, one skipped test, nine missing/stale
 release-artifact gates, and one native test port collision (fixed and rerun).
 Final release-artifact qualification remains part of G3. Four-ecosystem binary
-qualification remains part of C4.
+qualification passed C4 as recorded below.
 
 
 ## Blob content profile (C2)
@@ -158,8 +158,8 @@ expired continuations, seven-day staged blocks and expired soft-deleted content.
 `python -m tools.verify_blob_content` runs the four original namespace clients
 then the original Python Blob SDK through actual local HTTPS for byte/block,
 range, snapshot, lease, conditional-write, paging and deletion interactions.
-C4 remains responsible for the 256 MiB restart/restore and four-ecosystem binary
-qualification. A C2 result does not claim that all of phase C is qualified.
+The final C4 gate below adds the 256 MiB restart/restore and four-ecosystem binary
+qualification to this earlier C2 result.
 
 C2 verification: 87 affected unit/integration tests passed (one explicit slow-content
 skip), including preceding-head upgrade preservation and downgrade refusal. The
@@ -210,7 +210,7 @@ export/restore mechanism.
 `python -m tools.verify_file_content` runs the four original namespace clients,
 the original Python Blob workflow and the original Python Files byte/snapshot/
 lease workflow over local HTTPS. Native results are recorded after execution.
-Four-ecosystem binary qualification and 256 MiB restart/restore remain C4 gates.
+Four-ecosystem binary qualification and 256 MiB restart/restore passed the C4 gate below.
 
 C3 native verification: original Python Files SDK 12.23.0 passed a 1,710,000-byte
 workflow; all four namespace clients/cross-language reads and the Python Blob
@@ -291,3 +291,17 @@ The native Python 256 MiB workflow has a one-hour execution budget because the
 current Files range implementation rewrites each complete immutable revision.
 The other client workflows retain a 30-minute budget. These are test harness
 budgets, not throughput guarantees; the report records actual elapsed time.
+
+
+### Final C4 qualification evidence
+
+Runtime commit `39f68e7f5e6c3a173115e2c38973ee3b5e9a5ebc`, fingerprint
+`f40b76d4d552737c285456bf95e257ffd37f4851f1765869f175fa4b83d6192e`,
+passed the full original-client matrix in 1,488 seconds. Python stored 256 MiB
+for each service; TypeScript, .NET and PowerShell stored 3,145,745 bytes each.
+All four ecosystems passed reads after API/worker restart and cloud restore;
+old keys were rejected, restored keys worked, and cross-client hashes matched.
+The reviewed regression suite passed 106 tests, including 15 review cases and
+a separate 256 MiB restore with Python peak memory of 6,145,240 bytes.
+See [the recorded report](qualification/cloud-phase-c.json). Operation limits and
+File write amplification remain. GitHub CI is not included in this local pass claim.
