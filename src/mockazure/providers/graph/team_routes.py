@@ -15,7 +15,13 @@ from mockazure.workloads.models import WorkloadVersion as V
 from mockazure.workloads.queries import invalid, project
 from mockazure.workloads.repository import current_record, scope_row
 from mockazure.workloads.team_access import authorize_row, visibility
-from mockazure.workloads.team_queries import children, collection, options, page_state
+from mockazure.workloads.team_queries import (
+    children,
+    collection,
+    continuation_preflight,
+    options,
+    page_state,
+)
 
 router = APIRouter(prefix="/v1.0")
 
@@ -223,6 +229,7 @@ async def endpoint(request, kind, path):
     try:
         await session.begin()
         actor = await principal(request, session)
+        await continuation_preflight(request, session, actor)
         result = await dispatch(request, session, actor, kind, path)
         if isinstance(result, StreamingResponse):
             return result
@@ -275,6 +282,7 @@ async def user_chat(chat_path: str, request: Request, user: str = "me"):
     try:
         await session.begin()
         actor = await principal(request, session)
+        await continuation_preflight(request, session, actor)
         identifier = await user_id(session, actor, user)
         chat_id = chat_path.split("/", 1)[0]
         if not await session.scalar(

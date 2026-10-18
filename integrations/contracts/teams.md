@@ -66,7 +66,9 @@ Sites/Group or File.Read.Group check; delegated callers also need local site acc
 Chat filters support modified gt/lt and created lt, with `and` combinations. As the
 REST contract specifies, filters apply only with an explicit matching `$orderby`;
 otherwise recognized date filters are ignored. Other filter syntax is rejected.
-Unlisted `$expand` and query options fail visibly. Chat discovery and `/me` require
+Chat discovery sorts by the newest imported root-message creation time at each
+conversation's saved revision; chats without messages sort last. The preview
+navigation itself is not expanded. Unlisted `$expand` and query options fail visibly. Chat discovery and `/me` require
 a delegated user; application discovery uses `/users/{user}/chats`. Delegated user
 aliases are self-only in this profile. Chat item/message/hosted-content user aliases
 use the same membership and operation checks as canonical routes.
@@ -74,7 +76,8 @@ use the same membership and operation checks as canonical routes.
 Every collection has an 8 MiB response budget, server-controlled paging, and opaque
 one-hour PostgreSQL continuations bound to actor, route and query. Metadata revisions
 remain stable across imports/restarts; every page rechecks identity/authority. Scope
-reset returns 410 for old continuations; changed membership/consent returns 403 and
+reset returns 410 for authenticated, correctly bound old continuations even before
+evidence is restored; changed membership/consent returns 403 and
 requires a fresh collection. No Teams delta endpoint is invented. Hosted bytes stream
 from the local content store while holding their read lease.
 

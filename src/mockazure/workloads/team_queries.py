@@ -4,9 +4,10 @@ import copy
 import re
 from datetime import UTC, datetime
 
-from sqlalchemy import DateTime, and_, cast, func, select
+from sqlalchemy import DateTime, and_, case, cast, func, select
 from sqlalchemy.orm import aliased
 
+from mockazure.authorization.evaluator import AuthorizationDenied, require_current_identity
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import context_url
 from mockazure.providers.graph.query.parser import selection
@@ -95,6 +96,25 @@ def options(request, profile, kind):
     }
 
 
+async def continuation_preflight(request, session, actor):
+    token = request.query_params.get("$skiptoken")
+    if token is None:
+        return
+    try:
+        await require_current_identity(actor, session)
+    except AuthorizationDenied as exc:
+        raise GraphError(403, "Forbidden", str(exc)) from exc
+    if len(request.query_params.multi_items()) != 1:
+        invalid("A continuation cannot change its query")
+    state = await resolve_cursor(session, actor, request.scope["path"], token, datetime.now(UTC))
+    # Validate the bound snapshot before reset can hide its current navigation root.
+    # Hold these leases through dispatch; ordinary operation/membership checks still apply.
+    for scope, saved in sorted(state["scopes"].items()):
+        row = await scope_row(session, actor.tenant_id, "teams", scope, lock="read")
+        if row is None or str(row.generation) != saved["generation"]:
+            raise GraphError(410, "resyncRequired", "Conversation state was reset")
+
+
 async def page_state(request, session, actor, scope, profile, kind):
     resource = request.scope["path"]
     token = request.query_params.get("$skiptoken")
@@ -151,13 +171,44 @@ def children(actor, scope, source, relation, revision):
     )
 
 
-def ordering(actor, scope, revision, opts, profile):
+def ordering(actor, scope, revision, opts, profile, scopes):
     field = (opts["order"] or "id").split(" ")[0]
     if field == "id":
         return (V.payload["id"].as_string(), V.id)
     if field == "lastMessagePreview/createdDateTime":
-        value = cast(
-            V.payload["lastMessagePreview"]["createdDateTime"].as_string(), DateTime(timezone=True)
+        message, edge = aliased(V), aliased(E)
+        saved_revision = case(
+            {name: saved["upper"] for name, saved in scopes.items()}, value=V.scope
+        )
+        value = (
+            select(
+                func.max(
+                    cast(message.payload["createdDateTime"].as_string(), DateTime(timezone=True))
+                )
+            )
+            .join(
+                edge,
+                and_(
+                    edge.tenant_id == message.tenant_id,
+                    edge.workload == message.workload,
+                    edge.scope == message.scope,
+                    edge.target_kind == message.kind,
+                    edge.target_id == message.id,
+                ),
+            )
+            .where(
+                message.tenant_id == actor.tenant_id,
+                message.workload == "teams",
+                message.scope == V.scope,
+                message.deleted.is_(False),
+                visible(message, saved_revision),
+                visible(edge, saved_revision),
+                edge.source_kind == "chat",
+                edge.source_id == V.id,
+                edge.relation == "messages",
+            )
+            .correlate(V)
+            .scalar_subquery()
         )
     else:
         value = cast(V.payload[field].as_string(), DateTime(timezone=True))
@@ -211,7 +262,7 @@ async def collection(
             date = datetime.fromisoformat(value)
             query = query.where(column > date if operation == "gt" else column < date)
     rows = await session.stream_scalars(
-        query.order_by(*ordering(actor, scope, revision, opts, profile))
+        query.order_by(*ordering(actor, scope, revision, opts, profile, state["scopes"]))
         .offset(state["offset"])
         .limit(opts["top"] + 1)
         .execution_options(yield_per=1)
