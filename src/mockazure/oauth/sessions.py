@@ -36,6 +36,7 @@ async def new_session(transaction, session, now):
         scopes=transaction.scopes,
         mfa=transaction.mfa,
         credential_version=transaction.credential_version,
+        authenticated_at=transaction.authenticated_at,
         created_at=now,
         expires_at=now + timedelta(hours=24),
     )
@@ -75,9 +76,10 @@ async def token_response(login, user, session, settings, now, *, nonce="", scope
             "iat": int(now.timestamp()),
             "nbf": int(now.timestamp()),
             "exp": int(now.timestamp()) + TOKEN_SECONDS,
-            "auth_time": int(login.created_at.timestamp()),
             "amr": ["pwd", "mock_mfa"] if login.mfa == "completed" else ["pwd"],
         }
+        if login.authenticated_at is not None:
+            claims["auth_time"] = int(login.authenticated_at.timestamp())
         if nonce:
             claims["nonce"] = nonce
         if "profile" in scopes:

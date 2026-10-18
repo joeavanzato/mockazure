@@ -73,7 +73,7 @@ async def record_security_audit(session, actor, operation, target, before, after
         "category": "UserManagement"
         if (
             target["type"].endswith("AuthenticationMethod")
-            or target["type"] == "longRunningOperation"
+            or target["type"] in {"longRunningOperation", "User"}
         )
         else "Policy"
         if target["type"] in {"conditionalAccessPolicy", "ipNamedLocation"}

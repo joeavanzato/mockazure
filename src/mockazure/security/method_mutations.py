@@ -156,7 +156,8 @@ async def require_method_write(session, actor, user, collection, action):
             or login.client_id != actor.client_id
             or login.revoked_at
             or login.expires_at <= now
-            or login.created_at < now - timedelta(minutes=10)
+            or login.authenticated_at is None
+            or not now - timedelta(minutes=10) <= login.authenticated_at <= now
         ):
             raise GraphError(
                 403, "insufficient_claims", "A recent local interactive sign-in is required"

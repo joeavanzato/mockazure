@@ -10,6 +10,7 @@ from mockazure.db.models import Base
 
 class DeviceAuthorization(Base):
     credential_version: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0")
+    authenticated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     __tablename__ = "oauth_devices"
     __table_args__ = (
         ForeignKeyConstraint(

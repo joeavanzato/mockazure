@@ -64,7 +64,11 @@ async def test_self_delete_requires_current_recent_bound_session(database, setti
         assert (await client.delete(own_path, headers=auth)).status_code == 403
         async with database.sessions.begin() as session:
             login = await session.get(LoginSession, identifier)
-            login.created_at = now
+            login.authenticated_at = now - timedelta(minutes=11)
+        assert (await client.delete(own_path, headers=auth)).status_code == 403
+        async with database.sessions.begin() as session:
+            login = await session.get(LoginSession, identifier)
+            login.authenticated_at = now
         assert (await client.delete(own_path, headers=auth)).status_code == 204
 
 

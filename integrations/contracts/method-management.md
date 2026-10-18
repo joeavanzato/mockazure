@@ -82,3 +82,10 @@ method mutations and delegated reset/status polling. The served password-change 
 cookie/CSRF flow are exercised over HTTPS. Unit/integration tests also cover restart, lease
 recovery, reset idempotence, code/device/refresh invalidation, role hierarchy, self-session
 freshness, registration reports, and non-destructive upgrade from schema 049.
+
+Actual successful password authentication time is persisted through browser, device-code,
+and login-session records. Consent, redemption, refresh, and the required password-change
+form do not renew that time. Upgraded sessions without a trustworthy timestamp cannot
+perform recent-authentication self deletion; a fresh interactive sign-in is required.
+Identity state is refreshed after the security lock so a concurrently completed reset
+cannot authorize a mutation from cached pre-reset user attributes.

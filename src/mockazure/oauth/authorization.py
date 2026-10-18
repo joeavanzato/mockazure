@@ -218,6 +218,7 @@ async def login(request: Request):
         await local_app(session, user.tenant_id, str(app.client_id))
         row.tenant_id, row.user_id, row.stage = user.tenant_id, user.id, "consent"
         row.credential_version = user.credential_version
+        row.authenticated_at = now
         if user.password_change_required:
             row.stage = "password-change"
             return pages.form(row, fields["csrf"], "password-change", app.display_name)

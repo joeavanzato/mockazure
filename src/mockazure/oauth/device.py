@@ -123,6 +123,7 @@ async def complete_device(row, session, now, *, approved, request):
     if not device or device.status != "pending" or device.expires_at <= now:
         raise OAuthError("invalid_request", "Device authorization is no longer pending")
     device.credential_version = row.credential_version
+    device.authenticated_at = row.authenticated_at
     device.status = "approved" if approved else "denied"
     device.tenant_id, device.user_id, device.mfa = row.tenant_id, row.user_id, row.mfa
     await record_outcome(

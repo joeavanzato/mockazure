@@ -127,6 +127,11 @@ async def test_password_reset_operation_restart(database, settings):
 async def test_password_reset_forces_change(database, settings):
     async with identity_client(database, settings) as (client, tenant, *_):
         user, app, actor, auth, path = await setup_reset(client, database, settings, tenant)
+        assert (
+            await client.patch(
+                f"/_mock/tenants/{tenant}/evidence/settings", json={"delay_seconds": 0}
+            )
+        ).status_code == 200
         old_code = await sign_in(client, tenant, app, scope="User.Read offline_access")
         tokens = await redeem(client, tenant, app, old_code)
         assert tokens.status_code == 200
@@ -167,6 +172,41 @@ async def test_password_reset_forces_change(database, settings):
             "/password-change", data={**fields, "new_password": FINAL, "confirm_password": FINAL}
         )
         assert changed.status_code == 200 and 'action="/consent"' in changed.text, changed.text
+        from mockazure.evidence.models import EvidenceSource
+
+        async with database.sessions() as session:
+            sources = list(
+                await session.scalars(
+                    select(EvidenceSource).where(
+                        EvidenceSource.tenant_id == UUID(tenant), EvidenceSource.kind == "security"
+                    )
+                )
+            )
+            changes = [
+                row.facts["audit"]
+                for row in sources
+                if row.facts["audit"]["activityDisplayName"] == "Change user password"
+            ]
+            assert len(changes) == 1
+            assert changes[0]["category"] == "UserManagement"
+        from mockazure.evidence.models import EvidenceVersion
+        from tests.integration.test_evidence_operations import drain_api
+
+        await drain_api(client, tenant)
+        async with database.sessions() as session:
+            published = list(
+                await session.scalars(
+                    select(EvidenceVersion).where(
+                        EvidenceVersion.tenant_id == UUID(tenant),
+                        EvidenceVersion.family == "directoryAudit",
+                        EvidenceVersion.payload["activityDisplayName"].as_string()
+                        == "Change user password",
+                    )
+                )
+            )
+            assert published and all(
+                row.payload["category"] == "UserManagement" for row in published
+            )
         assert (
             await client.post(
                 "/password-change",

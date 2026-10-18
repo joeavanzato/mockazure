@@ -46,7 +46,9 @@ async def require_current_identity(context: PrincipalContext, session) -> None:
         raise AuthorizationDenied("Application identity is unavailable")
     if context.token_kind == "delegated":
         user = await session.scalar(
-            select(User).where(
+            select(User)
+            .execution_options(populate_existing=True)
+            .where(
                 User.tenant_id == context.tenant_id,
                 User.id == context.subject_id,
                 User.enabled.is_(True),
@@ -60,7 +62,7 @@ async def require_current_identity(context: PrincipalContext, session) -> None:
 
             from mockazure.oauth.models import LoginSession
 
-            login = await session.get(LoginSession, context.session_id)
+            login = await session.get(LoginSession, context.session_id, populate_existing=True)
             if (
                 login is None
                 or login.tenant_id != context.tenant_id
@@ -93,7 +95,9 @@ async def authorize(context: PrincipalContext, operation: OperationRequirement, 
     if not context.permissions & operation.delegated_permissions:
         raise AuthorizationDenied("Delegated permission is required")
     user = await session.scalar(
-        select(User).where(
+        select(User)
+        .execution_options(populate_existing=True)
+        .where(
             User.tenant_id == context.tenant_id,
             User.id == context.subject_id,
             User.enabled.is_(True),
