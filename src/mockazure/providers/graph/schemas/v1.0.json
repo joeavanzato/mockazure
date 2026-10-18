@@ -33,6 +33,15 @@
         "type"
       ]
     },
+    "album": {
+      "properties": {
+        "coverImageItemId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "alert": {
       "properties": {
         "id": {
@@ -782,6 +791,75 @@
         "unknownFutureValue"
       ]
     },
+    "audio": {
+      "properties": {
+        "album": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "albumArtist": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "artist": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "bitrate": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "composers": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "copyright": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "disc": {
+          "type": "Edm.Int16",
+          "nullable": true
+        },
+        "discCount": {
+          "type": "Edm.Int16",
+          "nullable": true
+        },
+        "duration": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "genre": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "hasDrm": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isVariableBitrate": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "title": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "track": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "trackCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "year": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "auditActivityInitiator": {
       "properties": {
         "app": {
@@ -931,11 +1009,98 @@
       "required": [],
       "open": true
     },
+    "baseItem": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "eTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentReference": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "lastModifiedDateTime"
+      ],
+      "base": "entity"
+    },
+    "baseItemVersion": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "publication": {
+          "type": "graph.publicationFacet",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
     "bodyType": {
       "enum": [
         "text",
         "html"
       ]
+    },
+    "bundle": {
+      "properties": {
+        "album": {
+          "type": "graph.album",
+          "nullable": true
+        },
+        "childCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "certification": {
       "properties": {
@@ -1495,6 +1660,19 @@
         "unknownFutureValue"
       ]
     },
+    "contentTypeInfo": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "controlScore": {
       "properties": {
         "controlCategory": {
@@ -1554,6 +1732,15 @@
         "sendToDelegateAndPrincipal",
         "sendToDelegateOnly"
       ]
+    },
+    "deleted": {
+      "properties": {
+        "state": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "device": {
       "properties": {
@@ -1834,6 +2021,255 @@
       "open": true,
       "base": "directoryObject"
     },
+    "drive": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "eTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentReference": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "driveType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "owner": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "quota": {
+          "type": "graph.quota",
+          "nullable": true
+        },
+        "sharePointIds": {
+          "type": "graph.sharepointIds",
+          "nullable": true
+        },
+        "system": {
+          "type": "graph.systemFacet",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "lastModifiedDateTime"
+      ],
+      "base": "baseItem"
+    },
+    "driveItem": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "eTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentReference": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "audio": {
+          "type": "graph.audio",
+          "nullable": true
+        },
+        "bundle": {
+          "type": "graph.bundle",
+          "nullable": true
+        },
+        "content": {
+          "type": "Edm.Stream",
+          "nullable": true
+        },
+        "cTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "deleted": {
+          "type": "graph.deleted",
+          "nullable": true
+        },
+        "file": {
+          "type": "graph.file",
+          "nullable": true
+        },
+        "fileSystemInfo": {
+          "type": "graph.fileSystemInfo",
+          "nullable": true
+        },
+        "folder": {
+          "type": "graph.folder",
+          "nullable": true
+        },
+        "image": {
+          "type": "graph.image",
+          "nullable": true
+        },
+        "location": {
+          "type": "graph.geoCoordinates",
+          "nullable": true
+        },
+        "malware": {
+          "type": "graph.malware",
+          "nullable": true
+        },
+        "package": {
+          "type": "graph.package",
+          "nullable": true
+        },
+        "pendingOperations": {
+          "type": "graph.pendingOperations",
+          "nullable": true
+        },
+        "photo": {
+          "type": "graph.photo",
+          "nullable": true
+        },
+        "publication": {
+          "type": "graph.publicationFacet",
+          "nullable": true
+        },
+        "remoteItem": {
+          "type": "graph.remoteItem",
+          "nullable": true
+        },
+        "root": {
+          "type": "graph.root",
+          "nullable": true
+        },
+        "searchResult": {
+          "type": "graph.searchResult",
+          "nullable": true
+        },
+        "shared": {
+          "type": "graph.shared",
+          "nullable": true
+        },
+        "sharepointIds": {
+          "type": "graph.sharepointIds",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "specialFolder": {
+          "type": "graph.specialFolder",
+          "nullable": true
+        },
+        "video": {
+          "type": "graph.video",
+          "nullable": true
+        },
+        "webDavUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "lastModifiedDateTime"
+      ],
+      "open": true,
+      "base": "baseItem"
+    },
+    "driveItemVersion": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "publication": {
+          "type": "graph.publicationFacet",
+          "nullable": true
+        },
+        "content": {
+          "type": "Edm.Stream",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int64",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "baseItemVersion"
+    },
     "emailAddress": {
       "properties": {
         "address": {
@@ -1950,6 +2386,36 @@
       ],
       "base": "authenticationMethod"
     },
+    "fieldValueSet": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "open": true,
+      "base": "entity"
+    },
+    "file": {
+      "properties": {
+        "hashes": {
+          "type": "graph.hashes",
+          "nullable": true
+        },
+        "mimeType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "processingMetadata": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "fileAttachment": {
       "properties": {
         "id": {
@@ -2042,11 +2508,58 @@
       },
       "required": []
     },
+    "fileSystemInfo": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastAccessedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "filterMode": {
       "enum": [
         "include",
         "exclude"
       ]
+    },
+    "folder": {
+      "properties": {
+        "childCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "view": {
+          "type": "graph.folderView",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "folderView": {
+      "properties": {
+        "sortBy": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sortOrder": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "viewType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "followupFlag": {
       "properties": {
@@ -2335,6 +2848,27 @@
         "unknownFutureValue"
       ]
     },
+    "hashes": {
+      "properties": {
+        "crc32Hash": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "quickXorHash": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sha1Hash": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sha256Hash": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "hostSecurityState": {
       "properties": {
         "fqdn": {
@@ -2413,6 +2947,37 @@
       },
       "required": [],
       "open": true
+    },
+    "identitySet": {
+      "properties": {
+        "application": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "device": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "user": {
+          "type": "graph.identity",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true
+    },
+    "image": {
+      "properties": {
+        "height": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "width": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "implicitGrantSettings": {
       "properties": {
@@ -2581,6 +3146,43 @@
       },
       "required": []
     },
+    "itemReference": {
+      "properties": {
+        "driveId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "driveType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "path": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "shareId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sharepointIds": {
+          "type": "graph.sharepointIds",
+          "nullable": true
+        },
+        "siteId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "keyCredential": {
       "properties": {
         "customKeyIdentifier": {
@@ -2715,6 +3317,151 @@
       },
       "required": []
     },
+    "list": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "eTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentReference": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "list": {
+          "type": "graph.listInfo",
+          "nullable": true
+        },
+        "sharepointIds": {
+          "type": "graph.sharepointIds",
+          "nullable": true
+        },
+        "system": {
+          "type": "graph.systemFacet",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "lastModifiedDateTime"
+      ],
+      "base": "baseItem"
+    },
+    "listInfo": {
+      "properties": {
+        "contentTypesEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "hidden": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "template": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "listItem": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "eTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentReference": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentType": {
+          "type": "graph.contentTypeInfo",
+          "nullable": true
+        },
+        "deleted": {
+          "type": "graph.deleted",
+          "nullable": true
+        },
+        "sharepointIds": {
+          "type": "graph.sharepointIds",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "lastModifiedDateTime"
+      ],
+      "base": "baseItem"
+    },
     "localeInfo": {
       "properties": {
         "displayName": {
@@ -2811,6 +3558,15 @@
         },
         "workingHours": {
           "type": "graph.workingHours",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "malware": {
+      "properties": {
+        "description": {
+          "type": "Edm.String",
           "nullable": true
         }
       },
@@ -3758,6 +4514,15 @@
       ],
       "base": "entity"
     },
+    "package": {
+      "properties": {
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "parentalControlSettings": {
       "properties": {
         "countriesBlockedForMinors": {
@@ -3859,6 +4624,80 @@
       },
       "required": []
     },
+    "pendingContentUpdate": {
+      "properties": {
+        "queuedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "pendingOperations": {
+      "properties": {
+        "pendingContentUpdate": {
+          "type": "graph.pendingContentUpdate",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "permission": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "expirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "grantedTo": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "grantedToIdentities": {
+          "type": "Collection(graph.identitySet)",
+          "nullable": true
+        },
+        "grantedToIdentitiesV2": {
+          "type": "Collection(graph.sharePointIdentitySet)",
+          "nullable": true
+        },
+        "grantedToV2": {
+          "type": "graph.sharePointIdentitySet",
+          "nullable": true
+        },
+        "hasPassword": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "inheritedFrom": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "invitation": {
+          "type": "graph.sharingInvitation",
+          "nullable": true
+        },
+        "link": {
+          "type": "graph.sharingLink",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "shareId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
     "permissionScope": {
       "properties": {
         "adminConsentDescription": {
@@ -3950,6 +4789,47 @@
         "id"
       ],
       "base": "authenticationMethod"
+    },
+    "photo": {
+      "properties": {
+        "cameraMake": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "cameraModel": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "exposureDenominator": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "exposureNumerator": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "fNumber": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "focalLength": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "iso": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "orientation": {
+          "type": "Edm.Int16",
+          "nullable": true
+        },
+        "takenDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "policyDeletableItem": {
       "properties": {
@@ -4079,6 +4959,116 @@
       "required": [
         "redirectUris"
       ]
+    },
+    "publicError": {
+      "properties": {
+        "code": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "details": {
+          "type": "Collection(graph.publicErrorDetail)",
+          "nullable": true
+        },
+        "innerError": {
+          "type": "graph.publicInnerError",
+          "nullable": true
+        },
+        "message": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "target": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "publicErrorDetail": {
+      "properties": {
+        "code": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "message": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "target": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "publicInnerError": {
+      "properties": {
+        "code": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "details": {
+          "type": "Collection(graph.publicErrorDetail)",
+          "nullable": true
+        },
+        "message": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "target": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true
+    },
+    "publicationFacet": {
+      "properties": {
+        "checkedOutBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "level": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "versionId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "quota": {
+      "properties": {
+        "deleted": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "remaining": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "state": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "storagePlanInformation": {
+          "type": "graph.storagePlanInformation",
+          "nullable": true
+        },
+        "total": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "used": {
+          "type": "Edm.Int64",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "recipient": {
       "properties": {
@@ -4219,6 +5209,87 @@
         "sz",
         "unknownFutureValue"
       ]
+    },
+    "remoteItem": {
+      "properties": {
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "file": {
+          "type": "graph.file",
+          "nullable": true
+        },
+        "fileSystemInfo": {
+          "type": "graph.fileSystemInfo",
+          "nullable": true
+        },
+        "folder": {
+          "type": "graph.folder",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "image": {
+          "type": "graph.image",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "package": {
+          "type": "graph.package",
+          "nullable": true
+        },
+        "parentReference": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "shared": {
+          "type": "graph.shared",
+          "nullable": true
+        },
+        "sharepointIds": {
+          "type": "graph.sharepointIds",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "specialFolder": {
+          "type": "graph.specialFolder",
+          "nullable": true
+        },
+        "video": {
+          "type": "graph.video",
+          "nullable": true
+        },
+        "webDavUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "requestSignatureVerification": {
       "properties": {
@@ -4498,9 +5569,22 @@
       ],
       "base": "entity"
     },
+    "root": {
+      "properties": {},
+      "required": []
+    },
     "samlSingleSignOnSettings": {
       "properties": {
         "relayState": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "searchResult": {
+      "properties": {
+        "onClickTelemetryUrl": {
           "type": "Edm.String",
           "nullable": true
         }
@@ -9639,6 +10723,187 @@
       },
       "required": []
     },
+    "sharePointGroupIdentity": {
+      "properties": {
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "title": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identity"
+    },
+    "sharePointIdentity": {
+      "properties": {
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "loginName": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identity"
+    },
+    "sharePointIdentitySet": {
+      "properties": {
+        "application": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "device": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "user": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "group": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "sharePointGroup": {
+          "type": "graph.sharePointGroupIdentity",
+          "nullable": true
+        },
+        "siteGroup": {
+          "type": "graph.sharePointIdentity",
+          "nullable": true
+        },
+        "siteUser": {
+          "type": "graph.sharePointIdentity",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identitySet"
+    },
+    "shared": {
+      "properties": {
+        "owner": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "scope": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "sharedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "sharedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "sharepointIds": {
+      "properties": {
+        "listId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "listItemId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "listItemUniqueId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "siteId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "siteUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "sharingInvitation": {
+      "properties": {
+        "email": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "invitedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "redeemedBy": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "signInRequired": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "sharingLink": {
+      "properties": {
+        "application": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "preventsDownload": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "scope": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webHtml": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "signIn": {
       "properties": {
         "id": {
@@ -9889,6 +11154,118 @@
         "hours"
       ]
     },
+    "site": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "eTag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "parentReference": {
+          "type": "graph.itemReference",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "error": {
+          "type": "graph.publicError",
+          "nullable": true
+        },
+        "isPersonalSite": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "root": {
+          "type": "graph.root",
+          "nullable": true
+        },
+        "sharepointIds": {
+          "type": "graph.sharepointIds",
+          "nullable": true
+        },
+        "siteCollection": {
+          "type": "graph.siteCollection",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "lastModifiedDateTime"
+      ],
+      "base": "baseItem"
+    },
+    "siteArchivalDetails": {
+      "properties": {
+        "archiveStatus": {
+          "type": "graph.siteArchiveStatus",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "siteArchiveStatus": {
+      "enum": [
+        "recentlyArchived",
+        "fullyArchived",
+        "reactivating",
+        "unknownFutureValue"
+      ]
+    },
+    "siteCollection": {
+      "properties": {
+        "archivalDetails": {
+          "type": "graph.siteArchivalDetails",
+          "nullable": true
+        },
+        "dataLocationCode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "hostname": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "root": {
+          "type": "graph.root",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "sizeRange": {
       "properties": {
         "maximumSize": {
@@ -9912,6 +11289,24 @@
       "required": [
         "redirectUris"
       ]
+    },
+    "specialFolder": {
+      "properties": {
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "storagePlanInformation": {
+      "properties": {
+        "upgradeAvailable": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "subscribedSku": {
       "properties": {
@@ -9965,6 +11360,10 @@
         "servicePlans"
       ],
       "base": "entity"
+    },
+    "systemFacet": {
+      "properties": {},
+      "required": []
     },
     "targetResource": {
       "properties": {
@@ -10724,6 +12123,51 @@
         },
         "verifiedPublisherId": {
           "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "video": {
+      "properties": {
+        "audioBitsPerSample": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "audioChannels": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "audioFormat": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "audioSamplesPerSecond": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "bitrate": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "duration": {
+          "type": "Edm.Int64",
+          "nullable": true
+        },
+        "fourCC": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "frameRate": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "height": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "width": {
+          "type": "Edm.Int32",
           "nullable": true
         }
       },

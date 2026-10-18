@@ -196,8 +196,8 @@ filter fields and snapshot guarantees.
 | `/v1.0/security/auditLog/queries/{query}/records` | Implemented: GET | Yes | Retained results, stable paging/current authorization. Seven-day query lifetime, one-hour page handles. Imports and native mail-configuration audits. No direct `/security/auditLog/records` collection. | [Records](https://learn.microsoft.com/en-us/graph/api/security-auditlogquery-list-records?view=graph-rest-1.0) |
 
 UAL filters cover time, workload, operation, type, UPN, IP, object, administrative unit
-and bounded literal keywords. Imported SharePoint/OneDrive UAL records **do not** implement
-SharePoint/OneDrive content APIs. See [mail contracts](docs/mail-contracts.md).
+and bounded literal keywords. SharePoint/OneDrive content APIs have a separate imported, versioned evidence store
+(see the workload table below). See [mail contracts](docs/mail-contracts.md).
 
 ## Graph query and protocol coverage
 
@@ -222,24 +222,31 @@ correctly reject an unsupported query or property.
 
 Query names above refer to OData parameters prefixed with `$`, such as `$select`.
 
-## Graph gaps
+## Graph workload coverage and gaps
 
 Real API paths with no implementation, or unsupported operations on otherwise implemented
 resources. Imports or similarly named Exchange commands do not make these Graph APIs work.
 
-| Microsoft REST URI / operation | Status | What is missing | Microsoft reference |
+| Microsoft REST URI / operation | Status | Behavior and remaining limits | Microsoft reference |
 | --- | --- | --- | --- |
 | `/v1.0/users/{user}/sendMail` | Unsupported | Mail sending/draft composition, calendar and contact APIs remain outside this program. | [Send mail](https://learn.microsoft.com/en-us/graph/api/user-sendmail?view=graph-rest-1.0) |
 | `/v1.0/directory/deletedItems` | Unsupported | Generic deleted-item reads/restore remain absent. | [Deleted items](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-list?view=graph-rest-1.0) |
 | `/v1.0/applications/{id}/addKey`, `/v1.0/applications/{id}/removeKey` (also servicePrincipals) | Unsupported | Proof-of-possession actions; supported credential PATCH/admin provisioning is separate. | [Add key](https://learn.microsoft.com/en-us/graph/api/application-addkey?view=graph-rest-1.0) |
 | `/v1.0/roleManagement/directory/roleEligibilityScheduleRequests`, `/v1.0/roleManagement/directory/roleAssignmentScheduleRequests` | Unsupported | PIM schedules/eligibility/activation; no custom/scoped role lifecycle. | [PIM](https://learn.microsoft.com/en-us/graph/api/resources/privilegedidentitymanagementv3-overview?view=graph-rest-1.0) |
 | `/v1.0/policies/authenticationMethodsPolicy` and method write/action endpoints | Unsupported | Method policy, public enrollment/reset and real challenges. | [Method policy](https://learn.microsoft.com/en-us/graph/api/resources/authenticationmethodspolicy?view=graph-rest-1.0) |
-| `/v1.0/sites`, `/v1.0/drives`, `/v1.0/users/{user}/drive`, drive item `/content` and `/permissions` | Unsupported | SharePoint/OneDrive content/permissions/versions/delta. | [Sites](https://learn.microsoft.com/en-us/graph/api/resources/site?view=graph-rest-1.0), [drives](https://learn.microsoft.com/en-us/graph/api/resources/drive?view=graph-rest-1.0) |
+| `GET /v1.0/sites/{id}`, `/sites/root`, `/sites/{hostname}:/{path}`, `/sites?search=...` | Partial | Stored sites, composite/path IDs, authorized literal-name search; selected-site/user ACL enforcement. No full-text search. | [Site](https://learn.microsoft.com/en-us/graph/api/site-get?view=graph-rest-1.0) |
+| `GET /v1.0/sites/{site}/lists[/{list}]/items[/{item}][/fields]` | Partial | Lists/items/open fields, bounded select/order/pages and fields expansion; no public writes or general filter. | [List items](https://learn.microsoft.com/en-us/graph/api/listitem-list?view=graph-rest-1.0) |
+| `GET /v1.0/sites/{site}/drives`, `/drives/{drive}`, `/users/{id}/drive[s]`, `/groups/{id}/drive[s]`, `/me/drive[s]`, `/sites/{site}/drive` | Partial | Canonical imported drives and explicit aliases; delegated access requires user site ACL; UUID directory aliases, unambiguous default only. | [Drives](https://learn.microsoft.com/en-us/graph/api/drive-list?view=graph-rest-1.0) |
+| `GET /v1.0/drives/{drive}/root`, `/items/{item}`, `/root:/{path}`, item `/children` | Partial | Stored item tree, root-relative paths, snapshot paging. Imported parent/count metadata, no public editing. | [Drive item](https://learn.microsoft.com/en-us/graph/api/driveitem-get?view=graph-rest-1.0) |
+| `GET .../items/{item}/permissions[/{permission}]`, `/versions[/{version}]` | Partial | Imported permission/version evidence; permission rows do not confer access. No sharing/version writes. | [Permissions](https://learn.microsoft.com/en-us/graph/api/driveitem-list-permissions?view=graph-rest-1.0) |
+| `GET .../items/{item}/content`, `/versions/{version}/content` | Partial | Exact stored bytes through five-minute local capability redirect and Range streaming; no remote fetch or public upload. Issued capabilities survive ACL revocation until expiry. | [Content](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0) |
+| `GET /v1.0/drives/{drive}/root/delta`, `/items/{root-id}/delta` | Partial | Durable hierarchy/change/removal pages, latest checkpoint and function tokens. Root only, driven by metadata imports. | [Delta](https://learn.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0) |
+| `GET/POST /v1.0/sites/{site}/permissions`, `GET/DELETE .../{permission}` | Partial | Authoritative selected-app grants; FullControl plus role/user ACL for delegated writes. Native facts retained, no Purview mapping; imported display grants excluded. No PATCH. | [Site permissions](https://learn.microsoft.com/en-us/graph/api/site-post-permissions?view=graph-rest-1.0) |
 | `/v1.0/teams/{id}`, `/v1.0/chats`, `/v1.0/users/{user}/events`, `/v1.0/users/{user}/contacts` | Unsupported | Teams/chat, calendars/contacts. | [Teams](https://learn.microsoft.com/en-us/graph/api/resources/teams-api-overview?view=graph-rest-1.0), [calendars](https://learn.microsoft.com/en-us/graph/outlook-calendar-concept-overview) |
 | `/v1.0/deviceManagement/managedDevices`, `/v1.0/deviceManagement/deviceCompliancePolicies`, `/v1.0/deviceManagement/deviceConfigurations` | Unsupported | Intune management/compliance; directory device objects are separate. | [Intune devices](https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-list?view=graph-rest-1.0) |
 | `/v1.0/security/runHuntingQuery` | Unsupported | KQL/advanced hunting; imported alerts/incidents are not a hunting engine. | [Hunting](https://learn.microsoft.com/en-us/graph/api/security-security-runhuntingquery?view=graph-rest-1.0) |
 | `/v1.0/security/cases/ediscoveryCases`, `/v1.0/security/labels/retentionLabels` | Unsupported | eDiscovery/retention operations; UAL search is the supported Purview-related surface. | [eDiscovery](https://learn.microsoft.com/en-us/graph/api/resources/security-ediscoverycase?view=graph-rest-1.0), [labels](https://learn.microsoft.com/en-us/graph/api/resources/security-retentionlabel?view=graph-rest-1.0) |
-| `/v1.0/subscriptions`, `/v1.0/$metadata`; delta except users/groups | Unsupported | Graph notifications/webhooks, public metadata serving, extra delta APIs. ARM subscriptions are unrelated. | [Subscriptions](https://learn.microsoft.com/en-us/graph/api/resources/subscription?view=graph-rest-1.0), [metadata](https://learn.microsoft.com/en-us/graph/traverse-the-graph) |
+| `/v1.0/subscriptions`, `/v1.0/$metadata`; delta except users/groups, mail folders and drive roots | Unsupported | Graph notifications/webhooks, public metadata serving, extra delta APIs. ARM subscriptions are unrelated. | [Subscriptions](https://learn.microsoft.com/en-us/graph/api/resources/subscription?view=graph-rest-1.0), [metadata](https://learn.microsoft.com/en-us/graph/traverse-the-graph) |
 
 ## Entra authentication
 
@@ -366,3 +373,9 @@ Implementation/test entry points:
 Update this map with each endpoint change: method, exact path, version, authorization,
 query limits, data population and tests. Move a gap to implemented only when the behavior
 exists. Keep API operations, local controls and qualified collector workflows distinct.
+
+SharePoint/OneDrive query limits, authority, import/export lifecycle and client qualification
+are specified in [the site/drive contract](integrations/contracts/site-drive.md), with
+[pinned operation sources](integrations/contracts/site-drive.json). These adapters are v1.0 only. Optional import keys distinguish parent-scoped public IDs
+(such as version `1.0` under multiple files). ZIP exports include typed metadata, binary
+hashes and stored bytes; restore validates tenant identity and finalized local content.

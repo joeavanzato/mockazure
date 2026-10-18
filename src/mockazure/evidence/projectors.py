@@ -24,6 +24,10 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
         from mockazure.mail.audit import project_mail
 
         return project_mail(source)
+    if source.ref.kind == "workload":
+        from mockazure.workloads.facts import project_workload
+
+        return project_workload(source)
     if source.ref.kind == "security":
         from mockazure.security.audit import project_security
 

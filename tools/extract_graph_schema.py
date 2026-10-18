@@ -186,6 +186,14 @@ def main():
         "types": extract(
             args.input,
             (
+                "site",
+                "list",
+                "listItem",
+                "fieldValueSet",
+                "drive",
+                "driveItem",
+                "permission",
+                "driveItemVersion",
                 "organization",
                 "mailFolder",
                 "message",

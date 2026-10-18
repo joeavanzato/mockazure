@@ -11,6 +11,7 @@ from mockazure.mail import message_models as mail_message_models  # noqa: F401
 from mockazure.mail import models as mail_models  # noqa: F401
 from mockazure.managed_identity import models as managed_identity_models  # noqa: F401
 from mockazure.security import models as security_models  # noqa: F401
+from mockazure.workloads import models as workload_models  # noqa: F401
 
 connection = context.config.attributes["connection"]
 context.configure(connection=connection, target_metadata=Base.metadata)
