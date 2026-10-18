@@ -8,8 +8,10 @@
 service used by this phase and later drive/Teams workloads. Use immutable versions and
 folder-scoped change journals rather than deriving content from statistics.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker, PowerShell.
-**Spec:** [Proposed program design](../specs/2026-10-17-coverage-expansion-design.md).
-**Status:** Proposed; depends on phase 1. One cohesive 2A PR with incremental commits.
+**Spec:** [Approved program design](../specs/2026-10-17-coverage-expansion-design.md).
+**Status:** Implemented and qualified in PR #18; awaiting merge. The checklist below preserves the original execution plan.
+
+Current implementation and qualification evidence: [coverage results](../../coverage-expansion-results.md).
 
 ## Global Constraints
 

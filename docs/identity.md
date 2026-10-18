@@ -144,6 +144,12 @@ the legacy generic outcome until their first successful method-policy write.
 See [method policies and trusted device context](../integrations/contracts/authentication-policies.md)
 and [Conditional Access](security-contracts.md) for the bounded enforcement profile.
 
+Completed trusted context remains available through its issued code's redemption
+lifetime, even when the original interactive form expires; cleanup uses that lifetime.
+For linked device-code flows, the device authorization owns the trusted device/platform
+binding. Admin binding through its browser flow updates the same authority, and every
+browser policy evaluation reads it before approval. Completing MFA preserves the binding.
+
 Codes expire after 300 seconds and redeem once across replicas. Device requests
 expire after 900 seconds; initial polling is five seconds, with durable slow_down
 increments of five seconds. Access and ID tokens last 3,600 seconds. Refresh

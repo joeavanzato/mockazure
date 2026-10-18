@@ -192,6 +192,9 @@ Sources: [policy creation](https://learn.microsoft.com/en-us/graph/api/condition
 Delegated login, consent, MFA completion/skip, authorization-code redemption,
 device approval/redemption and refresh evaluate the current stored policies.
 The tenant security lock spans the final decision and token/evidence commit.
+Directory membership/account changes and licensing inventory/assignment writes take
+that same lock before the directory revision lock. A revocation cannot commit between
+the final policy read and issuance; the next issuance or refresh sees the new state.
 Transitive group membership and explicit exclusions determine user targeting;
 resource appIds determine the requested service. The client category is the
 persisted registration profile: public/device clients are mobile/desktop,

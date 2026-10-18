@@ -7,8 +7,10 @@
 **Architecture:** Workload-specific adapters share revisioned metadata and phase 2 binary
 storage. The activity feed is a separate authorized service over durable audit publication.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker, PowerShell.
-**Spec:** [Proposed program design](../specs/2026-10-17-coverage-expansion-design.md).
-**Status:** Proposed; four sequential deliverables 3A-D, normally four PRs.
+**Spec:** [Approved program design](../specs/2026-10-17-coverage-expansion-design.md).
+**Status:** Implemented and qualified in PRs #19–#22; awaiting merge. The checklist below preserves the original execution plan.
+
+Current implementation and qualification evidence: [coverage results](../../coverage-expansion-results.md).
 
 ## Global Constraints
 

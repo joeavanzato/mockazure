@@ -1,7 +1,10 @@
 # API coverage
 
-Endpoint map for **MockAzure**, audited against merged source
-[`072c407`](https://github.com/joeavanzato/mockazure/commit/072c407) on **2026-10-17**.
+Endpoint map for **MockAzure**, including the coverage expansion qualified against
+[`c418245`](https://github.com/joeavanzato/mockazure/commit/c41824504a01b8e2f93c767d8e0dd1780a5d11a0)
+on **2026-10-18**. This expansion is in PRs #15–#24 and awaits merge; the original
+merged audit baseline was [`072c407`](https://github.com/joeavanzato/mockazure/commit/072c407).
+See [qualification results](docs/coverage-expansion-results.md) for tested workflows and limits.
 This describes implemented behavior, not milestone intentions or complete Microsoft
 service parity. Microsoft links describe the real API; the support and limits columns
 describe MockAzure. No real tenant is needed or contacted.

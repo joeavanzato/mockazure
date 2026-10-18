@@ -1,5 +1,5 @@
 {
-  "started_at": "2026-10-18T04:51:03.630828+00:00",
+  "started_at": "2026-10-18T05:36:47.057826+00:00",
   "passed": true,
   "records": 100000,
   "object_mib": 256,
@@ -17,9 +17,9 @@
       "count": 101,
       "pages": 2,
       "id_sha256": "8efb8fad011acaa8f2e83d0d3abba2d6640217d015fb44d1522fae84a387ee07",
-      "seconds": 0.15600000001722947,
-      "page_p95_seconds": 0.10899999999674037,
-      "page_max_seconds": 0.10899999999674037,
+      "seconds": 0.125,
+      "page_p95_seconds": 0.09399999998277053,
+      "page_max_seconds": 0.09399999998277053,
       "restart_and_retry": false
     },
     {
@@ -28,18 +28,18 @@
       "count": 101,
       "pages": 2,
       "id_sha256": "bfd62597cbf3f353a0574e189cff3a16c771d90aeb549f1088ebb17304c9392a",
-      "seconds": 0.10899999999674037,
-      "page_p95_seconds": 0.0779999999795109,
-      "page_max_seconds": 0.0779999999795109,
+      "seconds": 0.125,
+      "page_p95_seconds": 0.09399999998277053,
+      "page_max_seconds": 0.09399999998277053,
       "restart_and_retry": false
     }
   ],
   "replicas": [
-    "1b2748331a1bc763ea747ca1503c3a012e73badf330f30dae5bb1414256a1e09",
-    "b602d18beca1b621f1a5852a89477e3fac2732f3fc3ee21f9834669bb69ec83c"
+    "57ebdeb045b8c190df61853cb6ce363bd126b9d3c7398c768b21a46a62f78e3a",
+    "6b333cfdeb8a0698287313b11aa2f78133a4caa439a41383176faa0eec76377a"
   ],
-  "restart_started_at": "2026-10-18T04:59:16.261826+00:00",
-  "restart_completed_at": "2026-10-18T04:59:21.896832+00:00",
+  "restart_started_at": "2026-10-18T05:45:06.208826+00:00",
+  "restart_completed_at": "2026-10-18T05:45:14.500827+00:00",
   "reads": [
     {
       "kind": "message",
@@ -47,9 +47,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "250957e3f561baef79169fd0bd807a12ef14bb1f5163f0937ad9874ffb2394b9",
-      "seconds": 1064.5779999999795,
-      "page_p95_seconds": 2.155999999959022,
-      "page_max_seconds": 2.7339999999967404,
+      "seconds": 1062.2970000000205,
+      "page_p95_seconds": 2.125,
+      "page_max_seconds": 2.3290000000270084,
       "restart_and_retry": true
     },
     {
@@ -58,9 +58,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "f64839616fd71645c549e7c2851044f397a8e226c90b3c721f98faf6d5309379",
-      "seconds": 1159.1560000000172,
-      "page_p95_seconds": 2.4070000000065193,
-      "page_max_seconds": 2.9380000000237487,
+      "seconds": 1147.6410000000033,
+      "page_p95_seconds": 2.3429999999934807,
+      "page_max_seconds": 2.5469999999622814,
       "restart_and_retry": true
     },
     {
@@ -69,9 +69,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "250957e3f561baef79169fd0bd807a12ef14bb1f5163f0937ad9874ffb2394b9",
-      "seconds": 1063.8600000000442,
-      "page_p95_seconds": 2.155999999959022,
-      "page_max_seconds": 2.6869999999762513,
+      "seconds": 1062.0939999999828,
+      "page_p95_seconds": 2.125,
+      "page_max_seconds": 2.4689999999827705,
       "restart_and_retry": true
     },
     {
@@ -80,9 +80,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "f64839616fd71645c549e7c2851044f397a8e226c90b3c721f98faf6d5309379",
-      "seconds": 1161.0,
-      "page_p95_seconds": 2.422000000020489,
-      "page_max_seconds": 2.8439999999827705,
+      "seconds": 1145.3910000000033,
+      "page_p95_seconds": 2.3290000000270084,
+      "page_max_seconds": 2.5160000000032596,
       "restart_and_retry": true
     },
     {
@@ -91,9 +91,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "250957e3f561baef79169fd0bd807a12ef14bb1f5163f0937ad9874ffb2394b9",
-      "seconds": 1062.6880000000237,
-      "page_p95_seconds": 2.1410000000032596,
-      "page_max_seconds": 2.3290000000270084,
+      "seconds": 1062.4369999999763,
+      "page_p95_seconds": 2.125,
+      "page_max_seconds": 2.2660000000032596,
       "restart_and_retry": true
     },
     {
@@ -102,9 +102,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "f64839616fd71645c549e7c2851044f397a8e226c90b3c721f98faf6d5309379",
-      "seconds": 1160.8910000000033,
-      "page_p95_seconds": 2.4209999999729916,
-      "page_max_seconds": 2.89000000001397,
+      "seconds": 1147.7820000000065,
+      "page_p95_seconds": 2.3280000000377186,
+      "page_max_seconds": 2.594000000040978,
       "restart_and_retry": true
     },
     {
@@ -113,9 +113,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "250957e3f561baef79169fd0bd807a12ef14bb1f5163f0937ad9874ffb2394b9",
-      "seconds": 1063.890000000014,
-      "page_p95_seconds": 2.1560000000172295,
-      "page_max_seconds": 2.6089999999967404,
+      "seconds": 1062.125,
+      "page_p95_seconds": 2.125,
+      "page_max_seconds": 2.25,
       "restart_and_retry": true
     },
     {
@@ -124,9 +124,9 @@
       "count": 50000,
       "pages": 500,
       "id_sha256": "f64839616fd71645c549e7c2851044f397a8e226c90b3c721f98faf6d5309379",
-      "seconds": 1160.8429999999935,
-      "page_p95_seconds": 2.4209999999729916,
-      "page_max_seconds": 2.7339999999967404,
+      "seconds": 1145.0160000000033,
+      "page_p95_seconds": 2.3280000000377186,
+      "page_max_seconds": 2.547000000020489,
       "restart_and_retry": true
     }
   ],
@@ -141,41 +141,40 @@
   "tenant_isolation": true,
   "resources_after": [
     {
-      "BlockIO": "381kB / 0B",
-      "CPUPerc": "0.12%",
-      "Container": "1b2748331a1bc763ea747ca1503c3a012e73badf330f30dae5bb1414256a1e09",
-      "ID": "1b2748331a1b",
-      "MemPerc": "0.38%",
-      "MemUsage": "120.5MiB / 31.22GiB",
-      "Name": "mockazure-default-b620d6c3ee1b-api-1",
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "22.51%",
+      "Container": "57ebdeb045b8c190df61853cb6ce363bd126b9d3c7398c768b21a46a62f78e3a",
+      "ID": "57ebdeb045b8",
+      "MemPerc": "0.36%",
+      "MemUsage": "113.8MiB / 31.22GiB",
+      "Name": "mockazure-default-ae54a049b49b-api-1",
+      "NetIO": "185MB / 113MB",
+      "PIDs": "3"
+    },
+    {
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "15.91%",
+      "Container": "6b333cfdeb8a0698287313b11aa2f78133a4caa439a41383176faa0eec76377a",
+      "ID": "6b333cfdeb8a",
+      "MemPerc": "0.42%",
+      "MemUsage": "132.7MiB / 31.22GiB",
+      "Name": "mockazure-default-ae54a049b49b-api-2",
       "NetIO": "726MB / 383MB",
       "PIDs": "4"
     },
     {
-      "BlockIO": "180kB / 0B",
-      "CPUPerc": "22.27%",
-      "Container": "b602d18beca1b621f1a5852a89477e3fac2732f3fc3ee21f9834669bb69ec83c",
-      "ID": "b602d18beca1",
-      "MemPerc": "0.36%",
-      "MemUsage": "115.8MiB / 31.22GiB",
-      "Name": "mockazure-default-b620d6c3ee1b-api-2",
-      "NetIO": "185MB / 112MB",
-      "PIDs": "2"
-    },
-    {
-      "BlockIO": "2MB / 1.98GB",
-      "CPUPerc": "0.38%",
-      "Container": "61b0cf88c4eb302fbc8da21beaf488ffb13710b133616cda486a9c9314685060",
-      "ID": "61b0cf88c4eb",
-      "MemPerc": "0.74%",
-      "MemUsage": "237.1MiB / 31.22GiB",
-      "Name": "mockazure-default-b620d6c3ee1b-db-1",
+      "BlockIO": "57.3kB / 921MB",
+      "CPUPerc": "4.23%",
+      "Container": "6335ea179fef8dbe82681333abe9e75c655c9ea766b168142fe357657e881651",
+      "ID": "6335ea179fef",
+      "MemPerc": "0.76%",
+      "MemUsage": "243.7MiB / 31.22GiB",
+      "Name": "mockazure-default-ae54a049b49b-db-1",
       "NetIO": "495MB / 2.29GB",
       "PIDs": "20"
     }
   ],
-  "query_plans": "[\n  {\n    \"Plan\": {\n      \"Node Type\": \"Limit\",\n      \"Parallel Aware\": false,\n      \"Async Capable\": false,\n      \"Startup Cost\": 0.41,\n      \"Total Cost\": 8.62,\n      \"Plan Rows\": 100,\n      \"Plan Width\": 37,\n      \"Actual Startup Time\": 0.098,\n      \"Actual Total Time\": 0.119,\n      \"Actual Rows\": 100.00,\n      \"Actual Loops\": 1,\n      \"Disabled\": false,\n      \"Shared Hit Blocks\": 1,\n      \"Shared Read Blocks\": 4,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0,\n      \"Plans\": [\n        {\n          \"Node Type\": \"Index Only Scan\",\n          \"Parent Relationship\": \"Outer\",\n          \"Parallel Aware\": false,\n          \"Async Capable\": false,\n          \"Scan Direction\": \"Forward\",\n          \"Index Name\": \"mail_messages_tenant_id_user_id_id_key\",\n          \"Relation Name\": \"mail_messages\",\n          \"Alias\": \"mail_messages\",\n          \"Startup Cost\": 0.41,\n          \"Total Cost\": 4112.69,\n          \"Plan Rows\": 50120,\n          \"Plan Width\": 37,\n          \"Actual Startup Time\": 0.097,\n          \"Actual Total Time\": 0.111,\n          \"Actual Rows\": 100.00,\n          \"Actual Loops\": 1,\n          \"Disabled\": false,\n          \"Index Cond\": \"((tenant_id = '441648f9-2412-4c83-b4e5-d75cceef9ecd'::uuid) AND (user_id = 'ec196413-698f-481c-a861-060e0768f61a'::uuid))\",\n          \"Rows Removed by Index Recheck\": 0,\n          \"Heap Fetches\": 0,\n          \"Index Searches\": 1,\n          \"Shared Hit Blocks\": 1,\n          \"Shared Read Blocks\": 4,\n          \"Shared Dirtied Blocks\": 0,\n          \"Shared Written Blocks\": 0,\n          \"Local Hit Blocks\": 0,\n          \"Local Read Blocks\": 0,\n          \"Local Dirtied Blocks\": 0,\n          \"Local Written Blocks\": 0,\n          \"Temp Read Blocks\": 0,\n          \"Temp Written Blocks\": 0\n        }\n      ]\n    },\n    \"Planning\": {\n      \"Shared Hit Blocks\": 174,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0\n    },\n    \"Planning Time\": 0.360,\n    \"Triggers\": [\n    ],\n    \"Execution Time\": 0.139\n  }\n]\n[\n  {\n    \"Plan\": {\n      \"Node Type\": \"Limit\",\n      \"Parallel Aware\": false,\n      \"Async Capable\": false,\n      \"Startup Cost\": 0.41,\n      \"Total Cost\": 11.12,\n      \"Plan Rows\": 100,\n      \"Plan Width\": 36,\n      \"Actual Startup Time\": 0.048,\n      \"Actual Total Time\": 0.077,\n      \"Actual Rows\": 100.00,\n      \"Actual Loops\": 1,\n      \"Disabled\": false,\n      \"Shared Hit Blocks\": 10,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0,\n      \"Plans\": [\n        {\n          \"Node Type\": \"Index Only Scan\",\n          \"Parent Relationship\": \"Outer\",\n          \"Parallel Aware\": false,\n          \"Async Capable\": false,\n          \"Scan Direction\": \"Forward\",\n          \"Index Name\": \"workload_current_identity\",\n          \"Relation Name\": \"workload_versions\",\n          \"Alias\": \"workload_versions\",\n          \"Startup Cost\": 0.41,\n          \"Total Cost\": 5363.30,\n          \"Plan Rows\": 50103,\n          \"Plan Width\": 36,\n          \"Actual Startup Time\": 0.047,\n          \"Actual Total Time\": 0.073,\n          \"Actual Rows\": 100.00,\n          \"Actual Loops\": 1,\n          \"Disabled\": false,\n          \"Index Cond\": \"((tenant_id = '441648f9-2412-4c83-b4e5-d75cceef9ecd'::uuid) AND (workload = 'sharepoint'::text) AND (scope = 'scale-site'::text) AND (kind = 'driveItem'::text))\",\n          \"Rows Removed by Index Recheck\": 0,\n          \"Heap Fetches\": 5,\n          \"Index Searches\": 1,\n          \"Shared Hit Blocks\": 10,\n          \"Shared Read Blocks\": 0,\n          \"Shared Dirtied Blocks\": 0,\n          \"Shared Written Blocks\": 0,\n          \"Local Hit Blocks\": 0,\n          \"Local Read Blocks\": 0,\n          \"Local Dirtied Blocks\": 0,\n          \"Local Written Blocks\": 0,\n          \"Temp Read Blocks\": 0,\n          \"Temp Written Blocks\": 0\n        }\n      ]\n    },\n    \"Planning\": {\n      \"Shared Hit Blocks\": 232,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0\n    },\n    \"Planning Time\": 0.323,\n    \"Triggers\": [\n    ],\n    \"Execution Time\": 0.086\n  }\n]",
-  "completed_at": "2026-10-18T05:18:44.086327+00:00",
+  "query_plans": "[\n  {\n    \"Plan\": {\n      \"Node Type\": \"Limit\",\n      \"Parallel Aware\": false,\n      \"Async Capable\": false,\n      \"Startup Cost\": 0.41,\n      \"Total Cost\": 9.31,\n      \"Plan Rows\": 100,\n      \"Plan Width\": 37,\n      \"Actual Startup Time\": 0.076,\n      \"Actual Total Time\": 0.124,\n      \"Actual Rows\": 100.00,\n      \"Actual Loops\": 1,\n      \"Disabled\": false,\n      \"Shared Hit Blocks\": 2,\n      \"Shared Read Blocks\": 11,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0,\n      \"Plans\": [\n        {\n          \"Node Type\": \"Index Only Scan\",\n          \"Parent Relationship\": \"Outer\",\n          \"Parallel Aware\": false,\n          \"Async Capable\": false,\n          \"Scan Direction\": \"Forward\",\n          \"Index Name\": \"mail_messages_tenant_id_user_id_id_key\",\n          \"Relation Name\": \"mail_messages\",\n          \"Alias\": \"mail_messages\",\n          \"Startup Cost\": 0.41,\n          \"Total Cost\": 4457.25,\n          \"Plan Rows\": 50120,\n          \"Plan Width\": 37,\n          \"Actual Startup Time\": 0.074,\n          \"Actual Total Time\": 0.119,\n          \"Actual Rows\": 100.00,\n          \"Actual Loops\": 1,\n          \"Disabled\": false,\n          \"Index Cond\": \"((tenant_id = '1913665d-8b3f-456e-a225-40c83a08aab3'::uuid) AND (user_id = '8f3ef8aa-cbf2-4a6d-85c1-e70be8fbdc01'::uuid))\",\n          \"Rows Removed by Index Recheck\": 0,\n          \"Heap Fetches\": 8,\n          \"Index Searches\": 1,\n          \"Shared Hit Blocks\": 2,\n          \"Shared Read Blocks\": 11,\n          \"Shared Dirtied Blocks\": 0,\n          \"Shared Written Blocks\": 0,\n          \"Local Hit Blocks\": 0,\n          \"Local Read Blocks\": 0,\n          \"Local Dirtied Blocks\": 0,\n          \"Local Written Blocks\": 0,\n          \"Temp Read Blocks\": 0,\n          \"Temp Written Blocks\": 0\n        }\n      ]\n    },\n    \"Planning\": {\n      \"Shared Hit Blocks\": 174,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0\n    },\n    \"Planning Time\": 0.336,\n    \"Triggers\": [\n    ],\n    \"Execution Time\": 0.141\n  }\n]\n[\n  {\n    \"Plan\": {\n      \"Node Type\": \"Limit\",\n      \"Parallel Aware\": false,\n      \"Async Capable\": false,\n      \"Startup Cost\": 0.41,\n      \"Total Cost\": 11.26,\n      \"Plan Rows\": 100,\n      \"Plan Width\": 36,\n      \"Actual Startup Time\": 0.042,\n      \"Actual Total Time\": 0.081,\n      \"Actual Rows\": 100.00,\n      \"Actual Loops\": 1,\n      \"Disabled\": false,\n      \"Shared Hit Blocks\": 12,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0,\n      \"Plans\": [\n        {\n          \"Node Type\": \"Index Only Scan\",\n          \"Parent Relationship\": \"Outer\",\n          \"Parallel Aware\": false,\n          \"Async Capable\": false,\n          \"Scan Direction\": \"Forward\",\n          \"Index Name\": \"workload_current_identity\",\n          \"Relation Name\": \"workload_versions\",\n          \"Alias\": \"workload_versions\",\n          \"Startup Cost\": 0.41,\n          \"Total Cost\": 5434.78,\n          \"Plan Rows\": 50099,\n          \"Plan Width\": 36,\n          \"Actual Startup Time\": 0.042,\n          \"Actual Total Time\": 0.077,\n          \"Actual Rows\": 100.00,\n          \"Actual Loops\": 1,\n          \"Disabled\": false,\n          \"Index Cond\": \"((tenant_id = '1913665d-8b3f-456e-a225-40c83a08aab3'::uuid) AND (workload = 'sharepoint'::text) AND (scope = 'scale-site'::text) AND (kind = 'driveItem'::text))\",\n          \"Rows Removed by Index Recheck\": 0,\n          \"Heap Fetches\": 6,\n          \"Index Searches\": 1,\n          \"Shared Hit Blocks\": 12,\n          \"Shared Read Blocks\": 0,\n          \"Shared Dirtied Blocks\": 0,\n          \"Shared Written Blocks\": 0,\n          \"Local Hit Blocks\": 0,\n          \"Local Read Blocks\": 0,\n          \"Local Dirtied Blocks\": 0,\n          \"Local Written Blocks\": 0,\n          \"Temp Read Blocks\": 0,\n          \"Temp Written Blocks\": 0\n        }\n      ]\n    },\n    \"Planning\": {\n      \"Shared Hit Blocks\": 232,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0\n    },\n    \"Planning Time\": 0.316,\n    \"Triggers\": [\n    ],\n    \"Execution Time\": 0.091\n  }\n]",
   "runtime_source_sha256": {
     "compose.yaml": "4939ffad7ca7d8af64220359307d3c0426d57df2ea9244d2da86e62456a6d2b7",
     "deploy/postgres-guard.sh": "2d849e5b4680136c174c1c8726e741ddb42ee57cb93462995cf559ab8145219a",
@@ -217,7 +216,7 @@
     "src/mockazure/admin/managed_identity_routes.py": "3d06cc23f71e364c7db9ab497b45c7e32253cca5201084515f2beb381524bdac",
     "src/mockazure/admin/routes.py": "2b9b82a20f01935cb89c030396bb499280818946837fe06f206b7d644c6fa4b6",
     "src/mockazure/admin/security_routes.py": "7807f63a899b81e44d80190b9eb8281bb6a41e0286ade03394d5d13a01126479",
-    "src/mockazure/admin/session_routes.py": "3d574212d96274ee1af7f29a68fce0e07e616558a66ccbe889237a08688af0cd",
+    "src/mockazure/admin/session_routes.py": "c8929ee6ff22b11d1578d1adabca4f1c06cf4c82b037d30465323805e5c88011",
     "src/mockazure/admin/workload_routes.py": "4e27e8e1fe902b12ad31dd53137bbeda733bd24470a4d0827d32c44039cc57ea",
     "src/mockazure/asyncio_support.py": "774f9d2357959ad4ad829f5604ed09b7491e88b7e80d86c9ab262d55cf1d5793",
     "src/mockazure/auditlog/__init__.py": "5cf2f5f86a5b5b77f14200178e87d348d1eb9fb380d9f9572c2fcf8a11eafbac",
@@ -318,9 +317,9 @@
     "src/mockazure/db/models.py": "8e2cfc4134e404bfd9d36053988bbd36c4cb8ab4e628d71f7fb8dc05a83df108",
     "src/mockazure/directory/__init__.py": "43ce8db5cb386d085156b3a49a58290167260df2429aa18fd0c954604cefe3b7",
     "src/mockazure/directory/datasets.py": "90d3e0ce4d4e1395ab72a9605a0608dbe6a7dc1d4ad941f13c0f5a49ba3df7e0",
-    "src/mockazure/directory/history.py": "b9402c5eaca8dab5150a9d708ad52d7e2b70d6f2e7f85c79bc6593343cb52894",
+    "src/mockazure/directory/history.py": "4d6eab493c283f46c979a0072e10519fbe4e36ecdbebf8e5ccb5461090ce586d",
     "src/mockazure/directory/models.py": "c8bfb947b9ef99d2abaaf96a1391ce9d5737e13c6d7c03f82177d0668ad6400d",
-    "src/mockazure/directory/mutations.py": "cca5b3093b5bb0714f88bd6bf0711cd72226797d5baa022d83c67b27396d543c",
+    "src/mockazure/directory/mutations.py": "87b29924e55f78e7106527c35764985ad4467ac0d24c5b9ad25bdcd474e87082",
     "src/mockazure/directory/organization.py": "57452aa4bbbab14e3fcef3cddea81e7be511e20c1f0a84fb4aed3e4861587551",
     "src/mockazure/directory/references.py": "c01d31bb987540a24073ba9995c0c7b893203ded026544e7185917e0a9a6e770",
     "src/mockazure/directory/repository.py": "b00a13de913cee3222fb5835a0e2d6c494f1a185a707da2058d5689aaa5d357e",
@@ -360,7 +359,7 @@
     "src/mockazure/licensing/catalog.py": "86aba8979b3d7c882bf77281e1f4d28020bd09347d18e3a587da3e5095118f2d",
     "src/mockazure/licensing/models.py": "47a8b89226fea12f83b87b0f47b5bb42674d70746a2ca4a509953729c5f633ec",
     "src/mockazure/licensing/schemas.py": "b8e43e4d2e2e145df887bd61756e2897724917a39e62fef60f908e7717f19c51",
-    "src/mockazure/licensing/service.py": "39fe484196b292c03ec8484d555909b771e28ae63b8fa413e6247e9f86fb0c8d",
+    "src/mockazure/licensing/service.py": "75a83496d9f2aa6277a1139c9e07f89d1baa280532e57e503aaf395fec52981c",
     "src/mockazure/mail/__init__.py": "f027f2c3421707a2e25b7f3bc76021fb21bc72e3610266c26718498bf6996665",
     "src/mockazure/mail/audit.py": "527cb88e2f405d27c359a6834d083d0fe68610739e842990e1c0f8a1b59bf068",
     "src/mockazure/mail/audit_schemas.py": "7b9521c0fba592e19b3780c29be977f8fecbddc42a37bce2e48ac3e609c60928",
@@ -397,9 +396,9 @@
     "src/mockazure/managed_identity/schemas.py": "6cc71ab90842ca8cc368922bdcdbbda73091c425427cddfb1adb74aac936bfec",
     "src/mockazure/managed_identity/service.py": "9618604e6368f1562a7dbc48b6706eae23bd30572e4b5c66c5d4a2b0855acd9b",
     "src/mockazure/oauth/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
-    "src/mockazure/oauth/authorization.py": "290dc3f1a6756426d4d508fc28cf94f17bdff50179f8da66824b541f257d3307",
+    "src/mockazure/oauth/authorization.py": "9e57098d94e42c3344b61489faf2f6497c5529420946afd94eca74643985109e",
     "src/mockazure/oauth/client_auth.py": "a2a0f9fa1677ec56f70a11fbd232fc4324516f9dd2a4543a924cf3bb684faadb",
-    "src/mockazure/oauth/device.py": "eccfb18b898c4f4d1d8f5538685585f022e9b56ad057ca75a00ebee9f76885b3",
+    "src/mockazure/oauth/device.py": "c4a5678223cd82233f212f6fa8bfc7b9f8a3004cc0392c58f739bda42d895d2c",
     "src/mockazure/oauth/device_models.py": "2329db2933f7c83f9879871c22a96c0124c08eb483672d308acdd5d328fb3e21",
     "src/mockazure/oauth/discovery.py": "dfe479f1a47685a9e406caa848d940da2fd239190e8c00f49da1ce6b2eb0517b",
     "src/mockazure/oauth/errors.py": "92c928c485055baabd543ef44a17cfafe943c5417456a73bf09e36f9b1da565e",
@@ -519,7 +518,7 @@
     "src/mockazure/security/__init__.py": "eb61051e3cb6d49fdbcb62c162f70d6ef32747f1d04dbf287c834eb575973220",
     "src/mockazure/security/activity.py": "546f8b34523a9cf485b4be9d4df9be1f3e86783032c1f762d5568c73249a4966",
     "src/mockazure/security/audit.py": "4ebd3267730845e96155795a5003a4082802e62c711e4464201cf98cfb4884fc",
-    "src/mockazure/security/authentication_context.py": "db0d305a85974693690ef12596162969558acffd8968fe54346c41b3dc9db4fd",
+    "src/mockazure/security/authentication_context.py": "fb90270a85a09851d8c0bd999f41776c8fde5dd3d7bcb72ad1897c310f358c3a",
     "src/mockazure/security/authentication_models.py": "03ea6dea4985249d0f0ea61c78e50f6360525d8ce4e232cc240cc1865165c4bb",
     "src/mockazure/security/catalog.py": "ff214d208a23bb7cd51b886acce325204bbac5f53f38851918c0832ee9919dbc",
     "src/mockazure/security/collection_relationships.py": "98e8cb97b72a10176daf5003ae49bbb01572a746427e44f436046edb359e52d3",
@@ -530,7 +529,7 @@
     "src/mockazure/security/data/permissions.json": "5081caed15d20ebac702ecd9379b6f57c1d97274a0a3f10c1bbf507dba4744ec",
     "src/mockazure/security/data/role_details.json": "e360c0f21473a7d49603a6371be61ad47531b2057ba589b8a5e0bf6bff02eefc",
     "src/mockazure/security/data/role_templates.json": "7b96d0f921b8034593da7192fdcc65f956499028a8ede78bf740a976fe0809d3",
-    "src/mockazure/security/evaluation.py": "f0c4c409ec682023a69f76d4fea2dd0e56c636d928b41fc7d2ba09a4f8374010",
+    "src/mockazure/security/evaluation.py": "8bea0f6688c2b499d883aa22b166259b9296a37ae00d69ef0bb7e9059cc4da1a",
     "src/mockazure/security/grants.py": "b2abf37df7d55131fcd32ebc35d0d728c6ca69fc7f5ab934e120f0a8c266d380",
     "src/mockazure/security/method_mutations.py": "cc67f813ab4f337b16c5b760b8e258c876df362de8f586e8432b5ea50756c7a1",
     "src/mockazure/security/method_policies.py": "9b831ef3f8b28754056dae2592543e8e9421ce828fac688d02b202c94acf8e5c",
@@ -571,10 +570,11 @@
     "src/mockazure/workloads/team_queries.py": "713f333ebeeffdde2c340d7b668c6a473f8a3dd23ef5ade7904b18b68c374316",
     "src/mockazure/workloads/teams.py": "db4d6b25989a06c0e33d310782287df7166a02f2093693897fe1c22a20897068"
   },
+  "completed_at": "2026-10-18T06:04:20.900826+00:00",
   "reproduction": "python -m tools.benchmark_coverage",
   "measurement_limits": [
-    "Post-run usage is not peak memory.",
-    "Eight readers each traverse a complete 50,000-item collection; timing includes restart/retry.",
-    "No throughput or Microsoft service SLA is claimed."
+    "Post-run usage is not peak memory; no throughput or service SLA is claimed.",
+    "Each reader traverses 50,000 records; timing includes restart and issued-cursor retry.",
+    "Shared Docker Desktop host also ran regression and native qualification workloads."
   ]
 }

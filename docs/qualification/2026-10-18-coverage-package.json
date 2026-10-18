@@ -1,8 +1,8 @@
 {
-  "source_commit": "220f48d95cb33031d2d03feb0a63ba7ec23f1827",
-  "source_fingerprint": "8592f8ec2e7a87f40dd457bd44887bbf08b6b7671ce76620436f19c80c08b370",
-  "created_at": "2026-10-18T05:16:28.996827+00:00",
-  "completed_at": "2026-10-18T05:17:06.199826+00:00",
+  "source_commit": "c41824504a01b8e2f93c767d8e0dd1780a5d11a0",
+  "source_fingerprint": "f49c827702c7594d3a56d8de8a6b0a9954a2270e38046e943fd5f85ca91fa174",
+  "created_at": "2026-10-18T05:35:32.783327+00:00",
+  "completed_at": "2026-10-18T05:36:16.688826+00:00",
   "passed": true,
   "reproducible": true,
   "parity": true,
@@ -48,25 +48,25 @@
   "artifacts": {
     "wheel": [
       {
-        "sha256": "42278be6e5ad97c505f1f0b7cb0f736672ad60b365ce2c47cd2f6dce11b2575b",
+        "sha256": "85d4c84ad4c8191d9fc58243be677cb4b5d5294bc6002d47153b01b2808fee6a",
         "package_files": 383
       },
       {
-        "sha256": "42278be6e5ad97c505f1f0b7cb0f736672ad60b365ce2c47cd2f6dce11b2575b",
+        "sha256": "85d4c84ad4c8191d9fc58243be677cb4b5d5294bc6002d47153b01b2808fee6a",
         "package_files": 383
       }
     ],
     "sdist": [
       {
-        "sha256": "2b5540ff81d9516f8bc6366ff19445ba98a4f1289e7f186fa1b9f78668ad161a",
+        "sha256": "70849eec4c33ce9cf18d480f59682a023309074469f83be0355b42318171ee81",
         "source_files": 388
       },
       {
-        "sha256": "2b5540ff81d9516f8bc6366ff19445ba98a4f1289e7f186fa1b9f78668ad161a",
+        "sha256": "70849eec4c33ce9cf18d480f59682a023309074469f83be0355b42318171ee81",
         "source_files": 388
       }
     ]
   },
-  "manifest_sha256": "44859117383727bf71eeed84d97e8f736c37f60bb005dd4c63294545f0d69410",
-  "qualification_scope": "Reproducible wheel/sdist, clean native installation, and Docker package/capability/migration parity. Not a published release."
+  "manifest_sha256": "48d07fbe64b2d22d5b992f506f283e9497987885f67cc08d06d9caf3e35fee0a",
+  "qualification_scope": "Reproducible wheel/sdist, clean native install, Docker parity; candidate only."
 }
