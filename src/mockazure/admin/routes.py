@@ -32,6 +32,17 @@ async def capabilities(request: Request):
 
     settings = request.app.state.settings
     return {
+        "teams_profile": {
+            "version": "v1.0",
+            "beta": False,
+            "message_page_rows": 50,
+            "expanded_replies": 200,
+            "cursor_seconds": 3600,
+            "authority": "explicit membership and operation-specific resource consent",
+            "hosted_content": "local streamed bytes",
+            "public_writes": False,
+            "delta": False,
+        },
         "site_drive_profile": {
             "version": "v1.0",
             "beta": False,

@@ -287,6 +287,14 @@ async def reset_workload(session, tenant, workload, scope, expected_revision):
                 "workload-version",
                 pin_owner(workload, scope, row.kind, row.id, row.valid_from),
             )
+    if workload == "teams":
+        from mockazure.workloads.models import ConversationAccess
+
+        await session.execute(
+            delete(ConversationAccess).where(
+                ConversationAccess.tenant_id == tenant, ConversationAccess.scope == scope
+            )
+        )
     for model in (G, E, V):
         await session.execute(
             delete(model).where(

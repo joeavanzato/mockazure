@@ -5,6 +5,42 @@
   "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
   "version": "v1.0",
   "types": {
+    "aadUserConversationMember": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "visibleHistoryStartDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "email": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "conversationMember"
+    },
     "activityType": {
       "enum": [
         "signin",
@@ -1141,6 +1177,572 @@
       "required": [],
       "open": true
     },
+    "channel": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "email": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isArchived": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isFavoriteByDefault": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "layoutType": {
+          "type": "graph.channelLayoutType",
+          "nullable": true
+        },
+        "membershipType": {
+          "type": "graph.channelMembershipType",
+          "nullable": true
+        },
+        "migrationMode": {
+          "type": "graph.migrationMode",
+          "nullable": true
+        },
+        "originalCreatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "summary": {
+          "type": "graph.channelSummary",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "displayName"
+      ],
+      "base": "entity"
+    },
+    "channelIdentity": {
+      "properties": {
+        "channelId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "teamId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "channelLayoutType": {
+      "enum": [
+        "post",
+        "chat",
+        "unknownFutureValue"
+      ]
+    },
+    "channelMembershipType": {
+      "enum": [
+        "standard",
+        "private",
+        "unknownFutureValue",
+        "shared"
+      ]
+    },
+    "channelSummary": {
+      "properties": {
+        "guestsCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "hasMembersFromOtherTenants": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "membersCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "ownersCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "chat": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "chatType": {
+          "type": "graph.chatType",
+          "nullable": false
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "isHiddenForAllMembers": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "lastUpdatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "migrationMode": {
+          "type": "graph.migrationMode",
+          "nullable": true
+        },
+        "onlineMeetingInfo": {
+          "type": "graph.teamworkOnlineMeetingInfo",
+          "nullable": true
+        },
+        "originalCreatedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "topic": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "viewpoint": {
+          "type": "graph.chatViewpoint",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "chatType"
+      ],
+      "base": "entity"
+    },
+    "chatMessage": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "attachments": {
+          "type": "Collection(graph.chatMessageAttachment)",
+          "nullable": true
+        },
+        "body": {
+          "type": "graph.itemBody",
+          "nullable": false
+        },
+        "channelIdentity": {
+          "type": "graph.channelIdentity",
+          "nullable": true
+        },
+        "chatId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "deletedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "etag": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "eventDetail": {
+          "type": "graph.eventMessageDetail",
+          "nullable": true
+        },
+        "from": {
+          "type": "graph.chatMessageFromIdentitySet",
+          "nullable": true
+        },
+        "importance": {
+          "type": "graph.chatMessageImportance",
+          "nullable": false
+        },
+        "lastEditedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "locale": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "mentions": {
+          "type": "Collection(graph.chatMessageMention)",
+          "nullable": true
+        },
+        "messageHistory": {
+          "type": "Collection(graph.chatMessageHistoryItem)",
+          "nullable": true
+        },
+        "messageType": {
+          "type": "graph.chatMessageType",
+          "nullable": false
+        },
+        "policyViolation": {
+          "type": "graph.chatMessagePolicyViolation",
+          "nullable": true
+        },
+        "reactions": {
+          "type": "Collection(graph.chatMessageReaction)",
+          "nullable": true
+        },
+        "replyToId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "subject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "summary": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "body",
+        "importance",
+        "locale",
+        "messageType"
+      ],
+      "base": "entity"
+    },
+    "chatMessageActions": {
+      "enum": [
+        "reactionAdded",
+        "reactionRemoved",
+        "actionUndefined",
+        "unknownFutureValue"
+      ]
+    },
+    "chatMessageAttachment": {
+      "properties": {
+        "content": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "teamsAppId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "thumbnailUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "chatMessageFromIdentitySet": {
+      "properties": {
+        "application": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "device": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "user": {
+          "type": "graph.identity",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identitySet"
+    },
+    "chatMessageHistoryItem": {
+      "properties": {
+        "actions": {
+          "type": "graph.chatMessageActions",
+          "nullable": false
+        },
+        "modifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "reaction": {
+          "type": "graph.chatMessageReaction",
+          "nullable": true
+        }
+      },
+      "required": [
+        "actions",
+        "modifiedDateTime"
+      ]
+    },
+    "chatMessageHostedContent": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "contentBytes": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "teamworkHostedContent"
+    },
+    "chatMessageImportance": {
+      "enum": [
+        "normal",
+        "high",
+        "urgent",
+        "unknownFutureValue"
+      ]
+    },
+    "chatMessageMention": {
+      "properties": {
+        "id": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "mentioned": {
+          "type": "graph.chatMessageMentionedIdentitySet",
+          "nullable": true
+        },
+        "mentionText": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "chatMessageMentionedIdentitySet": {
+      "properties": {
+        "application": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "device": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "user": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "conversation": {
+          "type": "graph.teamworkConversationIdentity",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identitySet"
+    },
+    "chatMessagePolicyViolation": {
+      "properties": {
+        "dlpAction": {
+          "type": "graph.chatMessagePolicyViolationDlpActionTypes",
+          "nullable": true
+        },
+        "justificationText": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "policyTip": {
+          "type": "graph.chatMessagePolicyViolationPolicyTip",
+          "nullable": true
+        },
+        "userAction": {
+          "type": "graph.chatMessagePolicyViolationUserActionTypes",
+          "nullable": true
+        },
+        "verdictDetails": {
+          "type": "graph.chatMessagePolicyViolationVerdictDetailsTypes",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "chatMessagePolicyViolationDlpActionTypes": {
+      "enum": [
+        "none",
+        "notifySender",
+        "blockAccess",
+        "blockAccessExternal"
+      ]
+    },
+    "chatMessagePolicyViolationPolicyTip": {
+      "properties": {
+        "complianceUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "generalText": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "matchedConditionDescriptions": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "chatMessagePolicyViolationUserActionTypes": {
+      "enum": [
+        "none",
+        "override",
+        "reportFalsePositive"
+      ]
+    },
+    "chatMessagePolicyViolationVerdictDetailsTypes": {
+      "enum": [
+        "none",
+        "allowFalsePositiveOverride",
+        "allowOverrideWithoutJustification",
+        "allowOverrideWithJustification"
+      ]
+    },
+    "chatMessageReaction": {
+      "properties": {
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "reactionContentUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "reactionType": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "user": {
+          "type": "graph.chatMessageReactionIdentitySet",
+          "nullable": false
+        }
+      },
+      "required": [
+        "createdDateTime",
+        "reactionType",
+        "user"
+      ]
+    },
+    "chatMessageReactionIdentitySet": {
+      "properties": {
+        "application": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "device": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "user": {
+          "type": "graph.identity",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identitySet"
+    },
+    "chatMessageType": {
+      "enum": [
+        "message",
+        "chatEvent",
+        "typing",
+        "unknownFutureValue",
+        "systemEventMessage"
+      ]
+    },
+    "chatType": {
+      "enum": [
+        "oneOnOne",
+        "group",
+        "meeting",
+        "unknownFutureValue"
+      ]
+    },
+    "chatViewpoint": {
+      "properties": {
+        "isHidden": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "lastMessageReadDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "cloudAppSecuritySessionControl": {
       "properties": {
         "isEnabled": {
@@ -1694,6 +2296,30 @@
       },
       "required": [],
       "open": true
+    },
+    "conversationMember": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roles": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "visibleHistoryStartDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
     },
     "customSecurityAttributeValue": {
       "properties": {},
@@ -2335,6 +2961,10 @@
         "id"
       ]
     },
+    "eventMessageDetail": {
+      "properties": {},
+      "required": []
+    },
     "externalAudienceScope": {
       "enum": [
         "none",
@@ -2605,6 +3235,13 @@
         }
       },
       "required": []
+    },
+    "giphyRatingType": {
+      "enum": [
+        "strict",
+        "moderate",
+        "unknownFutureValue"
+      ]
     },
     "group": {
       "properties": {
@@ -4039,6 +4676,13 @@
         "id"
       ],
       "base": "authenticationMethod"
+    },
+    "migrationMode": {
+      "enum": [
+        "inProgress",
+        "completed",
+        "unknownFutureValue"
+      ]
     },
     "modifiedProperty": {
       "properties": {
@@ -11393,6 +12037,304 @@
         }
       },
       "required": []
+    },
+    "team": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "classification": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "firstChannelName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "funSettings": {
+          "type": "graph.teamFunSettings",
+          "nullable": true
+        },
+        "guestSettings": {
+          "type": "graph.teamGuestSettings",
+          "nullable": true
+        },
+        "internalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isArchived": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "memberSettings": {
+          "type": "graph.teamMemberSettings",
+          "nullable": true
+        },
+        "messagingSettings": {
+          "type": "graph.teamMessagingSettings",
+          "nullable": true
+        },
+        "specialization": {
+          "type": "graph.teamSpecialization",
+          "nullable": true
+        },
+        "summary": {
+          "type": "graph.teamSummary",
+          "nullable": true
+        },
+        "tenantId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "visibility": {
+          "type": "graph.teamVisibilityType",
+          "nullable": true
+        },
+        "webUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "open": true,
+      "base": "entity"
+    },
+    "teamFunSettings": {
+      "properties": {
+        "allowCustomMemes": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowGiphy": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowStickersAndMemes": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "giphyContentRating": {
+          "type": "graph.giphyRatingType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "teamGuestSettings": {
+      "properties": {
+        "allowCreateUpdateChannels": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowDeleteChannels": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "teamMemberSettings": {
+      "properties": {
+        "allowAddRemoveApps": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowCreatePrivateChannels": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowCreateUpdateChannels": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowCreateUpdateRemoveConnectors": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowCreateUpdateRemoveTabs": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowDeleteChannels": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "teamMessagingSettings": {
+      "properties": {
+        "allowChannelMentions": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowOwnerDeleteMessages": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowTeamMentions": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowUserDeleteMessages": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "allowUserEditMessages": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "teamSpecialization": {
+      "enum": [
+        "none",
+        "educationStandard",
+        "educationClass",
+        "educationProfessionalLearningCommunity",
+        "educationStaff",
+        "healthcareStandard",
+        "healthcareCareCoordination",
+        "unknownFutureValue"
+      ]
+    },
+    "teamSummary": {
+      "properties": {
+        "guestsCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "membersCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "ownersCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "teamVisibilityType": {
+      "enum": [
+        "private",
+        "public",
+        "hiddenMembership",
+        "unknownFutureValue"
+      ]
+    },
+    "teamworkConversationIdentity": {
+      "properties": {
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "conversationIdentityType": {
+          "type": "graph.teamworkConversationIdentityType",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identity"
+    },
+    "teamworkConversationIdentityType": {
+      "enum": [
+        "team",
+        "channel",
+        "chat",
+        "unknownFutureValue"
+      ]
+    },
+    "teamworkHostedContent": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "contentBytes": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "teamworkOnlineMeetingInfo": {
+      "properties": {
+        "calendarEventId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "joinWebUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "organizer": {
+          "type": "graph.teamworkUserIdentity",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "teamworkUserIdentity": {
+      "properties": {
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "userIdentityType": {
+          "type": "graph.teamworkUserIdentityType",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "open": true,
+      "base": "identity"
+    },
+    "teamworkUserIdentityType": {
+      "enum": [
+        "aadUser",
+        "onPremiseAadUser",
+        "anonymousGuest",
+        "federatedUser",
+        "personalMicrosoftAccountUser",
+        "skypeUser",
+        "phoneUser",
+        "unknownFutureValue",
+        "emailUser"
+      ]
     },
     "timeZoneBase": {
       "properties": {

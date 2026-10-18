@@ -77,3 +77,15 @@ class WorkloadDownload(Base):
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"))
     content_id: Mapped[UUID]
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class ConversationAccess(Base):
+    __tablename__ = "conversation_access"
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    tenant_id: Mapped[UUID]
+    scope: Mapped[str] = mapped_column(String(512))
+    resource_kind: Mapped[str] = mapped_column(String(32))
+    resource_id: Mapped[str] = mapped_column(String(512))
+    principal_kind: Mapped[str] = mapped_column(String(16))
+    principal_id: Mapped[UUID]
+    permission: Mapped[str] = mapped_column(String(64))
