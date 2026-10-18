@@ -923,7 +923,7 @@ async def test_blob_profile_versions_and_snapshot_without_lease(database, settin
     async with graph_client(database, settings) as (client, tenant, app, user):
         url, key = await setup_blob(client, database, settings, tenant, app)
         target = url + "/profile"
-        for version in ("2019-07-07", "2025-01-05"):
+        for version in ("2018-11-09", "2025-01-05"):
             result = await call(
                 client,
                 "PUT",

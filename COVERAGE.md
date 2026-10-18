@@ -570,3 +570,25 @@ are `2019-07-07`, `2025-01-05` and `2025-11-05`. [Contract and authorization det
 | File `/{share}/{directory}?restype=directory[&comp=list/metadata/properties]` | Partial: CRUD/list/properties/metadata | Nonempty directory deletion rejects; 5,000-entry pages, opaque one-hour query/reset-bound cursors; required IDs/timestamps and XML filename encoding. No custom permission key. | [Directory listing](https://learn.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files) |
 | File `PUT /{share}?restype=share&comp=snapshot`; reads with `sharesnapshot=` | Partial: immutable share snapshots | Independent bytes/properties; list and delete snapshots, up to 200/share. No snapshot mutation. Share lifecycle uses key/SAS, not OAuth in this profile. | [Snapshot Share](https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-share) |
 | File `PUT /{share}/{path}?comp=lease` | Partial: four infinite lease actions | Acquire/change/release/break; stale lease writes fail. No renew or Blob-style HTTP preconditions. C4 large-object/four-client qualification remains pending. | [Lease File](https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file) |
+
+
+Storage compatibility qualification in progress (C4): the original Az.Storage
+module uses 2019-07-07 writes/downloads and 2025-01-05 property reads in one
+command. Selected key-authenticated basic Blob/File operations support these
+profiles; advanced snapshot/version/lease and Files listing behavior still uses
+2025-11-05. See [the precise compatibility limits](docs/storage-contracts.md#native-compatibility-and-durability-qualification-c4)
+and operation-level `compatibleVersions` in the Storage catalog. Original
+Python, TypeScript, .NET and PowerShell binary workflows passed debug runs;
+full 256 MiB process-restart/restore qualification is pending and is not implied
+by those debug results.
+
+
+Phase C review corrections: paused uploads/downloads no longer retain the global
+Storage mutation lock; authorization time is checked after waits, and expired
+lease IDs cannot publish writes. Put Blob discards old staging, block pruning
+uses upload-idle time, historical block-list selectors stay isolated, and Blob
+lease acquire/break follow the documented matching-ID and default-period rules.
+Fifteen focused review regressions passed; the full source-matched four-client
+qualification remains pending. Upload reception uses a 1 MiB memory spool
+threshold, 256 MiB body cap and 300-second local deadline. Database-side File
+range updates still rewrite the full revision; no throughput parity is claimed.

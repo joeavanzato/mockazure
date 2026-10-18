@@ -98,6 +98,12 @@ def qualify(directory, command, compose, client, headers, tenant, check):
     # The PowerShell container shares only the isolated API network namespace and CA.
     instance = directory / ".runtime/instance/container.json"
     runtime = json.loads(instance.read_text())
+    from mockazure.config import Settings
+
+    host_profile = Settings.model_validate(runtime).endpoints.model_dump(mode="json")
+    for name in ("storage", "file", "queue", "table", "keyvault"):
+        host_profile[name] = host_profile[name].replace("https://localhost:", "https://127.0.0.1:")
+    runtime["client_profiles"]["host"] = host_profile
     runtime["client_profiles"]["container"] = {
         name: "https://127.0.0.1:8443" for name in ("login", "graph", "exchange", "arm", "activity")
     }
@@ -134,6 +140,9 @@ def qualify(directory, command, compose, client, headers, tenant, check):
     )
     assert key_result.status_code == 200
     key = key_result.json()["keys"][0]["value"]
+    (state / "management.json").write_text(
+        json.dumps({"account_id": account_id, "headers": bearer}), encoding="utf-8"
+    )
     results = {}
     for ecosystem in ("python", "typescript", "dotnet", "powershell"):
         profile = {
@@ -142,6 +151,13 @@ def qualify(directory, command, compose, client, headers, tenant, check):
             "ca_file": ca,
             **{k + "_endpoint": v for k, v in endpoints.items()},
         }
+        if ecosystem == "dotnet":
+            profile.update(
+                {
+                    k + "_endpoint": v.replace("https://localhost:", "https://127.0.0.1:")
+                    for k, v in endpoints.items()
+                }
+            )
         if ecosystem == "powershell":
             profile.update(
                 ca_file="/certs/ca.pem",

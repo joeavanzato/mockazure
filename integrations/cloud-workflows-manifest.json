@@ -3,14 +3,15 @@
   "clientManifest": "integrations/manifest.json",
   "enabledPhases": [
     "A",
-    "B"
+    "B",
+    "C"
   ],
   "clients": {
     "powershell": {
       "ExchangeOnlineManagement": "3.11.0"
     }
   },
-  "status": "A Exchange and B ARM workflow profiles; remaining phases are not yet qualified.",
+  "status": "A/B profiles qualified; C binary matrix enabled (consult source-matched qualification reports); D-F unavailable.",
   "phaseClients": {
     "B": {
       "python": {
@@ -26,6 +27,24 @@
       },
       "typescript": {
         "@azure/arm-resources": "8.0.0"
+      }
+    },
+    "C": {
+      "python": {
+        "azure-storage-blob": "12.27.0",
+        "azure-storage-file-share": "12.23.0"
+      },
+      "powershell": {
+        "Az.Accounts": "4.0.2",
+        "Az.Storage": "8.1.0"
+      },
+      "dotnet": {
+        "Azure.Storage.Blobs": "12.26.0",
+        "Azure.Storage.Files.Shares": "12.24.0"
+      },
+      "typescript": {
+        "@azure/storage-blob": "12.29.1",
+        "@azure/storage-file-share": "12.29.1"
       }
     }
   }

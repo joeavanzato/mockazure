@@ -1,6 +1,7 @@
 """Transactional Blob leases; lease changes preserve content validators."""
 
 from datetime import timedelta
+from math import ceil
 from uuid import UUID, uuid4
 
 from mockazure.providers.storage.errors import StorageError
@@ -65,7 +66,8 @@ async def operate_lease(session, blob, version, action, values, now):
         duration = int(values.get("x-ms-lease-duration", "0"))
         if duration != -1 and not 15 <= duration <= 60:
             raise StorageError(400, "InvalidHeaderValue", "Lease duration must be -1 or 15..60")
-        if state in {"leased", "breaking"}:
+        proposed = values.get("x-ms-proposed-lease-id")
+        if state == "breaking" or (state == "leased" and proposed != str(row.lease_id)):
             raise StorageError(409, "LeaseAlreadyPresent", "Blob already has a lease")
         identifier = (
             uuid_header(values["x-ms-proposed-lease-id"])
@@ -90,13 +92,14 @@ async def operate_lease(session, blob, version, action, values, now):
     if action == "break":
         if row is None or state in {"available", "broken"}:
             raise StorageError(409, "LeaseNotPresentWithLeaseOperation", "No lease is present")
-        period = int(values.get("x-ms-lease-break-period", "0"))
+        default = max(0, ceil((row.expires_at - now).total_seconds())) if row.expires_at else 0
+        period = int(values.get("x-ms-lease-break-period", str(default)))
         if not 0 <= period <= 60:
             raise StorageError(400, "InvalidHeaderValue", "Break period must be 0..60")
         until = now + timedelta(seconds=period)
         row.break_at = min(x for x in (until, row.expires_at, row.break_at) if x is not None)
         await session.flush()
-        return 202, {"x-ms-lease-time": str(max(0, int((row.break_at - now).total_seconds())))}
+        return 202, {"x-ms-lease-time": str(max(0, ceil((row.break_at - now).total_seconds())))}
     if row is None or supplied != str(row.lease_id):
         raise StorageError(409, "LeaseIdMismatchWithLeaseOperation", "Lease ID does not match")
     if action == "renew":

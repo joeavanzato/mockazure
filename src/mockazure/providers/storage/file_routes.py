@@ -17,7 +17,7 @@ from mockazure.admin.errors import AdminError
 from mockazure.cloud.models import CloudState
 from mockazure.content.repository import stream_content
 from mockazure.identity.keys import read_wrapping_key
-from mockazure.providers.storage.blob_routes import TransactionalStream, byte_range
+from mockazure.providers.storage.blob_routes import TransactionalStream, byte_range, detached_reader
 from mockazure.providers.storage.errors import StorageError, headers
 from mockazure.storage.authorization import authorize_storage
 from mockazure.storage.containers import record, view
@@ -91,6 +91,8 @@ def props(request, now, old=None, *, create=False, directory=False):
         value = request.headers.get(
             "x-ms-file-" + header + "-time", "now" if create or header == "change" else "preserve"
         )
+        if value.lower() in {"now", "preserve"}:
+            value = value.lower()
         if value == "preserve" and not create:
             result.setdefault(key, stamp(now))
             continue
@@ -105,6 +107,8 @@ def props(request, now, old=None, *, create=False, directory=False):
     attributes = request.headers.get(
         "x-ms-file-attributes", "Directory" if directory else "None" if create else "preserve"
     )
+    if attributes.lower() == "preserve":
+        attributes = "preserve"
     if attributes != "preserve":
         values = set(attributes.split("|"))
         if values - {
@@ -122,6 +126,7 @@ def props(request, now, old=None, *, create=False, directory=False):
             raise StorageError(400, "InvalidHeaderValue", "Unsupported file attributes")
         result["attributes"] = attributes
     permission = request.headers.get("x-ms-file-permission")
+    permission = permission.lower() if permission else permission
     if permission not in {None, "inherit", "preserve"} or (create and permission == "preserve"):
         raise StorageError(
             400, "InvalidHeaderValue", "Only inherited default permissions are supported"
@@ -332,7 +337,7 @@ async def dispatch_file(request, account, share, raw_path):
     restype = args.get("restype")
     now = datetime.now(UTC)
     version = request.headers.get("x-ms-version", args.get("api-version", args.get("sv")))
-    if version != "2025-11-05":
+    if version not in {"2019-07-07", "2025-01-05", "2025-11-05"}:
         raise StorageError(
             400, "InvalidHeaderValue", "File content profile requires version 2025-11-05"
         )
@@ -380,6 +385,53 @@ async def dispatch_file(request, account, share, raw_path):
         raise StorageError(
             501, "MockAzureOperationNotImplemented", "FileREST operation is not implemented"
         )
+    if version == "2025-01-05" and (
+        operation not in {"read", "head", "get_metadata", "share_delete"}
+        or "sharesnapshot" in args
+        or not request.headers.get("Authorization", "").startswith(("SharedKey ", "SharedKeyLite "))
+    ):
+        raise StorageError(
+            400, "InvalidHeaderValue", "Unsupported 2025-01 FileREST content profile"
+        )
+    if version == "2019-07-07":
+        if (
+            operation
+            not in {
+                "create",
+                "read",
+                "head",
+                "range",
+                "rangelist",
+                "properties",
+                "metadata",
+                "get_metadata",
+                "delete",
+                "share_delete",
+            }
+            or "sharesnapshot" in args
+            or not request.headers.get("Authorization", "").startswith(
+                ("SharedKey ", "SharedKeyLite ")
+            )
+            or any(
+                key in request.headers
+                for key in {
+                    "x-ms-file-change-time",
+                    "x-ms-file-request-intent",
+                    "x-ms-allow-trailing-dot",
+                }
+            )
+            or (operation == "range" and "x-ms-file-last-write-time" in request.headers)
+        ):
+            raise StorageError(400, "InvalidHeaderValue", "Unsupported legacy FileREST profile")
+        if operation in {"create", "properties"} and not {
+            "x-ms-file-permission",
+            "x-ms-file-attributes",
+            "x-ms-file-creation-time",
+            "x-ms-file-last-write-time",
+        } <= set(request.headers):
+            raise StorageError(
+                400, "MissingRequiredHeader", "Legacy FileREST requires explicit file properties"
+            )
     auth_keys = {"sv", "ss", "srt", "sp", "st", "se", "sip", "spr", "sig", "sr", "si"}
     allowed = {"comp", "timeout", "api-version", "sharesnapshot"} | auth_keys
     if directory or share_operation:
@@ -482,6 +534,7 @@ async def dispatch_file(request, account, share, raw_path):
         if owner is None:
             raise StorageError(404, "ResourceNotFound", "Storage account was not found")
         await lock_accounts(session, owner)
+        now = datetime.now(UTC)
         access = await authorize_storage(
             session, request, "file", action, share + ("/" + raw_path if raw_path else ""), now
         )
@@ -564,7 +617,7 @@ async def dispatch_file(request, account, share, raw_path):
                     raise StorageError(
                         400, "InvalidRequestBody", "File creation initializes an empty sparse file"
                     )
-                if not directory and request.headers.get("x-ms-type") != "file":
+                if not directory and request.headers.get("x-ms-type", "").lower() != "file":
                     raise StorageError(400, "InvalidHeaderValue", "x-ms-type must be file")
                 old = await node_for(session, tree, path, required=False)
                 if old is not None and "ReadOnly" in old.properties.get("attributes", "").split(
@@ -656,6 +709,9 @@ async def dispatch_file(request, account, share, raw_path):
                             ):
                                 md5.update(part)
                             result_headers["Content-MD5"] = base64.b64encode(md5.digest()).decode()
+                        session = await detached_reader(
+                            request, session, access.tenant_id, row.content_id
+                        )
                         result = TransactionalStream(
                             stream_content(session, access.tenant_id, row.content_id, start, end),
                             session,
@@ -673,7 +729,7 @@ async def dispatch_file(request, account, share, raw_path):
                             400, "InvalidRange", "An explicit byte range is required"
                         )
                     start, end = int(match[1]), int(match[2]) + 1
-                    mode = request.headers.get("x-ms-write")
+                    mode = request.headers.get("x-ms-write", "").lower()
                     data = await bounded_body(request, 4194304)
                     if mode not in {"update", "clear"} or (mode == "clear" and data):
                         raise StorageError(400, "InvalidHeaderValue", "Invalid range operation")
@@ -696,7 +752,7 @@ async def dispatch_file(request, account, share, raw_path):
                         dict(request.headers),
                         now,
                     )
-                    last = request.headers.get("x-ms-file-last-write-time", "now")
+                    last = request.headers.get("x-ms-file-last-write-time", "now").lower()
                     if last not in {"now", "preserve"}:
                         raise StorageError(
                             400, "InvalidHeaderValue", "Unsupported range last-write value"

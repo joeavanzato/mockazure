@@ -13,6 +13,7 @@ from starlette.responses import Response
 from mockazure.identity.keys import read_wrapping_key
 from mockazure.providers.arm.models import ArmResource
 from mockazure.providers.storage.errors import StorageError, headers, response
+from mockazure.providers.storage.transport import buffered_request
 from mockazure.storage.authorization import authorize_storage
 from mockazure.storage.containers import create_container, record, view
 from mockazure.storage.endpoints import SERVICES, listener_ports
@@ -77,7 +78,8 @@ def properties_headers(item, service):
 
 async def handle(request, service):
     try:
-        return await dispatch(request, service)
+        async with buffered_request(request) as buffered:
+            return await dispatch(buffered, service)
     except StorageError as error:
         return response(request, error, service)
     except SQLAlchemyError:
@@ -264,6 +266,7 @@ async def dispatch(request, service):
         if owner is None:
             raise StorageError(404, "ResourceNotFound", "Storage account was not found")
         await lock_accounts(session, owner)
+        now = datetime.now(UTC)
         access = await authorize_storage(session, request, service, action, name, now)
         if action == "delegation":
             raw = await bounded_body(request)
@@ -273,7 +276,7 @@ async def dispatch(request, service):
                 SubElement(xml, key).text = value
             return xml_response(request, xml)
         if action == "create":
-            if await request.body():
+            if await bounded_body(request):
                 raise StorageError(
                     400, "InvalidRequestBody", "This operation requires an empty body"
                 )
@@ -393,7 +396,7 @@ async def dispatch(request, service):
                     row.properties = dict(row.properties, public_access=public)
                 row.policies = policies
             else:
-                if await request.body():
+                if await bounded_body(request):
                     raise StorageError(400, "InvalidRequestBody", "Metadata requires an empty body")
                 row.properties = dict(row.properties, metadata=metadata_headers(request))
             row.etag = '"' + uuid4().hex + '"'

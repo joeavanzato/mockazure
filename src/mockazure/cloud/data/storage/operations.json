@@ -22,8 +22,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -45,7 +47,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -104,7 +108,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -135,8 +140,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -155,7 +162,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -190,7 +199,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented"
@@ -213,8 +223,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -236,7 +248,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -295,7 +309,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -324,8 +339,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -344,7 +361,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -403,7 +422,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -430,8 +450,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -452,7 +474,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -511,7 +535,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -538,8 +563,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -561,7 +588,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -620,7 +649,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -649,8 +679,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -670,7 +702,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -729,7 +763,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -758,8 +793,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -782,7 +819,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -841,7 +880,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -870,8 +910,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -893,7 +935,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -944,7 +988,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -971,8 +1016,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -1001,7 +1048,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1052,7 +1101,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1081,8 +1131,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -1102,7 +1154,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1153,7 +1207,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1180,8 +1235,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -1202,7 +1259,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1253,7 +1312,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1280,8 +1340,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -1302,7 +1364,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1353,7 +1417,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1382,8 +1447,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -1403,7 +1470,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1454,7 +1523,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1483,8 +1553,10 @@
         400,
         403,
         404,
+        408,
         409,
         412,
+        413,
         501,
         503
       ],
@@ -1504,7 +1576,9 @@
       "limits": {
         "listPage": 5000,
         "storedPolicies": 5,
-        "delegationMaxDays": 7
+        "delegationMaxDays": 7,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1555,7 +1629,8 @@
       ],
       "tests": [
         "tests/integration/test_storage_authorization.py",
-        "tests/integration/test_storage_policies.py"
+        "tests/integration/test_storage_policies.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1585,6 +1660,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -1611,7 +1687,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1637,6 +1715,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -1644,15 +1730,21 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
       "sourcePath": "/{containerName}?restype=container&comp=list&flat",
-      "unsupportedHeaders": []
+      "unsupportedHeaders": [],
+      "compatibleVersions": [
+        "2019-07-07"
+      ]
     },
     {
       "kind": "rest",
@@ -1675,6 +1767,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -1702,7 +1795,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1728,6 +1823,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -1735,15 +1838,21 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
       "sourcePath": "/{containerName}?restype=container&comp=list&hierarchy",
-      "unsupportedHeaders": []
+      "unsupportedHeaders": [],
+      "compatibleVersions": [
+        "2019-07-07"
+      ]
     },
     {
       "kind": "rest",
@@ -1772,6 +1881,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -1801,7 +1911,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1827,6 +1939,22 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
         }
       ],
       "limitations": [
@@ -1834,10 +1962,13 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1849,6 +1980,10 @@
         "x-ms-if-tags",
         "x-ms-range-get-content-crc64",
         "x-ms-structured-body"
+      ],
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
       ]
     },
     {
@@ -1883,6 +2018,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -1910,7 +2046,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -1944,6 +2082,22 @@
           "localPath": "references/get-blob-metadata.html",
           "retrievedAt": "2026-10-18",
           "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "317da04db1b2f806d1c959e3e3e231ae37550f01a81103ebe4368e98b5ad2755",
+          "localPath": "schemas/specification/storage/data-plane/BlobStorage/stable/2025-01-05/blob.json",
+          "license": "MIT"
         }
       ],
       "limitations": [
@@ -1951,10 +2105,13 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -1964,6 +2121,10 @@
         "x-ms-encryption-key",
         "x-ms-encryption-key-sha256",
         "x-ms-if-tags"
+      ],
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
       ]
     },
     {
@@ -1985,6 +2146,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2013,7 +2175,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2039,6 +2203,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -2046,16 +2218,22 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
       "sourcePath": "/{containerName}/{blob}",
       "unsupportedHeaders": [
         "x-ms-if-tags"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -2080,6 +2258,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2115,7 +2294,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2141,6 +2322,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -2148,10 +2337,13 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2173,7 +2365,10 @@
       ],
       "requiredHeaderValues": {
         "x-ms-blob-type": "BlockBlob"
-      }
+      },
+      "compatibleVersions": [
+        "2019-07-07"
+      ]
     },
     {
       "kind": "rest",
@@ -2194,6 +2389,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2215,7 +2411,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2251,7 +2449,8 @@
         "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2277,6 +2476,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2309,7 +2509,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2335,6 +2537,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -2342,16 +2552,22 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
       "sourcePath": "/{containerName}/{blob}?comp=properties&SetHTTPHeaders",
       "unsupportedHeaders": [
         "x-ms-if-tags"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -2373,6 +2589,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2400,7 +2617,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2426,6 +2645,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -2433,10 +2660,13 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2447,6 +2677,9 @@
         "x-ms-encryption-key-sha256",
         "x-ms-encryption-scope",
         "x-ms-if-tags"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -2468,6 +2701,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2496,7 +2730,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2532,7 +2768,8 @@
         "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2563,6 +2800,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2590,7 +2828,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2626,7 +2866,8 @@
         "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2657,6 +2898,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2684,7 +2926,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2720,7 +2964,8 @@
         "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2751,6 +2996,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2779,7 +3025,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2815,7 +3063,8 @@
         "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2846,6 +3095,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2873,7 +3123,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -2909,7 +3161,8 @@
         "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -2940,6 +3193,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -2967,7 +3221,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3003,7 +3259,8 @@
         "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3038,6 +3295,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3063,7 +3321,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3089,6 +3349,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -3096,10 +3364,14 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim.",
+        "Original Python SDK may carry x-ms-meta-* on Put Block; tolerated without changing published metadata. Only Put Block List metadata is committed."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3112,6 +3384,9 @@
         "x-ms-encryption-scope",
         "x-ms-structured-body",
         "x-ms-structured-content-length"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -3135,6 +3410,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3169,7 +3445,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3195,6 +3473,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -3202,10 +3488,13 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3222,6 +3511,9 @@
         "x-ms-immutability-policy-until-date",
         "x-ms-legal-hold",
         "x-ms-tags"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -3245,6 +3537,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3269,7 +3562,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "chunkBytes": 1048576,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3295,6 +3590,14 @@
           "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
           "localPath": "schemas/LICENSE",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -3302,16 +3605,22 @@
         "Local limit 256 MiB/object, 1 MiB immutable chunks; single explicit byte range; no suffix or multiple ranges.",
         "Versioning and delete retention require explicit cloud/storageState account service configuration.",
         "SAS 2025-11-05; version/snapshot-specific SAS resources are unsupported.",
-        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending."
+        "Original Python binary workflow and four namespace clients are separate gates; C4 cross-language content qualification remains pending.",
+        "Legacy 2019-07-07 uses Shared Key/Lite only, live BlockBlob/basic metadata listing; no snapshots, versions, lease or SAS compatibility claim."
       ],
       "tests": [
-        "tests/integration/test_blob_workflows.py"
+        "tests/integration/test_blob_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
       "sourcePath": "/{containerName}/{blob}?comp=blocklist",
       "unsupportedHeaders": [
         "x-ms-if-tags"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -3333,6 +3642,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3356,7 +3666,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3394,7 +3706,8 @@
         "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3423,6 +3736,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3451,7 +3765,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3477,6 +3793,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -3486,10 +3810,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3505,6 +3832,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -3526,6 +3856,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3549,7 +3880,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3575,6 +3908,22 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
         }
       ],
       "limitations": [
@@ -3584,10 +3933,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3597,6 +3949,10 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
       ]
     },
     {
@@ -3618,6 +3974,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3640,7 +3997,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3666,6 +4025,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -3675,10 +4042,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3688,6 +4058,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -3709,6 +4082,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3737,7 +4111,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3763,6 +4139,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -3772,10 +4156,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3791,6 +4178,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -3812,6 +4202,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3836,7 +4227,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3862,6 +4255,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -3871,10 +4272,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -3884,6 +4288,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -3907,6 +4314,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -3936,7 +4344,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -3974,7 +4384,8 @@
         "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4005,6 +4416,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4041,7 +4453,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4067,6 +4481,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -4076,10 +4498,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4099,7 +4524,10 @@
       ],
       "requiredHeaderValues": {
         "x-ms-type": "file"
-      }
+      },
+      "compatibleVersions": [
+        "2019-07-07"
+      ]
     },
     {
       "kind": "rest",
@@ -4128,6 +4556,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4153,7 +4582,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4179,6 +4610,22 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
         }
       ],
       "limitations": [
@@ -4188,10 +4635,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4203,6 +4653,10 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
       ]
     },
     {
@@ -4224,6 +4678,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4247,7 +4702,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4273,6 +4730,22 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
+          "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
+          "license": "MIT"
         }
       ],
       "limitations": [
@@ -4282,10 +4755,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4295,6 +4771,10 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07",
+        "2025-01-05"
       ]
     },
     {
@@ -4316,6 +4796,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4338,7 +4819,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4364,6 +4847,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -4373,10 +4864,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4386,6 +4880,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -4407,6 +4904,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4442,7 +4940,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4468,6 +4968,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -4477,10 +4985,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4496,6 +5007,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -4517,6 +5031,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4541,7 +5056,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4567,6 +5084,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -4576,10 +5101,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4589,6 +5117,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -4610,6 +5141,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4636,7 +5168,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4674,7 +5208,8 @@
         "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4708,6 +5243,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4733,7 +5269,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4771,7 +5309,8 @@
         "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4805,6 +5344,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4831,7 +5371,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4869,7 +5411,8 @@
         "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -4903,6 +5446,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -4928,7 +5472,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -4966,7 +5512,8 @@
         "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -5003,6 +5550,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -5031,7 +5579,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -5057,6 +5607,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -5066,10 +5624,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -5082,6 +5643,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     },
     {
@@ -5105,6 +5669,7 @@
         400,
         403,
         404,
+        408,
         409,
         412,
         413,
@@ -5131,7 +5696,9 @@
       "limits": {
         "maxContentBytes": 268435456,
         "maxUpdateBytes": 4194304,
-        "pageSize": 5000
+        "pageSize": 5000,
+        "localRequestReceiveSeconds": 300,
+        "localRequestSpoolMemoryBytes": 1048576
       },
       "sources": [
         {
@@ -5157,6 +5724,14 @@
           "sha256": "7ad4d823b4e17d0387ecee46bbc9fae761a7ba5b8cbeb1193c23872136caa239",
           "localPath": "schemas/specification/storage/data-plane/FileStorage/stable/2025-01-05/file.json",
           "license": "MIT"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+          "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+          "localPath": "references/version-2019-07-07.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
         }
       ],
       "limitations": [
@@ -5166,10 +5741,13 @@
         "Infinite file leases acquire/change/release/break; generic HTTP If-* conditions rejected.",
         "Range clear zeros all requested bytes but releases allocation only for complete 512-byte sectors.",
         "Inherited permissions; timestamps, standard attributes and metadata; no custom permission key/SDDL or NFS properties.",
-        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work."
+        "Four-ecosystem binary and 256 MiB restart/restore qualification remains C4 work.",
+        "Legacy 2019-07-07 selected basic file/directory content operations require Shared Key/Lite and explicit required SMB properties; no listing/snapshot/lease/OAuth or newer headers in this profile."
       ],
       "tests": [
-        "tests/integration/test_files_rest_workflows.py"
+        "tests/integration/test_files_rest_workflows.py",
+        "tests/integration/test_storage_lifecycle.py",
+        "tests/integration/test_storage_review_regressions.py"
       ],
       "implementation": "implemented",
       "state": "implemented",
@@ -5181,6 +5759,9 @@
         "account_sas",
         "service_sas",
         "oauth_backup_intent"
+      ],
+      "compatibleVersions": [
+        "2019-07-07"
       ]
     }
   ]

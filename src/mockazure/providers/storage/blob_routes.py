@@ -50,6 +50,19 @@ class TransactionalStream(StreamingResponse):
             await self.session.close()
 
 
+async def detached_reader(request, session, tenant, content_id):
+    """Transfer immutable bytes to a content-only read lock before releasing authority locks."""
+    reader = request.app.state.database.sessions()
+    try:
+        await object_row(reader, tenant, content_id, lock="read", finalized=True)
+        await session.commit()
+        await session.close()
+        return reader
+    except BaseException:
+        await reader.close()
+        raise
+
+
 def properties(request, *, inherit=None, body_type=False):
     from mockazure.providers.storage.routes import metadata_headers
 
@@ -154,7 +167,7 @@ async def dispatch_blob(request, account, container, name):
     version = request.headers.get(
         "x-ms-version", args.get("api-version", args.get("sv", "2025-11-05"))
     )
-    if version != "2025-11-05":
+    if version not in {"2019-07-07", "2025-01-05", "2025-11-05"}:
         raise StorageError(
             400, "InvalidHeaderValue", "Blob content profile requires version 2025-11-05"
         )
@@ -182,6 +195,27 @@ async def dispatch_blob(request, account, container, name):
         raise StorageError(
             501, "MockAzureOperationNotImplemented", "Blob operation is not implemented"
         )
+    if version == "2025-01-05" and operation not in {"read", "head", "get_metadata"}:
+        raise StorageError(400, "InvalidHeaderValue", "Unsupported 2025-01 Blob content operation")
+    if version in {"2019-07-07", "2025-01-05"} and (
+        operation
+        not in {
+            "put",
+            "read",
+            "head",
+            "get_metadata",
+            "block",
+            "blocklist",
+            "list",
+            "metadata",
+            "properties",
+            "delete",
+        }
+        or any(k in args for k in ("versionid", "snapshot"))
+        or set(args.get("include", "").split(",")) - {"", "metadata"}
+        or not request.headers.get("Authorization", "").startswith(("SharedKey ", "SharedKeyLite "))
+    ):
+        raise StorageError(400, "InvalidHeaderValue", "Unsupported legacy Blob content profile")
     auth_keys = {
         "sv",
         "ss",
@@ -260,7 +294,9 @@ async def dispatch_blob(request, account, container, name):
             "change": {"x-ms-lease-id", "x-ms-proposed-lease-id"},
             "break": {"x-ms-lease-break-period"},
         }.get(request.headers.get("x-ms-lease-action"), set())
-    allow_metadata = operation in {"put", "metadata", "snapshot"} or (
+    # The original Python SDK carries upload metadata on staged blocks.
+    # Put Block does not publish it; only the eventual Put Block List does.
+    allow_metadata = operation in {"put", "block", "metadata", "snapshot"} or (
         operation == "blocklist" and method == "PUT"
     )
     for key in request.headers:
@@ -295,6 +331,7 @@ async def dispatch_blob(request, account, container, name):
         if owner is None:
             raise StorageError(404, "ResourceNotFound", "Storage account was not found")
         await lock_accounts(session, owner)
+        now = datetime.now(UTC)
         access = await authorize_storage(
             session, request, "blob", action, container + ("/" + name if name else ""), now
         )
@@ -341,6 +378,10 @@ async def dispatch_blob(request, account, container, name):
             result = xml_response(request, xml)
         elif operation in {"put", "block"}:
             upload, md5 = await receive_upload(session, request, access)
+            now = datetime.now(UTC)
+            access = await authorize_storage(
+                session, request, "blob", action, container + "/" + name, now
+            )
             if operation == "block":
                 await stage_block(
                     session, access, container, name, args.get("blockid"), upload, values, now
@@ -420,7 +461,9 @@ async def dispatch_blob(request, account, container, name):
             selector = args.get("snapshot", args.get("versionid"))
             kind = "snapshot" if "snapshot" in args else "version"
             version = await selected_version(session, blob, selector, kind)
-            if blob is None or (version is None and operation not in {"blocklist", "undelete"}):
+            if blob is None or (
+                version is None and (selector or operation not in {"blocklist", "undelete"})
+            ):
                 raise StorageError(404, "BlobNotFound", "Blob was not found")
             historical = selector is not None and (
                 kind == "snapshot" or version.id != blob.current_id
@@ -497,6 +540,9 @@ async def dispatch_blob(request, account, container, name):
                 if operation == "head":
                     result = Response(status_code=200, headers=response_headers)
                 else:
+                    session = await detached_reader(
+                        request, session, access.tenant_id, version.content_id
+                    )
                     result = TransactionalStream(
                         stream_content(session, access.tenant_id, version.content_id, start, end),
                         session,
@@ -608,7 +654,7 @@ async def dispatch_blob(request, account, container, name):
                         node = ET.SubElement(section, "Block")
                         ET.SubElement(node, "Name").text = block["id"]
                         ET.SubElement(node, "Size").text = str(block["size"])
-                if mode in {"uncommitted", "all"}:
+                if mode in {"uncommitted", "all"} and not selector:
                     section = ET.SubElement(xml, "UncommittedBlocks")
                     for block in await session.scalars(
                         select(BlobBlock)

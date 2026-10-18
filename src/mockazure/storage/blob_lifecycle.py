@@ -8,6 +8,7 @@ from uuid import UUID
 
 from pydantic import AwareDatetime, Field, model_validator
 from sqlalchemy import delete, select
+from sqlalchemy.orm import aliased
 
 from mockazure.admin.errors import AdminError
 from mockazure.content.models import ContentObject
@@ -255,9 +256,19 @@ async def restore_blobs(session, tenant, account, blobs):
 
 async def prune_blobs(session, tenant, now, limit):
     count = 0
+    latest = aliased(BlobBlock)
+    idle_blocks = (
+        ~select(latest.id)
+        .where(
+            latest.tenant_id == BlobBlock.tenant_id,
+            latest.blob_id == BlobBlock.blob_id,
+            latest.created_at > now - timedelta(days=7),
+        )
+        .exists()
+    )
     for model, criterion in [
         (BlobCursor, BlobCursor.expires_at <= now),
-        (BlobBlock, BlobBlock.created_at <= now - timedelta(days=7)),
+        (BlobBlock, idle_blocks),
         (BlobVersion, BlobVersion.deleted_until <= now),
     ]:
         if count >= limit:

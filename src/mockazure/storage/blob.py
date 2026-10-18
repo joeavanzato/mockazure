@@ -186,6 +186,11 @@ async def put_blob(session, access, container, name, upload_id, conditions, now)
         else:
             await session.delete(old)
     row = await new_version(session, blob, ref, properties, conditions.get("blocks", []), now)
+    await session.execute(
+        delete(BlobBlock).where(
+            BlobBlock.tenant_id == access.tenant_id, BlobBlock.blob_id == blob.id
+        )
+    )
     blob.current_id = row.id
     blob.changed_at = now
     lease = await session.get(BlobLease, (blob.tenant_id, blob.id))

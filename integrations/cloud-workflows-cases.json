@@ -179,6 +179,43 @@
         }
       ],
       "notApplicable": {}
+    },
+    "C": {
+      "workflows": [
+        {
+          "id": "storage-binary",
+          "service": "storage",
+          "operationIds": [
+            "blob.Container_Create",
+            "file.Share_Create",
+            "blob.BlockBlob_Upload",
+            "blob.Blob_Download",
+            "blob.Blob_GetProperties",
+            "file.File_Create",
+            "file.File_UploadRange",
+            "file.File_Download",
+            "file.File_GetProperties"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "namespace_roundtrip",
+            "byte_hashes",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation"
+          ]
+        }
+      ],
+      "notApplicable": {}
     }
   }
 }

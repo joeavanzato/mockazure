@@ -114,8 +114,8 @@ qualification remains part of C4.
 
 ## Blob content profile (C2)
 
-Blob content requests require `2025-11-05`; the older versions supported by
-namespace operations do not imply content support. This profile stores bytes
+The main Blob content profile uses `2025-11-05`; selected older compatibility
+operations are documented in the C4 section below. This profile stores bytes
 in the existing immutable PostgreSQL content chunks and streams reads/writes.
 The local maximum is 256 MiB per object, with 1 MiB storage chunks. It supports
 BlockBlob upload, download, HEAD, metadata/properties, block staging/commit/list,
@@ -170,7 +170,8 @@ Report source fingerprint: `823d68cbda15298420221eebf9be5308027127c51be2dd5351be
 
 ## Files content profile (C3)
 
-The selected FileREST content profile requires `2025-11-05`. It supports
+The main FileREST content profile uses `2025-11-05` (selected C4 compatibility
+operations are listed below). It supports
 nested directories, file creation/read/delete, properties and metadata, range
 write/clear/read/list, directory paging and share snapshots. Files are limited
 to 256 MiB, range updates to 4 MiB, pages to 5,000 entries and snapshots to 200
@@ -217,3 +218,76 @@ workflow also passed. Source fingerprint:
 `b9a65423295050a8f6b59e37d21353887ff26817572716b8084cded8a15b0eb9`.
 The SDK requires aligned clear ranges locally, so its run clears 1,024 aligned
 bytes; direct REST regression tests separately cover unaligned zeroing/allocation.
+
+
+## Native compatibility and durability qualification (C4)
+
+Original Az.Storage 8.1.0 uses both legacy and modern libraries within one
+command: Blob/File writes and downloads request `2019-07-07`, while follow-up
+properties/directory lookups request `2025-01-05`. The compatibility profile
+supports Shared Key/Lite only. Blob 2019 supports live BlockBlob upload/read,
+blocks, metadata/properties, basic metadata listing and delete. Files 2019
+supports basic file/directory CRUD and properties, ranges and range listing.
+Both services support selected 2025-01 read/HEAD/metadata lookups. Advanced
+snapshot/version/lease flows and Files directory listing remain 2025-11-only
+in this compatibility profile. Unsupported combinations reject explicitly.
+
+The legacy FileREST profile requires explicit creation/last-write timestamps,
+attributes and inherited/preserved permission headers, as its contract requires.
+It rejects newer backup-intent/trailing-dot/change-time headers. Original SDK
+keyword casing (`File`, `Now`, `Inherit`, `Update`) is accepted. OAuth and SAS
+are qualified against the main 2025-11 profile, not inferred for these older
+compatibility operations. Exact operations and source references are recorded
+in the operation catalog's `compatibleVersions` entries.
+
+The .NET SDK's nested client URI builders require loopback-IP endpoints for
+account-prefixed emulator addressing. Qualification explicitly registers those
+origins in the local runtime and uses its CA; Host enforcement remains strict.
+`localhost` can work for initial namespace creation yet lose the namespace in
+nested Blob/File client URIs. PowerShell uses the same IP convention inside
+its isolated container. No SDK operation implementation is replaced.
+
+The phase C runner is `python -m tools.verify_cloud_workflows --phase C
+--ecosystems python powershell dotnet typescript --report work/cloud/C.json`.
+It runs the original namespace/workflow cohort and binary workflows, writes
+256 MiB through the Python Blob and Files SDKs and 3 MiB + 17 bytes through
+the other ecosystems, restarts API/worker, restores cloud metadata, checks old
+keys are rejected, and verifies hashes again with all clients plus independent
+Python cross-language reads. The gate records exact source fingerprints and
+client versions; a prepared runner alone is not a qualification pass.
+
+The integration durability gate streams 256 MiB Blob and File content, opens a
+new database pool, restores typed state and checks metadata/hashes with a
+32 MiB Python heap ceiling. Reset invalidates staging and continuation authority.
+Storage source events include account/resource name, operation, authentication
+mode and outcome without key/SAS values. Replaying a committed event identity
+is idempotent; a new valid HTTP mutation remains a distinct action. F3/F4 add
+routing of these internal facts into public diagnostic destinations.
+
+Original Python SDK uploads carry `x-ms-meta-*` headers on staged blocks. These
+are tolerated without changing published Blob metadata; metadata applies on
+Put Block List. The 2025-01 key-authorized share-delete namespace operation
+remains available independently of the content read compatibility profile.
+
+
+Request bodies are received into temporary storage before publication locks are
+acquired: a 1 MiB in-memory spool threshold, 256 MiB body cap, and 300-second
+reception deadline are local emulator limits (413/408 on excess). Temporary bytes
+carry no publication authority. Authorization and lease time are refreshed after
+reception/lock waits; failed publication leaves no successful source event.
+Downloads retain a read lock on the selected immutable content object while
+releasing account/tenant mutation locks before sending bytes. This permits an
+independent request during a paused upload or download; it does not claim a
+particular throughput level for database-side mutations.
+
+Put Blob discards abandoned staged blocks transactionally. Uncommitted blocks
+expire after seven days without successful staging activity on that blob, not
+seven days after each individual block. Historical block-list requests return
+404 for missing selectors and never expose live uncommitted blocks. Reacquiring
+an active lease with its matching proposed ID succeeds; omitted break period on
+a finite lease preserves its remaining duration.
+
+The native Python 256 MiB workflow has a one-hour execution budget because the
+current Files range implementation rewrites each complete immutable revision.
+The other client workflows retain a 30-minute budget. These are test harness
+budgets, not throughput guarantees; the report records actual elapsed time.

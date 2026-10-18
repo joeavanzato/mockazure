@@ -35,7 +35,7 @@ async def record(session, access, service, name, operation, now):
             "StorageWrite",
             operation,
             now,
-            {"name": name, "authenticationType": access.mode},
+            {"name": name, "authenticationType": access.mode, "outcome": "Succeeded"},
         ),
     )
 
