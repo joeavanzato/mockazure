@@ -8,6 +8,7 @@ import base64
 import binascii
 import json
 import math
+import re
 from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
@@ -102,6 +103,12 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
                 raise ValueError("Invalid Graph timestamp") from None
             if parsed.tzinfo is None or "T" not in value:
                 raise ValueError("Graph timestamp requires offset")
+        elif kind == "Edm.TimeOfDay":
+            # The pinned Intune properties omit Precision (CSDL default: zero).
+            if not isinstance(value, str) or not re.fullmatch(
+                r"(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]", value
+            ):
+                raise ValueError("Graph time of day requires HH:mm:ss")
         elif kind == "Edm.Guid":
             if not isinstance(value, str):
                 raise ValueError("Graph GUID required")

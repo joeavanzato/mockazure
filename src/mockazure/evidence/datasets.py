@@ -122,6 +122,17 @@ def validate_public_payload(version, family, payload):
             nested(name, value)
     for target in payload.get("targetResources") or []:
         security_kind = {
+            "phoneAuthenticationMethod": "phoneAuthenticationMethod",
+            "emailAuthenticationMethod": "emailAuthenticationMethod",
+            "microsoftAuthenticatorAuthenticationMethod": (
+                "microsoftAuthenticatorAuthenticationMethod"
+            ),
+            "fido2AuthenticationMethod": "fido2AuthenticationMethod",
+            "longRunningOperation": "longRunningOperation",
+            "smsAuthenticationMethodConfiguration": "smsAuthenticationMethodConfiguration",
+            "microsoftAuthenticatorAuthenticationMethodConfiguration": (
+                "microsoftAuthenticatorAuthenticationMethodConfiguration"
+            ),
             "Application": "application",
             "ServicePrincipal": "servicePrincipal",
             "Device": "device",
@@ -136,9 +147,22 @@ def validate_public_payload(version, family, payload):
 
             for change in target.get("modifiedProperties") or []:
                 name = change["displayName"]
+                if name == "includeTargets" and security_kind in {
+                    "smsAuthenticationMethodConfiguration",
+                    "microsoftAuthenticatorAuthenticationMethodConfiguration",
+                }:
+                    target_kind = security_kind.replace("Configuration", "Target")
+                    for side in ("oldValue", "newValue"):
+                        values = json.loads(change[side]) if change.get(side) is not None else None
+                        if values is not None:
+                            if not isinstance(values, list) or len(values) > 1000:
+                                raise ValueError("Invalid method policy target difference")
+                            for value in values:
+                                validate_payload(version, target_kind, value, partial=True)
+                    continue
                 if name not in schema(version)["types"][security_kind][
                     "properties"
-                ] and name not in {"owners", "registeredOwners"}:
+                ] and name not in {"owners", "registeredOwners", "registeredUsers"}:
                     raise ValueError("Undeclared security audit property")
                 for side in ("oldValue", "newValue"):
                     value = json.loads(change[side]) if change.get(side) is not None else None
@@ -146,7 +170,7 @@ def validate_public_payload(version, family, payload):
                         continue
                     if safe(value) != value:
                         raise ValueError("Private credential data is not public evidence")
-                    if name in {"owners", "registeredOwners"}:
+                    if name in {"owners", "registeredOwners", "registeredUsers"}:
                         if not isinstance(value, list) or len(value) > 100:
                             raise ValueError("Invalid security owner difference")
                         for identifier in value:
@@ -156,6 +180,18 @@ def validate_public_payload(version, family, payload):
             continue
         for change in target.get("modifiedProperties") or []:
             name = change["displayName"]
+            if target.get("type") == "User" and name == "passwordProfile":
+                for side in ("oldValue", "newValue"):
+                    value = json.loads(change[side]) if change.get(side) else None
+                    if value is not None:
+                        if not isinstance(value, dict) or set(value) - {
+                            "forceChangePasswordNextSignIn"
+                        }:
+                            raise ValueError(
+                                "Only the public password-change requirement is evidence"
+                            )
+                        validate_payload(version, "passwordProfile", value, partial=True)
+                continue
             allowed = set().union(*PUBLIC_FIELDS.values()) | {
                 "members",
                 "owners",

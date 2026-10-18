@@ -49,5 +49,200 @@
       "EwsEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
       "ActiveSyncEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
     }
-  }
+  },
+  "collectionCommands": [
+    {
+      "name": "Get-OrganizationConfig",
+      "method": "POST",
+      "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+      "sourceUrl": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-organizationconfig?view=exchange-ps",
+      "sourceSha256": "cf192c1e95c642f2591c52aac8c0cb47fc48e8098c9541a612f354ab2e57b8b1",
+      "retrievedAt": "2026-10-17",
+      "parameters": {},
+      "responseFields": [
+        "AuditDisabled",
+        "DefaultPublicFolderIssueWarningQuota",
+        "ExternalDirectoryOrganizationId",
+        "Guid",
+        "Identity",
+        "MailTipsAllTipsEnabled",
+        "Name",
+        "OAuth2ClientProfileEnabled",
+        "PublicFoldersEnabled"
+      ],
+      "status": "implemented",
+      "authorization": "Current Exchange permission and service entitlement, current administrator/reader role or explicit command grant; permission reads require canonical mailbox scope, configuration reads require tenant-wide grants. Organization bootstrap preserves existing entitlement exception.",
+      "notes": "Typed admin-imported evidence, no transport execution or ACL-based command authority. Missing optional fields stay absent. Unknown parameters rejected. Permission trustee filters match stored literal identifiers case-insensitively; no SID-history expansion. Identity supports canonical mailbox IDs and existing aliases; no display-name fallback."
+    },
+    {
+      "name": "Get-TransportConfig",
+      "method": "POST",
+      "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+      "sourceUrl": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-transportconfig?view=exchange-ps",
+      "sourceSha256": "2c837e6f4977f4843828a012fe14db796b449ce16a39167b23a03f7ddc73f22e",
+      "retrievedAt": "2026-10-17",
+      "parameters": {
+        "Identity": "string"
+      },
+      "responseFields": [
+        "ExternalPostmasterAddress",
+        "Guid",
+        "Identity",
+        "InternalSMTPServers",
+        "MaxReceiveSize",
+        "MaxRecipientEnvelopeLimit",
+        "MaxSendSize",
+        "Name",
+        "SmtpClientAuthenticationDisabled"
+      ],
+      "status": "implemented",
+      "authorization": "Current Exchange permission and service entitlement, current administrator/reader role or explicit command grant; permission reads require canonical mailbox scope, configuration reads require tenant-wide grants. Organization bootstrap preserves existing entitlement exception.",
+      "notes": "Typed admin-imported evidence, no transport execution or ACL-based command authority. Missing optional fields stay absent. Unknown parameters rejected. Permission trustee filters match stored literal identifiers case-insensitively; no SID-history expansion. Identity supports canonical mailbox IDs and existing aliases; no display-name fallback."
+    },
+    {
+      "name": "Get-AcceptedDomain",
+      "method": "POST",
+      "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+      "sourceUrl": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-accepteddomain?view=exchange-ps",
+      "sourceSha256": "5a9d5da9ae19f6216ef6505087f3ebfd2e2e2f722ac770551bc7818e948f45df",
+      "retrievedAt": "2026-10-17",
+      "parameters": {
+        "Identity": "string",
+        "ResultSize": "string"
+      },
+      "responseFields": [
+        "Default",
+        "DomainName",
+        "DomainType",
+        "Guid",
+        "Identity",
+        "Name"
+      ],
+      "status": "implemented",
+      "authorization": "Current Exchange permission and service entitlement, current administrator/reader role or explicit command grant; permission reads require canonical mailbox scope, configuration reads require tenant-wide grants. Organization bootstrap preserves existing entitlement exception.",
+      "notes": "Typed admin-imported evidence, no transport execution or ACL-based command authority. Missing optional fields stay absent. Unknown parameters rejected. Permission trustee filters match stored literal identifiers case-insensitively; no SID-history expansion. Identity supports canonical mailbox IDs and existing aliases; no display-name fallback."
+    },
+    {
+      "name": "Get-TransportRule",
+      "method": "POST",
+      "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+      "sourceUrl": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-transportrule?view=exchange-ps",
+      "sourceSha256": "148f956efc7065d2ee29ad4cb6737df996bd7fa104d8fb427b524b6be37c3033",
+      "retrievedAt": "2026-10-17",
+      "parameters": {
+        "Identity": "string",
+        "State": "string",
+        "ResultSize": "string"
+      },
+      "responseFields": [
+        "BlindCopyTo",
+        "Comments",
+        "CreatedBy",
+        "DeleteMessage",
+        "Description",
+        "From",
+        "Guid",
+        "Identity",
+        "Mode",
+        "Name",
+        "Priority",
+        "RedirectMessageTo",
+        "SentTo",
+        "State",
+        "StopRuleProcessing",
+        "WhenChanged",
+        "WhenCreated"
+      ],
+      "status": "implemented",
+      "authorization": "Current Exchange permission and service entitlement, current administrator/reader role or explicit command grant; permission reads require canonical mailbox scope, configuration reads require tenant-wide grants. Organization bootstrap preserves existing entitlement exception.",
+      "notes": "Typed admin-imported evidence, no transport execution or ACL-based command authority. Missing optional fields stay absent. Unknown parameters rejected. Permission trustee filters match stored literal identifiers case-insensitively; no SID-history expansion. Identity supports canonical mailbox IDs and existing aliases; no display-name fallback."
+    },
+    {
+      "name": "Get-MailboxPermission",
+      "method": "POST",
+      "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+      "sourceUrl": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-mailboxpermission?view=exchange-ps",
+      "sourceSha256": "041e77358f0de9dc46d3d25210c10a2378a66cb5ffd27929ff7228e6109ae670",
+      "retrievedAt": "2026-10-17",
+      "parameters": {
+        "Identity": "string",
+        "User": "string",
+        "ResultSize": "string"
+      },
+      "responseFields": [
+        "AccessRights",
+        "Deny",
+        "Identity",
+        "IsInherited",
+        "User"
+      ],
+      "status": "implemented",
+      "authorization": "Current Exchange permission and service entitlement, current administrator/reader role or explicit command grant; permission reads require canonical mailbox scope, configuration reads require tenant-wide grants. Organization bootstrap preserves existing entitlement exception.",
+      "notes": "Typed admin-imported evidence, no transport execution or ACL-based command authority. Missing optional fields stay absent. Unknown parameters rejected. Permission trustee filters match stored literal identifiers case-insensitively; no SID-history expansion. Identity supports canonical mailbox IDs and existing aliases; no display-name fallback."
+    },
+    {
+      "name": "Get-RecipientPermission",
+      "method": "POST",
+      "path": "/adminapi/v2.0/{tenant}/InvokeCommand",
+      "sourceUrl": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-recipientpermission?view=exchange-ps",
+      "sourceSha256": "a657206c051d0a8f2e4c33cf8ee725ff5d2a4c2ff07f1a00c21930f34ad9fd4f",
+      "retrievedAt": "2026-10-17",
+      "parameters": {
+        "Identity": "string",
+        "Trustee": "string",
+        "AccessRights": "string[]",
+        "ResultSize": "string"
+      },
+      "responseFields": [
+        "AccessControlType",
+        "AccessRights",
+        "Identity",
+        "InheritanceType",
+        "IsInherited",
+        "Trustee"
+      ],
+      "status": "implemented",
+      "authorization": "Current Exchange permission and service entitlement, current administrator/reader role or explicit command grant; permission reads require canonical mailbox scope, configuration reads require tenant-wide grants. Organization bootstrap preserves existing entitlement exception.",
+      "notes": "Typed admin-imported evidence, no transport execution or ACL-based command authority. Missing optional fields stay absent. Unknown parameters rejected. Permission trustee filters match stored literal identifiers case-insensitively; no SID-history expansion. Identity supports canonical mailbox IDs and existing aliases; no display-name fallback."
+    }
+  ],
+  "collectionState": {
+    "adminPath": "/_mock/tenants/{tenant_id}/mail/collectionState",
+    "methods": [
+      "GET",
+      "PUT"
+    ],
+    "replaceSemantics": "Atomic complete replacement; {} clears collection evidence only. Canonical mailbox identities must already exist. Deleted mailbox identities are excluded from reads/export.",
+    "schemaFile": "src/mockazure/mail/collection_schemas.py",
+    "limits": {
+      "accepted_domains": 1000,
+      "transport_rules": 1000,
+      "mailbox_permissions": 10000,
+      "recipient_permissions": 10000
+    },
+    "unsupported": "Arbitrary predicates/actions, transport execution, permission mutations via Exchange, Owner/soft-deleted/unresolved permission switches, Exchange RBAC role-group engine, external relay accepted domains, Get-EXOMailboxPermission/Get-EXORecipientPermission compiled routes."
+  },
+  "fieldReferences": [
+    {
+      "command": "set-organizationconfig",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/set-organizationconfig?view=exchange-ps",
+      "sha256": "ff0fe8fe7ae4e00e8461bc805b6c9e9aa626e60bbb7de39fd04f27d1a64d50ef",
+      "retrievedAt": "2026-10-17",
+      "usage": "Read-model field names and types only; setter is not implemented"
+    },
+    {
+      "command": "set-transportconfig",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/set-transportconfig?view=exchange-ps",
+      "sha256": "b69fb315d607e5073acca5670f7cfb1ce3b93e5b8761e3f6e123dc787979a544",
+      "retrievedAt": "2026-10-17",
+      "usage": "Read-model field names and types only; setter is not implemented"
+    },
+    {
+      "command": "set-transportrule",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/set-transportrule?view=exchange-ps",
+      "sha256": "db9f8a454364cf0cf8f120ec4dea31a30b2854e8b7f51d620a3fb47be90a2395",
+      "retrievedAt": "2026-10-17",
+      "usage": "Read-model field names and types only; setter is not implemented"
+    }
+  ]
 }

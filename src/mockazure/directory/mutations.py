@@ -66,7 +66,9 @@ class AdminActor:
 @dataclass(frozen=True)
 class DirectoryCommand:
     kind: DirectoryKind
-    action: Literal["create", "update", "delete", "add_member", "remove_member"]
+    action: Literal[
+        "create", "update", "delete", "add_member", "remove_member", "add_owner", "remove_owner"
+    ]
     target_id: UUID | None
     values: dict
 
@@ -87,7 +89,7 @@ def text_field(value, name, limit=200, nullable=False):
 
 def validate_values(command):
     values = command.values
-    if command.action in {"delete", "add_member", "remove_member"}:
+    if command.action in {"delete", "add_member", "remove_member", "add_owner", "remove_owner"}:
         return
     allowed = (
         (
@@ -179,7 +181,7 @@ async def reference_target(session, tenant, identifier, relation):
         row = await session.scalar(
             select(model).where(model.tenant_id == tenant, model.id == identifier)
         )
-        if row is None or (kind != "servicePrincipal" and row.deleted_at is not None):
+        if row is None or row.deleted_at is not None:
             continue
         if (
             relation == "owner"
@@ -250,8 +252,16 @@ async def mutate_directory(
             "delete": "DELETE",
             "add_member": "POST",
             "remove_member": "DELETE",
+            "add_owner": "POST",
+            "remove_owner": "DELETE",
         }[command.action]
-        resource = "members" if command.action.endswith("_member") else command.kind + "s"
+        resource = (
+            "owners"
+            if command.action.endswith("_owner")
+            else "members"
+            if command.action.endswith("_member")
+            else command.kind + "s"
+        )
         await authorize_directory(
             session,
             actor,
@@ -409,17 +419,38 @@ async def mutate_directory(
         changed.update(
             k for k in values if before.properties.get(k) != public_object(row).properties.get(k)
         )
-    elif command.action in {"add_member", "remove_member"}:
-        identifier = values.get("member_id")
-        if (
-            command.kind != "group"
-            or not isinstance(identifier, UUID)
-            or set(values) != {"member_id"}
-        ):
+    elif command.action in {"add_member", "remove_member", "add_owner", "remove_owner"}:
+        relation = "owner" if command.action.endswith("_owner") else "member"
+        key = relation + "_id"
+        identifier = values.get(key)
+        if command.kind != "group" or not isinstance(identifier, UUID) or set(values) != {key}:
             invalid("Invalid member command")
-        kind, _ = await reference_target(session, tenant_id, identifier, "member")
-        if command.action == "add_member":
-            if kind == "group":
+        kind, _ = await reference_target(session, tenant_id, identifier, relation)
+        if (
+            relation == "owner"
+            and kind == "servicePrincipal"
+            and provider
+            and actor.token_kind == "delegated"
+        ):
+            roles = set(
+                await session.scalars(
+                    select(DirectoryRole.role).where(
+                        DirectoryRole.tenant_id == tenant_id,
+                        DirectoryRole.user_id == actor.subject_id,
+                    )
+                )
+            )
+            owned = await session.get(
+                DirectoryRelation, (tenant_id, row.id, actor.subject_id, "owner")
+            )
+            if not owned and not roles & {
+                "Groups Administrator",
+                "Global Administrator",
+                "Intune Administrator",
+            }:
+                deny()
+        if command.action.startswith("add_"):
+            if relation == "member" and kind == "group":
                 from mockazure.providers.graph.relationships import relation_ids
 
                 tree = relation_ids(tenant_id, identifier, "transitiveMembers").subquery()
@@ -428,22 +459,41 @@ async def mutate_directory(
                 )
                 if cyclic:
                     invalid("Cyclic group membership is unsupported")
-            await add_relation(session, tenant_id, row.id, identifier, "member", revision)
+            await add_relation(session, tenant_id, row.id, identifier, relation, revision)
         else:
-            edge = await session.get(DirectoryRelation, (tenant_id, row.id, identifier, "member"))
+            edge = await session.get(DirectoryRelation, (tenant_id, row.id, identifier, relation))
             if edge is None:
                 raise IdentityError(404, "Request_ResourceNotFound", "Membership not found")
+            if relation == "owner" and kind == "user":
+                another = await session.scalar(
+                    select(DirectoryRelation.object_id)
+                    .join(User, User.id == DirectoryRelation.object_id)
+                    .where(
+                        DirectoryRelation.tenant_id == tenant_id,
+                        DirectoryRelation.group_id == row.id,
+                        DirectoryRelation.relation == "owner",
+                        DirectoryRelation.object_id != identifier,
+                        User.tenant_id == tenant_id,
+                        User.deleted_at.is_(None),
+                    )
+                    .limit(1)
+                )
+                if another is None:
+                    invalid("The last user owner cannot be removed")
             await remove_relation(session, edge, revision)
         edge_facts.append(
             {
                 "group_id": str(row.id),
                 "object_id": str(identifier),
-                "relation": "member",
-                "removed": command.action == "remove_member",
+                "relation": relation,
+                "removed": command.action.startswith("remove_"),
             }
         )
-        changed.add("members")
+        changed.add(relation + "s")
     elif command.action == "delete":
+        from mockazure.directory.organization import remove_collection_references
+
+        await remove_collection_references(session, tenant_id, [row.id])
         row.deleted_at = now
         if command.kind == "user":
             from mockazure.licensing.service import release_user

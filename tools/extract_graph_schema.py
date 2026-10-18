@@ -8,6 +8,36 @@ from xml.etree import ElementTree as ET
 
 EDM = "{http://docs.oasis-open.org/odata/ns/edm}"
 ROOTS = (
+    "authenticationMethodsPolicy",
+    "smsAuthenticationMethodConfiguration",
+    "microsoftAuthenticatorAuthenticationMethodConfiguration",
+    "smsAuthenticationMethodTarget",
+    "microsoftAuthenticatorAuthenticationMethodTarget",
+    "managedDevice",
+    "detectedApp",
+    "deviceConfigurationAssignment",
+    "deviceConfigurationDeviceStatus",
+    "deviceCompliancePolicyAssignment",
+    "deviceComplianceDeviceStatus",
+    "groupAssignmentTarget",
+    "exclusionGroupAssignmentTarget",
+    "allDevicesAssignmentTarget",
+    "allLicensedUsersAssignmentTarget",
+    "windows10GeneralConfiguration",
+    "iosGeneralDeviceConfiguration",
+    "androidGeneralDeviceConfiguration",
+    "macOSGeneralDeviceConfiguration",
+    "windows10CompliancePolicy",
+    "iosCompliancePolicy",
+    "androidCompliancePolicy",
+    "macOSCompliancePolicy",
+    "team",
+    "channel",
+    "chat",
+    "chatMessage",
+    "conversationMember",
+    "aadUserConversationMember",
+    "chatMessageHostedContent",
     "security.activeDirectoryDomainEvidence",
     "security.aiAgentEvidence",
     "security.amazonResourceEvidence",
@@ -88,6 +118,8 @@ ROOTS = (
     "directoryRole",
     "authenticationMethod",
     "passwordAuthenticationMethod",
+    "longRunningOperation",
+    "passwordResetResponse",
     "phoneAuthenticationMethod",
     "emailAuthenticationMethod",
     "microsoftAuthenticatorAuthenticationMethod",
@@ -100,7 +132,7 @@ ROOTS = (
 )
 
 
-def extract(path):
+def extract(path, additional_roots=()):
     tree = ET.parse(path)
     types = {}
     contexts = {}
@@ -165,7 +197,7 @@ def extract(path):
             if not nested.startswith("Edm."):
                 collect(nested)
 
-    for name in ROOTS:
+    for name in (*ROOTS, *additional_roots):
         collect(name)
     return dict(sorted(result.items()))
 
@@ -183,7 +215,28 @@ def main():
         "source": f"schemas/{args.version}-Prod.csdl",
         "sha256": hashlib.sha256(args.input.read_bytes()).hexdigest(),
         "version": args.version,
-        "types": extract(args.input),
+        "types": extract(
+            args.input,
+            (
+                "site",
+                "list",
+                "listItem",
+                "fieldValueSet",
+                "drive",
+                "driveItem",
+                "permission",
+                "driveItemVersion",
+                "organization",
+                "mailFolder",
+                "message",
+                "fileAttachment",
+                "itemAttachment",
+                "referenceAttachment",
+                "mailboxSettings",
+            )
+            if args.version == "v1.0"
+            else (),
+        ),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")

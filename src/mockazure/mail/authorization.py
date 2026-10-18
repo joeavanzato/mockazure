@@ -23,8 +23,28 @@ READER_COMMANDS = frozenset(
         "Get-EXOMailboxFolderStatistics",
         "Get-EXOCasMailbox",
         "Get-OrganizationConfig",
+        "Get-TransportConfig",
+        "Get-AcceptedDomain",
+        "Get-TransportRule",
+        "Get-MailboxPermission",
+        "Get-RecipientPermission",
     }
 )
+
+
+def content_requirement(name):
+    if name == "settings":
+        app_perms = delegated_perms = {"MailboxSettings.Read", "MailboxSettings.ReadWrite"}
+    elif name == "write":
+        app_perms = delegated_perms = {"Mail.ReadWrite"}
+    elif name == "raw":
+        app_perms = delegated_perms = {"Mail.Read", "Mail.ReadWrite"}
+    elif name == "read":
+        app_perms = {"Mail.ReadBasic.All", "Mail.Read", "Mail.ReadWrite"}
+        delegated_perms = {"Mail.ReadBasic", "Mail.Read", "Mail.ReadWrite"}
+    else:
+        raise AuthorizationDenied("Unsupported content operation")
+    return OperationRequirement("graph", frozenset(app_perms), frozenset(delegated_perms))
 
 
 async def require_mailbox_access(session, actor, mailbox, operation: str) -> None:
@@ -36,6 +56,13 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
     settings = await session.get(MailSettings, actor.tenant_id)
     if settings is None or not settings.exchange_enabled:
         raise AuthorizationDenied("Exchange service entitlement is required")
+    if operation.startswith("content."):
+        if actor.audience != GRAPH:
+            raise AuthorizationDenied("Graph audience is required")
+        await authorize(actor, content_requirement(operation.removeprefix("content.")), session)
+        if actor.token_kind == "delegated" and actor.subject_id != mailbox.user_id:
+            raise AuthorizationDenied("Delegated mailbox ownership is required")
+        return
     if operation.startswith("rules."):
         if actor.audience != GRAPH:
             raise AuthorizationDenied("Graph audience is required")
@@ -46,7 +73,9 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
     await require_exchange_command(session, actor, operation, mailbox.user_id)
 
 
-async def require_exchange_command(session, actor, operation, mailbox_user_id=None):
+async def require_exchange_command(
+    session, actor, operation, mailbox_user_id=None, *, tenant_wide=False
+):
     """None checks command availability for bootstrap; data reads still scope every mailbox."""
     if operation != "Get-OrganizationConfig":
         settings = await session.get(MailSettings, actor.tenant_id)
@@ -97,6 +126,8 @@ async def require_exchange_command(session, actor, operation, mailbox_user_id=No
             )
         ]
     )
+    if tenant_wide:
+        scope.append(ExchangeCommandGrant.mailbox_user_id.is_(None))
     permitted = await session.scalar(
         select(ExchangeCommandGrant.id)
         .where(

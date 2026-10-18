@@ -1,10 +1,11 @@
 {
   "source": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference",
-  "retrieved_utc": "2026-10-17",
+  "retrieved_utc": "2026-10-18",
   "roles": {
     "Application Administrator": "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3",
     "Application Developer": "cf1c38e5-3621-4004-a7cb-879624dced7c",
     "Authentication Administrator": "c4e39bd9-1100-46d3-8c65-fb160da0071f",
+    "Authentication Policy Administrator": "0526716b-113d-4c15-b2c8-68e3c22b9f80",
     "Cloud Application Administrator": "158c047a-c907-4556-b7ef-446551a6b5f7",
     "Cloud Device Administrator": "7698a772-787b-4ac8-901f-60d6b08affd2",
     "Conditional Access Administrator": "b1be1c3e-b65d-4f19-8427-f6fa0d97feb9",
@@ -17,16 +18,19 @@
     "Global Secure Access Administrator": "ac434307-12b9-4fa1-a708-88bf58caabc1",
     "Groups Administrator": "fdd7a751-b60b-444a-984c-02652fe8fa1c",
     "Guest Inviter": "95e79109-95c0-4d8e-aee3-d01accf2d47b",
+    "Helpdesk Administrator": "729827e3-9c14-49f7-bb1b-9608f156bbb8",
     "Hybrid Identity Administrator": "8ac3fc64-6eca-42ea-9e69-59f4c7b60eb2",
     "Identity Governance Administrator": "45d8d3c5-c802-45c6-b32a-1d70b5e1e86e",
     "Intune Administrator": "3a2c62db-5318-420d-8d74-23affee5d9d5",
     "License Administrator": "4d6ac14f-3453-41d0-bef9-a3e0c569773a",
+    "Password Administrator": "966707d0-3269-4727-9be2-8c3a10f19b9d",
     "Privileged Authentication Administrator": "7be44c8a-adaf-4e2a-84d6-ab2649e08a13",
     "Privileged Role Administrator": "e8611ab8-c189-46e8-94e1-60213ab1f814",
     "Reports Reader": "4a5d8f65-41da-4de4-8968-e035b65339cf",
     "Security Administrator": "194ae4cb-b126-40b2-bd5b-6091b380977d",
     "Security Operator": "5f2222b1-57c3-48ba-8ad5-d4759f1fde6f",
     "Security Reader": "5d6b6bb7-de71-4623-b4af-96380a352509",
+    "SharePoint Administrator": "f28a1f50-f6e7-4571-818b-6a12f2af6b6c",
     "User Administrator": "fe930be7-5e62-47db-91af-98c3a49a38b1",
     "Windows 365 Administrator": "11451d60-acb2-45eb-a7d6-43d0f0125c13"
   }

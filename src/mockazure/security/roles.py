@@ -32,6 +32,13 @@ def role_ids():
     ]
 
 
+@lru_cache(maxsize=1)
+def role_details():
+    return json.loads((Path(__file__).parent / "data" / "role_details.json").read_text("utf-8"))[
+        "roles"
+    ]
+
+
 def role_definitions():
     return [
         {
@@ -40,6 +47,7 @@ def role_definitions():
             "displayName": name,
             "isBuiltIn": True,
             "isEnabled": True,
+            **role_details()[identifier],
         }
         for name, identifier in sorted(role_ids().items())
     ]
@@ -96,12 +104,15 @@ def catalog_source(tenant):
 
 
 def definition_payload(catalog):
+    details = literal(role_details(), JSONB).op("->")(cast(catalog.c.definition_id, String))
     return document(
         id=cast(catalog.c.definition_id, String),
         templateId=cast(catalog.c.definition_id, String),
         displayName=catalog.c.name,
         isBuiltIn=True,
         isEnabled=True,
+        description=details["description"].as_string(),
+        rolePermissions=details["rolePermissions"],
     )
 
 

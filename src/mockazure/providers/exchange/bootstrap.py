@@ -43,6 +43,16 @@ SWEEP_PARAMETERS = {
 }
 PARAMETERS = {
     "Get-OrganizationConfig": {},
+    "Get-TransportConfig": {"Identity": "string"},
+    "Get-AcceptedDomain": {"Identity": "string", "ResultSize": "string"},
+    "Get-TransportRule": {"Identity": "string", "State": "string", "ResultSize": "string"},
+    "Get-MailboxPermission": {"Identity": "string", "User": "string", "ResultSize": "string"},
+    "Get-RecipientPermission": {
+        "Identity": "string",
+        "Trustee": "string",
+        "AccessRights": "string[]",
+        "ResultSize": "string",
+    },
     "Get-Mailbox": {
         "Identity": "string",
         "ResultSize": "string",

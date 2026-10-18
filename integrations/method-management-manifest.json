@@ -1,0 +1,590 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "name": "Microsoft.Graph.Authentication",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Authentication/2.35.1",
+      "sha256": "3c38c977f8ab70a8ca7cdb6659e0d01e6f592aa1b3c8b46e965987609bd38cf6",
+      "archive": "Microsoft.Graph.Authentication-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Authentication/2.35.1",
+      "dependencies": [],
+      "probe": "integrations/contracts/connections.md"
+    },
+    {
+      "name": "Microsoft.Graph.Identity.DirectoryManagement",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Identity.DirectoryManagement/2.35.1",
+      "sha256": "518dfe258738da10ebfeb3697ce2005a314611c6c04331f63b1cfcb3bbcd1e36",
+      "archive": "Microsoft.Graph.Identity.DirectoryManagement-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Identity.DirectoryManagement/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/connections.md"
+    },
+    {
+      "name": "Microsoft.Graph.Identity.SignIns",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Identity.SignIns/2.35.1",
+      "sha256": "59b17eff1d8017b679134484f233516fa4c72509a7defefdd22055a12c42ad06",
+      "archive": "Microsoft.Graph.Identity.SignIns-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Identity.SignIns/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-evidence.md"
+    }
+  ],
+  "python": {
+    "lock": "uv.lock",
+    "group": "clients",
+    "packages": [
+      {
+        "name": "aiohappyeyeballs",
+        "version": "2.7.1",
+        "dependencies": []
+      },
+      {
+        "name": "aiohttp",
+        "version": "3.14.5",
+        "dependencies": [
+          "aiohappyeyeballs",
+          "aiosignal",
+          "attrs",
+          "frozenlist",
+          "multidict",
+          "propcache",
+          "typing-extensions",
+          "yarl"
+        ]
+      },
+      {
+        "name": "aiosignal",
+        "version": "1.4.0",
+        "dependencies": [
+          "frozenlist",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "alembic",
+        "version": "1.20.0",
+        "dependencies": [
+          "mako",
+          "sqlalchemy",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "annotated-doc",
+        "version": "0.0.5",
+        "dependencies": []
+      },
+      {
+        "name": "annotated-types",
+        "version": "0.8.0",
+        "dependencies": []
+      },
+      {
+        "name": "anyio",
+        "version": "4.15.1",
+        "dependencies": [
+          "idna",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "attrs",
+        "version": "26.1.0",
+        "dependencies": []
+      },
+      {
+        "name": "azure-core",
+        "version": "1.41.0",
+        "dependencies": [
+          "requests",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "azure-identity",
+        "version": "1.26.0",
+        "dependencies": [
+          "azure-core",
+          "cryptography",
+          "msal",
+          "msal-extensions",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "build",
+        "version": "1.6.1",
+        "dependencies": [
+          "colorama",
+          "packaging",
+          "pyproject-hooks"
+        ]
+      },
+      {
+        "name": "certifi",
+        "version": "2026.7.22",
+        "dependencies": []
+      },
+      {
+        "name": "cffi",
+        "version": "2.1.1",
+        "dependencies": [
+          "pycparser"
+        ]
+      },
+      {
+        "name": "charset-normalizer",
+        "version": "3.5.2",
+        "dependencies": []
+      },
+      {
+        "name": "click",
+        "version": "8.5.0",
+        "dependencies": []
+      },
+      {
+        "name": "colorama",
+        "version": "0.4.6",
+        "dependencies": []
+      },
+      {
+        "name": "cryptography",
+        "version": "50.0.2",
+        "dependencies": [
+          "cffi"
+        ]
+      },
+      {
+        "name": "fastapi",
+        "version": "0.143.2",
+        "dependencies": [
+          "annotated-doc",
+          "opentelemetry-api",
+          "pydantic",
+          "starlette",
+          "typing-extensions",
+          "typing-inspection"
+        ]
+      },
+      {
+        "name": "frozenlist",
+        "version": "1.8.0",
+        "dependencies": []
+      },
+      {
+        "name": "greenlet",
+        "version": "3.5.6",
+        "dependencies": []
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0",
+        "dependencies": []
+      },
+      {
+        "name": "h2",
+        "version": "4.4.1",
+        "dependencies": [
+          "hpack",
+          "hyperframe"
+        ]
+      },
+      {
+        "name": "hpack",
+        "version": "4.2.0",
+        "dependencies": []
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9",
+        "dependencies": [
+          "certifi",
+          "h11"
+        ]
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1",
+        "dependencies": [
+          "anyio",
+          "certifi",
+          "httpcore",
+          "idna"
+        ]
+      },
+      {
+        "name": "hyperframe",
+        "version": "6.1.0",
+        "dependencies": []
+      },
+      {
+        "name": "idna",
+        "version": "3.20",
+        "dependencies": []
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.1",
+        "dependencies": []
+      },
+      {
+        "name": "mako",
+        "version": "1.4.3",
+        "dependencies": [
+          "markupsafe"
+        ]
+      },
+      {
+        "name": "markdown-it-py",
+        "version": "4.2.0",
+        "dependencies": [
+          "mdurl"
+        ]
+      },
+      {
+        "name": "markupsafe",
+        "version": "3.0.4",
+        "dependencies": []
+      },
+      {
+        "name": "mdurl",
+        "version": "0.1.2",
+        "dependencies": []
+      },
+      {
+        "name": "microsoft-kiota-abstractions",
+        "version": "1.14.3",
+        "dependencies": [
+          "opentelemetry-api",
+          "opentelemetry-sdk",
+          "std-uritemplate"
+        ]
+      },
+      {
+        "name": "microsoft-kiota-authentication-azure",
+        "version": "1.14.3",
+        "dependencies": [
+          "aiohttp",
+          "azure-core",
+          "microsoft-kiota-abstractions",
+          "opentelemetry-api",
+          "opentelemetry-sdk"
+        ]
+      },
+      {
+        "name": "microsoft-kiota-http",
+        "version": "1.14.3",
+        "dependencies": [
+          "httpx",
+          "microsoft-kiota-abstractions",
+          "opentelemetry-api",
+          "opentelemetry-sdk"
+        ]
+      },
+      {
+        "name": "microsoft-kiota-serialization-form",
+        "version": "1.14.3",
+        "dependencies": [
+          "microsoft-kiota-abstractions"
+        ]
+      },
+      {
+        "name": "microsoft-kiota-serialization-json",
+        "version": "1.14.3",
+        "dependencies": [
+          "microsoft-kiota-abstractions"
+        ]
+      },
+      {
+        "name": "microsoft-kiota-serialization-multipart",
+        "version": "1.14.3",
+        "dependencies": [
+          "microsoft-kiota-abstractions"
+        ]
+      },
+      {
+        "name": "microsoft-kiota-serialization-text",
+        "version": "1.14.3",
+        "dependencies": [
+          "microsoft-kiota-abstractions"
+        ]
+      },
+      {
+        "name": "msal",
+        "version": "1.39.0",
+        "dependencies": [
+          "cryptography",
+          "pyjwt",
+          "requests"
+        ]
+      },
+      {
+        "name": "msal-extensions",
+        "version": "1.3.1",
+        "dependencies": [
+          "msal"
+        ]
+      },
+      {
+        "name": "msgraph-core",
+        "version": "1.5.2",
+        "dependencies": [
+          "httpx",
+          "microsoft-kiota-abstractions",
+          "microsoft-kiota-authentication-azure",
+          "microsoft-kiota-http"
+        ]
+      },
+      {
+        "name": "msgraph-sdk",
+        "version": "1.64.0",
+        "dependencies": [
+          "azure-identity",
+          "microsoft-kiota-serialization-form",
+          "microsoft-kiota-serialization-json",
+          "microsoft-kiota-serialization-multipart",
+          "microsoft-kiota-serialization-text",
+          "msgraph-core"
+        ]
+      },
+      {
+        "name": "multidict",
+        "version": "7.1.0",
+        "dependencies": []
+      },
+      {
+        "name": "opentelemetry-api",
+        "version": "1.45.1",
+        "dependencies": [
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "opentelemetry-sdk",
+        "version": "1.45.1",
+        "dependencies": [
+          "opentelemetry-api",
+          "opentelemetry-semantic-conventions",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "opentelemetry-semantic-conventions",
+        "version": "0.66b1",
+        "dependencies": [
+          "opentelemetry-api",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "packaging",
+        "version": "26.3",
+        "dependencies": []
+      },
+      {
+        "name": "pluggy",
+        "version": "1.7.0",
+        "dependencies": []
+      },
+      {
+        "name": "propcache",
+        "version": "0.5.4",
+        "dependencies": []
+      },
+      {
+        "name": "psycopg",
+        "version": "3.3.6",
+        "dependencies": [
+          "typing-extensions",
+          "tzdata"
+        ]
+      },
+      {
+        "name": "psycopg-binary",
+        "version": "3.3.6",
+        "dependencies": []
+      },
+      {
+        "name": "pycparser",
+        "version": "3.11",
+        "dependencies": []
+      },
+      {
+        "name": "pydantic",
+        "version": "2.14.1",
+        "dependencies": [
+          "annotated-types",
+          "pydantic-core",
+          "typing-extensions",
+          "typing-inspection"
+        ]
+      },
+      {
+        "name": "pydantic-core",
+        "version": "2.50.1",
+        "dependencies": [
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "pydantic-settings",
+        "version": "2.16.0",
+        "dependencies": [
+          "pydantic",
+          "python-dotenv",
+          "typing-extensions",
+          "typing-inspection"
+        ]
+      },
+      {
+        "name": "pygments",
+        "version": "2.21.0",
+        "dependencies": []
+      },
+      {
+        "name": "pyjwt",
+        "version": "2.15.1",
+        "dependencies": []
+      },
+      {
+        "name": "pyproject-hooks",
+        "version": "1.3.3",
+        "dependencies": []
+      },
+      {
+        "name": "pytest",
+        "version": "9.1.1",
+        "dependencies": [
+          "colorama",
+          "iniconfig",
+          "packaging",
+          "pluggy",
+          "pygments"
+        ]
+      },
+      {
+        "name": "pytest-asyncio",
+        "version": "1.4.0",
+        "dependencies": [
+          "pytest",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "python-dotenv",
+        "version": "1.2.4",
+        "dependencies": []
+      },
+      {
+        "name": "requests",
+        "version": "2.34.2",
+        "dependencies": [
+          "certifi",
+          "charset-normalizer",
+          "idna",
+          "urllib3"
+        ]
+      },
+      {
+        "name": "rich",
+        "version": "15.0.0",
+        "dependencies": [
+          "markdown-it-py",
+          "pygments"
+        ]
+      },
+      {
+        "name": "ruff",
+        "version": "0.17.1",
+        "dependencies": []
+      },
+      {
+        "name": "shellingham",
+        "version": "1.5.4",
+        "dependencies": []
+      },
+      {
+        "name": "sqlalchemy",
+        "version": "2.0.54",
+        "dependencies": [
+          "greenlet",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "starlette",
+        "version": "1.8.0",
+        "dependencies": [
+          "anyio",
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "std-uritemplate",
+        "version": "2.0.12",
+        "dependencies": []
+      },
+      {
+        "name": "typer",
+        "version": "0.27.3",
+        "dependencies": [
+          "annotated-doc",
+          "colorama",
+          "rich",
+          "shellingham"
+        ]
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.16.0",
+        "dependencies": []
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.4",
+        "dependencies": [
+          "typing-extensions"
+        ]
+      },
+      {
+        "name": "tzdata",
+        "version": "2026.5",
+        "dependencies": []
+      },
+      {
+        "name": "urllib3",
+        "version": "2.8.0",
+        "dependencies": []
+      },
+      {
+        "name": "uvicorn",
+        "version": "0.54.0",
+        "dependencies": [
+          "click",
+          "h11"
+        ]
+      },
+      {
+        "name": "yarl",
+        "version": "1.25.1",
+        "dependencies": [
+          "idna",
+          "multidict",
+          "propcache"
+        ]
+      }
+    ]
+  },
+  "powershell": {
+    "version": "7.5.0",
+    "image": "mcr.microsoft.com/powershell@sha256:042240d57ec9e47e511033b92625a8d95875ee5860af3015992c248b58a8be81"
+  },
+  "qualification_status": "not_yet_run"
+}

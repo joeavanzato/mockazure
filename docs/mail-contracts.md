@@ -385,3 +385,139 @@ prefix returns404. Equivalent UUID/UPN/SMTP/alias identities remain supported.
 Mutating Exchange rule commands lock the mailbox before reading/merging and
 refresh ORM rule state under that lock; Graph and Exchange share the same order
 and immutable version/fact history.
+
+
+## Exchange collection configuration and permission evidence
+
+`GET` and `PUT /_mock/tenants/{tenant_id}/mail/collectionState` provide a typed,
+admin-authenticated export and atomic complete replacement. The six sections are
+`organization`, `transport`, `accepted_domains`, `transport_rules`,
+`mailbox_permissions` and `recipient_permissions`; omitted sections are cleared.
+An empty object resets this collection evidence without deleting mailboxes, rules,
+traces, or command grants. Existing canonical mailbox user IDs are required for
+permission rows. Imports reject unknown fields, duplicate record IDs and rule
+priorities, multiple default domains, and missing/foreign/deleted mailboxes.
+Exports omit permission records for deleted mailbox identities.
+
+The [pinned Exchange manifest](../integrations/contracts/exchange-mail.json)
+lists accepted command parameters, returned fields, sources and limits. Public
+reads expose imported state: organization audit/OAuth flags, transport settings,
+accepted domains, transport rules, mailbox ACLs and SendAs permissions. Missing
+optional fields are absent rather than guessed. Transport descriptions/actions
+are evidence; neither rule delivery nor an ACL enforcement engine is simulated.
+Mailbox ACL records are separate from ExchangeCommandGrant and never authorize
+commands. Every read checks current token permissions, roles/grants and relevant
+service entitlement; mailbox reads additionally check current recipient scope.
+Tenant-wide configuration cannot be read using only a mailbox-scoped grant.
+
+Permission Identity uses the canonical mailbox resolver (UUID, Exchange GUID,
+UPN, SMTP or alias); display-name collisions cannot redirect evidence. User and
+Trustee filters compare stored literal identifiers case-insensitively, without
+SID-history or directory-principal expansion. MailboxPermission requires Identity;
+RecipientPermission can list only authorized mailboxes. Unsupported command
+parameters fail explicitly. Explicit command grants and the bounded Global
+Reader/Exchange Administrator/Global Administrator profiles apply, not complete
+Exchange management-role-group evaluation.
+
+Migration 041 adds three tenant-scoped PostgreSQL tables and preserves existing
+mailbox configuration. Downgrade refuses to discard nonempty collection state.
+`python -m tools.verify_exchange_collections` qualifies original EXO 3.11.0 and
+original MES Get-TransportRules against a fresh local Docker lab. Full Hawk tenant
+configuration still needs Get-AdminAuditLogConfig/Get-RemoteDomain; the full MES
+mailbox-permission workflow also needs broader mailbox properties and recipient
+resolution. These entry points are not certified by the new command reads alone.
+
+
+## Graph v1.0 mailbox content
+
+`POST /_mock/tenants/{tenant_id}/mail/content/import` accepts a typed batch with
+`mailbox_user_id`, `mode: content-backed`, `expected_revision`, and arrays of
+`folders`, `messages`, `attachments` and message-ID `tombstones`; optional
+`mailbox_settings` holds pinned official settings fields. A batch contains at most
+1,000 records and 8 MiB. IDs are opaque strings. All references, primary folder
+parents, cycles, immutable identity conflicts, binary ownership and existing rule
+folder targets are validated atomically. Imports never fetch external URLs.
+
+A statistics-only mailbox remains unchanged until an explicit revision-zero import.
+After transition, primary folder counts and byte sizes derive from stored messages;
+raw MIME size is used when supplied, otherwise the explicit imported size. Archive
+statistics remain separate and are not exposed as invented Graph archive messages.
+Legacy mailbox provisioning preserves content-backed folders and rejects explicit
+folder replacement until content is reset. Metadata-only updates preserve omitted
+archive enablement.
+
+Messages and attachments share the [binary evidence store](content-storage.md).
+Imported MIME, including malformed binary source data, is returned exactly; metadata
+is supplied separately and is not silently reconstructed from MIME. Graph bodies use
+stored text/HTML with bounded format conversion. Header properties require `$select`.
+Mail.ReadBasic omits body/bodyPreview/uniqueBody and cannot access attachments or raw
+content. Full reads require Mail.Read or Mail.ReadWrite. Mailbox settings use their
+separate permissions. Delegated access is limited to the signed-in mailbox; shared
+mailboxes and application access policies are not implied by Exchange ACL evidence.
+
+The [operation manifest](../integrations/contracts/coverage-operations.json) pins
+real v1.0 paths and source hashes. No beta routes are added. Message filters support
+receivedDateTime comparisons, subject equality/startswith and isRead equality;
+ordering is bounded to receivedDateTime and subject. Combined ordering/filtering
+requires ordered properties first in the filter. Unsupported query options fail.
+Pages bind tenant, mailbox, client, signed-in user, permissions and snapshot, with
+one-hour expiry. Timestamp comparisons preserve seven fractional digits, including offset
+normalization. Normal imported message IDs cannot use the canonical `AAIk` immutable-ID
+encoding. Folder paths follow the validated tree across renames and reparenting.
+File attachment JSON contentBytes is capped at4 MiB; select metadata
+and use `/$value` to stream larger bytes. Item expansion covers a direct message;
+recursive attachments, calendar/contact items and reference downloads are unsupported.
+
+`GET /_mock/tenants/{tenant_id}/mail/content/{user_id}/export` exports the current
+fixture as one import batch when it fits. `?format=ndjson` streams typed mailbox,
+folder, message and attachment records under a repeatable-read database snapshot for
+larger datasets. Restore folders before messages and attachments, splitting records
+into bounded batches and advancing expected_revision. Upload referenced bytes first.
+Exports preserve current IDs; historical versions and opaque continuation handles are
+not portable backups. `POST .../reset` requires `expected_revision`, clears this
+mailbox's content/history/cursors and releases its blob references, returns empty
+statistics-only primary folders, and preserves archive statistics. It does not erase
+blobs still referenced elsewhere. Downgrade refuses nonempty content state.
+
+
+### Message changes and delta
+
+PATCH accepts only `isRead` and bounded `categories` (100 strings of at most256
+characters). Move and copy require a primary-folder `destinationId`, including
+well-known aliases. Normal IDs change on move; `Prefer: IdType="ImmutableId"`
+keeps the same immutable identity. Copy allocates a distinct identity and shares
+immutable bytes with independent metadata. DELETE removes the current message and
+retains a tombstone while synchronization needs it; a recoverable-items service,
+retention policy engine and mail delivery remain outside this profile.
+
+Each change uses the mailbox revision lock and records a native ExchangeItem audit
+fact transactionally. Repeating an identical property update is a no-op. The
+imported MIME remains original evidence after metadata changes; it is not rewritten.
+
+Folder `messages/delta` (also `delta()` and `microsoft.graph.delta()`) supports `$select`, `$top`, receivedDateTime `ge`/`gt`, and
+receivedDateTime descending order. Unsupported `changeType`, `$expand`, `$search`
+and collection-wide delta fail explicitly. Options and identity preferences are
+stored in opaque local next/delta tokens. Each round freezes its upper revision;
+changes during paging appear in the next round. Tokens bind tenant, mailbox,
+client, subject, permissions, folder and reset generation and expire after one hour.
+Every page rechecks permissions and entitlement. A reset or expiry requires a new
+initial collection. Following the v1.0 folder synchronization contract, removals
+and read-state changes can appear outside the received-time filter.
+
+Cleanup shares the maintenance deletion budget. Active cursors pin the history
+needed for their snapshot/delta round; expired cursors and unneeded versions can
+be reclaimed, releasing their binary references. Current message bytes stay pinned.
+Mail GETs share the existing users read-budget bucket, including one charge per
+batch inner request; the batch envelope is not charged. Read batches now accept
+bounded Prefer headers for immutable IDs and mail body preferences.
+
+`python -m tools.verify_mail_content` uses a fresh local Docker lab and the pinned,
+unchanged Graph Python SDK and PowerShell module. Prepare its three public module
+archives with `python tools/prepare_clients.py --manifest
+integrations/mail-content-manifest.json --output work/mail-content-vendor`.
+The qualifier checks all101 imported messages, exact MIME/attachment hashes and
+saved delta links across database/API restart. No real tenant is contacted.
+
+Attachment collection pages additionally cap serialized data at8 MiB, reserving16 KiB
+for the response envelope and continuation. A page can contain fewer attachments than
+`$top`; follow its `@odata.nextLink`. An individual oversized JSON projection returns413.

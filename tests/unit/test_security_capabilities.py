@@ -1,8 +1,19 @@
+from types import SimpleNamespace
+
 from mockazure.admin.routes import capabilities
+from mockazure.config import Settings
 
 
-async def test_security_capabilities_advertise_bounded_operational_surfaces():
-    value = await capabilities()
+async def test_security_capabilities_advertise_bounded_operational_surfaces(tmp_path):
+    value = await capabilities(
+        SimpleNamespace(
+            app=SimpleNamespace(
+                state=SimpleNamespace(
+                    settings=Settings(data_dir=tmp_path, database_url="postgresql://localhost/unit")
+                )
+            )
+        )
+    )
     assert value["milestone"] == 5 and value["delivery"] == "collection-evidence"
     assert {
         "arm.resources.inventory",

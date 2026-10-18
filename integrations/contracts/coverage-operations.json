@@ -1,0 +1,3276 @@
+{
+  "scope": "Coverage expansion operation profiles; not whole Graph or collector certification",
+  "schemaRevision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+  "operations": [
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/directoryObjects/getByIds",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryobject-getbyids?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [
+          "Directory.Read.All"
+        ],
+        "delegated": [
+          "Directory.Read.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "1..1000 GUID IDs",
+        "user/group/application/servicePrincipal/device only",
+        "types case-insensitive"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_get_by_ids_mixed_visibility"
+      ],
+      "status": "implemented",
+      "sourceSha256": "6ef61bed92eb490e2d5b4f707f840e183aa4d85577093e039c89adff5c9f8bab",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDirectoryObjectById"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/directoryObjects/{identifier}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryobject-get?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [
+          "Directory.Read.All"
+        ],
+        "delegated": [
+          "Directory.Read.All"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Bounded local profile; see COVERAGE.md"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_get_by_ids_mixed_visibility"
+      ],
+      "status": "implemented",
+      "sourceSha256": "6fee3f2421dfd03c1d12480c4ee086cac86f4bdc5b545b1d74819863a1b33608",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDirectoryObject"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups/{object_id}/memberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list-memberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All",
+          "Group.Read.All",
+          "GroupMember.Read.All"
+        ],
+        "delegated": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All",
+          "Group.Read.All",
+          "GroupMember.Read.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Group targets only; cycle-safe",
+        "100 default / 999 maximum page"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_relationship_cycles_and_paging"
+      ],
+      "status": "implemented",
+      "sourceSha256": "2fcb58695c319a8368b6b1f5f9a73fe2f96d79973356c492fb083479b99012bf",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgGroupMemberOf"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/memberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-memberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Bounded local profile; see COVERAGE.md"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_me_alias_requires_delegated_identity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "b42d551128730515f8119379346356870adc62857a1bd6b2ed5cac2e600b7407",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups/{object_id}/transitiveMemberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list-transitivememberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All"
+        ],
+        "delegated": [
+          "GroupMember.ReadBasic.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "Group.ReadBasic.All",
+          "Group.Read.All",
+          "GroupMember.Read.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Group targets only; cycle-safe",
+        "100 default / 999 maximum page"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_relationship_cycles_and_paging"
+      ],
+      "status": "implemented",
+      "sourceSha256": "c238db44a0ba94209ae23108320fe816a4a3694bdd9051e6413b4acab47eb06c",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgGroupTransitiveMemberOf"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/transitiveMemberOf",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-transitivememberof?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "group",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Bounded local profile; see COVERAGE.md"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_me_alias_requires_delegated_identity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "95e777c0c7b4a1d36d3649010658f6723825eb872ed1644784561c2aa210b788",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{identifier}/ownedObjects",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-ownedobjects?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read (self)",
+          "User.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "User.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName only; displayName null without target permission",
+        "group/application/servicePrincipal/device targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "e665c708447d91ea27f0fd917cf191fa03ae8c9b038d5ad052699a8caac1062d",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgUserOwnedObject"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/ownedObjects",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-ownedobjects?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "User.Read (self)",
+          "User.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All",
+          "User.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName only; displayName null without target permission",
+        "group/application/servicePrincipal/device targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "e665c708447d91ea27f0fd917cf191fa03ae8c9b038d5ad052699a8caac1062d",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/groups/{object_id}/owners/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-post-owners?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported owner/group administrator role profile"
+      },
+      "queryOptions": [],
+      "limits": [
+        "Static security groups only",
+        "Last active user owner cannot be removed",
+        "User or servicePrincipal targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "8607ad5a91b881dec6c268fdd99e7f2fb8842c9658c0bf6d09c1d771653277e0",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "New-MgGroupOwnerByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/groups/{object_id}/owners/{member_id}/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-delete-owners?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Group.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported owner/group administrator role profile"
+      },
+      "queryOptions": [],
+      "limits": [
+        "Static security groups only",
+        "Last active user owner cannot be removed",
+        "User or servicePrincipal targets"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "4d05856c336e837686f1b3555c98b632816d70a10eb2b9fee5e2b6aa6459cd58",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Remove-MgGroupOwnerByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/devices/{identifier}/registeredUsers",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-list-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "user",
+      "permissions": {
+        "application": [
+          "Device.Read.All",
+          "Device.ReadWrite.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Device.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Directory Readers",
+          "Global Reader",
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName/userPrincipalName projection; unreadable fields null"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip",
+        "tests/integration/test_directory_collection_completion.py::test_review_registered_users_requires_delegated_directory_role"
+      ],
+      "status": "implemented",
+      "sourceSha256": "29e8f52701e7c2a653b4530fe9366cd789bd0d2453524cd32d8c6778c5941bd9",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDeviceRegisteredUser"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/devices/{identifier}/registeredUsers/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-post-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.AccessAsUser.All"
+        ],
+        "roles": [
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local active user references only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "2bbae24ddd740d5a046d758667beea1d2b6c91c988d129d349b6503c5d43e350",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "New-MgDeviceRegisteredUserByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/devices(deviceId='{identifier}')/registeredUsers",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-list-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "user",
+      "permissions": {
+        "application": [
+          "Device.Read.All",
+          "Device.ReadWrite.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Device.Read.All",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Directory Readers",
+          "Global Reader",
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "limits": [
+        "id/type/displayName/userPrincipalName projection; unreadable fields null"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip",
+        "tests/integration/test_directory_collection_completion.py::test_review_registered_users_requires_delegated_directory_role"
+      ],
+      "status": "implemented",
+      "sourceSha256": "29e8f52701e7c2a653b4530fe9366cd789bd0d2453524cd32d8c6778c5941bd9",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/devices(deviceId='{identifier}')/registeredUsers/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-post-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.AccessAsUser.All"
+        ],
+        "roles": [
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local active user references only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "2bbae24ddd740d5a046d758667beea1d2b6c91c988d129d349b6503c5d43e350",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/devices/{identifier}/registeredUsers/{user_id}/$ref",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-delete-registeredusers?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.AccessAsUser.All"
+        ],
+        "roles": [
+          "Intune Administrator",
+          "Windows 365 Administrator",
+          "Global Administrator"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Deletes edge only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_owner_and_registered_user_reference_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "fe966ff156ff5407468314b0d52512d56681fa6c939eef6d2195284a52898496",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Remove-MgDeviceRegisteredUserByRef"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{principal_id}/appRoleAssignments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-approleassignments?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "appRoleAssignment",
+      "permissions": {
+        "application": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All"
+        ],
+        "delegated": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for delegated reads"
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Imported user/group evidence is read-only and does not grant OAuth permissions",
+        "User view includes direct group memberships only",
+        "Imported assignment IDs are local GUIDs"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_assignment_navigation_parity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "abf4152a398eb0dc25a4ba177a0acea433aee17a4bfb2e573026ac5db77db3d7",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgUserAppRoleAssignment"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups/{principal_id}/appRoleAssignments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list-approleassignments?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "appRoleAssignment",
+      "permissions": {
+        "application": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for delegated reads"
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Imported user/group evidence is read-only and does not grant OAuth permissions",
+        "User view includes direct group memberships only",
+        "Imported assignment IDs are local GUIDs"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_assignment_navigation_parity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "033b67c3b45cc4c4388d2774bda1c6b04dffea8c50c88fb26143b6a04fb93356",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgGroupAppRoleAssignment"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/appRoleAssignments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-approleassignments?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "appRoleAssignment",
+      "permissions": {
+        "application": [],
+        "delegated": [
+          "Directory.Read.All",
+          "AppRoleAssignment.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for delegated reads"
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "Imported user/group evidence is read-only and does not grant OAuth permissions",
+        "User view includes direct group memberships only",
+        "Imported assignment IDs are local GUIDs"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_assignment_navigation_parity"
+      ],
+      "status": "implemented",
+      "sourceSha256": "abf4152a398eb0dc25a4ba177a0acea433aee17a4bfb2e573026ac5db77db3d7",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/organization",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/organization-list?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "organization",
+      "permissions": {
+        "application": [
+          "Organization.Read.All",
+          "Directory.Read.All",
+          "Organization.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "User.Read (basic)",
+          "Organization.Read.All",
+          "Directory.Read.All",
+          "Organization.ReadWrite.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": "Supported directory role required for full delegated projection"
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "16 optional typed fields plus existing id/displayName/verifiedDomains",
+        "No item route or Graph writes"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_organization_role_fields_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "7377bbf1867c6c11c3b2a2c499f46fd9653c231edf95c162a95d4d0d3af5e746",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgOrganization"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleDefinitions",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/rbacapplication-list-roledefinitions?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "unifiedRoleDefinition",
+      "permissions": {
+        "application": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Global Administrator",
+          "Privileged Role Administrator",
+          "Global Reader",
+          "Directory Readers"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$filter",
+        "$orderby",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": [
+        "27 built-ins; action identifiers pinned separately in role_details.json",
+        "Locally generated description; permissions descriptive only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_organization_role_fields_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "1ff9496a0006aee186220f2e155a2fbf12ab9d3029b420361fe881379aa4cfd8",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgRoleManagementDirectoryRoleDefinition"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleDefinitions/{identifier}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/unifiedroledefinition-get?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "unifiedRoleDefinition",
+      "permissions": {
+        "application": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "delegated": [
+          "RoleManagement.Read.Directory",
+          "RoleManagement.ReadWrite.Directory",
+          "Directory.Read.All",
+          "Directory.ReadWrite.All"
+        ],
+        "roles": [
+          "Global Administrator",
+          "Privileged Role Administrator",
+          "Global Reader",
+          "Directory Readers"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "27 built-ins; action identifiers pinned separately in role_details.json",
+        "Locally generated description; permissions descriptive only"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_organization_role_fields_roundtrip"
+      ],
+      "status": "implemented",
+      "sourceSha256": "1bfad7445c722823787c83387442a04d7cfd772b4b985791a4443dcde7986048",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgRoleManagementDirectoryRoleDefinition"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/directoryObjects/microsoft.graph.getByIds",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryobject-getbyids?view=graph-rest-1.0",
+      "requestType": null,
+      "responseType": "directoryObject",
+      "permissions": {
+        "application": [
+          "Directory.Read.All"
+        ],
+        "delegated": [
+          "Directory.Read.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "1..1000 GUID IDs",
+        "user/group/application/servicePrincipal/device only",
+        "types case-insensitive"
+      ],
+      "tests": [
+        "tests/integration/test_directory_collection_completion.py::test_get_by_ids_mixed_visibility"
+      ],
+      "status": "implemented",
+      "sourceSha256": "6ef61bed92eb490e2d5b4f707f840e183aa4d85577093e039c89adff5c9f8bab",
+      "retrievedAt": "2026-10-17",
+      "collectorCommands": [
+        "Get-MgDirectoryObjectById"
+      ],
+      "aliasOf": "/v1.0/directoryObjects/getByIds",
+      "clientReference": "Microsoft.Graph.DirectoryObjects 2.35.1; SHA-256 pinned in integrations/manifest.json"
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/$batch",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/json-batching",
+      "sourceSha256": "e09dffe88c5cad04615e83b5770185f77c7ae285b830d4fcc2c374f2a10480b7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "policy": "Each inner operation keeps its normal scopes, directory roles and resource authorization."
+      },
+      "queryOptions": [],
+      "limits": [
+        "1..20 independent GET operations",
+        "Declared Graph roots only; no writes, dependencies, external URLs or authorization overrides",
+        "8 MiB per result, 32 MiB aggregate",
+        "Each inner operation consumes its normal budget; no outer-envelope charge"
+      ],
+      "tests": [
+        "tests/integration/test_collection_protocol_completion.py::test_batch_extended_roots_keep_item_authorization_and_errors",
+        "tests/integration/test_collection_protocol_completion.py::test_shared_collection_budget_and_single_batch_charge"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailboxSettings",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-get-mailboxsettings?view=graph-rest-1.0",
+      "sourceSha256": "fda60db62ce8663668b4d210b78ce53106add7a819553f1c59c069b8e4342d13",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailboxSettings",
+      "permissions": {
+        "application": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ],
+        "delegated": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_mailbox_settings_permission"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0",
+      "sourceSha256": "ce7089e057e0236b4c5b460692110b3405f225cac8f90d5394802e6dd724c78e",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMailFolder"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-get?view=graph-rest-1.0",
+      "sourceSha256": "39a5d71aa3a6110bde63988194e881554bca0925adc682a903f2681e57190daf",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_content_mode_statistics"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/childFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-list-childfolders?view=graph-rest-1.0",
+      "sourceSha256": "1e9d12c4bbd7a7c24fb71c480c1617af1c4d5fd6b0c34d5670907740419ece46",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMessage"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMessageContent"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMessageAttachment"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailboxSettings",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-get-mailboxsettings?view=graph-rest-1.0",
+      "sourceSha256": "fda60db62ce8663668b4d210b78ce53106add7a819553f1c59c069b8e4342d13",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailboxSettings",
+      "permissions": {
+        "application": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ],
+        "delegated": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_mailbox_settings_permission"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0",
+      "sourceSha256": "ce7089e057e0236b4c5b460692110b3405f225cac8f90d5394802e6dd724c78e",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-get?view=graph-rest-1.0",
+      "sourceSha256": "39a5d71aa3a6110bde63988194e881554bca0925adc682a903f2681e57190daf",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_content_mode_statistics"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/childFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-list-childfolders?view=graph-rest-1.0",
+      "sourceSha256": "1e9d12c4bbd7a7c24fb71c480c1617af1c4d5fd6b0c34d5670907740419ece46",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "qualified",
+      "collectorCommands": [
+        "Update-MgUserMessage"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/delta",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "qualified",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/me/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/me/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/delta",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "qualified",
+      "collectorCommands": [
+        "Get-MgUserMailFolderMessageDelta"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/microsoft.graph.delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/microsoft.graph.delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/policies/authenticationMethodsPolicy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethodspolicy-get?view=graph-rest-1.0",
+      "sourceSha256": "68033864b62620ed62d4c6959dcd5a9174f3e0f7a03ec8438a13b6befcacd3ad",
+      "retrievedAt": "2026-10-18",
+      "requestType": null,
+      "responseType": "authenticationMethodsPolicy",
+      "permissions": {
+        "application": [
+          "Policy.Read.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.Read.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Get-MgPolicyAuthenticationMethodPolicy"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/policies/authenticationMethodsPolicy/authenticationMethodConfigurations",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethodspolicy-get?view=graph-rest-1.0",
+      "sourceSha256": "68033864b62620ed62d4c6959dcd5a9174f3e0f7a03ec8438a13b6befcacd3ad",
+      "retrievedAt": "2026-10-18",
+      "requestType": null,
+      "responseType": "authenticationMethodConfiguration",
+      "permissions": {
+        "application": [
+          "Policy.Read.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.Read.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Get-MgPolicyAuthenticationMethodPolicyAuthenticationMethodConfiguration"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/policies/authenticationMethodsPolicy/authenticationMethodConfigurations/{configuration}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/smsauthenticationmethodconfiguration-get?view=graph-rest-1.0",
+      "sourceSha256": "27a43c529dc40a382e01dc71925167273ed3999e9a904d68242cb5d4c94dbf6b",
+      "retrievedAt": "2026-10-18",
+      "requestType": null,
+      "responseType": "authenticationMethodConfiguration",
+      "permissions": {
+        "application": [
+          "Policy.Read.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.Read.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Get-MgPolicyAuthenticationMethodPolicyAuthenticationMethodConfiguration"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/policies/authenticationMethodsPolicy/authenticationMethodConfigurations/{configuration}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/smsauthenticationmethodconfiguration-update?view=graph-rest-1.0",
+      "sourceSha256": "6610468fc9c4efbb4748d2f7423adda1cc3886d8e850ac70e4cf9340cc201dd4",
+      "retrievedAt": "2026-10-18",
+      "requestType": "authenticationMethodConfiguration",
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Policy.ReadWrite.AuthenticationMethod"
+        ],
+        "delegated": [
+          "Policy.ReadWrite.AuthenticationMethod"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "SMS mobile MFA and Authenticator push/any only",
+        "groups/all_users inclusion; exclusions win",
+        "no root writes, advanced settings or beta routes",
+        "delegated Authentication Policy Administrator or Global Administrator writes"
+      ],
+      "tests": [
+        "tests/integration/test_method_policy_enforcement.py::test_policy_permissions_and_typed_reads"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Update-MgPolicyAuthenticationMethodPolicyAuthenticationMethodConfiguration"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/identity/conditionalAccess/policies",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-1.0",
+      "sourceSha256": "0d82b701cab345fb3c96d7a035787827975d7ad66b72f4e603115e3f91367afa",
+      "retrievedAt": "2026-10-18",
+      "requestType": "conditionalAccessPolicy",
+      "responseType": "conditionalAccessPolicy",
+      "permissions": {
+        "application": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ],
+        "delegated": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Enabled P1/P2 tenant service plan",
+        "Known built-in role and simulated platform targeting",
+        "MFA/compliantDevice AND/OR; block exclusive",
+        "Trusted device binding and current Intune compliance; unknown fails closed",
+        "No risk, advanced device filters, session, strength, guest or custom-role conditions",
+        "Read permission alternative and delegated roles described in security contracts"
+      ],
+      "tests": [
+        "tests/integration/test_conditional_access_extended.py::test_compliance_unknown_and_or_report_only"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "New-MgIdentityConditionalAccessPolicy"
+      ]
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/identity/conditionalAccess/policies/{identifier}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/conditionalaccesspolicy-update?view=graph-rest-1.0",
+      "sourceSha256": "36530b0c3ee40cab9881e92f746f08eeabb64cfc85cbd5ec80d90a15b2fe2a4b",
+      "retrievedAt": "2026-10-18",
+      "requestType": "conditionalAccessPolicy",
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ],
+        "delegated": [
+          "Policy.Read.All",
+          "Policy.ReadWrite.ConditionalAccess"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Enabled P1/P2 tenant service plan",
+        "Known built-in role and simulated platform targeting",
+        "MFA/compliantDevice AND/OR; block exclusive",
+        "Trusted device binding and current Intune compliance; unknown fails closed",
+        "No risk, advanced device filters, session, strength, guest or custom-role conditions",
+        "Read permission alternative and delegated roles described in security contracts"
+      ],
+      "tests": [
+        "tests/integration/test_conditional_access_extended.py::test_compliance_unknown_and_or_report_only"
+      ],
+      "status": "implemented",
+      "collectorCommands": [
+        "Update-MgIdentityConditionalAccessPolicy"
+      ]
+    }
+  ],
+  "queryProfiles": [
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/auditLogs/signIns",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/signin-list?view=graph-rest-1.0",
+      "sourceSha256": "1048fdada174059bff4dafc91bfe38b35deb504bb4b685a879277a18253defdd",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$filter",
+        "$top",
+        "$skiptoken"
+      ],
+      "supportedOptions": [
+        "$filter",
+        "$top",
+        "$skiptoken",
+        "$orderby"
+      ],
+      "localExtensions": [
+        "$orderby"
+      ],
+      "notes": "Retained local timestamp-ordering extension; no select/count/expand."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/auditLogs/directoryAudits",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/directoryaudit-list?view=graph-rest-1.0",
+      "sourceSha256": "850a0a546cc4f0e8616d25fd91d44fa94e2f7dbcbbaec82891d1ced71c27e694",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$filter",
+        "$top",
+        "$orderby",
+        "$skiptoken"
+      ],
+      "supportedOptions": [
+        "$filter",
+        "$top",
+        "$orderby",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Declared timestamp ordering and typed filters; no select/count."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/reports/authenticationMethods/userRegistrationDetails",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/authenticationmethodsroot-list-userregistrationdetails?view=graph-rest-1.0",
+      "sourceSha256": "9ed5559978695f7c93a030685174c3008e6f99ca61a092b306b028e1830fc94f",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$filter"
+      ],
+      "supportedOptions": [
+        "$filter",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Server continuation; no client select/top/count/order/expand."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/alerts_v2",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-alerts_v2?view=graph-rest-1.0",
+      "sourceSha256": "a729178cf3c474512c501a132cb49970e81f0ff5de4b31f1679cb86ad9296e5a",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Only documented filter fields; no select/orderby."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/incidents",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-incidents?view=graph-rest-1.0",
+      "sourceSha256": "7ab6007409e042b94e39983a2818a78cfb9262f994bbabd8c1f8a4be0f166e4a",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$expand"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$expand",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Only alerts expansion; 10000-alert local bound; no select/orderby."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/secureScores",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-securescores?view=graph-rest-1.0",
+      "sourceSha256": "8a4ef1c5296e88913728f58ff4078346cc0d3a09019e7cfec225092afa93167e",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "No legacy-alert selection or ordering inherited."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/security/secureScoreControlProfiles",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/security-list-securescorecontrolprofiles?view=graph-rest-1.0",
+      "sourceSha256": "817c821f74883daa10706c04e696241c89ffd02b6764fe7723d9db97a18bf6b7",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$filter",
+        "$skip",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "No legacy-alert selection or ordering inherited."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/groups",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/group-list?view=graph-rest-1.0",
+      "sourceSha256": "4e8593ace1e279787397727960903368a2af87fe3dc35f31c2933eb043527459",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; members expansion returns at most 20 entries without nested nextLink; use the dedicated members collection for full paging."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/applications",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/application-list?view=graph-rest-1.0",
+      "sourceSha256": "00a32a5da12a688fc776a83298992f96a8d064f9062dbcb4435c50ca5d2e774e",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; bounded owners expansion; public credential metadata only."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/servicePrincipals",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/serviceprincipal-list?view=graph-rest-1.0",
+      "sourceSha256": "85aea1d946d4c2823a1ba692277e7e5df162d18e73a7883556940ccf3f67f0f2",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; bounded owners expansion and typed declared fields."
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/devices",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/device-list?view=graph-rest-1.0",
+      "sourceSha256": "a47d54c0da5e24fe92761618b11e54ff8a9e4f614e14515de11ecaf8e5895854",
+      "retrievedAt": "2026-10-17",
+      "documentedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$search",
+        "$select",
+        "$top"
+      ],
+      "supportedOptions": [
+        "$count",
+        "$expand",
+        "$filter",
+        "$orderby",
+        "$select",
+        "$top",
+        "$skiptoken"
+      ],
+      "localExtensions": [],
+      "notes": "Search unsupported; bounded registeredOwners expansion."
+    }
+  ],
+  "advancedQuerySemantics": {
+    "url": "https://learn.microsoft.com/en-us/graph/aad-advanced-queries",
+    "sha256": "f7a8ee9172230a9453fb3205589aef4263d8cb53ab05104f4b4c3a41a00d9f5a",
+    "retrievedAt": "2026-10-17",
+    "behavior": "Without ConsistencyLevel:eventual, query $count is ignored; /$count and advanced filters requiring the header fail. With the header an empty count is zero."
+  },
+  "directoryExpansionSemantics": {
+    "url": "https://learn.microsoft.com/en-us/graph/query-parameters",
+    "sha256": "54236438576e888fe91f0081e43acb74afde1beb5e216e1a3e479ed025597194",
+    "retrievedAt": "2026-10-17",
+    "behavior": "DirectoryObject relationship expansion returns at most 20 items without a nested @odata.nextLink. Use the dedicated relationship collection for full paging."
+  }
+}

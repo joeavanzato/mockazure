@@ -2,9 +2,12 @@
 
 import argparse
 import os
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 
 def initialize():
@@ -282,6 +285,9 @@ def provision_connections():
                 "negative_secret": negative_secret,
             }
             provisioned.write_text(json.dumps(extra))
+        from tools.qualification_mfa import ensure_mobile_method
+
+        ensure_mobile_method(client, tenant, extra["user_id"])
         for name in ("powershell", "python"):
             directory = Path(f".runtime/clients/{name}-state")
             cfg = json.loads((directory / "client.json").read_text())

@@ -104,6 +104,13 @@ async def provision_mailbox(session, tenant, user_id, value, now):
     if settings is None or not settings.exchange_enabled:
         raise AdminError(409, "ExchangeUnavailable", "Enable the tenant Exchange entitlement first")
     box = await session.get(Mailbox, (tenant, user_id), with_for_update=True)
+    from mockazure.mail.message_models import MailboxContentState
+
+    content_backed = bool(box and await session.get(MailboxContentState, (tenant, user_id)))
+    if content_backed and "folders" in value.model_fields_set:
+        raise AdminError(
+            409, "ContentBackedMailbox", "Use content import or reset before replacing folders"
+        )
     if box is None:
         box = Mailbox(tenant_id=tenant, user_id=user_id, exchange_guid=uuid4())
         session.add(box)
@@ -111,7 +118,8 @@ async def provision_mailbox(session, tenant, user_id, value, now):
     box.alias = value.alias
     box.aliases = [v for v in value.aliases if v != value.primary_smtp]
     box.mailbox_type = value.mailbox_type
-    box.archive_guid = (box.archive_guid or uuid4()) if value.archive_enabled else None
+    if not content_backed or "archive_enabled" in value.model_fields_set:
+        box.archive_guid = (box.archive_guid or uuid4()) if value.archive_enabled else None
     box.cas = {name: name != "SmtpClientAuthenticationDisabled" for name in CAS_FIELDS} | value.cas
     box.updated_at = now
     try:
@@ -120,15 +128,16 @@ async def provision_mailbox(session, tenant, user_id, value, now):
         raise AdminError(
             409, "MailboxConflict", "Mailbox address or identity already exists"
         ) from None
-    await session.execute(
-        delete(MailboxFolder).where(
-            MailboxFolder.tenant_id == tenant,
-            MailboxFolder.user_id == user_id,
+    if not content_backed:
+        await session.execute(
+            delete(MailboxFolder).where(
+                MailboxFolder.tenant_id == tenant,
+                MailboxFolder.user_id == user_id,
+            )
         )
-    )
-    for folder in value.folders:
-        session.add(MailboxFolder(tenant_id=tenant, user_id=user_id, **folder.model_dump()))
-    await session.flush()
+        for folder in value.folders:
+            session.add(MailboxFolder(tenant_id=tenant, user_id=user_id, **folder.model_dump()))
+        await session.flush()
     return await mailbox_view(session, box)
 
 

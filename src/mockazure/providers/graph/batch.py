@@ -47,7 +47,12 @@ def validated_items(items, version):
             invalid("Batch URLs must be relative Graph resource paths")
         if path.startswith(version + "/"):
             path = path[len(version) + 1 :]
-        if path.split("/")[0] not in {
+        if path.split("/")[0].split("(", 1)[0] not in {
+            "deviceManagement",
+            "teams",
+            "chats",
+            "sites",
+            "drives",
             "users",
             "groups",
             "me",
@@ -55,6 +60,16 @@ def validated_items(items, version):
             "auditLogs",
             "identityProtection",
             "subscribedSkus",
+            "directoryObjects",
+            "applications",
+            "servicePrincipals",
+            "devices",
+            "directoryRoles",
+            "roleManagement",
+            "oauth2PermissionGrants",
+            "identity",
+            "reports",
+            "security",
         } or any(part in {".", "..", "$batch"} for part in path.split("/")):
             invalid("Batch resource is unsupported")
         headers = item.get("headers", {})
@@ -62,7 +77,7 @@ def validated_items(items, version):
             not isinstance(headers, dict)
             or any(
                 not isinstance(k, str)
-                or k.lower() not in {"consistencylevel", "accept"}
+                or k.lower() not in {"consistencylevel", "accept", "prefer"}
                 or not isinstance(v, str)
                 or len(v) > 256
                 or not v.isascii()

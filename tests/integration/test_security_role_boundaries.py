@@ -118,7 +118,14 @@ async def test_unknown_role_assignments_and_unsupported_definition_fields(databa
         )
         unknown = await client.get(BASE + "/roleAssignments/" + str(uuid4()), headers=headers)
         assert unknown.status_code == 404
+        supported = await client.get(
+            BASE + "/roleDefinitions?$select=description,rolePermissions", headers=headers
+        )
+        assert supported.status_code == 200, supported.text
+        assert all(
+            row["description"] and row["rolePermissions"] for row in supported.json()["value"]
+        )
         invalid = await client.get(
-            BASE + "/roleDefinitions?$select=rolePermissions", headers=headers
+            BASE + "/roleDefinitions?$select=inheritsPermissionsFrom", headers=headers
         )
         assert invalid.status_code == 400

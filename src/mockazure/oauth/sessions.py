@@ -35,11 +35,16 @@ async def new_session(transaction, session, now):
         resource=transaction.resource,
         scopes=transaction.scopes,
         mfa=transaction.mfa,
+        credential_version=transaction.credential_version,
+        authenticated_at=transaction.authenticated_at,
         created_at=now,
         expires_at=now + timedelta(hours=24),
     )
     session.add(result)
     await session.flush()
+    from mockazure.security.authentication_context import copy_context
+
+    await copy_context(session, transaction, result, now)
     return result
 
 
@@ -74,9 +79,10 @@ async def token_response(login, user, session, settings, now, *, nonce="", scope
             "iat": int(now.timestamp()),
             "nbf": int(now.timestamp()),
             "exp": int(now.timestamp()) + TOKEN_SECONDS,
-            "auth_time": int(login.created_at.timestamp()),
             "amr": ["pwd", "mock_mfa"] if login.mfa == "completed" else ["pwd"],
         }
+        if login.authenticated_at is not None:
+            claims["auth_time"] = int(login.authenticated_at.timestamp())
         if nonce:
             claims["nonce"] = nonce
         if "profile" in scopes:
@@ -189,6 +195,20 @@ async def cleanup_expired(session, tenant_id, now, limit=500):
 
     if not 1 <= limit <= 1000:
         raise ValueError("Cleanup limit must be between 1 and 1000")
+    from mockazure.security.authentication_models import AuthenticationContext
+
+    expired_contexts = (
+        select(AuthenticationContext.session_id)
+        .where(
+            AuthenticationContext.tenant_id == tenant_id, AuthenticationContext.expires_at <= now
+        )
+        .order_by(AuthenticationContext.expires_at)
+        .limit(limit)
+        .with_for_update(skip_locked=True)
+    )
+    await session.execute(
+        delete(AuthenticationContext).where(AuthenticationContext.session_id.in_(expired_contexts))
+    )
     for model, key in (
         (RefreshHandle, RefreshHandle.digest),
         (AuthorizationTransaction, AuthorizationTransaction.id),

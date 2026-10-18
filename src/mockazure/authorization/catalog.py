@@ -10,12 +10,88 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "Policy.Read.AuthenticationMethod", "application", True),
+    PermissionDefinition("graph", "Policy.Read.AuthenticationMethod", "delegated", True),
+    PermissionDefinition("graph", "Policy.ReadWrite.AuthenticationMethod", "application", True),
+    PermissionDefinition("graph", "Policy.ReadWrite.AuthenticationMethod", "delegated", True),
+
+    PermissionDefinition("activity", "ActivityFeed.Read", "application", True),
+    PermissionDefinition("activity", "ActivityFeed.ReadDlp", "application", True),
+    PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "application", True),
+    PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "delegated", True),
+    PermissionDefinition(
+        "graph", "DeviceManagementManagedDevices.ReadWrite.All", "application", True
+    ),
+    PermissionDefinition(
+        "graph", "DeviceManagementManagedDevices.ReadWrite.All", "delegated", True
+    ),
+    PermissionDefinition("graph", "DeviceManagementConfiguration.Read.All", "application", True),
+    PermissionDefinition("graph", "DeviceManagementConfiguration.Read.All", "delegated", True),
+    PermissionDefinition(
+        "graph", "DeviceManagementConfiguration.ReadWrite.All", "application", True
+    ),
+    PermissionDefinition("graph", "DeviceManagementConfiguration.ReadWrite.All", "delegated", True),
+    PermissionDefinition("graph", "Channel.ReadBasic.All", "application", True),
+    PermissionDefinition("graph", "Channel.ReadBasic.All", "delegated", False),
+    PermissionDefinition("graph", "ChannelMember.Read.All", "application", True),
+    PermissionDefinition("graph", "ChannelMember.Read.All", "delegated", True),
+    PermissionDefinition("graph", "ChannelMember.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "ChannelMember.ReadWrite.All", "delegated", True),
+    PermissionDefinition("graph", "ChannelMessage.Read.All", "application", True),
+    PermissionDefinition("graph", "ChannelMessage.Read.All", "delegated", True),
+    PermissionDefinition("graph", "ChannelSettings.Read.All", "application", True),
+    PermissionDefinition("graph", "ChannelSettings.Read.All", "delegated", True),
+    PermissionDefinition("graph", "ChannelSettings.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "ChannelSettings.ReadWrite.All", "delegated", True),
+    PermissionDefinition("graph", "Chat.Read", "delegated", False),
+    PermissionDefinition("graph", "Chat.Read.All", "application", True),
+    PermissionDefinition("graph", "Chat.ReadBasic", "delegated", False),
+    PermissionDefinition("graph", "Chat.ReadBasic.All", "application", True),
+    PermissionDefinition("graph", "Chat.ReadWrite", "delegated", False),
+    PermissionDefinition("graph", "Chat.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "ChatMember.Read", "delegated", True),
+    PermissionDefinition("graph", "ChatMember.Read.All", "application", True),
+    PermissionDefinition("graph", "ChatMember.ReadWrite", "delegated", True),
+    PermissionDefinition("graph", "ChatMember.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "Team.ReadBasic.All", "application", True),
+    PermissionDefinition("graph", "Team.ReadBasic.All", "delegated", False),
+    PermissionDefinition("graph", "TeamMember.Read.All", "application", True),
+    PermissionDefinition("graph", "TeamMember.Read.All", "delegated", True),
+    PermissionDefinition("graph", "TeamMember.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "TeamMember.ReadWrite.All", "delegated", True),
+    PermissionDefinition("graph", "TeamSettings.Read.All", "application", True),
+    PermissionDefinition("graph", "TeamSettings.Read.All", "delegated", True),
+    PermissionDefinition("graph", "TeamSettings.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "TeamSettings.ReadWrite.All", "delegated", True),
+    PermissionDefinition("graph", "Files.Read", "delegated", False),
+    PermissionDefinition("graph", "Files.Read.All", "application", True),
+    PermissionDefinition("graph", "Files.Read.All", "delegated", False),
+    PermissionDefinition("graph", "Files.ReadWrite", "delegated", False),
+    PermissionDefinition("graph", "Files.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "Files.ReadWrite.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.FullControl.All", "application", True),
+    PermissionDefinition("graph", "Sites.FullControl.All", "delegated", True),
+    PermissionDefinition("graph", "Sites.Manage.All", "application", True),
+    PermissionDefinition("graph", "Sites.Manage.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.Read.All", "application", True),
+    PermissionDefinition("graph", "Sites.Read.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "Sites.ReadWrite.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.Selected", "application", True),
+    PermissionDefinition("graph", "Sites.Selected", "delegated", False),
     PermissionDefinition("graph", "User.Read", "delegated", False),
     *(
         PermissionDefinition("graph", name, kind, kind == "application")
         for name in ("MailboxSettings.Read", "MailboxSettings.ReadWrite")
         for kind in ("application", "delegated")
     ),
+    *(
+        PermissionDefinition("graph", name, kind, kind == "application")
+        for name in ("Mail.Read", "Mail.ReadWrite")
+        for kind in ("application", "delegated")
+    ),
+    PermissionDefinition("graph", "Mail.ReadBasic", "delegated", False),
+    PermissionDefinition("graph", "Mail.ReadBasic.All", "application", True),
     PermissionDefinition("graph", "Directory.AccessAsUser.All", "delegated", True),
     *(
         PermissionDefinition("graph", name, kind, True)

@@ -228,6 +228,18 @@
         "Az.Accounts==4.0.2"
       ],
       "probe": "integrations/contracts/arm.md"
+    },
+    {
+      "name": "Microsoft.Graph.DirectoryObjects",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.DirectoryObjects/2.35.1",
+      "sha256": "34baec609de2afec3d87232e0033c6c355d8c679956645916b5f9a8057be4d3a",
+      "archive": "Microsoft.Graph.DirectoryObjects-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.DirectoryObjects/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/graph-directory.md"
     }
   ],
   "python": {

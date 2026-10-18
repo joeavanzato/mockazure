@@ -147,6 +147,10 @@ def browser(client, base, config, *, mfa="skip", scopes="User.Read offline_acces
         ("/consent", {"decision": "approve"}),
         ("/mfa", {"decision": mfa}),
     ):
+        if path == "/mfa":
+            from integrations.python.mfa_form import mfa_form_values
+
+            values = mfa_form_values(response.text, values)
         response = client.post(base + path, data=fields | values)
         if response.status_code != 200:
             break

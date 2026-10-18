@@ -235,8 +235,12 @@ def main(*, qualify=None):
     finally:
         try:
             if started:
-                command(compose + ["stop", "--timeout", "120"])
+                command(compose + ["logs", "--no-color"])
+                # This unique disposable qualification project owns these containers/networks.
+                # Retain PostgreSQL volumes and instance files for inspection/recovery.
+                command(compose + ["down", "--timeout", "120"])
                 report["containers_stopped"] = True
+                report["ephemeral_networks_removed"] = True
         except Exception as error:
             report["passed"] = False
             report["cleanup_error_type"] = type(error).__name__

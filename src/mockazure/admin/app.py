@@ -7,6 +7,10 @@ from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException
 
+from mockazure.activity.errors import ActivityError
+from mockazure.activity.errors import handle as activity_error_handler
+from mockazure.activity.routes import router as activity_router
+from mockazure.admin.activity_routes import router as activity_admin_router
 from mockazure.admin.arm_routes import router as arm_admin_router
 from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.collection_routes import router as collection_admin_router
@@ -24,8 +28,10 @@ from mockazure.admin.managed_identity_routes import router as managed_identity_a
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
 from mockazure.admin.session_routes import router as session_router
+from mockazure.admin.workload_routes import router as workload_admin_router
 from mockazure.collections.routes import router as collection_graph_router
 from mockazure.config import Settings
+from mockazure.content.routes import router as content_admin_router
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
 from mockazure.oauth.authorization import router as authorization_router
@@ -44,23 +50,39 @@ from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
 from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
 from mockazure.providers.graph.directory import router_for
+from mockazure.providers.graph.drive_routes import router as drive_router
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
+from mockazure.providers.graph.mail_content_routes import router as mail_content_router
+from mockazure.providers.graph.mail_mutation_routes import router as mail_mutation_router
 from mockazure.providers.graph.mail_routes import router_for as mail_router_for
 from mockazure.providers.graph.probes import router as graph_router
 from mockazure.providers.graph.security.grant_routes import router_for as grant_router_for
+from mockazure.providers.graph.security.method_policy_routes import (
+    router_for as method_policy_router,
+)
 from mockazure.providers.graph.security.method_routes import router_for as method_router_for
 from mockazure.providers.graph.security.policy_routes import router_for as policy_router_for
 from mockazure.providers.graph.security.report_routes import router_for as registration_router_for
 from mockazure.providers.graph.security.role_routes import router_for as role_router_for
 from mockazure.providers.graph.security.routes import router_for as security_router_for
+from mockazure.providers.graph.site_routes import router as site_router
+from mockazure.providers.graph.team_routes import router as team_router
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
 
 
 def error_response(request, status, code, message):
     path = request.url.path
+    if path.startswith("/api/v1.0/"):
+        from mockazure.activity.errors import response
+
+        return response(
+            ActivityError(
+                400 if status == 422 else status, "AF50000" if status >= 500 else "AF20002", message
+            )
+        )
     if (
         path.startswith(("/v1.0/", "/beta/", "/adminapi/", "/AdminApi/"))
         or path == "/subscriptions"
@@ -271,6 +293,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             "Method not allowed" if error.status_code == 405 else "Resource not found",
         )
 
+    app.add_exception_handler(ActivityError, activity_error_handler)
+    app.include_router(activity_router)
+    app.include_router(activity_admin_router)
+    app.include_router(workload_admin_router)
+    app.include_router(content_admin_router)
     app.include_router(mail_admin_router)
     app.include_router(maintenance_admin_router)
     app.include_router(router)
@@ -304,6 +331,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(evidence_router_for("beta"))
     app.include_router(registration_router_for("v1.0"))
     app.include_router(registration_router_for("beta"))
+    app.include_router(method_policy_router())
     app.include_router(method_router_for("v1.0"))
     app.include_router(method_router_for("beta"))
     app.include_router(policy_router_for("v1.0"))
@@ -316,8 +344,21 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(security_router_for("beta"))
     app.include_router(audit_query_router_for("v1.0"))
     app.include_router(audit_query_router_for("beta"))
+    app.include_router(team_router)
+    app.include_router(site_router)
+    app.include_router(drive_router)
+    app.include_router(mail_mutation_router)
+    app.include_router(mail_content_router)
     app.include_router(mail_router_for("v1.0"))
     app.include_router(mail_router_for("beta"))
+    from mockazure.providers.graph.intune_routes import router as intune_router
+
+    app.include_router(intune_router)
+    from mockazure.providers.graph.object_routes import router as object_router
+    from mockazure.providers.graph.security.device_user_routes import router as device_user_router
+
+    app.include_router(device_user_router())
+    app.include_router(object_router())
     app.include_router(router_for("v1.0"))
     app.include_router(router_for("beta"))
     app.include_router(exchange_router)

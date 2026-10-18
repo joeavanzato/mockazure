@@ -352,6 +352,9 @@ def provision():
                 "user": {"username": user["upn"], "password": user_password},
             }
             save(record, state)
+        from tools.qualification_mfa import ensure_mobile_method
+
+        ensure_mobile_method(client, state["tenant_id"], state["user_id"])
         public_state = {
             key: value
             for key, value in state.items()

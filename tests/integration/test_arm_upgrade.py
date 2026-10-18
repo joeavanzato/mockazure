@@ -5,7 +5,6 @@ from sqlalchemy import MetaData, Table, create_engine, select
 
 from mockazure.db.migrations import configuration, migrate
 from mockazure.db.models import Tenant
-from mockazure.identity.models import User
 
 
 def test_upgrade_preserves_each_legacy_reader_identity_including_duplicates(settings):
@@ -26,8 +25,10 @@ def test_upgrade_preserves_each_legacy_reader_identity_including_duplicates(sett
                     revision=1,
                 )
             )
+            # Reflect the historical schema; current ORM defaults include newer columns.
+            users = Table("identity_users", MetaData(), autoload_with=connection)
             connection.execute(
-                User.__table__.insert().values(
+                users.insert().values(
                     id=user,
                     tenant_id=tenant,
                     upn="reader@legacy.test",

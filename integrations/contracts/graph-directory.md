@@ -45,7 +45,7 @@ User writes accept only the fields and local-domain/password behavior in the app
 | Resource | Filterable fields/operators | Order | Expand |
 | --- | --- | --- | --- |
 | users | id,displayName,userPrincipalName,mailNickname,mail,givenName,surname,department: eq/ne/in; displayName/UPN: startswith; accountEnabled: eq/ne; createdDateTime: eq/ge/gt/le/lt | id,displayName,UPN,createdDateTime | None |
-| groups | id,displayName,mailNickname,mail,description: eq/ne/in; displayName: startswith; mailEnabled/securityEnabled: eq/ne; createdDateTime: eq/ge/gt/le/lt; groupTypes:any(eq) | id,displayName,createdDateTime | members with inner select; local cap 20, overflow explicit error |
+| groups | id,displayName,mailNickname,mail,description: eq/ne/in; displayName: startswith; mailEnabled/securityEnabled: eq/ne; createdDateTime: eq/ge/gt/le/lt; groupTypes:any(eq) | id,displayName,createdDateTime | members with inner select; first 20 entries without nested continuation |
 | relationships | Same as returned object type where its Microsoft endpoint permits; limited-information fields cannot be used to infer hidden values | Endpoint-specific declared fields | None |
 
 Filter combinations use and/or/grouping and typed literals. Limits: 8 KiB filter, 256 nodes, depth 16, 100 in-values. Parameterized SQL performs filtering/projection/order and bounded retrieval. Normal pages default to 100 with server cap 999. Generated nextLinks bind query/tenant/version/principal and a committed snapshot; no offset paging.
@@ -58,7 +58,7 @@ User/group delta accepts select and state links only in A. Unsupported top/order
 
 M3A commits a sanitized durable evidence outbox with each mutation. Projection into directoryAudits belongs to M3B. Original Hawk/MES collection and policy-enforcement checks remain B/C. A's completion report must prove actual SDK results, restart/replica continuity, tenant isolation, 5,000-user paging and 429 handling. No scenario is required for normal operation.
 
-Relationship collections support select/top and snapshot-bound opaque continuations. Expanded members have an explicit 20-edge limit and share the parent collection snapshot. Group lifecycle, membership and ordinary user changes produce immutable public differences/edge facts for the pending M3B projector; they do not yet produce directoryAudits.
+Relationship collections support select/top and snapshot-bound opaque continuations. Expanded members return at most 20 entries with no nested nextLink, matching the documented directoryObject limitation. Use the members relationship collection for complete paged results. Group lifecycle, membership and ordinary user changes produce immutable public differences/edge facts for the pending M3B projector; they do not yet produce directoryAudits.
 
 Deletion is permanent in this local profile: user/group tombstones use reason=deleted and no restore operation exists. Microsoft's restorable user deletion uses reason=changed. Group delta omits implicit member removals caused by deletion of the member, matching the documented Graph limitation. A cleaned-up unavailable delta handle returns 410 with a full resync Location; retained expired state preserves the original select.
 
@@ -80,3 +80,53 @@ and consider both current and snapshot traversal. Provider writes reject importe
 Guest/non-Member targets; trusted administrative identity controls remain separate.
 Nullable in-lists include null matches consistently with eq null. NUL text and
 oversized numeric filter literals fail with Graph-shaped 400 errors before SQL.
+
+
+## Directory collection completion
+
+The v1.0 expansion profiles are recorded operation by operation in
+[coverage-operations.json](coverage-operations.json) and the root [coverage table](../../COVERAGE.md).
+Generic lookup uses the existing public serializers for five active object kinds.
+Group membership traversal retains snapshot history; ownership and registered-user
+navigation use persisted security snapshots with tenant/principal/query binding.
+Group owner writes now emit Add/Remove owner to group evidence through the existing
+outbox/projector. Device registered-user writes emit a sanitized directory audit in
+the same transaction. Neither creates OAuth grants.
+
+Additional fixture state uses `GET`/`PUT /_mock/tenants/{id}/directory/collectionState`:
+`organization` replaces the typed optional profile, `appRoleAssignments` replaces
+user/group assignment evidence, and `registeredUsers` replaces device-user edges.
+Each array is bounded to 1000 rows. Omitted sections are preserved; empty sections
+clear their own state. Export and re-import retain IDs and timestamps. A failure in
+any section rolls back every section. Existing directory, identity, role and OAuth
+provisioning/export APIs retain their responsibilities.
+
+`python -m tools.verify_directory_coverage` builds a fresh default lab and runs the
+pinned original Python Graph SDK and Graph PowerShell modules against local HTTPS.
+It verifies heterogeneous resolution, group-membership continuation pages, typed organization
+fields and built-in role actions. It does not certify every Hawk/MES workflow.
+
+## Collection read budgets
+
+`graph_collection_request_limit` (default 600) and `graph_collection_window_seconds`
+(default 60) configure the added collection buckets, also available through matching
+`MOCKAZURE_` environment variables. Existing directory limits and evidence quotas remain
+separate. `GET /_mock/capabilities` reports configured limits and supported resource keys.
+
+The authenticated administrative `POST /_mock/tenants/{tenant}/graph/faults` accepts
+`next_read_429` or `next_page_429` for those keys. A one-shot fault and its counter commit
+independently of the failed provider request. Retry using the unchanged nextLink;
+permissions and identity are checked again. New provider code calls
+`enforce_read_budget(session, context, operation_key, now)` before storage reads, after
+releasing its authentication transaction. Database sessions inherit the collection
+limit/window; middleware supplies continuation context and avoids double charging.
+
+The exact query matrix, source hashes and local exceptions are in
+[coverage-operations.json](coverage-operations.json). Count query parameters without
+`ConsistencyLevel: eventual` remain ignored, as Microsoft documents; count URL segments
+and advanced filters still require their headers. Modern security collections do not
+inherit the legacy alert query options.
+
+Run `python -m tools.verify_collection_protocol` for fresh Docker and original Graph
+PowerShell qualification of application selection/count/paging with an injected 429,
+20-entry bounded expansion plus complete 23-member relationship paging, and mixed allowed/denied/invalid batch operations.

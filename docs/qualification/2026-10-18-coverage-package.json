@@ -1,0 +1,72 @@
+{
+  "source_commit": "c41824504a01b8e2f93c767d8e0dd1780a5d11a0",
+  "source_fingerprint": "f49c827702c7594d3a56d8de8a6b0a9954a2270e38046e943fd5f85ca91fa174",
+  "created_at": "2026-10-18T05:35:32.783327+00:00",
+  "completed_at": "2026-10-18T05:36:16.688826+00:00",
+  "passed": true,
+  "reproducible": true,
+  "parity": true,
+  "build_environment": [
+    [
+      "build",
+      "1.6.1"
+    ],
+    [
+      "colorama",
+      "0.4.6"
+    ],
+    [
+      "hatchling",
+      "1.32.4"
+    ],
+    [
+      "packaging",
+      "26.3"
+    ],
+    [
+      "pathspec",
+      "1.1.1"
+    ],
+    [
+      "pluggy",
+      "1.7.0"
+    ],
+    [
+      "pyproject_hooks",
+      "1.3.3"
+    ],
+    [
+      "tomlkit",
+      "0.15.2"
+    ],
+    [
+      "trove-classifiers",
+      "2026.9.21.13"
+    ]
+  ],
+  "build_lock_sha256": "6bddeb7f39ec61a63ace11d40ed9e366dd25d4ffeea66a45c3638cd495be7a91",
+  "artifacts": {
+    "wheel": [
+      {
+        "sha256": "85d4c84ad4c8191d9fc58243be677cb4b5d5294bc6002d47153b01b2808fee6a",
+        "package_files": 383
+      },
+      {
+        "sha256": "85d4c84ad4c8191d9fc58243be677cb4b5d5294bc6002d47153b01b2808fee6a",
+        "package_files": 383
+      }
+    ],
+    "sdist": [
+      {
+        "sha256": "70849eec4c33ce9cf18d480f59682a023309074469f83be0355b42318171ee81",
+        "source_files": 388
+      },
+      {
+        "sha256": "70849eec4c33ce9cf18d480f59682a023309074469f83be0355b42318171ee81",
+        "source_files": 388
+      }
+    ]
+  },
+  "manifest_sha256": "48d07fbe64b2d22d5b992f506f283e9497987885f67cc08d06d9caf3e35fee0a",
+  "qualification_scope": "Reproducible wheel/sdist, clean native install, Docker parity; candidate only."
+}

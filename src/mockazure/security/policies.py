@@ -81,7 +81,17 @@ def normalized_conditions(conditions):
     """Canonicalize persisted selectors too, including pre-normalization policies."""
     result = copy.deepcopy(conditions)
     for category, fields in (
-        ("users", ("includeUsers", "excludeUsers", "includeGroups", "excludeGroups")),
+        (
+            "users",
+            (
+                "includeUsers",
+                "excludeUsers",
+                "includeGroups",
+                "excludeGroups",
+                "includeRoles",
+                "excludeRoles",
+            ),
+        ),
         ("applications", ("includeApplications", "excludeApplications")),
         ("locations", ("includeLocations", "excludeLocations")),
     ):
@@ -117,14 +127,14 @@ def validate_policy(body: dict, *, partial=False) -> dict:
             "userRiskLevels",
             "signInRiskLevels",
             "servicePrincipalRiskLevels",
-            "platforms",
             "devices",
             "clientApplications",
             "authenticationFlows",
             "insiderRiskLevels",
         }
         declared(
-            conditions, {"users", "applications", "clientAppTypes", "locations"} | empty_fields
+            conditions,
+            {"users", "applications", "clientAppTypes", "locations", "platforms"} | empty_fields,
         )
         only_empty(conditions, empty_fields)
         if not partial and not {"users", "applications", "clientAppTypes"} <= conditions.keys():
@@ -138,10 +148,15 @@ def validate_policy(body: dict, *, partial=False) -> dict:
         for key, fields, empties, specials in (
             (
                 "users",
-                {"includeUsers", "excludeUsers", "includeGroups", "excludeGroups"},
                 {
+                    "includeUsers",
+                    "excludeUsers",
+                    "includeGroups",
+                    "excludeGroups",
                     "includeRoles",
                     "excludeRoles",
+                },
+                {
                     "includeGuestsOrExternalUsers",
                     "excludeGuestsOrExternalUsers",
                 },
@@ -183,6 +198,25 @@ def validate_policy(body: dict, *, partial=False) -> dict:
                 ]
                 if not includes:
                     invalid("At least one included target is required")
+        for field in ("includeRoles", "excludeRoles"):
+            from mockazure.security.roles import role_ids
+
+            if not set((conditions.get("users") or {}).get(field, [])) <= set(role_ids().values()):
+                invalid("Only supported built-in directory roles can be targeted")
+        platforms = conditions.get("platforms")
+        if platforms is not None:
+            from mockazure.security.authentication_context import PLATFORMS
+
+            declared(platforms, {"includePlatforms", "excludePlatforms"})
+            for field, values in platforms.items():
+                if not isinstance(values, list) or any(not isinstance(v, str) for v in values):
+                    invalid("Invalid platform targets")
+                if not set(values) <= PLATFORMS | {"all"} or len(set(values)) != len(values):
+                    invalid("Unsupported platform targets")
+                if "all" in values and len(values) != 1:
+                    invalid("all must be the sole platform target")
+            if not partial and not platforms.get("includePlatforms"):
+                invalid("An included platform is required")
     if "grantControls" in body:
         controls = body["grantControls"]
         declared(
@@ -204,8 +238,12 @@ def validate_policy(body: dict, *, partial=False) -> dict:
             invalid("Unsupported grant operator")
         if "builtInControls" in controls:
             values = controls["builtInControls"]
-            if not values or not set(values) <= {"block", "mfa"} or len(set(values)) != len(values):
-                invalid("Only block or mfa grant controls are supported")
+            if (
+                not values
+                or not set(values) <= {"block", "mfa", "compliantDevice"}
+                or len(set(values)) != len(values)
+            ):
+                invalid("Only block, mfa or compliantDevice grant controls are supported")
             if "block" in values and len(values) != 1:
                 invalid("Block cannot be combined with another grant control")
     return copy.deepcopy(body)
@@ -294,7 +332,7 @@ async def validate_references(session, tenant, body):
                     continue
                 identifier = UUID(value)
                 if model is Application and identifier in {
-                    resource_app_id(r) for r in ("graph", "exchange", "arm")
+                    resource_app_id(r) for r in ("graph", "exchange", "arm", "activity")
                 }:
                     continue
                 column = model.client_id if model is Application else model.id

@@ -9,6 +9,7 @@ from sqlalchemy import select, text
 
 from mockazure.admin.errors import AdminError
 from mockazure.identity.models import ServicePrincipal
+from mockazure.providers.graph.read_profiles import ReadResource
 
 router = APIRouter(prefix="/_mock/tenants/{tenant_id}/graph")
 
@@ -16,7 +17,7 @@ router = APIRouter(prefix="/_mock/tenants/{tenant_id}/graph")
 class ReadFault(BaseModel):
     model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
     client_id: UUID
-    resource: Literal["users", "groups", "signIn", "directoryAudit", "riskDetection", "riskyUser"]
+    resource: ReadResource
     kind: Literal["next_read_429", "next_page_429"]
     retry_after: int = Field(default=1, ge=1, le=300)
 

@@ -24,6 +24,10 @@ def project_source(source: SourceEnvelope) -> ProjectionBatch:
         from mockazure.mail.audit import project_mail
 
         return project_mail(source)
+    if source.ref.kind == "workload":
+        from mockazure.workloads.facts import project_workload
+
+        return project_workload(source)
     if source.ref.kind == "security":
         from mockazure.security.audit import project_security
 
@@ -85,6 +89,8 @@ def project_directory(source: SourceEnvelope) -> ProjectionBatch:
         ("group", "create"): "Add group",
         ("group", "update"): "Update group",
         ("group", "delete"): "Delete group",
+        ("group", "add_owner"): "Add owner to group",
+        ("group", "remove_owner"): "Remove owner from group",
         ("group", "add_member"): "Add member to group",
         ("group", "remove_member"): "Remove member from group",
     }

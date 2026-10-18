@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from datetime import UTC, datetime, timedelta
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import httpx
 from cryptography import x509
@@ -28,7 +28,7 @@ def certificate():
 
 
 @asynccontextmanager
-async def identity_client(database, settings):
+async def identity_client(database, settings, *, legacy_method_policy=True):
     from mockazure.identity.keys import initialize_identity
 
     await initialize_identity(settings, database)
@@ -49,6 +49,15 @@ async def identity_client(database, settings):
                 },
             )
         ).json()["id"]
+        # Historical OAuth regression fixtures deliberately model an upgraded tenant.
+        # Fresh-policy qualification opts out and exercises the actual production default.
+        if legacy_method_policy:
+            from mockazure.security.authentication_models import MethodPolicyState
+
+            async with database.sessions.begin() as session:
+                session.add(
+                    MethodPolicyState(tenant_id=UUID(tenant), enforced=False, configurations={})
+                )
         base = f"/_mock/tenants/{tenant}/identity"
         app = (
             await client.post(

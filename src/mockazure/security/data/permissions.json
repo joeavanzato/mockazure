@@ -150,6 +150,138 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Channel.ReadBasic.All",
+      "kind": "application",
+      "id": "59a6b24b-4225-4393-8165-ebaec5f55d7a",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Channel.ReadBasic.All",
+      "kind": "delegated",
+      "id": "9d8982ae-4365-4f57-95e9-d6032a4c0b87",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "ChannelMember.Read.All",
+      "kind": "application",
+      "id": "3b55498e-47ec-484f-8136-9013221c06a9",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelMember.Read.All",
+      "kind": "delegated",
+      "id": "2eadaff8-0bce-4198-a6b9-2cfc35a30075",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelMember.ReadWrite.All",
+      "kind": "application",
+      "id": "35930dcf-aceb-4bd1-b99a-8ffed403c974",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelMember.ReadWrite.All",
+      "kind": "delegated",
+      "id": "0c3e411a-ce45-4cd1-8f30-f99a3efa7b11",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelMessage.Read.All",
+      "kind": "application",
+      "id": "7b2449af-6ccd-4f4d-9f78-e550c193f0d1",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelMessage.Read.All",
+      "kind": "delegated",
+      "id": "767156cb-16ae-4d10-8f8b-41b657c8c8c8",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelSettings.Read.All",
+      "kind": "application",
+      "id": "c97b873f-f59f-49aa-8a0e-52b32d762124",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelSettings.Read.All",
+      "kind": "delegated",
+      "id": "233e0cf1-dd62-48bc-b65b-b38fe87fcf8e",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelSettings.ReadWrite.All",
+      "kind": "application",
+      "id": "243cded2-bd16-4fd6-a953-ff8177894c3d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChannelSettings.ReadWrite.All",
+      "kind": "delegated",
+      "id": "d649fb7c-72b4-4eec-b2b4-b15acf79e378",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Chat.Read",
+      "kind": "delegated",
+      "id": "f501c180-9344-439a-bca0-6cbf209fd270",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Chat.Read.All",
+      "kind": "application",
+      "id": "6b7d71aa-70aa-4810-a8d9-5d9fb2830017",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Chat.ReadBasic",
+      "kind": "delegated",
+      "id": "9547fcb5-d03f-419d-9948-5928bbf71b0f",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Chat.ReadBasic.All",
+      "kind": "application",
+      "id": "b2e060da-3baf-4687-9611-f4ebc0f0cbde",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Chat.ReadWrite",
+      "kind": "delegated",
+      "id": "9ff7295e-131b-4d94-90e1-69fde507ac11",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Chat.ReadWrite.All",
+      "kind": "application",
+      "id": "294ce7c9-31ba-490a-ad7d-97a7d075e4ed",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChatMember.Read",
+      "kind": "delegated",
+      "id": "c5a9e2b1-faf6-41d4-8875-d381aa549b24",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChatMember.Read.All",
+      "kind": "application",
+      "id": "a3410be2-8e48-4f32-8454-c29a7465209d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChatMember.ReadWrite",
+      "kind": "delegated",
+      "id": "dea13482-7ea6-488f-8b98-eb5bbecf033d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ChatMember.ReadWrite.All",
+      "kind": "application",
+      "id": "57257249-34ce-4810-a8a2-a03adf0c5693",
+      "adminConsentRequired": true
+    },
+    {
       "name": "DelegatedPermissionGrant.ReadWrite.All",
       "kind": "application",
       "id": "8e8e4742-1d95-4f68-9d56-6ee75648c72a",
@@ -177,6 +309,54 @@
       "name": "Device.ReadWrite.All",
       "kind": "application",
       "id": "1138cb37-bd11-4084-a2b7-9f71582aeddb",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementConfiguration.Read.All",
+      "kind": "application",
+      "id": "dc377aa6-52d8-4e23-b271-2a7ae04cedf3",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementConfiguration.Read.All",
+      "kind": "delegated",
+      "id": "f1493658-876a-4c87-8fa7-edb559b3476a",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementConfiguration.ReadWrite.All",
+      "kind": "application",
+      "id": "9241abd9-d0e6-425a-bd4f-47ba86e767a4",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementConfiguration.ReadWrite.All",
+      "kind": "delegated",
+      "id": "0883f392-0a7a-443d-8c76-16a6d39c7b63",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.Read.All",
+      "kind": "application",
+      "id": "2f51be20-0bb4-4fed-bf7b-db946066c75e",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.Read.All",
+      "kind": "delegated",
+      "id": "314874da-47d6-4978-88dc-cf0d37f0bb82",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.ReadWrite.All",
+      "kind": "application",
+      "id": "243333ab-4d21-40cb-a475-36241daa0842",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "DeviceManagementManagedDevices.ReadWrite.All",
+      "kind": "delegated",
+      "id": "44642bfe-8385-4adc-8fc6-fe3cb2c375c3",
       "adminConsentRequired": true
     },
     {
@@ -208,6 +388,42 @@
       "kind": "delegated",
       "id": "c5366453-9fb0-48a5-a156-24f0c49a4b84",
       "adminConsentRequired": true
+    },
+    {
+      "name": "Files.Read",
+      "kind": "delegated",
+      "id": "10465720-29dd-4523-a11a-6a75c743c9d9",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Files.Read.All",
+      "kind": "application",
+      "id": "01d4889c-1287-42c6-ac1f-5d1e02578ef6",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Files.Read.All",
+      "kind": "delegated",
+      "id": "df85f4d6-205c-4ac5-a5ea-6bf408dba283",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Files.ReadWrite",
+      "kind": "delegated",
+      "id": "5c28f0bf-8a70-41f1-8ab2-9032436ddb65",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Files.ReadWrite.All",
+      "kind": "application",
+      "id": "75359482-378d-4052-8f01-80520e7db3cd",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Files.ReadWrite.All",
+      "kind": "delegated",
+      "id": "863451e7-0667-486c-a5d6-d135439485f0",
+      "adminConsentRequired": false
     },
     {
       "name": "Group.Create",
@@ -352,6 +568,48 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Mail.Read",
+      "kind": "application",
+      "id": "810c84a8-4a9e-49e6-bf7d-12d183f40d01",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.Read",
+      "kind": "delegated",
+      "id": "570282fd-fa5c-430d-a7fd-fc8dc98a9dca",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Mail.ReadBasic",
+      "kind": "application",
+      "id": "6be147d2-ea4f-4b5a-a3fa-3eab6f3c140a",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.ReadBasic",
+      "kind": "delegated",
+      "id": "a4b8392a-d8d1-4954-a029-8e668a39a170",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Mail.ReadBasic.All",
+      "kind": "application",
+      "id": "693c5e45-0940-467d-9b8a-1022fb9d42ef",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.ReadWrite",
+      "kind": "application",
+      "id": "e2a3a72e-5f79-4c64-b1b1-878b674786c9",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Mail.ReadWrite",
+      "kind": "delegated",
+      "id": "024d486e-b451-40bb-833d-3e66d98c5c73",
+      "adminConsentRequired": false
+    },
+    {
       "name": "MailboxSettings.Read",
       "kind": "application",
       "id": "40f97065-369a-49f4-947c-6a255697ae91",
@@ -424,6 +682,18 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Policy.Read.AuthenticationMethod",
+      "kind": "application",
+      "id": "8e3bc81b-d2f3-4b7b-838c-32c88218d2f0",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Policy.Read.AuthenticationMethod",
+      "kind": "delegated",
+      "id": "a6ff13ac-1851-4993-8ca9-a671d70de2d5",
+      "adminConsentRequired": true
+    },
+    {
       "name": "Policy.Read.ConditionalAccess",
       "kind": "application",
       "id": "37730810-e9ba-4e46-b07e-8ca78d182097",
@@ -434,6 +704,18 @@
       "kind": "delegated",
       "id": "633e0fce-8c58-4cfb-9495-12bbd5a24f7c",
       "adminConsentRequired": false
+    },
+    {
+      "name": "Policy.ReadWrite.AuthenticationMethod",
+      "kind": "application",
+      "id": "29c18626-4985-4dcd-85c0-193eef327366",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Policy.ReadWrite.AuthenticationMethod",
+      "kind": "delegated",
+      "id": "7e823077-d88e-468f-a337-e18f1f0e6c7c",
+      "adminConsentRequired": true
     },
     {
       "name": "Policy.ReadWrite.ConditionalAccess",
@@ -541,6 +823,126 @@
       "name": "SecurityIncident.ReadWrite.All",
       "kind": "delegated",
       "id": "128ca929-1a19-45e6-a3b8-435ec44a36ba",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.FullControl.All",
+      "kind": "application",
+      "id": "a82116e5-55eb-4c41-a434-62fe8a61c773",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.FullControl.All",
+      "kind": "delegated",
+      "id": "5a54b8b3-347c-476d-8f8e-42d5c7424d29",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Manage.All",
+      "kind": "application",
+      "id": "0c0bf378-bf22-4481-8f81-9e89a9b4960a",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Manage.All",
+      "kind": "delegated",
+      "id": "65e50fdc-43b7-4915-933e-e8138f11f40a",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Sites.Read.All",
+      "kind": "application",
+      "id": "332a536c-c7ef-4017-ab91-336970924f0d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Read.All",
+      "kind": "delegated",
+      "id": "205e70e5-aba6-4c52-a976-6d2d46c48043",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Sites.ReadWrite.All",
+      "kind": "application",
+      "id": "9492366f-7969-46a4-8d15-ed1a20078fff",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.ReadWrite.All",
+      "kind": "delegated",
+      "id": "89fe6a52-be36-487e-b7d8-d061c450a026",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Sites.Selected",
+      "kind": "application",
+      "id": "883ea226-0bf2-4a8f-9f9d-92c9162a727d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Selected",
+      "kind": "delegated",
+      "id": "f89c84ef-20d0-4b54-87e9-02e856d66d53",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Team.ReadBasic.All",
+      "kind": "application",
+      "id": "2280dda6-0bfd-44ee-a2f4-cb867cfc4c1e",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Team.ReadBasic.All",
+      "kind": "delegated",
+      "id": "485be79e-c497-4b35-9400-0e3fa7f2a5d4",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "TeamMember.Read.All",
+      "kind": "application",
+      "id": "660b7406-55f1-41ca-a0ed-0b035e182f3e",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "TeamMember.Read.All",
+      "kind": "delegated",
+      "id": "2497278c-d82d-46a2-b1ce-39d4cdde5570",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "TeamMember.ReadWrite.All",
+      "kind": "application",
+      "id": "0121dc95-1b9f-4aed-8bac-58c5ac466691",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "TeamMember.ReadWrite.All",
+      "kind": "delegated",
+      "id": "4a06efd2-f825-4e34-813e-82a57b03d1ee",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "TeamSettings.Read.All",
+      "kind": "application",
+      "id": "242607bd-1d2c-432c-82eb-bdb27baa23ab",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "TeamSettings.Read.All",
+      "kind": "delegated",
+      "id": "48638b3c-ad68-4383-8ac4-e6880ee6ca57",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "TeamSettings.ReadWrite.All",
+      "kind": "application",
+      "id": "bdd80a03-d9bc-451d-b7c4-ce7c63fe3c8f",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "TeamSettings.ReadWrite.All",
+      "kind": "delegated",
+      "id": "39d65650-9d3e-4223-80db-a335590d027e",
       "adminConsentRequired": true
     },
     {

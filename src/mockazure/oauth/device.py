@@ -111,6 +111,11 @@ async def device_page(request: Request, user_code: str = ""):
         )
         session.add(row)
         await session.flush()
+        from mockazure.security.authentication_context import inherit_device_binding
+        from mockazure.security.repository import lock_security
+
+        await lock_security(session, row.tenant_id)
+        await inherit_device_binding(session, row, now)
         response = pages.form(row, csrf, "login", app.display_name)
         response.set_cookie(COOKIE, cookie, max_age=900, secure=True, httponly=True, samesite="lax")
         return response
@@ -122,8 +127,13 @@ async def complete_device(row, session, now, *, approved, request):
     )
     if not device or device.status != "pending" or device.expires_at <= now:
         raise OAuthError("invalid_request", "Device authorization is no longer pending")
+    device.credential_version = row.credential_version
+    device.authenticated_at = row.authenticated_at
+    from mockazure.security.authentication_context import copy_context
+
     device.status = "approved" if approved else "denied"
     device.tenant_id, device.user_id, device.mfa = row.tenant_id, row.user_id, row.mfa
+    await copy_context(session, row, device, now)
     await record_outcome(
         session,
         row,

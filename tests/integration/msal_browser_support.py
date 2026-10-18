@@ -23,6 +23,22 @@ def msal_browser_probe(base, tenant_id, ca_file, admin_token, restart=None):
             },
             timeout=10,
         ).json()
+        headers = {"Authorization": "Bearer " + admin_token}
+        users = transport.get(
+            base + f"/_mock/tenants/{tenant_id}/identity/users", headers=headers, timeout=10
+        ).json()["items"]
+        user = next(item for item in users if item["upn"] == "reader@lab.test")
+        enrolled = transport.post(
+            base + f"/_mock/tenants/{tenant_id}/security/users/{user['id']}/authenticationMethods",
+            headers=headers,
+            json={
+                "@odata.type": "#microsoft.graph.phoneAuthenticationMethod",
+                "phoneType": "mobile",
+                "phoneNumber": "+1 5555550191",
+            },
+            timeout=10,
+        )
+        assert enrolled.status_code == 201
         sdk = msal.PublicClientApplication(
             application["client_id"],
             authority=base + "/" + tenant_id,
@@ -44,6 +60,10 @@ def msal_browser_probe(base, tenant_id, ca_file, admin_token, restart=None):
             ("/consent", {"decision": "approve"}),
             ("/mfa", {"decision": "complete"}),
         ):
+            if path == "/mfa":
+                selected = re.search(r'<option value="([^"]+)"', response.text)
+                assert selected, "Fresh profile requires a registered eligible factor"
+                data = {**data, "method_id": unescape(selected[1])}
             response = transport.post(
                 base + path, data={**fields, **data}, allow_redirects=False, timeout=10
             )
@@ -74,6 +94,10 @@ def msal_browser_probe(base, tenant_id, ca_file, admin_token, restart=None):
             ("/consent", {"decision": "approve"}),
             ("/mfa", {"decision": "complete"}),
         ):
+            if path == "/mfa":
+                selected = re.search(r'<option value="([^"]+)"', response.text)
+                assert selected, "Fresh profile requires a registered eligible factor"
+                data = {**data, "method_id": unescape(selected[1])}
             response = transport.post(base + path, data={**fields, **data}, timeout=10)
             assert response.status_code == 200
         if restart:

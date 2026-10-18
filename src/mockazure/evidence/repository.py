@@ -139,6 +139,10 @@ def validate_facts(value: SourceInput) -> None:
         from mockazure.mail.facts import validate_mail_facts
 
         validate_mail_facts(value.facts)
+    elif value.ref.kind == "workload":
+        from mockazure.workloads.facts import validate_workload_facts
+
+        validate_workload_facts(value.facts)
     elif value.ref.kind == "security":
         from mockazure.security.audit import validate_security_facts
 
@@ -331,6 +335,15 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         )
     )
     row = await session.get(EvidenceSource, key)
+    from mockazure.activity.publication import enqueue_activity
+
+    await enqueue_activity(
+        session,
+        key[0],
+        key[1],
+        key[2],
+        [item.payload for item in batch.items if item.family == "auditLogRecord"],
+    )
     row.acknowledged_at = datetime.now(UTC)
     if batch.source.kind == "directory":
         from mockazure.directory.models import EvidenceOutbox

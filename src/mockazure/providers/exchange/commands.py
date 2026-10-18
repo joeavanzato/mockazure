@@ -3,7 +3,6 @@
 from sqlalchemy import select
 
 from mockazure.authorization.evaluator import AuthorizationDenied
-from mockazure.db.models import Tenant
 from mockazure.identity.models import User
 from mockazure.mail.authorization import require_exchange_command, require_mailbox_access
 from mockazure.mail.mailboxes import mailbox_view, mutate_mailbox
@@ -153,17 +152,46 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
 
         query = query_trace if name == "Get-MessageTraceV2" else query_trace_detail
         return await query(session, actor, parameters, now)
-    if name == "Get-OrganizationConfig":
+    if name in {
+        "Get-OrganizationConfig",
+        "Get-TransportConfig",
+        "Get-AcceptedDomain",
+        "Get-TransportRule",
+    }:
+        from mockazure.mail.configuration import read_configuration
+
+        await require_exchange_command(session, actor, name, tenant_wide=True)
+        return await read_configuration(session, actor.tenant_id, name, parameters)
+    if name in {"Get-MailboxPermission", "Get-RecipientPermission"}:
+        from mockazure.mail.permission_records import read_mailbox_permissions
+
         await require_exchange_command(session, actor, name)
-        tenant = await session.get(Tenant, actor.tenant_id)
-        return [
-            {
-                "Identity": str(tenant.id),
-                "Name": tenant.display_name,
-                "Guid": str(tenant.id),
-                "ExternalDirectoryOrganizationId": str(tenant.id),
-            }
-        ]
+        recipient = name == "Get-RecipientPermission"
+        if not recipient and not parameters.get("Identity"):
+            invalid("Get-MailboxPermission requires Identity")
+        if "AccessRights" in parameters and parameters["AccessRights"] != ["SendAs"]:
+            invalid("Only SendAs recipient access rights are supported")
+        limit = result_size(parameters)
+        targets = await mailbox_targets(
+            session,
+            actor,
+            {"Identity": parameters["Identity"]}
+            if parameters.get("Identity")
+            else {"ResultSize": "Unlimited"},
+            name,
+        )
+        result = []
+        field = "Trustee" if recipient else "User"
+        for box in targets:
+            rows = await read_mailbox_permissions(session, actor, box.user_id, recipient)
+            if field in parameters:
+                rows = [
+                    row for row in rows if row[field].casefold() == parameters[field].casefold()
+                ]
+            result.extend(rows)
+            if limit is not None and len(result) >= limit:
+                break
+        return result[:limit]
     if name == "Get-Mailbox":
         return [
             await mailbox_view(session, box)

@@ -169,6 +169,11 @@ async def login(request: Request):
         if not row.common:
             query = query.where(User.tenant_id == row.tenant_id)
         user = await session.scalar(query)
+        if user is not None:
+            from mockazure.security.repository import lock_security
+
+            await lock_security(session, user.tenant_id)
+            await session.refresh(user)
         if (
             not user
             or not user.enabled
@@ -212,6 +217,11 @@ async def login(request: Request):
             raise error
         await local_app(session, user.tenant_id, str(app.client_id))
         row.tenant_id, row.user_id, row.stage = user.tenant_id, user.id, "consent"
+        row.credential_version = user.credential_version
+        row.authenticated_at = now
+        if user.password_change_required:
+            row.stage = "password-change"
+            return pages.form(row, fields["csrf"], "password-change", app.display_name)
         await enforce_policies(
             session,
             request,
@@ -266,12 +276,17 @@ async def consent_to_scopes(row, session):
 
 
 async def current_user(row, session, *, request=None, flow="authorization_code", now=None):
-    user = await session.get(User, row.user_id)
+    from mockazure.security.repository import lock_security
+
+    await lock_security(session, row.tenant_id)
+    user = await session.get(User, row.user_id, populate_existing=True)
     if (
         not user
         or not user.enabled
         or user.deleted_at is not None
         or user.tenant_id != row.tenant_id
+        or user.password_change_required
+        or user.credential_version != getattr(row, "credential_version", 0)
     ):
         error = invalid_grant()
         if (
@@ -328,7 +343,28 @@ async def consent(request: Request):
         )
         await consent_to_scopes(row, session)
         row.stage = "mfa"
-        return pages.form(row, fields["csrf"], "mfa", app.display_name)
+        from mockazure.security.method_policies import eligible_mfa_methods, enforcement_enabled
+
+        methods = (
+            await eligible_mfa_methods(session, row.tenant_id, row.user_id)
+            if await enforcement_enabled(session, row.tenant_id)
+            else None
+        )
+        if methods is not None:
+            from mockazure.security.methods import stored_methods
+
+            descriptors = await stored_methods(session, row.tenant_id, user)
+            methods = [
+                (
+                    value["id"],
+                    "SMS to mobile phone"
+                    if "phoneNumber" in value
+                    else "Microsoft Authenticator: " + value.get("displayName", "Local enrollment"),
+                )
+                for value in descriptors
+                if value["id"] in methods
+            ]
+        return pages.form(row, fields["csrf"], "mfa", app.display_name, methods=methods)
 
 
 @router.post("/mfa")
@@ -360,6 +396,11 @@ async def mfa(request: Request):
             return pages.callback(row, {"error": "access_denied"})
         if decision not in ("complete", "skip"):
             raise OAuthError("invalid_request", "Choose a simulated MFA outcome")
+        from mockazure.security.authentication_context import complete_method
+        from mockazure.security.method_policies import enforcement_enabled
+
+        if decision == "complete" and await enforcement_enabled(session, row.tenant_id):
+            await complete_method(session, row, fields.get("method_id"), now)
         row.mfa = "completed" if decision == "complete" else "not_performed"
         user = await current_user(row, session)
         await enforce_policies(
@@ -377,6 +418,12 @@ async def mfa(request: Request):
             return await complete_device(row, session, now, approved=True, request=request)
         raw = secrets.token_urlsafe(48)
         row.code_hash, row.code_expires_at = digest(raw), now + timedelta(seconds=300)
+        from mockazure.security.authentication_context import bound_context
+
+        context = await bound_context(session, row, now)
+        if context is not None:
+            # The completed form is closed; its proof lives through the issued code only.
+            context.expires_at = row.code_expires_at
         return pages.callback(row, {"code": raw})
 
 
@@ -414,3 +461,10 @@ async def redeem_code(fields, tenant, request, session, now):
     return await token_response(
         login_session, user, session, request.app.state.settings, now, nonce=row.nonce
     )
+
+
+@router.post("/password-change")
+async def password_change(request: Request):
+    from mockazure.oauth.password_change import change_password
+
+    return await change_password(request)

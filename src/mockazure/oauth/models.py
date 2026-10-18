@@ -1,7 +1,14 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, ForeignKey, ForeignKeyConstraint, String, UniqueConstraint
+from sqlalchemy import (
+    BigInteger,
+    DateTime,
+    ForeignKey,
+    ForeignKeyConstraint,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -9,6 +16,8 @@ from mockazure.db.models import Base
 
 
 class AuthorizationTransaction(Base):
+    credential_version: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0")
+    authenticated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     __tablename__ = "oauth_authorizations"
     __table_args__ = (
         ForeignKeyConstraint(
@@ -43,6 +52,8 @@ class AuthorizationTransaction(Base):
 
 
 class LoginSession(Base):
+    credential_version: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0")
+    authenticated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     client_app_type: Mapped[str] = mapped_column(String(40), default="browser")
     __tablename__ = "oauth_sessions"
     __table_args__ = (

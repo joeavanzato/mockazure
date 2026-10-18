@@ -261,6 +261,13 @@ import mockazure
 from alembic.script import ScriptDirectory
 from mockazure.db.migrations import configuration
 from mockazure.admin.routes import capabilities
+from mockazure.config import Settings
+from fastapi import FastAPI, Request
+app = FastAPI()
+app.state.settings = Settings(
+    data_dir=Path("work/package-probe"), database_url="postgresql+psycopg://localhost/mockazure"
+)
+request = Request({"type": "http", "app": app})
 root = Path(mockazure.__file__).parent
 package = {
     "mockazure/" + p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -269,7 +276,7 @@ package = {
 print(json.dumps({
     "package": package,
     "migration_head": ScriptDirectory.from_config(configuration()).get_current_head(),
-    "capabilities": asyncio.run(capabilities()),
+    "capabilities": asyncio.run(capabilities(request)),
     "dependencies": sorted(
         [{"name": d.metadata["Name"], "version": d.version}
          for d in importlib.metadata.distributions()], key=lambda d:d["name"].lower()),

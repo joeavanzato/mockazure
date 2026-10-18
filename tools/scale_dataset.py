@@ -148,3 +148,70 @@ class ExactCoverage:
             "id_sha256_xor": f"{self.digest:064x}",
             "coverage_bytes": len(self.seen),
         }
+
+
+def collection_id(kind, seed, index):
+    if kind not in {"message", "driveItem"}:
+        raise ValueError("Unsupported collection kind")
+    return str(uuid5(NAMESPACE, f"{seed}:{kind}:{index}"))
+
+
+def streamed_block(seed, index):
+    """One deterministic MiB, generated without allocating the whole object."""
+    return hashlib.sha256(f"{seed}:block:{index}".encode()).digest() * (1024 * 1024 // 32)
+
+
+def iter_collection_batches(kind, *, seed, count, user, batch_size=500):
+    bounds(seed, 1, count, batch_size)
+    collection_id(kind, seed, 0)
+    if batch_size > 500:
+        raise ValueError("Collection imports include at most 500 records and 500 edges")
+    for revision, start in enumerate(range(0, count, batch_size), 1):
+        if kind == "message":
+            yield {
+                "mailbox_user_id": user,
+                "mode": "content-backed",
+                "expected_revision": revision,
+                "messages": [
+                    {
+                        "id": collection_id(kind, seed, i),
+                        "folder_id": "inbox",
+                        "immutable_id": collection_id("driveItem", seed, i),
+                        "payload": {
+                            "subject": f"Scale evidence {i}",
+                            "receivedDateTime": timestamp(i),
+                            "isRead": False,
+                        },
+                    }
+                    for i in range(start, min(start + batch_size, count))
+                ],
+            }
+        else:
+            yield {
+                "scope": "scale-site",
+                "expected_revision": revision,
+                "records": [
+                    {
+                        "kind": kind,
+                        "id": collection_id(kind, seed, i),
+                        "payload": {
+                            "id": collection_id(kind, seed, i),
+                            "name": f"Evidence-{i:06d}.bin",
+                            "createdDateTime": timestamp(i),
+                            "lastModifiedDateTime": timestamp(i),
+                            "file": {"mimeType": "application/octet-stream"},
+                            "size": 0,
+                            "parentReference": {"id": "scale-root", "driveId": "scale-drive"},
+                        },
+                    }
+                    for i in range(start, min(start + batch_size, count))
+                ],
+                "edges": [
+                    {
+                        "source": {"kind": "driveItem", "id": "scale-root"},
+                        "relation": "children",
+                        "target": {"kind": kind, "id": collection_id(kind, seed, i)},
+                    }
+                    for i in range(start, min(start + batch_size, count))
+                ],
+            }

@@ -9,6 +9,8 @@ from mockazure.providers.graph.query.contracts import FieldContract, QueryContra
 from mockazure.providers.graph.query.parser import parse_query, selection
 
 FIELDS = {
+    "registeredUser": {"id", "displayName", "userPrincipalName", "@odata.type"},
+    "ownedObject": {"id", "displayName", "@odata.type"},
     "userRegistrationDetails": {
         "id",
         "@odata.type",
@@ -48,7 +50,15 @@ FIELDS = {
         "createdDateTime",
         "modifiedDateTime",
     },
-    "unifiedRoleDefinition": {"id", "templateId", "displayName", "isBuiltIn", "isEnabled"},
+    "unifiedRoleDefinition": {
+        "id",
+        "templateId",
+        "displayName",
+        "isBuiltIn",
+        "isEnabled",
+        "description",
+        "rolePermissions",
+    },
     "unifiedRoleAssignment": {
         "id",
         "principalId",

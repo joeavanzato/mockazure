@@ -57,7 +57,9 @@ async def method_user(session, tenant, identifier):
     except ValueError:
         key = func.lower(User.upn) == str(identifier).lower()
     user = await session.scalar(
-        select(User).where(
+        select(User)
+        .execution_options(populate_existing=True)
+        .where(
             User.tenant_id == tenant,
             User.deleted_at.is_(None),
             key,
@@ -202,7 +204,12 @@ async def enroll_method(session, tenant, user, body):
             tenant_id=tenant,
             id=key,
             kind="authenticationMethod",
-            properties={"userId": str(user.id), "payload": payload, "provenance": "lab-enrollment"},
+            properties={
+                "userId": str(user.id),
+                "payload": payload,
+                "provenance": "lab-enrollment",
+                "registrationId": str(uuid4()),
+            },
         )
     )
     await session.flush()

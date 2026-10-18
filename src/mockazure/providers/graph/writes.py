@@ -52,11 +52,14 @@ def register_writes(router, version):
 
         kind = "user" if request.url.path.split("/")[2] == "users" else "group"
         membership = request.url.path.endswith("/$ref")
+        owner = membership and "/owners/" in request.url.path
         action = (
             {"POST": "add_member", "DELETE": "remove_member"}
             if membership
             else {"POST": "create", "PATCH": "update", "DELETE": "delete"}
         )[request.method]
+        if owner:
+            action = action.replace("_member", "_owner")
         if request.query_params:
             invalid("Query options are unsupported on directory writes")
         try:
@@ -86,7 +89,7 @@ def register_writes(router, version):
                             member = UUID(member_id)
                         except ValueError:
                             invalid("Invalid member identifier")
-                    values = {"member_id": member}
+                    values = {"owner_id" if owner else "member_id": member}
                 elif kind == "group" and action == "create":
                     values = dict(values)
                     for key in ("owners@odata.bind", "members@odata.bind"):
@@ -127,3 +130,9 @@ def register_writes(router, version):
                     400, "Request_BadRequest", "Conflicting or invalid directory state"
                 ) from None
             raise
+
+    if version == "v1.0":
+        router.add_api_route("/groups/{object_id}/owners/$ref", write, methods=["POST"])
+        router.add_api_route(
+            "/groups/{object_id}/owners/{member_id}/$ref", write, methods=["DELETE"]
+        )
