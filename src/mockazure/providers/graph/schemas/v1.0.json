@@ -741,6 +741,40 @@
       },
       "required": []
     },
+    "attachment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isInline": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int32",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "isInline",
+        "size"
+      ],
+      "base": "entity"
+    },
     "attestationLevel": {
       "enum": [
         "attested",
@@ -896,6 +930,12 @@
       },
       "required": [],
       "open": true
+    },
+    "bodyType": {
+      "enum": [
+        "text",
+        "html"
+      ]
     },
     "certification": {
       "properties": {
@@ -1910,6 +1950,52 @@
       ],
       "base": "authenticationMethod"
     },
+    "fileAttachment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isInline": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "contentBytes": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "contentId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentLocation": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "isInline",
+        "size"
+      ],
+      "base": "attachment"
+    },
     "fileHash": {
       "properties": {
         "hashType": {
@@ -1960,6 +2046,34 @@
       "enum": [
         "include",
         "exclude"
+      ]
+    },
+    "followupFlag": {
+      "properties": {
+        "completedDateTime": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "dueDateTime": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "flagStatus": {
+          "type": "graph.followupFlagStatus",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "followupFlagStatus": {
+      "enum": [
+        "notFlagged",
+        "complete",
+        "flagged"
       ]
     },
     "geoCoordinates": {
@@ -2320,6 +2434,12 @@
         "high"
       ]
     },
+    "inferenceClassificationType": {
+      "enum": [
+        "focused",
+        "other"
+      ]
+    },
     "informationalUrl": {
       "properties": {
         "logoUrl": {
@@ -2339,6 +2459,19 @@
           "nullable": true
         },
         "termsOfServiceUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "internetMessageHeader": {
+      "properties": {
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "value": {
           "type": "Edm.String",
           "nullable": true
         }
@@ -2399,6 +2532,53 @@
     },
     "ipRange": {
       "properties": {},
+      "required": []
+    },
+    "itemAttachment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isInline": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int32",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "isInline",
+        "size"
+      ],
+      "base": "attachment"
+    },
+    "itemBody": {
+      "properties": {
+        "content": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentType": {
+          "type": "graph.bodyType",
+          "nullable": true
+        }
+      },
       "required": []
     },
     "keyCredential": {
@@ -2559,6 +2739,42 @@
         "unknownFutureValue"
       ]
     },
+    "mailFolder": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "childFolderCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isHidden": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "parentFolderId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "totalItemCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "unreadItemCount": {
+          "type": "Edm.Int32",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
     "mailboxSettings": {
       "properties": {
         "archiveFolder": {
@@ -2632,6 +2848,139 @@
         "sccm",
         "office365"
       ]
+    },
+    "message": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "categories": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "changeKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "bccRecipients": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "body": {
+          "type": "graph.itemBody",
+          "nullable": true
+        },
+        "bodyPreview": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ccRecipients": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "conversationId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "conversationIndex": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "flag": {
+          "type": "graph.followupFlag",
+          "nullable": true
+        },
+        "from": {
+          "type": "graph.recipient",
+          "nullable": true
+        },
+        "hasAttachments": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "importance": {
+          "type": "graph.importance",
+          "nullable": true
+        },
+        "inferenceClassification": {
+          "type": "graph.inferenceClassificationType",
+          "nullable": true
+        },
+        "internetMessageHeaders": {
+          "type": "Collection(graph.internetMessageHeader)",
+          "nullable": true
+        },
+        "internetMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isDeliveryReceiptRequested": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isDraft": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isRead": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isReadReceiptRequested": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "parentFolderId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "receivedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "replyTo": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "sender": {
+          "type": "graph.recipient",
+          "nullable": true
+        },
+        "sentDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "subject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "toRecipients": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "uniqueBody": {
+          "type": "graph.itemBody",
+          "nullable": true
+        },
+        "webLink": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "open": true,
+      "base": "outlookItem"
     },
     "messageActionFlag": {
       "enum": [
@@ -3381,6 +3730,34 @@
       "open": true,
       "base": "directoryObject"
     },
+    "outlookItem": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "categories": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "changeKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
     "parentalControlSettings": {
       "properties": {
         "countriesBlockedForMinors": {
@@ -3724,6 +4101,40 @@
         }
       },
       "required": []
+    },
+    "referenceAttachment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isInline": {
+          "type": "Edm.Boolean",
+          "nullable": false
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int32",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "isInline",
+        "size"
+      ],
+      "base": "attachment"
     },
     "registryHive": {
       "enum": [

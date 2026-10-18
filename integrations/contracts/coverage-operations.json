@@ -864,6 +864,1138 @@
       ],
       "status": "implemented",
       "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailboxSettings",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-get-mailboxsettings?view=graph-rest-1.0",
+      "sourceSha256": "fda60db62ce8663668b4d210b78ce53106add7a819553f1c59c069b8e4342d13",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailboxSettings",
+      "permissions": {
+        "application": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ],
+        "delegated": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_mailbox_settings_permission"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0",
+      "sourceSha256": "ce7089e057e0236b4c5b460692110b3405f225cac8f90d5394802e6dd724c78e",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-get?view=graph-rest-1.0",
+      "sourceSha256": "39a5d71aa3a6110bde63988194e881554bca0925adc682a903f2681e57190daf",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_content_mode_statistics"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/childFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-list-childfolders?view=graph-rest-1.0",
+      "sourceSha256": "1e9d12c4bbd7a7c24fb71c480c1617af1c4d5fd6b0c34d5670907740419ece46",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailboxSettings",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-get-mailboxsettings?view=graph-rest-1.0",
+      "sourceSha256": "fda60db62ce8663668b4d210b78ce53106add7a819553f1c59c069b8e4342d13",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailboxSettings",
+      "permissions": {
+        "application": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ],
+        "delegated": [
+          "MailboxSettings.Read",
+          "MailboxSettings.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_mailbox_settings_permission"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0",
+      "sourceSha256": "ce7089e057e0236b4c5b460692110b3405f225cac8f90d5394802e6dd724c78e",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-get?view=graph-rest-1.0",
+      "sourceSha256": "39a5d71aa3a6110bde63988194e881554bca0925adc682a903f2681e57190daf",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_content_mode_statistics"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/childFolders",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/mailfolder-list-childfolders?view=graph-rest-1.0",
+      "sourceSha256": "1e9d12c4bbd7a7c24fb71c480c1617af1c4d5fd6b0c34d5670907740419ece46",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "mailFolder",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "includeHiddenFolders"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_folder_aliases_and_hidden_paging"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0",
+      "sourceSha256": "07ea60fb40729bb68473bead56de82f46ffd755fd72e698cb696cb3a3586353b",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$count"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_legacy_statistics_mode_preserved"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_message_body_permissions"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-get?view=graph-rest-1.0",
+      "sourceSha256": "f1d627dbe5fbcd13cb536d21c98d68535ec655dd9f2297023e36e1250d4561e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/attachments",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-list-attachments?view=graph-rest-1.0",
+      "sourceSha256": "e93c8feccd285fe411b79b238f0eb05b13f773889bb0a440a4dd6753a43cfccb",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "attachment",
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$expand"
+      ],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/attachments/{attachment_id}/$value",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0",
+      "sourceSha256": "c99274f5d44f97bb9258cefda27375e01b6186747884d577e16d3e5e66582063",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Local imported primary mailbox evidence; Exchange entitlement and current identity required",
+        "Delegated own-mailbox only; no shared-folder/application-access-policy profile",
+        "One-hour durable pages; top1..1000; see docs/mail-contracts.md for field and size bounds"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content.py::test_attachment_types_and_raw_mime"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
     }
   ],
   "queryProfiles": [

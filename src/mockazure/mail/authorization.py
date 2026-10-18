@@ -32,6 +32,21 @@ READER_COMMANDS = frozenset(
 )
 
 
+def content_requirement(name):
+    if name == "settings":
+        app_perms = delegated_perms = {"MailboxSettings.Read", "MailboxSettings.ReadWrite"}
+    elif name == "write":
+        app_perms = delegated_perms = {"Mail.ReadWrite"}
+    elif name == "raw":
+        app_perms = delegated_perms = {"Mail.Read", "Mail.ReadWrite"}
+    elif name == "read":
+        app_perms = {"Mail.ReadBasic.All", "Mail.Read", "Mail.ReadWrite"}
+        delegated_perms = {"Mail.ReadBasic", "Mail.Read", "Mail.ReadWrite"}
+    else:
+        raise AuthorizationDenied("Unsupported content operation")
+    return OperationRequirement("graph", frozenset(app_perms), frozenset(delegated_perms))
+
+
 async def require_mailbox_access(session, actor, mailbox, operation: str) -> None:
     if actor.tenant_id != mailbox.tenant_id:
         raise AuthorizationDenied("Mailbox belongs to another tenant")
@@ -41,6 +56,13 @@ async def require_mailbox_access(session, actor, mailbox, operation: str) -> Non
     settings = await session.get(MailSettings, actor.tenant_id)
     if settings is None or not settings.exchange_enabled:
         raise AuthorizationDenied("Exchange service entitlement is required")
+    if operation.startswith("content."):
+        if actor.audience != GRAPH:
+            raise AuthorizationDenied("Graph audience is required")
+        await authorize(actor, content_requirement(operation.removeprefix("content.")), session)
+        if actor.token_kind == "delegated" and actor.subject_id != mailbox.user_id:
+            raise AuthorizationDenied("Delegated mailbox ownership is required")
+        return
     if operation.startswith("rules."):
         if actor.audience != GRAPH:
             raise AuthorizationDenied("Graph audience is required")

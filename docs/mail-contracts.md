@@ -426,3 +426,52 @@ original MES Get-TransportRules against a fresh local Docker lab. Full Hawk tena
 configuration still needs Get-AdminAuditLogConfig/Get-RemoteDomain; the full MES
 mailbox-permission workflow also needs broader mailbox properties and recipient
 resolution. These entry points are not certified by the new command reads alone.
+
+
+## Graph v1.0 mailbox content
+
+`POST /_mock/tenants/{tenant_id}/mail/content/import` accepts a typed batch with
+`mailbox_user_id`, `mode: content-backed`, `expected_revision`, and arrays of
+`folders`, `messages`, `attachments` and message-ID `tombstones`; optional
+`mailbox_settings` holds pinned official settings fields. A batch contains at most
+1,000 records and 8 MiB. IDs are opaque strings. All references, primary folder
+parents, cycles, immutable identity conflicts, binary ownership and existing rule
+folder targets are validated atomically. Imports never fetch external URLs.
+
+A statistics-only mailbox remains unchanged until an explicit revision-zero import.
+After transition, primary folder counts and byte sizes derive from stored messages;
+raw MIME size is used when supplied, otherwise the explicit imported size. Archive
+statistics remain separate and are not exposed as invented Graph archive messages.
+Legacy mailbox provisioning preserves content-backed folders and rejects explicit
+folder replacement until content is reset. Metadata-only updates preserve omitted
+archive enablement.
+
+Messages and attachments share the [binary evidence store](content-storage.md).
+Imported MIME, including malformed binary source data, is returned exactly; metadata
+is supplied separately and is not silently reconstructed from MIME. Graph bodies use
+stored text/HTML with bounded format conversion. Header properties require `$select`.
+Mail.ReadBasic omits body/bodyPreview/uniqueBody and cannot access attachments or raw
+content. Full reads require Mail.Read or Mail.ReadWrite. Mailbox settings use their
+separate permissions. Delegated access is limited to the signed-in mailbox; shared
+mailboxes and application access policies are not implied by Exchange ACL evidence.
+
+The [operation manifest](../integrations/contracts/coverage-operations.json) pins
+real v1.0 paths and source hashes. No beta routes are added. Message filters support
+receivedDateTime comparisons, subject equality/startswith and isRead equality;
+ordering is bounded to receivedDateTime and subject. Combined ordering/filtering
+requires ordered properties first in the filter. Unsupported query options fail.
+Pages bind tenant, mailbox, client, signed-in user, permissions and snapshot, with
+one-hour expiry. File attachment JSON contentBytes is capped at4 MiB; select metadata
+and use `/$value` to stream larger bytes. Item expansion covers a direct message;
+recursive attachments, calendar/contact items and reference downloads are unsupported.
+
+`GET /_mock/tenants/{tenant_id}/mail/content/{user_id}/export` exports the current
+fixture as one import batch when it fits. `?format=ndjson` streams typed mailbox,
+folder, message and attachment records under a repeatable-read database snapshot for
+larger datasets. Restore folders before messages and attachments, splitting records
+into bounded batches and advancing expected_revision. Upload referenced bytes first.
+Exports preserve current IDs; historical versions and opaque continuation handles are
+not portable backups. `POST .../reset` requires `expected_revision`, clears this
+mailbox's content/history/cursors and releases its blob references, returns empty
+statistics-only primary folders, and preserves archive statistics. It does not erase
+blobs still referenced elsewhere. Downgrade refuses nonempty content state.
