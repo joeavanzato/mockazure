@@ -10,6 +10,22 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "Files.Read", "delegated", False),
+    PermissionDefinition("graph", "Files.Read.All", "application", True),
+    PermissionDefinition("graph", "Files.Read.All", "delegated", False),
+    PermissionDefinition("graph", "Files.ReadWrite", "delegated", False),
+    PermissionDefinition("graph", "Files.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "Files.ReadWrite.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.FullControl.All", "application", True),
+    PermissionDefinition("graph", "Sites.FullControl.All", "delegated", True),
+    PermissionDefinition("graph", "Sites.Manage.All", "application", True),
+    PermissionDefinition("graph", "Sites.Manage.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.Read.All", "application", True),
+    PermissionDefinition("graph", "Sites.Read.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.ReadWrite.All", "application", True),
+    PermissionDefinition("graph", "Sites.ReadWrite.All", "delegated", False),
+    PermissionDefinition("graph", "Sites.Selected", "application", True),
+    PermissionDefinition("graph", "Sites.Selected", "delegated", False),
     PermissionDefinition("graph", "User.Read", "delegated", False),
     *(
         PermissionDefinition("graph", name, kind, kind == "application")

@@ -24,6 +24,7 @@ from mockazure.admin.managed_identity_routes import router as managed_identity_a
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
 from mockazure.admin.session_routes import router as session_router
+from mockazure.admin.workload_routes import router as workload_admin_router
 from mockazure.collections.routes import router as collection_graph_router
 from mockazure.config import Settings
 from mockazure.content.routes import router as content_admin_router
@@ -45,6 +46,7 @@ from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
 from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
 from mockazure.providers.graph.directory import router_for
+from mockazure.providers.graph.drive_routes import router as drive_router
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
@@ -58,6 +60,7 @@ from mockazure.providers.graph.security.policy_routes import router_for as polic
 from mockazure.providers.graph.security.report_routes import router_for as registration_router_for
 from mockazure.providers.graph.security.role_routes import router_for as role_router_for
 from mockazure.providers.graph.security.routes import router_for as security_router_for
+from mockazure.providers.graph.site_routes import router as site_router
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
 
@@ -274,6 +277,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             "Method not allowed" if error.status_code == 405 else "Resource not found",
         )
 
+    app.include_router(workload_admin_router)
     app.include_router(content_admin_router)
     app.include_router(mail_admin_router)
     app.include_router(maintenance_admin_router)
@@ -320,6 +324,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(security_router_for("beta"))
     app.include_router(audit_query_router_for("v1.0"))
     app.include_router(audit_query_router_for("beta"))
+    app.include_router(site_router)
+    app.include_router(drive_router)
     app.include_router(mail_mutation_router)
     app.include_router(mail_content_router)
     app.include_router(mail_router_for("v1.0"))

@@ -210,6 +210,42 @@
       "adminConsentRequired": true
     },
     {
+      "name": "Files.Read",
+      "kind": "delegated",
+      "id": "10465720-29dd-4523-a11a-6a75c743c9d9",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Files.Read.All",
+      "kind": "application",
+      "id": "01d4889c-1287-42c6-ac1f-5d1e02578ef6",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Files.Read.All",
+      "kind": "delegated",
+      "id": "df85f4d6-205c-4ac5-a5ea-6bf408dba283",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Files.ReadWrite",
+      "kind": "delegated",
+      "id": "5c28f0bf-8a70-41f1-8ab2-9032436ddb65",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Files.ReadWrite.All",
+      "kind": "application",
+      "id": "75359482-378d-4052-8f01-80520e7db3cd",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Files.ReadWrite.All",
+      "kind": "delegated",
+      "id": "863451e7-0667-486c-a5d6-d135439485f0",
+      "adminConsentRequired": false
+    },
+    {
       "name": "Group.Create",
       "kind": "application",
       "id": "bf7b1a76-6e77-406b-b258-bf5c7720e98f",
@@ -584,6 +620,66 @@
       "kind": "delegated",
       "id": "128ca929-1a19-45e6-a3b8-435ec44a36ba",
       "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.FullControl.All",
+      "kind": "application",
+      "id": "a82116e5-55eb-4c41-a434-62fe8a61c773",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.FullControl.All",
+      "kind": "delegated",
+      "id": "5a54b8b3-347c-476d-8f8e-42d5c7424d29",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Manage.All",
+      "kind": "application",
+      "id": "0c0bf378-bf22-4481-8f81-9e89a9b4960a",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Manage.All",
+      "kind": "delegated",
+      "id": "65e50fdc-43b7-4915-933e-e8138f11f40a",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Sites.Read.All",
+      "kind": "application",
+      "id": "332a536c-c7ef-4017-ab91-336970924f0d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Read.All",
+      "kind": "delegated",
+      "id": "205e70e5-aba6-4c52-a976-6d2d46c48043",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Sites.ReadWrite.All",
+      "kind": "application",
+      "id": "9492366f-7969-46a4-8d15-ed1a20078fff",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.ReadWrite.All",
+      "kind": "delegated",
+      "id": "89fe6a52-be36-487e-b7d8-d061c450a026",
+      "adminConsentRequired": false
+    },
+    {
+      "name": "Sites.Selected",
+      "kind": "application",
+      "id": "883ea226-0bf2-4a8f-9f9d-92c9162a727d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "Sites.Selected",
+      "kind": "delegated",
+      "id": "f89c84ef-20d0-4b54-87e9-02e856d66d53",
+      "adminConsentRequired": false
     },
     {
       "name": "User.Create",
