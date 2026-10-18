@@ -34,6 +34,8 @@ SOURCES = {
 }
 SOURCES.update(
     {
+        "disks": "specification/compute/resource-manager/Microsoft.Compute/"
+        "Compute/stable/2025-01-02/DiskRP.json",
         "compute": "specification/compute/resource-manager/Microsoft.Compute/"
         "Compute/stable/2025-04-01/ComputeRP.json",
         "networkInterface": "specification/network/resource-manager/Microsoft.Network/"

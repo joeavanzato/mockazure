@@ -353,3 +353,57 @@ denials, atomic rollback, import isolation, endpoints, networks, lifecycle and u
 from 057. The four-ecosystem management matrix remains B4; data signing is C1.
 
 B2 final local gate: **576 passed** across unit, account/provider, OAuth, ARM inventory/mutation/deletion checks; Ruff and offline source verification passed. This count is task-local evidence, not a new all-program release qualification.
+
+## Related provider resources (B3)
+
+Eleven resource families use 61 published operations from the pinned Azure REST
+revision: Key Vault 2025-05-01, OperationalInsights 2025-02-01, Compute 2025-04-01,
+DiskRP 2025-01-02 and Network 2025-03-01. Requests and responses are validated against
+the cached actual schemas; the [profile manifest](../src/mockazure/providers/arm/data/resource-profiles.json)
+lists writable fields. Network PATCH supports published UpdateTags only; subnets
+and security rules have no invented PATCH. List collections exist under their
+parents, plus subscription lists for top-level families (not VM extensions).
+Pages contain at most 100 resources, with a 10,000-resource/tenant local bound.
+Next links bind inventory revision and recheck current authority.
+
+Create/update/delete are currently synchronous. Native Activity Log facts and
+internal service events commit atomically with canonical inventory and relationships.
+Provider registration, current source actions and linked-resource join/write actions
+are required; an unchanged write still checks current linked authority. Related
+Compute/Network resources must have the same location. Cross-tenant/subscription,
+missing, deleting or inventory-only references fail; the database also constrains
+tenant ownership and subscription boundaries. In-use resources cannot be deleted.
+Generic fixture imports cannot overwrite operational resources. VM NIC/disk
+attachments are exclusive across VMs. This is a bounded local relationship model,
+not all Azure networking/fabric constraints.
+
+Locations are eastus/westus2. VM sizes are Standard_B1s, Standard_B2s and
+Standard_D2s_v5; selected image/attached OS disk and managed data disk metadata are
+supported. Passwords/custom data/protected extension settings are rejected.
+Extensions store public settings without executing them. Disks support Empty
+creation and selected SKUs. VNet/subnet CIDRs, parent containment, sibling overlap,
+NSG rule priorities and static NIC address containment are validated. Dynamic IP
+allocation, real traffic, DNS and VM guests are not simulated by these inventory
+operations. Parent reads project canonical child records; callers write subnets,
+rules and extensions through explicit child APIs rather than embedded arrays.
+
+Vaults validate owning tenant and existing local policy principals, including the
+published secrets permission `all`. Changing RBAC mode requires current role-assignment
+write authority. Retention is immutable; soft-delete cannot be disabled and purge
+protection cannot be weakened. These are management settings: secret IO, policy/data
+authorization, recoverability and purge execution are phase D3, not implied by B3.
+Workspaces have persistent customer UUIDs, PerGB2018 and 30..730 day retention;
+query/ingestion and retention execution belong to F. Vault URIs use the configured
+local Key Vault origin and /vault-name/ addressing.
+
+Migration 059 adds operational markers, tenant/subscription-safe relationship edges,
+globally unique local vault names and stable workspace identities. Typed
+`/_mock/tenants/{tenant}/cloud/resourceState` atomically exports/replaces configuration
+and generated workspace/VM IDs; it validates the entire replacement, stages all
+records before resolving edges, and suppresses old event delivery. An empty resource
+list resets this domain. No TTL state exists here; prune returns zero. B4 integrates
+these contributors into combined tenant lifecycle. Tests cover upgrade from 058
+without changing existing Storage keys. Four-ecosystem management qualification
+remains B4; these REST tests alone are not SDK qualification.
+
+B3 local gate: **589 passed** across all unit and affected integration tests; 51 pinned ARM source hashes and the provider catalog verify offline. This is task-local evidence, with native management qualification still pending B4.

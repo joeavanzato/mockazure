@@ -18,7 +18,8 @@
     "networkSecurity": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json",
     "networkInterface": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json",
     "networkPublicIP": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json",
-    "workspaces": "specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json"
+    "workspaces": "specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json",
+    "disks": "specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json"
   },
   "files": {
     "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json": {
@@ -274,6 +275,11 @@
       "sha256": "17a0abfc394a8ac3d6742c86b04c056ace974fef17e30c1b8ab30a92b8d839e8",
       "revision": "1b4e136a1da731e1ed16444eb6ce5701bcd8c0f4",
       "license": "CC-BY-4.0"
+    },
+    "specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json": {
+      "path": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json",
+      "sha256": "4b5153941eb2184d0a52eea7710ad70648e304c87f09dc6b551b2b4673d4343e"
     }
   }
 }

@@ -91,3 +91,22 @@ def test_storage_operations_match_actual_swagger_shapes_and_actions():
         elif row["operationId"].endswith("_RegenerateKey"):
             assert row["permissions"] == ["Microsoft.Storage/storageAccounts/regenerateKey/action"]
     verify_references("arm-providers")
+
+
+def test_cloud_resource_operation_shapes_are_source_bound():
+    from mockazure.cloud.contracts import _catalog
+    from mockazure.providers.arm.resource_validation import profiles
+
+    rows = [row for row in _catalog("arm-providers")["operations"] if "resourceType" in row]
+    observed = set()
+    for row in rows:
+        profile = profiles()[row["resourceType"]]
+        schema = document(manifest()["roots"][profile["schemaNamespace"]])
+        operation = schema["paths"][row["path"]][row["method"].lower()]
+        assert operation["operationId"] == row["operationId"]
+        assert schema["info"]["version"] == row["version"]
+        for status, shape in row["responseSchemas"].items():
+            assert operation["responses"][status]["schema"] == shape
+        observed.add(row["resourceType"])
+    assert observed == set(profiles())
+    verify_references("arm-providers")

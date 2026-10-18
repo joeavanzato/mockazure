@@ -52,6 +52,17 @@
           "westus2"
         ],
         "schemaNamespace": "compute"
+      },
+      {
+        "resourceType": "disks",
+        "apiVersions": [
+          "2025-01-02"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "disks"
       }
     ]
   },

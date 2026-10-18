@@ -11,6 +11,11 @@ from mockazure.cloud.provider_state import (
     replace_provider_state,
 )
 from mockazure.identity.keys import read_wrapping_key
+from mockazure.providers.arm.resource_lifecycle import (
+    ResourceStateInput,
+    export_provider_resources,
+    replace_provider_resources,
+)
 from mockazure.storage.lifecycle import (
     StorageStateInput,
     export_storage_accounts,
@@ -47,3 +52,17 @@ async def replace_storage(tenant_id: UUID, value: StorageStateInput, request: Re
         await tenant_required(session, tenant_id)
         session.info["storage_cipher"] = read_wrapping_key(request.app.state.settings.data_dir)
         return await replace_storage_accounts(session, tenant_id, value)
+
+
+@router.get("/resourceState")
+async def export_resources(tenant_id: UUID, request: Request):
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await export_provider_resources(session, tenant_id)
+
+
+@router.put("/resourceState")
+async def replace_resources(tenant_id: UUID, value: ResourceStateInput, request: Request):
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        return await replace_provider_resources(session, tenant_id, value)

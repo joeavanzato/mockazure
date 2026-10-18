@@ -48,6 +48,7 @@ from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
 from mockazure.providers.arm.provider_routes import router as arm_provider_router
 from mockazure.providers.arm.rbac_routes import router as arm_rbac_router
+from mockazure.providers.arm.resource_handlers import router as arm_resource_router
 from mockazure.providers.arm.storage_routes import router as arm_storage_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
@@ -326,6 +327,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(arm_mutation_router)
     app.include_router(arm_operations_router)
     app.include_router(arm_rbac_router)
+    app.include_router(arm_resource_router)
     app.include_router(session_router)
     app.include_router(identity_router)
     app.include_router(security_admin_router)

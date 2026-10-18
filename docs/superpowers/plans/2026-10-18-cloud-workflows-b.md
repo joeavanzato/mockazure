@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** B1 implemented and locally verified; B2-B4 pending. Native management client qualification remains the B4 gate.
+**Status:** B1-B3 implemented and locally verified; B4 pending. Native management client qualification remains the B4 gate.
 
 ## Global Constraints
 
@@ -94,7 +94,7 @@ assert all(url in configured_local_endpoints for url in returned_endpoints)
 
 **Interfaces:** Produce `async mutate_resource(session: AsyncSession, actor: PrincipalContext, ref: ResourceRef, operation: str, body: dict, now: datetime) -> MutationResult`; `async validate_references(session: AsyncSession, ref: ResourceRef, body: dict) -> None`. Provider-specific validators dispatch from the pinned catalog; vault/workspace state is authoritative for D3/F2.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_related_compute_network_inventory builds VNet/subnet, NSG/rule, NIC/public IP, disk, VM and extension records and compares provider reads with generic inventory. test_vault_workspace_authority creates a vault/workspace and verifies canonical IDs and settings. Cross-tenant and deleted parent references must fail atomically; changing unsupported locations/SKUs fails by declared profile.
+- [x] **Step 1 — Add the named failing scenarios.** test_related_compute_network_inventory builds VNet/subnet, NSG/rule, NIC/public IP, disk, VM and extension records and compares provider reads with generic inventory. test_vault_workspace_authority creates a vault/workspace and verifies canonical IDs and settings. Cross-tenant and deleted parent references must fail atomically; changing unsupported locations/SKUs fails by declared profile.
 
 ```python
 assert provider_resource['id'] in inventory_ids
@@ -103,10 +103,10 @@ assert invalid_reference.status_code == expected_reference_error
 assert inventory_after_failed_write == inventory_before
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_cloud_resource_inventory.py tests/integration/test_arm_inventory.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Acquire actual resource schema closure, implement create/read/update/delete/list for named families and supported child resources. Add vault RBAC/access-policy mode settings and workspace provisioning; apply mode-specific authority later in D3. Compute extensions store modeled state without running scripts. Persist relationships with tenant/subscription invariants and operation-specific schema validation; emit native Activity Log facts and domain events.
-- [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add vault workspace compute and network resources"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_cloud_resource_inventory.py tests/integration/test_arm_inventory.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Acquire actual resource schema closure, implement create/read/update/delete/list for named families and supported child resources. Add vault RBAC/access-policy mode settings and workspace provisioning; apply mode-specific authority later in D3. Compute extensions store modeled state without running scripts. Persist relationships with tenant/subscription invariants and operation-specific schema validation; emit native Activity Log facts and domain events.
+- [x] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add vault workspace compute and network resources"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task B4: Asynchronous lifecycle, deletion and management clients
 

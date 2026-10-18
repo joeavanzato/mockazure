@@ -259,5 +259,5 @@ def test_candidate_probe_uses_current_capability_request_contract():
     result = subprocess.run([sys.executable, "-c", PROBE], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     value = json.loads(result.stdout)
-    assert value["migration_head"] == "058"
+    assert value["migration_head"] == "059"
     assert value["capabilities"]["authentication_policy_profile"]["new_tenants_enforced"] is True
