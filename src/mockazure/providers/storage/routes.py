@@ -95,6 +95,10 @@ async def handle(request, service):
 
 
 async def dispatch(request, service):
+    if service == "queue":
+        from mockazure.providers.storage.queue_routes import dispatch_queue
+
+        return await dispatch_queue(request)
     if service == "table":
         from mockazure.providers.storage.table_routes import dispatch_table
 

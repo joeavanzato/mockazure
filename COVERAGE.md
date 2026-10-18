@@ -461,7 +461,7 @@ and User Access Administrator with inherited access/current grant checks.
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/{start|restart|powerOff|deallocate}` | Partial: POST async actions | `2025-04-01` | Persisted simulated running/stopped/deallocated state, current RBAC, lease/generation fencing and native Activity Logs. No guest execution/hibernation. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/start), [profile](docs/arm-contracts.md#durable-lifecycle-and-management-clients-b4). |
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/instanceView` | Partial: GET | `2025-04-01` | Provisioning/power statuses only; no guest/agent telemetry. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/instance-view). |
 | Opaque local URLs returned in ARM `Azure-AsyncOperation` / `Location` headers | Partial: GET monitor/result | Version of initiating operation | Durable action/delete jobs, current RG/subscription authority, Retry-After and terminal failure envelopes; provider-specific Azure polling URL parity is not claimed. [Microsoft protocol](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations). |
-| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query, Queue and Key Vault secret data planes | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
+| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query, Key Vault secret data plane | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
 
 Reserved path segments are case-insensitive. Percent-encoded ARM paths and unknown
 provider/version combinations are rejected. [ARM contracts](docs/arm-contracts.md) and
@@ -543,7 +543,7 @@ Teams query, membership/RSC, archive and client limits are detailed in the
 [pinned operation sources](integrations/contracts/teams.json).
 
 
-### Azure Storage data plane (namespaces, Blob, Files REST and Tables)
+### Azure Storage data plane (namespaces, Blob, Files REST, Tables and Queues)
 
 These are separate local service origins with `/{account}` path addressing;
 the table shows Microsoft's service-relative paths. Selected request versions
@@ -575,6 +575,11 @@ are `2019-07-07`, `2025-01-05` and `2025-11-05`. [Contract and authorization det
 | Table `/{table}` and `/{table}(PartitionKey='{p}',RowKey='{r}')` | Partial: POST insert; GET/PUT/PATCH/MERGE/DELETE entity | Eight EDM types, precision-preserving Int64/date/binary, conditional ETags, merge/replace/upsert. Nulls omitted. JSON metadata modes; no Atom/Cosmos behavior. | [Insert Entity](https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity), [Update](https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2) |
 | Table `/{table}()` | Partial: GET | Typed filter comparisons/logical operators, `$select`, `$top`, 1,000/page; one-hour opaque query/account/table/generation-bound continuations with current authorization. Signed key ranges constrain results. No query functions/expansion. | [Query Entities](https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities) |
 | Table `/$batch` | Partial: POST | One atomic MIME changeset, <=100 distinct entities in one partition and <=4 MiB; rollback and per-operation authorization. No mixed query/mutation or multiple changesets. Four-client D qualification pending. | [Transactions](https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions) |
+| Queue `/?comp=list`, `/{queue}` | Partial: GET list, PUT create, DELETE queue | REST `2026-02-06`; durable metadata, source-native create/repeat/conflict status, opaque paging. Immediate deletion; no service stats/properties. | [List](https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1), [profile](docs/queue-contracts.md) |
+| Queue `/{queue}?comp=metadata` | Implemented: GET/PUT | Metadata replacement; count includes unexpired invisible messages; current keys, SAS and scoped OAuth checked on each call. | [Metadata](https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata) |
+| Queue `/{queue}/messages` | Implemented: POST enqueue, GET receive/peek, DELETE clear | XML text <=64 KiB; TTL, visibility, counts, competing receivers; no implicit Base64 conversion. Receipt digests survive restart, restore clears authority. | [Put](https://learn.microsoft.com/en-us/rest/api/storageservices/put-message), [Get](https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages) |
+| Queue `/{queue}/messages/{messageid}` | Implemented: PUT update, DELETE | Current receipt required; source-native errors and rotated receipt headers; payloads omitted from operation facts. Original Python 12.15.0 HTTPS verified; four-client D gate pending. | [Update](https://learn.microsoft.com/en-us/rest/api/storageservices/update-message), [Delete](https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2) |
+| Queue `/{queue}?comp=acl`, service properties/stats/user-delegation | Unsupported | Explicit errors; no stored-policy or user-delegation SAS claim. | [Profile limits](docs/queue-contracts.md) |
 
 
 Storage compatibility qualification passed (C4, runtime 39f68e7): the original Az.Storage

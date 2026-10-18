@@ -12,6 +12,26 @@ PREFIX = "Microsoft.Storage/storageAccounts/"
 
 
 def operation_permission(service, action):
+    if service == "queue":
+        operations = {
+            "enqueue": "add/action",
+            "peek": "read",
+            "receive": "process/action",
+            "update_message": "write",
+            "delete_message": "process/action",
+            "clear": "delete",
+        }
+        if action in operations:
+            return PREFIX + "queueServices/queues/messages/" + operations[action], True
+        suffix = {
+            "create": "write",
+            "metadata": "write",
+            "read": "read",
+            "list": "read",
+            "delete": "delete",
+        }.get(action)
+        if suffix:
+            return PREFIX + "queueServices/queues/" + suffix, False
     if service == "table":
         actions = {
             "insert_entity": "add/action",
@@ -78,6 +98,7 @@ def scopes(account_id, service, resource):
                     "blob": "blobservices/default/containers/",
                     "file": "fileservices/default/fileshares/",
                     "table": "tableservices/default/tables/",
+                    "queue": "queueservices/default/queues/",
                 }[service]
             )
             + resource.split("/")[0]
@@ -118,6 +139,26 @@ async def require_oauth(session, actor, account, service, action, resource, requ
             ).limit(1)
         ):
             return frozenset({full_write})
+    if service == "queue" and action in {"enqueue", "receive", "delete_message"}:
+        alternatives = {
+            "enqueue": ["write"],
+            "receive": ["delete", "read"],
+            "delete_message": ["delete"],
+        }[action]
+        granted = []
+        for suffix in alternatives:
+            value = PREFIX + "queueServices/queues/messages/" + suffix
+            grants = await grant_query(
+                session, actor, value, audience="https://storage.azure.com/", data=True
+            )
+            if await session.scalar(
+                grants.where(
+                    RoleAssignment.scope_key.in_(scopes(account.scope_key, service, resource))
+                ).limit(1)
+            ):
+                granted.append(value)
+        if len(granted) == len(alternatives):
+            return frozenset(granted)
     for value, is_data in needed:
         grants = await grant_query(
             session, actor, value, audience="https://storage.azure.com/", data=is_data

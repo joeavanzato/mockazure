@@ -57,7 +57,13 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     if (
         len(args) != len(pairs)
         or args.get("sv")
-        not in ({"2019-02-02", "2025-11-05"} if service == "table" else {"2025-11-05"})
+        not in (
+            {"2019-02-02", "2025-11-05"}
+            if service == "table"
+            else {"2026-02-06"}
+            if service == "queue"
+            else {"2025-11-05"}
+        )
         or (service == "table" and any(k in args for k in ("tn", "spk", "srk", "epk", "erk")))
         or args.get("ses")
         or args.get("si")
@@ -93,6 +99,12 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
 
 
 DATA_PERMISSIONS = {
+    "enqueue": "a",
+    "peek": "r",
+    "receive": "p",
+    "update_message": "u",
+    "delete_message": "p",
+    "clear": "d",
     "insert_entity": "a",
     "replace_entity": "u",
     "merge_entity": "u",
@@ -111,6 +123,8 @@ DATA_PERMISSIONS = {
 
 
 async def authorize_service_sas(session, keys, account, request, service, action, resource, now):
+    if service == "queue":
+        return authorize_queue_sas(keys, account, request, action, resource, now), False
     if service == "table":
         return authorize_table_sas(keys, account, request, action, resource, now), False
     args = dict(request.query_params.multi_items())
@@ -249,4 +263,35 @@ def authorize_table_sas(keys, account, request, action, resource, now):
         and "a" not in args.get("sp", "")
     ):
         denied("AuthorizationPermissionMismatch")
+    return frozenset(args["sp"])
+
+
+def authorize_queue_sas(keys, account, request, action, resource, now):
+    args = dict(request.query_params.multi_items())
+    if (
+        args.get("sv") != "2026-02-06"
+        or args.get("si")
+        or any(k in args for k in ("skoid", "sr", "ss", "srt"))
+    ):
+        denied()
+    needed = {
+        "enqueue": "a",
+        "peek": "r",
+        "receive": "p",
+        "update_message": "u",
+        "delete_message": "p",
+        "read": "r",
+    }.get(action)
+    if not needed or needed not in args.get("sp", ""):
+        denied("AuthorizationPermissionMismatch")
+    if "".join(c for c in "raup" if c in args.get("sp", "")) != args.get("sp", ""):
+        denied()
+    fields = (
+        [args.get(k, "") for k in ("sp", "st", "se")]
+        + ["/queue/" + account.name + "/" + resource.split("/")[0]]
+        + [args.get(k, "") for k in ("si", "sip", "spr", "sv")]
+    )
+    if not matches(keys, args.get("sig"), "\n".join(fields).encode()):
+        denied()
+    check_constraints(args, request, now)
     return frozenset(args["sp"])

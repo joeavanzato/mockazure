@@ -28,6 +28,7 @@ from mockazure.security import models as security_models  # noqa: F401
 from mockazure.storage import (
     blob_models,  # noqa: F401
     file_models,  # noqa: F401
+    queue_models,  # noqa: F401
     table_models,  # noqa: F401
 )
 from mockazure.storage import models as storage_models  # noqa: F401

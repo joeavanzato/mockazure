@@ -117,3 +117,115 @@ def run_table(profile):
                     "remainingEntities": 2,
                 },
             }
+
+
+def run_queue(profile):
+    """Exercise default raw text and explicit SDK base64 policies without shims."""
+    from azure.storage.queue import (
+        AccountSasPermissions,
+        QueueClient,
+        QueueSasPermissions,
+        QueueServiceClient,
+        ResourceTypes,
+        TextBase64DecodePolicy,
+        TextBase64EncodePolicy,
+        generate_account_sas,
+        generate_queue_sas,
+    )
+
+    endpoint = profile["queue_endpoint"]
+    parsed = urlsplit(endpoint)
+    with LocalSession(parsed.scheme + "://" + parsed.netloc, profile["ca_file"]) as session:
+
+        def transport():
+            return RequestsTransport(
+                session=session, session_owner=False, connection_verify=profile["ca_file"]
+            )
+
+        options = {"api_version": "2026-02-06", "retry_total": 0}
+        with QueueServiceClient(
+            endpoint, credential=profile["key"], transport=transport(), **options
+        ) as service:
+            queue = service.create_queue("python-messages", metadata={"source": "sdk"})
+            assert "python-messages" in [
+                q.name for q in service.list_queues(results_per_page=1, include_metadata=True)
+            ]
+            queue.set_queue_metadata({"source": "updated"})
+            assert queue.get_queue_properties().metadata["source"] == "updated"
+            text = "raw <payload> & unicode ☃"
+            queue.send_message(text, time_to_live=-1)
+            assert queue.peek_messages()[0].content == text
+            received = next(queue.receive_messages(messages_per_page=1, visibility_timeout=30))
+            assert received.content == text and received.dequeue_count == 1
+            updated = queue.update_message(received, content="changed", visibility_timeout=0)
+            assert updated.pop_receipt != received.pop_receipt
+            received = next(queue.receive_messages(messages_per_page=1))
+            assert received.content == "changed" and received.dequeue_count == 2
+            queue.delete_message(received)
+            assert queue.get_queue_properties().approximate_message_count == 0
+            expiry = datetime.now(UTC) + timedelta(minutes=5)
+            sas = generate_queue_sas(
+                profile["account"],
+                "python-messages",
+                account_key=profile["key"],
+                permission=QueueSasPermissions(read=True, add=True, update=True, process=True),
+                expiry=expiry,
+            )
+            with QueueClient(
+                endpoint, "python-messages", credential=sas, transport=transport(), **options
+            ) as signed:
+                sent = signed.send_message("signed")
+                assert signed.peek_messages()[0].content == "signed"
+                signed.delete_message(sent)
+            account_sas = generate_account_sas(
+                profile["account"],
+                profile["key"],
+                ResourceTypes(service=True, container=True, object=True),
+                AccountSasPermissions(
+                    read=True,
+                    write=True,
+                    delete=True,
+                    list=True,
+                    add=True,
+                    update=True,
+                    process=True,
+                ),
+                expiry,
+            )
+            with QueueClient(
+                endpoint,
+                "python-messages",
+                credential=account_sas,
+                transport=transport(),
+                **options,
+            ) as signed:
+                sent = signed.send_message("account-sas")
+                updated = signed.update_message(
+                    sent, content="updated-account-sas", visibility_timeout=0
+                )
+                signed.delete_message(updated)
+            with QueueClient(
+                endpoint,
+                "python-messages",
+                credential=profile["key"],
+                transport=transport(),
+                message_encode_policy=TextBase64EncodePolicy(),
+                message_decode_policy=TextBase64DecodePolicy(),
+                **options,
+            ) as encoded:
+                encoded.send_message(text)
+                import base64
+
+                assert queue.peek_messages()[0].content == base64.b64encode(text.encode()).decode()
+                assert encoded.peek_messages()[0].content == text
+                encoded.clear_messages()
+            queue.delete_queue()
+    return {
+        "passed": True,
+        "queue": {
+            "sdk": version("azure-storage-queue"),
+            "rawAndBase64": True,
+            "sas": True,
+            "receipts": True,
+        },
+    }

@@ -8100,6 +8100,1908 @@
         }
       },
       "sourceKind": "documentation"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Service_ListQueuesSegment",
+      "nativeOperationId": "Service_ListQueuesSegment",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "GET",
+      "path": "/{account}/?comp=list",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ListQueuesSegmentResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Queue_Create",
+      "nativeOperationId": "Queue_Create",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "PUT",
+      "path": "/{account}/{queueName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": null,
+        "204": null
+      },
+      "statusCodes": [
+        201,
+        204,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Queue_Delete",
+      "nativeOperationId": "Queue_Delete",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "DELETE",
+      "path": "/{account}/{queueName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Queue_GetProperties",
+      "nativeOperationId": "Queue_GetProperties",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "GET",
+      "path": "/{account}/{queueName}?comp=metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Queue_SetMetadata",
+      "nativeOperationId": "Queue_SetMetadata",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "PUT",
+      "path": "/{account}/{queueName}?comp=metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Messages_Dequeue",
+      "nativeOperationId": "Messages_Dequeue",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "GET",
+      "path": "/{account}/{queueName}/messages",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/DequeuedMessagesList"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Messages_Clear",
+      "nativeOperationId": "Messages_Clear",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "DELETE",
+      "path": "/{account}/{queueName}/messages",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Messages_Enqueue",
+      "nativeOperationId": "Messages_Enqueue",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "POST",
+      "path": "/{account}/{queueName}/messages",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "201": {
+          "$ref": "#/definitions/EnqueuedMessageList"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.Messages_Peek",
+      "nativeOperationId": "Messages_Peek",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "GET",
+      "path": "/{account}/{queueName}/messages?peekonly=true",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/PeekedMessagesList"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.MessageId_Update",
+      "nativeOperationId": "MessageId_Update",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "PUT",
+      "path": "/{account}/{queueName}/messages/{messageid}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "queue.MessageId_Delete",
+      "nativeOperationId": "MessageId_Delete",
+      "service": "storage",
+      "version": "2026-02-06",
+      "method": "DELETE",
+      "path": "/{account}/{queueName}/messages/{messageid}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        409,
+        413,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-version",
+        "x-ms-date",
+        "x-ms-meta-*",
+        "x-ms-popreceipt",
+        "x-ms-time-next-visible",
+        "x-ms-approximate-messages-count"
+      ],
+      "permissions": [
+        "Current scoped Queue data Actions or authenticated account/service SAS"
+      ],
+      "queryOptions": [
+        "comp",
+        "prefix",
+        "marker",
+        "maxresults",
+        "include",
+        "numofmessages",
+        "visibilitytimeout",
+        "messagettl",
+        "peekonly",
+        "popreceipt",
+        "timeout"
+      ],
+      "limits": {
+        "messageUtf8Bytes": 65536,
+        "receiveMessages": 32,
+        "visibilitySeconds": 604800,
+        "listPage": 5000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "sha256": "c9612f71df26cdc00716477808ce190efd01b197dee1b60d37f3ae723b4f9ad4",
+          "localPath": "schemas/specification/storage/data-plane/QueueStorage/stable/2026-02-06/queue.json",
+          "retrievedAt": "2026-10-18",
+          "license": "MIT (Azure REST API specifications)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Queue3.md",
+          "sha256": "2d9e098ef4d8ad554d0842057adcbf6fe0bf6352459a7f9c88cd867139e5ba20",
+          "localPath": "references/delete-queue3.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Queues1.md",
+          "sha256": "fd24a04bd188fc1d5ded5cead050dc367b7dba9a308cfaab755335bf739d2ed7",
+          "localPath": "references/list-queues1.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Queue-Metadata.md",
+          "sha256": "69d82296a79c8df8ad78def0e8b139bd063595e744b5151fc6cd5d6737c8dcfb",
+          "localPath": "references/get-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Set-Queue-Metadata.md",
+          "sha256": "8c9024f8becef05a0fe44d5c86d83eb7e6ceca11c5e00c89d881b28428970076",
+          "localPath": "references/set-queue-metadata.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Message.md",
+          "sha256": "23cce24d1e2a49b39216f57ccff8ce1740363e095e5e972ebea5c28068deaf07",
+          "localPath": "references/put-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Get-Messages.md",
+          "sha256": "b74d085fc91acc34ee7aa8e9a9bec0e991392b7f143d28af4ed6eb2c4ae560a3",
+          "localPath": "references/get-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Peek-Messages.md",
+          "sha256": "f8574a9bb7c3652d9451f7eafdb314043e482be31319606123cc9bd326cbfbe6",
+          "localPath": "references/peek-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/update-message",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Update-Message.md",
+          "sha256": "611e8862915c2a8bf68a61fc393ba5adf765f7d3522e0fdaeb00fc40e680749f",
+          "localPath": "references/update-message.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Delete-Message2.md",
+          "sha256": "97c7d3ca17dea792cdcb157e468c9418c2a5bce01a2f5f6ed9759c0a2063e3ee",
+          "localPath": "references/delete-message2.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Clear-Messages.md",
+          "sha256": "186fb1ee63e62f6c83c543e555152049e34e3d38e3e3a6188192569848e5dcff",
+          "localPath": "references/clear-messages.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/queue-service-error-codes",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Queue-Service-Error-Codes.md",
+          "sha256": "582a06c822f9ec53bb035b293a18c5ed4e51a429979d872338a8dfd53e0609cb",
+          "localPath": "references/queue-service-error-codes.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4",
+          "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Create-Queue4.md",
+          "sha256": "60ff3c6a73fc102916638e72fb2ba00300317e959d971c32c4e39554333ab5db",
+          "localPath": "references/create-queue4.html",
+          "retrievedAt": "2026-10-18",
+          "license": "Microsoft documentation terms; snapshot for protocol conformance"
+        }
+      ],
+      "limitations": [
+        "Queue REST2026-02-06; original Python12.15.0 HTTPS verified; four-ecosystem D gate pending.",
+        "No Queue ACL/stored-policy, service stats/properties or user delegation.",
+        "Immediate queue deletion; exact local unexpired count; <=64KiB UTF-8 text and <=1MiB XML envelope; see docs/queue-contracts.md."
+      ],
+      "tests": [
+        "tests/integration/test_queue_workflows.py",
+        "tests/integration/test_queue_authorization.py",
+        "tests/integration/test_queue_lifecycle.py",
+        "tests/integration/test_queue_sdk.py"
+      ],
+      "status": "implemented"
     }
   ]
 }
