@@ -109,7 +109,7 @@ async def test_original_az_role_definition_preview(database, settings):
         )
         response = await client.send(request)
         assert response.status_code == 200, response.text
-        assert len(response.json()["value"]) == 4
+        assert len(response.json()["value"]) == 20
         for item in response.json()["value"]:
             validate_arm_payload("RoleDefinition", item, namespace="definitionsPreview")
 

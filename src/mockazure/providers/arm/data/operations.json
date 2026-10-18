@@ -44,6 +44,62 @@
       "default"
     ]
   },
+  "providers.list": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}/providers",
+    "operationId": "Providers_List",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "ProviderListResult",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "providers.get": {
+    "method": "GET",
+    "path": "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}",
+    "operationId": "Providers_Get",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "Provider",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "providers.register": {
+    "method": "POST",
+    "path": "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register",
+    "operationId": "Providers_Register",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "Provider",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
+  "providers.unregister": {
+    "method": "POST",
+    "path": "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister",
+    "operationId": "Providers_Unregister",
+    "source": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+    "versions": [
+      "2021-04-01"
+    ],
+    "schema": "Provider",
+    "responses": [
+      "200",
+      "default"
+    ]
+  },
   "groups.list": {
     "method": "GET",
     "path": "/subscriptions/{subscriptionId}/resourcegroups",

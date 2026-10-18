@@ -113,7 +113,7 @@ valid encoded Azure names until a nonambiguous encoding profile is implemented.
 
 ## Public RBAC (Task4)
 
-Authorization2022-04-01 serves the four pinned built-in role definitions and
+Authorization2022-04-01 serves the 20 pinned built-in role definitions and
 canonical role assignment GET/list/PUT/DELETE. Principal IDs are local object
 IDs; omitted principalType is inferred, supplied types must match. Scope/principal/
 role identity is immutable; equivalent new IDs conflict. Description updates
@@ -226,3 +226,54 @@ Original Az qualifies built-in role-definition IDs at its assignment scope.
 References at an existing local ancestor are accepted; foreign subscriptions,
 unrelated scopes and nonexistent scopes are rejected. Stored role identity remains
 the canonical immutable built-in UUID, so this compatibility form adds no authority.
+
+
+## Provider discovery and data permissions
+
+Provider list/get/register/unregister use the actual Microsoft.Resources 2021-04-01
+contract. Five profiles cover Storage, KeyVault, Compute, Network and
+OperationalInsights; metadata lists selected versions and the local eastus/westus2
+locations. New subscriptions begin NotRegistered. Local registration completes
+synchronously. Unregister rejects a namespace with current inventory; repeated
+unchanged state does not create duplicate successful facts. Consent properties,
+metadata/alias expansion and tenant-level provider APIs are unsupported.
+Discovery metadata is a profile catalog, not proof that every provider operation
+has a handler. Unknown paths/versions fail before inventory mutation. Subsequent
+Storage/resource tasks implement the separately cataloged resource operations.
+
+Twenty official built-in definitions include the original four control roles,
+Blob Owner/Contributor/Reader, Queue Contributor/Reader/Message Processor/Message
+Sender, Table Contributor/Reader, Files Privileged Contributor/Reader, and Key Vault
+Administrator/Contributor/Reader/Secrets Officer/Secrets User. Their exact UUIDs,
+actions and exclusions come from hashed Microsoft Learn sources. Conditional roles
+such as Key Vault Data Access Administrator are excluded until their condition
+language can be enforced. No custom-role write support is implied.
+
+Data authorization requires the correct Storage or Key Vault service audience,
+current application/service principal/user and current scoped assignments, including
+transitive current security-group membership. It subtracts notDataActions within
+each role before union; a different role may grant the excluded action. Contributor
+and Owner control-plane wildcards alone grant no data action. Service handlers still
+own network, service-specific permission modes and object authorization. The internal
+check does not itself expose a Storage/Key Vault data endpoint or mint tokens; those
+are delivered by their owning tasks.
+
+Migration 057 stores subscription-bound provider state and generation-bound internal
+service events. State and native Activity Log facts commit together. Identical event
+IDs are idempotent; different facts under the same ID fail. These internal envelopes
+are not a Microsoft wire schema. Diagnostics delivery is added in its own phase.
+
+Authenticated local GET/PUT `/_mock/tenants/{tenant}/cloud/providerState` exports or
+atomically replaces registrations/events; empty lists reset this state and advance
+the generation. The local fixture limits are 5,000 registration rows and 10,000
+events; exports exceeding them fail explicitly. All subscriptions must belong to the
+tenant. Historical events may refer to deleted resources in those subscriptions.
+Restored events are ineligible for publication; they never revive worker/delivery
+authority. Secret-bearing payload fields are rejected. Bounded internal pruning
+removes only old ineligible events, preserving undelivered native events. B4 connects
+these contributors to the combined resource lifecycle. Migration downgrade refuses
+nonempty provider/event stores. PostgreSQL and application restarts preserve state.
+
+B1 has direct signed-token HTTP and database integration coverage; the original
+management SDK/module matrix is completed in B4 alongside usable account/resource
+workflows. No new four-ecosystem qualification is claimed by this foundation alone.

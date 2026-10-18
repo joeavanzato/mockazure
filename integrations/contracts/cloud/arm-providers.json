@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "service": "arm-providers",
+  "operations": [
+    {
+      "kind": "rest",
+      "operationId": "Providers_Unregister",
+      "service": "arm-providers",
+      "version": "2021-04-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/Provider"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "{namespace}/unregister/action"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "localProviderCount": 5
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "cf1e67a7ff6c22012c8dc5e55569a30ca242ee829fdb380073258de417fb77cc",
+          "localPath": "schemas/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v1/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "5727903ec2102686dfbda7228fd22ccad2e1f944d27d5877f6885b83d0d453de",
+          "localPath": "schemas/specification/common-types/resource-management/v1/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Subscription-scoped providers only; no metadata/alias expand or provider consent properties.",
+        "Registration completes synchronously in the local profile; resource operations require their own implemented handler/version.",
+        "Only eastus and westus2 are modeled local locations."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_provider_registry.py::test_provider_discovery_and_version"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "Providers_Register",
+      "service": "arm-providers",
+      "version": "2021-04-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register",
+      "aliases": [],
+      "requestSchema": "#/definitions/ProviderRegistrationRequest",
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/Provider"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "{namespace}/register/action"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "localProviderCount": 5
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "cf1e67a7ff6c22012c8dc5e55569a30ca242ee829fdb380073258de417fb77cc",
+          "localPath": "schemas/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v1/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "5727903ec2102686dfbda7228fd22ccad2e1f944d27d5877f6885b83d0d453de",
+          "localPath": "schemas/specification/common-types/resource-management/v1/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Subscription-scoped providers only; no metadata/alias expand or provider consent properties.",
+        "Registration completes synchronously in the local profile; resource operations require their own implemented handler/version.",
+        "Only eastus and westus2 are modeled local locations."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_provider_registry.py::test_provider_discovery_and_version"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "Providers_List",
+      "service": "arm-providers",
+      "version": "2021-04-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/providers",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/ProviderListResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Resources/subscriptions/providers/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "localProviderCount": 5
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "cf1e67a7ff6c22012c8dc5e55569a30ca242ee829fdb380073258de417fb77cc",
+          "localPath": "schemas/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v1/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "5727903ec2102686dfbda7228fd22ccad2e1f944d27d5877f6885b83d0d453de",
+          "localPath": "schemas/specification/common-types/resource-management/v1/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Subscription-scoped providers only; no metadata/alias expand or provider consent properties.",
+        "Registration completes synchronously in the local profile; resource operations require their own implemented handler/version.",
+        "Only eastus and westus2 are modeled local locations."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_provider_registry.py::test_provider_discovery_and_version"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "Providers_Get",
+      "service": "arm-providers",
+      "version": "2021-04-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/Provider"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.Resources/subscriptions/providers/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "localProviderCount": 5
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "cf1e67a7ff6c22012c8dc5e55569a30ca242ee829fdb380073258de417fb77cc",
+          "localPath": "schemas/specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v1/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "5727903ec2102686dfbda7228fd22ccad2e1f944d27d5877f6885b83d0d453de",
+          "localPath": "schemas/specification/common-types/resource-management/v1/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Subscription-scoped providers only; no metadata/alias expand or provider consent properties.",
+        "Registration completes synchronously in the local profile; resource operations require their own implemented handler/version.",
+        "Only eastus and westus2 are modeled local locations."
+      ],
+      "tests": [
+        "tests/integration/test_cloud_provider_registry.py::test_provider_discovery_and_version"
+      ],
+      "status": "implemented"
+    }
+  ]
+}

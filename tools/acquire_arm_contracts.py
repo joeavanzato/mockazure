@@ -32,6 +32,26 @@ SOURCES = {
     "activity": "specification/monitor/resource-manager/Microsoft.Insights/Insights/"
     "stable/2015-04-01/activityLogs_API.json",
 }
+SOURCES.update(
+    {
+        "compute": "specification/compute/resource-manager/Microsoft.Compute/"
+        "Compute/stable/2025-04-01/ComputeRP.json",
+        "networkInterface": "specification/network/resource-manager/Microsoft.Network/"
+        "Network/stable/2025-03-01/networkInterface.json",
+        "networkPublicIP": "specification/network/resource-manager/Microsoft.Network/"
+        "Network/stable/2025-03-01/publicIpAddress.json",
+        "networkSecurity": "specification/network/resource-manager/Microsoft.Network/"
+        "Network/stable/2025-03-01/networkSecurityGroup.json",
+        "networkVirtual": "specification/network/resource-manager/Microsoft.Network/"
+        "Network/stable/2025-03-01/virtualNetwork.json",
+        "storage": "specification/storage/resource-manager/Microsoft.Storage/"
+        "Storage/stable/2025-06-01/openapi.json",
+        "vaults": "specification/keyvault/resource-manager/Microsoft.KeyVault/"
+        "KeyVault/stable/2025-05-01/openapi.json",
+        "workspaces": "specification/operationalinsights/resource-manager/"
+        "Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json",
+    }
+)
 
 
 def references(value):
@@ -101,7 +121,29 @@ def acquire():
 def build_metadata(manifest):
     data = DATA
     roles = {}
-    for category in ("general", "privileged"):
+    selected = {
+        "Contributor",
+        "Key Vault Administrator",
+        "Key Vault Contributor",
+        "Key Vault Reader",
+        "Key Vault Secrets Officer",
+        "Key Vault Secrets User",
+        "Owner",
+        "Reader",
+        "Storage Blob Data Contributor",
+        "Storage Blob Data Owner",
+        "Storage Blob Data Reader",
+        "Storage File Data Privileged Contributor",
+        "Storage File Data Privileged Reader",
+        "Storage Queue Data Contributor",
+        "Storage Queue Data Message Processor",
+        "Storage Queue Data Message Sender",
+        "Storage Queue Data Reader",
+        "Storage Table Data Contributor",
+        "Storage Table Data Reader",
+        "User Access Administrator",
+    }
+    for category in ("general", "privileged", "storage", "security"):
         url = (
             "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/"
             + category
@@ -111,6 +153,8 @@ def build_metadata(manifest):
         expected = {
             "general": "a33c4ebb5d465052533744e7c96bfb36f15a6b3cf984c443882d9ee8e66ae8b8",
             "privileged": "a94e2c193da1f213942f767dc306d6c721c9327e21c96acbd54c8693f0700c83",
+            "storage": "efef7da2738fc1c4ecc02e6fe99e9894875833c2a6a03d3f68b74ecc3d81e751",
+            "security": "17a0abfc394a8ac3d6742c86b04c056ace974fef17e30c1b8ab30a92b8d839e8",
         }[category]
         if hashlib.sha256(raw).hexdigest() != expected:
             raise ValueError("Published role source changed; explicit reference update required")
@@ -121,14 +165,22 @@ def build_metadata(manifest):
             "url": url,
             "sha256": hashlib.sha256(raw).hexdigest(),
         }
+        if category in {"storage", "security"}:
+            manifest["files"][url].update(
+                revision="1b4e136a1da731e1ed16444eb6ce5701bcd8c0f4",
+                license="CC-BY-4.0",
+            )
         for code in re.findall(
             r'<code[^>]*class="lang-json"[^>]*>(.*?)</code>', raw.decode(), re.S
         ):
             value = json.loads(html.unescape(code))
             name = value.get("roleName")
-            if name in {"Reader", "Owner", "Contributor", "User Access Administrator"}:
+            if name in selected:
                 assert len(value["permissions"]) == 1
                 permission = value["permissions"][0]
+                assert not permission.get("condition"), (
+                    "Conditional roles require a separate evaluator"
+                )
                 roles[name] = {
                     "id": value["name"],
                     "description": value["description"],
@@ -139,7 +191,7 @@ def build_metadata(manifest):
                     "assignableScopes": value["assignableScopes"],
                     "source": url,
                 }
-    assert set(roles) == {"Reader", "Owner", "Contributor", "User Access Administrator"}
+    assert set(roles) == selected
     (data / "roles.json").write_text(
         json.dumps({"roles": roles}, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
@@ -150,6 +202,10 @@ def build_metadata(manifest):
             "tenants.list": "Tenants_List",
         },
         "resources": {
+            "providers.list": "Providers_List",
+            "providers.get": "Providers_Get",
+            "providers.register": "Providers_Register",
+            "providers.unregister": "Providers_Unregister",
             "groups.list": "ResourceGroups_List",
             "groups.get": "ResourceGroups_Get",
             "groups.head": "ResourceGroups_CheckExistence",

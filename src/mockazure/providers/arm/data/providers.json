@@ -1,0 +1,143 @@
+{
+  "Microsoft.Storage": {
+    "resourceTypes": [
+      {
+        "resourceType": "storageAccounts",
+        "apiVersions": [
+          "2025-06-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "storage"
+      }
+    ]
+  },
+  "Microsoft.KeyVault": {
+    "resourceTypes": [
+      {
+        "resourceType": "vaults",
+        "apiVersions": [
+          "2025-05-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "vaults"
+      }
+    ]
+  },
+  "Microsoft.Compute": {
+    "resourceTypes": [
+      {
+        "resourceType": "virtualMachines",
+        "apiVersions": [
+          "2025-04-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "compute"
+      },
+      {
+        "resourceType": "virtualMachines/extensions",
+        "apiVersions": [
+          "2025-04-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "compute"
+      }
+    ]
+  },
+  "Microsoft.Network": {
+    "resourceTypes": [
+      {
+        "resourceType": "virtualNetworks",
+        "apiVersions": [
+          "2025-03-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "networkVirtual"
+      },
+      {
+        "resourceType": "virtualNetworks/subnets",
+        "apiVersions": [
+          "2025-03-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "networkVirtual"
+      },
+      {
+        "resourceType": "networkSecurityGroups",
+        "apiVersions": [
+          "2025-03-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "networkSecurity"
+      },
+      {
+        "resourceType": "networkSecurityGroups/securityRules",
+        "apiVersions": [
+          "2025-03-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "networkSecurity"
+      },
+      {
+        "resourceType": "networkInterfaces",
+        "apiVersions": [
+          "2025-03-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "networkInterface"
+      },
+      {
+        "resourceType": "publicIPAddresses",
+        "apiVersions": [
+          "2025-03-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "networkPublicIP"
+      }
+    ]
+  },
+  "Microsoft.OperationalInsights": {
+    "resourceTypes": [
+      {
+        "resourceType": "workspaces",
+        "apiVersions": [
+          "2025-02-01"
+        ],
+        "locations": [
+          "eastus",
+          "westus2"
+        ],
+        "schemaNamespace": "workspaces"
+      }
+    ]
+  }
+}

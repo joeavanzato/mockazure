@@ -6,7 +6,7 @@
 **Architecture:** One authoritative PostgreSQL state with focused service modules and service-specific public protocols. Shared transactions, content, current authorization and durable publication connect complete workflows without a generic success stub.
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Windows/Docker, official Python/PowerShell/.NET/JavaScript-TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
-**Status:** Approved; A1-A4 are implemented and locally qualified, with phase A review completed and both Important findings fixed. B-G remain pending. GitHub Actions is currently blocked before job execution by account billing/spending limits.
+**Status:** Approved; A1-A4 are implemented and locally qualified, with phase A review completed and both Important findings fixed. B1 is implemented and locally verified; B2-G remain pending. GitHub Actions is currently blocked before job execution by account billing/spending limits.
 
 ## Global Constraints
 

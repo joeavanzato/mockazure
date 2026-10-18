@@ -16,8 +16,8 @@ from mockazure.providers.arm.models import ArmResource, RoleAssignment, Subscrip
 ARM = next(r.audience for r in RESOURCES if r.service == "arm")
 
 
-async def current_principal(session, actor):
-    if actor.audience != ARM or actor.token_kind not in {"application", "delegated"}:
+async def current_principal(session, actor, *, audience=ARM):
+    if actor.audience != audience or actor.token_kind not in {"application", "delegated"}:
         raise ArmError(403, "AuthorizationFailed", "ARM identity is required")
     if actor.token_kind == "delegated" and "user_impersonation" not in actor.permissions:
         raise ArmError(403, "AuthorizationFailed", "ARM delegated scope is required")
@@ -58,18 +58,24 @@ def security_groups(tenant, principal_id):
     return select(tree.c.id)
 
 
-def permitted_roles(action):
+def permitted_roles(action, *, data=False):
     action = action.lower()
     return [
         role["id"]
         for role in builtin_roles().values()
-        if any(fnmatchcase(action, pattern.lower()) for pattern in role["actions"])
-        and not any(fnmatchcase(action, pattern.lower()) for pattern in role["notActions"])
+        if any(
+            fnmatchcase(action, pattern.lower())
+            for pattern in role["dataActions" if data else "actions"]
+        )
+        and not any(
+            fnmatchcase(action, pattern.lower())
+            for pattern in role["notDataActions" if data else "notActions"]
+        )
     ]
 
 
-async def grant_query(session, actor, action):
-    principal_id = await current_principal(session, actor)
+async def grant_query(session, actor, action, *, audience=ARM, data=False):
+    principal_id = await current_principal(session, actor, audience=audience)
     direct = (
         RoleAssignment.client_id == actor.client_id
         if actor.token_kind == "application"
@@ -77,7 +83,7 @@ async def grant_query(session, actor, action):
     )
     return select(RoleAssignment.id).where(
         RoleAssignment.tenant_id == actor.tenant_id,
-        RoleAssignment.role_id.in_(permitted_roles(action)),
+        RoleAssignment.role_id.in_(permitted_roles(action, data=data)),
         or_(direct, RoleAssignment.group_id.in_(security_groups(actor.tenant_id, principal_id))),
     )
 

@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** Proposed implementation plan; no tasks executed.
+**Status:** B1 implemented and locally verified; B2-B4 pending. Native management client qualification remains the B4 gate.
 
 ## Global Constraints
 
@@ -46,7 +46,7 @@ Provider roots are Microsoft.Storage, Microsoft.KeyVault, Microsoft.Compute, Mic
 
 **Interfaces:** Produce `resolve_operation(method: str, resource_id: str, api_version: str) -> dict`; `async require_data_action(session: AsyncSession, actor: PrincipalContext, scope: str, action: str) -> None`; `async append_service_event(session: AsyncSession, event: ServiceEvent) -> UUID`. Data authorization verifies the caller's service audience before evaluating current scoped dataActions/notDataActions, rather than calling the ARM-audience-only guard unchanged.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_provider_discovery_and_version lists supported resourceTypes/versions, changes registration state and reads it back; rejects an unknown namespace/version. test_actions_are_not_data_actions grants Contributor and verifies management write but data denial, then adds a data role and verifies data access. test_scoped_role_union checks exclusions within each role before union.
+- [x] **Step 1 — Add the named failing scenarios.** test_provider_discovery_and_version lists supported resourceTypes/versions, changes registration state and reads it back; rejects an unknown namespace/version. test_actions_are_not_data_actions grants Contributor and verifies management write but data denial, then adds a data role and verifies data access. test_scoped_role_union checks exclusions within each role before union.
 
 ```python
 assert 'Microsoft.Storage' in registered_names
@@ -55,10 +55,10 @@ assert management_allowed is True and data_allowed is False
 assert role_union_result == expected_effective_actions
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_cloud_provider_registry.py tests/integration/test_arm_authorization.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Pin provider metadata, built-in data roles and action patterns; bind registered operations to real handlers and prevent catch-all success. Add provider discovery/registration operations as the working deliverable. Define shared types/event outbox and indexes, retaining existing ARM fact publication. Test scoped union semantics and audience confusion. Register routers with correct service error dispatch.
-- [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add typed ARM providers and data-action authorization"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_cloud_provider_registry.py tests/integration/test_arm_authorization.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Pin provider metadata, built-in data roles and action patterns; bind registered operations to real handlers and prevent catch-all success. Add provider discovery/registration operations as the working deliverable. Define shared types/event outbox and indexes, retaining existing ARM fact publication. Test scoped union semantics and audience confusion. Register routers with correct service error dispatch.
+- [x] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add typed ARM providers and data-action authorization"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task B2: Storage account resources and local endpoints
 
@@ -112,8 +112,8 @@ assert inventory_after_failed_write == inventory_before
 
 **Files**
 
-- Create: `src/mockazure/providers/arm/provider_jobs.py`, `src/mockazure/cloud/lifecycle.py`, `src/mockazure/admin/cloud_routes.py`, `tests/integration/test_cloud_resource_lifecycle.py`, `integrations/powershell/Test-CloudManagement.ps1`, `integrations/python/cloud_management.py`.
-- Modify: `src/mockazure/providers/arm/operations.py`, `src/mockazure/jobs/dispatch.py`, `src/mockazure/jobs/exports.py`, `src/mockazure/admin/maintenance_routes.py`, `src/mockazure/admin/app.py`, `src/mockazure/evidence/cleanup.py`.
+- Create: `src/mockazure/providers/arm/provider_jobs.py`, `src/mockazure/cloud/lifecycle.py`, `tests/integration/test_cloud_resource_lifecycle.py`, `integrations/powershell/Test-CloudManagement.ps1`, `integrations/python/cloud_management.py`.
+- Modify: `src/mockazure/admin/cloud_routes.py` (providerState already added by B1), `src/mockazure/providers/arm/operations.py`, `src/mockazure/jobs/dispatch.py`, `src/mockazure/jobs/exports.py`, `src/mockazure/admin/maintenance_routes.py`, `src/mockazure/admin/app.py`, `src/mockazure/evidence/cleanup.py`.
 - Include this task's catalog/reference closure, numbered domain migration if state changes, lifecycle hooks and COVERAGE rows as required by the program index.
 
 **Interfaces:** Produce `async process_provider_operation(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult`; `async reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generation: int) -> None`; `async export_cloud(session: AsyncSession, tenant_id: UUID) -> dict`; `async import_cloud(session: AsyncSession, tenant_id: UUID, document: dict) -> None`; `async prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, limit: int) -> int`. Domain-owned lifecycle contributors are registered explicitly, not found by untrusted imports.
