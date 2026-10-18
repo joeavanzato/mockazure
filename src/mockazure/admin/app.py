@@ -49,6 +49,7 @@ from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
 from mockazure.providers.graph.mail_content_routes import router as mail_content_router
+from mockazure.providers.graph.mail_mutation_routes import router as mail_mutation_router
 from mockazure.providers.graph.mail_routes import router_for as mail_router_for
 from mockazure.providers.graph.probes import router as graph_router
 from mockazure.providers.graph.security.grant_routes import router_for as grant_router_for
@@ -319,6 +320,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(security_router_for("beta"))
     app.include_router(audit_query_router_for("v1.0"))
     app.include_router(audit_query_router_for("beta"))
+    app.include_router(mail_mutation_router)
     app.include_router(mail_content_router)
     app.include_router(mail_router_for("v1.0"))
     app.include_router(mail_router_for("beta"))

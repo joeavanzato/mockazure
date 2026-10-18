@@ -1996,6 +1996,770 @@
       ],
       "status": "implemented",
       "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/delta",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/me/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/me/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-update?view=graph-rest-1.0",
+      "sourceSha256": "63396a704e11473c81306aa3032a4dc00654062e9830e10cede02afabaacf0e7",
+      "retrievedAt": "2026-10-17",
+      "requestType": "message",
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delete?view=graph-rest-1.0",
+      "sourceSha256": "c9764dd1b5cf621e143fe34a6b4e9fe9a6bf873a5dab061d7d111b1ecbf26df8",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": null,
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_move_and_delete"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/move",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0",
+      "sourceSha256": "acac3e7151ec0deb8b9108466e15635c9f9368b22a5864fea7630d745198fe9a",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_move_id_preferences"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/{message_id}/copy",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-copy?view=graph-rest-1.0",
+      "sourceSha256": "87409aef6195cdc342368f87dd0a19fecf654c4565839e13ab93541983bc0414",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [],
+      "limits": [
+        "Primary mailbox only; delegated own mailbox",
+        "PATCH only isRead/categories; no sending",
+        "Local delete removes current item; retained history is not a recoverable-items API",
+        "Native ExchangeItem audit facts; imported raw bytes unchanged"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_copy_allocates_independent_identity"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/delta",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/users/{user_id}/mailFolders/{folder_id}/messages/microsoft.graph.delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
+    },
+    {
+      "service": "graph",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/v1.0/me/mailFolders/{folder_id}/messages/microsoft.graph.delta()",
+      "sourceUrl": "https://learn.microsoft.com/en-us/graph/api/message-delta?view=graph-rest-1.0",
+      "sourceSha256": "f30cf9d467dfbbda9781c8303cf4e72accfc4f90737830dcdd7609f657a8b3b6",
+      "retrievedAt": "2026-10-17",
+      "requestType": null,
+      "responseType": "message",
+      "permissions": {
+        "application": [
+          "Mail.ReadBasic.All",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$filter",
+        "$orderby",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": [
+        "Folder-scoped, primary mailbox, one-hour bound cursor expiry",
+        "receivedDateTime ge/gt; order receivedDateTime desc",
+        "No changeType or expand; no tenant-wide delta",
+        "Removals and read-state changes can bypass received filter",
+        "Stable snapshot pages and current permission/entitlement checks",
+        "Function URI alias emitted by Graph SDKs"
+      ],
+      "tests": [
+        "tests/integration/test_mail_content_delta.py::test_delta_restart_two_instances",
+        "tests/integration/test_mail_content_delta.py::test_delta_reauthorizes"
+      ],
+      "status": "implemented",
+      "collectorCommands": []
     }
   ],
   "queryProfiles": [

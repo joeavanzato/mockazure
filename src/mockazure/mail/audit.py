@@ -56,10 +56,11 @@ def project_mail(source):
     if facts["operation"] != "Set-Mailbox":
         rule = facts["after"] or facts["before"]
         object_id += "\\" + rule.get("id", rule.get("RuleIdentity", ""))
+    item_operation = facts["operation"] in {"Update", "Move", "Copy", "SoftDelete"}
     data = {
         "Id": str(identifier),
         "CreationTime": source.occurred_at.isoformat(),
-        "RecordType": 1,
+        "RecordType": 2 if item_operation else 1,
         "Operation": facts["operation"],
         "OrganizationId": str(source.ref.tenant_id),
         "UserType": user_number,
@@ -88,7 +89,7 @@ def project_mail(source):
     payload = {
         "id": str(identifier),
         "createdDateTime": source.occurred_at.isoformat(),
-        "auditLogRecordType": "ExchangeAdmin",
+        "auditLogRecordType": "ExchangeItem" if item_operation else "ExchangeAdmin",
         "operation": facts["operation"],
         "organizationId": str(source.ref.tenant_id),
         "userType": user_type,

@@ -475,3 +475,42 @@ not portable backups. `POST .../reset` requires `expected_revision`, clears this
 mailbox's content/history/cursors and releases its blob references, returns empty
 statistics-only primary folders, and preserves archive statistics. It does not erase
 blobs still referenced elsewhere. Downgrade refuses nonempty content state.
+
+
+### Message changes and delta
+
+PATCH accepts only `isRead` and bounded `categories` (100 strings of at most256
+characters). Move and copy require a primary-folder `destinationId`, including
+well-known aliases. Normal IDs change on move; `Prefer: IdType="ImmutableId"`
+keeps the same immutable identity. Copy allocates a distinct identity and shares
+immutable bytes with independent metadata. DELETE removes the current message and
+retains a tombstone while synchronization needs it; a recoverable-items service,
+retention policy engine and mail delivery remain outside this profile.
+
+Each change uses the mailbox revision lock and records a native ExchangeItem audit
+fact transactionally. Repeating an identical property update is a no-op. The
+imported MIME remains original evidence after metadata changes; it is not rewritten.
+
+Folder `messages/delta` (also `delta()` and `microsoft.graph.delta()`) supports `$select`, `$top`, receivedDateTime `ge`/`gt`, and
+receivedDateTime descending order. Unsupported `changeType`, `$expand`, `$search`
+and collection-wide delta fail explicitly. Options and identity preferences are
+stored in opaque local next/delta tokens. Each round freezes its upper revision;
+changes during paging appear in the next round. Tokens bind tenant, mailbox,
+client, subject, permissions, folder and reset generation and expire after one hour.
+Every page rechecks permissions and entitlement. A reset or expiry requires a new
+initial collection. Following the v1.0 folder synchronization contract, removals
+and read-state changes can appear outside the received-time filter.
+
+Cleanup shares the maintenance deletion budget. Active cursors pin the history
+needed for their snapshot/delta round; expired cursors and unneeded versions can
+be reclaimed, releasing their binary references. Current message bytes stay pinned.
+Mail GETs share the existing users read-budget bucket, including one charge per
+batch inner request; the batch envelope is not charged. Read batches now accept
+bounded Prefer headers for immutable IDs and mail body preferences.
+
+`python -m tools.verify_mail_content` uses a fresh local Docker lab and the pinned,
+unchanged Graph Python SDK and PowerShell module. Prepare its three public module
+archives with `python tools/prepare_clients.py --manifest
+integrations/mail-content-manifest.json --output work/mail-content-vendor`.
+The qualifier checks all101 imported messages, exact MIME/attachment hashes and
+saved delta links across database/API restart. No real tenant is contacted.

@@ -75,6 +75,11 @@ class AttachmentImport(MailInput):
         if self.payload.keys() & {"id", "contentBytes", "@odata.type"}:
             raise ValueError("Attachment identity and bytes are managed separately")
         validate_payload("v1.0", self.kind, self.payload, partial=True)
+        media_type = self.payload.get("contentType")
+        if media_type is not None and (
+            len(media_type) > 255 or any(not 32 <= ord(c) <= 126 for c in media_type)
+        ):
+            raise ValueError("Attachment contentType must be a bounded printable HTTP header")
         if self.kind == "referenceAttachment" and (self.content_id or self.item):
             raise ValueError("Reference attachments have no local raw content")
         if self.kind == "fileAttachment" and (self.content_id is None or self.item):

@@ -45,3 +45,18 @@ def test_mail_import_counts_all_records_together():
                 "folders": [{"id": "inbox", "displayName": "Inbox"}],
             }
         )
+
+
+def test_attachment_content_type_cannot_break_http_headers():
+    from mockazure.mail.content_models import AttachmentImport
+
+    with pytest.raises(ValidationError):
+        AttachmentImport.model_validate(
+            {
+                "message_id": "m1",
+                "id": "a1",
+                "kind": "fileAttachment",
+                "content_id": str(uuid4()),
+                "payload": {"contentType": "text/plain\r\nX-Injected: yes"},
+            }
+        )

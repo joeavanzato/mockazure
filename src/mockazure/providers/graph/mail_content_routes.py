@@ -6,6 +6,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, StreamingResponse
+from starlette.background import BackgroundTask
 
 from mockazure.authorization.evaluator import AuthorizationDenied, authorize
 from mockazure.content.repository import object_row, stream_content
@@ -32,8 +33,84 @@ from mockazure.providers.graph.schema_reference import schema
 router = APIRouter(prefix="/v1.0")
 
 
+async def raw_content(request, *, self_path):
+    # One connection owns authorization and the blob read lease until streaming ends.
+    # No mailbox write lock is held while sending potentially large content.
+    session = request.app.state.database.sessions()
+    try:
+        actor = await principal(request, session)
+        if self_path and actor.token_kind != "delegated":
+            raise GraphError(400, "BadRequest", "/me requires delegated authentication")
+        await authorize(actor, content_requirement("raw"), session)
+        identity = str(actor.subject_id) if self_path else request.path_params["user_id"]
+        box = await resolve_mailbox(session, actor.tenant_id, identity)
+        await require_mailbox_access(session, actor, box, "content.raw")
+        message = await message_by_id(session, box, request.path_params["message_id"])
+        if "folder_id" in request.path_params:
+            folder = await folder_by_id(session, box, request.path_params["folder_id"])
+            if message.folder_id != folder.id:
+                raise GraphError(404, "ErrorItemNotFound", "Message is not in this folder")
+        if request.query_params:
+            raise GraphError(
+                400, "Request_UnsupportedQuery", "Raw content does not accept query options"
+            )
+        attachment = None
+        if "attachment_id" in request.path_params:
+            attachment = next(
+                (
+                    row
+                    for row in message.attachments
+                    if row["id"] == request.path_params["attachment_id"]
+                ),
+                None,
+            )
+            if attachment is None:
+                raise GraphError(404, "ErrorItemNotFound", "Attachment was not found")
+            if attachment["kind"] == "referenceAttachment":
+                raise GraphError(
+                    405, "ErrorInvalidOperation", "Reference attachments have no raw content"
+                )
+        content_id = (
+            UUID(attachment["content_id"])
+            if attachment and attachment.get("content_id")
+            else message.mime_content_id
+            if attachment is None
+            else None
+        )
+        if content_id is None:
+            raise GraphError(404, "ErrorItemNotFound", "Raw evidence was not imported")
+        blob = await object_row(session, actor.tenant_id, content_id, lock="read", finalized=True)
+        content_type = (
+            attachment["payload"].get("contentType") or blob.media_type
+            if attachment and attachment["kind"] == "fileAttachment"
+            else "message/rfc822"
+        )
+
+        async def body():
+            try:
+                async for data in stream_content(session, actor.tenant_id, content_id):
+                    yield data
+            finally:
+                await session.close()
+
+        return StreamingResponse(
+            body(),
+            media_type=content_type,
+            headers={"Content-Length": str(blob.size)},
+            background=BackgroundTask(session.close),
+        )
+    except AuthorizationDenied:
+        await session.close()
+        raise GraphError(403, "ErrorAccessDenied", "Mailbox operation is not permitted") from None
+    except BaseException:
+        await session.close()
+        raise
+
+
 def register(path, kind, *, item=False, raw=False, folder_scope=False, self_path=False):
     async def handle(request: Request):
+        if raw:
+            return await raw_content(request, self_path=self_path)
         try:
             async with request.app.state.database.sessions.begin() as session:
                 actor = await principal(request, session)
@@ -94,45 +171,6 @@ def register(path, kind, *, item=False, raw=False, folder_scope=False, self_path
                     )
                     if attachment is None:
                         raise GraphError(404, "ErrorItemNotFound", "Attachment was not found")
-                if raw:
-                    if request.query_params:
-                        raise GraphError(
-                            400,
-                            "Request_UnsupportedQuery",
-                            "Raw content does not accept query options",
-                        )
-                    if attachment and attachment["kind"] == "referenceAttachment":
-                        raise GraphError(
-                            405,
-                            "ErrorInvalidOperation",
-                            "Reference attachments have no raw content",
-                        )
-                    content_id = (
-                        UUID(attachment["content_id"])
-                        if attachment and attachment.get("content_id")
-                        else message.mime_content_id
-                        if attachment is None
-                        else None
-                    )
-                    if content_id is None:
-                        raise GraphError(404, "ErrorItemNotFound", "Raw evidence was not imported")
-                    blob = await object_row(session, actor.tenant_id, content_id, finalized=True)
-                    content_type = (
-                        attachment["payload"].get("contentType", blob.media_type)
-                        if attachment and attachment["kind"] == "fileAttachment"
-                        else "message/rfc822"
-                    )
-
-                    async def body():
-                        async with request.app.state.database.sessions() as streaming:
-                            async for data in stream_content(
-                                streaming, actor.tenant_id, content_id
-                            ):
-                                yield data
-
-                    return StreamingResponse(
-                        body(), media_type=content_type, headers={"Content-Length": str(blob.size)}
-                    )
                 resource = "users/" + str(box.user_id)
                 if folder_scope:
                     resource += "/mailFolders/" + quote(folder.id, safe="")

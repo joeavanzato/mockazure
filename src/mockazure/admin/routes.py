@@ -87,6 +87,8 @@ async def capabilities(request: Request):
             "graph.mail.inboxRules",
             "graph.mail.folders.read",
             "graph.mail.messages.read",
+            "graph.mail.messages.mutate",
+            "graph.mail.messages.folderDelta",
             "graph.mail.attachments.read",
             "graph.mail.rawContent.read",
             "graph.mail.mailboxSettings.read",
