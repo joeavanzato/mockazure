@@ -54,3 +54,55 @@ def test_workload_upgrade_preserves_tenant_and_refuses_lossy_downgrade(settings)
             command.upgrade(config, "head")
     finally:
         engine.dispose()
+
+
+def test_scoped_key_migration_preserves_existing_rows_and_edges(settings):
+    engine = create_engine(settings.database_url.get_secret_value())
+    tenant = uuid4()
+    try:
+        with engine.begin() as connection:
+            config = configuration()
+            config.attributes["connection"] = connection
+            command.upgrade(config, "045")
+            connection.execute(
+                Tenant.__table__.insert().values(
+                    id=tenant,
+                    slug="old-sites",
+                    display_name="Preserved",
+                    domain="old.test",
+                    licences=[],
+                    revision=1,
+                )
+            )
+            connection.execute(
+                text(
+                    "INSERT INTO workload_scopes "
+                    "(tenant_id,workload,scope,revision,generation,grant_revision) "
+                    "VALUES(:id,'sharepoint','s',1,:generation,0)"
+                ),
+                {"id": tenant, "generation": uuid4()},
+            )
+            connection.execute(
+                text(
+                    "INSERT INTO workload_versions "
+                    "(tenant_id,workload,scope,kind,id,valid_from,payload) "
+                    "VALUES(:id,'sharepoint','s','driveItem','legacy',1,CAST(:payload AS jsonb))"
+                ),
+                {"id": tenant, "payload": '{"id":"legacy","name":"old.bin"}'},
+            )
+            connection.execute(
+                text(
+                    "INSERT INTO workload_relations "
+                    "(tenant_id,workload,scope,source_kind,source_id,relation,"
+                    "target_kind,target_id,valid_from) "
+                    "VALUES(:id,'sharepoint','s','drive','d','root','driveItem','legacy',1)"
+                ),
+                {"id": tenant},
+            )
+            command.upgrade(config, "head")
+            assert (
+                connection.scalar(text("SELECT payload->>'id' FROM workload_versions")) == "legacy"
+            )
+            assert connection.scalar(text("SELECT target_id FROM workload_relations")) == "legacy"
+    finally:
+        engine.dispose()

@@ -1,5 +1,6 @@
 """Bounded administrative workload records; adapters validate official payloads."""
 
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -13,7 +14,7 @@ class WorkloadInput(BaseModel):
     def safe_text(cls, value, info):
         if isinstance(value, str):
             encoded = value.encode("utf-8")
-            if info.field_name in {"id", "scope"} and len(encoded) > 512:
+            if info.field_name in {"id", "scope", "storage_key"} and len(encoded) > 512:
                 raise ValueError("Workload identity exceeds 512 UTF-8 bytes")
             if any(ord(c) < 32 for c in value):
                 raise ValueError("Control characters are unsupported")
@@ -23,9 +24,10 @@ class WorkloadInput(BaseModel):
 class WorkloadKey(WorkloadInput):
     kind: str = Field(min_length=1, max_length=64)
     id: str = Field(min_length=1, max_length=512)
+    storage_key: str | None = Field(default=None, alias="key", min_length=1, max_length=512)
 
     def key(self):
-        return self.kind, self.id
+        return self.kind, self.storage_key or self.id
 
 
 class WorkloadRecord(WorkloadKey):
@@ -42,7 +44,23 @@ class WorkloadEdge(WorkloadInput):
         return (*self.source.key(), self.relation, *self.target.key())
 
 
+class WorkloadContent(WorkloadInput):
+    id: UUID
+    size: int = Field(ge=0, strict=True)
+    sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    media_type: str = Field(min_length=3, max_length=255)
+
+
+class WorkloadManifest(WorkloadInput):
+    version: Literal[1] = 1
+    tenant_id: UUID
+    workload: Literal["sharepoint"]
+    scope: str = Field(min_length=1, max_length=512)
+    content: list[WorkloadContent] = Field(default_factory=list, max_length=1000)
+
+
 class WorkloadImport(WorkloadInput):
+    manifest: WorkloadManifest | None = None
     scope: str = Field(min_length=1, max_length=512)
     expected_revision: int | None = Field(default=None, ge=0, strict=True)
     records: list[WorkloadRecord] = Field(default_factory=list, max_length=1000)

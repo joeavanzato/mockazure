@@ -132,9 +132,17 @@ async def related(session, tenant, workload, scope, source_kind, source_id, rela
 async def import_workload(session, tenant_id: UUID, workload: str, batch: WorkloadImport):
     if workload != "sharepoint":
         raise AdminError(422, "UnsupportedWorkload", "Unsupported workload import")
+    if batch.manifest is not None:
+        from mockazure.workloads.lifecycle import restored_records
+
+        batch = batch.model_copy(
+            update={"records": await restored_records(session, tenant_id, workload, batch)}
+        )
     for record in batch.records:
         if record.payload.get("id") != record.id:
             raise AdminError(422, "InvalidIdentity", "Payload id must match record identity")
+        if record.kind in {"site", "drive"} and record.key()[1] != record.id:
+            raise AdminError(422, "InvalidIdentity", "Site and drive keys equal their public IDs")
         validate_site_drive_record(record.kind, record.payload)
         if record.content_id and (
             record.kind not in {"driveItem", "driveItemVersion"}
@@ -153,6 +161,7 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
                 V.kind,
                 V.id,
                 V.name,
+                V.payload["id"].as_string().label("public_id"),
                 V.payload["folder"].label("folder"),
                 V.payload["webUrl"].as_string().label("url"),
             ).where(
@@ -174,6 +183,8 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
     if any(kind == "site" and identifier != batch.scope for kind, identifier in keys):
         raise AdminError(422, "InvalidScope", "Only the canonical site belongs to this scope")
     for key in incoming:
+        if key[0] not in {"site", "drive"}:
+            continue
         other = await session.scalar(
             select(V.scope).where(
                 V.tenant_id == tenant_id,
@@ -187,6 +198,21 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
             raise AdminError(
                 422, "IdentityScopeConflict", "Resource identity belongs to another scope"
             )
+    public_ids = {key: row.public_id for key, row in existing.items()}
+    for key, record in incoming.items():
+        if key in public_ids and public_ids[key] != record.id:
+            raise AdminError(422, "InvalidIdentity", "A stable record key cannot change public ID")
+        public_ids[key] = record.id
+    for edge in batch.edges:
+        for endpoint in (edge.source, edge.target):
+            if (
+                endpoint.kind not in {"user", "group"}
+                and public_ids.get(endpoint.key()) != endpoint.id
+            ):
+                raise AdminError(422, "InvalidRelationship", "Edge key and public ID do not match")
+    for endpoint in batch.tombstones:
+        if public_ids.get(endpoint.key()) != endpoint.id:
+            raise AdminError(422, "InvalidIdentity", "Tombstone key and public ID do not match")
     old_edges = list(
         await session.scalars(
             select(E).where(
@@ -209,7 +235,7 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
     all_edges = keep + new_edges
     if len(set(all_edges)) != len(all_edges):
         raise AdminError(422, "DuplicateRelationship", "Relationship already exists")
-    parent, roots, paths, versions = {}, {}, set(), set()
+    parent, roots, paths, versions, public_children = {}, {}, set(), set(), set()
     for source, relation, target in all_edges:
         if (source[0], relation, target[0]) not in EDGES or target not in keys:
             raise AdminError(422, "InvalidRelationship", "Relationship type or target is invalid")
@@ -229,6 +255,10 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
                 raise AdminError(422, "InvalidRelationship", "Directory alias source was not found")
         elif source not in keys:
             raise AdminError(422, "InvalidRelationship", "Relationship source was not found")
+        public_key = (source, relation, target[0], public_ids[target])
+        if public_key in public_children:
+            raise AdminError(422, "InvalidRelationship", "Duplicate public child ID within parent")
+        public_children.add(public_key)
         if relation in {"children", "root"}:
             if target in parent:
                 raise AdminError(422, "InvalidDriveTree", "Drive item has multiple parents")
@@ -263,6 +293,7 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
             if target in versions:
                 raise AdminError(422, "InvalidRelationship", "Version has multiple parent items")
             versions.add(target)
+    drive_public_ids = set()
     for key in keys:
         if key[0] == "driveItem":
             seen, current = set(), key
@@ -271,6 +302,12 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
                     raise AdminError(422, "InvalidDriveTree", "Drive item is orphaned or cyclic")
                 seen.add(current)
                 current = parent[current]
+            identity = (current, public_ids[key])
+            if identity in drive_public_ids:
+                raise AdminError(
+                    422, "InvalidDriveTree", "Public item IDs must be unique within a drive"
+                )
+            drive_public_ids.add(identity)
     blobs = {
         identifier: await object_row(session, tenant_id, identifier, lock=True, finalized=True)
         for identifier in sorted({r.content_id for r in batch.records if r.content_id})

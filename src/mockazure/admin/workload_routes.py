@@ -61,16 +61,22 @@ async def export(tenant_id: UUID, workload: str, request: Request):
 
     from fastapi.responses import StreamingResponse
 
-    from mockazure.workloads.lifecycle import export_records, export_workload
+    from mockazure.workloads.lifecycle import (
+        check_archive_size,
+        export_archive,
+        export_records,
+        export_workload,
+    )
 
     values = dict(request.query_params)
     if (
-        set(values) - {"scope", "format"}
+        len(values) != len(request.query_params.multi_items())
+        or set(values) - {"scope", "format"}
         or not values.get("scope")
-        or values.get("format") not in {None, "ndjson"}
+        or values.get("format") not in {None, "ndjson", "zip"}
     ):
-        raise AdminError(422, "InvalidExport", "Provide a scope and optional format=ndjson")
-    if values.get("format") == "ndjson":
+        raise AdminError(422, "InvalidExport", "Provide a scope and optional format=ndjson or zip")
+    if values.get("format") in {"ndjson", "zip"}:
         # Validate before committing headers, then stream with the same scope lease.
         session = request.app.state.database.sessions()
         try:
@@ -80,8 +86,18 @@ async def export(tenant_id: UUID, workload: str, request: Request):
             if await scope_row(session, tenant_id, workload, values["scope"], lock="read") is None:
                 raise AdminError(404, "ScopeNotFound", "Scope was not found")
 
+            zipped = values.get("format") == "zip"
+            if zipped:
+                await check_archive_size(session, tenant_id, workload, values["scope"])
+
             async def body():
                 try:
+                    if zipped:
+                        async for chunk in export_archive(
+                            session, tenant_id, workload, values["scope"]
+                        ):
+                            yield chunk
+                        return
                     async for row in export_records(session, tenant_id, workload, values["scope"]):
                         yield json.dumps(row, ensure_ascii=False).encode("utf-8") + b"\n"
                 finally:
@@ -90,7 +106,9 @@ async def export(tenant_id: UUID, workload: str, request: Request):
             from starlette.background import BackgroundTask
 
             return StreamingResponse(
-                body(), media_type="application/x-ndjson", background=BackgroundTask(session.close)
+                body(),
+                media_type="application/zip" if zipped else "application/x-ndjson",
+                background=BackgroundTask(session.close),
             )
         except BaseException:
             await session.close()

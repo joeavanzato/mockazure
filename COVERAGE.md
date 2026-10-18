@@ -376,4 +376,6 @@ exists. Keep API operations, local controls and qualified collector workflows di
 
 SharePoint/OneDrive query limits, authority, import/export lifecycle and client qualification
 are specified in [the site/drive contract](integrations/contracts/site-drive.md), with
-[pinned operation sources](integrations/contracts/site-drive.json). These adapters are v1.0 only.
+[pinned operation sources](integrations/contracts/site-drive.json). These adapters are v1.0 only. Optional import keys distinguish parent-scoped public IDs
+(such as version `1.0` under multiple files). ZIP exports include typed metadata, binary
+hashes and stored bytes; restore validates tenant identity and finalized local content.

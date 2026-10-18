@@ -57,6 +57,7 @@ async def resolve_drive_item(session, tenant_id, drive_id, identifier, by_path=F
     )
     if root_id is None:
         raise GraphError(404, "itemNotFound", "Drive root was not imported")
+    internal = by_path or identifier == "root"
     if by_path:
         current = root_id
         pieces = identifier.split("/") if identifier else []
@@ -100,7 +101,7 @@ async def resolve_drive_item(session, tenant_id, drive_id, identifier, by_path=F
             V.workload == "sharepoint",
             V.scope == drive.scope,
             V.kind == "driveItem",
-            V.id == identifier,
+            (V.id == identifier) if internal else (V.payload["id"].as_string() == identifier),
             V.valid_to.is_(None),
             V.deleted.is_(False),
             V.id.in_(select(tree.c.id)),

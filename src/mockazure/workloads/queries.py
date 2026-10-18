@@ -166,7 +166,7 @@ def value_size(value):
 async def collection_response(request, session, actor, query, kind, state, token, render=None):
     opts = state["options"]
     field = (
-        V.id
+        V.payload["id"].as_string()
         if opts["order"][0] == "id"
         else V.name
         if opts["order"][0] == "name"

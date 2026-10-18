@@ -81,7 +81,7 @@ async def delta_response(request, session, actor, drive):
         try:
             async for row in rows.mappings():
                 value = (
-                    {"id": row["id"], "deleted": {"state": "deleted"}}
+                    {"id": row["payload"]["id"], "deleted": {"state": "deleted"}}
                     if row["removed"]
                     else {
                         key: value

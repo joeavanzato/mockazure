@@ -175,7 +175,7 @@ async def drive_endpoint(drive_path: str, request: Request):
                     V.workload == "sharepoint",
                     V.scope == drive.scope,
                     V.kind == kind,
-                    V.id == parts[1],
+                    V.payload["id"].as_string() == parts[1],
                     V.valid_to.is_(None),
                     V.deleted.is_(False),
                     E.source_kind == "driveItem",

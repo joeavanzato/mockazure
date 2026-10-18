@@ -115,7 +115,7 @@ async def linked_record(session, actor, site, source, relation, identifier=None)
         )
     )
     if identifier is not None:
-        query = query.where(V.id == identifier)
+        query = query.where(V.payload["id"].as_string() == identifier)
     rows = list(await session.scalars(query.limit(2)))
     if len(rows) != 1:
         missing()
@@ -190,15 +190,6 @@ async def search_sites(request: Request):
 async def site_endpoint(site_path: str, request: Request):
     async with request.app.state.database.sessions.begin() as session:
         actor = await principal(request, session)
-        # Require an operation-level permission before looking up identifiers.
-        operation = (
-            "permissions"
-            if "/permissions" in site_path
-            else "drive"
-            if "/drive" in site_path
-            else "site"
-        )
-        await authorize_operation(session, actor, operation)
         site, parts = await resolve_site(session, actor, site_path)
         operation = (
             "permissions"
@@ -383,7 +374,7 @@ async def site_endpoint(site_path: str, request: Request):
                 row = await linked_record(session, actor, site, source, relation)
                 return project(row, options(request, kind, item=True)["select"])
             if not parts:
-                state, token = await page_state(request, session, actor, kind, "site", site.id)
+                state, token = await page_state(request, session, actor, kind, operation, site.id)
                 revision = state["scopes"][site.id]["upper"]
                 query = (
                     select(V)

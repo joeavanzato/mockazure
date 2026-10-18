@@ -226,7 +226,8 @@
   "evidenceTests": [
     "tests/integration/test_site_drive_evidence.py",
     "tests/integration/test_drive_content_delta.py",
-    "tests/integration/test_workload_upgrade.py"
+    "tests/integration/test_workload_upgrade.py",
+    "tests/integration/test_site_drive_review.py"
   ],
   "clientManifest": "integrations/site-drive-manifest.json"
 }

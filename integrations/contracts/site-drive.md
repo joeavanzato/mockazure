@@ -75,10 +75,15 @@ charges each subrequest. Existing batch restrictions on encoded path segments re
 
 Admin namespace: `/_mock/tenants/{tenant}/workloads/sharepoint`.
 POST `/import` accepts `scope`, optional `expected_revision`, `records`, `edges`,
-and `tombstones`. A record has explicit `kind`, `id`, official `payload`, and
-optional finalized tenant-local `content_id`. Edges have typed `source`, `relation`
-and `target` keys. The import is atomic and limited to 1000 combined entries and
-8 MiB. IDs/scopes are limited to 512 UTF-8 bytes; fields are bounded JSON, not code.
+and `tombstones`. A record has explicit `kind`, public `id`, official `payload`, and optional
+finalized tenant-local `content_id`. An optional `key` is its stable storage identity
+within the site scope; omitted keys default to `id` for compatibility. Use distinct
+keys for repeated parent-relative public IDs (two lists can each contain item `1`,
+and two files can each have version `1.0`). `payload.id` remains the public ID.
+Edges and tombstones carry the same `kind`, public `id`, and optional `key`.
+Child lookup resolves the public ID through its parent relation. A drive's item IDs
+remain unique within that drive. Site and drive keys equal their canonical public IDs. The import is atomic and limited to 1000 combined entries and
+8 MiB. IDs/keys/scopes are limited to 512 UTF-8 bytes; fields are bounded JSON, not code.
 Binary content uses the existing chunked content upload/finalization API.
 
 The canonical site ID equals scope. All drive items must belong to an acyclic,
@@ -89,14 +94,27 @@ metadata as needed. `parentReference` and folder counts are imported evidence,
 not automatically recomputed, so include coherent metadata in the same import.
 
 GET `/export?scope=...` emits a restorable typed JSON import when within limits.
-For larger stores, `format=ndjson` streams scope/record/edge rows under one snapshot
-lease. Large restores need topologically ordered bounded import batches, retaining
-each source's full outgoing edge set; raw NDJSON is not an import request.
+It includes a versioned manifest bound to tenant/workload/scope and finalized binary
+size/SHA256/media-type descriptors. `format=ndjson` streams scope/content/record/edge
+rows under one snapshot lease. `format=zip` streams a portable ZIP64 archive containing
+`manifest.ndjson` and `content/{source-content-uuid}.bin` for every referenced object.
+ZIP archives cap distinct binary entries at 10000; they do not buffer file bodies.
+
+To restore an archive, verify its manifest and each file's SHA256, upload/finalize its
+bytes through the content API, then submit the manifest plus records/edges to `/import`.
+Restore validates tenant/workload/scope and resolves each original content UUID to
+finalized local bytes by size, SHA256 and media type. Missing or mismatched content
+fails before metadata commits. This works after the source blobs have been removed.
+Preserve the scope header's manifest identity; set expected_revision to the target's
+current revision (zero after reset). ZIP entries are not executed or fetched remotely.
+
+Large restores need topologically ordered bounded import batches, retaining each
+source's full outgoing edge set and each batch's needed content descriptors; raw
+NDJSON/ZIP is not itself an `/import` request. Credentials and grants are excluded.
 POST `/reset` requires scope and expected_revision, clears metadata/grants, releases
-version pins, and invalidates cursors. Export does not include authority or binary
-bytes: retain finalized content and reapply explicit grants. Export/reset never
-fetch remote evidence. Downgrade refuses to discard workload scopes, capabilities,
-or new read-budget/fault state.
+version pins, and invalidates cursors. Reapply explicit authority after restore.
+Downgrade refuses to discard workload state or revert parent-scoped identities to
+an incompatible model. The scoped-key migration preserves existing IDs and edges.
 
 ## Qualification
 
