@@ -136,6 +136,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         from mockazure.providers.storage.routes import service_for_request
 
         storage_service = service_for_request(request, settings)
+        if storage_service == "keyvault":
+            from mockazure.providers.keyvault.routes import handle as keyvault_handle
+
+            return await keyvault_handle(request)
         if storage_service is not None:
             return await storage_handle(request, storage_service)
         # Generated Az scope clients join "/{scope}" with an absolute ARM scope.

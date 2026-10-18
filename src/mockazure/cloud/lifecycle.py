@@ -19,6 +19,12 @@ from mockazure.cloud.provider_state import (
 from mockazure.db.job_model import Job
 from mockazure.evidence.repository import lock_state
 from mockazure.identity.types import IdentityInput
+from mockazure.keyvault.lifecycle import (
+    KeyVaultStateInput,
+    export_keyvault,
+    prune_keyvault,
+    replace_keyvault,
+)
 from mockazure.providers.arm.contracts import validate_arm_payload
 from mockazure.providers.arm.inventory import clean_public, seed_group
 from mockazure.providers.arm.models import ArmResource, Subscription
@@ -70,6 +76,7 @@ class CloudInput(IdentityInput):
     provider: ProviderStateInput = Field(default_factory=ProviderStateInput)
     storage: StorageStateInput = Field(default_factory=StorageStateInput)
     resources: ResourceStateInput = Field(default_factory=ResourceStateInput)
+    keyvault: KeyVaultStateInput = Field(default_factory=KeyVaultStateInput)
 
     @model_validator(mode="after")
     def distinct(self):
@@ -185,6 +192,7 @@ async def export_cloud(session: AsyncSession, tenant_id: UUID) -> dict:
         provider=await export_provider_state(session, tenant_id),
         storage=await export_storage_accounts(session, tenant_id),
         resources=await export_provider_resources(session, tenant_id),
+        keyvault=await export_keyvault(session, tenant_id),
     ).model_dump(mode="json")
 
 
@@ -223,6 +231,7 @@ async def import_cloud(session: AsyncSession, tenant_id: UUID, document: dict) -
             )
         # Validation errors roll back operation retirement and all parent/config/key changes.
         await replace_provider_resources(session, tenant_id, value.resources)
+        await replace_keyvault(session, tenant_id, value.keyvault)
         await replace_storage_accounts(session, tenant_id, value.storage)
         await replace_provider_state(session, tenant_id, value.provider)
 
@@ -232,6 +241,7 @@ async def reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generatio
     if state.generation != expected_generation:
         raise AdminError(409, "CloudGenerationConflict", "Cloud generation changed")
     await retire_operations(session, tenant_id)
+    await replace_keyvault(session, tenant_id, KeyVaultStateInput())
     await replace_provider_resources(session, tenant_id, ResourceStateInput())
     await replace_storage_accounts(session, tenant_id, StorageStateInput())
     await replace_provider_state(session, tenant_id, ProviderStateInput())
@@ -244,6 +254,8 @@ async def prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, lim
     used = await prune_provider_resources(session, tenant_id, now, limit)
     if used < limit:
         used += await prune_storage_accounts(session, tenant_id, now, limit - used)
+    if used < limit:
+        used += await prune_keyvault(session, tenant_id, now, limit - used)
     # Retired generations have no delivery authority. Active-generation facts are retained for F3.
     ids = (
         list(

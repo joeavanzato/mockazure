@@ -461,7 +461,7 @@ and User Access Administrator with inherited access/current grant checks.
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/{start|restart|powerOff|deallocate}` | Partial: POST async actions | `2025-04-01` | Persisted simulated running/stopped/deallocated state, current RBAC, lease/generation fencing and native Activity Logs. No guest execution/hibernation. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/start), [profile](docs/arm-contracts.md#durable-lifecycle-and-management-clients-b4). |
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/instanceView` | Partial: GET | `2025-04-01` | Provisioning/power statuses only; no guest/agent telemetry. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/instance-view). |
 | Opaque local URLs returned in ARM `Azure-AsyncOperation` / `Location` headers | Partial: GET monitor/result | Version of initiating operation | Durable action/delete jobs, current RG/subscription authority, Retry-After and terminal failure envelopes; provider-specific Azure polling URL parity is not claimed. [Microsoft protocol](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations). |
-| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query, Key Vault secret data plane | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
+| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
 
 Reserved path segments are case-insensitive. Percent-encoded ARM paths and unknown
 provider/version combinations are rejected. [ARM contracts](docs/arm-contracts.md) and
@@ -603,3 +603,15 @@ Fifteen focused review regressions passed within 106 affected tests; the full
 source-matched four-client qualification also passed at runtime 39f68e7. Upload reception uses a 1 MiB memory spool
 threshold, 256 MiB body cap and 300-second local deadline. Database-side File
 range updates still rewrite the full revision; no throughput parity is claimed.
+
+
+### Key Vault Secrets data plane
+
+API `2025-07-01`, management `2025-05-01`; native virtual-host IDs and DNS-free local path aliases are detailed in the [Key Vault profile](docs/keyvault-contracts.md). Default snapshots intentionally omit values; metadata-only restore cannot recover them. Full phase D qualification is pending D4.
+
+| Microsoft URI | MockAzure support | Notes / limitations | Reference |
+| --- | --- | --- | --- |
+| `/secrets/{name}` | Partial: PUT; GET/PATCH latest aliases | New version on each set, HTTP200; authenticated encryption and current scoped data authorization. <=25KiB UTF-8. Delete is D4 pending. | [Set Secret](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/set-secret/set-secret?view=rest-keyvault-secrets-2025-07-01) |
+| `/secrets/{name}/{version}` | Implemented: GET/PATCH | Version-specific values; attribute/tag/content-type updates. Disabled GET403; GET outside nbf/exp remains allowed per Microsoft. No value mutation through PATCH. | [Get](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/get-secret/get-secret?view=rest-keyvault-secrets-2025-07-01), [attributes](https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets) |
+| `/secrets`, `/secrets/{name}/versions` | Implemented: GET | Metadata-only lists, 1..25/page, current permission checks and opaque query/vault/tenant/generation-bound continuations. Original Python4.11.3 HTTPS verified. | [Get Secrets](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/get-secrets/get-secrets?view=rest-keyvault-secrets-2025-07-01) |
+| `/deletedsecrets`, `/deletedsecrets/{name}`, `/deletedsecrets/{name}/recover`, `/secrets/{name}/backup`, `/secrets/restore` | Unsupported: D4 pending | No recovery/purge/encrypted-backup claim yet. Keys, certificates and managed-secret rotation remain outside this profile. | [Limits](docs/keyvault-contracts.md) |

@@ -1,0 +1,2527 @@
+{
+  "schemaVersion": 1,
+  "service": "keyvault",
+  "operations": [
+    {
+      "kind": "rest",
+      "operationId": "GetDeletedSecrets",
+      "nativeOperationId": "GetDeletedSecrets",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "GET",
+      "path": "/deletedsecrets",
+      "aliases": [
+        "/{vault}/deletedsecrets"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/DeletedSecretListResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version",
+        "maxresults",
+        "$skiptoken"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "D3/D4 planned; no key/certificate or managed-secret operations."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py"
+      ],
+      "status": "planned"
+    },
+    {
+      "kind": "rest",
+      "operationId": "GetDeletedSecret",
+      "nativeOperationId": "GetDeletedSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "GET",
+      "path": "/deletedsecrets/{secret-name}",
+      "aliases": [
+        "/{vault}/deletedsecrets/{secret-name}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/DeletedSecretBundle"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "D3/D4 planned; no key/certificate or managed-secret operations."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py"
+      ],
+      "status": "planned"
+    },
+    {
+      "kind": "rest",
+      "operationId": "PurgeDeletedSecret",
+      "nativeOperationId": "PurgeDeletedSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "DELETE",
+      "path": "/deletedsecrets/{secret-name}",
+      "aliases": [
+        "/{vault}/deletedsecrets/{secret-name}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "D3/D4 planned; no key/certificate or managed-secret operations."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py"
+      ],
+      "status": "planned"
+    },
+    {
+      "kind": "rest",
+      "operationId": "RecoverDeletedSecret",
+      "nativeOperationId": "RecoverDeletedSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "POST",
+      "path": "/deletedsecrets/{secret-name}/recover",
+      "aliases": [
+        "/{vault}/deletedsecrets/{secret-name}/recover"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SecretBundle"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "D3/D4 planned; no key/certificate or managed-secret operations."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py"
+      ],
+      "status": "planned"
+    },
+    {
+      "kind": "rest",
+      "operationId": "GetSecrets",
+      "nativeOperationId": "GetSecrets",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "GET",
+      "path": "/secrets",
+      "aliases": [
+        "/{vault}/secrets"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SecretListResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version",
+        "maxresults",
+        "$skiptoken"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "Original Python4.11.3 verified local HTTPS; full four-client D gate pending D4.",
+        "Native virtual-host IDs; DNS-free request aliases and alias-preserving paging. No key/certificate/managed-secret operations.",
+        "Safe metadata-only default snapshots; GET409 after value-free restore. Explicit encrypted backups pending D4."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py",
+        "tests/integration/test_keyvault_boundaries.py",
+        "tests/integration/test_keyvault_sdk.py",
+        "tests/unit/test_keyvault_contracts.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "SetSecret",
+      "nativeOperationId": "SetSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "PUT",
+      "path": "/secrets/{secret-name}",
+      "aliases": [
+        "/{vault}/secrets/{secret-name}"
+      ],
+      "requestSchema": {
+        "$ref": "#/definitions/SecretSetParameters"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SecretBundle"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "Original Python4.11.3 verified local HTTPS; full four-client D gate pending D4.",
+        "Native virtual-host IDs; DNS-free request aliases and alias-preserving paging. No key/certificate/managed-secret operations.",
+        "Safe metadata-only default snapshots; GET409 after value-free restore. Explicit encrypted backups pending D4."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py",
+        "tests/integration/test_keyvault_boundaries.py",
+        "tests/integration/test_keyvault_sdk.py",
+        "tests/unit/test_keyvault_contracts.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "DeleteSecret",
+      "nativeOperationId": "DeleteSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "DELETE",
+      "path": "/secrets/{secret-name}",
+      "aliases": [
+        "/{vault}/secrets/{secret-name}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/DeletedSecretBundle"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "D3/D4 planned; no key/certificate or managed-secret operations."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py"
+      ],
+      "status": "planned"
+    },
+    {
+      "kind": "rest",
+      "operationId": "GetSecret",
+      "nativeOperationId": "GetSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "GET",
+      "path": "/secrets/{secret-name}/{secret-version}",
+      "aliases": [
+        "/{vault}/secrets/{secret-name}/{secret-version}",
+        "/{vault}/secrets/{secret-name}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SecretBundle"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "Original Python4.11.3 verified local HTTPS; full four-client D gate pending D4.",
+        "Native virtual-host IDs; DNS-free request aliases and alias-preserving paging. No key/certificate/managed-secret operations.",
+        "Safe metadata-only default snapshots; GET409 after value-free restore. Explicit encrypted backups pending D4."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py",
+        "tests/integration/test_keyvault_boundaries.py",
+        "tests/integration/test_keyvault_sdk.py",
+        "tests/unit/test_keyvault_contracts.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "UpdateSecret",
+      "nativeOperationId": "UpdateSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "PATCH",
+      "path": "/secrets/{secret-name}/{secret-version}",
+      "aliases": [
+        "/{vault}/secrets/{secret-name}/{secret-version}",
+        "/{vault}/secrets/{secret-name}"
+      ],
+      "requestSchema": {
+        "$ref": "#/definitions/SecretUpdateParameters"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SecretBundle"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "Original Python4.11.3 verified local HTTPS; full four-client D gate pending D4.",
+        "Native virtual-host IDs; DNS-free request aliases and alias-preserving paging. No key/certificate/managed-secret operations.",
+        "Safe metadata-only default snapshots; GET409 after value-free restore. Explicit encrypted backups pending D4."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py",
+        "tests/integration/test_keyvault_boundaries.py",
+        "tests/integration/test_keyvault_sdk.py",
+        "tests/unit/test_keyvault_contracts.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "BackupSecret",
+      "nativeOperationId": "BackupSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "POST",
+      "path": "/secrets/{secret-name}/backup",
+      "aliases": [
+        "/{vault}/secrets/{secret-name}/backup"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/BackupSecretResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "D3/D4 planned; no key/certificate or managed-secret operations."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py"
+      ],
+      "status": "planned"
+    },
+    {
+      "kind": "rest",
+      "operationId": "GetSecretVersions",
+      "nativeOperationId": "GetSecretVersions",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "GET",
+      "path": "/secrets/{secret-name}/versions",
+      "aliases": [
+        "/{vault}/secrets/{secret-name}/versions"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SecretListResult"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version",
+        "maxresults",
+        "$skiptoken"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "Original Python4.11.3 verified local HTTPS; full four-client D gate pending D4.",
+        "Native virtual-host IDs; DNS-free request aliases and alias-preserving paging. No key/certificate/managed-secret operations.",
+        "Safe metadata-only default snapshots; GET409 after value-free restore. Explicit encrypted backups pending D4."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py",
+        "tests/integration/test_keyvault_boundaries.py",
+        "tests/integration/test_keyvault_sdk.py",
+        "tests/unit/test_keyvault_contracts.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "RestoreSecret",
+      "nativeOperationId": "RestoreSecret",
+      "service": "keyvault",
+      "version": "2025-07-01",
+      "method": "POST",
+      "path": "/secrets/restore",
+      "aliases": [
+        "/{vault}/secrets/restore"
+      ],
+      "requestSchema": {
+        "$ref": "#/definitions/SecretRestoreParameters"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/SecretBundle"
+        }
+      },
+      "statusCodes": [
+        200,
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501,
+        503
+      ],
+      "headers": [
+        "x-ms-client-request-id",
+        "x-ms-request-id",
+        "WWW-Authenticate"
+      ],
+      "permissions": [
+        "Current Key Vault RBAC dataActions or access-policy secret permissions; see docs/keyvault-contracts.md"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "limits": {
+        "secretUtf8Bytes": 25600,
+        "listPage": 25
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "0aef65957f08a62989503806f8f3ecfddddf505fd2db9bcd72f82c95a51a6102",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/secrets.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "45cdb83181a13d00c66023c98a38c9af1a71cfacdf98844a710da98b76dcdeda",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RestoreSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3a05a11a5baca4dd39e0e2ea44a173bbfdab959835a3f038830a1d056cf21b22",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecretVersions-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "4e51cc75a52738c92d63ba8696829828c962dcc729de86473fc9c0a4febaf388",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/BackupSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "de41d24914f571145c225cc803a3d0cfa944d11d1e359b3b6b2034c11a9a0171",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/UpdateSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69b527f459e89ea952577b2d84bbdf8195146bcb9342e9b35a6db149a0891fbd",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "dd827c5febea1312574c0ca64d6b3faee531e17af6167671d93f3b2166f38eb0",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/DeleteSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "63bed02b84f36ca0911981e5db7cdceb44d931337fb6e1cbfdabe3f9a608a734",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/SetSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "69d308dd5b000f7c5e7c16f2f56feeafe23627d2a817b640bb29a03d12e10151",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "f0eb6a32cd1c80a1fde0332f985edcbb4129a383e75af9c4bbdf5f2e656fcbf7",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/RecoverDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "147598cd5f44a70781fd0eb4b6c4e0ecbd6184fceb05648e1af229f28d25df41",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/PurgeDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "26e49d7359d03b13e090a08fa4440d2c29677aa5d15c0e3c363a3ead4c461415",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecret-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "16b57ea7280f5ee94dd3eeef8339f5393d658b61c4dea0881081cf2124c57ff1",
+          "localPath": "schemas/specification/keyvault/data-plane/Secrets/stable/2025-07-01/examples/GetDeletedSecrets-example.json",
+          "license": "MIT (Azure/azure-rest-api-specs)"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets",
+          "revision": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "retrievedAt": "2026-10-18",
+          "sha256": "a65959ed4751ce86247ca181d4974dda57bc53ddd8afdf8a1f59674d7afff642",
+          "localPath": "references/about-secrets.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/authentication",
+          "revision": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2812f7d9df8b7d4b90f83002ff909b1612a59c864cbf40c00c13140a78cd1c91",
+          "localPath": "references/authentication.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide",
+          "revision": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "retrievedAt": "2026-10-18",
+          "sha256": "2849ac3757e63d7b3840368a47ea23f2cee09b8dee99187c4a06dbee11f91424",
+          "localPath": "references/rbac-guide.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/assign-access-policy",
+          "revision": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b022d9ce5c90d483a5502e94219ad8e9b5acf10c20297788e99b6ebdb00c31ca",
+          "localPath": "references/assign-access-policy.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview",
+          "revision": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "retrievedAt": "2026-10-18",
+          "sha256": "e3984f4c67f4d3c7bc2a6caa48327335bacfdc47b85c86cb8788a64e7b9145ce",
+          "localPath": "references/soft-delete-overview.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates",
+          "revision": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "retrievedAt": "2026-10-18",
+          "sha256": "49f3814c12fabe060267d6af331d582e404575d11e18ca9fed884ea3f025d0f9",
+          "localPath": "references/about-keys-secrets-certificates.html",
+          "license": "Microsoft documentation terms; protocol reference snapshot"
+        }
+      ],
+      "limitations": [
+        "D3/D4 planned; no key/certificate or managed-secret operations."
+      ],
+      "tests": [
+        "tests/integration/test_keyvault_secrets.py"
+      ],
+      "status": "planned"
+    }
+  ]
+}

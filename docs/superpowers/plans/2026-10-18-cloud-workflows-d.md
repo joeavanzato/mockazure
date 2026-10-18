@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** D1 Table workflows are implemented with 91 affected regressions and 33 final targeted checks passing, including the original Python SDK over local HTTPS. D2 Queue delivery is implemented with 102 affected regressions passing, including original Python 12.15.0 HTTPS. D3-D4 and the full four-ecosystem structured-service gate remain pending.
+**Status:** D1 Table workflows are implemented with 91 affected regressions and 33 final targeted checks passing, including the original Python SDK over local HTTPS. D2 Queue delivery is implemented with 102 affected regressions passing, including original Python 12.15.0 HTTPS. D3 encrypted Key Vault versions are implemented with 82 affected regressions and 16 final focused tests passing, including original Python4.11.3 HTTPS. D4 recovery and the full four-ecosystem structured-service gate remain pending.
 
 ## Global Constraints
 

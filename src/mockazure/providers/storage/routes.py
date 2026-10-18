@@ -33,6 +33,10 @@ def service_for_request(request, settings):
     if port == settings.listen_port:
         return None
     authority = request.headers.get("host", "").lower()
+    from mockazure.keyvault.endpoints import selected_profile
+
+    if selected_profile(settings, authority) is not None:
+        return "keyvault"
     for profile in (settings.endpoints, *settings.client_profiles.values()):
         for service, name in SERVICES.items():
             if authority == urlsplit(getattr(profile, name)).netloc.lower():

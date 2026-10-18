@@ -102,7 +102,8 @@ C2 adds Blob bytes, block commits, ranges, leases, snapshots and retention.
 C3 adds FileREST content and HTTP OAuth backup-intent tests; native byte
 qualification is recorded separately below. The [Table profile](table-contracts.md)
 adds D1 entity workflows; the [Queue profile](queue-contracts.md) adds D2 delivery
-workflows. Key Vault content and full phase D qualification remain pending.
+workflows. The [Key Vault profile](keyvault-contracts.md) adds D3 encrypted secret
+versions; recovery and full phase D qualification remain pending D4.
 
 C1 was verified against all four pinned client ecosystems, including a new local
 account and cross-language reads of every created namespace. The core regression
