@@ -62,3 +62,12 @@ def test_compose_shared_lab_keeps_database_loopback_and_worker_routes_internal(t
         )
         == files
     )
+
+
+def test_compose_internal_data_origin_is_recognized(tmp_path):
+    from mockazure.keyvault.endpoints import selected_profile
+
+    files = initialize_compose(tmp_path, api_port=39443, db_port=55448)
+    settings = load_settings(files.config_file.parent / "container.json", {})
+    assert settings.advertised_endpoints("api:8444").storage == "https://api:8444"
+    assert selected_profile(settings, "api:8448").keyvault == "https://api:8448"

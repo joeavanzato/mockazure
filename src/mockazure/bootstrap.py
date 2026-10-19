@@ -212,6 +212,7 @@ def initialize_compose(
                 for name in ("login", "graph", "exchange", "arm", "activity", "browser_login")
             }
         ).model_dump(mode="json")
+        container["client_profiles"]["internal"] = container["population_endpoints"]
         container["allowed_hosts"] = list(dict.fromkeys([*container["allowed_hosts"], "api"]))
         upgrade_container = (
             container_file.exists() and container_file.read_bytes() == legacy_container
@@ -228,6 +229,7 @@ def initialize_compose(
                 previous["allowed_hosts"] = list(dict.fromkeys([*previous["allowed_hosts"], "api"]))
             if not previous.get("data_listen_ports"):
                 previous["data_listen_ports"] = [8444, 8445, 8446, 8447, 8448, 8449]
+            previous["client_profiles"].setdefault("internal", container["population_endpoints"])
             if previous.get("data_listen_ports") == [8444, 8445, 8446, 8447, 8448]:
                 previous["data_listen_ports"].append(8449)
             for profile in previous.get("client_profiles", {}).values():

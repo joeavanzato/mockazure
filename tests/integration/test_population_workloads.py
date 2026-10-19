@@ -132,3 +132,62 @@ async def test_workload_metadata_edit_preserves_attached_content(database, setti
                 )
             )
         assert actual == original
+
+
+async def test_linked_import_updates_relationship_when_payload_is_unchanged(database, settings):
+    from sqlalchemy import func, select
+
+    from mockazure.workloads.models import WorkloadRelation
+
+    ctx = await context(database, settings)
+    site = "lab.test," + str(uuid4()) + "," + str(uuid4())
+    drive = str(uuid4())
+    adapter = get_adapter("sharepoint.site")
+    payload = {**TIMES, "id": site, "displayName": "Site"}
+    first = await adapter.apply(
+        ctx, [Mutation(operation="import", logical_key="site", parent=site, payload=payload)]
+    )
+    await get_adapter("sharepoint.drive").apply(
+        ctx,
+        [
+            Mutation(
+                operation="import",
+                logical_key="drive",
+                parent=site,
+                payload={**TIMES, "id": drive, "name": "Docs"},
+            )
+        ],
+    )
+    linked = Mutation(
+        operation="import-linked",
+        logical_key="site",
+        parent=site,
+        expected_version=first.items[0].version,
+        payload={
+            "payload": payload,
+            "edges": [
+                {
+                    "source": {"kind": "site", "id": site},
+                    "relation": "drives",
+                    "target": {"kind": "drive", "id": drive},
+                }
+            ],
+        },
+    )
+    result = await adapter.apply(ctx, [linked])
+    assert result.effects["updated"] == 1
+    async with database.sessions() as session:
+        assert (
+            await session.scalar(
+                select(func.count())
+                .select_from(WorkloadRelation)
+                .where(
+                    WorkloadRelation.tenant_id == ctx.tenant_id, WorkloadRelation.valid_to.is_(None)
+                )
+            )
+            == 1
+        )
+    repeated = await adapter.apply(
+        ctx, [linked.model_copy(update={"expected_version": result.items[0].version})]
+    )
+    assert repeated.effects["unchanged"] == 1

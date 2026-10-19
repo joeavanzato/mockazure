@@ -114,6 +114,48 @@ class LinkedRecord(Input):
 
 
 class WorkloadAdapter(PayloadAdapter):
+    async def matches_mutation(self, session, ctx, old, mutation, payload):
+        if not self.matches(old.properties, payload):
+            return False
+        if mutation.operation != "import-linked":
+            return True
+        linked = LinkedRecord.model_validate(mutation.payload)
+        workload, kind = self.descriptor.key.split(".", 1)
+        if "content_id" in linked.model_fields_set:
+            current = await session.scalar(
+                select(WorkloadVersion.content_id).where(
+                    WorkloadVersion.tenant_id == ctx.tenant_id,
+                    WorkloadVersion.workload == workload,
+                    WorkloadVersion.scope == mutation.parent,
+                    WorkloadVersion.kind == kind,
+                    WorkloadVersion.id == old.id,
+                    WorkloadVersion.valid_to.is_(None),
+                )
+            )
+            if current != linked.content_id:
+                return False
+        edge = WorkloadRelation
+        for desired in linked.edges:
+            source_kind, source_id, relation, target_kind, target_id = desired.key()
+            found = await session.scalar(
+                select(edge.source_id)
+                .where(
+                    edge.tenant_id == ctx.tenant_id,
+                    edge.workload == workload,
+                    edge.scope == mutation.parent,
+                    edge.source_kind == source_kind,
+                    edge.source_id == source_id,
+                    edge.relation == relation,
+                    edge.target_kind == target_kind,
+                    edge.target_id == target_id,
+                    edge.valid_to.is_(None),
+                )
+                .limit(1)
+            )
+            if found is None:
+                return False
+        return True
+
     def normalize(self, mutation):
         if mutation.operation == "import-linked":
             value = LinkedRecord.model_validate(mutation.payload)

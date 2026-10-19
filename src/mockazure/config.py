@@ -169,8 +169,8 @@ class Settings(BaseSettings):
     @field_validator("client_profiles")
     @classmethod
     def profiles_are_unambiguous(cls, value):
-        if set(value) - {"host", "container"}:
-            raise ValueError("Supported client profiles are host and container")
+        if set(value) - {"host", "container", "internal"}:
+            raise ValueError("Supported client profiles are host, container and internal")
         authorities = {}
         for profile in value.values():
             for name in (

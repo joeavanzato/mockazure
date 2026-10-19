@@ -153,6 +153,9 @@ class PayloadAdapter:
     def matches(self, existing, desired):
         return all(existing.get(key) == value for key, value in desired.items())
 
+    async def matches_mutation(self, session, ctx, old, mutation, payload):
+        return self.matches(old.properties, payload)
+
     async def apply(self, ctx, mutations):
         if not 1 <= len(mutations) <= 1000:
             raise ValueError("Expected 1 to 1000 mutations")
@@ -174,7 +177,7 @@ class PayloadAdapter:
                     old.version if old else "absent"
                 ):
                     raise AdminError(409, "ResourceConflict", "Resource changed; preview again")
-                if old and self.matches(old.properties, payload):
+                if old and await self.matches_mutation(session, ctx, old, mutation, payload):
                     effects["unchanged"] += 1
                     items.append(old)
                     continue
