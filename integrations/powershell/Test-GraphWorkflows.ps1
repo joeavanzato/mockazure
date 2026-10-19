@@ -44,7 +44,7 @@ if($Mode -eq 'write'){
     $attachment=Get-MgUserMessageAttachment -UserId $p.recipient -MessageId $mail.Id | Where-Object Name -eq 'evidence.bin' | Select-Object -First 1
     Check ($null -ne $attachment)
     Invoke-MgAcceptUserEvent -UserId $p.recipient -EventId $invite.Id -BodyParameter @{sendResponse=$true}
-    Update-MgSubscription -SubscriptionId $sub.Id -BodyParameter @{expirationDateTime=[datetimeoffset]::UtcNow.AddHours(3)}
+    Update-MgSubscription -SubscriptionId $sub.Id -BodyParameter @{expirationDateTime=[datetimeoffset]::UtcNow.AddHours(3).ToString('o')}
     $objects=@{message=$draft.Id;event=$event.Id;subscription=$sub.Id;owner=$p.owner}
     foreach($name in @('mail_roundtrip','calendar_recurrence_delta','meeting_response','subscription_management')){$checks[$name]=$true}
 }else{
