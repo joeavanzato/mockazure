@@ -341,7 +341,16 @@ def test_exchange_bootstrap_preserves_separate_data_origins(tmp_path):
     )
 
 
-@pytest.mark.parametrize("module_name", ["tools.verify_graph", "tools.verify_evidence"])
+@pytest.mark.parametrize(
+    "module_name",
+    [
+        "tools.verify_graph",
+        "tools.verify_evidence",
+        "tools.security_runtime",
+        "tools.mail_runtime",
+        "tools.arm_runtime",
+    ],
+)
 def test_legacy_native_replica_owns_only_its_core_listener(tmp_path, monkeypatch, module_name):
     import importlib
     import json
