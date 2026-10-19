@@ -110,3 +110,5 @@ SDK code, command implementation, signatures or API payloads. The temporary port
 adapter is removed after each PowerShell run. Explicit encrypted backups accept
 both padded and unpadded base64url wire encoding, with the same authenticated
 manifest checks.
+
+The local control API's authoritative `cloud/resourceState` replacement removes secret rows and their versions when it removes an active vault, preserving its original fixture-cleanup behavior. It does not run the public ARM soft-delete workflow. Recreating that scope therefore cannot inherit removed values. Public ARM deletion continues to retain recoverable vault/secret state under the documented retention rules. The combined cloud snapshot remains the supported way to move coherent resource and secret metadata state.

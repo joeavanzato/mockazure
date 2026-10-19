@@ -15,7 +15,7 @@ from mockazure.cloud.types import ResourceRef
 from mockazure.evidence.repository import lock_state
 from mockazure.identity.types import IdentityInput
 from mockazure.keyvault.models import Vault
-from mockazure.keyvault.secret_models import DeletedVault
+from mockazure.keyvault.secret_models import DeletedVault, Secret
 from mockazure.monitor.workspaces import Workspace
 from mockazure.providers.arm.errors import ArmError
 from mockazure.providers.arm.inventory import resolve_scope
@@ -217,6 +217,12 @@ async def replace_provider_resources(session, tenant, value: ResourceStateInput)
                 .values(publish_eligible=False)
             )
         if removed:
+            # Fixture replacement is authoritative removal, not public ARM soft
+            # deletion. Secrets no longer have a Vault FK (retained vaults own
+            # them too), so explicitly preserve the old cascading cleanup here.
+            await session.execute(
+                delete(Secret).where(Secret.tenant_id == tenant, Secret.vault_id.in_(removed))
+            )
             await session.execute(
                 delete(ArmResource).where(
                     ArmResource.tenant_id == tenant, ArmResource.scope_key.in_(removed)

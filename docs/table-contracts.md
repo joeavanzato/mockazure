@@ -23,3 +23,5 @@ the official version/operation documentation from the newer shared structural
 Swagger. The PowerShell matrix uses an explicit REST fallback for entity CRUD
 because Az.Storage has no entity cmdlets. Batch `$format` selects the actual JSON
 metadata mode; omitted Content-ID stays omitted, and supplied IDs are echoed.
+
+Account SAS follows the [operation-specific permission table](https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas): Query Tables requires container resource type `c` and list permission `l`; unconditional replace/merge requires both `a` and `u`. Conditional updates require `u`. Each batch member applies its own `If-Match` rule. Regression coverage includes denial without add authority and the distinct service scope used by Queue listing.

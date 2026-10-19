@@ -87,13 +87,30 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     check_constraints(args, request, now)
     if service[0] not in args.get("ss", ""):
         denied("AuthorizationServiceMismatch")
-    level = "s" if not resource else "c" if "/" not in resource else "o"
+    # Query Tables is explicitly a container operation in the account-SAS
+    # operation matrix; List Queues (and other service listings) remain service.
+    level = (
+        "c"
+        if service == "table" and action == "list"
+        else "s"
+        if not resource
+        else "c"
+        if "/" not in resource
+        else "o"
+    )
     if level not in args.get("srt", ""):
         denied("AuthorizationResourceTypeMismatch")
     needed = {"create": "cw", "read": "r", "list": "l", "delete": "d", "metadata": "w"}.get(
         action, DATA_PERMISSIONS.get(action, "")
     )
     if not needed or not set(needed) & set(args.get("sp", "")):
+        denied("AuthorizationPermissionMismatch")
+    if (
+        service == "table"
+        and action in {"replace_entity", "merge_entity"}
+        and not request.headers.get("If-Match")
+        and not {"a", "u"} <= set(args["sp"])
+    ):
         denied("AuthorizationPermissionMismatch")
     return frozenset(args["sp"])
 
