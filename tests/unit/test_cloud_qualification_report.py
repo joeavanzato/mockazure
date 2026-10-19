@@ -218,3 +218,76 @@ def test_graph_phase_requires_four_native_workflows():
     del report["ecosystems"]["typescript"]
     with pytest.raises(ValueError):
         validator()(report, {"python", "powershell", "dotnet", "typescript"})
+
+
+def aggregate_sample():
+    import json
+
+    from tools.verify_cloud_workflows import cases
+
+    manifest = json.loads(Path("integrations/cloud-workflows-manifest.json").read_text())
+    reports = []
+    for phase, definition in cases().items():
+        if phase not in "ABCDEF":
+            continue
+        versions = manifest.get("phaseClients", {}).get(phase, manifest["clients"])
+        cells = {}
+        for ecosystem in ("python", "powershell", "dotnet", "typescript"):
+            workflows = [v for v in definition["workflows"] if ecosystem in v["ecosystems"]]
+            cells[ecosystem] = (
+                {
+                    "status": "passed",
+                    "clientVersions": versions[ecosystem],
+                    "cases": [
+                        {
+                            "workflow": v["id"],
+                            "operationIds": v["operationIds"],
+                            "transport": v.get("transportByEcosystem", {}).get(
+                                ecosystem, v["transport"]
+                            ),
+                            "expectedStatus": "completed",
+                            "actualStatus": "completed",
+                            "assertions": {a: True for a in v["assertions"]},
+                        }
+                        for v in workflows
+                    ],
+                }
+                if workflows
+                else {"status": "not-applicable", "reason": definition["notApplicable"][ecosystem]}
+            )
+        reports.append(
+            {
+                "phase": phase,
+                "sourceCommit": "a" * 40,
+                "sourceFingerprint": "b" * 64,
+                "passed": True,
+                "ecosystems": cells,
+            }
+        )
+    return {
+        "phase": "all",
+        "sourceCommit": "a" * 40,
+        "sourceFingerprint": "b" * 64,
+        "passed": True,
+        "phases": reports,
+    }
+
+
+def test_all_phase_qualification_matrix_completeness():
+    from tools.verify_cloud_workflows import ECOSYSTEMS
+
+    report = aggregate_sample()
+    validator()(report, ECOSYSTEMS)
+    for mutation in (
+        lambda r: r["phases"].pop(),
+        lambda r: r["phases"].append(copy.deepcopy(r["phases"][0])),
+        lambda r: r["phases"][1].update(sourceCommit="c" * 40),
+        lambda r: r["phases"][2].update(sourceFingerprint="d" * 64),
+        lambda r: r["phases"][3].update(passed=False),
+        lambda r: r["phases"][4]["ecosystems"].pop("dotnet"),
+        lambda r: r["phases"][5]["ecosystems"]["python"]["cases"][0].update(transport="rest"),
+    ):
+        invalid = copy.deepcopy(report)
+        mutation(invalid)
+        with pytest.raises(ValueError):
+            validator()(invalid, ECOSYSTEMS)

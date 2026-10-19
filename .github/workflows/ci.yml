@@ -143,7 +143,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        phase: [A, B]
+        phase: [A, B, C, D, E, F]
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
