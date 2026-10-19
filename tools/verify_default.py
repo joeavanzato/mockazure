@@ -47,6 +47,28 @@ def default_ports():
     raise RuntimeError("No available local service port range was found")
 
 
+def wait_for_service_origins(client, origins, *, attempts=120):
+    """Wait for each TLS proxy listener, after the core database health check.
+
+    Data listeners own their routes and return a service-shaped 4xx for this
+    unauthenticated probe. A completed TLS/HTTP response establishes transport
+    readiness only; the original SDK workflow must still prove every operation.
+    """
+    pending = {origin.rstrip("/") for origin in origins}
+    for _ in range(attempts):
+        for origin in tuple(pending):
+            try:
+                response = client.get(origin + "/_mock/ready", timeout=2)
+                if response.status_code in {200, 400, 401, 403, 404}:
+                    pending.remove(origin)
+            except httpx.HTTPError:
+                pass
+        if not pending:
+            return
+        time.sleep(0.5)
+    raise TimeoutError("Local service origins did not recover: " + ", ".join(sorted(pending)))
+
+
 def main(*, qualify=None):
     run_id = uuid4().hex[:12]
     directory = ROOT / "work" / ("default-smoke-" + run_id)

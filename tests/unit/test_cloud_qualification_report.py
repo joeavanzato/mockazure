@@ -411,3 +411,35 @@ def test_scale_request_measurements_preserve_results_and_exceptions():
         "statusCounts": {"200": 400, "403": 1, "503": 1},
         "channelAttempts": {"sdk": 400, "rest": 3},
     }
+
+
+def test_data_listener_readiness_waits_for_each_origin(monkeypatch):
+    import httpx
+
+    from tools import verify_default
+
+    attempts = []
+
+    def handle(request):
+        attempts.append(str(request.url))
+        if request.url.port == 8444 and attempts.count(str(request.url)) == 1:
+            raise httpx.ConnectError("storage proxy not ready", request=request)
+        return httpx.Response(200 if request.url.port == 8443 else 404)
+
+    monkeypatch.setattr(verify_default.time, "sleep", lambda _: None)
+    with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+        verify_default.wait_for_service_origins(
+            client, ["https://localhost:8443", "https://localhost:8444"]
+        )
+    assert attempts.count("https://localhost:8444/_mock/ready") == 2
+
+
+def test_data_listener_readiness_rejects_unavailable_origin(monkeypatch):
+    import httpx
+
+    from tools import verify_default
+
+    monkeypatch.setattr(verify_default.time, "sleep", lambda _: None)
+    with httpx.Client(transport=httpx.MockTransport(lambda request: httpx.Response(503))) as client:
+        with pytest.raises(TimeoutError, match="service origins"):
+            verify_default.wait_for_service_origins(client, ["https://localhost:8444"], attempts=2)

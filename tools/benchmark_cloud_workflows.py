@@ -28,6 +28,7 @@ from integrations.python.arm import LocalSession
 from tools.benchmark_coverage import wait_for_replicas
 from tools.verify_cloud_workflows import source_identity
 from tools.verify_default import main as smoke
+from tools.verify_default import wait_for_service_origins
 
 
 class RequestMetrics:
@@ -526,6 +527,8 @@ def qualify(
         (201,),
     )
     secondary = provision(client, headers, other, ca, "foreign")
+    data_origins = ["https://" + urlsplit(v).netloc for v in primary["endpoints"].values()]
+    data_origins.append(primary["logsOrigin"])
     report.update(
         records=records,
         binaryBytes=binary_bytes,
@@ -657,6 +660,7 @@ def qualify(
     proxy.write_text(value, encoding="utf-8")
     command(compose + ["up", "-d", "--no-build", "--scale", "api=2", "--wait"], timeout=300)
     command(compose + ["restart", "ingress"])
+    wait_for_service_origins(client, data_origins)
     replicas = command(compose + ["ps", "-q", "api"], capture=True).splitlines()
     assert len(replicas) == 2
     first = report["observations"]["samples"][0]["processes"][0]["container"]
@@ -670,6 +674,7 @@ def qualify(
         memory.capture("beforeRestart" + str(len(report["restarts"])))
         command(compose + ["restart", "api", "worker"], timeout=300)
         wait_for_replicas(command, client, replicas)
+        wait_for_service_origins(client, data_origins)
         memory.capture("afterRestart" + str(len(report["restarts"])))
         marker.update(completed=True, finished=datetime.now(UTC).isoformat())
         check("cloud_scale_restart_" + str(len(report["restarts"])))

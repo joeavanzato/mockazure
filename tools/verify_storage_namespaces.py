@@ -10,7 +10,7 @@ import msal
 
 from integrations.python.arm import LocalSession
 from tools.verify_collections import PS_IMAGE
-from tools.verify_default import ROOT
+from tools.verify_default import ROOT, wait_for_service_origins
 from tools.verify_default import main as smoke
 
 
@@ -118,6 +118,10 @@ def qualify(directory, command, compose, client, headers, tenant, check):
         time.sleep(0.5)
     else:
         raise RuntimeError("Cloud API restart failed")
+    wait_for_service_origins(
+        client,
+        [host_profile[name] for name in ("storage", "file", "queue", "table", "keyvault", "logs")],
+    )
     api = command(compose + ["ps", "-q", "api"], capture=True)
     request("PUT", subbase + "/resource-groups/storage", {"location": "eastus"})
     account = "native" + uuid4().hex[:12]
