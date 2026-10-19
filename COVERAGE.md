@@ -10,6 +10,29 @@ Microsoft links describe the real API; the support and limits columns describe
 MockAzure. This is an operation map, not a claim of complete Microsoft service parity.
 No real tenant is needed or contacted.
 
+## Lab management additions (2026-10-19)
+
+These are **MockAzure control-plane paths**, with no Microsoft Graph equivalent.
+They do not change the public API parity claims below. See [deployment and use](docs/getting-started.md).
+
+| Local URI | Methods | Support and notes |
+| --- | --- | --- |
+| `/_mock/ui/` | GET | Packaged service browser, profile composer, run viewer; password required for data |
+| `/_mock/console/login`, `/session`, `/logout` | POST, GET, POST respectively | Shared lab password, PostgreSQL sessions/throttling, CSRF; cookie grants management only |
+| `/_mock/console/inspector` | GET | Opt-in, read-only, tenant-scoped scalar projections; no arbitrary SQL or credential tables |
+| `/_mock/resources/catalog` | GET | Exact registered families, paths, schemas, operation modes, permissions and limits |
+| `/_mock/tenants/{tenant}/resources/{family}` | GET | Bounded service-oriented browsing; explicit scope/filters and continuation |
+| `/_mock/tenants/{tenant}/resources/{family}/preview`, `/apply` | POST | Validated operations and signed preview receipts; explicit replacement required; read-only families have no editor |
+| `/_mock/profiles[/{id}]` | GET, POST (collection), PUT (item) | Packaged/imported bundles and immutable revisions; strict JSON/YAML data, no hooks |
+| `/_mock/population/previews`, `/runs` | POST; GET on runs | Snapshot preview and durable apply; one active population run per tenant |
+| `/_mock/population/runs/{id}[/{steps,manifest,ground-truth}]` | GET | Bounded progress, redacted provenance and verified namespace identifiers |
+| `/_mock/population/runs/{id}/{cancel,resume}` | POST | Checkpoint cancellation/recheck; applied data remains; uncertain POSTs need attention |
+
+The catalog includes service families whose supported operation is administrative
+fixture import. That is distinct from a public Graph/ARM/data-plane write. Starter
+templates perform selected real local HTTP workflows and preserve permissions and
+licensing; [results](docs/lab-console-results.md) identify the exact qualified cases.
+
 ## Reading the tables
 
 - **Implemented**: the listed methods function within the stated local profile.

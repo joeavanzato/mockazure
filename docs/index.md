@@ -1,5 +1,9 @@
 # Documentation
 
+- [Deploy, populate and browse a lab](getting-started.md)
+- [Composable tenant/data profiles](profiles.md)
+- [Lab console and population qualification](lab-console-results.md)
+
 - [Default Docker runtime, storage and recovery](default-runtime.md)
 - [Endpoint coverage: Microsoft URIs, supported methods and gaps](../COVERAGE.md)
 - [Proposed coverage expansion: four-phase design and implementation plans](superpowers/specs/2026-10-17-coverage-expansion-design.md)
