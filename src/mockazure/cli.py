@@ -12,6 +12,7 @@ from mockazure.commands import (
     local,
     maintenance,
     managed_identity,
+    populate,
     profiles,
     tenants,
 )
@@ -57,3 +58,5 @@ app.add_typer(evidence.app, name="evidence")
 app.add_typer(maintenance.app, name="maintenance")
 
 app.add_typer(profiles.app, name="profile")
+
+app.add_typer(populate.app, name="populate")

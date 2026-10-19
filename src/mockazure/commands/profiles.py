@@ -31,6 +31,12 @@ def read_bundle(path: Path):
         if total > MAX_BUNDLE_BYTES or len(documents) >= 128:
             raise ValueError("Bundle limit exceeded")
         documents[entry.name] = data
+    if len(documents) == 1:
+        value, _ = parse_document(next(iter(documents.values())))
+        if set(value) == {"documents"} and isinstance(value["documents"], dict):
+            return load_bundle(
+                {key: json.dumps(doc).encode() for key, doc in value["documents"].items()}
+            )
     return load_bundle(documents)
 
 
@@ -64,3 +70,65 @@ def resolve(
             message += ": " + str(error)
         raise typer.BadParameter(message) from None
     typer.echo(json.dumps({"output": str(output), "digest": result.digest}))
+
+
+@app.command("list")
+def list_profiles(
+    config: Path = typer.Option(Path(".runtime/instance/native.json")),
+    builtin: bool = typer.Option(False, "--builtin"),
+):
+    if builtin:
+        from mockazure.profiles.builtin import builtin_bundle
+
+        typer.echo(
+            json.dumps(
+                {
+                    "profiles": [
+                        {"name": d.name, "kind": d.kind}
+                        for d in builtin_bundle().documents.values()
+                    ]
+                }
+            )
+        )
+        return
+    from mockazure.commands.populate import execute
+
+    execute(config, lambda client: client.request("GET", "/_mock/profiles"))
+
+
+@app.command("import")
+def import_profiles(
+    bundle: Path = typer.Option(...),
+    config: Path = typer.Option(Path(".runtime/instance/native.json")),
+):
+    from mockazure.commands.populate import execute
+
+    async def invoke(client):
+        value = read_bundle(bundle)
+        return await client.request(
+            "POST",
+            "/_mock/profiles",
+            json={
+                "documents": {
+                    k: v.model_dump(mode="json", exclude_unset=True)
+                    for k, v in value.documents.items()
+                }
+            },
+        )
+
+    execute(config, invoke)
+
+
+@app.command("export")
+def export_profiles(
+    bundle_id: str = typer.Option("builtin"),
+    output: Path = typer.Option(...),
+    config: Path = typer.Option(Path(".runtime/instance/native.json")),
+):
+    from mockazure.commands.populate import execute
+
+    async def invoke(client):
+        value = await client.request("GET", "/_mock/profiles/" + bundle_id)
+        return {"documents": value["documents"]}
+
+    execute(config, invoke, output)
