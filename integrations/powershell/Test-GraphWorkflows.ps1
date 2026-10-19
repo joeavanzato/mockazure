@@ -1,6 +1,6 @@
 param([string]$Profile,[string]$Report,[ValidateSet('write','read')][string]$Mode)
 $ErrorActionPreference='Stop'
-$p=Get-Content $Profile -Raw | ConvertFrom-Json -AsHashtable
+$p=Get-Content $Profile -Raw | ConvertFrom-Json -AsHashtable -DateKind String
 Import-Module Microsoft.Graph.Authentication -RequiredVersion 2.35.1
 Import-Module Microsoft.Graph.Mail -RequiredVersion 2.35.1
 Import-Module Microsoft.Graph.Users.Actions -RequiredVersion 2.35.1
@@ -48,7 +48,7 @@ if($Mode -eq 'write'){
     $objects=@{message=$draft.Id;event=$event.Id;subscription=$sub.Id;owner=$p.owner}
     foreach($name in @('mail_roundtrip','calendar_recurrence_delta','meeting_response','subscription_management')){$checks[$name]=$true}
 }else{
-    $fixtures=Get-Content $p.fixtures -Raw | ConvertFrom-Json -AsHashtable
+    $fixtures=Get-Content $p.fixtures -Raw | ConvertFrom-Json -AsHashtable -DateKind String
     foreach($f in $fixtures.Values){
         Check ((Get-MgUserMessage -UserId $f.owner -MessageId $f.message).Id -eq $f.message)
         Check ((Get-MgUserEvent -UserId $f.owner -EventId $f.event).Attendees[0].Status.Response -eq 'accepted')
