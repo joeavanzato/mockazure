@@ -83,7 +83,14 @@ def test_table_shared_key_uses_date_without_canonicalized_xms_headers():
 
 
 def test_absent_xms_headers_are_not_synthesized_into_date_signature():
-    value = canonicalize("GET", b"/account/box", [],
-        [("Date", "Fri, 26 Jun 2015 23:39:12 GMT")], "account", "blob", "2025-11-05")
+    value = canonicalize(
+        "GET",
+        b"/account/box",
+        [],
+        [("Date", "Fri, 26 Jun 2015 23:39:12 GMT")],
+        "account",
+        "blob",
+        "2025-11-05",
+    )
     assert b"x-ms-date:" not in value and b"x-ms-version:" not in value
     assert b"Fri, 26 Jun 2015 23:39:12 GMT" in value

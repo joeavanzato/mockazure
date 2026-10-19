@@ -57,7 +57,7 @@ dev = [
 packages = ["src/mockazure"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/build-requirements.txt"]
+include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/build-requirements.txt", "/examples", "/docs/getting-started.md", "/docs/profiles.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

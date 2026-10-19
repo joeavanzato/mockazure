@@ -212,3 +212,40 @@ jobs:
             work/release/cloud-distribution.json
             work/release/cloud-probes-*/fixtures/*.xml
           if-no-files-found: warn
+
+
+  lab-console:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.12"
+      - run: uv sync --locked
+      - run: docker build -t mockazure:local .
+      - run: uv run mockazure init --compose --port 28443 --db-port 55434
+      - run: docker compose --env-file .runtime/compose.env up -d --wait
+      - name: Configure disposable console password
+        run: |
+          mkdir -p work
+          uv run python -c "import secrets; from pathlib import Path; p=Path('.runtime/instance/browser-test.password'); p.write_text(secrets.token_urlsafe(32)); p.chmod(0o600)"
+          uv run mockazure console password set --config .runtime/instance/native.json --password-file .runtime/instance/browser-test.password
+      - run: uv run python -m tools.verify_lab_console --config .runtime/instance/native.json --report work/lab-console.json --distribution docker-ci
+      - run: uv run playwright install --with-deps chromium
+      - name: Validate report and browser workflows
+        run: |
+          export MOCKAZURE_BROWSER_CONFIG="$PWD/.runtime/instance/native.json"
+          export MOCKAZURE_LAB_REPORT="$PWD/work/lab-console.json"
+          export MOCKAZURE_BROWSER_TENANT=$(uv run python -c "import json; print(json.load(open('work/lab-console.json'))['profiles']['developer-lab']['request']['target']['create_tenant']['display_name'])")
+          uv run python -m pytest tests/unit/test_lab_console_package.py tests/acceptance/test_lab_console_workflows.py tests/browser/test_lab_console.py -q --basetemp=work/ci-lab
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-console-qualification
+          path: |
+            work/lab-console.json
+            work/ci-lab/**/*.png
+      - if: always()
+        run: docker compose --env-file .runtime/compose.env stop

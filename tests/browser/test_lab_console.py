@@ -6,7 +6,7 @@ import os
 import ssl
 from pathlib import Path
 from urllib.parse import urlsplit
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import httpx
 import pytest
@@ -69,7 +69,10 @@ def test_console_login_and_resource_browser(tmp_path):
             page.get_by_label("Shared lab password").fill(password)
             page.get_by_role("button", name="Sign in", exact=True).click()
             expect(page.get_by_label("Tenant", exact=True)).to_be_visible()
-            page.get_by_label("Tenant", exact=True).select_option(label="Developer native lab")
+            page.get_by_label("Tenant", exact=True).select_option(
+                label=os.environ.get("MOCKAZURE_BROWSER_TENANT", "Developer native lab")
+            )
+            selected_tenant = page.get_by_label("Tenant", exact=True).input_value()
             page.get_by_label("Resource family").select_option("directory.users")
             expect(page.get_by_role("table")).to_be_visible()
             assert len([url for url in requests if "resources/directory.users?" in url]) <= 2
@@ -78,6 +81,12 @@ def test_console_login_and_resource_browser(tmp_path):
             page.screenshot(path=str(tmp_path / "console-narrow.png"), full_page=True)
             assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
             page.get_by_role("button", name="Profiles", exact=False).click()
+            page.get_by_label("Template", exact=True).select_option("developer-lab")
+            first_layer = page.locator(".layer-list li code").first.inner_text()
+            page.get_by_role("button", name="↓", exact=True).first.click()
+            expect(page.locator(".layer-list li code").nth(1)).to_have_text(first_layer)
+            page.get_by_role("button", name="↑", exact=True).nth(1).click()
+            expect(page.locator(".layer-list li code").first).to_have_text(first_layer)
             page.get_by_label("Template", exact=True).select_option("volume-lab")
             page.get_by_label("Dataset namespace").fill("browser-" + uuid4().hex[:10])
             page.get_by_label("Users", exact=True).fill("60")
@@ -147,7 +156,10 @@ def test_console_login_and_resource_browser(tmp_path):
         try:
             async with database.sessions() as session:
                 binding = await session.scalar(
-                    select(LabIdentity).order_by(LabIdentity.name).limit(1)
+                    select(LabIdentity)
+                    .where(LabIdentity.tenant_id == UUID(selected_tenant))
+                    .order_by(LabIdentity.name)
+                    .limit(1)
                 )
             ctx = AdapterContext(database, settings, binding.tenant_id)
             response = await LocalTransport(ctx, await resolve_identity(ctx, binding.name)).request(

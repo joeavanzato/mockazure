@@ -31,7 +31,6 @@ async def process_export(database: Database, claim: JobClaim, wall_now: datetime
     return JobResult("succeeded" if done else "stale", snapshot.model_dump(mode="json"), None)
 
 
-
 HANDLERS = {
     "population.apply": process_population,
     "monitor.diagnostic": process_diagnostic_delivery,

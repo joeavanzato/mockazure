@@ -71,4 +71,3 @@ def test_directory_and_signins_share_subjects_and_fixed_time():
     assert generate("directory.users", PARAMETERS, REFS, offset=100, limit=2) == []
     with pytest.raises(ValueError):
         generate("directory.users", PARAMETERS, REFS, offset=0, limit=1001)
-

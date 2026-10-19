@@ -5,11 +5,14 @@ import pytest
 from tools.qualify_security_collectors import verify_denied_outputs
 
 
-@pytest.mark.parametrize("payload", [
-    {"AppObjectID": "known-app", "KeyID": "sensitive-credential-metadata"},
-    [{"phoneNumber": "+1 5555550150"}],
-    {"value": [{"displayName": "Sensitive policy", "state": "enabled"}]},
-])
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {"AppObjectID": "known-app", "KeyID": "sensitive-credential-metadata"},
+        [{"phoneNumber": "+1 5555550150"}],
+        {"value": [{"displayName": "Sensitive policy", "state": "enabled"}]},
+    ],
+)
 def test_denied_json_cannot_hide_disclosure_behind_empty_csv(tmp_path, payload):
     csv = tmp_path / "empty.csv"
     csv.write_text("")

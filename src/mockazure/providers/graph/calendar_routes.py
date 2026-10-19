@@ -316,9 +316,7 @@ def register(
     router.add_api_route("/v1.0" + path, handle, methods=methods)
     if action:
         parent, name = path.rsplit("/", 1)
-        router.add_api_route(
-            "/v1.0" + parent + "/microsoft.graph." + name, handle, methods=methods
-        )
+        router.add_api_route("/v1.0" + parent + "/microsoft.graph." + name, handle, methods=methods)
 
 
 for self_path in (False, True):

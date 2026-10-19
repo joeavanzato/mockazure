@@ -297,8 +297,7 @@ async def test_native_sdk_delta_function_uri(database, settings):
         created = await client.post(root + "/events", headers=headers, json=event_body())
         assert created.status_code == 201, created.text
         path = (
-            root
-            + "/calendarView/delta()?startDateTime=2026-10-01T00:00:00Z"
+            root + "/calendarView/delta()?startDateTime=2026-10-01T00:00:00Z"
             "&endDateTime=2026-11-01T00:00:00Z"
         )
         rows, link = await collect(client, path, headers)

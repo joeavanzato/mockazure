@@ -299,9 +299,8 @@ async def test_native_false_query_preferences(database, settings):
         await ingest(database, tenant, wid)
         response = await client.post(
             settings.endpoints.logs + f"/v1/workspaces/{wid}/query",
-            headers=logs | {
-                "Prefer": "response-v1=true,include-statistics=false,include-render=false,wait=30"
-            },
+            headers=logs
+            | {"Prefer": "response-v1=true,include-statistics=false,include-render=false,wait=30"},
             json={"query": "StorageBlobLogs | summarize n=count()"},
         )
         assert response.status_code == 200 and response.json()["tables"][0]["rows"] == [[3]], (
