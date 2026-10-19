@@ -7,6 +7,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 from starlette.background import BackgroundTask
 
+from mockazure.content.downloads import safe_download_headers
 from mockazure.content.repository import object_row, stream_content
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import principal
@@ -107,7 +108,7 @@ async def hosted_bytes(session, actor, row):
     return StreamingResponse(
         body(),
         media_type=blob.media_type,
-        headers={"Content-Length": str(blob.size)},
+        headers={"Content-Length": str(blob.size), **safe_download_headers(row.content_id)},
         background=BackgroundTask(session.close),
     )
 

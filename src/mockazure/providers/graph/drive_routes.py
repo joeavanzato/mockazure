@@ -10,6 +10,7 @@ from sqlalchemy import and_, or_, select
 from starlette.background import BackgroundTask
 
 from mockazure.admin.errors import AdminError
+from mockazure.content.downloads import safe_download_headers
 from mockazure.content.ranges import content_range
 from mockazure.content.repository import object_row, stream_content
 from mockazure.providers.graph.errors import GraphError
@@ -45,6 +46,7 @@ async def download(token: str, request: Request):
         )
         start, end = content_range(request.headers.get("range"), blob.size)
         headers = {
+            **safe_download_headers(receipt.content_id),
             "Content-Length": str(end - start),
             "Accept-Ranges": "bytes",
             "ETag": '"' + blob.sha256 + '"',

@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from starlette.background import BackgroundTask
 
 from mockazure.authorization.evaluator import AuthorizationDenied, authorize
+from mockazure.content.downloads import safe_download_headers
 from mockazure.content.repository import object_row, stream_content
 from mockazure.mail.authorization import (
     basic_content_only,
@@ -101,7 +102,7 @@ async def raw_content(request, *, self_path):
         return StreamingResponse(
             body(),
             media_type=content_type,
-            headers={"Content-Length": str(blob.size)},
+            headers={"Content-Length": str(blob.size), **safe_download_headers(content_id)},
             background=BackgroundTask(session.close),
         )
     except AuthorizationDenied:
