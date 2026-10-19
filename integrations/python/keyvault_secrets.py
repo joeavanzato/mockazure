@@ -59,11 +59,26 @@ def run_keyvault(profile):
             )
             assert changed.enabled
             assert client.get_secret("python-secret").value == "two"
+            if profile.get("recovery"):
+                backup = client.backup_secret("python-secret")
+                assert isinstance(backup, bytes) and b"one" not in backup
+                deleted = client.begin_delete_secret("python-secret").result()
+                assert deleted.name == "python-secret" and deleted.deleted_date
+                assert client.get_deleted_secret("python-secret").name == "python-secret"
+                assert [s.name for s in client.list_deleted_secrets()] == ["python-secret"]
+                client.begin_recover_deleted_secret("python-secret").result()
+                assert client.get_secret("python-secret", a.properties.version).value == "one ☃"
+                client.begin_delete_secret("python-secret").result()
+                client.purge_deleted_secret("python-secret")
+                restored = client.restore_secret_backup(backup)
+                assert restored.version == b.properties.version
+                assert client.get_secret("python-secret").value == "two"
     assert credential.scopes
     return {
         "passed": True,
         "sdk": version("azure-keyvault-secrets"),
         "versions": 2,
+        "recovery": bool(profile.get("recovery")),
         "challengeScopeVerified": True,
         "temporalMetadataGet": True,
     }

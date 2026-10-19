@@ -4,6 +4,7 @@ import asyncio
 import socket
 
 import uvicorn
+from cryptography.fernet import Fernet
 
 from integrations.python.keyvault_secrets import run_keyvault
 from mockazure.admin.app import create_app
@@ -21,7 +22,15 @@ async def test_original_python_keyvault_https(database, settings):
     profile = EndpointProfile(
         **(settings.endpoints.model_dump() | {"keyvault": f"https://127.0.0.1:{port}"})
     )
-    local = settings.model_copy(update={"service_endpoints": profile})
+    backup_file = settings.data_dir / "sdk-backup.key"
+    backup_file.write_bytes(Fernet.generate_key())
+    local = settings.model_copy(
+        update={
+            "service_endpoints": profile,
+            "keyvault_backup_key_file": backup_file,
+            "keyvault_backup_key_ref": "sdk-key-v1",
+        }
+    )
     tls = ensure_tls(local.data_dir, local.allowed_hosts)
     async with graph_client(database, local) as (client, tenant, app, user):
         path, admin, principal, arm, endpoint, head, policy = await provision_vault(
@@ -55,12 +64,14 @@ async def test_original_python_keyvault_https(database, settings):
                 run_keyvault,
                 {
                     "vault_endpoint": endpoint,
+                    "recovery": True,
                     "account": "signedaccount",
                     "token": head["Authorization"][7:],
                     "ca_file": str(tls.ca_cert),
                 },
             )
             assert result["passed"] and result["challengeScopeVerified"]
+            assert result["recovery"] is True
             print(result)
         finally:
             server.should_exit = True

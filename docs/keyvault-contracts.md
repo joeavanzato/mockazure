@@ -1,6 +1,6 @@
 # Key Vault Secrets contract
 
-D3 implements secret set/get/update, list and version-list operations against the
+D3/D4 implement secret versions, lists, recovery, purge and explicit encrypted backups against the
 official **2025-07-01** data-plane schema. Vault management remains **2025-05-01**.
 Sources are bundled at Azure REST revision
 `ae348cc71f54a61f5d17472052cfef279a23db6b` with hash-checked Microsoft Learn references.
@@ -13,7 +13,12 @@ requests reject unknown and read-only fields. Runtime validation is offline.
 | `/secrets/{name}/{version}` | GET, PATCH | Exact version lookup; PATCH changes attributes/tags/content type, not value; update response never discloses a preexisting value to a set-only caller |
 | `/secrets` | GET | Metadata only, no secret values; maxresults 1..25; opaque continuations |
 | `/secrets/{name}/versions` | GET | Version metadata, no values; current list permission checked on each page |
-| Secret delete/recover/purge, deleted-secret list/get, backup/restore | D4 pending | Explicit unsupported errors until the recovery slice is implemented |
+| `/secrets/{name}` | DELETE | HTTP200 metadata, no value; retains all versions for vault retention (7..90 days) |
+| `/deletedsecrets`, `/deletedsecrets/{name}` | GET; DELETE named secret | Metadata lists/get; purge HTTP204 only if protection permits; current permission checked on each page |
+| `/deletedsecrets/{name}/recover` | POST | HTTP200, all versions/IDs preserved; no implicit value disclosure |
+| `/secrets/{name}/backup`, `/secrets/restore` | POST | Explicit encrypted backup/all-version restore; separate operator key and reference; same tenant/subscription/geography; active/deleted name conflict HTTP409 |
+| ARM `/subscriptions/{id}/providers/Microsoft.KeyVault/deletedVaults` and `/locations/{location}/deletedVaults/{name}` | GET list/get; POST `/{name}/purge` | Original 2025-05-01 schema; current control-plane permissions; purge returns HTTP200 synchronously and rejects protected vaults |
+| ARM vault PUT with `properties.createMode="recover"` | Recover | Same original scope/location/configuration and encrypted contents; scoped RBAC assignments are not restored |
 
 Get rejects a disabled version and does not silently choose an older enabled
 version. Microsoft explicitly allows GET outside `nbf`/`exp` for testing/recovery;
@@ -36,11 +41,25 @@ bound to tenant, vault, name and version. Substituted ciphertext fails closed.
 Successful operation facts contain operation/name/outcome, never values. Default
 cloud snapshots contain metadata/public versions only, with no plaintext or
 ciphertext. Restoring such a snapshot preserves metadata and IDs but clears value
-material; GET returns explicit local 409 `SecretValueUnavailable`. D4 adds explicit
-encrypted backups for value recovery. Restart preserves encrypted values.
+material; GET returns explicit local 409 `SecretValueUnavailable`. Explicit encrypted
+backups recover values. Restart preserves encrypted values.
 Snapshots cap secrets at 10,000, versions at 1,000 per secret/100,000 total.
 Import/reset clears cursors; one-hour continuations bind vault, tenant, generation,
-query and list kind. Downgrade 066 requires exporting/resetting secret state first.
+query and list kind. Downgrade 067 requires exporting/resetting secret state first.
+Deleted vault snapshots include safe configuration/timeline metadata. ARM vault or
+resource-group deletion retains encrypted secret rows until recovery or permitted purge.
+Maintenance removes expired secret/vault tombstones, even with purge protection,
+after the configured retention period.
+
+Configure `keyvault_backup_key_file` and `keyvault_backup_key_ref` explicitly for
+backups; the file holds a separate Fernet key and resolves relative to the config
+file. Keep it outside Git. Missing configuration returns local HTTP409
+`BackupKeyRequired`. Backups contain a versioned encrypted manifest and all secret
+versions (maximum 500); restores check tenant, subscription, geography and key
+reference before writing. This envelope is a MockAzure format, not interoperable
+with Azure backup blobs. The two supported vault regions share the United States
+geography. Restore has a 32 MiB envelope cap; normal requests retain 192 KiB.
+Recover uses the retained configuration; edit it after recovery with PATCH.
 
 ## Local addressing and original SDK compatibility
 

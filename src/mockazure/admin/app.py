@@ -331,6 +331,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
     app.include_router(cloud_admin_router)
+    from mockazure.providers.keyvault.management import router as vault_management_router
+
+    app.include_router(vault_management_router)
     app.include_router(arm_storage_router)
     app.include_router(arm_provider_router)
     app.include_router(arm_router)

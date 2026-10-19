@@ -176,6 +176,9 @@ async def mutate_resource(
         )
         if blocked:
             raise ArmError(409, "ResourceInUse", "Other resources still reference this resource")
+        from mockazure.keyvault.vault_recovery import archive_vaults
+
+        await archive_vaults(session, actor.tenant_id, keys, now)
         await publish(session, actor, scope, action, before, {}, now)
         await session.execute(
             delete(ArmResource).where(
@@ -196,6 +199,12 @@ async def mutate_resource(
             "Register this provider before creating resources",
         )
     validate_wire(body, contract, profile)
+    if profile["family"] == "vault" and row is None:
+        from mockazure.keyvault.vault_recovery import recovery_configuration
+
+        body = await recovery_configuration(session, actor.tenant_id, scope, body, now)
+    elif profile["family"] == "vault" and "createMode" in body.get("properties", {}):
+        raise ValueError("createMode only applies when creating or recovering a vault")
     current = configuration(row, profile) if row else None
     value = merge(current or {}, body)
     value = await validate_resource(session, ref, value, profile, current)

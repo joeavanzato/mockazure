@@ -5,14 +5,16 @@ from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, Response
 
 from mockazure.cloud.lifecycle import lock_lifecycle
 from mockazure.identity.keys import read_wrapping_key
 from mockazure.identity.tokens import validate_access_token
+from mockazure.keyvault.backups import backup_secret, restore_secret
 from mockazure.keyvault.contracts import bad, validate_shape
 from mockazure.keyvault.endpoints import selected_profile, virtual_vault
 from mockazure.keyvault.models import Vault
+from mockazure.keyvault.recovery import get_deleted_secret
 from mockazure.keyvault.secrets import get_secret, list_secrets, mutate_secret
 from mockazure.oauth.errors import OAuthError
 from mockazure.providers.keyvault.errors import VaultError
@@ -53,7 +55,11 @@ async def handle(request):
     headers = {"x-ms-request-id": request.state.request_id, "Cache-Control": "no-store"}
     try:
         body = await dispatch(request)
-        return JSONResponse(body, headers=headers)
+        return (
+            Response(status_code=204, headers=headers)
+            if body is None
+            else JSONResponse(body, headers=headers)
+        )
     except VaultError as error:
         return JSONResponse(error.body(), status_code=error.status, headers=headers | error.headers)
     except StorageError as error:
@@ -88,18 +94,20 @@ async def dispatch(request):
     parts = request.scope["path"].strip("/").split("/")
     if virtual_name:
         parts.insert(0, virtual_name)
-    if len(parts) < 2 or parts[1] != "secrets" or len(parts) > 4:
+    if len(parts) < 2 or parts[1] not in {"secrets", "deletedsecrets"} or len(parts) > 4:
         raise VaultError(501, "NotImplemented", "This Key Vault operation is not implemented")
     vault_name = parts[0].lower()
     name = parts[2] if len(parts) >= 3 else None
     version = parts[3] if len(parts) == 4 else None
-    listing = request.method == "GET" and (name is None or version == "versions")
+    deleted = parts[1] == "deletedsecrets"
+    listing = request.method == "GET" and (name is None or (not deleted and version == "versions"))
+    restoring = not deleted and name == "restore" and version is None and request.method == "POST"
     allowed = {"api-version", "maxresults", "$skiptoken"} if listing else {"api-version"}
     if set(args) - allowed:
         bad("Unsupported Key Vault query option")
     if any(k.startswith("if-") for k in request.headers):
         bad("Conditional headers are unsupported")
-    raw = await bounded_body(request, 196608)
+    raw = await bounded_body(request, 32 * 1024 * 1024 if restoring else 196608)
     async with request.app.state.database.sessions() as session:
         vault = await session.scalar(select(Vault).where(Vault.name == vault_name))
         if vault is None:
@@ -121,7 +129,7 @@ async def dispatch(request):
         if actor.tenant_id != vault.tenant_id:
             raise VaultError(403, "Forbidden", "The token belongs to another tenant")
         body = {}
-        if request.method in {"PUT", "PATCH"}:
+        if request.method in {"PUT", "PATCH"} or restoring:
             if not request.headers.get("content-type", "").lower().startswith("application/json"):
                 bad("JSON Content-Type required")
             body = body_json(raw)
@@ -130,17 +138,43 @@ async def dispatch(request):
         session.info.update(
             keyvault_cipher=read_wrapping_key(settings.data_dir),
             keyvault_endpoint=profile.keyvault,
-            keyvault_request_base=(str(request.url).split("?", 1)[0].split("/secrets", 1)[0]),
+            keyvault_backup_key_file=settings.keyvault_backup_key_file,
+            keyvault_backup_key_ref=settings.keyvault_backup_key_ref,
+            keyvault_request_base=(str(request.url).split("?", 1)[0].split("/" + parts[1], 1)[0]),
             keyvault_peer=request.client.host if request.client else None,
         )
         if listing:
-            result = await list_secrets(session, actor, vault.scope_key, name, args, now)
-            validate_shape("SecretListResult", result)
-        elif name and request.method == "GET":
+            result = await list_secrets(
+                session, actor, vault.scope_key, name, args, now, deleted=deleted
+            )
+            validate_shape("DeletedSecretListResult" if deleted else "SecretListResult", result)
+        elif deleted and name and version is None and request.method == "GET":
+            result = await get_deleted_secret(session, actor, vault.scope_key, name, now)
+            validate_shape("DeletedSecretBundle", result)
+        elif restoring:
+            result = await restore_secret(session, actor, vault.scope_key, body, now)
+            validate_shape("SecretBundle", result)
+        elif not deleted and name and version == "backup" and request.method == "POST":
+            result = await backup_secret(session, actor, vault.scope_key, name, now)
+            validate_shape("BackupSecretResult", result)
+        elif name and (
+            (request.method == "DELETE" and version is None)
+            or (deleted and version == "recover" and request.method == "POST")
+        ):
+            operation = "recover" if version == "recover" else "purge" if deleted else "delete"
+            result = await mutate_secret(
+                session, actor, vault.scope_key, name, None, operation, {}, now
+            )
+            if result is not None:
+                validate_shape(
+                    "DeletedSecretBundle" if operation == "delete" else "SecretBundle", result
+                )
+        elif not deleted and name and request.method == "GET":
             result = await get_secret(session, actor, vault.scope_key, name, version, now)
             validate_shape("SecretBundle", result)
         elif (
-            name
+            not deleted
+            and name
             and request.method in {"PUT", "PATCH"}
             and (request.method != "PUT" or version is None)
         ):

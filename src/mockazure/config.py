@@ -40,6 +40,8 @@ class Settings(BaseSettings):
     graph_collection_request_limit: int = Field(default=600, ge=1, le=10000000)
     graph_collection_window_seconds: int = Field(default=60, ge=1, le=3600)
     content_max_object_bytes: int = Field(default=256 * 1024 * 1024, ge=1, le=1024**4)
+    keyvault_backup_key_file: Path | None = None
+    keyvault_backup_key_ref: str | None = Field(default=None, min_length=1, max_length=128)
     pool_size: int = Field(default=5, ge=1, le=100)
     pool_max_overflow: int = Field(default=5, ge=0, le=100)
 
@@ -186,6 +188,10 @@ def load_settings(config_file: Path, environ: Mapping[str, str] | None = None) -
                         else value
                     )
         values["data_dir"] = (config_file.parent / values["data_dir"]).resolve()
+        if values.get("keyvault_backup_key_file"):
+            values["keyvault_backup_key_file"] = (
+                config_file.parent / values["keyvault_backup_key_file"]
+            ).resolve()
         return Settings(**values)
     except (ValueError, KeyError, TypeError, OSError):
         raise ValueError(

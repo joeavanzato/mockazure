@@ -47,7 +47,9 @@
       ],
       "limits": {
         "secretUtf8Bytes": 25600,
-        "listPage": 25
+        "listPage": 25,
+        "backupVersions": 500,
+        "restoreEnvelopeBytes": 33554432
       },
       "sources": [
         {
@@ -204,12 +206,16 @@
         }
       ],
       "limitations": [
-        "D3/D4 planned; no key/certificate or managed-secret operations."
+        "Selected secrets only; no keys, certificates or managed-secret rotation.",
+        "Default snapshots omit secret values. Explicit backups require a separate configured Fernet key file/reference and are limited to 500 versions, same tenant/subscription/geography.",
+        "Soft delete retains all versions; purge protection prevents early purge; local success transitions are synchronous.",
+        "Four-ecosystem qualification is pending; original Python recovery SDK is tested separately."
       ],
       "tests": [
-        "tests/integration/test_keyvault_secrets.py"
+        "tests/integration/test_structured_service_lifecycle.py",
+        "tests/integration/test_keyvault_sdk.py"
       ],
-      "status": "planned"
+      "status": "implemented"
     },
     {
       "kind": "rest",
@@ -254,7 +260,9 @@
       ],
       "limits": {
         "secretUtf8Bytes": 25600,
-        "listPage": 25
+        "listPage": 25,
+        "backupVersions": 500,
+        "restoreEnvelopeBytes": 33554432
       },
       "sources": [
         {
@@ -411,12 +419,16 @@
         }
       ],
       "limitations": [
-        "D3/D4 planned; no key/certificate or managed-secret operations."
+        "Selected secrets only; no keys, certificates or managed-secret rotation.",
+        "Default snapshots omit secret values. Explicit backups require a separate configured Fernet key file/reference and are limited to 500 versions, same tenant/subscription/geography.",
+        "Soft delete retains all versions; purge protection prevents early purge; local success transitions are synchronous.",
+        "Four-ecosystem qualification is pending; original Python recovery SDK is tested separately."
       ],
       "tests": [
-        "tests/integration/test_keyvault_secrets.py"
+        "tests/integration/test_structured_service_lifecycle.py",
+        "tests/integration/test_keyvault_sdk.py"
       ],
-      "status": "planned"
+      "status": "implemented"
     },
     {
       "kind": "rest",
@@ -459,7 +471,9 @@
       ],
       "limits": {
         "secretUtf8Bytes": 25600,
-        "listPage": 25
+        "listPage": 25,
+        "backupVersions": 500,
+        "restoreEnvelopeBytes": 33554432
       },
       "sources": [
         {
@@ -616,12 +630,16 @@
         }
       ],
       "limitations": [
-        "D3/D4 planned; no key/certificate or managed-secret operations."
+        "Selected secrets only; no keys, certificates or managed-secret rotation.",
+        "Default snapshots omit secret values. Explicit backups require a separate configured Fernet key file/reference and are limited to 500 versions, same tenant/subscription/geography.",
+        "Soft delete retains all versions; purge protection prevents early purge; local success transitions are synchronous.",
+        "Four-ecosystem qualification is pending; original Python recovery SDK is tested separately."
       ],
       "tests": [
-        "tests/integration/test_keyvault_secrets.py"
+        "tests/integration/test_structured_service_lifecycle.py",
+        "tests/integration/test_keyvault_sdk.py"
       ],
-      "status": "planned"
+      "status": "implemented"
     },
     {
       "kind": "rest",
@@ -666,7 +684,9 @@
       ],
       "limits": {
         "secretUtf8Bytes": 25600,
-        "listPage": 25
+        "listPage": 25,
+        "backupVersions": 500,
+        "restoreEnvelopeBytes": 33554432
       },
       "sources": [
         {
@@ -823,12 +843,16 @@
         }
       ],
       "limitations": [
-        "D3/D4 planned; no key/certificate or managed-secret operations."
+        "Selected secrets only; no keys, certificates or managed-secret rotation.",
+        "Default snapshots omit secret values. Explicit backups require a separate configured Fernet key file/reference and are limited to 500 versions, same tenant/subscription/geography.",
+        "Soft delete retains all versions; purge protection prevents early purge; local success transitions are synchronous.",
+        "Four-ecosystem qualification is pending; original Python recovery SDK is tested separately."
       ],
       "tests": [
-        "tests/integration/test_keyvault_secrets.py"
+        "tests/integration/test_structured_service_lifecycle.py",
+        "tests/integration/test_keyvault_sdk.py"
       ],
-      "status": "planned"
+      "status": "implemented"
     },
     {
       "kind": "rest",
@@ -1301,7 +1325,9 @@
       ],
       "limits": {
         "secretUtf8Bytes": 25600,
-        "listPage": 25
+        "listPage": 25,
+        "backupVersions": 500,
+        "restoreEnvelopeBytes": 33554432
       },
       "sources": [
         {
@@ -1458,12 +1484,16 @@
         }
       ],
       "limitations": [
-        "D3/D4 planned; no key/certificate or managed-secret operations."
+        "Selected secrets only; no keys, certificates or managed-secret rotation.",
+        "Default snapshots omit secret values. Explicit backups require a separate configured Fernet key file/reference and are limited to 500 versions, same tenant/subscription/geography.",
+        "Soft delete retains all versions; purge protection prevents early purge; local success transitions are synchronous.",
+        "Four-ecosystem qualification is pending; original Python recovery SDK is tested separately."
       ],
       "tests": [
-        "tests/integration/test_keyvault_secrets.py"
+        "tests/integration/test_structured_service_lifecycle.py",
+        "tests/integration/test_keyvault_sdk.py"
       ],
-      "status": "planned"
+      "status": "implemented"
     },
     {
       "kind": "rest",
@@ -1936,7 +1966,9 @@
       ],
       "limits": {
         "secretUtf8Bytes": 25600,
-        "listPage": 25
+        "listPage": 25,
+        "backupVersions": 500,
+        "restoreEnvelopeBytes": 33554432
       },
       "sources": [
         {
@@ -2093,12 +2125,16 @@
         }
       ],
       "limitations": [
-        "D3/D4 planned; no key/certificate or managed-secret operations."
+        "Selected secrets only; no keys, certificates or managed-secret rotation.",
+        "Default snapshots omit secret values. Explicit backups require a separate configured Fernet key file/reference and are limited to 500 versions, same tenant/subscription/geography.",
+        "Soft delete retains all versions; purge protection prevents early purge; local success transitions are synchronous.",
+        "Four-ecosystem qualification is pending; original Python recovery SDK is tested separately."
       ],
       "tests": [
-        "tests/integration/test_keyvault_secrets.py"
+        "tests/integration/test_structured_service_lifecycle.py",
+        "tests/integration/test_keyvault_sdk.py"
       ],
-      "status": "planned"
+      "status": "implemented"
     },
     {
       "kind": "rest",
@@ -2359,7 +2395,9 @@
       ],
       "limits": {
         "secretUtf8Bytes": 25600,
-        "listPage": 25
+        "listPage": 25,
+        "backupVersions": 500,
+        "restoreEnvelopeBytes": 33554432
       },
       "sources": [
         {
@@ -2516,12 +2554,16 @@
         }
       ],
       "limitations": [
-        "D3/D4 planned; no key/certificate or managed-secret operations."
+        "Selected secrets only; no keys, certificates or managed-secret rotation.",
+        "Default snapshots omit secret values. Explicit backups require a separate configured Fernet key file/reference and are limited to 500 versions, same tenant/subscription/geography.",
+        "Soft delete retains all versions; purge protection prevents early purge; local success transitions are synchronous.",
+        "Four-ecosystem qualification is pending; original Python recovery SDK is tested separately."
       ],
       "tests": [
-        "tests/integration/test_keyvault_secrets.py"
+        "tests/integration/test_structured_service_lifecycle.py",
+        "tests/integration/test_keyvault_sdk.py"
       ],
-      "status": "planned"
+      "status": "implemented"
     }
   ]
 }

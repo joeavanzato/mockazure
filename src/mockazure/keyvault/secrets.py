@@ -22,7 +22,7 @@ def binding(secret, version):
         "tenant": str(secret.tenant_id),
         "vault": secret.vault_id,
         "name": secret.name_key,
-        "version": version.id.hex,
+        "version": version.version,
     }
 
 
@@ -72,7 +72,7 @@ def recovery_level(props):
 def view(session, vault, props, secret, version, *, include_value=False, versioned=True):
     url = vault_origin(session.info["keyvault_endpoint"], vault.name) + "/secrets/" + secret.name
     if versioned:
-        url += "/" + version.id.hex
+        url += "/" + version.version
     attrs = dict(
         version.attributes,
         created=int(version.created_at.timestamp()),
@@ -111,7 +111,7 @@ async def find_version(session, secret, version):
             identifier = UUID(hex=version)
         except ValueError:
             bad("Invalid secret version")
-        query = query.where(SecretVersion.id == identifier)
+        query = query.where(SecretVersion.version == identifier.hex)
     else:
         query = query.order_by(SecretVersion.sequence.desc()).limit(1)
     row = await session.scalar(query)
@@ -138,12 +138,19 @@ async def record(session, actor, vault_id, name, operation, now):
 
 async def mutate_secret(session, actor, vault_id, name, version, operation, body, now):
     await require_secret_access(session, actor, vault_id, name, operation)
+    if operation in {"delete", "recover", "purge"}:
+        from mockazure.keyvault.recovery import mutate_recovery
+
+        return await mutate_recovery(session, actor, vault_id, name, operation, now)
     if operation not in {"set", "update"}:
         raise VaultError(501, "NotImplemented", "Secret operation is not implemented")
     checked_body(body, operation)
     key = name_key(name)
     vault, props = await vault_configuration(session, actor.tenant_id, vault_id)
     if operation == "set":
+        from mockazure.keyvault.recovery import expired_name
+
+        await expired_name(session, actor.tenant_id, vault_id, name, now)
         secret = await session.scalar(
             select(Secret).where(
                 Secret.tenant_id == actor.tenant_id,
@@ -163,6 +170,7 @@ async def mutate_secret(session, actor, vault_id, name, version, operation, body
         row = SecretVersion(
             tenant_id=actor.tenant_id,
             id=uuid4(),
+            version=uuid4().hex,
             secret_id=secret.id,
             sequence=secret.revision,
             attributes={"enabled": True} | body.get("attributes", {}),
@@ -208,8 +216,14 @@ async def get_secret(session, actor, vault_id, name, version, now):
     return result
 
 
-async def list_secrets(session, actor, vault_id, name, args, now):
-    await require_secret_access(session, actor, vault_id, name, "versions" if name else "list")
+async def list_secrets(session, actor, vault_id, name, args, now, *, deleted=False):
+    await require_secret_access(
+        session,
+        actor,
+        vault_id,
+        name,
+        "list_deleted" if deleted else "versions" if name else "list",
+    )
     try:
         maximum = int(args.get("maxresults", "25"))
     except ValueError:
@@ -218,7 +232,7 @@ async def list_secrets(session, actor, vault_id, name, args, now):
         bad("maxresults must be between 1 and 25")
     vault, props = await vault_configuration(session, actor.tenant_id, vault_id)
     secret = await find_secret(session, actor.tenant_id, vault_id, name) if name else None
-    query = {"name": secret.name_key if secret else None, "maxresults": maximum}
+    query = {"name": secret.name_key if secret else None, "maxresults": maximum, "deleted": deleted}
     generation = (await session.get(CloudState, actor.tenant_id)).generation
     last = None
     if args.get("$skiptoken"):
@@ -249,23 +263,22 @@ async def list_secrets(session, actor, vault_id, name, args, now):
         sql = select(Secret).where(
             Secret.tenant_id == actor.tenant_id,
             Secret.vault_id == vault_id,
-            Secret.deleted_at.is_(None),
+            Secret.deleted_at.is_not(None) if deleted else Secret.deleted_at.is_(None),
         )
+        if deleted:
+            sql = sql.where(Secret.purge_at > now)
         if last:
             sql = sql.where(Secret.name_key > last)
         rows = list(await session.scalars(sql.order_by(Secret.name_key).limit(maximum + 1)))
         values = []
         for item in rows[:maximum]:
-            values.append(
-                view(
-                    session,
-                    vault,
-                    props,
-                    item,
-                    await find_version(session, item, None),
-                    versioned=False,
-                )
-            )
+            row = await find_version(session, item, None)
+            if deleted:
+                from mockazure.keyvault.recovery import deleted_view
+
+                values.append(deleted_view(session, vault, props, item, row, versioned=False))
+            else:
+                values.append(view(session, vault, props, item, row, versioned=False))
         last_key = rows[maximum - 1].name_key if len(rows) > maximum else None
     result = {"value": values}
     if last_key is not None:
@@ -281,7 +294,9 @@ async def list_secrets(session, actor, vault_id, name, args, now):
         )
         session.add(cursor)
         await session.flush()
-        path = "/secrets" + ("/" + secret.name + "/versions" if secret else "")
+        path = ("/deletedsecrets" if deleted else "/secrets") + (
+            "/" + secret.name + "/versions" if secret else ""
+        )
         result["nextLink"] = (
             session.info["keyvault_request_base"].rstrip("/")
             + path
