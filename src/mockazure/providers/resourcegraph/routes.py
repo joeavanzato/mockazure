@@ -8,6 +8,7 @@ from fastapi import APIRouter, Request
 from mockazure.providers.arm.contracts import validate_arm_payload
 from mockazure.providers.arm.errors import ArmError
 from mockazure.providers.arm.probes import principal
+from mockazure.providers.resourcegraph.paging import page_result, page_state
 from mockazure.query.compiler import execute_query
 from mockazure.query.parser import parse_query
 from mockazure.query.types import QueryError, QueryScope
@@ -33,7 +34,7 @@ async def resources(request: Request):
         if set(body) - {"query", "subscriptions", "options"}:
             raise QueryError("Unsupported Resource Graph query option")
         options = body.get("options", {})
-        if set(options) - {"$top", "$skip", "resultFormat"}:
+        if set(options) - {"$top", "$skip", "$skipToken", "resultFormat"}:
             raise QueryError("Unsupported Resource Graph execution option")
         subs = tuple(str(UUID(s)) for s in body.get("subscriptions", []))
         if "subscriptions" in body and not subs:
@@ -43,16 +44,15 @@ async def resources(request: Request):
         plan = parse_query(body["query"], "resourcegraph")
         async with request.app.state.database.sessions.begin() as session:
             actor = await principal(request, session)
+            state, instant, predecessor = await page_state(session, actor, body, datetime.now(UTC))
             result = await execute_query(
                 session,
                 actor,
                 QueryScope(actor.tenant_id, subscription_ids=subs),
                 plan,
-                datetime.now(UTC),
+                instant,
             )
-        skip = options.get("$skip", 0)
-        top = options.get("$top", 1000)
-        rows = result.rows[skip : skip + top]
+            rows, more, token = await page_result(session, state, result, predecessor)
         if options.get("resultFormat", "objectArray") == "table":
             data = {"columns": [{"name": n, "type": t} for n, t in result.columns], "rows": rows}
         else:
@@ -60,9 +60,11 @@ async def resources(request: Request):
         response = {
             "totalRecords": len(result.rows),
             "count": len(rows),
-            "resultTruncated": "true" if skip + len(rows) < len(result.rows) else "false",
+            "resultTruncated": "true" if more else "false",
             "data": data,
         }
+        if token:
+            response["$skipToken"] = token
         validate_arm_payload("QueryResponse", response, namespace="resourcegraph")
         return response
     except QueryError as error:

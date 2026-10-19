@@ -100,3 +100,43 @@ async def test_resourcegraph_query_errors_are_explicit(database, settings):
             json={"subscriptions": [subscription], "query": "Resources | summarize n=count()"},
         )
         assert response.status_code == 200 and response.json()["data"] == [{"n": 1}]
+
+
+async def test_resourcegraph_paging(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, _):
+        subscription, base, _, _ = await seed_arm(client, tenant)
+        headers = await access(database, settings, tenant, app)
+        async with database.sessions() as session:
+            principal = await session.scalar(
+                select(ServicePrincipal.id).where(
+                    ServicePrincipal.tenant_id == tenant, ServicePrincipal.client_id == app
+                )
+            )
+        await assign(client, base, principal, f"/subscriptions/{subscription}", "Reader")
+        body = {
+            "subscriptions": [subscription],
+            "query": "ResourceContainers | project id | order by id asc",
+            "options": {"$top": 1},
+        }
+        first = await client.post(PATH, headers=headers, json=body)
+        assert first.status_code == 200, first.text
+        token = first.json().get("$skipToken")
+        assert token and first.json()["resultTruncated"] == "true"
+        next_body = body | {"options": {"$top": 1, "$skipToken": token}}
+        second = await client.post(PATH, headers=headers, json=next_body)
+        assert second.status_code == 200, second.text
+        assert second.json()["count"] == 1 and second.json()["data"] != first.json()["data"]
+        assert second.json()["resultTruncated"] == "false" and "$skipToken" not in second.json()
+        assert (await client.post(PATH, headers=headers, json=next_body)).json() == second.json()
+        for changed in (
+            next_body | {"query": "ResourceContainers | project name"},
+            next_body | {"options": {"$top": 2, "$skipToken": token}},
+            next_body | {"subscriptions": []},
+        ):
+            response = await client.post(PATH, headers=headers, json=changed)
+            assert response.status_code == 400, response.text
+        assert (
+            await client.put(base + "/resource-groups/later", json={"location": "eastus"})
+        ).status_code == 200
+        stale = await client.post(PATH, headers=headers, json=next_body)
+        assert stale.status_code == 400 and stale.json()["error"]["code"] == "InvalidSkipToken"

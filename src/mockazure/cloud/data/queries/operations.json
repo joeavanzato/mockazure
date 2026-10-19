@@ -39,7 +39,8 @@
         "subscriptions",
         "options.resultFormat",
         "options.$top",
-        "options.$skip"
+        "options.$skip",
+        "options.$skipToken"
       ],
       "limits": {
         "seconds": 30,
@@ -1060,7 +1061,7 @@
       "limitations": [
         "Resources and ResourceContainers only; no management groups, facets, authorizationScopeFilter or partial scopes",
         "Bounded local typed evaluator; dcount is deterministic exact rather than approximate",
-        "Opaque query paging follows in F2; $skipToken currently rejected explicitly"
+        "One-hour opaque continuations bind query, options, current identity/permissions and cloud generation; changed query results invalidate continuation"
       ],
       "tests": [
         "tests/unit/test_cloud_kql.py",
