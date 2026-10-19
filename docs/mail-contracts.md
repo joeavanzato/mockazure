@@ -778,3 +778,9 @@ changes also invalidate them. Ordinary mail export includes durable messages/byt
 never jobs, upload secrets or accepted authority. Cleanup removes expired capabilities
 and completed delivery records after one day. Migration068 preserves older content
 and refuses a downgrade that would discard workflow state.
+
+Send/SendAs/SendOnBehalf and item Create project to ExchangeItem (numeric RecordType2),
+alongside the existing item mutations; configuration commands remain ExchangeAdmin.
+The reviewed Microsoft Learn snapshots retain their published content revisions and
+hashes beside the Graph workflow sources. See [Exchange record types](https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties)
+and [mailbox audit operations](https://learn.microsoft.com/en-us/purview/audit-mailboxes).

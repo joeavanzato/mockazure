@@ -78,6 +78,22 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__user-sendmail-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
@@ -170,6 +186,22 @@
           "revision": "98a98cc88051a857c119a2e1bb61587633585284",
           "sha256": "57e3f010244cc02b88d9fb376193af25cdc57534e2f37efdde5597d629e677d1",
           "localPath": "sources/user-post-messages.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
         }
@@ -366,6 +398,22 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__message-send-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
@@ -464,6 +512,22 @@
           "revision": "98a98cc88051a857c119a2e1bb61587633585284",
           "sha256": "67488864734e10bb282f72b60d9b618d3b4621e801f39cbfe985c8ea26cc9725",
           "localPath": "sources/api-reference__v1.0__includes__permissions__message-reply-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
         }
@@ -566,6 +630,22 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__message-replyall-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
@@ -664,6 +744,22 @@
           "revision": "98a98cc88051a857c119a2e1bb61587633585284",
           "sha256": "67488864734e10bb282f72b60d9b618d3b4621e801f39cbfe985c8ea26cc9725",
           "localPath": "sources/api-reference__v1.0__includes__permissions__message-forward-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
         }
@@ -768,6 +864,22 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__message-createreply-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
@@ -870,6 +982,22 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__message-createreplyall-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
@@ -970,6 +1098,22 @@
           "revision": "98a98cc88051a857c119a2e1bb61587633585284",
           "sha256": "7d012360d7fc117786ec99d4286015ff6cb99e969cac7293293b1aebfe7c537d",
           "localPath": "sources/api-reference__v1.0__includes__permissions__message-createforward-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties",
+          "revision": "69554005e5bd84ea3ac73051fc1b051a171bc883",
+          "sha256": "56a081bacdb1c3449168368ac0499a1857b58df36bc481c16a5987bdd1de2818",
+          "localPath": "sources/audit-log-exchange-properties.html",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/purview/audit-mailboxes",
+          "revision": "a80efe561f306133290ddfd1416302093e3dbfa9",
+          "sha256": "3c2e3356d5e651de86903194610735fded799ffe385f0a660aa6ac7ede2c5860",
+          "localPath": "sources/audit-mailboxes.html",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
         }

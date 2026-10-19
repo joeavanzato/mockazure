@@ -1,0 +1,1993 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Learn about properties in Exchange audit records | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Understand Exchange audit records with this guide to primary properties, JSON structures, and PowerShell examples for mailbox activity analysis." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Learn about properties in Exchange audit records" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties" />
+			<meta property="og:description" content="Understand Exchange audit records with this guide to primary properties, JSON structures, and PowerShell examples for mailbox activity analysis." />
+			<meta name="platform_id" content="53c836fd-afdf-586e-b4dd-1a084ee66679" /> <meta name="scope" content="Azure,Azure Purview,Microsoft Purview" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="MSDocsHeader-Purview" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="breadcrumb_path" content="/purview/breadcrumb/toc.json" />
+	
+		<meta name="feedback_system" content="Standard" />
+	
+		<meta name="f1.keywords" content="NOCSH" />
+	
+		<meta name="ms.author" content="chvukosw" />
+	
+		<meta name="author" content="chvukosw" />
+	
+		<meta name="manager" content="laurawi" />
+	
+		<meta name="ms.date" content="2026-06-19T00:00:00Z" />
+	
+		<meta name="audience" content="Admin" />
+	
+		<meta name="ms.topic" content="how-to" />
+	
+		<meta name="ms.service" content="purview" />
+	
+		<meta name="ms.subservice" content="purview-audit" />
+	
+		<meta name="ms.collection" content="purview-compliance" />
+	
+		<meta name="ms.collection" content="audit" />
+	
+		<meta name="search.appverid" content="MOE150" />
+	
+		<meta name="search.appverid" content="MET150" />
+	
+		<meta name="ms.custom" content="seo-marvel-apr2020, admindeeplinkEXCHANGE, msecd-doc-authoring-1014" />
+	
+		<meta name="ai-usage" content="ai-assisted" />
+	
+		<meta name="document_id" content="264f7aa9-4e5e-8c9a-c71c-dbe5d299ac35" />
+	
+		<meta name="document_version_independent_id" content="264f7aa9-4e5e-8c9a-c71c-dbe5d299ac35" />
+	
+		<meta name="updated_at" content="2026-06-24T22:32:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/Purview-pr/blob/live/Purview/audit-log-exchange-properties.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/Purview-pr/blob/69554005e5bd84ea3ac73051fc1b051a171bc883/Purview/audit-log-exchange-properties.md" />
+	
+		<meta name="git_commit_id" content="69554005e5bd84ea3ac73051fc1b051a171bc883" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="MSDN.Purview" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="toc.json" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="976" />
+	
+		<meta name="asset_id" content="audit-log-exchange-properties" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="Purview/audit-log-exchange-properties.md" />
+	
+		<meta name="previous_tlsh_hash" content="7E6B2DE1B71A7B14F9C126A76E156AE601A4D0C47E7069C41DB0A0D5DF2A6D2F5BDC497FE603F385773843D30283A8448192477CA1845BFA35A16F8CE68EC907EA6B77E744" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/Purview-pr/blob/live/Purview/audit-log-exchange-properties.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/purview/audit-log-exchange-properties?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/1dd701e0-441f-4b0a-9806-aa47decc4e35" data-source="generated" />
+	
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a3955c7b-f5ee-420d-aff5-d7119738f38b" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/0a2fc935-5977-4aa6-9f55-0be03bd2acb8" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/b31948f4-2f38-404b-ac93-c3c8c5b3ae33" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "",
+    "context": {},
+    "standardFeedback": true,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "Standard",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": true
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		<script >bazadebezolkohpepadr="296575829"</script><script type="text/javascript" src="https://learn.microsoft.com/akam/13/11ad6398"  defer></script></head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href=""
+			data-original_content_git_url="https://github.com/MicrosoftDocs/Purview-pr/blob/live/Purview/audit-log-exchange-properties.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/Purview/audit-log-exchange-properties.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="learn-about-properties-in-exchange-audit-records">Learn about properties in Exchange audit records</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>This article explains the properties and fields you see in Exchange audit records returned by <a href="/en-us/powershell/module/exchangepowershell/search-unifiedauditlog" data-linktype="absolute-path">Search‑UnifiedAuditLog</a>. It's written for Exchange and Microsoft 365 admins who investigate mailbox activity or build scripts to parse audit output. You find a concise description of primary properties, representative AuditData JSON for common operations, PowerShell extraction examples, and a quick reference for common property values and investigation scenarios.</p>
+<p>Use this reference to understand:</p>
+<ul>
+<li>Key properties in audit record results</li>
+<li>What each field represents and contains</li>
+<li>Common property values and their meanings</li>
+<li>How to extract basic information from audit data</li>
+</ul>
+<h2 id="audit-record-structure-reference">Audit record structure reference</h2>
+<p>Exchange audit records contain several key properties that provide different types of information about the audited activity.</p>
+<h3 id="primary-audit-record-properties">Primary audit record properties</h3>
+<p>When you run Search-UnifiedAuditLog, each result contains these main properties:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th>Data Type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">AuditData</td>
+<td>JSON String</td>
+<td style="text-align: left;">Detailed JSON data about the activity</td>
+<td style="text-align: left;">Complex JSON structure</td>
+</tr>
+<tr>
+<td style="text-align: left;">CreationDate</td>
+<td>DateTime</td>
+<td style="text-align: left;">When the activity occurred</td>
+<td style="text-align: left;">11/17/2025 2:30:15 PM</td>
+</tr>
+<tr>
+<td style="text-align: left;">Identity</td>
+<td>GUID</td>
+<td style="text-align: left;">Unique identifier for the audit record</td>
+<td style="text-align: left;">00aa00aa-bb11-cc22-dd33-44ee44ee44ee</td>
+</tr>
+<tr>
+<td style="text-align: left;">Operations</td>
+<td>String</td>
+<td style="text-align: left;">What type of activity occurred</td>
+<td style="text-align: left;">SoftDelete, HardDelete, Move</td>
+</tr>
+<tr>
+<td style="text-align: left;">ResultCount</td>
+<td>Integer</td>
+<td style="text-align: left;">Total results available</td>
+<td style="text-align: left;">150</td>
+</tr>
+<tr>
+<td style="text-align: left;">ResultIndex</td>
+<td>Integer</td>
+<td style="text-align: left;">Position in search results</td>
+<td style="text-align: left;">1, 2, 3...</td>
+</tr>
+<tr>
+<td style="text-align: left;">UserIds</td>
+<td>String</td>
+<td style="text-align: left;">Who performed the activity</td>
+<td style="text-align: left;"><code>&lt;user@domain.com&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="auditdata-json-structure-reference">AuditData JSON structure reference</h3>
+<p>The <em>AuditData</em> property contains detailed information in JSON format. Here are some typical JSON response structures for common operations:</p>
+<ul>
+<li><strong>Email deletion (SoftDelete/HardDelete)</strong></li>
+</ul>
+<pre><code class="lang-json">{&nbsp;  
+&nbsp;&nbsp;"CreationTime":&nbsp;"2025-11-17T14:30:15",&nbsp;  
+&nbsp;&nbsp;"Id":&nbsp;"00aa00aa-bb11-cc22-dd33-44ee44ee44ee",&nbsp;  
+&nbsp;&nbsp;"Operation":&nbsp;"SoftDelete",&nbsp;  
+&nbsp;&nbsp;"OrganizationId":&nbsp;"00aa00aa-bb11-cc22-dd33-44ee44ee44ee",&nbsp;  
+&nbsp;&nbsp;"RecordType":&nbsp;2,&nbsp;  
+&nbsp;&nbsp;"ResultStatus":&nbsp;"Success",&nbsp;  
+&nbsp;&nbsp;"UserKey":&nbsp;"user@domain.com",&nbsp;  
+&nbsp;&nbsp;"UserType":&nbsp;0,&nbsp;  
+&nbsp;&nbsp;"Version":&nbsp;1,&nbsp;  
+&nbsp;&nbsp;"Workload":&nbsp;"Exchange",&nbsp;  
+&nbsp;&nbsp;"ClientIP":&nbsp;"192.168.1.100",&nbsp;  
+&nbsp;&nbsp;"ObjectId":&nbsp;"AAMkADM2NDIyMzUzLWE1ZjQtNGVkNS04OGE3LTg5NzY4ZDc1ZTZhNwBGAAAAAAC7...",&nbsp;  
+&nbsp;&nbsp;"UserId":&nbsp;"user@domain.com",&nbsp;  
+&nbsp;&nbsp;"ClientInfoString":&nbsp;"Client=OWA;Mozilla/5.0...",&nbsp;  
+&nbsp;&nbsp;"ExternalAccess":&nbsp;false,&nbsp;  
+&nbsp;&nbsp;"InternalLogonType":&nbsp;0,&nbsp;  
+&nbsp;&nbsp;"MailboxGuid":&nbsp;"87654321-4321-4321-4321-210987654321",&nbsp;  
+&nbsp;&nbsp;"MailboxOwnerUPN":&nbsp;"mailboxowner@domain.com",&nbsp;  
+&nbsp;&nbsp;"LogonType":&nbsp;0,&nbsp;  
+&nbsp;&nbsp;"Item": {&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;"Id":&nbsp;"AAMkADM2NDIyMzUzLWE1ZjQtNGVkNS04OGE3LTg5NzY4ZDc1ZTZhNwBGAAAAAAC7...",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;"Subject":&nbsp;"Meeting Request - Q4 Planning",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;"ParentFolder": {&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Id":&nbsp;"AAMkADM2NDIyMzUzLWE1ZjQtNGVkNS04OGE3LTg5NzY4ZDc1ZTZhNwAuAAAAAAC7...",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Name":&nbsp;"Inbox",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Path":&nbsp;"[\\Inbox](file:///\\inbox\)"&nbsp;  
+&nbsp;&nbsp;&nbsp; }&nbsp;  
+&nbsp; },&nbsp;  
+&nbsp;&nbsp;"SessionId":&nbsp;"11111111-2222-3333-4444-555555555555"&nbsp;  
+}
+</code></pre>
+<ul>
+<li><strong>Mailbox rule creation (New-InboxRule)</strong></li>
+</ul>
+<pre><code class="lang-json">{&nbsp;  
+&nbsp;&nbsp;"CreationTime":&nbsp;"2025-11-17T14:45:22",&nbsp;  
+&nbsp;&nbsp;"Id":&nbsp;"98765432-8765-8765-8765-876543218765",&nbsp;  
+&nbsp;&nbsp;"Operation":&nbsp;"New-InboxRule",&nbsp;  
+&nbsp;&nbsp;"OrganizationId":&nbsp;"00aa00aa-bb11-cc22-dd33-44ee44ee44ee",&nbsp;  
+&nbsp;&nbsp;"RecordType":&nbsp;1,&nbsp;  
+&nbsp;&nbsp;"ResultStatus":&nbsp;"Success",&nbsp;  
+&nbsp;&nbsp;"UserKey":&nbsp;"user@domain.com",&nbsp;  
+&nbsp;&nbsp;"UserType":&nbsp;0,&nbsp;  
+&nbsp;&nbsp;"Version":&nbsp;1,&nbsp;  
+&nbsp;&nbsp;"Workload":&nbsp;"Exchange",&nbsp;  
+&nbsp;&nbsp;"ClientIP":&nbsp;"10.0.0.50",&nbsp;  
+&nbsp;&nbsp;"ObjectId":&nbsp;"InboxRule:aaaaaaaa-0000-1111-2222-bbbbbbbbbbbb",&nbsp;  
+&nbsp;&nbsp;"UserId":&nbsp;"user@domain.com",&nbsp;  
+&nbsp;&nbsp;"ClientInfoString":&nbsp;"Client=WebServices;ExchangeWebServices",&nbsp;  
+&nbsp;&nbsp;"MailboxGuid":&nbsp;"87654321-4321-4321-4321-210987654321",&nbsp;  
+&nbsp;&nbsp;"MailboxOwnerUPN":&nbsp;"mailboxowner@domain.com",&nbsp;  
+&nbsp;&nbsp;"Parameters": \[&nbsp;  
+&nbsp;&nbsp;&nbsp; {&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Name":&nbsp;"Name",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Value":&nbsp;"Move Microsoft Security Emails"&nbsp;  
+&nbsp;&nbsp;&nbsp; },&nbsp;  
+&nbsp;&nbsp;&nbsp; {&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Name":&nbsp;"MoveToFolder",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Value":&nbsp;"[\\Inbox\\Security](file:///\\inbox\Security)"&nbsp;  
+&nbsp;&nbsp;&nbsp; },&nbsp;  
+&nbsp;&nbsp;&nbsp; {&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Name":&nbsp;"From",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Value":&nbsp;"security-noreply@microsoft.com"&nbsp;  
+&nbsp;&nbsp;&nbsp; }&nbsp;  
+&nbsp; \],&nbsp;  
+&nbsp;&nbsp;"SessionId":&nbsp;"22222222-3333-4444-5555-666666666666"&nbsp;  
+}&nbsp;
+</code></pre>
+<ul>
+<li><strong>Mailbox access (MailItemsAccessed)</strong></li>
+</ul>
+<pre><code class="lang-json">{&nbsp;  
+&nbsp;&nbsp;"CreationTime":&nbsp;"2025-11-17T15:00:10",&nbsp;  
+&nbsp;&nbsp;"Id":&nbsp;"13579246-1357-1357-1357-135792468135",&nbsp;  
+&nbsp;&nbsp;"Operation":&nbsp;"MailItemsAccessed",&nbsp;  
+&nbsp;&nbsp;"OrganizationId":&nbsp;"00aa00aa-bb11-cc22-dd33-44ee44ee44ee",&nbsp;  
+&nbsp;&nbsp;"RecordType":&nbsp;50,&nbsp;  
+&nbsp;&nbsp;"ResultStatus":&nbsp;"Success",&nbsp;&nbsp;&nbsp;  
+&nbsp;&nbsp;"UserKey":&nbsp;"user@domain.com",&nbsp;  
+&nbsp;&nbsp;"UserType":&nbsp;0,&nbsp;  
+&nbsp;&nbsp;"Version":&nbsp;1,&nbsp;  
+&nbsp;&nbsp;"Workload":&nbsp;"Exchange",&nbsp;  
+&nbsp;&nbsp;"ClientIP":&nbsp;"203.0.113.45",&nbsp;  
+&nbsp;&nbsp;"UserId":&nbsp;"user@domain.com",&nbsp;  
+&nbsp;&nbsp;"ClientInfoString":&nbsp;"Client=ActiveSync;Apple-iPhone/1309.63",&nbsp;  
+&nbsp;&nbsp;"MailboxGuid":&nbsp;"87654321-4321-4321-4321-210987654321",&nbsp;  
+&nbsp;&nbsp;"MailboxOwnerUPN":&nbsp;"mailboxowner@domain.com",&nbsp;  
+&nbsp;&nbsp;"ClientAppId":&nbsp;"00000002-0000-0ff1-ce00-000000000000",&nbsp;  
+&nbsp;&nbsp;"Folders": \[&nbsp;  
+&nbsp;&nbsp;&nbsp; {&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Id":&nbsp;"AAMkADM2NDIyMzUzLWE1ZjQtNGVkNS04OGE3LTg5NzY4ZDc1ZTZhNwAuAAAAAAC7...",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Path":&nbsp;"[\\Inbox](file:///\\inbox\)",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"FolderItems": \[&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Id":&nbsp;"AAMkADM2NDIyMzUzLWE1ZjQtNGVkNS04OGE3LTg5NzY4ZDc1ZTZhNwBGAAAAAAC7...",&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Subject":&nbsp;"Weekly Status Report"&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp;  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \]&nbsp;  
+&nbsp;&nbsp;&nbsp; }&nbsp;  
+&nbsp; \],&nbsp;  
+&nbsp;&nbsp;"OperationCount":&nbsp;5,&nbsp;  
+&nbsp;&nbsp;"SessionId":&nbsp;"33333333-4444-5555-6666-777777777777"&nbsp;  
+}&nbsp;
+</code></pre>
+<p>Here are the key fields organized by category:</p>
+<p><strong>User and session information</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Data type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ClientInfoString</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Client application information</td>
+<td style="text-align: left;">Client=OWA, Client=WebServices</td>
+</tr>
+<tr>
+<td style="text-align: left;">ClientIP</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">IP address of the client</td>
+<td style="text-align: left;">192.168.1.100</td>
+</tr>
+<tr>
+<td style="text-align: left;">SessionId</td>
+<td style="text-align: left;">GUID</td>
+<td style="text-align: left;">Unique session identifier</td>
+<td style="text-align: left;">00aa00aa-bb11-cc22-dd33-44ee44ee44ee</td>
+</tr>
+<tr>
+<td style="text-align: left;">UserId</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">User who performed the action</td>
+<td style="text-align: left;"><a href="mailto:user@domain.com" data-linktype="external">user@domain.com</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">UserKey</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">User identifier key</td>
+<td style="text-align: left;"><a href="mailto:user@domain.com" data-linktype="external">user@domain.com</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">UserType</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Type of user account</td>
+<td style="text-align: left;">Regular, Admin, System, Application</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Activity details</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Data type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CreationTime</td>
+<td style="text-align: left;">DateTime</td>
+<td style="text-align: left;">When the activity occurred (UTC)</td>
+<td style="text-align: left;">2025-11-17T14:30:15Z</td>
+</tr>
+<tr>
+<td style="text-align: left;">Operation</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Specific operation performed</td>
+<td style="text-align: left;">SoftDelete, New-InboxRule, MailItemsAccessed</td>
+</tr>
+<tr>
+<td style="text-align: left;">OrganizationId</td>
+<td style="text-align: left;">GUID</td>
+<td style="text-align: left;">Organization identifier</td>
+<td style="text-align: left;">00aa00aa-bb11-cc22-dd33-44ee44ee44ee</td>
+</tr>
+<tr>
+<td style="text-align: left;">RecordType</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Type of audit record</td>
+<td style="text-align: left;">ExchangeItem, ExchangeAdmin</td>
+</tr>
+<tr>
+<td style="text-align: left;">Workload</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Microsoft 365 service</td>
+<td style="text-align: left;">Exchange, SharePoint, OneDrive</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Target information</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Data type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Item.Id</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Exchange item identifier</td>
+<td style="text-align: left;">AAMkADM2...</td>
+</tr>
+<tr>
+<td style="text-align: left;">Item.ParentFolder.Name</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Folder name where item was located</td>
+<td style="text-align: left;">Inbox, Sent Items, Deleted Items</td>
+</tr>
+<tr>
+<td style="text-align: left;">Item.ParentFolder.Path</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Full folder path</td>
+<td style="text-align: left;">\Inbox, \Deleted Items</td>
+</tr>
+<tr>
+<td style="text-align: left;">Item.Subject</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Email subject line</td>
+<td style="text-align: left;">Meeting Request</td>
+</tr>
+<tr>
+<td style="text-align: left;">MailboxGuid</td>
+<td style="text-align: left;">GUID</td>
+<td style="text-align: left;">Target mailbox identifier</td>
+<td style="text-align: left;">00aa00aa-bb11-cc22-dd33-44ee44ee44ee</td>
+</tr>
+<tr>
+<td style="text-align: left;">MailboxOwnerUPN</td>
+<td style="text-align: left;">String</td>
+<td style="text-align: left;">Mailbox owner's email address</td>
+<td style="text-align: left;"><a href="mailto:mailboxowner@domain.com" data-linktype="external">mailboxowner@domain.com</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="basic-data-extraction-techniques">Basic data extraction techniques</h2>
+<p>Use these techniques to extract and inspect key values from the AuditData JSON payload.</p>
+<h3 id="convert-json-data">Convert JSON data</h3>
+<p>To extract information from the <code>AuditData</code> JSON, use the following commands:</p>
+<p><code>\$AuditData = ConvertFrom-Json \$Results[0].AuditData</code>
+<code>\$AuditData.UserId</code>
+<code>\$AuditData.ClientIP</code>
+<code>\$AuditData.MailboxOwnerUPN</code></p>
+<h3 id="display-key-properties">Display key properties</h3>
+<p>To see the main properties in a readable format, use the following command:</p>
+<p><code>\$Results \| Select CreationDate, UserIds, Operations, @{Name="MailboxOwner";Expression={(ConvertFrom-Json \$\_.AuditData).MailboxOwnerUPN}} \| Format-Table -AutoSize</code></p>
+<h2 id="understanding-common-property-values">Understanding common property values</h2>
+<p>The following tables help you understand common values found in audit record properties.</p>
+<h3 id="operation-types">Operation types</h3>
+<p>The following table lists common Exchange audit operations and what they typically indicate during an investigation.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Investigation focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">HardDelete</td>
+<td style="text-align: left;">Item permanently removed</td>
+<td style="text-align: left;">Permanent deletions</td>
+</tr>
+<tr>
+<td style="text-align: left;">MailItemsAccessed</td>
+<td style="text-align: left;">Mailbox items were accessed</td>
+<td style="text-align: left;">Unauthorized access investigation</td>
+</tr>
+<tr>
+<td style="text-align: left;">Move</td>
+<td style="text-align: left;">Item moved between folders</td>
+<td style="text-align: left;">Folder organization changes</td>
+</tr>
+<tr>
+<td style="text-align: left;">New-InboxRule</td>
+<td style="text-align: left;">New mailbox rule created</td>
+<td style="text-align: left;">Rule creation investigation</td>
+</tr>
+<tr>
+<td style="text-align: left;">Send</td>
+<td style="text-align: left;">Email was sent</td>
+<td style="text-align: left;">Email communication tracking</td>
+</tr>
+<tr>
+<td style="text-align: left;">Set-InboxRule</td>
+<td style="text-align: left;">Mailbox rule modified</td>
+<td style="text-align: left;">Rule modification tracking</td>
+</tr>
+<tr>
+<td style="text-align: left;">SoftDelete</td>
+<td style="text-align: left;">Item moved to Deleted Items</td>
+<td style="text-align: left;">User-initiated deletions</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recordtype-values">RecordType values</h3>
+<p>The following table explains common RecordType values and the Exchange activities they represent.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">RecordType</th>
+<th style="text-align: left;">Workload</th>
+<th style="text-align: left;">Typical operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ExchangeAdmin</td>
+<td style="text-align: left;">Exchange</td>
+<td style="text-align: left;">New-InboxRule, Set-InboxRule, Set-Mailbox</td>
+</tr>
+<tr>
+<td style="text-align: left;">ExchangeAggregatedOperation</td>
+<td style="text-align: left;">Exchange</td>
+<td style="text-align: left;">MailItemsAccessed (bulk operations)</td>
+</tr>
+<tr>
+<td style="text-align: left;">ExchangeItem</td>
+<td style="text-align: left;">Exchange</td>
+<td style="text-align: left;">SoftDelete, HardDelete, Move, Send</td>
+</tr>
+</tbody>
+</table>
+<h3 id="usertype-values">UserType values</h3>
+<p>UserType identifies what kind of account performed the audited action.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">UserType</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Investigation notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Admin</td>
+<td style="text-align: left;">Administrator account</td>
+<td style="text-align: left;">Administrative actions</td>
+</tr>
+<tr>
+<td style="text-align: left;">Application</td>
+<td style="text-align: left;">Application service principal</td>
+<td style="text-align: left;">App-based access</td>
+</tr>
+<tr>
+<td style="text-align: left;">Regular</td>
+<td style="text-align: left;">Standard user account</td>
+<td style="text-align: left;">Normal user activity</td>
+</tr>
+<tr>
+<td style="text-align: left;">System</td>
+<td style="text-align: left;">System or service account</td>
+<td style="text-align: left;">Automated processes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="clientinfostring-examples">ClientInfoString examples</h3>
+<p>ClientInfoString values show which client, protocol, or access method was used.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ClientInfoString</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Access method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Client=ActiveSync</td>
+<td style="text-align: left;">Exchange ActiveSync</td>
+<td style="text-align: left;">Mobile device sync</td>
+</tr>
+<tr>
+<td style="text-align: left;">Client=IMAP4</td>
+<td style="text-align: left;">IMAP protocol</td>
+<td style="text-align: left;">IMAP client access</td>
+</tr>
+<tr>
+<td style="text-align: left;">Client=OWA</td>
+<td style="text-align: left;">Outlook Web App</td>
+<td style="text-align: left;">Web browser access</td>
+</tr>
+<tr>
+<td style="text-align: left;">Client=POP3</td>
+<td style="text-align: left;">POP3 protocol</td>
+<td style="text-align: left;">POP3 client access</td>
+</tr>
+<tr>
+<td style="text-align: left;">Client=WebServices</td>
+<td style="text-align: left;">Exchange Web Services (EWS)</td>
+<td style="text-align: left;">Programmatic access</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quick-reference">Quick reference</h2>
+<p>Use the following tables as a quick lookup for the most useful audit properties and PowerShell techniques.</p>
+<h3 id="essential-properties-for-investigations">Essential properties for investigations</h3>
+<p>The following table highlights which audit properties are most useful for common investigation scenarios.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Investigation type</th>
+<th style="text-align: left;">Key properties to focus on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Bulk Operations</td>
+<td style="text-align: left;">SessionId, ItemCount, ClientIP, UserIds, Operations</td>
+</tr>
+<tr>
+<td style="text-align: left;">Email Deletions</td>
+<td style="text-align: left;">CreationDate, UserIds, Operations, Item.Subject, Item.ParentFolder.Name</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rule Changes</td>
+<td style="text-align: left;">UserIds, Operations, Parameters, ClientIP, MailboxOwnerUPN</td>
+</tr>
+<tr>
+<td style="text-align: left;">Unauthorized Access</td>
+<td style="text-align: left;">UserIds, ClientIP, ClientInfoString, MailboxOwnerUPN, SessionId</td>
+</tr>
+</tbody>
+</table>
+<h3 id="useful-powershell-techniques">Useful PowerShell techniques</h3>
+<p>These PowerShell techniques help you inspect, filter, and present Exchange audit records more effectively.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Technique</th>
+<th style="text-align: left;">Command example</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Convert JSON</td>
+<td style="text-align: left;"><code>ConvertFrom-Json \$\_.AuditData</code></td>
+<td style="text-align: left;">Extract detailed audit information</td>
+</tr>
+<tr>
+<td style="text-align: left;">Filter Data</td>
+<td style="text-align: left;"><code>Where-Object {\$\_.ClientIP -like "192.168.\*"}</code></td>
+<td style="text-align: left;">Focus on specific criteria</td>
+</tr>
+<tr>
+<td style="text-align: left;">Format Output</td>
+<td style="text-align: left;"><code>Format-Table -Wrap -AutoSize</code></td>
+<td style="text-align: left;">Display results clearly</td>
+</tr>
+<tr>
+<td style="text-align: left;">Group Results</td>
+<td style="text-align: left;"><code>Group-Object ClientIP</code></td>
+<td style="text-align: left;">Identify patterns and anomalies</td>
+</tr>
+<tr>
+<td style="text-align: left;">Select Properties</td>
+<td style="text-align: left;">Select CreationDate, UserIds, Operations</td>
+<td style="text-align: left;">Show only relevant information</td>
+</tr>
+</tbody>
+</table>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><a href="audit-log-search-for-mailbox-activities" data-linktype="relative-path">Search the audit log for mailbox activities</a>: Search for specific mailbox activities.</li>
+<li><a href="audit-log-search-script" data-linktype="relative-path">Use a PowerShell script to search the audit log</a>: Automate audit log searches with PowerShell.</li>
+<li><a href="audit-log-investigate-accounts" data-linktype="relative-path">Use MailItemsAccessed to investigate compromised accounts</a>: Investigate mailbox access patterns.</li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+		<!-- feedback section -->
+		<section
+			id="site-user-feedback-footer"
+			class="font-size-sm margin-top-md display-none-print display-none-desktop"
+			data-test-id="site-user-feedback-footer"
+			data-bi-name="site-feedback-section"
+		>
+			<hr class="hr" />
+			<h2 id="ms--feedback" class="title is-3">Feedback</h2>
+			<div class="display-flex flex-wrap-wrap align-items-center">
+				<p class="font-weight-semibold margin-xxs margin-left-none">
+					Was this page helpful?
+				</p>
+				<div class="buttons">
+					<button
+						class="thumb-rating-button like button button-primary button-sm"
+						data-test-id="footer-rating-yes"
+						data-binary-rating-response="rating-yes"
+						type="button"
+						title="This article is helpful"
+						data-bi-name="button-rating-yes"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-like"></span>
+						</span>
+						<span>Yes</span>
+					</button>
+					<button
+						class="thumb-rating-button dislike button button-primary button-sm"
+						id="standard-rating-no-button"
+						hidden
+						data-test-id="footer-rating-no"
+						data-binary-rating-response="rating-no"
+						type="button"
+						title="This article is not helpful"
+						data-bi-name="button-rating-no"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-dislike"></span>
+						</span>
+						<span>No</span>
+					</button>
+					<details
+						class="popover popover-top"
+						id="mobile-help-popover"
+						data-test-id="footer-feedback-popover"
+					>
+						<summary
+							class="thumb-rating-button dislike button button-primary button-sm"
+							data-test-id="details-footer-rating-no"
+							data-binary-rating-response="rating-no"
+							title="This article is not helpful"
+							data-bi-name="button-rating-no"
+							aria-pressed="false"
+							data-bi-an="feedback-unhelpful-popover"
+						>
+							<span class="icon" aria-hidden="true">
+								<span class="docon docon-dislike"></span>
+							</span>
+							<span>No</span>
+						</summary>
+						<div
+							class="popover-content width-200 width-300-tablet"
+							role="dialog"
+							aria-labelledby="popover-heading"
+							aria-describedby="popover-description"
+						>
+							<p id="popover-heading" class="font-size-lg margin-bottom-xxs font-weight-semibold">
+								Need help with this topic?
+							</p>
+							<p id="popover-description" class="font-size-sm margin-bottom-xs">
+								Want to try using Ask Learn to clarify or guide you through this topic?
+							</p>
+							
+		<div class="buttons flex-direction-row flex-wrap justify-content-center gap-xxs">
+			<div>
+		<button
+			class="button button-sm border inner-focus display-none margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-test-id="ask-learn-assistant-modal-entry-mobile-feedback"
+			data-ask-learn-modal-entry-feedback
+			data-bi-an=feedback-unhelpful-popover
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-inline-flex display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-modal-entry-tablet-feedback"
+			data-ask-learn-modal-entry-feedback
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-flyout-entry-feedback"
+			data-ask-learn-flyout-entry-show-only
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	</div>
+			<button
+				type="button"
+				class="button button-sm margin-right-xxs"
+				data-help-option="suggest-fix"
+				data-bi-name="feedback-suggest"
+				data-bi-an="feedback-unhelpful-popover"
+				data-test-id="suggest-fix"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-feedback"></span>
+				</span>
+				<span> Suggest a fix? </span>
+			</button>
+		</div>
+	
+						</div>
+					</details>
+				</div>
+			</div>
+		</section>
+		<!-- end feedback section -->
+	
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			
+		<section
+			id="right-rail-recommendations-mobile"
+			class=""
+			data-bi-name="recommendations"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-06-24T22:32:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-06-24
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+		<section
+			id="ms--site-user-feedback-right-rail"
+			class="font-size-sm display-none-print"
+			data-test-id="site-user-feedback-right-rail"
+			data-bi-name="site-feedback-right-rail"
+		>
+			<div class="display-flex flex-wrap-wrap align-items-center">
+				<p class="font-weight-semibold margin-xxs margin-left-none">
+					Was this page helpful?
+				</p>
+				<div class="display-flex flex-wrap-nowrap">
+					<button
+						class="thumb-rating-button like inner-focus"
+						data-test-id="right-rail-rating-yes"
+						data-binary-rating-response="rating-yes"
+						type="button"
+						title="This article is helpful"
+						aria-label="This article is helpful"
+						data-bi-name="button-rating-yes"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-like"></span>
+						</span>
+					</button>
+					<button
+						class="thumb-rating-button dislike inner-focus"
+						id="right-rail-no-button"
+						hidden
+						data-test-id="right-rail-rating-no"
+						data-binary-rating-response="rating-no"
+						type="button"
+						title="This article is not helpful"
+						aria-label="This article is not helpful"
+						data-bi-name="button-rating-no"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-dislike"></span>
+						</span>
+					</button>
+					<details class="popover popover-right" id="help-popover" data-test-id="feedback-popover">
+						<summary
+							tabindex="0"
+							class="thumb-rating-button dislike inner-focus"
+							data-test-id="details-right-rail-rating-no"
+							data-binary-rating-response="rating-no"
+							title="This article is not helpful"
+							aria-label="This article is not helpful"
+							data-bi-name="button-rating-no"
+							aria-pressed="false"
+							data-bi-an="feedback-unhelpful-popover"
+						>
+							<span class="icon" aria-hidden="true">
+								<span class="docon docon-dislike"></span>
+							</span>
+						</summary>
+						<div
+							class="popover-content width-200 width-300-tablet"
+							role="dialog"
+							aria-labelledby="popover-heading-right-rail"
+							aria-describedby="popover-description-right-rail"
+						>
+							<p
+								id="popover-heading-right-rail"
+								class="font-size-lg margin-bottom-xxs font-weight-semibold"
+							>
+								Need help with this topic?
+							</p>
+							<p id="popover-description-right-rail" class="font-size-sm margin-bottom-xs">
+								Want to try using Ask Learn to clarify or guide you through this topic?
+							</p>
+							
+		<div class="buttons flex-direction-row flex-wrap justify-content-center gap-xxs">
+			<div>
+		<button
+			class="button button-sm border inner-focus display-none margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-test-id="ask-learn-assistant-modal-entry-mobile-feedback"
+			data-ask-learn-modal-entry-feedback
+			data-bi-an=feedback-unhelpful-popover
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-inline-flex display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-modal-entry-tablet-feedback"
+			data-ask-learn-modal-entry-feedback
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-flyout-entry-feedback"
+			data-ask-learn-flyout-entry-show-only
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	</div>
+			<button
+				type="button"
+				class="button button-sm margin-right-xxs"
+				data-help-option="suggest-fix"
+				data-bi-name="feedback-suggest"
+				data-bi-an="feedback-unhelpful-popover"
+				data-test-id="suggest-fix"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-feedback"></span>
+				</span>
+				<span> Suggest a fix? </span>
+			</button>
+		</div>
+	
+						</div>
+					</details>
+				</div>
+			</div>
+		</section>
+	
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			<noscript><img src="https://learn.microsoft.com/akam/13/pixel_11ad6398?a=dD03MjJkNjhhOTc5MzdkN2M1Y2IzMmM2NGZmZjUyZDlhYmNiZTdlMmVkJmpzPW9mZg==" style="visibility: hidden; position: absolute; left: -999px; top: -999px;" /></noscript></body>
+		</html>
