@@ -46,7 +46,7 @@ Accounting charges serialized values and structural overhead, including retained
 let results, grouping and join indexes. It intentionally does not reclaim a
 charge after an intermediate is freed: long pipelines can fail before reaching
 a process-memory limit. It is not an RSS measurement or a global concurrency
-quota. Each API replica applies its own per-query budget.
+quota. Each API replica applies its own per-query budget. Logs `mv-expand` defaults to 2,147,483,647 rows per input; the separate local expansion budget fails explicitly. Legacy `mvexpand` defaults to 128 rows. An explicit operator limit is intentional query truncation.
 
 Input queries use bound SQLAlchemy predicates, tenant/workspace/resource indexes,
 and a transaction-local PostgreSQL statement timeout. CPU evaluation runs off the
@@ -60,7 +60,7 @@ executable Python.
 Pending diagnostic capabilities survive worker/API restart; source IDs remain
 stable through an authenticated cloud snapshot restore. Restore advances lease
 epochs, so an old worker cannot complete restored work. Removed/recreated
-resources or revoked destinations invalidate pending work. Setting category or
+resources or revoked destinations invalidate pending work permanently, including removal followed by re-addition of the same destination. Terminal delivery history restores independently of active capabilities. Setting category or
 table-mode changes affect future events. Cleanup preserves active jobs; opaque
 Resource Graph continuations check generation and current access on every use.
 

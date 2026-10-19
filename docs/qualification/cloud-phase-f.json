@@ -1,0 +1,172 @@
+{
+  "phase": "F",
+  "sourceCommit": "0a242c0b38ad7e349ea8eb51b90a9f67bd969826",
+  "sourceFingerprint": "4630c3f56ad20f144899eec8b24bcb18e44a33f385038a080b9f6d32c414ccef",
+  "passed": true,
+  "ecosystems": {
+    "python": {
+      "status": "passed",
+      "clientVersions": {
+        "azure-mgmt-resourcegraph": "8.0.1",
+        "azure-monitor-query": "2.0.0",
+        "azure-mgmt-monitor": "6.0.2"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "queries.inventory",
+          "operationIds": [
+            "resourcegraph.resources"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "inventory_paging": true
+          }
+        },
+        {
+          "workflow": "diagnostics.delivery",
+          "operationIds": [
+            "diagnostics.settings.put",
+            "diagnostics.settings.get",
+            "loganalytics.query.post"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "diagnostic_settings": true,
+            "native_logs_query": true,
+            "cross_language_reads": true,
+            "restart_recovery": true
+          }
+        }
+      ]
+    },
+    "typescript": {
+      "status": "passed",
+      "clientVersions": {
+        "@azure/arm-resourcegraph": "5.0.0",
+        "@azure/monitor-query-logs": "1.0.0",
+        "@azure/arm-monitor": "8.0.0"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "queries.inventory",
+          "operationIds": [
+            "resourcegraph.resources"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "inventory_paging": true
+          }
+        },
+        {
+          "workflow": "diagnostics.delivery",
+          "operationIds": [
+            "diagnostics.settings.put",
+            "diagnostics.settings.get",
+            "loganalytics.query.post"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "diagnostic_settings": true,
+            "native_logs_query": true,
+            "cross_language_reads": true,
+            "restart_recovery": true
+          }
+        }
+      ]
+    },
+    "dotnet": {
+      "status": "passed",
+      "clientVersions": {
+        "Azure.ResourceManager.ResourceGraph": "1.1.1",
+        "Azure.ResourceManager.Monitor": "1.3.1",
+        "Azure.Monitor.Query.Logs": "1.0.0"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "queries.inventory",
+          "operationIds": [
+            "resourcegraph.resources"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "inventory_paging": true
+          }
+        },
+        {
+          "workflow": "diagnostics.delivery",
+          "operationIds": [
+            "diagnostics.settings.put",
+            "diagnostics.settings.get",
+            "loganalytics.query.post"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "diagnostic_settings": true,
+            "native_logs_query": true,
+            "cross_language_reads": true,
+            "restart_recovery": true
+          }
+        }
+      ]
+    },
+    "powershell": {
+      "status": "passed",
+      "clientVersions": {
+        "Az.OperationalInsights": "3.4.1",
+        "Az.ResourceGraph": "1.3.0",
+        "Az.Accounts": "5.5.3",
+        "Az.Monitor": "8.1.0"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "queries.inventory",
+          "operationIds": [
+            "resourcegraph.resources"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "inventory_paging": true
+          }
+        },
+        {
+          "workflow": "diagnostics.delivery",
+          "operationIds": [
+            "diagnostics.settings.put",
+            "diagnostics.settings.get",
+            "loganalytics.query.post"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "diagnostic_settings": true,
+            "native_logs_query": true,
+            "cross_language_reads": true,
+            "restart_recovery": true
+          }
+        }
+      ]
+    }
+  },
+  "nativeReport": "D:\\projects\\mockazure\\.worktrees\\queries\\work\\default-smoke-72d4cbce68ff\\cloud-queries-report.json",
+  "legacyBatchRest": true,
+  "elapsedSeconds": 251.1720000000205
+}
