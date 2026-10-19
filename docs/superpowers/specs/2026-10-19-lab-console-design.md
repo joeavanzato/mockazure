@@ -2,7 +2,7 @@
 
 Date: 2026-10-19
 
-Status: conversational design approved; this written specification awaits review. No implementation is claimed. Written-spec approval permits implementation planning, not automatic implementation.
+Status: written specification approved by the user on 2026-10-19. Implementation plan prepared for review; no implementation is claimed.
 
 Source baseline: cloud qualification commit `68a6d10dcda27c836201495f0bbfd6277afa22c1`. This does not imply that the cloud feature stack is merged into main. Reconcile the implementation base with the remote before starting code changes.
 
@@ -206,4 +206,4 @@ Out of scope: production-grade multi-user access control, SSO, arbitrary code ex
 
 ## 10. Handoff
 
-This spec is ready for user review. After written-spec approval, prepare a focused implementation plan with concrete catalog/generator coverage, migrations, tests and packaging work. The implementation plan must reconcile the actual Git baseline first and retain the smallest practical task grouping. Existing qualification results remain bound to their original source commit.
+This written spec was approved by the user on 2026-10-19. The implementation plan is [Lab Profiles and Console](../plans/2026-10-19-lab-console.md), covering catalog/generator coverage, migrations, tests and packaging work. The implementation plan must reconcile the actual Git baseline first and retain the smallest practical task grouping. Existing qualification results remain bound to their original source commit.
