@@ -17,6 +17,7 @@ class Workspace(Base):
             ondelete="CASCADE",
         ),
         UniqueConstraint("customer_id"),
+        UniqueConstraint("tenant_id", "customer_id", name="uq_monitor_workspace_tenant_customer"),
     )
     tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
     scope_key: Mapped[str] = mapped_column(String(2048), primary_key=True)

@@ -27,7 +27,7 @@ def service_for_request(request, settings):
     port = (request.scope.get("server") or ("", None))[1]
     ports = listener_ports(settings)[1:]
     if port in ports:
-        return ("blob", "file", "queue", "table", "keyvault")[ports.index(port)]
+        return ("blob", "file", "queue", "table", "keyvault", "logs")[ports.index(port)]
     # Explicit published host ports can differ from container listen ports.
     # A live listener always wins; ASGI test clients supply the public URL port.
     if port == settings.listen_port:
@@ -38,6 +38,8 @@ def service_for_request(request, settings):
     if selected_profile(settings, authority) is not None:
         return "keyvault"
     for profile in (settings.endpoints, *settings.client_profiles.values()):
+        if authority == urlsplit(profile.logs).netloc.lower():
+            return "logs"
         for service, name in SERVICES.items():
             if authority == urlsplit(getattr(profile, name)).netloc.lower():
                 return service

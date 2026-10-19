@@ -80,9 +80,9 @@ def initialize_compose(
 ) -> InstanceFiles:
     project_dir = project_dir.resolve()
     if (
-        not 1 <= api_port <= 65530
+        not 1 <= api_port <= 65529
         or not 1 <= db_port <= 65535
-        or db_port in range(api_port, api_port + 6)
+        or db_port in range(api_port, api_port + 7)
     ):
         raise ValueError("Compose ports must be distinct valid TCP ports")
     runtime = project_dir / ".runtime"
@@ -100,7 +100,9 @@ def initialize_compose(
         base_environment = f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
         data_environment = "".join(
             f"MOCKAZURE_{name}_PORT={api_port + offset}\n"
-            for offset, name in enumerate(("STORAGE", "FILE", "QUEUE", "TABLE", "KEYVAULT"), 1)
+            for offset, name in enumerate(
+                ("STORAGE", "FILE", "QUEUE", "TABLE", "KEYVAULT", "LOGS"), 1
+            )
         )
         legacy_storage = runtime / "postgres"
         cluster = legacy_storage / "18/docker"
@@ -122,6 +124,9 @@ def initialize_compose(
             if existing_environment.endswith(data_environment):
                 existing_environment = existing_environment.removesuffix(data_environment)
             else:
+                legacy_data = data_environment.rsplit("MOCKAZURE_LOGS_PORT=", 1)[0]
+                if existing_environment.endswith(legacy_data):
+                    existing_environment = existing_environment.removesuffix(legacy_data)
                 upgrade_environment = True
             if existing_environment == base_environment:
                 if not valid_legacy_cluster():
@@ -167,7 +172,7 @@ def initialize_compose(
             data_dir=".",
             listen_host="0.0.0.0",
             listen_port=8443,
-            data_listen_ports=[8444, 8445, 8446, 8447, 8448],
+            data_listen_ports=[8444, 8445, 8446, 8447, 8448, 8449],
             database_url=f"postgresql+psycopg://mockazure:{password}@db:5432/mockazure",
         )
         legacy_container = (json.dumps(container, indent=2) + "\n").encode()
@@ -184,10 +189,12 @@ def initialize_compose(
             # Normalize only newly defaulted fields; never overwrite a divergent existing setting.
             previous = json.loads(container_file.read_text(encoding="utf-8"))
             if not previous.get("data_listen_ports"):
-                previous["data_listen_ports"] = [8444, 8445, 8446, 8447, 8448]
+                previous["data_listen_ports"] = [8444, 8445, 8446, 8447, 8448, 8449]
+            if previous.get("data_listen_ports") == [8444, 8445, 8446, 8447, 8448]:
+                previous["data_listen_ports"].append(8449)
             for profile in previous.get("client_profiles", {}).values():
                 defaults = EndpointProfile.model_validate(profile).model_dump(mode="json")
-                for name in ("storage", "file", "queue", "table", "keyvault"):
+                for name in ("storage", "file", "queue", "table", "keyvault", "logs"):
                     profile.setdefault(name, defaults[name])
             upgrade_container = previous == container
         expected = {

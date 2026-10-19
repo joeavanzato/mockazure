@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** F1 typed evaluator and Resource Graph endpoint implemented; local verification in progress. F2-F4 and four-client qualification remain pending.
+**Status:** F1/F2 implemented with local verification: 125 tests pass, lint and offline references verified. F3/F4, phase review, four-client qualification and G acceptance remain pending.
 
 ## Global Constraints
 
@@ -72,7 +72,7 @@ assert unsupported.status_code == 400
 
 **Interfaces:** Produce `async ingest_log_rows(session: AsyncSession, tenant_id: UUID, workspace_id: UUID, table: str, rows: list[dict], source_ids: list[str]) -> int`; `async query_workspace(session: AsyncSession, actor: PrincipalContext, workspace_id: UUID, body: dict, now: datetime) -> dict`. Table catalog validates both ingestion and query column types, with supported metadata discovery.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_logs_tables_and_timespan ingests typed records, queries joins/aggregations/dynamic fields with intersecting timespans and checks columns/rows ordering. test_logs_cross_workspace_auth and test_logs_batch_mixed_errors isolate authorized scopes and individual batch failures. test_resourcegraph_paging binds token to query/scope/options and invalidates or snapshots explicitly according to the qualified profile.
+- [x] **Step 1 — Add the named failing scenarios.** test_logs_tables_and_timespan ingests typed records, queries joins/aggregations/dynamic fields with intersecting timespans and checks columns/rows ordering. test_logs_cross_workspace_auth and test_logs_batch_mixed_errors isolate authorized scopes and individual batch failures. test_resourcegraph_paging binds token to query/scope/options and invalidates or snapshots explicitly according to the qualified profile.
 
 ```python
 assert response['tables'][0]['columns'] == expected_columns
@@ -81,10 +81,10 @@ assert response_ids == requested_ids
 assert denied_workspace_rows == []
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_log_analytics_queries.py tests/integration/test_resource_graph_queries.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Implement GET/POST v1 workspace query, metadata and labeled legacy v1/$batch with published envelopes, errors, timespan/preferences and per-request auth. Add dedicated service audience/origin and accurate auth challenge behavior. Resource Graph uses ARM audience, its own request/response shape and supported joins (including fullouter; no Log Analytics-only leftanti). Enforce sourced join/union budgets. Add explicit administrative typed log imports distinct from native event generation and lifecycle handling.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_log_analytics_queries.py tests/integration/test_resource_graph_queries.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Implement GET/POST v1 workspace query, metadata and labeled legacy v1/$batch with published envelopes, errors, timespan/preferences and per-request auth. Add dedicated service audience/origin and accurate auth challenge behavior. Resource Graph uses ARM audience, its own request/response shape and supported joins (including fullouter; no Log Analytics-only leftanti). Enforce sourced join/union budgets. Add explicit administrative typed log imports distinct from native event generation and lifecycle handling.
 - [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add typed Log Analytics workspace queries"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add typed Log Analytics workspace queries"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task F3: Diagnostic settings and real local event delivery
 

@@ -551,7 +551,22 @@ async def execute_query(session, actor, scope, plan, now):
         raise QueryError("Query scope does not belong to this tenant")
     if plan.profile == "resourcegraph":
         from mockazure.providers.resourcegraph.inventory import authorized_tables
+
+        tables = await authorized_tables(session, actor, scope)
+    elif plan.profile == "loganalytics":
+        from uuid import UUID
+
+        from mockazure.monitor.logs import input_tables, sources
+
+        tables = await input_tables(
+            session,
+            actor,
+            tuple(UUID(w) for w in scope.workspace_ids),
+            sources(plan),
+            plan.parameters.get("intervals", ()),
+        )
     else:
-        raise QueryError("Log Analytics inputs are not implemented")
-    tables = await authorized_tables(session, actor, scope)
-    return evaluate_query(plan, tables, now)
+        raise QueryError("Unknown query profile")
+    return evaluate_query(
+        plan, tables, now, limits=QueryLimits(seconds=plan.parameters.get("timeout", 30))
+    )

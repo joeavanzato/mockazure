@@ -1056,6 +1056,14 @@
           "sha256": "a6bab71b2ff0277684cae38a9ff0b98ed6ed59bb51aa98fbfecf58ad028eb6d8",
           "localPath": "references/a6bab71b2ff0277684cae38a9ff0b98ed6ed59bb51aa98fbfecf58ad028eb6d8.md",
           "license": "CC-BY-4.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/log-standard-columns.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466.md",
+          "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
         }
       ],
       "limitations": [
@@ -1068,6 +1076,842 @@
         "tests/integration/test_resource_graph_queries.py"
       ],
       "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "loganalytics.query.get",
+      "service": "queries",
+      "version": "v1",
+      "method": "GET",
+      "path": "/v1/workspaces/{workspaceId}/query",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "namespace": "loganalytics",
+          "name": "QueryResults"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        405,
+        413,
+        503
+      ],
+      "headers": [
+        "Content-Type",
+        "WWW-Authenticate",
+        "x-ms-request-id",
+        "Prefer"
+      ],
+      "permissions": {
+        "audience": "logs",
+        "delegatedScope": "Data.Read",
+        "action": "current workspace-scoped query/table/read RBAC"
+      },
+      "queryOptions": [
+        "query",
+        "timespan",
+        "workspaces",
+        "Prefer: wait=1..600 (local cap 30 seconds)"
+      ],
+      "limits": {
+        "seconds": 30,
+        "rows": 100000,
+        "inputBytes": 67108864,
+        "batchRequests": 20,
+        "workspaces": 100
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs-schema.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe",
+          "localPath": "references/57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/OperationalInsights.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235.json",
+          "sha256": "a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/response-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530",
+          "localPath": "references/e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/migrate-batch-and-beta.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031",
+          "localPath": "references/c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/request-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d",
+          "localPath": "references/3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/timeouts.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32",
+          "localPath": "references/5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/prefer-options.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2",
+          "localPath": "references/af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/batch-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e",
+          "localPath": "references/c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/access-api.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8",
+          "localPath": "references/b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/cross-workspace-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9",
+          "localPath": "references/3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azureactivity.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c.md",
+          "sha256": "91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azurediagnostics.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf.md",
+          "sha256": "0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagebloblogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e.md",
+          "sha256": "1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagefilelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149.md",
+          "sha256": "68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagequeuelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651.md",
+          "sha256": "5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagetablelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb.md",
+          "sha256": "8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azkvauditlogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9.md",
+          "sha256": "2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770.md",
+          "sha256": "c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/log-standard-columns.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466.md",
+          "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+        }
+      ],
+      "limitations": [
+        "Typed local tables and documented KQL subset only; no resource-context query or workspace() language function.",
+        "No include-statistics/include-render preferences; unsupported preferences fail explicitly.",
+        "Legacy batch POST /query entries only; per-entry errors retained.",
+        "Native diagnostic publication and four-ecosystem qualification remain F3/F4 work."
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "loganalytics.query.post",
+      "service": "queries",
+      "version": "v1",
+      "method": "POST",
+      "path": "/v1/workspaces/{workspaceId}/query",
+      "aliases": [],
+      "requestSchema": {
+        "namespace": "loganalytics",
+        "name": "QueryBody"
+      },
+      "responseSchemas": {
+        "200": {
+          "namespace": "loganalytics",
+          "name": "QueryResults"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        405,
+        413,
+        503
+      ],
+      "headers": [
+        "Content-Type",
+        "WWW-Authenticate",
+        "x-ms-request-id",
+        "Prefer"
+      ],
+      "permissions": {
+        "audience": "logs",
+        "delegatedScope": "Data.Read",
+        "action": "current workspace-scoped query/table/read RBAC"
+      },
+      "queryOptions": [
+        "query",
+        "timespan",
+        "workspaces",
+        "Prefer: wait=1..600 (local cap 30 seconds)"
+      ],
+      "limits": {
+        "seconds": 30,
+        "rows": 100000,
+        "inputBytes": 67108864,
+        "batchRequests": 20,
+        "workspaces": 100
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs-schema.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe",
+          "localPath": "references/57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/OperationalInsights.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235.json",
+          "sha256": "a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/response-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530",
+          "localPath": "references/e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/migrate-batch-and-beta.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031",
+          "localPath": "references/c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/request-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d",
+          "localPath": "references/3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/timeouts.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32",
+          "localPath": "references/5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/prefer-options.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2",
+          "localPath": "references/af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/batch-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e",
+          "localPath": "references/c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/access-api.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8",
+          "localPath": "references/b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/cross-workspace-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9",
+          "localPath": "references/3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azureactivity.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c.md",
+          "sha256": "91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azurediagnostics.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf.md",
+          "sha256": "0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagebloblogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e.md",
+          "sha256": "1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagefilelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149.md",
+          "sha256": "68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagequeuelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651.md",
+          "sha256": "5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagetablelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb.md",
+          "sha256": "8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azkvauditlogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9.md",
+          "sha256": "2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770.md",
+          "sha256": "c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/log-standard-columns.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466.md",
+          "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+        }
+      ],
+      "limitations": [
+        "Typed local tables and documented KQL subset only; no resource-context query or workspace() language function.",
+        "No include-statistics/include-render preferences; unsupported preferences fail explicitly.",
+        "Legacy batch POST /query entries only; per-entry errors retained.",
+        "Native diagnostic publication and four-ecosystem qualification remain F3/F4 work."
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "loganalytics.metadata",
+      "service": "queries",
+      "version": "v1",
+      "method": "GET",
+      "path": "/v1/workspaces/{workspaceId}/metadata",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "namespace": "loganalytics",
+          "name": "MetadataResults"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        405,
+        413,
+        503
+      ],
+      "headers": [
+        "Content-Type",
+        "WWW-Authenticate",
+        "x-ms-request-id",
+        "Prefer"
+      ],
+      "permissions": {
+        "audience": "logs",
+        "delegatedScope": "Data.Read",
+        "action": "current workspace-scoped query/table/read RBAC"
+      },
+      "queryOptions": [],
+      "limits": {
+        "seconds": 30,
+        "rows": 100000,
+        "inputBytes": 67108864,
+        "batchRequests": 20,
+        "workspaces": 100
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs-schema.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe",
+          "localPath": "references/57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/OperationalInsights.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235.json",
+          "sha256": "a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/response-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530",
+          "localPath": "references/e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/migrate-batch-and-beta.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031",
+          "localPath": "references/c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/request-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d",
+          "localPath": "references/3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/timeouts.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32",
+          "localPath": "references/5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/prefer-options.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2",
+          "localPath": "references/af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/batch-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e",
+          "localPath": "references/c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/access-api.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8",
+          "localPath": "references/b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/cross-workspace-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9",
+          "localPath": "references/3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azureactivity.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c.md",
+          "sha256": "91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azurediagnostics.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf.md",
+          "sha256": "0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagebloblogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e.md",
+          "sha256": "1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagefilelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149.md",
+          "sha256": "68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagequeuelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651.md",
+          "sha256": "5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagetablelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb.md",
+          "sha256": "8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azkvauditlogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9.md",
+          "sha256": "2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770.md",
+          "sha256": "c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/log-standard-columns.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466.md",
+          "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+        }
+      ],
+      "limitations": [
+        "Typed local tables and documented KQL subset only; no resource-context query or workspace() language function.",
+        "No include-statistics/include-render preferences; unsupported preferences fail explicitly.",
+        "Legacy batch POST /query entries only; per-entry errors retained.",
+        "Native diagnostic publication and four-ecosystem qualification remain F3/F4 work."
+      ]
+    },
+    {
+      "kind": "rest",
+      "operationId": "loganalytics.batch",
+      "service": "queries",
+      "version": "v1",
+      "method": "POST",
+      "path": "/v1/$batch",
+      "aliases": [],
+      "requestSchema": {
+        "namespace": "loganalytics",
+        "name": "BatchRequest"
+      },
+      "responseSchemas": {
+        "200": {
+          "namespace": "loganalytics",
+          "name": "BatchResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        405,
+        413,
+        503
+      ],
+      "headers": [
+        "Content-Type",
+        "WWW-Authenticate",
+        "x-ms-request-id",
+        "Prefer"
+      ],
+      "permissions": {
+        "audience": "logs",
+        "delegatedScope": "Data.Read",
+        "action": "current workspace-scoped query/table/read RBAC"
+      },
+      "queryOptions": [],
+      "limits": {
+        "seconds": 30,
+        "rows": 100000,
+        "inputBytes": 67108864,
+        "batchRequests": 20,
+        "workspaces": 100
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs-schema.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe",
+          "localPath": "references/57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/OperationalInsights.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235.json",
+          "sha256": "a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/response-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530",
+          "localPath": "references/e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/migrate-batch-and-beta.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031",
+          "localPath": "references/c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/request-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d",
+          "localPath": "references/3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/timeouts.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32",
+          "localPath": "references/5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/prefer-options.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2",
+          "localPath": "references/af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/batch-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e",
+          "localPath": "references/c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/access-api.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8",
+          "localPath": "references/b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/cross-workspace-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9",
+          "localPath": "references/3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azureactivity.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c.md",
+          "sha256": "91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azurediagnostics.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf.md",
+          "sha256": "0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagebloblogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e.md",
+          "sha256": "1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagefilelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149.md",
+          "sha256": "68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagequeuelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651.md",
+          "sha256": "5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagetablelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb.md",
+          "sha256": "8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azkvauditlogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9.md",
+          "sha256": "2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770.md",
+          "sha256": "c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/log-standard-columns.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466.md",
+          "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+        }
+      ],
+      "limitations": [
+        "Typed local tables and documented KQL subset only; no resource-context query or workspace() language function.",
+        "No include-statistics/include-render preferences; unsupported preferences fail explicitly.",
+        "Legacy batch POST /query entries only; per-entry errors retained.",
+        "Native diagnostic publication and four-ecosystem qualification remain F3/F4 work."
+      ]
     }
   ]
 }

@@ -20,7 +20,8 @@
     "networkPublicIP": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json",
     "workspaces": "specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json",
     "disks": "specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json",
-    "resourcegraph": "specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/resourcegraph.json"
+    "resourcegraph": "specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/resourcegraph.json",
+    "loganalytics": "specification/monitor/data-plane/OperationalInsights/stable/v1/OperationalInsights.json"
   },
   "files": {
     "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json": {

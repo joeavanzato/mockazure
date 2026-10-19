@@ -15,3 +15,38 @@ The shared ARM schema validator also bounds serialized request/response objects 
 Emulator limits: 65,536 query UTF-8 bytes, 10,000 tokens, 64 nested parser frames, 1,000 explicit subscriptions (10,000 authorized implicit subscriptions), 30 seconds of evaluator time, 100,000 returned rows, 64 MiB accounted table values, and 1,000,000 intermediate/expanded rows. These are local limits, not Microsoft service guarantees. Database loading and full concurrent-process resource bounds remain the F4/G stress gates. Input/table accounting is conservative JSON-plus-container overhead, not an RSS measurement.
 
 The [operation catalog](../integrations/contracts/cloud/queries.json) bundles 126 hash-verified official source files, including schema dependencies and upstream licenses. Verification is offline: `python tools/acquire_cloud_contracts.py --service queries --verify-only`. Unit and PostgreSQL integration tests exercise semantics, current authorization, hidden right-side rows, invalid queries, and budget errors. Four-client F qualification is pending; no throughput or full-language compatibility is claimed.
+
+
+## Log Analytics local profile (F2 implementation)
+
+The dedicated `logs` origin defaults to `https://localhost:8449`; its resource
+audience is `https://api.loganalytics.io` (the public `.azure.com` resource alias is
+also recognized). Application tokens use current Azure workspace RBAC, with no
+invented application `Data.Read` role. Delegated tokens additionally require
+`Data.Read`. Both query inputs in a join and every additional workspace are
+authorized before records are loaded; an inaccessible workspace fails the request.
+
+GET/POST `/v1/workspaces/{workspaceId}/query`, GET metadata and legacy POST
+`/v1/$batch` return the pinned Microsoft v1 envelopes. Body and URL timespans
+intersect before evaluation. `Prefer: wait=1..600` is accepted with the local
+execution ceiling of 30 seconds. Other preferences are explicitly rejected;
+statistics/render output is not implemented. Batch accepts 1–20 POST `/query`
+entries and retains individual errors. Cross-workspace body/URL lists work;
+`workspace()` expressions and resource-context query paths are not implemented.
+
+The sourced tables are AzureActivity, AzureDiagnostics, StorageBlobLogs,
+StorageFileLogs, StorageQueueLogs, StorageTableLogs and AZKVAuditLogs. Their static
+column definitions are in `src/mockazure/monitor/data/tables.json`, with immutable
+source references. AzureDiagnostics exposes the documented baseline columns and
+AdditionalFields; automatic creation of new columns is not implemented.
+
+Administrative POST `/_mock/tenants/{tenant}/cloud/workspaces/{workspace}/logs/{table}`
+accepts `rows` and equally sized distinct `source_ids` (10,000 rows / 8 MiB per
+batch, 1 MiB per row). Imports validate types, owned parents, workspace TenantId
+and table Type. Replaying identical source identities is idempotent; conflicting
+content rolls the complete batch back. Imported rows are distinct from native
+service events and cannot authorize diagnostic publication. Cloud export/import,
+reset and bounded workspace-retention cleanup include logs; restored logs are
+imports. Native publication remains F3, and original SDK qualification plus
+concurrent evaluator budget verification remain F4/G. Local passing tests are
+not evidence that those later gates passed.

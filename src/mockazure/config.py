@@ -141,6 +141,7 @@ class Settings(BaseSettings):
                     "queue",
                     "table",
                     "keyvault",
+                    "logs",
                 )
             }:
                 return profile
@@ -164,6 +165,7 @@ class Settings(BaseSettings):
                 "queue",
                 "table",
                 "keyvault",
+                "logs",
             ):
                 authority = urlsplit(getattr(profile, name)).netloc.lower()
                 if authority in authorities and authorities[authority] != profile:

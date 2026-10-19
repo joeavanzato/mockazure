@@ -51,6 +51,7 @@ class EndpointProfile(BaseModel):
     queue: str = "https://localhost:8446"
     table: str = "https://localhost:8447"
     keyvault: str = "https://localhost:8448"
+    logs: str = "https://localhost:8449"
 
     @model_validator(mode="before")
     @classmethod
@@ -60,13 +61,18 @@ class EndpointProfile(BaseModel):
             host = "[" + host + "]" if ":" in host else host
             port = urlsplit(value.get("login", "https://localhost:8443")).port or 443
             value = dict(value)
-            for offset, name in enumerate(("storage", "file", "queue", "table", "keyvault")):
+            for offset, name in enumerate(
+                ("storage", "file", "queue", "table", "keyvault", "logs")
+            ):
                 value.setdefault(name, f"https://{host}:{port + 1 + offset}")
         return value
 
     @model_validator(mode="after")
     def distinct_data_origins(self):
-        values = [getattr(self, name) for name in ("storage", "file", "queue", "table", "keyvault")]
+        values = [
+            getattr(self, name)
+            for name in ("storage", "file", "queue", "table", "keyvault", "logs")
+        ]
         core = {
             getattr(self, name)
             for name in ("login", "graph", "exchange", "arm", "activity", "browser_login")
@@ -94,6 +100,7 @@ class EndpointProfile(BaseModel):
         "queue",
         "table",
         "keyvault",
+        "logs",
     )
     @classmethod
     def origins(cls, value: str) -> str:
@@ -111,6 +118,11 @@ class ResourceDescriptor:
 
 
 RESOURCES = (
+    ResourceDescriptor(
+        "logs",
+        "https://api.loganalytics.io",
+        ("https://api.loganalytics.io", "https://api.loganalytics.azure.com"),
+    ),
     ResourceDescriptor("storage", "https://storage.azure.com/", ("https://storage.azure.com",)),
     ResourceDescriptor("keyvault", "https://vault.azure.net", ("https://vault.azure.net",)),
     ResourceDescriptor(

@@ -140,6 +140,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         from mockazure.providers.storage.routes import service_for_request
 
         storage_service = service_for_request(request, settings)
+        if storage_service == "logs":
+            from mockazure.providers.loganalytics.routes import handle as logs_handle
+
+            return await logs_handle(request)
         if storage_service == "keyvault":
             from mockazure.providers.keyvault.routes import handle as keyvault_handle
 
