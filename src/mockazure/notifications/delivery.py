@@ -8,7 +8,7 @@ import httpx
 from mockazure.authorization.evaluator import AuthorizationDenied
 from mockazure.jobs.repository import lock_claim
 from mockazure.jobs.schemas import JobResult
-from mockazure.mail.send import DeliveryLeaseExpired, lock_workflow, stored_actor
+from mockazure.mail.send import DeliveryLeaseExpired, current_stored_actor, lock_workflow
 from mockazure.notifications.models import GraphNotification, GraphSubscription
 from mockazure.notifications.receivers import post_receiver, resolve_receiver
 from mockazure.notifications.subscriptions import require_current
@@ -44,7 +44,8 @@ async def process_notification(database, claim, wall_now):
             )
             if not invalidated:
                 try:
-                    await require_current(session, stored_actor(sub.actor), sub.target)
+                    actor = await current_stored_actor(session, sub.actor)
+                    await require_current(session, actor, sub.target)
                     url = (
                         sub.payload.get("lifecycleNotificationUrl")
                         if note.payload.get("lifecycle")

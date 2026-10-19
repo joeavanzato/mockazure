@@ -7,8 +7,9 @@ import pytest
 
 from mockazure.jobs.dispatch import dispatch_job
 from mockazure.jobs.repository import claim_job
-from tests.integration.graph_support import graph_client, headers_for
+from tests.integration.graph_support import graph_client
 from tests.integration.test_graph_send_workflows import setup_mail
+from tests.integration.workflow_support import headers_for
 
 
 def event_body():

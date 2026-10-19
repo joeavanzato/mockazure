@@ -88,7 +88,7 @@ class OwnerInput(IdentityInput):
         from datetime import date
 
         from mockazure.calendar.contracts import EVENT_FIELDS
-        from mockazure.calendar.exceptions import occurrence_exists
+        from mockazure.calendar.exceptions import check_occurrence_boundary, occurrence_exists
         from mockazure.calendar.recurrence import occurrence_on
 
         masters = {e.id: e for e in self.events}
@@ -111,10 +111,9 @@ class OwnerInput(IdentityInput):
                 master = masters[entry.master_id]
                 if not occurrence_exists(master.payload, day):
                     raise ValueError("Exception is not an occurrence of its master")
-                event_input(
-                    entry.overrides,
-                    previous=occurrence_on({**master.payload, "id": master.id}, day),
-                )
+                base = occurrence_on({**master.payload, "id": master.id}, day)
+                patch = event_input(entry.overrides, previous=base)
+                check_occurrence_boundary(master.payload, day, {**base, **patch})
             except GraphError:
                 raise ValueError("Invalid exception schema") from None
         transactions = set()
@@ -167,15 +166,16 @@ async def export_calendars(session, tenant):
             ("calendars", Calendar),
             ("events", CalendarEvent),
         ]:
+            maximum = 10000 if key == "events" else 1000
             records = list(
                 await session.scalars(
                     select(cls)
                     .where(cls.tenant_id == tenant, cls.user_id == state.user_id)
                     .order_by(cls.id)
-                    .limit(10001)
+                    .limit(maximum + 1)
                 )
             )
-            if len(records) > 10000:
+            if len(records) > maximum:
                 raise AdminError(413, "CalendarStateLimit", "Too many calendar objects")
             document[key] = []
             for row in records:

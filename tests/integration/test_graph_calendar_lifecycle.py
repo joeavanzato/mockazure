@@ -12,9 +12,10 @@ from sqlalchemy.exc import DBAPIError
 from mockazure.db.migrations import configuration
 from mockazure.jobs.dispatch import dispatch_job
 from mockazure.jobs.repository import claim_job
-from tests.integration.graph_support import graph_client, headers_for
+from tests.integration.graph_support import graph_client
 from tests.integration.test_graph_calendar_workflows import event_body, meeting_worker
 from tests.integration.test_graph_send_workflows import setup_mail
+from tests.integration.workflow_support import headers_for
 
 
 async def test_calendar_export_import_reset_invalidates_pending_work(database, settings):

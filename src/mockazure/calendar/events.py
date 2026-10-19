@@ -315,10 +315,10 @@ async def mutate_event(
                 invalid("Only the organizer can change meeting content")
         body = event_input(body, previous=row.payload)
         row.payload = {**row.payload, **body}
-        if "recurrence" in body and body["recurrence"] is None:
-            from mockazure.calendar.exceptions import restore_overrides
+        if body.keys() & {"recurrence", "start", "end"}:
+            from mockazure.calendar.exceptions import reconcile_overrides
 
-            await restore_overrides(session, box, row.id, [])
+            await reconcile_overrides(session, box, row)
     elif operation in {"delete", "cancel"}:
         if operation == "cancel":
             body = action_input(operation, body)

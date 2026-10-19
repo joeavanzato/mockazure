@@ -27,8 +27,8 @@ from mockazure.mail.repository import resolve_mailbox
 from mockazure.mail.send import (
     DeliveryLeaseExpired,
     actor_data,
+    current_stored_actor,
     lock_workflow,
-    stored_actor,
 )
 from mockazure.providers.graph.errors import GraphError
 
@@ -99,6 +99,7 @@ async def deliver_invitation(session, actor, sender, delivery, now):
     meeting = UUID(data["meeting_id"])
     cancelled = delivery.operation in {"delete", "cancel"}
     targets = {}
+    notification_targets = set()
     unresolved = []
     for attendee in event.get("attendees", []):
         address = attendee["emailAddress"]["address"]
@@ -111,6 +112,8 @@ async def deliver_invitation(session, actor, sender, delivery, now):
         else:
             if target.user_id != sender.user_id:
                 targets[target.user_id] = target
+                if address.casefold() in (data.get("notify_addresses") or []):
+                    notification_targets.add(target.user_id)
     # Removed attendees receive a cancellation for their existing local copy.
     previous = list(
         await session.scalars(
@@ -183,7 +186,7 @@ async def deliver_invitation(session, actor, sender, delivery, now):
 
         await restore_overrides(session, target, existing.id, data.get("exceptions", []))
         notify = data.get("notify_addresses")
-        if notify is not None and target.primary_smtp not in notify:
+        if notify is not None and target.user_id not in notification_targets:
             continue
         await local_message(
             session,
@@ -218,7 +221,13 @@ async def deliver_response(session, actor, sender, delivery, now):
     members = copy.deepcopy(row.payload.get("attendees", []))
     matched = False
     for attendee in members:
-        if attendee["emailAddress"]["address"].casefold() == sender.primary_smtp:
+        try:
+            attendee_box = await resolve_mailbox(
+                session, actor.tenant_id, attendee["emailAddress"]["address"]
+            )
+        except GraphError:
+            continue
+        if attendee_box.user_id == sender.user_id:
             old = attendee.get("status", {}).get("time", "")
             if old > status["time"]:
                 continue
@@ -266,7 +275,7 @@ async def process_meeting_delivery(database, claim, wall_now):
             ):
                 job.state, job.error_code = "failed", "MeetingDeliveryInvalidated"
             else:
-                actor = stored_actor(delivery.actor)
+                actor = await current_stored_actor(session, delivery.actor)
                 sender = await resolve_mailbox(session, claim.tenant_id, str(delivery.user_id))
                 await require_calendar_access(session, actor, sender, write=True)
                 handler = (

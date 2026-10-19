@@ -12,7 +12,7 @@ globalThis.fetch=(input,init)=>{
  assert.equal(url.origin,endpoint.origin);
  return originalFetch(input,{...init,redirect:'manual'});
 };
-const graph=Client.initWithMiddleware({baseUrl:p.endpoint,defaultVersion:'v1.0',customHosts:new Set([endpoint.host]),authProvider:{getAccessToken:async()=>p.token}});
+const graph=Client.initWithMiddleware({baseUrl:p.endpoint,defaultVersion:'v1.0',customHosts:new Set([endpoint.hostname]),authProvider:{getAccessToken:async()=>p.token}});
 const api=path=>graph.api(path);
 const root=`/users/${p.owner}`;
 const checks={};let objects={};

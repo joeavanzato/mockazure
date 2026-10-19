@@ -11,11 +11,12 @@ from mockazure.jobs.dispatch import dispatch_job
 from mockazure.jobs.repository import claim_job
 from mockazure.mail.message_cleanup import cleanup_mail_content
 from mockazure.mail.send_models import MailAttachmentUpload
-from tests.integration.graph_support import graph_client, headers_for
+from tests.integration.graph_support import graph_client
 from tests.integration.test_exchange_mail import command
 from tests.integration.test_exchange_recipients import setup as delegate_setup
 from tests.integration.test_graph_send_workflows import deliver, message, setup_mail
 from tests.integration.test_mail_content_delta import collect
+from tests.integration.workflow_support import headers_for
 
 
 async def test_send_delegation_revoked_between_acceptance_and_worker(database, settings):

@@ -8,9 +8,10 @@ import pytest
 
 from mockazure.jobs.dispatch import dispatch_job
 from mockazure.jobs.repository import claim_job
-from tests.integration.graph_support import graph_client, headers_for
+from tests.integration.graph_support import graph_client
 from tests.integration.test_mail_content import seed_mail
 from tests.integration.test_mail_content_delta import collect
+from tests.integration.workflow_support import headers_for
 
 
 async def setup_mail(client, database, settings, tenant, app, user):

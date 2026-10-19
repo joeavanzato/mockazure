@@ -68,3 +68,5 @@ Pruning removes old terminal delivery jobs and expired unreferenced subscription
 Migration 071 refuses a lossy downgrade until subscription state is reset.
 
 Export is bounded to 1,000 subscription descriptions, including retained retired descriptions. Larger exports return an explicit 413 NotificationStateLimit; they never silently truncate. Prune eligible retired subscriptions before exporting.
+
+Pending callbacks intersect their saved permission claims with current applicable application/delegated consent under the tenant security lock. Revoking a grant stops subsequent delivery even if its original public access token has not expired. New grants cannot expand a saved subscription actor beyond its original claims.

@@ -101,23 +101,7 @@ async def mutate_occurrence(session, actor, box, event_id, calendar_id, operatio
     if operation == "update":
         patch = event_input(body, previous=row.payload)
         candidate = {**row.payload, **patch}
-        pattern, _, begin, until, count, zone = recurrence_spec(row.master.payload)
-        previous = following = None
-        for n, current in enumerate(dates(pattern, begin)):
-            if current > until or (count is not None and n >= count):
-                break
-            if current < row.day:
-                previous = current
-            elif current > row.day:
-                following = current
-                break
-        moved = instant(candidate["start"]).astimezone(zone).date()
-        if (previous and moved <= previous) or (following and moved >= following):
-            raise GraphError(
-                400,
-                "ErrorOccurrenceCrossingBoundary",
-                "Modified occurrence is crossing adjacent occurrence",
-            )
+        check_occurrence_boundary(row.master.payload, row.day, candidate)
     else:
         if operation == "cancel":
             from mockazure.calendar.contracts import action_input
@@ -213,3 +197,35 @@ async def restore_overrides(session, box, master_id, values):
             )
         )
     await session.flush()
+
+
+def check_occurrence_boundary(series, day, candidate):
+    pattern, _, begin, until, count, zone = recurrence_spec(series)
+    previous = following = None
+    for n, current in enumerate(dates(pattern, begin)):
+        if current > until or (count is not None and n >= count):
+            break
+        if current < day:
+            previous = current
+        elif current > day:
+            following = current
+            break
+    moved = instant(candidate["start"]).astimezone(zone).date()
+    if (previous and moved <= previous) or (following and moved >= following):
+        raise GraphError(
+            400,
+            "ErrorOccurrenceCrossingBoundary",
+            "Modified occurrence is crossing adjacent occurrence",
+        )
+
+
+async def reconcile_overrides(session, box, master):
+    """Retire exceptions outside the new series and validate survivors atomically."""
+    for override in (await overrides_for(session, box, master.id)).values():
+        day = datetime.fromisoformat(override.day).date()
+        if not master.payload.get("recurrence") or not occurrence_exists(master.payload, day):
+            await session.delete(override)
+            continue
+        base = occurrence_on({**master.payload, "id": master.id}, day)
+        patch = event_input(override.overrides, previous=base)
+        check_occurrence_boundary(master.payload, day, {**base, **patch})

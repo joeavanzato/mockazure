@@ -18,7 +18,7 @@ from mockazure.mail.composition import changed_message
 from mockazure.mail.message_models import MailMessage
 from mockazure.mail.messages import state_for
 from mockazure.mail.repository import resolve_mailbox
-from mockazure.mail.send import actor_data, lock_workflow, mail_fact, stored_actor
+from mockazure.mail.send import actor_data, current_stored_actor, lock_workflow, mail_fact
 from mockazure.mail.send_models import MailAttachmentUpload
 from mockazure.providers.graph.errors import GraphError
 
@@ -85,7 +85,7 @@ async def use_attachment_upload(session, token, method, body, content_range, ori
         or cloud.generation != upload.cloud_generation
     ):
         not_found()
-    actor = stored_actor(upload.actor)
+    actor = await current_stored_actor(session, upload.actor)
     await require_mailbox_access(session, actor, box, "content.write")
     if not row.payload.get("isDraft"):
         raise GraphError(400, "ErrorInvalidOperation", "The upload target is no longer a draft")

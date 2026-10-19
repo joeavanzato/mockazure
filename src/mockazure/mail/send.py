@@ -1,17 +1,20 @@
 """Accepted Graph sends become fenced, transactional local mailbox deliveries."""
 
 import copy
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import timedelta
+from html import escape
 from time import monotonic
 from uuid import UUID, uuid4
+
+from sqlalchemy import or_, select
 
 from mockazure.authorization.evaluator import AuthorizationDenied
 from mockazure.cloud.events import lock_cloud_state
 from mockazure.cloud.types import MutationResult
 from mockazure.db.job_model import Job
 from mockazure.evidence.repository import lock_state
-from mockazure.identity.models import User
+from mockazure.identity.models import Grant, User
 from mockazure.identity.types import PrincipalContext
 from mockazure.jobs.repository import fail_job, lock_claim
 from mockazure.jobs.schemas import JobResult
@@ -54,6 +57,54 @@ def stored_actor(data):
             for k, v in data.items()
         }
     )
+
+
+async def current_stored_actor(session, data):
+    """Saved workflow authority is bounded by consent still present under the lock."""
+    actor = stored_actor(data)
+    query = select(Grant).where(
+        Grant.tenant_id == actor.tenant_id,
+        Grant.client_id == actor.client_id,
+        Grant.resource == "graph",
+        Grant.kind == actor.token_kind,
+    )
+    query = query.where(
+        or_(Grant.user_id.is_(None), Grant.user_id == actor.subject_id)
+        if actor.token_kind == "delegated"
+        else Grant.user_id.is_(None)
+    )
+    grants = await session.scalars(query)
+    permissions = frozenset(permission for grant in grants for permission in grant.permissions)
+    return replace(actor, permissions=actor.permissions & permissions)
+
+
+def forwarded_body(original, commentary):
+    original = original or {"contentType": "text", "content": ""}
+    if commentary is None:
+        return copy.deepcopy(original)
+    html = any(b.get("contentType", "text").lower() == "html" for b in (original, commentary))
+    if not html:
+        return {
+            "contentType": "text",
+            "content": commentary.get("content", "") + "\n\n" + original.get("content", ""),
+        }
+
+    def content(body):
+        value = body.get("content", "")
+        return (
+            value
+            if body.get("contentType", "text").lower() == "html"
+            else escape(value).replace("\n", "<br>")
+        )
+
+    return {
+        "contentType": "html",
+        "content": "<div>"
+        + content(commentary)
+        + "</div><blockquote>"
+        + content(original)
+        + "</blockquote>",
+    }
 
 
 def recipient(box):
@@ -121,6 +172,7 @@ def reply_body(source, box, action, body):
             {"name": "References", "value": " ".join([*previous.split()[-20:], parent])},
         ]
     if forward:
+        result["body"] = forwarded_body(source.payload.get("body"), result.get("body"))
         if "toRecipients" in body:
             result["toRecipients"] = body["toRecipients"]
     else:
@@ -257,7 +309,7 @@ async def process_mail_delivery(database, claim, wall_now):
                 row = await session.get(
                     MailMessage, (claim.tenant_id, box.user_id, delivery.message_id)
                 )
-                actor = stored_actor(delivery.actor)
+                actor = await current_stored_actor(session, delivery.actor)
                 evidence = await lock_state(session, claim.tenant_id)
                 cloud = await lock_cloud_state(session, claim.tenant_id)
                 if (

@@ -4746,7 +4746,9 @@
       "method": "GET",
       "path": "/users/{user}/calendarView/delta",
       "aliases": [
-        "/me/calendarView/delta"
+        "/me/calendarView/delta",
+        "/users/{user}/calendarView/delta()",
+        "/me/calendarView/delta()"
       ],
       "requestSchema": null,
       "responseSchemas": {

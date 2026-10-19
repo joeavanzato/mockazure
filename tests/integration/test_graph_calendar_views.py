@@ -4,9 +4,10 @@ from datetime import UTC, datetime
 from uuid import UUID
 
 from mockazure.identity.models import Application
-from tests.integration.graph_support import graph_client, headers_for
+from tests.integration.graph_support import graph_client
 from tests.integration.test_graph_calendar_workflows import event_body, meeting_worker
 from tests.integration.test_graph_send_workflows import setup_mail
+from tests.integration.workflow_support import headers_for
 
 
 def recurring():

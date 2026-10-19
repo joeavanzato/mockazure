@@ -786,3 +786,5 @@ hashes beside the Graph workflow sources. See [Exchange record types](https://le
 and [mailbox audit operations](https://learn.microsoft.com/en-us/purview/audit-mailboxes).
 
 Mail actions accept the exact PascalCase parameter spellings generated from the pinned Microsoft CSDL as well as documented lower-camel REST spellings. Supplying both spellings of one parameter is rejected. Resource property names remain schema-bound.
+
+Accepted local sends and attachment-upload capabilities recheck current Graph consent in addition to current identity and mailbox delegation. Forward/createForward preserve source body content and attachments; text commentary is escaped when composed into an HTML forward. Quoting layout is a local representation rather than a claim of identical Outlook rendering.
