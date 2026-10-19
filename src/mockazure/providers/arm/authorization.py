@@ -16,10 +16,10 @@ from mockazure.providers.arm.models import ArmResource, RoleAssignment, Subscrip
 ARM = next(r.audience for r in RESOURCES if r.service == "arm")
 
 
-async def current_principal(session, actor, *, audience=ARM):
+async def current_principal(session, actor, *, audience=ARM, delegated_scope="user_impersonation"):
     if actor.audience != audience or actor.token_kind not in {"application", "delegated"}:
         raise ArmError(403, "AuthorizationFailed", "ARM identity is required")
-    if actor.token_kind == "delegated" and "user_impersonation" not in actor.permissions:
+    if actor.token_kind == "delegated" and delegated_scope not in actor.permissions:
         raise ArmError(403, "AuthorizationFailed", "ARM delegated scope is required")
     try:
         await require_current_identity(actor, session)
@@ -74,8 +74,12 @@ def permitted_roles(action, *, data=False):
     ]
 
 
-async def grant_query(session, actor, action, *, audience=ARM, data=False):
-    principal_id = await current_principal(session, actor, audience=audience)
+async def grant_query(
+    session, actor, action, *, audience=ARM, data=False, delegated_scope="user_impersonation"
+):
+    principal_id = await current_principal(
+        session, actor, audience=audience, delegated_scope=delegated_scope
+    )
     direct = (
         RoleAssignment.client_id == actor.client_id
         if actor.token_kind == "application"

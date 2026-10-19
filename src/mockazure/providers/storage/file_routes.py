@@ -675,6 +675,18 @@ async def dispatch_file(request, account, share, raw_path):
                 if operation == "list":
                     result = await directory_listing(session, request, tree, row, now)
                 elif operation in {"read", "head", "get_metadata"}:
+                    await record(
+                        session,
+                        access,
+                        "file",
+                        share + "/" + path,
+                        "GetFile"
+                        if operation == "read"
+                        else "GetDirectoryProperties"
+                        if directory
+                        else "GetFileProperties",
+                        now,
+                    )
                     result_headers = node_headers(request, row)
                     if operation == "get_metadata":
                         result_headers = {
@@ -862,6 +874,19 @@ async def dispatch_file(request, account, share, raw_path):
                     )
                     result = Response(status_code=202, headers=headers(request))
         if not streaming:
+            if request.method in {"GET", "HEAD"} and operation not in {
+                "read",
+                "head",
+                "get_metadata",
+            }:
+                await record(
+                    session,
+                    access,
+                    "file",
+                    share + "/" + path,
+                    "ListFilesAndDirectories" if operation == "list" else "GetFileProperties",
+                    now,
+                )
             await session.commit()
         return result
     except AdminError as error:

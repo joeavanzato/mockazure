@@ -7,10 +7,13 @@ from tools import verify_default
 
 def test_default_ports_exclude_all_data_origins():
     assert hasattr(verify_default, "default_ports"), (
-        "Port planning must account for six API listeners"
+        "Port planning must account for seven API listeners"
     )
-    with patch.object(verify_default, "free_port", side_effect=[61000, 61001, 61005, 61006]):
-        assert verify_default.default_ports() == (61000, 61006)
+    with (
+        patch.object(verify_default.socket, "socket"),
+        patch.object(verify_default, "free_port", side_effect=[61000, 61006, 61000, 61007]),
+    ):
+        assert verify_default.default_ports() == (61000, 61007)
 
 
 def test_management_matrix_requires_four_actual_clients():

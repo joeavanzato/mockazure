@@ -1,0 +1,11 @@
+{
+  "name": "mockazure-cloud-queries",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@azure/arm-resourcegraph": "5.0.0",
+    "@azure/monitor-query-logs": "1.0.0",
+    "@azure/arm-monitor": "8.0.0"
+  }
+}

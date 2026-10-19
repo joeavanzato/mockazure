@@ -184,6 +184,7 @@ CATALOG = (
     PermissionDefinition("graph", "Device.ReadWrite.All", "application", True),
     PermissionDefinition("exchange", "Exchange.ManageAsApp", "application", True),
     PermissionDefinition("exchange", "Exchange.Manage", "delegated", True),
+    PermissionDefinition("logs", "Data.Read", "delegated", True),
     PermissionDefinition("arm", "user_impersonation", "delegated", True),
     PermissionDefinition("storage", "user_impersonation", "delegated", True),
     PermissionDefinition("keyvault", "user_impersonation", "delegated", True),

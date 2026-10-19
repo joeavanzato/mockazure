@@ -61,4 +61,7 @@ async def append_service_event(session: AsyncSession, event: ServiceEvent) -> UU
         return old.id
     session.add(CloudEvent(**values, generation=state.generation, publish_eligible=True))
     await session.flush()
+    from mockazure.monitor.publication import queue_event
+
+    await queue_event(session, event, state.generation)
     return event.id

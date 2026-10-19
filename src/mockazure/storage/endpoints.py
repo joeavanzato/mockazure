@@ -31,8 +31,13 @@ def listener_ports(settings):
     if data is None:
         data = tuple(
             urlsplit(getattr(settings.endpoints, name)).port or 443
-            for name in ("storage", "file", "queue", "table", "keyvault")
+            for name in ("storage", "file", "queue", "table", "keyvault", "logs")
         )
+    # Older profiles explicitly stored the original five data listener ports.
+    if len(data) == 5:
+        data = (*data, data[-1] + 1)
+    if len(data) not in {0, 6}:
+        raise ValueError("Six data listener ports are required")
     ports = (settings.listen_port, *data)
     if len(set(ports)) != len(ports) or any(
         type(p) is not int or not 1 <= p <= 65535 for p in ports

@@ -235,6 +235,15 @@ async def dispatch_queue(request):
             await delete_message(session, access, name, message_id, args["popreceipt"], now)
         elif action == "clear":
             await clear_messages(session, access, name, now)
+        if action in {"list", "read", "peek"}:
+            await record(
+                session,
+                access,
+                "queue",
+                name,
+                {"list": "ListQueues", "read": "GetQueueMetadata", "peek": "PeekMessages"}[action],
+                now,
+            )
         await session.commit()
         return (
             xml_response(request, root, status, extra)

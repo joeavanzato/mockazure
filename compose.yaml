@@ -67,6 +67,7 @@ services:
       - "127.0.0.1:${MOCKAZURE_QUEUE_PORT:-8446}:8446"
       - "127.0.0.1:${MOCKAZURE_TABLE_PORT:-8447}:8447"
       - "127.0.0.1:${MOCKAZURE_KEYVAULT_PORT:-8448}:8448"
+      - "127.0.0.1:${MOCKAZURE_LOGS_PORT:-8449}:8449"
     networks: [internal, ingress]
     depends_on:
       api: {condition: service_healthy}

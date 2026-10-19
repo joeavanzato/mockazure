@@ -537,6 +537,14 @@ async def dispatch_blob(request, account, container, name):
                     ):
                         digest.update(chunk)
                     response_headers["Content-MD5"] = base64.b64encode(digest.digest()).decode()
+                await record(
+                    session,
+                    access,
+                    "blob",
+                    container + "/" + name,
+                    "GetBlobProperties" if operation == "head" else "GetBlob",
+                    now,
+                )
                 if operation == "head":
                     result = Response(status_code=200, headers=response_headers)
                 else:
@@ -756,6 +764,19 @@ async def dispatch_blob(request, account, container, name):
                 await record(session, access, "blob", container + "/" + name, "UndeleteBlob", now)
                 result = Response(status_code=200, headers=headers(request))
         if not streaming:
+            if method in {"GET", "HEAD"} and operation not in {"read", "head"}:
+                await record(
+                    session,
+                    access,
+                    "blob",
+                    container + "/" + name,
+                    {
+                        "list": "ListBlobs",
+                        "blocklist": "GetBlockList",
+                        "get_metadata": "GetBlobMetadata",
+                    }.get(operation, "GetBlobProperties"),
+                    now,
+                )
             await session.commit()
         return result
     except AdminError as error:

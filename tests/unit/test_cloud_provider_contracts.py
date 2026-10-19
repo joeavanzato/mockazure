@@ -13,20 +13,25 @@ def test_provider_metadata_versions_have_actual_resource_paths():
     sources = manifest()["roots"]
     for namespace, profile in provider_profiles().items():
         for resource in profile["resourceTypes"]:
-            source = sources[resource["schemaNamespace"]]
-            schema = document(source)
-            assert resource["apiVersions"] == [schema["info"]["version"]]
-            parts = resource["resourceType"].split("/")
-            pattern = (
-                "/providers/"
-                + re.escape(namespace)
-                + "/"
-                + "/".join(re.escape(part) + r"/\{[^}]+\}" for part in parts)
-            )
-            assert any(re.search(pattern + "$", path, re.I) for path in schema["paths"]), (
-                namespace,
-                resource["resourceType"],
-            )
+            for version in resource["apiVersions"]:
+                namespace_source = resource.get("schemaNamespaces", {}).get(
+                    version, resource["schemaNamespace"]
+                )
+                source = sources[namespace_source]
+                schema = document(source)
+                assert version == schema["info"]["version"]
+                parts = resource["resourceType"].split("/")
+                pattern = (
+                    "/providers/"
+                    + re.escape(namespace)
+                    + "/"
+                    + "/".join(re.escape(part) + r"/\{[^}]+\}" for part in parts)
+                )
+                assert any(re.search(pattern + "$", path, re.I) for path in schema["paths"]), (
+                    namespace,
+                    resource["resourceType"],
+                    version,
+                )
 
 
 def test_provider_catalog_sources_and_mirror():

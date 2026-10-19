@@ -97,3 +97,30 @@ async def reset_combined(tenant_id: UUID, value: CloudReset, request: Request):
         await tenant_required(session, tenant_id)
         await reset_cloud(session, tenant_id, value.expected_generation)
         return await export_cloud(session, tenant_id)
+
+
+class LogImport(IdentityInput):
+    rows: list[dict] = Field(max_length=10000)
+    source_ids: list[str] = Field(max_length=10000)
+
+
+@router.post("/workspaces/{workspace_id}/logs/{table}")
+async def import_logs(
+    tenant_id: UUID, workspace_id: UUID, table: str, value: LogImport, request: Request
+):
+    from mockazure.admin.errors import AdminError
+    from mockazure.cloud.lifecycle import lock_lifecycle
+    from mockazure.monitor.logs import ingest_log_rows
+
+    async with request.app.state.database.sessions.begin() as session:
+        await tenant_required(session, tenant_id)
+        await lock_lifecycle(session, tenant_id)
+        try:
+            inserted = await ingest_log_rows(
+                session, tenant_id, workspace_id, table, value.rows, value.source_ids
+            )
+        except (ValueError, TypeError):
+            raise AdminError(
+                422, "InvalidLogRecords", "Log import has invalid types, source IDs or workspace"
+            ) from None
+    return {"inserted": inserted}

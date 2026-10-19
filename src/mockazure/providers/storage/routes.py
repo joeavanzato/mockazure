@@ -27,7 +27,7 @@ def service_for_request(request, settings):
     port = (request.scope.get("server") or ("", None))[1]
     ports = listener_ports(settings)[1:]
     if port in ports:
-        return ("blob", "file", "queue", "table", "keyvault")[ports.index(port)]
+        return ("blob", "file", "queue", "table", "keyvault", "logs")[ports.index(port)]
     # Explicit published host ports can differ from container listen ports.
     # A live listener always wins; ASGI test clients supply the public URL port.
     if port == settings.listen_port:
@@ -38,6 +38,8 @@ def service_for_request(request, settings):
     if selected_profile(settings, authority) is not None:
         return "keyvault"
     for profile in (settings.endpoints, *settings.client_profiles.values()):
+        if authority == urlsplit(profile.logs).netloc.lower():
+            return "logs"
         for service, name in SERVICES.items():
             if authority == urlsplit(getattr(profile, name)).netloc.lower():
                 return service
@@ -363,6 +365,14 @@ async def dispatch(request, service):
             SubElement(root, "NextMarker").text = (
                 rows[maximum - 1].name if len(rows) > maximum else ""
             )
+            await record(
+                session,
+                access,
+                service,
+                name,
+                "ListContainers" if service == "blob" else "ListShares",
+                now,
+            )
             return xml_response(request, root)
         row = await session.get(
             StorageNamespace, (access.tenant_id, access.account_id, service, name)
@@ -436,6 +446,14 @@ async def dispatch(request, service):
             )
             await session.delete(row)
             return Response(status_code=202, headers=headers(request))
+        await record(
+            session,
+            access,
+            service,
+            name,
+            "GetContainerProperties" if service == "blob" else "GetShareProperties",
+            now,
+        )
         return Response(
             status_code=200, headers=headers(request) | properties_headers(view(row), service)
         )

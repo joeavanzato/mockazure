@@ -25,19 +25,19 @@ def free_port():
 
 
 def default_ports():
-    # Docker publishes six adjacent service ports. A free base port does not
+    # Docker publishes seven adjacent service ports. A free base port does not
     # imply its neighbours are bindable (notably Windows excluded ranges).
     for _ in range(100):
         api_port = free_port()
-        if api_port > 65530:
+        if api_port > 65529:
             continue
         try:
             with ExitStack() as sockets:
-                for port in range(api_port, api_port + 6):
+                for port in range(api_port, api_port + 7):
                     sock = sockets.enter_context(socket.socket())
                     sock.bind(("127.0.0.1", port))
                 db_port = free_port()
-                if db_port in range(api_port, api_port + 6):
+                if db_port in range(api_port, api_port + 7):
                     continue
                 sock = sockets.enter_context(socket.socket())
                 sock.bind(("127.0.0.1", db_port))

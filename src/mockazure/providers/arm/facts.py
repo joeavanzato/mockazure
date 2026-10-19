@@ -69,4 +69,26 @@ async def append_arm_fact(session, actor, operation, scope, before, after, now, 
         ),
     )
     await enqueue_projection(session, ref)
+    # Every committed native ARM fact can feed subscription diagnostics. Some
+    # providers also append a CloudEvent with this correlation ID; outbox keys
+    # deduplicate that second notification without changing the evidence source.
+    from mockazure.cloud.events import lock_cloud_state
+    from mockazure.cloud.types import ServiceEvent
+    from mockazure.monitor.publication import queue_event
+
+    cloud = await lock_cloud_state(session, actor.tenant_id)
+    await queue_event(
+        session,
+        ServiceEvent(
+            correlation_id,
+            actor.tenant_id,
+            scope.display_id,
+            "arm",
+            "Administrative",
+            operation,
+            when,
+            {"outcome": "Succeeded"},
+        ),
+        cloud.generation,
+    )
     return ref

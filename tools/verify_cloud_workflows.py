@@ -346,12 +346,73 @@ def run_graph(path):
         path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
 
+def run_queries(path):
+    from tools.prepare_query_clients import prepare
+    from tools.verify_cloud_queries import qualify
+    from tools.verify_default import main as smoke
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "F",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        assert observed["passed"] and observed["localOnly"] and observed["legacy_batch_rest"]
+        report["nativeReport"] = str(args[0] / "cloud-queries-report.json")
+        report["legacyBatchRest"] = True
+        for ecosystem, entry in observed["written"].items():
+            assertions = {
+                **entry["assertions"],
+                **observed["restarted"][ecosystem]["assertions"],
+                "restart_recovery": all(observed["restarted"][ecosystem]["assertions"].values()),
+            }
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": entry["clientVersions"],
+                "restFallbacks": entry.get("restFallbacks", []),
+                "cases": [
+                    {
+                        "workflow": row["id"],
+                        "operationIds": row["operationIds"],
+                        "transport": row.get("transportByEcosystem", {}).get(
+                            ecosystem, row["transport"]
+                        ),
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {key: assertions[key] for key in row["assertions"]},
+                    }
+                    for row in cases()["F"]["workflows"]
+                ],
+            }
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", required=True, choices=[*list("ABCDEF"), "all"])
     parser.add_argument("--ecosystems", nargs="+", required=True, choices=sorted(ECOSYSTEMS))
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
+    if args.phase == "F" and set(args.ecosystems) == ECOSYSTEMS:
+        run_queries(args.report)
+        return
     if args.phase == "E" and set(args.ecosystems) == ECOSYSTEMS:
         run_graph(args.report)
         return
@@ -366,7 +427,8 @@ def main():
         return
     if args.phase != "A" or set(args.ecosystems) != ECOSYSTEMS:
         parser.error(
-            "Only phase A, B, C, D and E matrices are executable; later phases remain unavailable"
+            "Only individual phase A-F matrices are executable; "
+            "aggregate G qualification remains unavailable"
         )
     from tools.prepare_clients import prepare
     from tools.verify_default import main as smoke
