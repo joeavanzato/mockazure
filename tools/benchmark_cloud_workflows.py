@@ -58,6 +58,13 @@ def validate_scale_report(report, commit, fingerprint, *, full=True):
         assert all(
             r["exactIds"] is True and r["crossTenantSentinelHits"] == 0 for r in report["readers"]
         )
+        for name, count in expected.items():
+            digest = report["datasets"][name]["expectedIdsSha256"]
+            assert re.fullmatch("[0-9a-f]{64}", digest)
+            assert all(
+                reader[name + "Count"] == count and reader[name + "IdsSha256"] == digest
+                for reader in report["readers"]
+            )
         assert len(report["restarts"]) == 2 and all(
             r["completed"] is True for r in report["restarts"]
         )
@@ -512,6 +519,12 @@ def qualify(
 
     barrier = Barrier(9, action=restart)
     expected_table = {f"row{i:06}" for i in range(counts["table"])}
+    for name, identifiers in (
+        ("table", expected_table),
+        ("inventory", expected_inventory),
+        ("diagnostic", source_ids),
+    ):
+        report["datasets"][name]["expectedIdsSha256"] = digest_ids(identifiers)
 
     def read(index):
         started = time.monotonic()
@@ -544,6 +557,8 @@ def qualify(
             "inventoryCount": len(ids),
             "diagnosticCount": len(logs),
             "tableIdsSha256": digest_ids(seen),
+            "inventoryIdsSha256": digest_ids(ids),
+            "diagnosticIdsSha256": digest_ids(row[0] for row in logs),
             "crossTenantSentinelHits": int("FOREIGN_SENTINEL" in seen),
             "seconds": time.monotonic() - started,
         }

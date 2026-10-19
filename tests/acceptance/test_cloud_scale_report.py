@@ -38,11 +38,18 @@ def test_scale_report_rejects_loss_and_reduced_targets():
             "processHighWaterKiB": [1],
         },
     }
+    for reader in report["readers"]:
+        for name, dataset in report["datasets"].items():
+            reader[name + "Count"] = dataset["expected"]
+            reader[name + "IdsSha256"] = "d" * 64
+            dataset["expectedIdsSha256"] = "d" * 64
     validate_scale_report(report, "a" * 40, "b" * 64)
     for mutation in (
         lambda r: r.update(records=1000),
         lambda r: r["datasets"]["table"].update(actual=98899),
         lambda r: r["readers"].pop(),
+        lambda r: r["readers"][1].update(tableCount=98899),
+        lambda r: r["readers"][2].update(inventoryIdsSha256="e" * 64),
         lambda r: r["restarts"].pop(),
         lambda r: r.update(lostAcknowledgedWrites=1),
         lambda r: r["binary"].update(downloadedSha256="d" * 64),
