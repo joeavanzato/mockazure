@@ -12,9 +12,6 @@ from mockazure.activity.errors import handle as activity_error_handler
 from mockazure.activity.routes import router as activity_router
 from mockazure.admin.activity_routes import router as activity_admin_router
 from mockazure.admin.arm_routes import router as arm_admin_router
-from mockazure.admin.profile_routes import router as profile_admin_router
-from mockazure.admin.population_routes import router as population_admin_router
-from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.cloud_routes import router as cloud_admin_router
 from mockazure.admin.collection_routes import router as collection_admin_router
 from mockazure.admin.directory_routes import router as directory_admin_router
@@ -28,6 +25,8 @@ from mockazure.admin.licensing_routes import router as licensing_admin_router
 from mockazure.admin.mail_routes import router as mail_admin_router
 from mockazure.admin.maintenance_routes import router as maintenance_admin_router
 from mockazure.admin.managed_identity_routes import router as managed_identity_admin_router
+from mockazure.admin.population_routes import router as population_admin_router
+from mockazure.admin.profile_routes import router as profile_admin_router
 from mockazure.admin.resource_routes import router as resource_admin_router
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
@@ -35,6 +34,9 @@ from mockazure.admin.session_routes import router as session_router
 from mockazure.admin.workload_routes import router as workload_admin_router
 from mockazure.collections.routes import router as collection_graph_router
 from mockazure.config import Settings
+from mockazure.console.boundary import authorize_management
+from mockazure.console.routes import PUBLIC_PATHS
+from mockazure.console.routes import router as console_router
 from mockazure.content.routes import router as content_admin_router
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
@@ -217,15 +219,14 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                 "/_mock/health",
                 "/_mock/ready",
             ):
-                scheme, _, token = request.headers.get("authorization", "").partition(" ")
-                if scheme.lower() != "bearer" or not verify_admin_token(token, settings.token_file):
-                    response = error_response(
-                        request, 401, "Unauthorized", "Management authentication required"
-                    )
-                    response.headers["WWW-Authenticate"] = "Bearer"
-                    return response
+                if request.url.path not in PUBLIC_PATHS:
+                    request.state.management_identity = await authorize_management(request)
             await enforce_directory_budget(request)
             response = await call_next(request)
+        except AdminError as error:
+            response = error_response(request, error.status, error.code, error.message)
+            if error.status == 401:
+                response.headers["WWW-Authenticate"] = "Bearer"
         except GraphError as error:
             response = graph_error_response(request, error)
         except SQLAlchemyError:
@@ -337,6 +338,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(mail_admin_router)
     app.include_router(maintenance_admin_router)
     app.include_router(router)
+    app.include_router(console_router)
     app.include_router(resource_admin_router)
     app.include_router(profile_admin_router)
     app.include_router(population_admin_router)

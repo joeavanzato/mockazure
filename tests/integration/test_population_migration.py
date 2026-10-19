@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from alembic import command
+from alembic.script import ScriptDirectory
 from sqlalchemy import create_engine, text
 
 from mockazure.db.migrations import configuration, migrate
@@ -29,7 +30,10 @@ def test_population_upgrade_preserves_existing_tenant(database_url):
                 )
                 == "Prior"
             )
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "075"
+            assert (
+                connection.scalar(text("SELECT version_num FROM alembic_version"))
+                == ScriptDirectory.from_config(configuration()).get_current_head()
+            )
             assert connection.scalar(text("SELECT count(*) FROM population_runs")) == 0
     finally:
         engine.dispose()

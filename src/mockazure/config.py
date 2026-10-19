@@ -25,6 +25,17 @@ def validate_host(value: str) -> str:
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(extra="forbid", hide_input_in_errors=True)
     data_dir: Path
+    console_enabled: bool = True
+    console_inspector_enabled: bool = False
+    console_public_origin: str | None = None
+
+    @field_validator("console_public_origin")
+    @classmethod
+    def console_origin(cls, value):
+        from mockazure.endpoints import local_origin
+
+        return local_origin(value) if value is not None else None
+
     database_url: SecretStr
     listen_host: str = "127.0.0.1"
     listen_port: int = Field(default=8443, ge=1, le=65535)
@@ -34,6 +45,7 @@ class Settings(BaseSettings):
     admin_base_url: AnyHttpUrl = "https://localhost:8443"
     allowed_hosts: tuple[str, ...] = ("localhost", "127.0.0.1")
     service_endpoints: EndpointProfile | None = None
+    population_endpoints: EndpointProfile | None = None
     client_profiles: dict[str, EndpointProfile] = Field(default_factory=dict)
     graph_directory_request_limit: int = Field(default=600, ge=1, le=10000000)
     graph_directory_window_seconds: int = Field(default=60, ge=1, le=3600)

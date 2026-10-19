@@ -5,6 +5,7 @@ from mockazure.auditlog import models as auditlog_models  # noqa: F401
 from mockazure.calendar import models as calendar_models  # noqa: F401
 from mockazure.cloud import models as cloud_models  # noqa: F401
 from mockazure.collections import models as collection_models  # noqa: F401
+from mockazure.console import models as console_models  # noqa: F401
 from mockazure.content import models as content_models  # noqa: F401
 from mockazure.db.models import Base
 from mockazure.evidence import models as evidence_models  # noqa: F401

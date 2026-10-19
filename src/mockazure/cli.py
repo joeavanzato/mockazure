@@ -3,6 +3,7 @@ import typer
 from mockazure import __version__
 from mockazure.commands import (
     clients,
+    console,
     database,
     directory,
     evidence,
@@ -60,3 +61,5 @@ app.add_typer(maintenance.app, name="maintenance")
 app.add_typer(profiles.app, name="profile")
 
 app.add_typer(populate.app, name="populate")
+
+app.add_typer(console.app, name="console")

@@ -394,3 +394,20 @@ async def test_shared_maintenance_prunes_content_within_budget(database, setting
         assert result.json()["deleted"] == 1
         assert result.json()["content"]["deleted"] == 1
         assert result.json()["remaining"] is True
+
+
+async def test_uploaded_html_is_downloaded_inert(database, settings):
+    async with graph_client(database, settings) as (client, tenant, *_):
+        body = b"<script>window.executed=true</script>"
+        async with database.sessions.begin() as session:
+            identifier = await begin_upload(
+                session, tenant, len(body), hashlib.sha256(body).hexdigest(), "text/html"
+            )
+            await put_chunk(session, tenant, identifier, 0, body)
+            ref = await finalize_upload(session, tenant, identifier)
+        response = await client.get(f"/_mock/tenants/{tenant}/content/objects/{ref.id}/$value")
+        assert response.status_code == 200
+        assert response.content == body
+        assert response.headers.get("content-disposition", "").startswith("attachment;")
+        assert response.headers.get("content-security-policy") == "sandbox; default-src 'none'"
+        assert response.headers.get("x-content-type-options") == "nosniff"
