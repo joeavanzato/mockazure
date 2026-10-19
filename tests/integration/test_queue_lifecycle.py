@@ -152,7 +152,7 @@ async def test_queue_migration_refuses_lossy_downgrade(database, settings):
                 config.attributes["connection"] = connection
                 command.downgrade(config, "064")
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "067"
+            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "068"
             assert (
                 connection.scalar(text("SELECT name FROM storage_namespaces WHERE service='queue'"))
                 == "preserved"

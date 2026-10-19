@@ -165,6 +165,11 @@ async def recount(session, box, folders=None):
 
 
 async def import_mail_content(session, tenant_id: UUID, batch: MailContentImport) -> ImportResult:
+    from mockazure.mail.send import lock_workflow
+    from mockazure.mail.workflow_lifecycle import retire_mail_workflows
+
+    await lock_workflow(session, tenant_id)
+    await retire_mail_workflows(session, tenant_id, batch.mailbox_user_id)
     box = await resolve_mailbox(session, tenant_id, str(batch.mailbox_user_id))
     await session.refresh(box, with_for_update=True)
     state = await state_for(session, box)
@@ -445,7 +450,11 @@ async def reset_mail_content(session, tenant_id, user_id, expected_revision):
     from mockazure.content.models import ContentReference
     from mockazure.mail.message_models import MailContentCursor
     from mockazure.mail.models import Mailbox
+    from mockazure.mail.send import lock_workflow
+    from mockazure.mail.workflow_lifecycle import retire_mail_workflows
 
+    await lock_workflow(session, tenant_id)
+    await retire_mail_workflows(session, tenant_id, user_id)
     box = await session.get(Mailbox, (tenant_id, user_id), with_for_update=True)
     if box is None:
         raise AdminError(404, "MailboxNotFound", "Mailbox was not found")

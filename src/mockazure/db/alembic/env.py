@@ -15,6 +15,7 @@ from mockazure.mail import (
     delegation_models,  # noqa: F401
     role_management_models,  # noqa: F401
     security_configuration_models,  # noqa: F401
+    send_models,  # noqa: F401
     unified_audit_models,  # noqa: F401
 )
 from mockazure.mail import message_models as mail_message_models  # noqa: F401

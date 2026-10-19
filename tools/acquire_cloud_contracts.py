@@ -28,7 +28,14 @@ def acquire(service):
                 or parsed.query
                 or parsed.fragment
                 or not re.fullmatch(r"[0-9a-f]{40}", revision)
-                or not parsed.path.startswith(("/MicrosoftDocs/", "/Azure/azure-rest-api-specs/"))
+                or not parsed.path.startswith(
+                    (
+                        "/MicrosoftDocs/",
+                        "/Azure/azure-rest-api-specs/",
+                        "/microsoftgraph/msgraph-metadata/",
+                        "/microsoftgraph/microsoft-graph-docs-contrib/",
+                    )
+                )
                 or f"/{revision}/" not in parsed.path
             ):
                 raise ValueError("Untrusted contract source")

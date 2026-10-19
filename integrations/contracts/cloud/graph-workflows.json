@@ -1,0 +1,1575 @@
+{
+  "schemaVersion": 1,
+  "service": "graph-workflows",
+  "operations": [
+    {
+      "kind": "rest",
+      "operationId": "user.sendMail",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/sendMail",
+      "aliases": [
+        "/me/sendMail"
+      ],
+      "action": "sendMail",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "sendMail"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Send"
+        ],
+        "delegated": [
+          "Mail.Send",
+          "Mail.Send.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-sendmail.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "23e2253bebce96085ebfcea40c36bbd31789aa80d260c6849418cb72374f472d",
+          "localPath": "sources/user-sendmail.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/user-sendmail-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "67488864734e10bb282f72b60d9b618d3b4621e801f39cbfe985c8ea26cc9725",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__user-sendmail-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.create",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages",
+      "aliases": [
+        "/me/messages",
+        "/users/{user}/mailFolders/{folder}/messages",
+        "/me/mailFolders/{folder}/messages"
+      ],
+      "action": "create",
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "message"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/message"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-post-messages.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "57e3f010244cc02b88d9fb376193af25cdc57534e2f37efdde5597d629e677d1",
+          "localPath": "sources/user-post-messages.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.update",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/users/{user}/messages/{message}",
+      "aliases": [
+        "/me/messages/{message}",
+        "/users/{user}/mailFolders/{folder}/messages/{message}",
+        "/me/mailFolders/{folder}/messages/{message}"
+      ],
+      "action": "update",
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "message"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/message"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ff6968d4798f73273ed4bbc13c42a913edd369b5d641aa7b9753702672001c6c",
+          "localPath": "sources/message-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.send",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/send",
+      "aliases": [
+        "/me/messages/{message}/send",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/send",
+        "/me/mailFolders/{folder}/messages/{message}/send"
+      ],
+      "action": "send",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "send"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Send"
+        ],
+        "delegated": [
+          "Mail.Send",
+          "Mail.Send.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-send.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "007c2f5e86527bc5a9446d8528983326fdabfade28c45d41c641efe40cf67a5e",
+          "localPath": "sources/message-send.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-send-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "67488864734e10bb282f72b60d9b618d3b4621e801f39cbfe985c8ea26cc9725",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-send-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.reply",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/reply",
+      "aliases": [
+        "/me/messages/{message}/reply",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/reply",
+        "/me/mailFolders/{folder}/messages/{message}/reply"
+      ],
+      "action": "reply",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "reply"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Send"
+        ],
+        "delegated": [
+          "Mail.Send",
+          "Mail.Send.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-reply.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "deb1c10b0ae9b412fa6bc5c3e3fd588667cbb223f6f4747ad5a8f4901b50bca8",
+          "localPath": "sources/message-reply.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-reply-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "67488864734e10bb282f72b60d9b618d3b4621e801f39cbfe985c8ea26cc9725",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-reply-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.replyAll",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/replyAll",
+      "aliases": [
+        "/me/messages/{message}/replyAll",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/replyAll",
+        "/me/mailFolders/{folder}/messages/{message}/replyAll"
+      ],
+      "action": "replyAll",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "replyAll"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Send"
+        ],
+        "delegated": [
+          "Mail.Send",
+          "Mail.Send.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-replyall.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d130dab472580674247b105066f9193c07a7660675577178562c0e388196ff6f",
+          "localPath": "sources/message-replyall.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-replyall-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "67488864734e10bb282f72b60d9b618d3b4621e801f39cbfe985c8ea26cc9725",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-replyall-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.forward",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/forward",
+      "aliases": [
+        "/me/messages/{message}/forward",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/forward",
+        "/me/mailFolders/{folder}/messages/{message}/forward"
+      ],
+      "action": "forward",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "forward"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Send"
+        ],
+        "delegated": [
+          "Mail.Send",
+          "Mail.Send.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-forward.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "978e6be1a4bfe62fd8b34fc1ed38c552d8b7ee0bb5b0bf0a3685621ec5a289bd",
+          "localPath": "sources/message-forward.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-forward-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "67488864734e10bb282f72b60d9b618d3b4621e801f39cbfe985c8ea26cc9725",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-forward-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.createReply",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/createReply",
+      "aliases": [
+        "/me/messages/{message}/createReply",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/createReply",
+        "/me/mailFolders/{folder}/messages/{message}/createReply"
+      ],
+      "action": "createReply",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "createReply"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/message"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-createreply.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4450a9c555f8a53efe3fba5f31937b18af170924ea83bd83bae8c90fcd9597be",
+          "localPath": "sources/message-createreply.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-createreply-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7d012360d7fc117786ec99d4286015ff6cb99e969cac7293293b1aebfe7c537d",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-createreply-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.createReplyAll",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/createReplyAll",
+      "aliases": [
+        "/me/messages/{message}/createReplyAll",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/createReplyAll",
+        "/me/mailFolders/{folder}/messages/{message}/createReplyAll"
+      ],
+      "action": "createReplyAll",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "createReplyAll"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/message"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-createreplyall.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "27fd8d24a7e560e5e0034d9f4679108273ac1549237f29a7522c3966249d0d82",
+          "localPath": "sources/message-createreplyall.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-createreplyall-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7d012360d7fc117786ec99d4286015ff6cb99e969cac7293293b1aebfe7c537d",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-createreplyall-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.createForward",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/createForward",
+      "aliases": [
+        "/me/messages/{message}/createForward",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/createForward",
+        "/me/mailFolders/{folder}/messages/{message}/createForward"
+      ],
+      "action": "createForward",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "createForward"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/message"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-createforward.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "78c96091f1dee6030383f9e473a8ab3c72f3367a2a84f0866e37b70b936360a8",
+          "localPath": "sources/message-createforward.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-createforward-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7d012360d7fc117786ec99d4286015ff6cb99e969cac7293293b1aebfe7c537d",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-createforward-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.addAttachment",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/attachments",
+      "aliases": [
+        "/me/messages/{message}/attachments",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/attachments",
+        "/me/mailFolders/{folder}/messages/{message}/attachments"
+      ],
+      "action": "addAttachment",
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "attachment"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/attachment"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/message-post-attachments.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a13684e9bc8cdff9bdbdeb0e137ca29298b8b4291e76e81a82afc6ba573b160b",
+          "localPath": "sources/message-post-attachments.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/message-post-attachments-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7d012360d7fc117786ec99d4286015ff6cb99e969cac7293293b1aebfe7c537d",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__message-post-attachments-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.deleteAttachment",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/users/{user}/messages/{message}/attachments/{attachment}",
+      "aliases": [
+        "/me/messages/{message}/attachments/{attachment}",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/attachments/{attachment}",
+        "/me/mailFolders/{folder}/messages/{message}/attachments/{attachment}"
+      ],
+      "action": "deleteAttachment",
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/attachment-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d738732a2b5722b5bd3063f5ea35aad82862cda77a39fb652722d6409f7dd2b0",
+          "localPath": "sources/attachment-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "message.createUploadSession",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/messages/{message}/attachments/createUploadSession",
+      "aliases": [
+        "/me/messages/{message}/attachments/createUploadSession"
+      ],
+      "action": "createUploadSession",
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "createUploadSession"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/uploadSession"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.ReadWrite"
+        ],
+        "delegated": [
+          "Mail.ReadWrite",
+          "Mail.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localJsonBytes": 8388608,
+        "localRecipients": 500,
+        "inlineAttachmentBytes": 3145727,
+        "uploadAttachmentBytes": 157286400
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/attachment-createuploadsession.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a8094991a368cf60dda74d917cc894fb119c93cd96ef5fc45fbd2c1e9cc820ed",
+          "localPath": "sources/attachment-createuploadsession.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/attachment-createuploadsession-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "86f53fe05c0f90bc3794c3d802148b95e4208866b1e6acd83fda1e73a98e8498",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__attachment-createuploadsession-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-large-attachments.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "26315279f9376b957f0b0b8ac6c090351b0f1afdbfca55510747112072ed82b9",
+          "localPath": "sources/concepts__outlook-large-attachments.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Local provisioned recipients only; external destinations produce a local undeliverable outcome.",
+        "Extended properties, S/MIME cryptographic processing and rich Outlook features are outside this mail profile.",
+        "Item-attachment writes support direct message items; nested attachments, contact and event item writes are rejected.",
+        "Reference attachments carry v1.0 metadata only; remote content is never fetched."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "attachmentUpload.put",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "PUT",
+      "path": "{uploadUrl}",
+      "aliases": [
+        "/_upload/mail/{capability}"
+      ],
+      "action": "put",
+      "requestSchema": {
+        "type": "binary",
+        "mediaType": "application/octet-stream"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/uploadSession"
+        },
+        "201": null
+      },
+      "statusCodes": [
+        200,
+        201,
+        400,
+        403,
+        404,
+        413,
+        416
+      ],
+      "headers": [
+        "Content-Type",
+        "Content-Length",
+        "Content-Range",
+        "Location"
+      ],
+      "permissions": {
+        "capability": "Opaque upload URL; current originating actor Mail.ReadWrite authority is rechecked"
+      },
+      "queryOptions": [],
+      "limits": {
+        "localChunkBytes": 4194304,
+        "uploadAttachmentBytes": 157286400,
+        "localExpirySeconds": 3600
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/attachment-createuploadsession.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a8094991a368cf60dda74d917cc894fb119c93cd96ef5fc45fbd2c1e9cc820ed",
+          "localPath": "sources/attachment-createuploadsession.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/attachment-createuploadsession-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "86f53fe05c0f90bc3794c3d802148b95e4208866b1e6acd83fda1e73a98e8498",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__attachment-createuploadsession-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-large-attachments.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "26315279f9376b957f0b0b8ac6c090351b0f1afdbfca55510747112072ed82b9",
+          "localPath": "sources/concepts__outlook-large-attachments.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Sequential ranges only. Completion returns an empty201 with local Outlook-form Location. No external upload destinations.",
+        "Upload capability invalidates on originating access revocation, expiry, mail replacement or evidence/cloud reset."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "attachmentUpload.get",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "{uploadUrl}",
+      "aliases": [
+        "/_upload/mail/{capability}"
+      ],
+      "action": "get",
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/uploadSession"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        403,
+        404,
+        413,
+        416
+      ],
+      "headers": [
+        "Content-Type",
+        "Content-Length",
+        "Content-Range",
+        "Location"
+      ],
+      "permissions": {
+        "capability": "Opaque upload URL; current originating actor Mail.ReadWrite authority is rechecked"
+      },
+      "queryOptions": [],
+      "limits": {
+        "localChunkBytes": 4194304,
+        "uploadAttachmentBytes": 157286400,
+        "localExpirySeconds": 3600
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/attachment-createuploadsession.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a8094991a368cf60dda74d917cc894fb119c93cd96ef5fc45fbd2c1e9cc820ed",
+          "localPath": "sources/attachment-createuploadsession.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/attachment-createuploadsession-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "86f53fe05c0f90bc3794c3d802148b95e4208866b1e6acd83fda1e73a98e8498",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__attachment-createuploadsession-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-large-attachments.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "26315279f9376b957f0b0b8ac6c090351b0f1afdbfca55510747112072ed82b9",
+          "localPath": "sources/concepts__outlook-large-attachments.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Sequential ranges only. Completion returns an empty201 with local Outlook-form Location. No external upload destinations.",
+        "Upload capability invalidates on originating access revocation, expiry, mail replacement or evidence/cloud reset."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    },
+    {
+      "kind": "rest",
+      "operationId": "attachmentUpload.delete",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "{uploadUrl}",
+      "aliases": [
+        "/_upload/mail/{capability}"
+      ],
+      "action": "delete",
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        403,
+        404,
+        413,
+        416
+      ],
+      "headers": [
+        "Content-Type",
+        "Content-Length",
+        "Content-Range",
+        "Location"
+      ],
+      "permissions": {
+        "capability": "Opaque upload URL; current originating actor Mail.ReadWrite authority is rechecked"
+      },
+      "queryOptions": [],
+      "limits": {
+        "localChunkBytes": 4194304,
+        "uploadAttachmentBytes": 157286400,
+        "localExpirySeconds": 3600
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/attachment-createuploadsession.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a8094991a368cf60dda74d917cc894fb119c93cd96ef5fc45fbd2c1e9cc820ed",
+          "localPath": "sources/attachment-createuploadsession.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/attachment-createuploadsession-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "86f53fe05c0f90bc3794c3d802148b95e4208866b1e6acd83fda1e73a98e8498",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__attachment-createuploadsession-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-large-attachments.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "26315279f9376b957f0b0b8ac6c090351b0f1afdbfca55510747112072ed82b9",
+          "localPath": "sources/concepts__outlook-large-attachments.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Sequential ranges only. Completion returns an empty201 with local Outlook-form Location. No external upload destinations.",
+        "Upload capability invalidates on originating access revocation, expiry, mail replacement or evidence/cloud reset."
+      ],
+      "tests": [
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_send_workflows.py"
+      ],
+      "status": "implemented",
+      "evidence": {
+        "tests": [
+          "tests/unit/test_graph_workflow_contracts.py",
+          "tests/integration/test_graph_send_workflows.py",
+          "tests/integration/test_graph_send_authority.py"
+        ],
+        "nativeClients": "pending phase E qualification"
+      }
+    }
+  ]
+}

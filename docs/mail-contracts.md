@@ -742,3 +742,39 @@ Validation completes before replacement, and fixture writes never create command
 events. Public mutations produce native ExchangeAdmin audit facts without mailbox-owner
 fields. Collection evidence cannot import these operational grants. Migration 056
 refuses to discard nonempty role state on downgrade.
+
+
+## Graph v1.0 message composition and local delivery
+
+Phase E1 adds message draft creation/update, sendMail, draft send, reply/replyAll/forward,
+the createReply/createReplyAll/createForward draft actions, attachment writes and
+Outlook attachment upload sessions. Requests use the pinned official v1.0 CSDL and
+operation documentation in `cloud/data/graph-workflows`; runtime does not fetch docs.
+Domain API tests cover JSON/base64 MIME, byte hashes, response status/empty bodies,
+recipient state, current delegation, restart, lease rollback, reset and migrations.
+Four-ecosystem native qualification remains pending for phase E.
+
+Send acceptance is an empty202. Run the durable worker to produce recipient copies,
+Sent Items, message delta and audit facts atomically. Only provisioned local mailboxes
+receive mail; unknown addresses are recorded as local undeliverable outcomes, with
+no external transport or real delivery claim. Repeated sendMail calls create distinct
+sends; re-sending an already accepted draft fails. saveToSentItems=false omits the
+sender copy after delivery. Mail.Send does not grant mailbox read/write privileges.
+Current operational SendAs/SendOnBehalf authority is checked at acceptance and delivery.
+
+Local bounds:8MiB JSON request,6MiB decoded MIME,500 recipients,100 inline attachments,
+files smaller than3MiB inline,3–150MiB upload-session files and4MiB sequential PUT chunks.
+Item writes support a direct message with no nested attachments. Contact/event item
+writes and nested MIME attachments reject explicitly. Reference attachments retain
+v1.0 metadata only. Extension properties, encrypted messages and a real transport
+pipeline are outside the current profile.
+
+Upload URLs are opaque local capabilities. GET reports the next expected offset;
+DELETE cancels; completed PUT returns empty201 with a local Outlook-form Location.
+The Location /$value alias uses the existing current Graph read authorization. Capability
+expiry is one hour and authority is rechecked from the originating principal. Mail
+content import/reset cancels pending deliveries/uploads; evidence/cloud generation
+changes also invalidate them. Ordinary mail export includes durable messages/bytes,
+never jobs, upload secrets or accepted authority. Cleanup removes expired capabilities
+and completed delivery records after one day. Migration068 preserves older content
+and refuses a downgrade that would discard workflow state.

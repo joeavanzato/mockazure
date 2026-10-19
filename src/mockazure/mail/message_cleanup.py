@@ -34,6 +34,10 @@ def reclaimable(tenant_id, now):
 async def cleanup_mail_content(session, tenant_id, now, limit):
     if type(limit) is not int or not 1 <= limit <= 1000:
         raise ValueError("Cleanup limit must be 1..1000")
+    from mockazure.mail.workflow_lifecycle import prune_mail_workflows
+
+    workflows = await prune_mail_workflows(session, tenant_id, now, limit)
+    budget_limit = limit - workflows
     expired = list(
         await session.scalars(
             select(MailContentCursor.token_hash)
@@ -42,7 +46,7 @@ async def cleanup_mail_content(session, tenant_id, now, limit):
                 MailContentCursor.expires_at <= now,
             )
             .order_by(MailContentCursor.token_hash)
-            .limit(limit)
+            .limit(budget_limit)
             .with_for_update(skip_locked=True)
         )
     )
@@ -50,7 +54,7 @@ async def cleanup_mail_content(session, tenant_id, now, limit):
         await session.execute(
             delete(MailContentCursor).where(MailContentCursor.token_hash.in_(expired))
         )
-    budget, versions = limit - len(expired), 0
+    budget, versions = budget_limit - len(expired), 0
     if budget:
         boxes = list(
             await session.scalars(
@@ -107,8 +111,9 @@ async def cleanup_mail_content(session, tenant_id, now, limit):
         )
     )
     return {
-        "deleted": len(expired) + versions,
+        "deleted": workflows + len(expired) + versions,
+        "workflow_records": workflows,
         "expired_handles": len(expired),
         "versions": versions,
-        "remaining": bool(remaining or handles),
+        "remaining": bool(remaining or handles or workflows == limit),
     }
