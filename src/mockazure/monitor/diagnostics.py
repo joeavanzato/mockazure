@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from sqlalchemy import func, select
 
+from mockazure.cloud.preconditions import check_local_write
 from mockazure.cloud.types import MutationResult
 from mockazure.monitor.diagnostic_models import DiagnosticSetting
 from mockazure.monitor.workspaces import Workspace
@@ -251,6 +252,7 @@ async def mutate_diagnostic_setting(session, actor, resource_id, name, operation
             await publish_setting(session, actor, scope, name, before, {}, now, "delete")
         return MutationResult(204, None, {})
     elif operation == "put":
+        check_local_write(session.info.get("local_write_headers", {}), row, ArmError)
         properties = validated_properties(body, service, names)
         destinations = await destination_caps(session, actor, properties)
         if row is None:

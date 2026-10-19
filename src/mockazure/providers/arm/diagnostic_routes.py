@@ -35,6 +35,7 @@ async def handle(request, resource_path, name=None, *, category=False):
             raise ArmError(400, "BadRequest", "JSON diagnostic properties required") from None
     async with request.app.state.database.sessions.begin() as session:
         actor = await principal(request, session)
+        session.info["local_write_headers"] = request.headers
         await lock_lifecycle(session, actor.tenant_id)
         if category:
             result = await categories(session, actor, "/" + resource_path, name)

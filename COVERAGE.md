@@ -984,3 +984,10 @@ This checked index expands the service-level tables above. **Implemented** means
 | queries / `subscriptionDiagnostics.settings.delete` | `DELETE https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Insights/diagnosticSettings/{name}` | 2021-05-01-preview | Implemented | [test](tests/integration/test_diagnostic_delivery.py)<br>No direct native workflow mapping | Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy. Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token. Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics. |
 
 <!-- cloud-operation-index:end -->
+
+Local population writes use optional `X-MockAzure-If-None-Match` and
+`X-MockAzure-If-Match` guards where the modeled Microsoft operation has no native
+conditional creation. These restrict writes under domain locks and are not claimed
+as Microsoft headers. Console workload edits cap scope validation at 10,000 records
+and 20,000 relationships including the submitted batch; larger scopes use bulk
+imports. Resource browsing remains paged.

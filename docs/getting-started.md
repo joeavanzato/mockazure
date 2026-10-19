@@ -79,7 +79,8 @@ Per-user premium detail still follows the emulator's licence-assignment rules.
 
 ### Console workflow
 
-1. Sign in, open **Profiles**, select a template and tenant profile.
+1. Sign in, open **Profiles**, select a template and tenant profile. Use **Saved bundle**
+   and **Load bundle** to reopen a saved composition; the picker pages 50 bundles.
 2. Add/remove/reorder data layers. Choose an existing tenant or **Create a new tenant**.
 3. Set a dataset namespace, user count, days and seed. Additional parameters use
    qualified names, for example `{"volume-signins.records": 2000}`.
@@ -160,7 +161,9 @@ uv run mockazure populate resume --config $cfg --run-id $run.id --wait --timeout
 Cancellation takes effect at a durable checkpoint; applied data remains. Resume
 rechecks receipts before continuing. A lost response to a non-idempotent operation
 can become `needs-attention`: inspect the resource and run error before reconciling;
-the runner will not blindly duplicate it. A stale/expired preview requires another
+the runner will not blindly duplicate it. Standalone resource actions have no
+durable exactly-once retry guarantee: inspect an uncertain POST outcome before
+retrying it. A stale/expired preview requires another
 preview. One active population run per tenant is allowed; different tenants can run
 independently. A worker must be running to publish delayed evidence and advance jobs.
 

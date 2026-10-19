@@ -10,6 +10,7 @@ from uuid import UUID, uuid4
 from sqlalchemy import delete, func, or_, select
 
 from mockazure.cloud.models import CloudState
+from mockazure.cloud.preconditions import check_local_write
 from mockazure.providers.storage.errors import StorageError
 from mockazure.storage.containers import check_name, record
 from mockazure.storage.models import StorageNamespace
@@ -77,6 +78,7 @@ async def find_queue(session, access, queue):
 async def create_queue(session, access, queue, metadata, now):
     check_name(queue)
     row = await session.get(StorageNamespace, (access.tenant_id, access.account_id, "queue", queue))
+    check_local_write(session.info.get("local_write_headers", {}), row, StorageError)
     if row:
         if row.properties.get("metadata", {}) != metadata:
             raise StorageError(

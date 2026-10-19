@@ -6,10 +6,11 @@ from sqlalchemy import String, cast, func
 
 from mockazure.population.adapters.arm import json_object
 from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
+from mockazure.population.adapters.workload_limits import bounded_import_workload
 from mockazure.population.types import FamilyDescriptor, OperationDescriptor
 from mockazure.workloads.imports import WorkloadEdge, WorkloadImport
 from mockazure.workloads.models import WorkloadRelation
-from mockazure.workloads.repository import import_workload, scope_row
+from mockazure.workloads.repository import scope_row
 
 
 def adapters():
@@ -37,7 +38,7 @@ def adapters():
                 state = await scope_row(
                     session, ctx.tenant_id, workload, mutation.parent, lock=True
                 )
-                await import_workload(
+                await bounded_import_workload(
                     session,
                     ctx.tenant_id,
                     workload,

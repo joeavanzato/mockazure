@@ -110,6 +110,7 @@ async def dispatch(request):
         bad("Conditional headers are unsupported")
     raw = await bounded_body(request, 32 * 1024 * 1024 if restoring else 196608)
     async with request.app.state.database.sessions() as session:
+        session.info["local_write_headers"] = request.headers
         vault = await session.scalar(select(Vault).where(Vault.name == vault_name))
         if vault is None:
             raise VaultError(404, "VaultNotFound", "The vault was not found")

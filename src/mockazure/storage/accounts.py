@@ -15,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from mockazure.cloud.events import append_service_event
 from mockazure.cloud.models import ProviderRegistration
+from mockazure.cloud.preconditions import check_local_write
 from mockazure.cloud.types import MutationResult, ResourceRef, ServiceEvent
 from mockazure.identity.types import PrincipalContext
 from mockazure.providers.arm.authorization import require_action
@@ -271,6 +272,7 @@ async def mutate_account(
         )
     )
     await require_action(session, actor, scope if row else group_scope, action)
+    check_local_write(session.info.get("local_write_headers", {}), row, ArmError)
     group = await resolve_scope(session, actor.tenant_id, group_scope)
     if group.provisioning_state == "Deleting":
         raise ArmError(409, "ResourceGroupBeingDeleted", "Resource group deletion is in progress")

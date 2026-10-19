@@ -8,6 +8,7 @@ from uuid import UUID, uuid4
 
 from sqlalchemy import func, select
 
+from mockazure.cloud.preconditions import check_local_write
 from mockazure.content.models import CHUNK_SIZE, DEFAULT_MAX_SIZE
 from mockazure.content.repository import pin_content, release_content, stream_content
 from mockazure.content.stream_upload import (
@@ -228,6 +229,7 @@ async def create_node(session, access, share, path, directory, size, properties,
     if not parent.directory:
         raise StorageError(404, "ParentNotFound", "Parent directory was not found")
     row = await node_for(session, tree, path, required=False)
+    check_local_write(conditions, row, StorageError)
     if row is not None and (row.directory or directory):
         raise StorageError(409, "ResourceAlreadyExists", "File or directory already exists")
     check_lease(row, conditions.get("x-ms-lease-id"), write=True)
@@ -290,6 +292,7 @@ async def write_file_range(
     if row.directory:
         raise StorageError(404, "ResourceNotFound", "File was not found")
     check_lease(row, conditions.get("x-ms-lease-id"), write=True)
+    check_local_write(conditions, row, StorageError)
     if (
         type(start) is not int
         or type(length) is not int

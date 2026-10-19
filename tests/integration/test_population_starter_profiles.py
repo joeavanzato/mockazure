@@ -75,3 +75,53 @@ async def test_collection_profile_connects_actual_service_resources(
             mutation = generate(parameters["generator"], parameters, refs, offset=0, limit=1)[0]
             replay = await get_adapter(step.family).apply(ctx, [mutation])
             assert replay.effects["unchanged"] == 1
+
+        # Every local create guard is enforced by the actual authorized service,
+        # under its ordinary domain lock, rather than by the earlier GET alone.
+        guarded = set()
+        for name, step in profile.steps.items():
+            if step.family not in {
+                "storage.accounts",
+                "keyvault.vaults",
+                "monitor.workspaces",
+                "monitor.diagnostics",
+                "keyvault.secrets",
+                "storage.queues",
+            }:
+                continue
+            parameters = {
+                "tenant": tenant,
+                "namespace": "starter",
+                "referenceTime": profile.referenceTime.isoformat(),
+                **step.parameters,
+            }
+            mutation = generate(parameters["generator"], parameters, refs, offset=0, limit=1)[0]
+            adapter = get_adapter(step.family)
+            action, data, path = adapter.prepare(mutation)
+            caller = await transport(adapter, ctx, mutation.identity_ref)
+            before = await caller.request(
+                action.service,
+                adapter.read_method(action),
+                path,
+                params=adapter.read_params(action),
+                headers=adapter.read_headers(action),
+            )
+            rejected = await caller.request(
+                action.service,
+                "PUT",
+                path,
+                params=action.params,
+                headers={**action.headers, "x-mockazure-if-none-match": "*"},
+                json=data.body if data.body else None,
+            )
+            assert rejected.status_code == 412, (step.family, rejected.status_code)
+            after = await caller.request(
+                action.service,
+                adapter.read_method(action),
+                path,
+                params=adapter.read_params(action),
+                headers=adapter.read_headers(action),
+            )
+            assert after.content == before.content
+            guarded.add(step.family)
+        assert len(guarded) == 6

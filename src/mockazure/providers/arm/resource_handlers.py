@@ -11,6 +11,7 @@ from starlette.responses import JSONResponse
 
 from mockazure.cloud.events import append_service_event
 from mockazure.cloud.models import ProviderRegistration
+from mockazure.cloud.preconditions import check_local_write
 from mockazure.cloud.types import MutationResult, ResourceRef, ServiceEvent
 from mockazure.identity.types import PrincipalContext
 from mockazure.keyvault.models import Vault
@@ -135,6 +136,7 @@ async def mutate_resource(
     parent = parse_scope(scope.parent_keys[-1])
     action = resource_type + ("/delete" if operation == "delete" else "/write")
     await require_action(session, actor, scope if row else parent, action)
+    check_local_write(session.info.get("local_write_headers", {}), row, ArmError)
     group = await resolve_scope(
         session, actor.tenant_id, request_scope(str(scope.subscription_id), scope.group)
     )

@@ -2,6 +2,25 @@ import {api,el,field,button,jsonView,query,heading,download,table} from "./api.j
 
 export async function profiles(root,ctx){
   let bundle=await api("/_mock/profiles/builtin"),dirty=false,preview=null;
+  const savedBundles=el("select",{"aria-label":"Saved bundle"});
+  let nextBundlePage=null;
+  const nextBundles=button("Next bundles",()=>listBundles(nextBundlePage),"small");
+  async function listBundles(after=null){
+    const page=await api("/_mock/profiles?"+query({limit:50,after}));
+    savedBundles.replaceChildren(el("option",{value:"builtin"},"Built-in templates"),...page.items.map(item=>el("option",{value:item.id},`${item.id} · revision ${item.revision}`)));
+    nextBundlePage=page.next_after;nextBundles.disabled=!nextBundlePage;
+  }
+  function selectSaved(){
+    if(![...savedBundles.options].some(option=>option.value===bundle.id))savedBundles.append(el("option",{value:bundle.id},`${bundle.id} · revision ${bundle.revision}`));
+    savedBundles.value=bundle.id;
+  }
+  const loadBundle=button("Load bundle",async()=>{
+    invalidate();
+    const loaded=await api("/_mock/profiles/"+encodeURIComponent(savedBundles.value));
+    bundle=loaded;dirty=false;populateSelectors("developer-lab");
+    saveStatus.textContent=`Loaded revision ${bundle.revision} · ${bundle.id}`;
+  });
+  await listBundles();
   const templates=el("select",{"aria-label":"Template"}),tenantProfile=el("select",{"aria-label":"Tenant profile"});
   const layerSelect=el("select",{"aria-label":"Add data layer"}),layers=el("ol",{class:"layer-list"});
   const namespace=el("input",{value:"my-lab",pattern:"[A-Za-z0-9._-]+"}),users=el("input",{type:"number",min:1,max:100000,value:20});
@@ -49,7 +68,7 @@ export async function profiles(root,ctx){
     const value=JSON.parse(editor.value);
     if(!value.documents)throw new Error("Bundle JSON must contain documents.");
     const saved=bundle.id==="builtin"?await api("/_mock/profiles",{method:"POST",json:value}):await api(`/_mock/profiles/${bundle.id}?expected_revision=${bundle.revision}`,{method:"PUT",json:value});
-    bundle={...saved,documents:value.documents};dirty=false;saveStatus.textContent=`Saved revision ${saved.revision} · ${saved.id}`;return saved.id;
+    bundle={...saved,documents:value.documents};dirty=false;selectSaved();saveStatus.textContent=`Saved revision ${saved.revision} · ${saved.id}`;return saved.id;
   }
   const previewButton=button("Preview population",async()=>{
     previewButton.disabled=true;
@@ -70,7 +89,7 @@ export async function profiles(root,ctx){
     if(!importFile.files.length)throw new Error("Choose JSON or YAML profile files.");
     const documents={};let bytes=0;
     for(const file of importFile.files){bytes+=file.size;if(bytes>16*1024*1024)throw new Error("Bundle exceeds 16 MiB.");const source=await file.text();let parsed;try{parsed=JSON.parse(source);}catch{}if(parsed?.documents)Object.assign(documents,parsed.documents);else documents[file.name]=source;}
-    const saved=await api("/_mock/profiles",{method:"POST",json:{documents}});bundle=await api(`/_mock/profiles/${saved.id}`);dirty=false;populateSelectors();saveStatus.textContent=`Imported revision ${saved.revision}`;
+    const saved=await api("/_mock/profiles",{method:"POST",json:{documents}});bundle=await api(`/_mock/profiles/${saved.id}`);dirty=false;selectSaved();populateSelectors();saveStatus.textContent=`Imported revision ${saved.revision}`;
   });
   create.addEventListener("change",()=>{target.hidden=!create.checked;invalidate();});target.hidden=!create.checked;
   templates.addEventListener("change",selectTemplate);
@@ -78,11 +97,12 @@ export async function profiles(root,ctx){
   [namespace,users,days,seed,extra,slug,domain,display].forEach(node=>node.addEventListener("input",invalidate));
   editor.addEventListener("input",()=>{dirty=true;invalidate();});
   root.replaceChildren(heading("Compose a populated lab", "Stack reusable data layers on a tenant profile. Preview resolves the complete plan before any resources are created."),
+    el("section",{class:"panel"},el("div",{class:"toolbar"},field("Saved bundle",savedBundles),loadBundle,button("First bundles",()=>listBundles(),"small"),nextBundles),el("p",{class:"hint"},"Browse 50 saved bundles at a time. Loading replaces unsaved editor changes."),saveStatus),
     el("div",{class:"columns"},el("section",{class:"panel"},el("h2",{},"01 / Composition"),el("div",{class:"form-grid"},field("Template",templates),field("Tenant profile",tenantProfile)),layers,
       el("div",{class:"toolbar"},field("Add data layer",layerSelect),button("Add layer",()=>{const names=effective(templates.value).dataProfiles||[];if(!names.includes(layerSelect.value))writeComposition([...names,layerSelect.value]);}))),
       el("section",{class:"panel"},el("h2",{},"02 / Target & parameters"),field("Create a new tenant",create,"check"),target,
         el("div",{class:"form-grid"},field("Dataset namespace",namespace),field("Users",users),field("Days of activity",days),field("Seed",seed)),field("Additional parameters JSON",extra),el("p",{class:"hint"},"Use qualified keys, such as volume-signins.records. Reusing a namespace rechecks existing results; use a new namespace for an independent dataset."))),
-    el("details",{class:"panel"},el("summary",{},"Profile source, import & export"),el("p",{class:"hint"},"Structured data only. Imported text cannot run code or read server files."),field("Profile files",importFile),el("div",{class:"actions"},importButton,button("Export bundle",()=>download("mockazure-profiles.json",{documents:bundle.documents}))),field("Bundle JSON",editor),el("div",{class:"actions"},button("Load editor changes",()=>{const value=JSON.parse(editor.value);if(!value.documents)throw new Error("Expected documents.");bundle.documents=value.documents;populateSelectors(templates.value);dirty=true;invalidate();}),button("Save revision",save)),saveStatus),
+    el("details",{class:"panel"},el("summary",{},"Profile source, import & export"),el("p",{class:"hint"},"Structured data only. Imported text cannot run code or read server files."),field("Profile files",importFile),el("div",{class:"actions"},importButton,button("Export bundle",()=>download("mockazure-profiles.json",{documents:bundle.documents}))),field("Bundle JSON",editor),el("div",{class:"actions"},button("Load editor changes",()=>{const value=JSON.parse(editor.value);if(!value.documents)throw new Error("Expected documents.");bundle.documents=value.documents;populateSelectors(templates.value);dirty=true;invalidate();}),button("Save revision",save))),
     el("div",{class:"actions"},previewButton,apply),el("section",{class:"panel",style:"margin-top:24px"},result));
   populateSelectors("developer-lab");
 }

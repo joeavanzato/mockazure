@@ -37,6 +37,7 @@ async def transaction(request, scope):
     try:
         async with request.app.state.database.sessions.begin() as session:
             actor = await principal(request, session)
+            session.info["local_write_headers"] = request.headers
             await lock_security(session, actor.tenant_id)
             await lock_state(session, actor.tenant_id)
             sub = await lock_subscription(session, actor.tenant_id, scope.subscription_id)

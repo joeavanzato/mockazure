@@ -100,7 +100,7 @@ Packaged generators cover directory, evidence, mail, SharePoint/Teams, Intune,
 Azure inventory and logs; packaged recipes connect permissions, content, Storage,
 Key Vault and diagnostics. The exact registry is
 [`generators/__init__.py`](../src/mockazure/population/generators/__init__.py), and
-[`data/`](../src/mockazure/profiles/data) contains executable examples of each profile.
+[`data/`](../src/mockazure/profiles/data) contains complete examples of each profile.
 Use `GET /_mock/resources/catalog` or the Resources screen for operations, paths,
 schemas, identity requirements and limitations. Read-only catalog families do not
 claim a write operation.
@@ -110,7 +110,13 @@ claim a write operation.
 Stable fixture IDs derive from tenant ID, dataset namespace, logical key and seed.
 The first implicit reference time is frozen for subsequent runs in that namespace.
 Preview stores a resolved snapshot and tenant-state preconditions for one hour.
-Apply checks them atomically; preview alone grants no write authority.
+Apply checks them atomically; preview alone grants no write authority. Fixture
+writes use serializable transactions; a concurrent change returns a conflict.
+Public ARM, FileREST, Queue and Key Vault population writes use local
+`X-MockAzure-If-None-Match: *` guards under existing domain locks. File upload
+ranges also use `X-MockAzure-If-Match` with the creation ETag. These are optional
+local management extensions, not Microsoft REST contract headers, and do not
+grant permissions. Requests without them retain ordinary service semantics.
 
 Imported/edited bundles have immutable versions. Runs retain the snapshot and
 generator version they used. Repeating the same namespace rechecks recorded state;
@@ -132,6 +138,12 @@ are rejected. A resolved run has at most 1,024 steps/resources. Generators produ
 bounded batches; normal fixture worker batches are 100 records, service actions one
 at a time. Resource browsing caps at 500 rows/API page (50 in the console); previews
 include at most 10 samples per family. Content operations use existing chunked storage.
+
+Console SharePoint/Teams/Intune edits budget at most 10,000 existing plus submitted
+records and 20,000 existing plus submitted relationships per scope. The check runs
+under the scope lock before loading its validation graph; conservative replacement
+batches count against that budget too. Larger scopes remain browsable and require
+the explicit bulk workload interface for edits.
 
 Large imported or historical service datasets may need the existing bulk/import
 interfaces rather than the console editor. The inspector remains a curated view,

@@ -3,6 +3,7 @@
 import asyncio
 import json
 import os
+import re
 import ssl
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -87,6 +88,15 @@ def test_console_login_and_resource_browser(tmp_path):
             expect(page.locator(".layer-list li code").nth(1)).to_have_text(first_layer)
             page.get_by_role("button", name="↑", exact=True).nth(1).click()
             expect(page.locator(".layer-list li code").first).to_have_text(first_layer)
+            page.get_by_text("Profile source, import & export", exact=True).click()
+            page.get_by_role("button", name="Save revision", exact=True).click()
+            saved = page.get_by_text(re.compile(r"Saved revision .* · ")).inner_text()
+            bundle_id = saved.split(" · ")[-1]
+            page.get_by_role("button", name="Resources", exact=False).click()
+            page.get_by_role("button", name="Profiles", exact=False).click()
+            page.get_by_label("Saved bundle", exact=True).select_option(bundle_id)
+            page.get_by_role("button", name="Load bundle", exact=True).click()
+            expect(page.get_by_text("Loaded revision 1 · " + bundle_id)).to_be_visible()
             page.get_by_label("Template", exact=True).select_option("volume-lab")
             page.get_by_label("Dataset namespace").fill("browser-" + uuid4().hex[:10])
             page.get_by_label("Users", exact=True).fill("60")

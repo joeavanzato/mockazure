@@ -109,3 +109,79 @@ async def test_cross_tenant_id_and_foreign_subject_rejected(database, settings):
                 )
             ],
         )
+
+
+async def test_concurrent_fixture_create_cannot_replace_winner(database, settings, monkeypatch):
+    import asyncio
+
+    ctx = await context(database, settings)
+    adapter = get_adapter("security.alerts_v2")
+    original = adapter.writer
+    barrier = asyncio.Barrier(2)
+
+    async def write(session, context, pending):
+        await barrier.wait()
+        await original(session, context, pending)
+
+    monkeypatch.setattr(adapter, "writer", write)
+
+    async def create(title):
+        try:
+            return await adapter.apply(
+                ctx,
+                [
+                    Mutation(
+                        operation="import",
+                        logical_key="race",
+                        payload={"id": "race", "title": title},
+                        expected_version="absent",
+                    )
+                ],
+            )
+        except AdminError as error:
+            return error
+
+    results = await asyncio.gather(create("First"), create("Second"))
+    winners = [r for r in results if not isinstance(r, AdminError)]
+    assert len(winners) == 1
+    assert [r.status for r in results if isinstance(r, AdminError)] == [409]
+    actual = await adapter.browse(ctx, ResourceQuery(identifier="race"))
+    assert actual.items[0].properties == winners[0].items[0].properties
+
+
+async def test_external_fixture_write_between_check_and_apply_is_preserved(
+    database, settings, monkeypatch
+):
+    from mockazure.collections.repository import import_records
+
+    ctx = await context(database, settings)
+    adapter = get_adapter("security.alerts_v2")
+    original = adapter.writer
+    # Initialize the shared revision row, just as an established tenant would.
+    await adapter.apply(
+        ctx, [Mutation(operation="import", logical_key="other", payload={"id": "other"})]
+    )
+
+    async def write(session, context, pending):
+        async with database.sessions.begin() as external:
+            await import_records(
+                external, ctx.tenant_id, "alerts_v2", [{"id": "race", "title": "External"}]
+            )
+        await original(session, context, pending)
+
+    monkeypatch.setattr(adapter, "writer", write)
+    with pytest.raises(AdminError) as conflict:
+        await adapter.apply(
+            ctx,
+            [
+                Mutation(
+                    operation="import",
+                    logical_key="race",
+                    payload={"id": "race", "title": "Overwrite"},
+                    expected_version="absent",
+                )
+            ],
+        )
+    assert conflict.value.status == 409
+    actual = await adapter.browse(ctx, ResourceQuery(identifier="race"))
+    assert actual.items[0].properties["title"] == "External"

@@ -19,6 +19,9 @@ SOURCE_ROOTS = frozenset(
         "README.md",
         "LICENSE",
         "NOTICE",
+        "examples/populate.py",
+        "docs/getting-started.md",
+        "docs/profiles.md",
     }
 )
 SDIST_ROOTS = SOURCE_ROOTS - {"uv.lock", "Dockerfile"}

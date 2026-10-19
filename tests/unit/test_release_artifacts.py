@@ -129,6 +129,9 @@ def test_source_export_uses_git_objects_excluding_untracked_and_runtime(tmp_path
         "build-requirements.txt": b"build==1.6.1\n",
         "Dockerfile": b"FROM scratch\n",
         "src/mockazure/__init__.py": b"canonical\n",
+        "examples/populate.py": b"example\n",
+        "docs/getting-started.md": b"guide\n",
+        "docs/profiles.md": b"profiles\n",
     }.items():
         path = repo / name
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -154,6 +157,8 @@ def test_source_export_uses_git_objects_excluding_untracked_and_runtime(tmp_path
     assert not (destination / ".env").exists()
     assert not (destination / "src/mockazure/untracked.py").exists()
     assert result["src/mockazure/__init__.py"] == b"canonical\n"
+    for name in ("examples/populate.py", "docs/getting-started.md", "docs/profiles.md"):
+        assert (destination / name).read_bytes() == result[name]
 
 
 def test_candidate_report_rejects_stale_or_missing_artifacts(tmp_path):
@@ -259,5 +264,5 @@ def test_candidate_probe_uses_current_capability_request_contract():
     result = subprocess.run([sys.executable, "-c", PROBE], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     value = json.loads(result.stdout)
-    assert value["migration_head"] == "073"
+    assert value["migration_head"] == "076"
     assert value["capabilities"]["authentication_policy_profile"]["new_tenants_enforced"] is True

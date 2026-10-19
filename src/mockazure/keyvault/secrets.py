@@ -9,6 +9,7 @@ from sqlalchemy import select
 
 from mockazure.cloud.events import append_service_event
 from mockazure.cloud.models import CloudState
+from mockazure.cloud.preconditions import check_local_write
 from mockazure.cloud.types import ServiceEvent
 from mockazure.keyvault.authorization import require_secret_access, vault_configuration
 from mockazure.keyvault.contracts import bad, checked_body, name_key
@@ -158,6 +159,7 @@ async def mutate_secret(session, actor, vault_id, name, version, operation, body
                 Secret.name_key == key,
             )
         )
+        check_local_write(session.info.get("local_write_headers", {}), secret, VaultError)
         if secret and secret.deleted_at:
             raise VaultError(409, "Conflict", "A deleted secret with this name is recoverable")
         if secret is None:

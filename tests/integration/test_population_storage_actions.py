@@ -2,6 +2,8 @@ import asyncio
 import hashlib
 from uuid import UUID, uuid4
 
+import pytest
+
 from mockazure.population.actions import PublicActions
 from mockazure.population.catalog import get_adapter
 from mockazure.population.identity import resolve_identity
@@ -11,7 +13,10 @@ from tests.integration.identity_support import identity_client
 from tests.integration.test_content_storage import upload
 
 
-async def test_storage_creation_and_uploaded_bytes_use_public_rbac(database, settings, monkeypatch):
+@pytest.mark.parametrize("race_phase", ["create", "range"])
+async def test_storage_creation_and_uploaded_bytes_use_public_rbac(
+    database, settings, monkeypatch, race_phase
+):
     async with identity_client(database, settings) as (client, tenant, *_):
         ctx = AdapterContext(database, settings, UUID(tenant))
 
@@ -173,3 +178,78 @@ async def test_storage_creation_and_uploaded_bytes_use_public_rbac(database, set
             identity_ref="cloud",
         )
         assert (await get_adapter("storage.files").verify(ctx, file)).status == "succeeded"
+        # Interleave a real external FileREST writer at both gaps in the upload.
+        from mockazure.admin.errors import AdminError
+
+        original_request = LocalTransport.request
+        for phase in (race_phase,):
+            race_path = "/populationaccount/evidence/race-" + phase + ".bin"
+            injected = False
+            external_bytes = b"other".ljust(len(raw), b"_")
+
+            async def racing_request(self, service, method, path, **options):
+                nonlocal injected
+                is_range = (options.get("params") or {}).get("comp") == "range"
+                if (
+                    service == "file"
+                    and method == "PUT"
+                    and path == race_path
+                    and is_range == (phase == "range")
+                    and not injected
+                ):
+                    injected = True
+                    h = {"x-ms-version": "2025-11-05", "x-ms-file-request-intent": "backup"}
+                    created = await original_request(
+                        self,
+                        "file",
+                        "PUT",
+                        path,
+                        headers={
+                            **h,
+                            "x-ms-type": "file",
+                            "x-ms-content-length": str(len(external_bytes)),
+                        },
+                    )
+                    assert created.status_code == 201, created.text
+                    written = await original_request(
+                        self,
+                        "file",
+                        "PUT",
+                        path,
+                        params={"comp": "range"},
+                        headers={
+                            **h,
+                            "x-ms-range": f"bytes=0-{len(external_bytes) - 1}",
+                            "x-ms-write": "update",
+                        },
+                        content=external_bytes,
+                    )
+                    assert written.status_code == 201, written.text
+                return await original_request(self, service, method, path, **options)
+
+            with monkeypatch.context() as patch:
+                patch.setattr(LocalTransport, "request", racing_request)
+                with pytest.raises(AdminError) as conflict:
+                    await apply(
+                        "storage.files",
+                        "upload",
+                        {
+                            "variables": {
+                                "account": "populationaccount",
+                                "share": "evidence",
+                                "file": "race-" + phase + ".bin",
+                            },
+                            "content_id": str(content.id),
+                        },
+                        identity_ref="cloud",
+                        expected_version="absent",
+                    )
+                assert conflict.value.status == 412
+            actual = await original_request(
+                LocalTransport(ctx, credentials, client=client),
+                "file",
+                "GET",
+                race_path,
+                headers={"x-ms-version": "2025-11-05", "x-ms-file-request-intent": "backup"},
+            )
+            assert actual.content == external_bytes

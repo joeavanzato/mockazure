@@ -191,3 +191,61 @@ async def test_linked_import_updates_relationship_when_payload_is_unchanged(data
         ctx, [linked.model_copy(update={"expected_version": result.items[0].version})]
     )
     assert repeated.effects["unchanged"] == 1
+
+
+async def test_large_workload_edit_rejects_before_whole_scope_materialization(database, settings):
+    from sqlalchemy import event, text
+
+    from mockazure.admin.errors import AdminError
+
+    ctx = await context(database, settings)
+    adapter = get_adapter("sharepoint.site")
+    site = "lab.test," + str(uuid4()) + "," + str(uuid4())
+    value = Mutation(
+        operation="import",
+        logical_key="site",
+        parent=site,
+        payload={**TIMES, "id": site, "displayName": "Site"},
+    )
+    await adapter.apply(ctx, [value])
+    async with database.sessions.begin() as session:
+        await session.execute(
+            text(
+                "INSERT INTO workload_versions (tenant_id, workload, scope, kind, id, "
+                "valid_from, deleted, payload) SELECT :tenant, 'sharepoint', :scope, "
+                "'driveItem', 'bulk-' || n, 1, false, jsonb_build_object('id', 'bulk-' || n, "
+                "'name', 'Folder ' || n, 'folder', jsonb_build_object('childCount',0)) "
+                "FROM generate_series(1,10000) n"
+            ),
+            {"tenant": ctx.tenant_id, "scope": site},
+        )
+    inspection = await adapter.inspect(ctx, value)
+    queries = []
+
+    def observe(connection, cursor, statement, parameters, context, many):
+        queries.append(statement)
+
+    event.listen(database.engine.sync_engine, "before_cursor_execute", observe)
+    try:
+        with pytest.raises(AdminError) as error:
+            await adapter.apply(
+                ctx,
+                [
+                    value.model_copy(
+                        update={
+                            "expected_version": inspection.version,
+                            "payload": {**value.payload, "displayName": "Changed"},
+                        }
+                    )
+                ],
+            )
+        assert error.value.status == 413
+        assert not any(
+            "SELECT workload_versions.kind, workload_versions.id, workload_versions.name" in q
+            for q in queries
+        )
+    finally:
+        event.remove(database.engine.sync_engine, "before_cursor_execute", observe)
+    assert (await adapter.browse(ctx, ResourceQuery(parent=site, identifier=site))).items[
+        0
+    ].properties["displayName"] == "Site"

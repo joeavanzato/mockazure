@@ -7,12 +7,13 @@ from pydantic import Field
 from sqlalchemy import select, tuple_
 
 from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
+from mockazure.population.adapters.workload_limits import bounded_import_workload
 from mockazure.population.types import FamilyDescriptor, Input, OperationDescriptor
 from mockazure.workloads.imports import WorkloadEdge, WorkloadImport
 from mockazure.workloads.intune import validate_intune_record
 from mockazure.workloads.intune_contracts import KINDS as INTUNE_KINDS
 from mockazure.workloads.models import WorkloadRelation, WorkloadVersion
-from mockazure.workloads.repository import import_workload, scope_row
+from mockazure.workloads.repository import scope_row
 from mockazure.workloads.sites import KINDS as SITE_KINDS
 from mockazure.workloads.sites import validate_site_drive_record
 from mockazure.workloads.teams import KINDS as TEAM_KINDS
@@ -234,7 +235,7 @@ def adapters():
                             "edges": edges,
                         }
                     )
-                    await import_workload(session, ctx.tenant_id, workload, batch)
+                    await bounded_import_workload(session, ctx.tenant_id, workload, batch)
 
             descriptor = FamilyDescriptor(
                 key=f"{workload}.{kind}",

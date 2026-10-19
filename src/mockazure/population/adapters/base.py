@@ -3,7 +3,8 @@
 from dataclasses import dataclass
 
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import literal, select, tuple_
+from sqlalchemy import literal, select, text, tuple_
+from sqlalchemy.exc import DBAPIError
 
 from mockazure.admin.errors import AdminError
 from mockazure.db.models import Tenant
@@ -157,6 +158,16 @@ class PayloadAdapter:
         return self.matches(old.properties, payload)
 
     async def apply(self, ctx, mutations):
+        try:
+            return await self.apply_transaction(ctx, mutations)
+        except DBAPIError as error:
+            if getattr(error.orig, "sqlstate", None) in {"40001", "40P01", "23505"}:
+                raise AdminError(
+                    409, "ResourceConflict", "Concurrent resource change; preview again"
+                ) from None
+            raise
+
+    async def apply_transaction(self, ctx, mutations):
         if not 1 <= len(mutations) <= 1000:
             raise ValueError("Expected 1 to 1000 mutations")
         prepared = [(item, self.normalize(item)) for item in mutations]
@@ -165,6 +176,9 @@ class PayloadAdapter:
         effects = {"created": 0, "updated": 0, "unchanged": 0}
         pending, items = [], []
         async with ctx.database.sessions.begin() as session:
+            # A missing-row lock cannot protect absence. Domain serialization rows
+            # and PostgreSQL SSI reject a conflicting write after this snapshot.
+            await session.execute(text("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"))
             for mutation, payload in prepared:
                 query = ResourceQuery(
                     identifier=str(payload[self.identity_field]), parent=mutation.parent

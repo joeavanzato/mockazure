@@ -75,8 +75,9 @@ class PublicActions:
                 )
             )
         result.limitations.append(
-            "ARM, Files, Queue and Key Vault preflight checks are not atomic against "
-            "concurrent external writers."
+            "Insert-only ARM, FileREST, Queue and Key Vault writes use local "
+            "X-MockAzure preconditions checked under service locks; "
+            "these are not Microsoft headers."
         )
         result.limitations.append(
             "Public actions use a named test identity. PUT is insert-only; POST outcomes "
@@ -297,6 +298,8 @@ class PublicActions:
                 )
             if action.service not in {"queue", "arm", "keyvault", "file"}:
                 headers["If-None-Match"] = "*"
+            else:
+                headers["x-mockazure-if-none-match"] = "*"
         content = None
         if action.binary:
             from mockazure.content.repository import object_row, stream_content
@@ -317,12 +320,19 @@ class PublicActions:
                     path,
                     headers={
                         **self.read_headers(action),
+                        "x-mockazure-if-none-match": "*",
                         "x-ms-type": "file",
                         "x-ms-content-length": str(expected_size),
                     },
                 )
                 self.check(created)
                 headers.pop("If-None-Match", None)
+                headers.pop("x-mockazure-if-none-match", None)
+                if not created.headers.get("etag"):
+                    raise AdminError(
+                        502, "UncertainServiceResult", "File creation omitted its version"
+                    )
+                headers["x-mockazure-if-match"] = created.headers["etag"]
                 headers.update(
                     {"x-ms-range": f"bytes=0-{expected_size - 1}", "x-ms-write": "update"}
                 )

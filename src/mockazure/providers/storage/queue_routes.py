@@ -131,6 +131,7 @@ async def dispatch_queue(request):
     if action in {"update_message", "delete_message"} and not args.get("popreceipt"):
         invalid("popreceipt is required")
     async with request.app.state.database.sessions() as session:
+        session.info["local_write_headers"] = request.headers
         session.info["storage_cipher"] = read_wrapping_key(settings.data_dir)
         owner = await session.scalar(
             select(StorageAccount.tenant_id).where(StorageAccount.name == account)
