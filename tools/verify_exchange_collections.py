@@ -8,6 +8,15 @@ from tools.verify_default import ROOT
 from tools.verify_default import main as smoke
 
 
+def native_exchange_profile(host):
+    # EXO needs the core origin on 443; data services retain their distinct
+    # advertised origins, including separation from the container profile.
+    return dict(host) | {
+        name: "https://localhost"
+        for name in ("login", "graph", "exchange", "arm", "activity", "browser_login")
+    }
+
+
 def qualify(directory, command, compose, client, headers, tenant, check, *, workflows=False):
     state = directory / "exchange-clients"
     state.mkdir()
@@ -171,9 +180,7 @@ def qualify(directory, command, compose, client, headers, tenant, check, *, work
     # A declared localhost:443 profile and TCP relay preserve the original module.
     instance = directory / ".runtime/instance/container.json"
     runtime = json.loads(instance.read_text(encoding="utf-8"))
-    runtime["client_profiles"]["host"] = {
-        key: "https://localhost" for key in runtime["client_profiles"]["container"]
-    }
+    runtime["client_profiles"]["host"] = native_exchange_profile(runtime["client_profiles"]["host"])
     instance.write_text(json.dumps(runtime, indent=2) + "\n", encoding="utf-8")
     command(compose + ["restart", "api"])
     proxy_config = state / "native-haproxy.cfg"

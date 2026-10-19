@@ -315,3 +315,27 @@ def test_distribution_xml_requires_each_real_behavior(tmp_path):
     )
     with pytest.raises(ValueError):
         validate_junit(path)
+
+
+def test_exchange_bootstrap_preserves_separate_data_origins(tmp_path):
+    from mockazure.config import Settings
+    from mockazure.endpoints import EndpointProfile
+    from tools.verify_exchange_collections import native_exchange_profile
+
+    host = EndpointProfile(
+        login="https://localhost:28443",
+        graph="https://localhost:28443",
+        exchange="https://localhost:28443",
+        arm="https://localhost:28443",
+        activity="https://localhost:28443",
+        browser_login="https://localhost:28443",
+    )
+    adapted = native_exchange_profile(host.model_dump())
+    assert adapted["exchange"] == "https://localhost"
+    for name in ("storage", "file", "queue", "table", "keyvault", "logs"):
+        assert adapted[name] == getattr(host, name)
+    Settings(
+        data_dir=tmp_path,
+        database_url="postgresql://localhost/mockazure",
+        client_profiles={"host": adapted, "container": EndpointProfile()},
+    )
