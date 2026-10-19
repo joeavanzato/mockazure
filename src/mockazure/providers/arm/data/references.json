@@ -10,7 +10,16 @@
     "activity": "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/activityLogs_API.json",
     "resources2024": "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2024-07-01/resources.json",
     "definitionsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2022-05-01-preview/authorization-RoleDefinitionsCalls.json",
-    "assignmentsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json"
+    "assignmentsPreview": "specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json",
+    "storage": "specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+    "vaults": "specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+    "compute": "specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+    "networkVirtual": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json",
+    "networkSecurity": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json",
+    "networkInterface": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json",
+    "networkPublicIP": "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json",
+    "workspaces": "specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json",
+    "disks": "specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json"
   },
   "files": {
     "specification/resources/resource-manager/Microsoft.Resources/resources/stable/2021-04-01/resources.json": {
@@ -86,12 +95,12 @@
     "derived:roles.json": {
       "path": "roles.json",
       "url": "derived from pinned sources",
-      "sha256": "383c6c00b274d786dbbd37b9a929dade641817d7dd888a217e49d61de4f0cbac"
+      "sha256": "842a58a44a0bdce67ce98fbaaa8ab7a6076fde6c3bc5c414528419bf20d9f89b"
     },
     "derived:operations.json": {
       "path": "operations.json",
       "url": "derived from pinned sources",
-      "sha256": "705f7ad11397fc573c88e71761efb76f9e14dafab32ee08acba9cddc0693c91a"
+      "sha256": "434eba6fe315ad6d76d3ee9c6068b8ab2630d6103afc66468e8515128bafef3b"
     },
     "specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json": {
       "path": "schemas/specification/monitor/resource-manager/Microsoft.Insights/Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json",
@@ -122,6 +131,155 @@
       "path": "schemas/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/common-types.json",
       "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/common-types.json",
       "sha256": "3a46107088df82e3107e87e1170ec9c792a4c8f4ac8ac931167686d7aeb193e5"
+    },
+    "specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json": {
+      "path": "schemas/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json",
+      "sha256": "7471de02dbaf2c24ccc44f4fd503738825feb8fd031b8c1f9102bd0e3c4ab95b"
+    },
+    "specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json": {
+      "path": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+      "sha256": "fc4ca1500bb1e05e47e70a25a875944a15480e9803d1db35b6776e1e25062be5"
+    },
+    "specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json": {
+      "path": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json",
+      "sha256": "dfc4ad5cee4225007819a3ce798a97c2f38fc5b18f5862b89fffd03d37266f3f"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json",
+      "sha256": "9c87be8363e754e4442e5f1d6cc34ac3e1019075f9dc5f813fd3b1ce906603ca"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json",
+      "sha256": "e444d0dbb81bfa0102d28ecc4d9ba8e8f1e5a5ee47eb027ec2e2041e62610839"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json",
+      "sha256": "ff61f5ae9720b9ad1cd861fa2bcb377ba3a962c5b931ee92e77acae9e4d1c527"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json",
+      "sha256": "7a5b311eff6dc61570684fe4f9c2ffd742856e9bbd0966e10a38a4356aba04b7"
+    },
+    "specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json": {
+      "path": "schemas/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-02-01/Workspaces.json",
+      "sha256": "b33c75a359bfa3dea8e691561f690736e0b58cd3abe3b45721fc34670dfa7f84"
+    },
+    "specification/common-types/resource-management/v5/types.json": {
+      "path": "schemas/specification/common-types/resource-management/v5/types.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+      "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1"
+    },
+    "specification/common-types/resource-management/v5/managedidentity.json": {
+      "path": "schemas/specification/common-types/resource-management/v5/managedidentity.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/managedidentity.json",
+      "sha256": "03d8098b5f3bf4ce54fc950c949baf41f80095887a5566c961baba514d080508"
+    },
+    "specification/common-types/resource-management/v3/types.json": {
+      "path": "schemas/specification/common-types/resource-management/v3/types.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v3/types.json",
+      "sha256": "8f69ddbcdd8f3df61a156a129e70db08b3a03f2ec710de07f30273ec27492de3"
+    },
+    "specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json": {
+      "path": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/common-types/v1/common.json",
+      "sha256": "0339076f3c6bbbeaa6a4d017b3216c50b92c4bf8d7282807480e682afe3e13c1"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/network.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/network.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/network.json",
+      "sha256": "7816c5d1cca53fb260cfb7072b753ba848a61f66802b7ae4ee54c486b27c1cc1"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json",
+      "sha256": "e2ff38bfc53c19450a625a8bc34b1aed2ee14c8ce89568622aee8123f8a757a5"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/serviceEndpointPolicy.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/serviceEndpointPolicy.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/serviceEndpointPolicy.json",
+      "sha256": "ee4b3094e543c2a041ec7816b06041ff48e880cdb4e297a05c25231c3d727bdd"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json",
+      "sha256": "485ed94da0aad55df48091455ff2b34ab6fecf7912dbb058ad97f7b055be4268"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkProfile.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkProfile.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkProfile.json",
+      "sha256": "704cea68c1672013cc6d64eb45a9fb62a64b928993c5e1ce75d038709f2d0163"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/applicationGateway.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/applicationGateway.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/applicationGateway.json",
+      "sha256": "1ebce5c8add78680f532b0b0779d792ddc88bc5c20479baf83a8eef767aa0893"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkWatcher.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkWatcher.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkWatcher.json",
+      "sha256": "865465a96f3c1363892effa83db21468746458fd170f9baf20ecb871fa15be8f"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/applicationSecurityGroup.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/applicationSecurityGroup.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/applicationSecurityGroup.json",
+      "sha256": "bd07f57df91d0891ef0b2195d79b14e528023f932a7c81788c3e82dd0d123f3b"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetworkTap.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetworkTap.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetworkTap.json",
+      "sha256": "385888409021bf8d1705c123c38b17d1289156e481245a3933f55ce6b2d9d27c"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json",
+      "sha256": "d25657649186ab5fdf10b11c1efefbda3d76eae85946921669300bb5df9e10bf"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateLinkService.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateLinkService.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateLinkService.json",
+      "sha256": "29ade7a7f0c1874273139d4cb978f1fdefd8ff5cd87882a4b17dde356eef3cfa"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkManager.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkManager.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkManager.json",
+      "sha256": "7e0f83f2c52dcc217f737aca1e66ba94cedb7a259937ee014e72393cea2917ea"
+    },
+    "specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/natGateway.json": {
+      "path": "schemas/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/natGateway.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/natGateway.json",
+      "sha256": "2abaa4eea101dd3d0689f886405f9ef3f32751a66deb5e64b1d54d710f3684ad"
+    },
+    "specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/common/v1/types.json": {
+      "path": "schemas/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/common/v1/types.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/common/v1/types.json",
+      "sha256": "146a2757a4cdee02b366a6f5a0cf6e00586c188a40b4f627fc76b9006322194f"
+    },
+    "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage": {
+      "path": "role-sources/storage.html",
+      "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage",
+      "sha256": "efef7da2738fc1c4ecc02e6fe99e9894875833c2a6a03d3f68b74ecc3d81e751",
+      "revision": "1b4e136a1da731e1ed16444eb6ce5701bcd8c0f4",
+      "license": "CC-BY-4.0"
+    },
+    "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/security": {
+      "path": "role-sources/security.html",
+      "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/security",
+      "sha256": "17a0abfc394a8ac3d6742c86b04c056ace974fef17e30c1b8ab30a92b8d839e8",
+      "revision": "1b4e136a1da731e1ed16444eb6ce5701bcd8c0f4",
+      "license": "CC-BY-4.0"
+    },
+    "specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json": {
+      "path": "schemas/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json",
+      "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/compute/resource-manager/Microsoft.Compute/Compute/stable/2025-01-02/DiskRP.json",
+      "sha256": "4b5153941eb2184d0a52eea7710ad70648e304c87f09dc6b551b2b4673d4343e"
     }
   }
 }

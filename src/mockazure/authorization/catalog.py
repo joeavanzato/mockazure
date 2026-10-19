@@ -175,6 +175,8 @@ CATALOG = (
     PermissionDefinition("exchange", "Exchange.ManageAsApp", "application", True),
     PermissionDefinition("exchange", "Exchange.Manage", "delegated", True),
     PermissionDefinition("arm", "user_impersonation", "delegated", True),
+    PermissionDefinition("storage", "user_impersonation", "delegated", True),
+    PermissionDefinition("keyvault", "user_impersonation", "delegated", True),
 )
 DIRECTORY_ROLES = frozenset({"Global Administrator", "Global Reader", "Directory Readers"})
 

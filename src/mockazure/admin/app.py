@@ -13,6 +13,7 @@ from mockazure.activity.routes import router as activity_router
 from mockazure.admin.activity_routes import router as activity_admin_router
 from mockazure.admin.arm_routes import router as arm_admin_router
 from mockazure.admin.auth import verify_admin_token
+from mockazure.admin.cloud_routes import router as cloud_admin_router
 from mockazure.admin.collection_routes import router as collection_admin_router
 from mockazure.admin.directory_routes import router as directory_admin_router
 from mockazure.admin.errors import AdminError
@@ -45,7 +46,11 @@ from mockazure.providers.arm.inventory_routes import router as arm_inventory_rou
 from mockazure.providers.arm.mutation_routes import router as arm_mutation_router
 from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
+from mockazure.providers.arm.provider_job_routes import router as arm_provider_jobs_router
+from mockazure.providers.arm.provider_routes import router as arm_provider_router
 from mockazure.providers.arm.rbac_routes import router as arm_rbac_router
+from mockazure.providers.arm.resource_handlers import router as arm_resource_router
+from mockazure.providers.arm.storage_routes import router as arm_storage_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
 from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
@@ -151,7 +156,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             )
             # ARM's reserved path segments are case-insensitive; resource names retain case.
             request.scope["path"] = re.sub(
-                r"(?i)(?<=/)(subscriptions|tenants|resourcegroups|resources)(?=/|$)",
+                r"(?i)(?<=/)(subscriptions|tenants|resourcegroups|resources|providers)(?=/|$)",
                 lambda match: match.group(0).lower(),
                 request.scope["path"],
             )
@@ -162,6 +167,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             )
             request.scope["path"] = re.sub(
                 r"(?i)/providers/microsoft\.authorization/(roledefinitions|roleassignments)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.storage/(storageaccounts|checknameavailability)(?=/|$)",
                 lambda match: match.group(0).lower(),
                 request.scope["path"],
             )
@@ -310,12 +320,17 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(licensing_graph_router)
     app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
+    app.include_router(cloud_admin_router)
+    app.include_router(arm_storage_router)
+    app.include_router(arm_provider_router)
     app.include_router(arm_router)
     app.include_router(arm_inventory_router)
     app.include_router(arm_activity_router)
     app.include_router(arm_mutation_router)
     app.include_router(arm_operations_router)
     app.include_router(arm_rbac_router)
+    app.include_router(arm_provider_jobs_router)
+    app.include_router(arm_resource_router)
     app.include_router(session_router)
     app.include_router(identity_router)
     app.include_router(security_admin_router)

@@ -196,7 +196,9 @@ async def test_arm_cursor_changes_expiry_and_unknown_route_errors(database, sett
                 cursor.expires_at = datetime.now(UTC) - timedelta(seconds=1)
         assert (await client.get(first.json()["nextLink"], headers=headers)).status_code == 400
         unknown = await client.get(
-            resource["id"], params={"api-version": "2021-04-01"}, headers=headers
+            resource["id"].replace("Microsoft.Compute", "Microsoft.Unknown"),
+            params={"api-version": "2021-04-01"},
+            headers=headers,
         )
         assert unknown.status_code == 501
         assert set(unknown.json()["error"]) == {"code", "message"}

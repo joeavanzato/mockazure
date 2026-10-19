@@ -6,9 +6,37 @@ from mockazure.tenants.schemas import TenantCreate, TenantView
 
 
 async def import_tenant(
-    session: AsyncSession, snapshot: ExportSnapshot, *, replacement: TenantCreate | None = None
+    session: AsyncSession,
+    snapshot: ExportSnapshot,
+    *,
+    replacement: TenantCreate | None = None,
+    target_tenant_id=None,
 ) -> TenantView:
+    from mockazure.admin.errors import AdminError
+    from mockazure.jobs.schemas import CloudExportSnapshot
+
+    if isinstance(snapshot, CloudExportSnapshot):
+        from mockazure.cloud.lifecycle import import_cloud
+        from mockazure.tenants.repository import get_tenant
+
+        if replacement is not None or target_tenant_id != snapshot.source_tenant_id:
+            raise AdminError(
+                422, "InvalidCloudRestore", "Cloud snapshots require the original target tenant"
+            )
+        tenant = await get_tenant(session, target_tenant_id)
+        if tenant is None:
+            raise AdminError(404, "TenantNotFound", "Restore tenant was not found")
+        await import_cloud(session, target_tenant_id, snapshot.cloud)
+        return tenant
+    if target_tenant_id is not None:
+        raise AdminError(422, "InvalidRestoreTarget", "Metadata imports create a new tenant")
     return await create_tenant(session, replacement or snapshot.tenant)
+
+
+async def export_cloud_snapshot(session: AsyncSession, tenant_id):
+    from mockazure.cloud.lifecycle import export_cloud
+
+    return await export_cloud(session, tenant_id)
 
 
 async def export_content_manifest(session: AsyncSession, tenant_id):

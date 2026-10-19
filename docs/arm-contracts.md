@@ -113,7 +113,7 @@ valid encoded Azure names until a nonambiguous encoding profile is implemented.
 
 ## Public RBAC (Task4)
 
-Authorization2022-04-01 serves the four pinned built-in role definitions and
+Authorization2022-04-01 serves the 20 pinned built-in role definitions and
 canonical role assignment GET/list/PUT/DELETE. Principal IDs are local object
 IDs; omitted principalType is inferred, supplied types must match. Scope/principal/
 role identity is immutable; equivalent new IDs conflict. Description updates
@@ -226,3 +226,261 @@ Original Az qualifies built-in role-definition IDs at its assignment scope.
 References at an existing local ancestor are accepted; foreign subscriptions,
 unrelated scopes and nonexistent scopes are rejected. Stored role identity remains
 the canonical immutable built-in UUID, so this compatibility form adds no authority.
+
+
+## Provider discovery and data permissions
+
+Provider list/get/register/unregister use the actual Microsoft.Resources 2021-04-01
+contract. Five profiles cover Storage, KeyVault, Compute, Network and
+OperationalInsights; metadata lists selected versions and the local eastus/westus2
+locations. New subscriptions begin NotRegistered. Local registration completes
+synchronously. Unregister rejects a namespace with current inventory; repeated
+unchanged state does not create duplicate successful facts. Consent properties,
+metadata/alias expansion and tenant-level provider APIs are unsupported.
+Discovery metadata is a profile catalog, not proof that every provider operation
+has a handler. Unknown paths/versions fail before inventory mutation. Subsequent
+Storage/resource tasks implement the separately cataloged resource operations.
+
+Twenty official built-in definitions include the original four control roles,
+Blob Owner/Contributor/Reader, Queue Contributor/Reader/Message Processor/Message
+Sender, Table Contributor/Reader, Files Privileged Contributor/Reader, and Key Vault
+Administrator/Contributor/Reader/Secrets Officer/Secrets User. Their exact UUIDs,
+actions and exclusions come from hashed Microsoft Learn sources. Conditional roles
+such as Key Vault Data Access Administrator are excluded until their condition
+language can be enforced. No custom-role write support is implied.
+
+Data authorization requires the correct Storage or Key Vault service audience,
+current application/service principal/user and current scoped assignments, including
+transitive current security-group membership. It subtracts notDataActions within
+each role before union; a different role may grant the excluded action. Contributor
+and Owner control-plane wildcards alone grant no data action. Service handlers still
+own network, service-specific permission modes and object authorization. The internal
+check does not itself expose a Storage/Key Vault data endpoint or mint tokens; those
+are delivered by their owning tasks.
+
+Migration 057 stores subscription-bound provider state and generation-bound internal
+service events. State and native Activity Log facts commit together. Identical event
+IDs are idempotent; different facts under the same ID fail. These internal envelopes
+are not a Microsoft wire schema. Diagnostics delivery is added in its own phase.
+
+Authenticated local GET/PUT `/_mock/tenants/{tenant}/cloud/providerState` exports or
+atomically replaces registrations/events; empty lists reset this state and advance
+the generation. The local fixture limits are 5,000 registration rows and 10,000
+events; exports exceeding them fail explicitly. All subscriptions must belong to the
+tenant. Historical events may refer to deleted resources in those subscriptions.
+Restored events are ineligible for publication; they never revive worker/delivery
+authority. Secret-bearing payload fields are rejected. Bounded internal pruning
+removes only old ineligible events, preserving undelivered native events. B4 connects
+these contributors to the combined resource lifecycle. Migration downgrade refuses
+nonempty provider/event stores. PostgreSQL and application restarts preserve state.
+
+B1 has direct signed-token HTTP and database integration coverage; the original
+management SDK/module matrix is completed in B4 alongside usable account/resource
+workflows. No new four-ecosystem qualification is claimed by this foundation alone.
+
+
+### Storage account management (B2)
+
+Storage account operations use the pinned Microsoft.Storage **2025-06-01** Swagger,
+including request/response definitions and referenced common types. The provider
+catalog lists 17 implemented operations: subscription/group lists, check-name,
+account GET/PUT/PATCH/DELETE, listKeys/regenerateKey, and GET/PUT for four service
+property resources. PUT completes synchronously with **200**, as permitted by the
+official create operation. Unsupported versions, queries (including `$expand`),
+read-only input fields, and operations fail explicitly.
+
+Register Microsoft.Storage before creating accounts. Supported kinds are Storage,
+StorageV2 and BlobStorage with Standard LRS/GRS/RAGRS/ZRS/GZRS/RAGZRS; FileStorage and
+BlockBlobStorage use Premium LRS/ZRS. Locations are eastus/westus2. Kind/location
+cannot change in this profile. The local limit is 1,000 operational accounts per
+tenant; lists are complete within that bound. Names are instance-global. Current
+scoped ARM actions govern every operation; Reader cannot retrieve or rotate keys.
+Control-plane grants do not grant Storage data actions.
+
+Supported account settings include tags (15, 128-character names), access tier,
+public network access, IP rules, Shared Key/public-blob/OAuth defaults, HTTPS/TLS
+minimum settings, and large-file-share enablement. HNS/NFS/SFTP/local-user features,
+customer-managed encryption, identity and network security perimeter inputs are
+rejected. TLS 1.3 is rejected despite its published enum because the same Microsoft
+contract explicitly describes it as unsupported. The local default minimum is
+TLS1_2. Replication/SKU/tier are stored configuration; no Azure infrastructure is
+provisioned. Service-property GET/PUT supports CORS configuration only at this stage;
+retention/versioning enforcement arrives with the data planes.
+
+`properties.primaryEndpoints` advertises four separate configured local HTTPS
+origins using development-style **/account/** path addressing. The default ports
+are the login port +1 through +5 for Blob, Files, Queue, Table and Key Vault; a
+default native instance therefore uses 8444..8448. Explicit profiles can override
+the origins and `data_listen_ports` can override native listeners. Native serve
+binds all planned ports; a collision fails startup. Compose ingress forwards these
+five services to the API; `init --compose` adds the corresponding port metadata
+without rotating credentials, CA or database storage. This is a local endpoint
+adaptation, not Microsoft public DNS. Data-plane operations remain independently
+tracked in phases C/D; advertising an endpoint does not implement blob/file IO.
+
+Network evaluation uses the observed peer IP only. Forwarded-address, private-endpoint
+and Azure-service headers cannot grant trust. PublicNetworkAccess Disabled denies
+public data access; default Deny permits only matching configured IP ranges.
+Private/loopback IP rules are an explicit local-test adaptation. VNet/resource rules
+and AzureServices bypass are stored for inspection but grant no local transport
+trust. TLS/HTTP enforcement and service authentication are owned by the upcoming
+data handlers, not inferred from successful management writes.
+
+Migration 058 keeps encrypted account keys and service settings in a separate
+tenant/account-FK table. Each account has two independently rotatable 64-byte keys;
+listKeys is the only ordinary management response returning values. Rotation facts
+contain key name/time only. State mutations, Activity Log facts and internal events
+share a transaction. Credential FK cascades prevent orphan keys on account/group
+deletion. Generic inventory imports cannot overwrite operational accounts; inventory-
+only account rows remain visible through generic ARM inventory, but do not appear
+in operational account lists and return 409 on provider access until explicitly
+provisioned through the typed fixture or recreated.
+
+Authenticated local GET/PUT `/_mock/tenants/{tenant}/cloud/storageState` exports and
+atomically replaces typed account configuration and service settings. All parents,
+names, schemas and tenant ownership are validated before replacement. Exports omit
+keys; restore rotates both credentials and invalidates old account event publication.
+An empty accounts list resets account state, removing parent-bound credentials;
+unchanged account IDs retain scoped grants. Account state has no TTL, so its bounded
+prune contributor returns zero; FK cascades perform deletion cleanup. B4 integrates
+these typed contributors with combined cloud lifecycle operations.
+
+The original MSAL **1.39.0** confidential client acquired Storage and Key Vault
+tokens over real local HTTPS with the instance CA, without any tenant network calls.
+Local validation checks signature, issuer, tenant and distinct audiences; ARM rejects
+both data tokens. Account integration tests additionally cover rotation, permission
+denials, atomic rollback, import isolation, endpoints, networks, lifecycle and upgrade
+from 057. The four-ecosystem management matrix remains B4; data signing is C1.
+
+B2 final local gate: **576 passed** across unit, account/provider, OAuth, ARM inventory/mutation/deletion checks; Ruff and offline source verification passed. This count is task-local evidence, not a new all-program release qualification.
+
+## Related provider resources (B3)
+
+Eleven resource families use 61 published operations from the pinned Azure REST
+revision: Key Vault 2025-05-01, OperationalInsights 2025-02-01, Compute 2025-04-01,
+DiskRP 2025-01-02 and Network 2025-03-01. Requests and responses are validated against
+the cached actual schemas; the [profile manifest](../src/mockazure/providers/arm/data/resource-profiles.json)
+lists writable fields. Network PATCH supports published UpdateTags only; subnets
+and security rules have no invented PATCH. List collections exist under their
+parents, plus subscription lists for top-level families (not VM extensions).
+Pages contain at most 100 resources, with a 10,000-resource/tenant local bound.
+Next links bind inventory revision and recheck current authority.
+
+Create/update are synchronous; B4 adds asynchronous deletion where the published
+operation admits 202. Vault and Storage account deletion remain synchronous. Native Activity Log facts and
+internal service events commit atomically with canonical inventory and relationships.
+Provider registration, current source actions and linked-resource join/write actions
+are required; an unchanged write still checks current linked authority. Related
+Compute/Network resources must have the same location. Cross-tenant/subscription,
+missing, deleting or inventory-only references fail; the database also constrains
+tenant ownership and subscription boundaries. In-use resources cannot be deleted.
+Generic fixture imports cannot overwrite operational resources. VM NIC/disk
+attachments are exclusive across VMs. This is a bounded local relationship model,
+not all Azure networking/fabric constraints.
+
+Locations are eastus/westus2. VM sizes are Standard_B1s, Standard_B2s and
+Standard_D2s_v5; selected image/attached OS disk and managed data disk metadata are
+supported. Passwords/custom data/protected extension settings are rejected.
+Extensions store public settings without executing them. Disks support Empty
+creation and selected SKUs. VNet/subnet CIDRs, parent containment, sibling overlap,
+NSG rule priorities and static NIC address containment are validated. Dynamic IP
+allocation, real traffic, DNS and VM guests are not simulated by these inventory
+operations. Parent reads project canonical child records; callers write subnets,
+rules and extensions through explicit child APIs rather than embedded arrays.
+
+Vaults validate owning tenant and existing local policy principals, including the
+published secrets permission `all`. Changing RBAC mode requires current role-assignment
+write authority. Retention is immutable; soft-delete cannot be disabled and purge
+protection cannot be weakened. These are management settings: secret IO, policy/data
+authorization, recoverability and purge execution are phase D3, not implied by B3.
+Workspaces have persistent customer UUIDs, PerGB2018 and 30..730 day retention;
+query/ingestion and retention execution belong to F. Vault URIs use the configured
+local Key Vault origin and /vault-name/ addressing.
+
+Migration 059 adds operational markers, tenant/subscription-safe relationship edges,
+globally unique local vault names and stable workspace identities. Typed
+`/_mock/tenants/{tenant}/cloud/resourceState` atomically exports/replaces configuration
+and generated workspace/VM IDs; it validates the entire replacement, stages all
+records before resolving edges, and suppresses old event delivery. An empty resource
+list resets this domain. No TTL state exists here; prune returns zero. B4 integrates
+these contributors into combined tenant lifecycle. Tests cover upgrade from 058
+without changing existing Storage keys. Four-ecosystem management qualification
+remains B4; these REST tests alone are not SDK qualification.
+
+B3 local gate: **589 passed** across all unit and affected integration tests; 51 pinned ARM source hashes and the provider catalog verify offline. This is task-local evidence, with native management qualification still pending B4.
+
+
+## Durable lifecycle and management clients (B4)
+
+Compute API `2025-04-01` now exposes POST `start`, `restart`, `powerOff`,
+`deallocate` and GET `instanceView` under a VM. Initial power is running;
+start/restart yield running, powerOff stopped, deallocate deallocated. This is
+durable simulated state, without VM guests, billing or hibernation. `skipShutdown`
+accepts the published boolean; no guest shutdown is executed. `hibernate=true`
+is rejected. Body-bearing action calls and unsupported query options fail.
+
+Accepted actions and asynchronous resource deletes return 202 with local
+`Azure-AsyncOperation`, `Location` and `Retry-After` headers. Clients follow these
+opaque local monitor URLs, whose envelopes implement the [published ARM asynchronous
+protocol](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations).
+The exact local URL template is not a claim that every Azure provider publishes
+that same route. Status polling returns InProgress/Succeeded/Failed with native
+errors; result polling returns 202 pending, 200 for completed actions, 204 for
+completed deletion and 409 for failure. Current operation authority at subscription
+or resource-group scope is required on each poll, including after deletion.
+
+Jobs check both evidence/cloud generations and worker lease fencing. State changes,
+Activity Log facts and service events commit together. A stale lease cannot commit
+state or failure evidence; exhausted leases become visible failures. Repeated same
+pending actions reuse their job; conflicts return 409. Parent deletion cancels
+descendant operations, guards incoming relationships, and serializes against new
+child creation. Migration 060 adds VM power state; historical inventory from 052
+remains inventory-only rather than silently gaining executable authority.
+
+GET/PUT `/_mock/tenants/{tenant}/cloud/state` exports/restores typed subscriptions,
+groups, registrations, account settings, provider resources and VM power.
+POST `cloud/reset` requires `expected_generation` and resets operational domains,
+retaining parent subscriptions/groups. Restore validates the whole document
+atomically, rotates Storage keys, retires pending provider/group jobs, preserves
+stable resource IDs and prevents historical event republication. Exports exclude
+account credentials and identity grants. Bounded cleanup prunes retired event
+generations; active resource state has no implicit TTL.
+
+The existing export job accepts `?include_cloud=true` for schema 2. Restore through
+`/_mock/tenants/import` requires the original `target_tenant_id`; identity/tenant
+configuration is not replaced. Default schema 1 metadata export/import is unchanged.
+Schema 2 is configuration/state recovery, not binary Storage or secret backup;
+later data-plane phases must add their explicit lifecycle contributors.
+
+The management matrix uses original Python azure-mgmt-resource 23.4.0,
+Az.Accounts 4.0.2/Az.Resources 7.8.0, .NET Azure.ResourceManager 1.14.0 plus
+Azure.ResourceManager.Network 1.17.0, and TypeScript @azure/arm-resources 8.0.0.
+Each creates/reads 12 resource families, reads another language's objects, changes
+VM tags and deletes using native polling. The harness also checks final absence.
+Python explicitly configures its RequestsTransport CA. TypeScript resource IDs
+and Az Get-AzResource arguments omit the separator already supplied by those
+clients. .NET uses typed Network child models because its generic model emits
+`location:null` for location-less subnets/rules; its VM tag change uses a full PUT.
+No request-body rewrite or replacement SDK is used. All clients target only local
+HTTPS origins with the instance CA. Az runs in the isolated API network namespace.
+
+Reproduce with `python -m tools.verify_cloud_workflows --phase B --ecosystems python
+powershell dotnet typescript --report work/cloud/B.json`. The runner verifies the
+existing pinned module archives, runs npm ci and locked NuGet restore, builds into
+ignored work directories, then creates an isolated Compose instance. Node, .NET 9,
+Docker and the Python integration dependencies are required. Preparation can also
+run separately using `python -m tools.prepare_cloud_clients`. Successful execution
+is recorded in the phase report with actual package versions and source fingerprint;
+this matrix does not qualify the still-pending data planes or query services.
+
+
+The whole-phase review added literal SQL scope-prefix matching (underscores in
+valid names are not LIKE wildcards), subnet resize checks against existing static
+NIC addresses, atomic cancellation before restoring deleting groups, and worker
+fencing on standalone resourceState restore/reset. Six negative regression cases
+failed before these fixes; the combined review/lifecycle/inventory gate passed
+27 tests afterward. The A/B CI client matrix is configured, but current GitHub
+jobs do not start because of repository billing/spending limits. Local evidence
+must not be read as a successful hosted CI run.
+
+B4 final local verification: **596 passed** in 655.47s across all unit and affected integration tests; Ruff, diff checks and offline source verification passed. The fresh four-client matrix passed in 620.42s against runtime fingerprint `ea198038da78eb70768f36143ac713132978ff85c4f7e5b5f4ce2dcf64549c63` (pre-commit source HEAD `685dec1ecd6b283300c0ade4ddbd2489f030bb95`). It completed all 48 resource-family roundtrips/deletions and the four-language read ring. The qualification report checks this fingerprint before/after execution; later data-plane phases remain pending.

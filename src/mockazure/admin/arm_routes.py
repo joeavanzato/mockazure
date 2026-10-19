@@ -2,7 +2,7 @@ from typing import Literal
 from uuid import UUID
 
 from fastapi import APIRouter, Request
-from pydantic import Field, model_validator
+from pydantic import Field, field_validator, model_validator
 from sqlalchemy import select
 
 from mockazure.admin.identity_routes import transaction
@@ -131,7 +131,15 @@ class RoleInput(IdentityInput):
     principal_id: UUID
     principal_type: Literal["User", "ServicePrincipal", "Group"]
     scope: str = Field(min_length=1, max_length=2048)
-    role: Literal["Reader", "Contributor", "Owner", "User Access Administrator"]
+    role: str = Field(min_length=1, max_length=100)
+
+    @field_validator("role")
+    @classmethod
+    def known_role(cls, value):
+        if value not in builtin_roles():
+            raise ValueError("Unsupported built-in role")
+        return value
+
     description: str | None = Field(default=None, max_length=1024)
 
 

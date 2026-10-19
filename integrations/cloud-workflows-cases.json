@@ -115,6 +115,70 @@
         "dotnet": "Exchange cmdlets require the PowerShell module; no .NET Exchange SDK is claimed.",
         "typescript": "Exchange cmdlets require the PowerShell module; no TypeScript Exchange SDK is claimed."
       }
+    },
+    "B": {
+      "workflows": [
+        {
+          "id": "arm.resource-management",
+          "service": "arm-providers",
+          "operationIds": [
+            "Vaults_Get",
+            "Vaults_CreateOrUpdate",
+            "Vaults_Delete",
+            "Workspaces_CreateOrUpdate",
+            "Workspaces_Delete",
+            "Workspaces_Get",
+            "VirtualMachines_Get",
+            "VirtualMachines_CreateOrUpdate",
+            "VirtualMachines_Delete",
+            "VirtualMachineExtensions_Get",
+            "VirtualMachineExtensions_CreateOrUpdate",
+            "VirtualMachineExtensions_Delete",
+            "Disks_Get",
+            "Disks_CreateOrUpdate",
+            "Disks_Delete",
+            "VirtualNetworks_Delete",
+            "VirtualNetworks_Get",
+            "VirtualNetworks_CreateOrUpdate",
+            "Subnets_Delete",
+            "Subnets_Get",
+            "Subnets_CreateOrUpdate",
+            "NetworkSecurityGroups_Delete",
+            "NetworkSecurityGroups_Get",
+            "NetworkSecurityGroups_CreateOrUpdate",
+            "SecurityRules_Delete",
+            "SecurityRules_Get",
+            "SecurityRules_CreateOrUpdate",
+            "NetworkInterfaces_Delete",
+            "NetworkInterfaces_Get",
+            "NetworkInterfaces_CreateOrUpdate",
+            "PublicIPAddresses_Delete",
+            "PublicIPAddresses_Get",
+            "PublicIPAddresses_CreateOrUpdate",
+            "StorageAccounts_Create",
+            "StorageAccounts_GetProperties",
+            "StorageAccounts_Delete"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "twelve_families_created",
+            "native_reads",
+            "cross_language_reads",
+            "tag_update",
+            "native_delete_polling"
+          ]
+        }
+      ],
+      "notApplicable": {}
     }
   }
 }

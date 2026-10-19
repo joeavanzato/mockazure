@@ -46,6 +46,34 @@ class EndpointProfile(BaseModel):
     arm: str = "https://localhost:8443"
     activity: str = "https://localhost:8443"
     browser_login: str = "https://localhost:8443"
+    storage: str = "https://localhost:8444"
+    file: str = "https://localhost:8445"
+    queue: str = "https://localhost:8446"
+    table: str = "https://localhost:8447"
+    keyvault: str = "https://localhost:8448"
+
+    @model_validator(mode="before")
+    @classmethod
+    def legacy_data_origins(cls, value):
+        if isinstance(value, dict):
+            host = urlsplit(value.get("login", "https://localhost:8443")).hostname or "localhost"
+            host = "[" + host + "]" if ":" in host else host
+            port = urlsplit(value.get("login", "https://localhost:8443")).port or 443
+            value = dict(value)
+            for offset, name in enumerate(("storage", "file", "queue", "table", "keyvault")):
+                value.setdefault(name, f"https://{host}:{port + 1 + offset}")
+        return value
+
+    @model_validator(mode="after")
+    def distinct_data_origins(self):
+        values = [getattr(self, name) for name in ("storage", "file", "queue", "table", "keyvault")]
+        core = {
+            getattr(self, name)
+            for name in ("login", "graph", "exchange", "arm", "activity", "browser_login")
+        }
+        if len(set(values)) != len(values) or set(values) & core:
+            raise ValueError("Data services require distinct local origins")
+        return self
 
     @model_validator(mode="before")
     @classmethod
@@ -54,7 +82,19 @@ class EndpointProfile(BaseModel):
             value = {**value, "activity": value.get("login", "https://localhost:8443")}
         return value
 
-    @field_validator("login", "graph", "exchange", "arm", "activity", "browser_login")
+    @field_validator(
+        "login",
+        "graph",
+        "exchange",
+        "arm",
+        "activity",
+        "browser_login",
+        "storage",
+        "file",
+        "queue",
+        "table",
+        "keyvault",
+    )
     @classmethod
     def origins(cls, value: str) -> str:
         return local_origin(value)
@@ -71,6 +111,8 @@ class ResourceDescriptor:
 
 
 RESOURCES = (
+    ResourceDescriptor("storage", "https://storage.azure.com/", ("https://storage.azure.com",)),
+    ResourceDescriptor("keyvault", "https://vault.azure.net", ("https://vault.azure.net",)),
     ResourceDescriptor(
         "activity",
         "https://manage.office.com",

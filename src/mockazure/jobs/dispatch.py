@@ -10,13 +10,15 @@ from mockazure.auditlog.worker import process_audit_query
 from mockazure.db.engine import Database
 from mockazure.evidence.projection import process_projection
 from mockazure.jobs.repository import fail_job, finish_export
-from mockazure.jobs.schemas import ExportSnapshot, JobClaim, JobResult
+from mockazure.jobs.schemas import JobClaim, JobResult, parse_export
+from mockazure.providers.arm.errors import ArmError
 from mockazure.providers.arm.operations import process_arm_delete
+from mockazure.providers.arm.provider_jobs import process_provider_operation
 from mockazure.security.password_reset import process_password_reset
 
 
 async def process_export(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult:
-    snapshot = ExportSnapshot.model_validate(claim.payload)
+    snapshot = parse_export(claim.payload)
     if snapshot.source_tenant_id != claim.tenant_id:
         raise ValueError("Export tenant mismatch")
     async with database.sessions.begin() as session:
@@ -31,6 +33,7 @@ HANDLERS = {
     "evidence.project": process_projection,
     "audit.query": process_audit_query,
     "arm.group.delete": process_arm_delete,
+    "arm.provider.operation": process_provider_operation,
 }
 
 
@@ -43,6 +46,8 @@ async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) 
             code, terminal = "UnsupportedJobKind", True
         else:
             return await handler(database, claim, wall_now)
+    except ArmError as error:
+        code, terminal = error.code, True
     except SQLAlchemyError:
         code = "TransientError"
     except (ValueError, TypeError, KeyError):
@@ -52,6 +57,7 @@ async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) 
             "authentication.passwordReset": "PasswordResetFailed",
             "audit.query": "AuditQueryFailed",
             "arm.group.delete": "ArmOperationFailed",
+            "arm.provider.operation": "ArmOperationFailed",
         }.get(claim.kind, "ExportFailed")
         terminal = True
     async with database.sessions.begin() as session:

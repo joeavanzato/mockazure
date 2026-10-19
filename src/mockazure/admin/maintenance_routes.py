@@ -60,6 +60,13 @@ async def cleanup(tenant_id: UUID, request: Request, value: CleanupInput):
         async with database.sessions.begin() as session:
             await tenant_required(session, tenant_id)
             content = await prune_content(session, tenant_id, now, remaining)
+    remaining -= content["deleted"]
+    cloud = {"deleted": 0}
+    if remaining:
+        from mockazure.cloud.lifecycle import prune_cloud
+
+        async with database.sessions.begin() as session:
+            cloud["deleted"] = await prune_cloud(session, tenant_id, now, remaining)
     return {
         "max_rows": value.max_rows,
         "deleted": unified_audit["deleted"]
@@ -67,7 +74,9 @@ async def cleanup(tenant_id: UUID, request: Request, value: CleanupInput):
         + mail["deleted"]
         + mail_content["deleted"]
         + workloads["deleted"]
-        + content["deleted"],
+        + content["deleted"]
+        + cloud["deleted"],
+        "cloud": cloud,
         "audit": audit,
         "unified_audit": unified_audit,
         "mail": mail,

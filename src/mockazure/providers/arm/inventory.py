@@ -197,6 +197,17 @@ async def seed_resources(session, tenant, subscription_id, values):
             )
             .execution_options(populate_existing=True)
         )
+        if row is not None:
+            from mockazure.providers.arm.models import ProviderResource
+            from mockazure.storage.models import StorageAccount
+
+            if await session.get(ProviderResource, (tenant, scope.key)) is not None:
+                raise ValueError("Operational resources must use provider operations")
+
+            if await session.get(StorageAccount, (tenant, scope.key)) is not None:
+                raise ValueError(
+                    "Operational Storage accounts must be updated through provider operations"
+                )
         changed = row is None or any(
             (
                 row.tags != tags,

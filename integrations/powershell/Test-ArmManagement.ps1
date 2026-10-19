@@ -27,7 +27,7 @@ try {
         Remove-AzTag -ResourceId $scope -Confirm:$false | Out-Null
         $checks.tag_crud=$true
         $definitions = @(Get-AzRoleDefinition)
-        if ($definitions.Count -ne 4) {throw 'Built-in role definitions mismatch'}
+        if ($definitions.Count -ne 20) {throw 'Built-in role definitions mismatch'}
         $reader = $definitions | Where-Object Name -eq 'Reader'
         $checks.role_definitions=$true
         $assignment = New-AzRoleAssignment -ObjectType User -ObjectId $config.negative_user_id -RoleDefinitionId $reader.Id -Scope $scope
