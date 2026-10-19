@@ -80,6 +80,7 @@ class Replica:
         self.values.update(
             listen_host="127.0.0.1",
             listen_port=port,
+            data_listen_ports=[],
             admin_base_url=self.base,
             data_dir=str((RUNTIME / "instance").resolve()),
         )

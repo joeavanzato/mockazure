@@ -188,9 +188,25 @@ def workflow(config, token, negative, mode):
         checks["tag_crud"] = True
         definitions = list(roles.role_definitions.list(f"/subscriptions/{sub}"))
         assert {r.role_name for r in definitions} == {
+            "Contributor",
+            "Key Vault Administrator",
+            "Key Vault Contributor",
+            "Key Vault Reader",
+            "Key Vault Secrets Officer",
+            "Key Vault Secrets User",
             "Owner",
             "Reader",
-            "Contributor",
+            "Storage Blob Data Contributor",
+            "Storage Blob Data Owner",
+            "Storage Blob Data Reader",
+            "Storage File Data Privileged Contributor",
+            "Storage File Data Privileged Reader",
+            "Storage Queue Data Contributor",
+            "Storage Queue Data Message Processor",
+            "Storage Queue Data Message Sender",
+            "Storage Queue Data Reader",
+            "Storage Table Data Contributor",
+            "Storage Table Data Reader",
             "User Access Administrator",
         }
         checks["role_definitions"] = True

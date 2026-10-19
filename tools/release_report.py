@@ -86,6 +86,14 @@ def release_readiness(report, fingerprint):
     artifacts = report.get("artifacts", {})
     if not all(artifacts.get(key) is True for key in ("passed", "reproducible", "parity")):
         failures.append("candidate artifact reproducibility/parity")
+    for name in ("matrix", "scale", "distribution", "coverage"):
+        entry = report.get("cloud", {}).get(name, {})
+        if not (
+            entry.get("passed") is True
+            and entry.get("validated") is True
+            and re.fullmatch("[0-9a-f]{64}", entry.get("report_sha256", ""))
+        ):
+            failures.append("cloud " + name)
     return {
         "qualification_ready": qualification_ready,
         "release_ready": not failures,

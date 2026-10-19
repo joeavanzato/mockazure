@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -21,7 +22,22 @@ def cases():
 def validate_report(report, required_ecosystems):
     phase = report["phase"]
     definitions = cases()
-    if phase not in definitions or phase == "all":
+    if phase == "all":
+        phases = report.get("phases", [])
+        if (
+            required_ecosystems != ECOSYSTEMS
+            or len(phases) != 6
+            or {p.get("phase") for p in phases} != set("ABCDEF")
+        ):
+            raise ValueError("The complete six-phase matrix is required")
+        for child in phases:
+            if child.get("passed") is not True or any(
+                child.get(k) != report.get(k) for k in ("sourceCommit", "sourceFingerprint")
+            ):
+                raise ValueError("Phase evidence failed or differs from aggregate source")
+            validate_report(child, required_ecosystems)
+        return
+    if phase not in definitions:
         raise ValueError("Phase is not yet qualified")
     if set(report["ecosystems"]) != required_ecosystems or required_ecosystems != ECOSYSTEMS:
         raise ValueError("The complete four-ecosystem matrix is required")
@@ -404,12 +420,70 @@ def run_queries(path):
         path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
 
+def run_all(path):
+    """Run every original-client profile against one frozen source identity."""
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "all",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "phases": [],
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    evidence = path.parent / (path.stem + "-phases")
+    evidence.mkdir(exist_ok=True)
+    try:
+        for phase in "ABCDEF":
+            if source_identity() != (commit, fingerprint):
+                raise ValueError("Source changed during aggregate qualification")
+            child = evidence / (phase + ".json")
+            log = evidence / (phase + ".log")
+            print(f"Qualifying phase {phase}; log: {log}", flush=True)
+            with log.open("w", encoding="utf-8") as stream:
+                completed = subprocess.run(
+                    [
+                        sys.executable,
+                        "-X",
+                        "utf8",
+                        "-m",
+                        "tools.verify_cloud_workflows",
+                        "--phase",
+                        phase,
+                        "--ecosystems",
+                        *sorted(ECOSYSTEMS),
+                        "--report",
+                        str(child.resolve()),
+                    ],
+                    cwd=ROOT,
+                    stdout=stream,
+                    stderr=subprocess.STDOUT,
+                    check=False,
+                )
+            if completed.returncode:
+                raise RuntimeError(f"Phase {phase} failed; inspect {log}")
+            value = json.loads(child.read_text(encoding="utf-8"))
+            report["phases"].append(value)
+            print(f"Phase {phase} completed", flush=True)
+        validate_report(report, ECOSYSTEMS)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Source changed during aggregate qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = round(time.monotonic() - started, 3)
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", required=True, choices=[*list("ABCDEF"), "all"])
     parser.add_argument("--ecosystems", nargs="+", required=True, choices=sorted(ECOSYSTEMS))
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
+    if args.phase == "all" and set(args.ecosystems) == ECOSYSTEMS:
+        run_all(args.report)
+        return
     if args.phase == "F" and set(args.ecosystems) == ECOSYSTEMS:
         run_queries(args.report)
         return
@@ -426,10 +500,7 @@ def main():
         run_management(args.report)
         return
     if args.phase != "A" or set(args.ecosystems) != ECOSYSTEMS:
-        parser.error(
-            "Only individual phase A-F matrices are executable; "
-            "aggregate G qualification remains unavailable"
-        )
+        parser.error("The complete four-ecosystem matrix is required")
     from tools.prepare_clients import prepare
     from tools.verify_default import main as smoke
     from tools.verify_exchange_workflows import qualify

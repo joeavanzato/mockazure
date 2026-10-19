@@ -14,6 +14,7 @@ jobs:
           python-version: "3.12"
       - run: uv sync --locked --group clients
       - run: uv run ruff check .
+      - run: uv run python -m tools.check_cloud_coverage --check
       - run: mkdir -p work && uv run python -m pytest tests/unit -q --basetemp=work/ci-unit
       - run: uv run python tools/prepare_tests.py
       - run: docker compose -f compose.test.m6.yaml up -d --wait
@@ -143,7 +144,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        phase: [A, B]
+        phase: [A, B, C, D, E, F]
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -164,4 +165,50 @@ jobs:
         with:
           name: cloud-${{ matrix.phase }}-qualification
           path: work/cloud/${{ matrix.phase }}.json
+          if-no-files-found: warn
+
+  cloud-scale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.12"
+      - run: uv sync --locked --group clients
+      - run: uv run python -m tools.benchmark_cloud_workflows --records 100000 --binary-bytes 268435456 --readers 8 --report work/cloud/scale.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cloud-scale-qualification
+          path: work/cloud/scale.json
+          if-no-files-found: warn
+
+  cloud-distributions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.12"
+      - run: uv sync --locked --group clients
+      - run: uv run python tools/prepare_tests.py
+      - run: docker compose -f compose.test.m6.yaml up -d --wait
+      - run: uv run python -m tools.build_release --commit "$(git rev-parse HEAD)" --output work/release/candidate
+      - run: uv run python -m tools.verify_cloud_distribution --database-container "$(docker compose -f compose.test.m6.yaml ps -q db)"
+        env:
+          MOCKAZURE_TEST_DB_PORT: "55445"
+      - if: always()
+        run: docker compose -f compose.test.m6.yaml stop
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cloud-distribution-qualification
+          path: |
+            work/release/artifacts.json
+            work/release/cloud-distribution.json
+            work/release/cloud-probes-*/fixtures/*.xml
           if-no-files-found: warn

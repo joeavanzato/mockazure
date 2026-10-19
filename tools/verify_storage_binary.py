@@ -4,9 +4,10 @@ import hashlib
 import json
 import sys
 import time
+from urllib.parse import urlsplit
 
 from tools.verify_collections import PS_IMAGE
-from tools.verify_default import ROOT
+from tools.verify_default import ROOT, wait_for_service_origins
 from tools.verify_file_content import qualify as file_workflows
 
 
@@ -227,6 +228,11 @@ def qualify(directory, command, compose, client, headers, tenant, check, *, bina
         time.sleep(0.5)
     else:
         raise RuntimeError("Storage restart did not become ready")
+    profile = json.loads((state / "python.json").read_text(encoding="utf-8"))
+    wait_for_service_origins(
+        client,
+        ["https://" + urlsplit(profile[name + "_endpoint"]).netloc for name in ("blob", "file")],
+    )
     restarted = run_clients(
         directory, command, compose, state, check, read_only=True, python_bytes=python_bytes
     )
