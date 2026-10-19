@@ -339,6 +339,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     app.include_router(vault_management_router)
     app.include_router(arm_storage_router)
+    from mockazure.providers.resourcegraph.routes import router as resourcegraph_router
+
+    app.include_router(resourcegraph_router)
     app.include_router(arm_provider_router)
     app.include_router(arm_router)
     app.include_router(arm_inventory_router)

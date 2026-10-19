@@ -1,0 +1,1072 @@
+{
+  "schemaVersion": 1,
+  "service": "queries",
+  "operations": [
+    {
+      "kind": "rest",
+      "operationId": "resourcegraph.resources",
+      "service": "queries",
+      "version": "2024-04-01",
+      "method": "POST",
+      "path": "/providers/Microsoft.ResourceGraph/resources",
+      "aliases": [],
+      "requestSchema": {
+        "namespace": "resourcegraph",
+        "name": "QueryRequest"
+      },
+      "responseSchemas": {
+        "200": {
+          "namespace": "resourcegraph",
+          "name": "QueryResponse"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        429
+      ],
+      "headers": [
+        "Content-Type"
+      ],
+      "permissions": {
+        "audience": "arm",
+        "action": "scoped resource read on both query inputs"
+      },
+      "queryOptions": [
+        "query",
+        "subscriptions",
+        "options.resultFormat",
+        "options.$top",
+        "options.$skip"
+      ],
+      "limits": {
+        "seconds": 30,
+        "rows": 100000,
+        "intermediateBytes": 67108864,
+        "expandedRows": 1000000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2017-05-01-preview/diagnosticsSettingsCategories_API.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/c7d70b81cd1f829721f8d60815bcb6053a88d7acbaab2df12275e8656dcbaa2c.json",
+          "sha256": "c7d70b81cd1f829721f8d60815bcb6053a88d7acbaab2df12275e8656dcbaa2c",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/data-collection/diagnostic-settings.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "55bf282f91ecacd8afc8b9387f5bfa6ed67cc3aa42766ff5d33eebe8183984ff",
+          "localPath": "references/55bf282f91ecacd8afc8b9387f5bfa6ed67cc3aa42766ff5d33eebe8183984ff.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs-schema.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe",
+          "localPath": "references/57fee02d5243f02309d0b7f015c45d833050b906ba3a7d34e18b78c4a7fca5fe.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/fundamentals/activity-log-schema.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "dcd28190f255891b5ccbbdde66752eea6b21a3037766422ff1ee3c8e18a93565",
+          "localPath": "references/dcd28190f255891b5ccbbdde66752eea6b21a3037766422ff1ee3c8e18a93565.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/data-collection/resource-manager-diagnostic-settings.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c579cec03a8f962e84c80d8d235a75f9390b7862a0e6687a71a1e146769cc67f",
+          "localPath": "references/c579cec03a8f962e84c80d8d235a75f9390b7862a0e6687a71a1e146769cc67f.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/toreal-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "f2720c03f6d3e51a5ab64ae5baf0d6b0191a3a900e992e42221ccb5671121eab",
+          "localPath": "references/f2720c03f6d3e51a5ab64ae5baf0d6b0191a3a900e992e42221ccb5671121eab.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/LICENSE",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "9a4920e24f6f156667c3dad80ab0ad45922a924be999e1ecccbdaf3dcb0e9a9f",
+          "localPath": "references/9a4920e24f6f156667c3dad80ab0ad45922a924be999e1ecccbdaf3dcb0e9a9f",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/LICENSE-CODE",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "91f7258203fd43ba6d6f7f72b644eaedee9e3430f035c053beb6f34052f045e2",
+          "localPath": "references/91f7258203fd43ba6d6f7f72b644eaedee9e3430f035c053beb6f34052f045e2",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/LICENSE",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "references/7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/LICENSE-CODE",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "91f7258203fd43ba6d6f7f72b644eaedee9e3430f035c053beb6f34052f045e2",
+          "localPath": "references/91f7258203fd43ba6d6f7f72b644eaedee9e3430f035c053beb6f34052f045e2",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/2ec7ec2691fab6f449fe6ab4ad5e7d5719ad4525/LICENSE",
+          "revision": "2ec7ec2691fab6f449fe6ab4ad5e7d5719ad4525",
+          "sha256": "15c406491bac79b9344852d0dc85a3345528dbdadf2c812f9468e0629258be90",
+          "localPath": "references/15c406491bac79b9344852d0dc85a3345528dbdadf2c812f9468e0629258be90",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/2ec7ec2691fab6f449fe6ab4ad5e7d5719ad4525/LICENSE-CODE",
+          "revision": "2ec7ec2691fab6f449fe6ab4ad5e7d5719ad4525",
+          "sha256": "91f7258203fd43ba6d6f7f72b644eaedee9e3430f035c053beb6f34052f045e2",
+          "localPath": "references/91f7258203fd43ba6d6f7f72b644eaedee9e3430f035c053beb6f34052f045e2",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/resourcegraph.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/b9cc4a440858bb51f10474cd36208dee324ddbddb8ce06fd31378efea5a6d111.json",
+          "sha256": "b9cc4a440858bb51f10474cd36208dee324ddbddb8ce06fd31378efea5a6d111",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/2ec7ec2691fab6f449fe6ab4ad5e7d5719ad4525/articles/governance/resource-graph/concepts/query-language.md",
+          "revision": "2ec7ec2691fab6f449fe6ab4ad5e7d5719ad4525",
+          "sha256": "81559a314a5def8a654529daa3c343e656ff216f67bbb11ea5ab96263536a677",
+          "localPath": "references/81559a314a5def8a654529daa3c343e656ff216f67bbb11ea5ab96263536a677.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/scalar-data-types/null-values.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "653639d115530c49a5612435a218a230c603a1fccb51f56da4d0d31913be29cf",
+          "localPath": "references/653639d115530c49a5612435a218a230c603a1fccb51f56da4d0d31913be29cf.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/scalar-data-types/string.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "e5678b5c96b84c2fe6589dcd5c03120206bbb5304cf36287ea24184583d3c5d0",
+          "localPath": "references/e5678b5c96b84c2fe6589dcd5c03120206bbb5304cf36287ea24184583d3c5d0.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/scalar-data-types/dynamic.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "90cee2b7e6474ec8922f56bb01dffde374b98036d24c13d53fb12056bfd3115d",
+          "localPath": "references/90cee2b7e6474ec8922f56bb01dffde374b98036d24c13d53fb12056bfd3115d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/datatypes-string-operators.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "e6199f9b2407186a9f5a5584ced944fcfb0d0a01553d08c484650e17cbac8479",
+          "localPath": "references/e6199f9b2407186a9f5a5584ced944fcfb0d0a01553d08c484650e17cbac8479.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/join-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "fb9a6fbd92e2f8b22589636c51c39794e65c06ad2794d3b4be22a58403e5a517",
+          "localPath": "references/fb9a6fbd92e2f8b22589636c51c39794e65c06ad2794d3b4be22a58403e5a517.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/join-fullouter.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "4e07df53f39eecf3a1677fb21cfaf9f3f5c51d2387ed9380c8204d0cd9021f9e",
+          "localPath": "references/4e07df53f39eecf3a1677fb21cfaf9f3f5c51d2387ed9380c8204d0cd9021f9e.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/join-innerunique.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "19bfe944fdc25c7d656aaf082f559f91d133a958677a36b01e8f2b8279eee8c0",
+          "localPath": "references/19bfe944fdc25c7d656aaf082f559f91d133a958677a36b01e8f2b8279eee8c0.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/summarize-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "bc9e5fd5ff77d6415c2c235ef3a34b09e6b22c50a285cc5efb7d376d10877429",
+          "localPath": "references/bc9e5fd5ff77d6415c2c235ef3a34b09e6b22c50a285cc5efb7d376d10877429.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/mv-expand-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "14097623d8259888199f4d857b90c359bd263587121d2aec333fcb48c65ec4ba",
+          "localPath": "references/14097623d8259888199f4d857b90c359bd263587121d2aec333fcb48c65ec4ba.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/union-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "2655cd75865a7c89c1b2084f535398e5b3b952a07647b8ca0827e0ea0c0d7d18",
+          "localPath": "references/2655cd75865a7c89c1b2084f535398e5b3b952a07647b8ca0827e0ea0c0d7d18.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/let-statement.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "d0a081e41b0ae89559a494150eca5e39ec89354d0492d5628a3f6f4abe97c43c",
+          "localPath": "references/d0a081e41b0ae89559a494150eca5e39ec89354d0492d5628a3f6f4abe97c43c.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/scalar-functions.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "8e291b31943713c31d3df272aa28e272cced163d35e2310042b046a83bdc50f0",
+          "localPath": "references/8e291b31943713c31d3df272aa28e272cced163d35e2310042b046a83bdc50f0.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/bin-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "d7f636910572a309a908139b39c5c0e233e517df017b9232e2fba21eb60ba5a8",
+          "localPath": "references/d7f636910572a309a908139b39c5c0e233e517df017b9232e2fba21eb60ba5a8.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/coalesce-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "1a235ee4d522c0cd95e7c22ffea27cee6ce0ace7b6e3ad7215b9c4f74a72cb67",
+          "localPath": "references/1a235ee4d522c0cd95e7c22ffea27cee6ce0ace7b6e3ad7215b9c4f74a72cb67.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/tostring-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "d329d4308569fa16a86cf9a74ef91dcb547d817a1c3af984fc64105cd663d4f9",
+          "localPath": "references/d329d4308569fa16a86cf9a74ef91dcb547d817a1c3af984fc64105cd663d4f9.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/OperationalInsights.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235.json",
+          "sha256": "a204fb911757d795a636de7e47bc9285f672744bd0c037db8191272c95654235",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/response-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530",
+          "localPath": "references/e32a28326bd61f193394be09e6aefc7807460b2c1fe5e93e84f9b5b9b7530530.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/migrate-batch-and-beta.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031",
+          "localPath": "references/c10f19e6d45d12a7561e27195e8fe901ee1a1bea2933a2dd4ba090c16d507031.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/request-format.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d",
+          "localPath": "references/3b61eb97ba001288d71daa643b2b0142a83d2ebf61e152519f7b1251eb86d25d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/timeouts.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32",
+          "localPath": "references/5a36376cc04fa2c2be153108d4cc074a57a0039c84179247dda794122446ed32.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/prefer-options.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2",
+          "localPath": "references/af1c255921a135b11a8de4253196bd7961f08e0f132ca0f879bcb8c16b23e9b2.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/batch-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e",
+          "localPath": "references/c3007a378905d6be3add4a2c7399783d25e287afe62403e5f8e6b5c11f69df8e.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/access-api.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8",
+          "localPath": "references/b3fc772c24771e839f8a6a488c3ef309cb04dcda06518457ae3d470bfc9ad5d8.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/api/cross-workspace-queries.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "sha256": "3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9",
+          "localPath": "references/3cd45a6fc98507c927f5f7c52c5186b14faba8ce3f43dc7e2a9d2102e032d7d9.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/dcount-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "9fadbd201030437c9dc1275fda11ff2d9b1b1088e087e425cdab721a90672086",
+          "localPath": "references/9fadbd201030437c9dc1275fda11ff2d9b1b1088e087e425cdab721a90672086.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/arg-max-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "b6b4780240798d9152ac5433658154d37397a1d44f351f3d41782bb4c69aac71",
+          "localPath": "references/b6b4780240798d9152ac5433658154d37397a1d44f351f3d41782bb4c69aac71.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/count-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "a8aed44e16513deeea8515c0dfaaf6e429b6d00e4da387ab1643c7d5eb51dc60",
+          "localPath": "references/a8aed44e16513deeea8515c0dfaaf6e429b6d00e4da387ab1643c7d5eb51dc60.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/countif-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "9693bf033634ecbcc2d3e1c1d62d4a1c56496102ca38dce7875ebe0cdc2d780a",
+          "localPath": "references/9693bf033634ecbcc2d3e1c1d62d4a1c56496102ca38dce7875ebe0cdc2d780a.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/sum-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "06084247ccfa5d7e9af14f67888f91f44174107fee58700d3084cbe6adb21cfa",
+          "localPath": "references/06084247ccfa5d7e9af14f67888f91f44174107fee58700d3084cbe6adb21cfa.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/avg-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "e36a7376bd15cc90adc89b1c770a61c3dd1d699096d719474f8b014974f59a82",
+          "localPath": "references/e36a7376bd15cc90adc89b1c770a61c3dd1d699096d719474f8b014974f59a82.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/min-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "b1cca215eae5fb687f79a4be863ed14493b8cb4778ff2ff91bc799ec8e2cc45d",
+          "localPath": "references/b1cca215eae5fb687f79a4be863ed14493b8cb4778ff2ff91bc799ec8e2cc45d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/max-aggregation-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "4e6caf60bd28bbecf63206662e30eced0fbec721d223d8bf02fc1682193601aa",
+          "localPath": "references/4e6caf60bd28bbecf63206662e30eced0fbec721d223d8bf02fc1682193601aa.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/join-leftanti.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "2c413e7eef323575bb629d448a09d2bda900a0d477e54c6d7b7475d6e023b05b",
+          "localPath": "references/2c413e7eef323575bb629d448a09d2bda900a0d477e54c6d7b7475d6e023b05b.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/project-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "b928fc79af50233018fbbaac480e9d10c9a4ba400072a3ee7467620f092984d5",
+          "localPath": "references/b928fc79af50233018fbbaac480e9d10c9a4ba400072a3ee7467620f092984d5.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/project-rename-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "1981ed9da6226bb3c992ea77ad47cc9781b8582cb7a5e71d6f9251fffbbc9f3c",
+          "localPath": "references/1981ed9da6226bb3c992ea77ad47cc9781b8582cb7a5e71d6f9251fffbbc9f3c.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/project-away-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "fb18970f903b5b0cccd7111d72f579cdb608a85f9b384e057d15f03fd0a397cd",
+          "localPath": "references/fb18970f903b5b0cccd7111d72f579cdb608a85f9b384e057d15f03fd0a397cd.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/extend-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "8899805647d50d1c0a38fbe285c4b01126bd02f580164edf1384e190d81637a1",
+          "localPath": "references/8899805647d50d1c0a38fbe285c4b01126bd02f580164edf1384e190d81637a1.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/sort-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "2e126998eb95a75d62926c42ecbd93a4b211d47289ca9223c39ecba5114af27f",
+          "localPath": "references/2e126998eb95a75d62926c42ecbd93a4b211d47289ca9223c39ecba5114af27f.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/top-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "1bcc15d347abd61831140918045325741bb00b0e257f08adce901b653cb4e710",
+          "localPath": "references/1bcc15d347abd61831140918045325741bb00b0e257f08adce901b653cb4e710.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/in-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "5db2cc65589a4f4c5a24f2c86d46474683cc2e42ded3f05a2814aae077145683",
+          "localPath": "references/5db2cc65589a4f4c5a24f2c86d46474683cc2e42ded3f05a2814aae077145683.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/in-cs-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "f5a90db2667aa875fb1dc28beb8cd5990bc1cbe706157f24b7e13a2842d9409d",
+          "localPath": "references/f5a90db2667aa875fb1dc28beb8cd5990bc1cbe706157f24b7e13a2842d9409d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/has-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "e703b2b9e762ed7d739b36ba1a112b93b5e71e1b6d1b4c98cddfd16512591332",
+          "localPath": "references/e703b2b9e762ed7d739b36ba1a112b93b5e71e1b6d1b4c98cddfd16512591332.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/contains-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "74238daba52b0db64862053f2a5fe429a435b4920fe34eef0ad7d39d68919771",
+          "localPath": "references/74238daba52b0db64862053f2a5fe429a435b4920fe34eef0ad7d39d68919771.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/startswith-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "3082c3a67ae2c0ed0d0ec8ce3e670c55b846eaf9e12155249433ff94a9db6000",
+          "localPath": "references/3082c3a67ae2c0ed0d0ec8ce3e670c55b846eaf9e12155249433ff94a9db6000.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/endswith-operator.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "0af7aeda2f0d5fe5c78cdc3ad6a8e57d61e0fa1dc9fb65e76a74bb29acee490d",
+          "localPath": "references/0af7aeda2f0d5fe5c78cdc3ad6a8e57d61e0fa1dc9fb65e76a74bb29acee490d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/datetime-timespan-arithmetic.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "3be4558eeabbfaa9a90abde2157eee2af3d1c7edf7e586771fea776c8889e2dc",
+          "localPath": "references/3be4558eeabbfaa9a90abde2157eee2af3d1c7edf7e586771fea776c8889e2dc.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/ago-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "b0664473d3f1bb21a0a1e235b1362e4be8d891e3a1e016f0f3f5fe956c67aa7c",
+          "localPath": "references/b0664473d3f1bb21a0a1e235b1362e4be8d891e3a1e016f0f3f5fe956c67aa7c.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/now-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "514f140dab2f39fceb06a4ce5a3335bebbd8606059256e8cf8005cfb99de0f02",
+          "localPath": "references/514f140dab2f39fceb06a4ce5a3335bebbd8606059256e8cf8005cfb99de0f02.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/parse-json-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "4caa000cd0717a19d429365ad3b8f7024a9ab97fb37e4bdcd7db5907b17e4d98",
+          "localPath": "references/4caa000cd0717a19d429365ad3b8f7024a9ab97fb37e4bdcd7db5907b17e4d98.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/todatetime-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "1c07bf8a75cfb0c9a21afcbfb23025cf6d310d0bd8a741e3fb5654886e3e134f",
+          "localPath": "references/1c07bf8a75cfb0c9a21afcbfb23025cf6d310d0bd8a741e3fb5654886e3e134f.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/totimespan-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "65424190ae59073c9b51adac75927fda264f913c16b8d4cce1188e38f7405288",
+          "localPath": "references/65424190ae59073c9b51adac75927fda264f913c16b8d4cce1188e38f7405288.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/toint-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "1f4fe818eb63318fec6136754b03c46340dcf6534eb31392defa50e7b64277a3",
+          "localPath": "references/1f4fe818eb63318fec6136754b03c46340dcf6534eb31392defa50e7b64277a3.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/tolong-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "46ce96e6346a302ca0c6ca9e9c3ab81784df99f6017e95bdd736e36c95b7e079",
+          "localPath": "references/46ce96e6346a302ca0c6ca9e9c3ab81784df99f6017e95bdd736e36c95b7e079.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/case-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "51511f0f75e7d448243d24aed0b9e171734c8a04b28cee0bea3c20dc5c5e72bf",
+          "localPath": "references/51511f0f75e7d448243d24aed0b9e171734c8a04b28cee0bea3c20dc5c5e72bf.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/iff-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "181d840123a28f72fbb49a8377707ea444716bc5d0226e43992f520c0c540d4d",
+          "localPath": "references/181d840123a28f72fbb49a8377707ea444716bc5d0226e43992f520c0c540d4d.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/isempty-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "2db5f5c550de787f33bb6e89a1a1c6af12be0cea0a9d5e1645fcd26657ed08fc",
+          "localPath": "references/2db5f5c550de787f33bb6e89a1a1c6af12be0cea0a9d5e1645fcd26657ed08fc.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/substring-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "9f1e7ab496cece661f08e16ef8816d7320b063241bbfe419f7bb45849365b1f6",
+          "localPath": "references/9f1e7ab496cece661f08e16ef8816d7320b063241bbfe419f7bb45849365b1f6.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/strcat-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "33ec432e083a176db91a6c7ae1060ab15700d6e33a5491c81fb243c2fc1fc7cf",
+          "localPath": "references/33ec432e083a176db91a6c7ae1060ab15700d6e33a5491c81fb243c2fc1fc7cf.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/strlen-function.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "sha256": "c0787d8f0a3224a0d18dd996c3e51426c899f82db8675fce2f82d0735afc784f",
+          "localPath": "references/c0787d8f0a3224a0d18dd996c3e51426c899f82db8675fce2f82d0735afc784f.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/6264ee5e33c35bf19cccafeb514cf2737ae1ccb28808066d2242850d425d2fea.json",
+          "sha256": "6264ee5e33c35bf19cccafeb514cf2737ae1ccb28808066d2242850d425d2fea",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/subscriptionDiagnosticsSettings_API.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/59641d343f5bdc2ff789f99942b174f6f1c3e9e15c3279636a998acad168b220.json",
+          "sha256": "59641d343f5bdc2ff789f99942b174f6f1c3e9e15c3279636a998acad168b220",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesSummarizeQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/810fe37dd1d27a5b81e3ec1cfbf1f0a1bce4c9fa6921bc38511b1a60427a9d9a.json",
+          "sha256": "810fe37dd1d27a5b81e3ec1cfbf1f0a1bce4c9fa6921bc38511b1a60427a9d9a",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesRandomPageQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/2f9330b570f1404b37f9b06c82ece0242f54449d50014a978d7d7229279af10e.json",
+          "sha256": "2f9330b570f1404b37f9b06c82ece0242f54449d50014a978d7d7229279af10e",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesFacetQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/c5fc2ce8ee2d646612c3bd307156521b6833aaf5b429066e42f4bf4b7b6f385b.json",
+          "sha256": "c5fc2ce8ee2d646612c3bd307156521b6833aaf5b429066e42f4bf4b7b6f385b",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesNextPageQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/1bccf9fa10e8f089e2f45a087805a3d714f83092bf30d4f172c6e1786d6c5521.json",
+          "sha256": "1bccf9fa10e8f089e2f45a087805a3d714f83092bf30d4f172c6e1786d6c5521",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesFirstPageQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/216046a8a40b3a1fc1123de2cdd0f9ef60a79b98762fb93848f6f51c47672c57.json",
+          "sha256": "216046a8a40b3a1fc1123de2cdd0f9ef60a79b98762fb93848f6f51c47672c57",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesFilterQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/15997f60807cf557fda28fcd809f7af688972beffd05664599e98c7da2e734ee.json",
+          "sha256": "15997f60807cf557fda28fcd809f7af688972beffd05664599e98c7da2e734ee",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesComplexQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/9e4a7e4f7ca774c7e68352d0d068119d10442274d6280f9a79d514cf4195826d.json",
+          "sha256": "9e4a7e4f7ca774c7e68352d0d068119d10442274d6280f9a79d514cf4195826d",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesTenantBasicQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/85b09f32f2509b0f4280eb60ea52d230f14a9b44bb5a8c17e768fe8a6e5746d6.json",
+          "sha256": "85b09f32f2509b0f4280eb60ea52d230f14a9b44bb5a8c17e768fe8a6e5746d6",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesBasicQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/c8e4ba1600c9aa18262c2eca423a81c952b10433fa23b2d46b52a481c8a8c363.json",
+          "sha256": "c8e4ba1600c9aa18262c2eca423a81c952b10433fa23b2d46b52a481c8a8c363",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesMgBasicQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/e2217d695254298179858696a6d13570d401f7f6d260b53c4a689a7a6a74d9cf.json",
+          "sha256": "e2217d695254298179858696a6d13570d401f7f6d260b53c4a689a7a6a74d9cf",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/ResourcesPropertiesQuery.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/d89dc09a86fc74ac0ab82f4e6468c07839355e8b4187dbabf08607a7c638dd0e.json",
+          "sha256": "d89dc09a86fc74ac0ab82f4e6468c07839355e8b4187dbabf08607a7c638dd0e",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1.json",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/ResourceGraph/stable/2024-04-01/examples/OperationsList.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/df86af963cfdb045a5b500f0548f533893d7c62bbcd5ad9a81925b02f6aa6a5a.json",
+          "sha256": "df86af963cfdb045a5b500f0548f533893d7c62bbcd5ad9a81925b02f6aa6a5a",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/la-post-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/b7aab30b770ee85ee32cc257c8f04d6ab51edff592745f361469f1b60a6c192d.json",
+          "sha256": "b7aab30b770ee85ee32cc257c8f04d6ab51edff592745f361469f1b60a6c192d",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/la-post-cross-workspace-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/6282f6c9d5484fc3ff6ecca0ade6252c79725c98b435fd8c8e07f7ccb8c9bd23.json",
+          "sha256": "6282f6c9d5484fc3ff6ecca0ade6252c79725c98b435fd8c8e07f7ccb8c9bd23",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/la-get-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/9a9888c46ab82885113d86972d1e2a9f24a2ca55bdfda205485de157bc2f4cbc.json",
+          "sha256": "9a9888c46ab82885113d86972d1e2a9f24a2ca55bdfda205485de157bc2f4cbc",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/la-get-cross-workspace-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/dfdae0716ebca8c3d9b439fb9404a1925b7f7b421fafbb993031811fec4d4b03.json",
+          "sha256": "dfdae0716ebca8c3d9b439fb9404a1925b7f7b421fafbb993031811fec4d4b03",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/metadata-post.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/9263466a83e0ca19935fffe10273c812b94d06c3905e00d6632d80684225efa1.json",
+          "sha256": "9263466a83e0ca19935fffe10273c812b94d06c3905e00d6632d80684225efa1",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/metadata-get.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/5eb799d16a7dd928d76029e9358f677313ac50d07e385b9268e65b4cf0aa6949.json",
+          "sha256": "5eb799d16a7dd928d76029e9358f677313ac50d07e385b9268e65b4cf0aa6949",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/batch-query-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/f3e1680bddc07b53824ea8102478f49ba31d13a5717d6d26a447498c45762414.json",
+          "sha256": "f3e1680bddc07b53824ea8102478f49ba31d13a5717d6d26a447498c45762414",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/la-post-resource-centric-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/eebfbf6403e07d1bda5de98b710c74569bc12d1f36c6cca1a08b4844a3c3ef53.json",
+          "sha256": "eebfbf6403e07d1bda5de98b710c74569bc12d1f36c6cca1a08b4844a3c3ef53",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/data-plane/OperationalInsights/stable/v1/examples/la-get-resource-centric-example.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/1bf8d1f9a60168b545f6f69452df54a5e201df990d0ddc88ec3980992374070f.json",
+          "sha256": "1bf8d1f9a60168b545f6f69452df54a5e201df990d0ddc88ec3980992374070f",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v2/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/ccb3b6327aad7d108bdaffca3eefcd15737032ec655ca3f933300e828047d723.json",
+          "sha256": "ccb3b6327aad7d108bdaffca3eefcd15737032ec655ca3f933300e828047d723",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/listDiagnosticSettingsCategory.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/5848e3f683f49b6bd5017a635d3ed26622392deaffc1fb8190ad1cd6d5139315.json",
+          "sha256": "5848e3f683f49b6bd5017a635d3ed26622392deaffc1fb8190ad1cd6d5139315",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/listDiagnosticSettings.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/2f289fd57fe07c66158e7c36b4511cc120544621d8532941289201611fc7e74f.json",
+          "sha256": "2f289fd57fe07c66158e7c36b4511cc120544621d8532941289201611fc7e74f",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/deleteDiagnosticSetting.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/5b6e938db265e57a51c2b3481640d924467fabab55f1f562e1b2b125965018cd.json",
+          "sha256": "5b6e938db265e57a51c2b3481640d924467fabab55f1f562e1b2b125965018cd",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/createOrUpdateDiagnosticSettingCategory.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a020dc0f5fccbe06b23ff04689bc81d1fca0449b61a856af66fd597b6ff1fc0c.json",
+          "sha256": "a020dc0f5fccbe06b23ff04689bc81d1fca0449b61a856af66fd597b6ff1fc0c",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/createOrUpdateDiagnosticSetting.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/6f4aee103e91f44541bd215d04c43def2a67b28a4e1e0fecd0a80f00a786497b.json",
+          "sha256": "6f4aee103e91f44541bd215d04c43def2a67b28a4e1e0fecd0a80f00a786497b",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/getDiagnosticSettingCategory.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/c390689061de1dc29df0c049841ad2481de6b50ba802a660c5aa59e6d4c7e217.json",
+          "sha256": "c390689061de1dc29df0c049841ad2481de6b50ba802a660c5aa59e6d4c7e217",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/getDiagnosticSetting.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/f88a4d77297f531ab4c62c5ba587ad2cb7eb1978974e4a0d3543c82620ab1287.json",
+          "sha256": "f88a4d77297f531ab4c62c5ba587ad2cb7eb1978974e4a0d3543c82620ab1287",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/listSubscriptionDiagnosticSettingsCategory.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a176d51108cc902b384303663e62e1dacde0436320a6e5896b89636f28f7476b.json",
+          "sha256": "a176d51108cc902b384303663e62e1dacde0436320a6e5896b89636f28f7476b",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/listSubscriptionDiagnosticSettings.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/2b928ff1bbf1292a9f64d719072a411c7f622a4a2914d904c9f2e81826038c72.json",
+          "sha256": "2b928ff1bbf1292a9f64d719072a411c7f622a4a2914d904c9f2e81826038c72",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/deleteSubscriptionDiagnosticSetting.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/2f2d3a69ab3410633edaf70629bb4106d8fc13dd200231a42753da7410f79dd1.json",
+          "sha256": "2f2d3a69ab3410633edaf70629bb4106d8fc13dd200231a42753da7410f79dd1",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/createOrUpdateSubscriptionDiagnosticSettingCategory.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/f54a70f29bb712e6a074b10327d6b07bf491284b662cd0ff322b67231385ff58.json",
+          "sha256": "f54a70f29bb712e6a074b10327d6b07bf491284b662cd0ff322b67231385ff58",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/createOrUpdateSubscriptionDiagnosticSetting.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/e24e1e1e1f08f546888f04642dafb25f8d5e7bc5dc51afa2fc654fd80cd70ea4.json",
+          "sha256": "e24e1e1e1f08f546888f04642dafb25f8d5e7bc5dc51afa2fc654fd80cd70ea4",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/getSubscriptionDiagnosticSettingCategory.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/2120afd3407ccc06208f76041c1dbb0e391fe0afde4bd0ca1f4cc250b94447bf.json",
+          "sha256": "2120afd3407ccc06208f76041c1dbb0e391fe0afde4bd0ca1f4cc250b94447bf",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/examples/getSubscriptionDiagnosticSetting.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/9a09574ebe9494f67c4fa13b667531fc49c96e83a95206fee3cce1bf82a0935f.json",
+          "sha256": "9a09574ebe9494f67c4fa13b667531fc49c96e83a95206fee3cce1bf82a0935f",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2017-05-01-preview/examples/listDiagnosticSettingsCategories.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/72a413dc1ad3cc2450e10588aaf6335d03fad90ddc41a71ba66f8eac04cb5a7d.json",
+          "sha256": "72a413dc1ad3cc2450e10588aaf6335d03fad90ddc41a71ba66f8eac04cb5a7d",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/monitor/resource-manager/Microsoft.Insights/Insights/preview/2017-05-01-preview/examples/getDiagnosticSettingsCategory.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "localPath": "references/a90601b387a6a0f8635606a1f236f741168ade1c4784c95bdf89c874a443230c.json",
+          "sha256": "a90601b387a6a0f8635606a1f236f741168ade1c4784c95bdf89c874a443230c",
+          "retrievedAt": "2026-10-19",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azureactivity.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c.md",
+          "sha256": "91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azurediagnostics.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf.md",
+          "sha256": "0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagebloblogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e.md",
+          "sha256": "1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagefilelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149.md",
+          "sha256": "68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagequeuelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651.md",
+          "sha256": "5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagetablelogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb.md",
+          "sha256": "8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azkvauditlogs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9.md",
+          "sha256": "2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/resource-logs.md",
+          "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+          "localPath": "references/c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770.md",
+          "sha256": "c5d556c705b2b9abb9094f6f644fb56492b92741abe0a6f4ce4f61b00ead0770",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/numerical-operators.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "retrievedAt": "2026-10-19",
+          "sha256": "b33df0936f7f384c5b0c54dd877ecea52540934026818709679f84bd03e70339",
+          "localPath": "references/b33df0936f7f384c5b0c54dd877ecea52540934026818709679f84bd03e70339.md",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/scalar-data-types/datetime.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "retrievedAt": "2026-10-19",
+          "sha256": "350b5295a5080eb037e0879a5a05bd59c470c11c87dd3c9795f9a29947d0db16",
+          "localPath": "references/350b5295a5080eb037e0879a5a05bd59c470c11c87dd3c9795f9a29947d0db16.md",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/dataexplorer-docs/b46de48462b28e63ca8ef78251da7d171eb817c7/data-explorer/kusto/query/scalar-data-types/timespan.md",
+          "revision": "b46de48462b28e63ca8ef78251da7d171eb817c7",
+          "retrievedAt": "2026-10-19",
+          "sha256": "a6bab71b2ff0277684cae38a9ff0b98ed6ed59bb51aa98fbfecf58ad028eb6d8",
+          "localPath": "references/a6bab71b2ff0277684cae38a9ff0b98ed6ed59bb51aa98fbfecf58ad028eb6d8.md",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Resources and ResourceContainers only; no management groups, facets, authorizationScopeFilter or partial scopes",
+        "Bounded local typed evaluator; dcount is deterministic exact rather than approximate",
+        "Opaque query paging follows in F2; $skipToken currently rejected explicitly"
+      ],
+      "tests": [
+        "tests/unit/test_cloud_kql.py",
+        "tests/integration/test_resource_graph_queries.py"
+      ],
+      "status": "implemented"
+    }
+  ]
+}

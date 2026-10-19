@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** Proposed implementation plan; no tasks executed.
+**Status:** F1 typed evaluator and Resource Graph endpoint implemented; local verification in progress. F2-F4 and four-client qualification remain pending.
 
 ## Global Constraints
 
@@ -48,7 +48,7 @@ Local evaluator defaults: 30-second execution budget, 100,000 returned rows, 64 
 
 **Interfaces:** Produce `parse_query(text: str, profile: str) -> QueryPlan`; `async execute_query(session: AsyncSession, actor: PrincipalContext, scope: QueryScope, plan: QueryPlan, now: datetime) -> QueryResult`. The caller supplies a server-derived authorized scope; compiler also applies per-table access predicates. Profiles are `resourcegraph` and `loganalytics`.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_query_typed_semantics compares fixed truth tables for null/dynamic/string casts, case-sensitive/insensitive operators, joins and aggregation. test_resourcegraph_scope_and_projection queries Resources joined to ResourceContainers with allowed subscriptions and confirms excluded subscriptions cannot affect counts. test_query_rejects_unknown rejects unknown operators/functions, undeclared table access and malicious SQL text.
+- [x] **Step 1 — Add the named failing scenarios.** test_query_typed_semantics compares fixed truth tables for null/dynamic/string casts, case-sensitive/insensitive operators, joins and aggregation. test_resourcegraph_scope_and_projection queries Resources joined to ResourceContainers with allowed subscriptions and confirms excluded subscriptions cannot affect counts. test_query_rejects_unknown rejects unknown operators/functions, undeclared table access and malicious SQL text.
 
 ```python
 assert actual_rows == expected_rows
@@ -57,10 +57,10 @@ assert injected_sql_executed is False
 assert unsupported.status_code == 400
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_cloud_kql.py tests/integration/test_resource_graph_queries.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Implement where/project/project-away/project-rename/extend/distinct/order/sort/take/top/summarize/union/joins/mv-expand and let only in profiles whose official contract allows them. Functions: tostring/toint/tolong/todouble/todatetime/timespan casts, parse_json, isnull/isnotnull/isempty/coalesce, iff/case, strcat/substring/strlen/tolower/toupper, contains/has/startswith/endswith/equality/in case variants, now/ago/bin/datetime arithmetic and count/countif/sum/avg/min/max/dcount/arg_max. Pin exact null/output/type rules in fixtures. dcount uses deterministic exact distinct within the bounded profile and documents this difference from approximate production execution. Add scalar/table symbol binding and type-safe parameterized evaluation, not eval. Ship actual Resource Graph query endpoint in this task.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_cloud_kql.py tests/integration/test_resource_graph_queries.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Implement where/project/project-away/project-rename/extend/distinct/order/sort/take/top/summarize/union/joins/mv-expand and let only in profiles whose official contract allows them. Functions: tostring/toint/tolong/todouble/todatetime/timespan casts, parse_json, isnull/isnotnull/isempty/coalesce, iff/case, strcat/substring/strlen/tolower/toupper, contains/has/startswith/endswith/equality/in case variants, now/ago/bin/datetime arithmetic and count/countif/sum/avg/min/max/dcount/arg_max. Pin exact null/output/type rules in fixtures. dcount uses deterministic exact distinct within the bounded profile and documents this difference from approximate production execution. Add scalar/table symbol binding and type-safe parameterized evaluation, not eval. Ship actual Resource Graph query endpoint in this task.
 - [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: query ARM inventory with a bounded KQL engine"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: query ARM inventory with a bounded KQL engine"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task F2: Workspace queries, metadata and response protocols
 
