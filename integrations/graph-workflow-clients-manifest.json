@@ -46,6 +46,18 @@
         "Microsoft.Graph.Authentication==2.35.1"
       ],
       "probe": "docs/notification-contracts.md"
+    },
+    {
+      "name": "Microsoft.Graph.Users.Actions",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Users.Actions/2.35.1",
+      "sha256": "d9908fb451123a65122c1acf1b05e18001a3b07125c37619edbd037190d6ebbb",
+      "archive": "Microsoft.Graph.Users.Actions-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Users.Actions/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "docs/mail-contracts.md"
     }
   ]
 }

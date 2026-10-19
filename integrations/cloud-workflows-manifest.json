@@ -85,7 +85,8 @@
         "Microsoft.Graph.Authentication": "2.35.1",
         "Microsoft.Graph.Mail": "2.35.1",
         "Microsoft.Graph.Calendar": "2.35.1",
-        "Microsoft.Graph.ChangeNotifications": "2.35.1"
+        "Microsoft.Graph.ChangeNotifications": "2.35.1",
+        "Microsoft.Graph.Users.Actions": "2.35.1"
       }
     }
   }

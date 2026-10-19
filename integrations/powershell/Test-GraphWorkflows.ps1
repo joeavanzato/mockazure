@@ -3,6 +3,7 @@ $ErrorActionPreference='Stop'
 $p=Get-Content $Profile -Raw | ConvertFrom-Json -AsHashtable
 Import-Module Microsoft.Graph.Authentication -RequiredVersion 2.35.1
 Import-Module Microsoft.Graph.Mail -RequiredVersion 2.35.1
+Import-Module Microsoft.Graph.Users.Actions -RequiredVersion 2.35.1
 Import-Module Microsoft.Graph.Calendar -RequiredVersion 2.35.1
 Import-Module Microsoft.Graph.ChangeNotifications -RequiredVersion 2.35.1
 Add-MgEnvironment -Name MockAzure -GraphEndpoint $p.endpoint -AzureADEndpoint $p.endpoint | Out-Null
@@ -61,5 +62,5 @@ if($Mode -eq 'write'){
     $checks=@{cross_language_reads=($fixtures.Count -eq 4);subscription_management=$true;persistent_read=$true}
 }
 $versions=@{}
-foreach($module in @('Microsoft.Graph.Authentication','Microsoft.Graph.Mail','Microsoft.Graph.Calendar','Microsoft.Graph.ChangeNotifications')){$versions[$module]=(Get-Module $module).Version.ToString()}
+foreach($module in @('Microsoft.Graph.Authentication','Microsoft.Graph.Mail','Microsoft.Graph.Calendar','Microsoft.Graph.ChangeNotifications','Microsoft.Graph.Users.Actions')){$versions[$module]=(Get-Module $module).Version.ToString()}
 @{passed=$true;clientVersions=$versions;assertions=$checks;objects=$objects;restFallbacks=@('primary calendarView/delta through original Invoke-MgGraphRequest')} | ConvertTo-Json -Depth 30 | Set-Content -Path $Report -Encoding utf8
