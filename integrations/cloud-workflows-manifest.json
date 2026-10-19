@@ -5,14 +5,15 @@
     "A",
     "B",
     "C",
-    "D"
+    "D",
+    "E"
   ],
   "clients": {
     "powershell": {
       "ExchangeOnlineManagement": "3.11.0"
     }
   },
-  "status": "A-C profiles qualified; D matrix enabled (consult source-matched qualification reports); E-F unavailable.",
+  "status": "A-E client matrices enabled; consult source-matched qualification reports. F unavailable.",
   "phaseClients": {
     "B": {
       "python": {
@@ -68,6 +69,23 @@
         "Az.Accounts": "5.5.3",
         "Az.Storage": "8.1.0",
         "Az.KeyVault": "6.6.1"
+      }
+    },
+    "E": {
+      "python": {
+        "msgraph-sdk": "1.64.0"
+      },
+      "typescript": {
+        "@microsoft/microsoft-graph-client": "3.0.7"
+      },
+      "dotnet": {
+        "Microsoft.Graph": "5.91.0"
+      },
+      "powershell": {
+        "Microsoft.Graph.Authentication": "2.35.1",
+        "Microsoft.Graph.Mail": "2.35.1",
+        "Microsoft.Graph.Calendar": "2.35.1",
+        "Microsoft.Graph.ChangeNotifications": "2.35.1"
       }
     }
   }

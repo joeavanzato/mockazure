@@ -586,7 +586,7 @@ Microsoft-documented unfiltered-list fallback.
 Classic Get-Recipient supports Anr, recipient kinds, SortBy, ResultSize and a single
 case-insensitive string -eq/-ne/-like predicate; -like accepts * wildcards. Compiled
 Get-EXORecipient supports its observed identity selectors, supported explicit Properties,
-Minimum property set, type selection, eq/ne filter and 1â€“1,000-row pages. It uses
+Minimum property set, type selection, eq/ne filter and 1–1,000-row pages. It uses
 ReadIdsAndParamsFromHeaders with XParameter-Identity or the encoded Recipient key path.
 Continuation is a UUID-ordered current-state scan, not a frozen snapshot. Each page
 reauthorizes before limits are applied. Unsupported predicates/property sets fail.
@@ -763,7 +763,7 @@ sender copy after delivery. Mail.Send does not grant mailbox read/write privileg
 Current operational SendAs/SendOnBehalf authority is checked at acceptance and delivery.
 
 Local bounds:8MiB JSON request,6MiB decoded MIME,500 recipients,100 inline attachments,
-files smaller than3MiB inline,3â€“150MiB upload-session files and4MiB sequential PUT chunks.
+files smaller than3MiB inline,3–150MiB upload-session files and4MiB sequential PUT chunks.
 Item writes support a direct message with no nested attachments. Contact/event item
 writes and nested MIME attachments reject explicitly. Reference attachments retain
 v1.0 metadata only. Extension properties, encrypted messages and a real transport

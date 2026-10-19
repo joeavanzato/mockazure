@@ -59,7 +59,7 @@ retaining the latest item snapshot. Import resets recipient source revisions wit
 generation so new deliveries cannot be suppressed by old revision numbers.
 
 getSchedule supports up to20 individually authorized local targets and a window shorter
-than62days, with intervals5â€“1440minutes. It derives availability and scheduleItems from canonical
+than62days, with intervals5–1440minutes. It derives availability and scheduleItems from canonical
 events and exceptions, without granting calendar authority through the source mailbox. Private
 and basic-read entries omit subject/location. Unknown or unauthorized targets return a local
 per-schedule error. Working-hours settings and distribution-list expansion are not simulated.

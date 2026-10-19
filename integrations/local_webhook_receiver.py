@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 
-def serve(cert, key, output, host="127.0.0.1", port=9444):
+def serve(cert, key, output, host="127.0.0.1", port=9444, status_file=None):
     lock = threading.Lock()
 
     class Handler(BaseHTTPRequestHandler):
@@ -48,7 +48,12 @@ def serve(cert, key, output, host="127.0.0.1", port=9444):
             with lock:
                 with output.open("a", encoding="utf-8") as stream:
                     stream.write(json.dumps(payload) + "\n")
-            self.send_response(202)
+            status = 202
+            if status_file is not None:
+                status = int(status_file.read_text().strip())
+                if status not in {202, 503}:
+                    raise ValueError("Unsupported local receiver status")
+            self.send_response(status)
             self.send_header("Content-Length", "0")
             self.end_headers()
 
@@ -69,9 +74,10 @@ def main():
         "--host", default="127.0.0.1", choices=["127.0.0.1", "0.0.0.0", "localhost"]
     )
     parser.add_argument("--port", default=9444, type=int)
+    parser.add_argument("--status-file", type=Path)
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    server = serve(args.cert, args.key, args.output, args.host, args.port)
+    server = serve(args.cert, args.key, args.output, args.host, args.port, args.status_file)
     try:
         server.serve_forever()
     finally:

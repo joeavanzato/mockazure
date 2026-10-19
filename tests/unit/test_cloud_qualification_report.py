@@ -177,3 +177,44 @@ def test_qualification_rejects_missing_role_workflow():
     ]
     with pytest.raises(ValueError, match="workflow"):
         validator()(report, {"python", "powershell", "dotnet", "typescript"})
+
+
+def test_graph_phase_requires_four_native_workflows():
+    import json
+
+    from tools.verify_cloud_workflows import cases
+
+    definition = cases()["E"]
+    manifest = json.loads(Path("integrations/cloud-workflows-manifest.json").read_text())
+    report = {
+        "phase": "E",
+        "sourceCommit": "a" * 40,
+        "sourceFingerprint": "b" * 64,
+        "ecosystems": {},
+    }
+    for ecosystem in ("python", "powershell", "dotnet", "typescript"):
+        report["ecosystems"][ecosystem] = {
+            "status": "passed",
+            "clientVersions": manifest["phaseClients"]["E"][ecosystem],
+            "cases": [
+                {
+                    "workflow": row["id"],
+                    "operationIds": row["operationIds"],
+                    "transport": row.get("transportByEcosystem", {}).get(
+                        ecosystem, row["transport"]
+                    ),
+                    "expectedStatus": "completed",
+                    "actualStatus": "completed",
+                    "assertions": {key: True for key in row["assertions"]},
+                }
+                for row in definition["workflows"]
+            ],
+        }
+    validator()(report, set(report["ecosystems"]))
+    broken = copy.deepcopy(report)
+    broken["ecosystems"]["dotnet"]["cases"][0]["transport"] = "rest"
+    with pytest.raises(ValueError):
+        validator()(broken, set(report["ecosystems"]))
+    del report["ecosystems"]["typescript"]
+    with pytest.raises(ValueError):
+        validator()(report, {"python", "powershell", "dotnet", "typescript"})
