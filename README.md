@@ -15,6 +15,28 @@ shared-password console, stacked data templates, the population script and recov
 [Profile authoring](docs/profiles.md) explains inheritance and reproducible datasets.
 Open `https://localhost:8443/_mock/ui/` after setting the console password.
 
+## Start on Windows
+
+With Docker Desktop running in Linux-container mode, double-click
+`start-mockazure.bat` or run it from a terminal. It builds the checkout, initializes
+or validates the instance, starts the complete Compose stack, waits for readiness,
+prompts for a console password when missing, and opens the web UI. No local Python
+installation is required. The batch file uses `scripts/start-mockazure.ps1` beside it.
+
+```powershell
+.\start-mockazure.bat
+# First initialization on a different port:
+.\start-mockazure.bat -Port 28443
+# Explicitly trust this lab CA for your Windows account:
+.\start-mockazure.bat -TrustCa
+```
+
+Existing ports, certificates, credentials and database storage are reused. Omit
+`-SkipBuild` after pulling changes; use it for faster starts when the image is
+already current. `-SetPassword` explicitly resets the shared password. `-NoBrowser`
+and `-NoPasswordPrompt` support service-only automation. `-Help` lists the options.
+Certificate trust is changed only when you explicitly pass `-TrustCa`.
+
 ## Start with Docker (PowerShell)
 
 Docker Desktop must use Linux containers. Run from this repository:
