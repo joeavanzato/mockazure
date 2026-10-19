@@ -153,18 +153,83 @@ def run_management(path):
         path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
 
+def run_storage(path):
+    from tools.prepare_storage_clients import prepare
+    from tools.verify_default import main as smoke
+    from tools.verify_storage_binary import qualify
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "C",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        assert observed["passed"] and observed["prior"]["passed"]
+        assert observed["crossRead"]["objects"] == 8 and observed["revoked"]["oldKeyDenied"]
+        definition = cases()["C"]["workflows"][0]
+        for ecosystem, written in observed["written"].items():
+            assert (
+                written["passed"]
+                and observed["restarted"][ecosystem]["passed"]
+                and observed["restored"][ecosystem]["passed"]
+            )
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": written["clientVersions"],
+                "transportAdaptations": [
+                    "Explicit local HTTPS endpoints and instance CA",
+                    "Loopback-IP path addressing for original .NET/Az.Storage URI builders",
+                    "2019-07-07 legacy writes and selected 2025-01-05 reads for Az.Storage",
+                ],
+                "cases": [
+                    {
+                        "workflow": definition["id"],
+                        "operationIds": definition["operationIds"],
+                        "transport": "module" if ecosystem == "powershell" else "sdk",
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {name: True for name in definition["assertions"]},
+                    }
+                ],
+            }
+        report["nativeReport"] = str(args[0] / "storage-binary-report.json")
+        report["pythonBytesPerObject"] = observed["written"]["python"]["objects"]["blob"]["bytes"]
+        assert report["pythonBytesPerObject"] == 268435456
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", required=True, choices=[*list("ABCDEF"), "all"])
     parser.add_argument("--ecosystems", nargs="+", required=True, choices=sorted(ECOSYSTEMS))
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
+    if args.phase == "C" and set(args.ecosystems) == ECOSYSTEMS:
+        run_storage(args.report)
+        return
     if args.phase == "B" and set(args.ecosystems) == ECOSYSTEMS:
         run_management(args.report)
         return
     if args.phase != "A" or set(args.ecosystems) != ECOSYSTEMS:
         parser.error(
-            "Only phase A and B matrices are executable; later phases remain unavailable"
+            "Only phase A, B and C matrices are executable; later phases remain unavailable"
         )
     from tools.prepare_clients import prepare
     from tools.verify_default import main as smoke

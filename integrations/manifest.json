@@ -240,6 +240,18 @@
         "Microsoft.Graph.Authentication==2.35.1"
       ],
       "probe": "integrations/contracts/graph-directory.md"
+    },
+    {
+      "name": "Az.Storage",
+      "version": "8.1.0",
+      "source": "https://www.powershellgallery.com/api/v2/package/Az.Storage/8.1.0",
+      "sha256": "9167db866a8d71ca558917439cc29aa2b51d6d5ad923e366f496fa18e77039eb",
+      "archive": "Az.Storage-8.1.0.zip",
+      "extracted": "modules/Az.Storage/8.1.0",
+      "dependencies": [
+        "Az.Accounts==4.0.2"
+      ],
+      "probe": "integrations/contracts/storage.md"
     }
   ],
   "python": {

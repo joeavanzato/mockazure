@@ -1,0 +1,1656 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Put Block List (REST API) - Azure Storage | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="The Put Block List operation writes a blob by specifying the list of block IDs that make up the blob." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/put-block-list" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Put Block List (REST API) - Azure Storage" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/put-block-list" />
+			<meta property="og:description" content="The Put Block List operation writes a blob by specifying the list of block IDs that make up the blob." />
+			<meta name="platform_id" content="a1a10221-3555-53d9-4a29-dfae5b2b9032" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="seanmcc" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="seanmcc-msft" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2023-01-30T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="b3b97c10-40a0-1528-034e-2cff186689bd" />
+	
+		<meta name="document_version_independent_id" content="50f906b7-862e-d37f-95bd-197fc959a92b" />
+	
+		<meta name="updated_at" content="2026-03-26T22:22:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Block-List.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/Put-Block-List.md" />
+	
+		<meta name="git_commit_id" content="8e98cfb6c352e570de7a3a60b30bf19a304160d5" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="4183" />
+	
+		<meta name="asset_id" content="api/storageservices/put-block-list" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/Put-Block-List.md" />
+	
+		<meta name="previous_tlsh_hash" content="CC030CB2C80CDA71FF616E02AD22660FA8F0C0899B70AEC4053A5591B58A1E2B175AF9DBAB535F94337213820146BD1DF3D4EB39D17823F682E4E06DC19C374F4B9D36BAD6" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Put-Block-List.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/put-block-list?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Put-Block-List.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Put-Block-List.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/Put-Block-List.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="put-block-list">Put Block List</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>The <code>Put Block List</code> operation writes a blob by specifying the list of block IDs that make up the blob. To be written as part of a blob, a block must have been successfully written to the server in an earlier <a href="put-block" data-linktype="relative-path">Put Block</a> operation.</p>
+<p>You can call <code>Put Block List</code> to update a blob by uploading only those blocks that have changed and then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it belongs to.</p>
+<h2 id="request">Request</h2>
+<p>You can construct the <code>Put Block List</code> request as follows. We recommend that you use HTTPS. Replace <em>myaccount</em> with the name of your storage account:</p>
+<table>
+<thead>
+<tr>
+<th>PUT method request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="emulated-storage-service-request">Emulated storage service request</h3>
+<p>When you're making a request against the emulated storage service, specify the emulator hostname and Blob service port as <code>127.0.0.1:10000</code>, followed by the emulated storage account name:</p>
+<table>
+<thead>
+<tr>
+<th>PUT method request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=blocklist</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<p>The storage emulator supports blob sizes of up to 2 gibibytes (GiB) only.</p>
+<p>For more information, see <a href="/en-us/azure/storage/common/storage-use-azurite" data-linktype="absolute-path">Use the Azurite emulator for local Azure Storage development</a>.</p>
+<h3 id="uri-parameters">URI parameters</h3>
+<p>You can specify the following additional parameters on the request URI:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>timeout</code></td>
+<td>Optional. The <code>timeout</code> parameter is expressed in seconds. For more information, see <a href="setting-timeouts-for-blob-service-operations" data-linktype="relative-path">Set timeouts for Blob service operations</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-headers">Request headers</h3>
+<p>The required and optional request headers are described in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization</code></td>
+<td>Required. Specifies the authorization scheme, account name, and signature. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>Date</code> or <code>x-ms-date</code></td>
+<td>Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for the Azure Storage services</a>.</td>
+</tr>
+<tr>
+<td><code>Content-Length</code></td>
+<td>Required. The length of the request content, in bytes. This header refers to the content length of the list of blocks, not of the blob itself.</td>
+</tr>
+<tr>
+<td><code>Content-MD5</code></td>
+<td>Optional. An MD5 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes don't match, the operation fails with error code 400 (Bad Request).<br><br> This header is associated with the request content, and not with the content of the blob itself.</td>
+</tr>
+<tr>
+<td><code>x-ms-content-crc64</code></td>
+<td>Optional. A CRC64 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes don't match, the operation fails with error code 400 (Bad Request).<br><br> This header is associated with the request content, and not with the content of the blob itself.<br><br> If both Content-MD5 and x-ms-content-crc64 headers are present, the request fails with a 400 (Bad Request).<br><br>This header is supported in version 2019-02-02 and later.</td>
+</tr>
+<tr>
+<td><code>x-ms-blob-cache-control</code></td>
+<td>Optional. Sets the blob’s cache control. If this property is specified, it's stored with the blob and returned with a read request.<br><br> If the property isn't specified with the request, it's cleared for the blob if the request is successful.</td>
+</tr>
+<tr>
+<td><code>x-ms-blob-content-type</code></td>
+<td>Optional. Sets the blob’s content type. If it's specified, this property is stored with the blob and returned with a read request.<br><br> If the content type isn't specified, it's set to the default type, which is <code>application/octet-stream</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-blob-content-encoding</code></td>
+<td>Optional.  Sets the blob’s content encoding. If it's specified, this property is stored with the blob and returned with a read request.<br><br> If the property isn't specified with the request, it's cleared for the blob if the request is successful.</td>
+</tr>
+<tr>
+<td><code>x-ms-blob-content-language</code></td>
+<td>Optional.  Sets the blob’s content language. If it's specified, this property is stored with the blob and returned with a read request.<br><br> If the property isn't specified with the request, it's cleared for the blob if the request is successful.</td>
+</tr>
+<tr>
+<td><code>x-ms-blob-content-md5</code></td>
+<td>Optional. An MD5 hash of the blob content. This hash isn't validated, because the hashes for the individual blocks were validated when each was uploaded.<br><br> The <a href="get-blob" data-linktype="relative-path">Get Blob</a> operation returns the value of this header in the Content-MD5 response header.<br><br> If this property isn't specified with the request, it's cleared for the blob if the request is successful.</td>
+</tr>
+<tr>
+<td><code>x-ms-meta-name:value</code></td>
+<td>Optional. User-defined name-value pairs that are associated with the blob.<br><br> As of version 2009-09-19, metadata names must adhere to the naming rules for <a href="/en-us/dotnet/csharp/language-reference" data-linktype="absolute-path">C# identifiers</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-encryption-scope</code></td>
+<td>Optional. Indicates the encryption scope to use to encrypt the blob. This value must match the encryption scope that's used to encrypt all the blocks that are being committed. This header is supported in version 2019-02-02 and later.</td>
+</tr>
+<tr>
+<td><code>x-ms-encryption-context</code></td>
+<td>Optional. Default is “Empty”. If the value is set it will set blob system metadata. Max length-1024. Valid only when Hierarchical Namespace is enabled for the account. This header is supported in versions 2021-08-06 and later.</td>
+</tr>
+<tr>
+<td><code>x-ms-tags</code></td>
+<td>Optional. Sets the specified query-string encoded tags on the blob. For additional information, see the <a href="#remarks" data-linktype="self-bookmark">Remarks</a> section. Supported in version 2019-12-12 and later.</td>
+</tr>
+<tr>
+<td><code>x-ms-lease-id:&lt;ID&gt;</code></td>
+<td>Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the analytics logs when storage analytics logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives.</td>
+</tr>
+<tr>
+<td><code>x-ms-blob-content-disposition</code></td>
+<td>Optional. Sets the blob’s <code>Content-Disposition</code> header. Available for version 2013-08-15 and later.<br><br> The <code>Content-Disposition</code> header field conveys additional information about how to process the response payload, and it can be used to attach additional metadata. For example, if it's set to <code>attachment</code>, this header indicates that the user-agent should not display the response, but instead should show a Save As dialog.<br><br> The response from the <a href="get-blob" data-linktype="relative-path">Get Blob</a> and <a href="get-blob-properties" data-linktype="relative-path">Get Blob Properties</a> operations includes the content-disposition header.</td>
+</tr>
+<tr>
+<td><code>x-ms-access-tier</code></td>
+<td>Optional. Version 2018-11-09 and later. Indicates the tier to be set on a blob. For block blobs, this header is supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and later. Valid values for block blob tiers are <code>Hot</code>, <code>Cool</code>, <code>Cold</code>, <code>Smart</code> and <code>Archive</code>.<br><strong>Note:</strong> <code>Cold</code> tier is supported for version 2021-12-02 and later. <code>Smart</code> tier is supported for version 2026-02-06 and later, and is currently in public preview.<br>For detailed information about block blob tiering, see <a href="/en-us/azure/storage/storage-blob-storage-tiers" data-linktype="absolute-path">Blob storage tiers</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-immutability-policy-until-date</code></td>
+<td>Version 2020-06-12 and later. Specifies the <em>retention-until</em> date to be set on the blob. This is the date until which the blob can be protected from being modified or deleted. Follows RFC1123 format.</td>
+</tr>
+<tr>
+<td><code>x-ms-immutability-policy-mode</code></td>
+<td>Version 2020-06-12 and later. Specifies the immutability policy mode to be set on the blob. Valid values are <code>unlocked</code> and <code>locked</code>. The <code>unlocked</code> value indicates that users can change the policy by increasing or decreasing the <em>retention-until</em> date. The <code>locked</code> value indicates that these actions are prohibited.</td>
+</tr>
+<tr>
+<td><code>x-ms-legal-hold</code></td>
+<td>Version 2020-06-12 and later. Specifies the legal hold to be set on the blob. The valid values are <code>true</code> and <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-expiry-option</code></td>
+<td>Optional. Version 2023-08-03 and later. Specifies the expiration date option for the request, see <a href="put-blob#expiryoption" data-linktype="relative-path">ExpiryOption</a>. This header is valid for accounts with hierarchical namespace enabled.</td>
+</tr>
+<tr>
+<td><code>x-ms-expiry-time</code></td>
+<td>Optional. Version 2023-08-03 and later. Specifies the time when the blob is set to expire. The format for expiration date varies according to <code>x-ms-expiry-option</code>. For more information, see <a href="put-blob#expiryoption" data-linktype="relative-path">ExpiryOption</a>. This header is valid for accounts with hierarchical namespace enabled. <br><br> The <code>expiryTime</code> already present on a blob is not cleared if the request doesn't contain a new value of <code>expiryTime</code></td>
+</tr>
+</tbody>
+</table>
+<p>This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see <a href="specifying-conditional-headers-for-blob-service-operations" data-linktype="relative-path">Specify conditional headers for Blob Storage operations</a>.</p>
+<h3 id="request-headers-customer-provided-encryption-keys">Request headers (customer-provided encryption keys)</h3>
+<p>As of version 2019-02-02, you can specify the following headers on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.</p>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x-ms-encryption-key</code></td>
+<td>Required. The Base64-encoded AES-256 encryption key.</td>
+</tr>
+<tr>
+<td><code>x-ms-encryption-key-sha256</code></td>
+<td>Required. The Base64-encoded SHA256 hash of the encryption key.</td>
+</tr>
+<tr>
+<td><code>x-ms-encryption-algorithm: AES256</code></td>
+<td>Required. Specifies the algorithm to use for encryption. The value of this header must be <code>AES256</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body">Request body</h3>
+<p>In the request body, you can specify the block list that Blob Storage should check for the requested block. In this way, you can update an existing blob by inserting, replacing, or deleting individual blocks, rather than reuploading the entire blob. After you've uploaded the block or blocks that have changed, you can commit a new version of the blob by committing the new blocks together with the existing blocks that you want to keep.</p>
+<p>To update a blob, you can specify that the service should look for a block ID in the committed block list, in the uncommitted block list, or in the uncommitted block list first and then in the committed block list. To indicate which approach to use, specify the block ID that's within the appropriate XML element within the request body, as follows:</p>
+<ul>
+<li><p>Specify the block ID within the <code>Committed</code> element to indicate that Blob Storage should search only the committed block list for the named block. If the block isn't found in the committed block list, it isn't written as part of the blob, and Blob Storage returns status code 400 (Bad Request).</p>
+</li>
+<li><p>Specify the block ID within the <code>Uncommitted</code> element to indicate that Blob Storage should search only the uncommitted block list for the named block. If the block isn't found in the uncommitted block list, it isn't written as part of the blob, and Blob Storage returns status code 400 (Bad Request).</p>
+</li>
+<li><p>Specify the block ID within the <code>Latest</code> element to indicate that Blob Storage should first search the uncommitted block list. If the block is found in the uncommitted list, that version of the block is the latest and should be written to the blob. If the block isn't found in the uncommitted list, the service should search the committed block list for the named block and write that block to the blob if it's found.</p>
+</li>
+</ul>
+<p>The request body for this version of <code>Put Block List</code> uses the following XML format:</p>
+<pre><code class="lang-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;  
+&lt;BlockList&gt;  
+  &lt;Committed&gt;first-base64-encoded-block-id&lt;/Committed&gt;  
+  &lt;Uncommitted&gt;second-base64-encoded-block-id&lt;/Uncommitted&gt;  
+  &lt;Latest&gt;third-base64-encoded-block-id&lt;/Latest&gt;  
+  ...  
+&lt;/BlockList&gt;  
+  
+</code></pre>
+<h3 id="sample-request">Sample request</h3>
+<p>To demonstrate <code>Put Block List</code>, assume you have uploaded three blocks that you now want to commit. The following example commits a new blob by indicating that the latest version of each block listed should be used. It's not necessary to know whether these blocks have already been committed.</p>
+<pre><code class="lang-http">Request Syntax:  
+PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist HTTP/1.1  
+  
+Request Headers:  
+x-ms-date: Wed, 31 Aug 2011 00:17:43 GMT  
+x-ms-version: 2011-08-18  
+Content-Type: text/plain; charset=UTF-8  
+Authorization: SharedKey myaccount:DJ5QZSVONZ64vAhnN/wxcU+Pt5HQSLAiLITlAU76Lx8=  
+Content-Length: 133  
+  
+Request Body:  
+&lt;?xml version="1.0" encoding="utf-8"?&gt;  
+&lt;BlockList&gt;  
+  &lt;Latest&gt;AAAAAA==&lt;/Latest&gt;  
+  &lt;Latest&gt;AQAAAA==&lt;/Latest&gt;  
+  &lt;Latest&gt;AZAAAA==&lt;/Latest&gt;  
+&lt;/BlockList&gt;  
+  
+</code></pre>
+<p>Next, let's assume that you want to update the blob. The new blob has the following changes:</p>
+<ul>
+<li><p>A new block with ID <code>ANAAAA==</code>. This block must first be uploaded with a call to <a href="put-block" data-linktype="relative-path">Put Block</a>, and it appears in the uncommitted block list until the call to <code>Put Block List</code>.</p>
+</li>
+<li><p>An updated version of the block with ID <code>AZAAAA==</code>. This block must first be uploaded with a call to <a href="put-block" data-linktype="relative-path">Put Block</a>, and it appears in the uncommitted block list until the call to <code>Put Block List</code>.</p>
+</li>
+<li><p>Removal of the block with the ID <code>AAAAAA==</code>. Because this block isn't included in the next call to <code>Put Block List</code>, the block is effectively removed from the blob.</p>
+</li>
+</ul>
+<p>The following example shows the call to <code>Put Block List</code> that updates the blob:</p>
+<pre><code class="lang-http">Request Syntax:  
+PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist HTTP/1.1  
+  
+Request Headers:  
+x-ms-date: Wed, 31 Aug 2009 00:17:43 GMT  
+x-ms-version: 2011-08-18  
+Content-Type: text/plain; charset=UTF-8  
+x-ms-expiry-option: RelativeToNow
+x-ms-expiry-time: 30000
+Authorization: SharedKey myaccount:DJ5QZSVONZ64vAhnN/wxcU+Pt5HQSLAiLITlAU76Lx8=  
+Content-Length: 133  
+  
+Request Body:  
+&lt;?xml version="1.0" encoding="utf-8"?&gt;  
+&lt;BlockList&gt;  
+  &lt;Uncommitted&gt;ANAAAA==&lt;/Uncommitted&gt;  
+  &lt;Committed&gt;AQAAAA==&lt;/Committed&gt;  
+  &lt;Uncommitted&gt;AZAAAA==&lt;/Uncommitted&gt;  
+&lt;/BlockList&gt;  
+  
+</code></pre>
+<h2 id="response">Response</h2>
+<p>The response includes an HTTP status code and a set of response headers.</p>
+<h3 id="status-code">Status code</h3>
+<p>A successful operation returns status code 201 (Created).</p>
+<p>For more information about status codes, see <a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a>.</p>
+<h3 id="response-headers">Response headers</h3>
+<p>The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the <a href="https://go.microsoft.com/fwlink/?linkid=150478" data-linktype="external">HTTP/1.1 protocol specification</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Response</th>
+<th>Descriptions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ETag</code></td>
+<td>The entity tag contains a value that the client can use to perform conditional <code>GET/PUT</code> operations by using the <code>If-Match</code> request header. If the request version is 2011-08-18 or later, the ETag value is enclosed in quotation marks.</td>
+</tr>
+<tr>
+<td><code>Last-Modified</code></td>
+<td>The date/time that the blob was last modified. The date format follows RFC 1123. For more information, see <a href="representation-of-date-time-values-in-headers" data-linktype="relative-path">Represent date/time values in headers</a>.<br><br> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last modified time of the blob.</td>
+</tr>
+<tr>
+<td><code>Content-MD5</code></td>
+<td>Returned so that the client can check for message content integrity. This header refers to the content of the request (in this case, the list of blocks and not the content of the blob itself). For version 2019-02-02 and later, this header is returned only when the request has this header.</td>
+</tr>
+<tr>
+<td><code>x-ms-content-crc64</code></td>
+<td>For version 2019-02-02 and later, this header is returned so that the client can check for message content integrity. This header refers to the content of the request (in this case, the list of blocks and not the content of the blob itself).<br><br>This header is returned when <code>Content-md5</code> header isn't present in the request.</td>
+</tr>
+<tr>
+<td><code>x-ms-request-id</code></td>
+<td>Uniquely identifies the request that was made, and you can use it to troubleshoot the request. For more information, see <a href="troubleshooting-api-operations" data-linktype="relative-path">Troubleshoot API operations</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>The version of Blob Storage that's used to execute the request. This header is returned for requests that are made against version 2009-09-19 and later.</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>A UTC date/time value that's generated by the service, which indicates when the response was initiated.</td>
+</tr>
+<tr>
+<td><code>x-ms-request-server-encrypted: true/false</code></td>
+<td>Version 2015-12-11 and later. The value of this header is set to <code>true</code> if the contents of the request are successfully encrypted using the specified algorithm. Otherwise, the value is set to <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-encryption-key-sha256</code></td>
+<td>Version 2019-02-02 and later. This header is returned if the request used a customer-provided key for encryption, so the client can ensure that the contents of the request are successfully encrypted by using the provided key.</td>
+</tr>
+<tr>
+<td><code>x-ms-encryption-scope</code></td>
+<td>Version 2019-02-02 and later. This header is returned if the request used an encryption scope, so the client can ensure that the contents of the request are successfully encrypted by using the encryption scope.</td>
+</tr>
+<tr>
+<td><code>x-ms-version-id: &lt;DateTime&gt;</code></td>
+<td>Version 2019-12-12 and later. Returns an opaque <code>DateTime</code> value that uniquely identifies the blob. The value of this header indicates the version of the blob, and it can be used in subsequent requests to access the blob.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Can be used to troubleshoot requests and their corresponding responses. The value of this header is equal to the value of the <code>x-ms-client-request-id</code> header if it's present in the request and the value contains no more than 1,024 visible ASCII characters. If the <code>x-ms-client-request-id</code> header isn't present in the request, it isn't present in the response.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sample-response">Sample response</h3>
+<pre><code class="lang-http">Response Status:  
+HTTP/1.1 201 Created  
+  
+Response Headers:  
+Transfer-Encoding: chunked  
+x-ms-content-crc64: 77uWZTolTHU  
+Date: Sun, 25 Sep 2011 00:17:44 GMT  
+ETag: “0x8CB172A360EC34B”  
+Last-Modified: Sun, 25 Sep 2011 00:17:43 GMT  
+x-ms-version: 2011-08-18  
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
+x-ms-version-id: &lt;DateTime&gt;  
+</code></pre>
+<h2 id="authorization">Authorization</h2>
+<p>Authorization is required when calling any data access operation in Azure Storage. You can authorize the <code>Put Block List</code> operation as described below.</p>
+<p>If a request specifies tags with the <code>x-ms-tags</code> request header, the caller must meet the authorization requirements of the <a href="set-blob-tags" data-linktype="relative-path">Set Blob Tags</a> operation.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Microsoft recommends using Microsoft Entra ID with managed identities to authorize requests to Azure Storage. Microsoft Entra ID provides superior security and ease of use compared to Shared Key authorization.</p>
+</div>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_microsoft-entra-id" role="tab" aria-controls="tabpanel_1_microsoft-entra-id" data-tab="microsoft-entra-id" tabindex="0" aria-selected="true" data-linktype="self-bookmark">Microsoft Entra ID (recommended)</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_shared-access-signatures" role="tab" aria-controls="tabpanel_1_shared-access-signatures" data-tab="shared-access-signatures" tabindex="-1" data-linktype="self-bookmark">Shared access signatures (SAS)</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_shared-key" role="tab" aria-controls="tabpanel_1_shared-key" data-tab="shared-key" tabindex="-1" data-linktype="self-bookmark">Shared key</a>
+</li>
+</ul>
+<section id="tabpanel_1_microsoft-entra-id" role="tabpanel" data-tab="microsoft-entra-id">
+
+<p>Azure Storage supports using Microsoft Entra ID to authorize requests to blob data. With Microsoft Entra ID, you can use Azure role-based access control (Azure RBAC) to grant permissions to a security principal. The security principal may be a user, group, application service principal, or Azure managed identity. The security principal is authenticated by Microsoft Entra ID to return an OAuth 2.0 token. The token can then be used to authorize a request against the Blob service.</p>
+<p>To learn more about authorization using Microsoft Entra ID, see <a href="authorize-with-azure-active-directory" data-linktype="relative-path">Authorize access to blobs using Microsoft Entra ID</a>.</p>
+<h3 id="permissions">Permissions</h3>
+<p>Listed below are the RBAC action necessary for a Microsoft Entra user, group, managed identity, or service principal to call the <code>Put Block List</code> operation, and the least privileged built-in Azure RBAC role that includes this action:</p>
+<ul>
+<li><strong>Azure RBAC action:</strong> <a href="/en-us/azure/role-based-access-control/resource-provider-operations#microsoftstorage" data-linktype="absolute-path">Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write</a></li>
+<li><strong>Least privileged built-in role:</strong> <a href="/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor" data-linktype="absolute-path">Storage Blob Data Contributor</a></li>
+</ul>
+<p>To learn more about assigning roles using Azure RBAC, see <a href="/en-us/azure/storage/blobs/assign-azure-role-data-access" data-linktype="absolute-path">Assign an Azure role for access to blob data</a>.</p>
+</section>
+<section id="tabpanel_1_shared-access-signatures" role="tabpanel" data-tab="shared-access-signatures" aria-hidden="true" hidden="hidden">
+
+<p>A shared access signature (SAS) provides secure delegated access to resources in a storage account. With a SAS, you have granular control over how a client can access data. You can specify what resource the client may access, what permissions they have to those resources, and how long the SAS is valid.</p>
+<p>The <code>Put Block List</code> operation supports three types of shared access signatures: <a href="#user-delegation-sas" data-linktype="self-bookmark">user delegation SAS</a>, <a href="#service-sas" data-linktype="self-bookmark">service SAS</a>, and <a href="#account-sas" data-linktype="self-bookmark">account SAS</a>.</p>
+<p>As a security best practice, we recommend that you use Microsoft Entra credentials rather than the storage account key, which can be more easily compromised. If your application design requires shared access signatures, use Microsoft Entra credentials to create a user delegation SAS, when possible.</p>
+<p>When Shared Key access is disallowed for the storage account, a service SAS token or an account SAS token will not be permitted on a request to Blob Storage. To learn more, see <a href="/en-us/azure/storage/common/shared-key-authorization-prevent#understand-how-disallowing-shared-key-affects-sas-tokens" data-linktype="absolute-path">Understand how disallowing Shared Key affects SAS tokens</a>.</p>
+<h3 id="user-delegation-sas">User delegation SAS</h3>
+<p>A user delegation SAS is secured with Microsoft Entra credentials and also by the permissions specified for the SAS.</p>
+<p>Calling the <code>Put Block List</code> operation using a SAS token delegated to a container or blob resource requires the following permission as part of the user delegation SAS token:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Signed permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Put Block List (create new block blob)</td>
+<td>Create (c) or Write (w)</td>
+</tr>
+<tr>
+<td>Put Block List (overwrite existing block blob)</td>
+<td>Write (w)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note that the Create (c) permission is supported by x-ms-version <code>2026-04-06</code> and later.</p>
+</blockquote>
+<p>To learn more about the user delegation SAS, see <a href="create-user-delegation-sas" data-linktype="relative-path">Create a user delegation SAS</a>.</p>
+<h3 id="service-sas">Service SAS</h3>
+<p>A service SAS is secured with the storage account key. A service SAS delegates access to a resource in a single Azure Storage service, such as blob storage.</p>
+<p>Calling the <code>Put Block List</code> operation using a SAS token delegated to a container or blob resource requires the following permission as part of the service SAS token.</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Signed permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Put Block List (create new block blob)</td>
+<td>Create (c) or Write (w)</td>
+</tr>
+<tr>
+<td>Put Block List (overwrite existing block blob)</td>
+<td>Write (w)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note that the Create (c) permission is supported by x-ms-version <code>2026-04-06</code> and later.</p>
+</blockquote>
+<p>To learn more about the service SAS, see <a href="create-service-sas" data-linktype="relative-path">Create a service SAS</a>.</p>
+<h3 id="account-sas">Account SAS</h3>
+<p>An account SAS is secured with the storage account key. An account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service or user delegation SAS are also available via an account SAS.</p>
+<p>The following table indicates the signed resource type and signed permissions to specify when delegating access:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Signed service</th>
+<th>Signed resource type</th>
+<th>Signed permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Put Block List (create new block blob)</td>
+<td>Blob (b)</td>
+<td>Object (o)</td>
+<td>Create (c) or Write (w)</td>
+</tr>
+<tr>
+<td>Put Block List (overwrite existing block blob)</td>
+<td>Blob (b)</td>
+<td>Object (o)</td>
+<td>Write (w)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note that the Create (c) permission is supported by x-ms-version <code>2026-04-06</code> and later.</p>
+</blockquote>
+<p>To learn more about the account SAS, see <a href="create-account-sas" data-linktype="relative-path">Create an account SAS</a>.</p>
+</section>
+<section id="tabpanel_1_shared-key" role="tabpanel" data-tab="shared-key" aria-hidden="true" hidden="hidden">
+
+<p>The <code>Put Block List</code> operation supports <a href="authorize-with-shared-key" data-linktype="relative-path">Shared Key authorization</a>. Authorizing with account keys is not recommended for most scenarios, as it's less secure.</p>
+<p>Microsoft recommends disallowing Shared Key authorization for the storage account when possible. For more information, see <a href="/en-us/azure/storage/common/shared-key-authorization-prevent" data-linktype="absolute-path">Prevent authorization with Shared Key</a>.</p>
+</section>
+</div>
+<h2 id="remarks">Remarks</h2>
+<p>The <code>Put Block List</code> operation enforces the order in which blocks are to be combined to create a blob.</p>
+<p>The same block ID can be specified more than one time in the list of blocks. If a block ID is specified more than one time, it represents the range of bytes in each of those locations in the block list for the final committed blob. If a block ID appears more than once in the list, both instances of the block ID must be specified within the same block list. In other words, both instances must be specified within the <code>Committed</code> element, the <code>Uncommitted</code> element, or the <code>Latest</code> element.</p>
+<p>With <code>Put Block List</code>, you can modify an existing blob by inserting, updating, or deleting individual blocks without having to upload the whole blob again. You can specify block IDs from both the current committed block list and the uncommitted block list to create a new blob or update the content of an existing blob. In this way, you can update a blob by specifying a few new blocks from the uncommitted block list, and the rest from the committed block list, which are already part of the existing blob.</p>
+<p>If a block ID is specified in the <code>Latest</code> element, and the same block ID exists in both the committed and uncommitted block lists, <code>Put Block List</code> commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, <code>Put Block List</code> commits the block from the committed block list.</p>
+<p>Each block in a block blob can be a different size. A block blob can include a maximum of 50,000 committed blocks. The maximum number of uncommitted blocks that may be associated with a blob is 100,000.</p>
+<p>The following table describes the maximum permitted block and blob sizes, by service version:</p>
+<table>
+<thead>
+<tr>
+<th>Service version</th>
+<th>Maximum block size (via <code>Put Block</code>)</th>
+<th>Maximum blob size (via <code>Put Block List</code>)</th>
+<th>Maximum blob size via single write operation (via <code>Put Blob</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Version 2019-12-12 and later</td>
+<td>4,000 mebibytes (MiB)</td>
+<td>Approximately 190.7 tebibytes (TiB) (4,000 MiB × 50,000 blocks)</td>
+<td>5,000 MiB</td>
+</tr>
+<tr>
+<td>Versions 2016-05-31 through 2019-07-07</td>
+<td>100 MiB</td>
+<td>Approximately 4.75 TiB (100 MiB × 50,000 blocks)</td>
+<td>256 MiB</td>
+</tr>
+<tr>
+<td>Versions earlier than 2016-05-31</td>
+<td>4 MiB</td>
+<td>Approximately 195 GiB (4 MiB × 50,000 blocks)</td>
+<td>64 MiB</td>
+</tr>
+</tbody>
+</table>
+<p>When you call <code>Put Block List</code> to update an existing blob, the blob's existing properties and metadata are overwritten. However, any existing snapshots are retained with the blob. You can use the conditional request headers to perform the operation only if a specified condition is met.</p>
+<p>If the <code>Put Block List</code> operation fails because of a missing block, you need to upload the missing block.</p>
+<p>Any uncommitted blocks are garbage collected if there are no successful calls to <code>Put Block</code> or <code>Put Block List</code> on the blob within a week following the last successful <code>Put Block</code> operation. If <a href="put-blob" data-linktype="relative-path">Put Blob</a> is called on the blob, any uncommitted blocks are garbage collected.</p>
+<p>If tags are provided in the <code>x-ms-tags</code> header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements, as specified in <code>Set Blob Tags</code>. Further, the <code>x-ms-tags</code> header may contain tags of up to 2 KiB in size. If more tags are required, use the <a href="set-blob-tags" data-linktype="relative-path">Set Blob Tags</a> operation.</p>
+<p>If the blob has an active lease, the client must specify a valid lease ID on the request to commit the block list. If the client either doesn't specify a lease ID or specifies an invalid lease ID, Blob Storage returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob doesn't have an active lease, Blob Storage also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that doesn't yet exist, Blob Storage returns status code 412 (Precondition Failed) for requests made against version 2013-08-15 or later. For earlier versions, Blob Storage returns status code 201 (Created).</p>
+<p>If the blob has an active lease and you call <code>Put Block List</code> to update the blob, the lease is maintained on the updated blob.</p>
+<p><code>Put Block List</code> applies only to block blobs. Calling <code>Put Block List</code> on a page blob results in status code 400 (Bad Request).</p>
+<p>Overwriting an <code>archive</code> blob fails. Otherwise, a blob inherits the tier from the old blob if an <code>x-ms-access-tier</code> header isn't provided.</p>
+<h3 id="billing">Billing</h3>
+<p>Pricing requests can originate from clients that use Blob Storage APIs, either directly through the Blob Storage REST API, or from an Azure Storage client library. These requests accrue charges per transaction. The type of transaction affects how the account is charged. For example, read transactions accrue to a different billing category than write transactions. The following table shows the billing category for <code>Put Block List</code> requests based on the storage account type:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Storage account type</th>
+<th>Billing category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Put Block List</td>
+<td>Premium block blob<br>Standard general-purpose v2<br>Standard general-purpose v1</td>
+<td>Write operations</td>
+</tr>
+</tbody>
+</table>
+<p>To learn about pricing for the specified billing category, see <a href="https://azure.microsoft.com/pricing/details/storage/blobs/" data-linktype="external">Azure Blob Storage Pricing</a>.</p>
+<h2 id="see-also">See also</h2>
+<p><a href="understanding-block-blobs--append-blobs--and-page-blobs" data-linktype="relative-path">Understand block blobs, append blobs, and page blobs</a><br>
+<a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a><br>
+<a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a><br>
+<a href="blob-service-error-codes" data-linktype="relative-path">Blob service error codes</a><br>
+<a href="setting-timeouts-for-blob-service-operations" data-linktype="relative-path">Set timeouts for Blob service operations</a></p>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2023-10-10T22:08:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2023-10-10
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

@@ -1,0 +1,1611 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Versioning for Azure Storage | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Azure Storage supports multiple versions. To make a request against the storage services, you specify the version that you want to use for that operation, unless the request is anonymous." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Versioning for Azure Storage" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services" />
+			<meta property="og:description" content="Azure Storage supports multiple versions. To make a request against the storage services, you specify the version that you want to use for that operation, unless the request is anonymous." />
+			<meta name="platform_id" content="f8122d25-73e9-d636-03be-78a0e8a60165" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="seanmcc" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="seanmcc-msft" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2026-09-23T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="2b4be26f-b580-ba9a-75b4-4dac1afa32ca" />
+	
+		<meta name="document_version_independent_id" content="9dd519fd-b84e-7975-9cb6-98803b189d4a" />
+	
+		<meta name="updated_at" content="2026-09-24T22:36:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md" />
+	
+		<meta name="git_commit_id" content="637e7c6a8b49bfc603240cd31ddd1ff22dabacd3" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="1500" />
+	
+		<meta name="asset_id" content="api/storageservices/versioning-for-the-azure-storage-services" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md" />
+	
+		<meta name="previous_tlsh_hash" content="D8D68D22544D8F957F055C22BF716594D0F86C4A66B26DCC2824FA87734A3F06632AB4BF950A4641A333464303596C0E69D0F735B1F8322B65A836AAC38EAF4BA1DDF2B4D4" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="versioning-for-azure-storage">Versioning for Azure Storage</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>Azure Storage supports multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.</p>
+<p>As of September 23, 2026, the latest fully deployed version of the Azure Storage service is <code>2026-04-06</code>.  <code>2026-06-06</code> and <code>2026-10-06</code> are globally enabled, with the exception of a small number of tenants in useast2euap and uscentraleuap.</p>
+<p>The latest GA versions of the SDKs default to <code>2026-10-06</code>.</p>
+<p>If the table below indicates an <code>x-ms-version</code> is enabled in a region, all previous <code>x-ms-versions</code> are also enabled. Attempting to use a service version that isn't fully deployed in your storage account's region might generate a <a href="#invalidheadervalue-error-message" data-linktype="self-bookmark">x-ms-version mismatch error</a>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Region</th>
+<th style="text-align: left;"><code>x-ms-version</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">asiaeast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">asiasoutheast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">australiac</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">australiac2</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">australiaeast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">australiasoutheast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">austriae</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">belgiumc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">brazilse</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">brazilsouth</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">canadacentral</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">canadaeast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">chilec</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">denmarke</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">europenorth</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">europewest</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">eusslv</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">francec</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">frances</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">germanyn</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">germanywc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">indiacentral</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">indiasc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">indiasouth</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">indiawest</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">indonesiac</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">israelc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">israelnw</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">italyn</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">japaneast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">japanwest</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">jioinc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">jioinw</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">koreacentral</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">koreasouth</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">malaysias</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">malaysiaw</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">mexicoc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">newzealandn</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">norwaye</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">norwayw</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">polandc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">qatarc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">saudiarabiaeast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">southafrican</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">southafricaw</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">spainc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">swedenc</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">swedens</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">switzerlandn</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">switzerlandw</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">taiwann</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">taiwannw</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uaec</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uaen</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uksouth</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">ukwest</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uscentral</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uscentraleuap</td>
+<td style="text-align: left;">2026-04-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">useast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">useast2</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">useast2euap</td>
+<td style="text-align: left;">2026-04-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">useast3</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">usnorth</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">usnortheast5</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">ussouth</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">ussouth2</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">ussoutheast</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">ussoutheast3</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">ussoutheast5</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">ussouthwest</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uswcfre</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uswest</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uswest2</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uswest3</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+<tr>
+<td style="text-align: left;">uswestcentral</td>
+<td style="text-align: left;">2026-10-06</td>
+</tr>
+</tbody>
+</table>
+<p>The default <code>x-ms-version</code> being used by the Azure Storage data plane SDKs can be found in the changelogs in the following table:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><a href="blob-service-rest-api" data-linktype="relative-path">Blob Service</a></th>
+<th><a href="data-lake-storage-gen2" data-linktype="relative-path">ADLS Gen 2</a></th>
+<th><a href="file-service-rest-api" data-linktype="relative-path">Files Service</a></th>
+<th><a href="queue-service-rest-api" data-linktype="relative-path">Queue Service</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.NET</td>
+<td><a href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/storage/Azure.Storage.Blobs/CHANGELOG.md" data-linktype="external">Azure.Storage.Blobs</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/storage/Azure.Storage.Files.DataLake/CHANGELOG.md" data-linktype="external">Azure.Storage.Files.DataLake</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/storage/Azure.Storage.Files.Shares/CHANGELOG.md" data-linktype="external">Azure.Storage.Files.Shares</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/storage/Azure.Storage.Queues/CHANGELOG.md" data-linktype="external">Azure.Storage.Queues</a></td>
+</tr>
+<tr>
+<td>Java</td>
+<td><a href="https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/storage/azure-storage-blob/CHANGELOG.md" data-linktype="external">azure-storage-blob</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/storage/azure-storage-file-datalake/CHANGELOG.md" data-linktype="external">azure-storage-file-datalake</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/storage/azure-storage-file-share/CHANGELOG.md" data-linktype="external">azure-storage-file-share</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/storage/azure-storage-queue/CHANGELOG.md" data-linktype="external">azure-storage-queue</a></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><a href="https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/storage/azure-storage-blob/CHANGELOG.md" data-linktype="external">azure-storage-blob</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/storage/azure-storage-file-datalake/CHANGELOG.md" data-linktype="external">azure-storage-file-datalake</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/storage/azure-storage-file-share/CHANGELOG.md" data-linktype="external">azure-storage-file-share</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/storage/azure-storage-queue/CHANGELOG.md" data-linktype="external">azure-storage-queue</a></td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td><a href="https://github.com/Azure/azure-sdk-for-js/blob/storage/stable/sdk/storage/storage-blob/CHANGELOG.md" data-linktype="external">storage-blob</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-js/blob/storage/stable/sdk/storage/storage-file-datalake/CHANGELOG.md" data-linktype="external">storage-file-datalake</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-js/blob/storage/stable/sdk/storage/storage-file-share/CHANGELOG.md" data-linktype="external">storage-file-share</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-js/blob/storage/stable/sdk/storage/storage-queue/CHANGELOG.md" data-linktype="external">storage-queue</a></td>
+</tr>
+<tr>
+<td>C++</td>
+<td><a href="https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/storage/azure-storage-blobs/CHANGELOG.md" data-linktype="external">azure-storage-blobs</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/storage/azure-storage-files-datalake/CHANGELOG.md" data-linktype="external">azure-storage-files-datalake</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/storage/azure-storage-files-shares/CHANGELOG.md" data-linktype="external">azure-storage-files-shares</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/storage/azure-storage-queues/CHANGELOG.md" data-linktype="external">azure-storage-queues</a></td>
+</tr>
+<tr>
+<td>GoLang</td>
+<td><a href="https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/storage/azblob/CHANGELOG.md" data-linktype="external">azblob</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/storage/azdatalake/CHANGELOG.md" data-linktype="external">azdatalake</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/storage/azfile/CHANGELOG.md" data-linktype="external">azfile</a></td>
+<td><a href="https://github.com/Azure/azure-sdk-for-go/tree/main/sdk/storage/azqueue" data-linktype="external">azqueue</a></td>
+</tr>
+</tbody>
+</table>
+<p>The data plane Storage SDKs don't perform GA releases to the other official package feeds until the default <code>x-ms-version</code> for the release in question has full rollout in all regions. Therefore, the latest GA SDK release from the official package managers can safely be used in any region.</p>
+<p>For a list of all other supported versions, and for information about using each version, see <a href="previous-azure-storage-service-versions" data-linktype="relative-path">Previous Azure Storage service versions</a>.</p>
+<p>The 2026-10-06 service version includes the following features:</p>
+<ul>
+<li>Added support for paginated to <a href="list-ranges" data-linktype="relative-path">File List Ranges</a> via the new <code>marker</code> and <code>maxresults</code> query parameters.</li>
+<li>The <code>x-ms-content-crc64</code> response header will now be returned if the <code>x-ms-source-content-md5</code> request header is specificed for the following APIs:
+<ul>
+<li><a href="append-block-from-url" data-linktype="relative-path">Append Blob from URL</a></li>
+<li><a href="append-block" data-linktype="relative-path">Append Blob</a></li>
+<li><a href="put-block-from-url" data-linktype="relative-path">Put Block from URL</a></li>
+<li><a href="put-block" data-linktype="relative-path">Put Block</a></li>
+<li><a href="put-page-from-url" data-linktype="relative-path">Put Page from URL</a></li>
+<li><a href="put-page" data-linktype="relative-path">Put Page</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="specify-service-versions-in-requests">Specify service versions in requests</h2>
+<p>How you specify the version of the storage services to use for a request relates to how that request is authorized. The following sections describe authorization options and how the service version is specified for each.</p>
+<ul>
+<li><p><strong>Requests that use an OAuth 2.0 token from Microsoft Entra</strong>: To authorize a request with Microsoft Entra ID, pass the <code>x-ms-version</code> header on the request with a service version of 2017-11-09 or higher. For more information, see <strong>Call storage operations with OAuth tokens</strong> in <a href="authorize-with-azure-active-directory" data-linktype="relative-path">Authorize with Microsoft Entra ID</a>.</p>
+</li>
+<li><p><strong>Requests that use Shared Key or Shared Key Lite</strong>: To authorize a request with Shared Key or Shared Key Lite, pass the <code>x-ms-version</code> header on the request. When using Azure Blob Storage, you can specify the default version for all requests by calling <a href="set-blob-service-properties" data-linktype="relative-path">Set Blob Service Properties</a>.</p>
+</li>
+<li><p><strong>Requests that use a shared access signature (SAS)</strong>: You can specify two versioning options on a shared access signature. The optional <code>api-version</code> header indicates which service version to use to execute the API operation. The required <code>SignedVersion (sv)</code> parameter specifies the service version to use to authorize the request made with the SAS. If the <code>api-version</code> header isn't specified, the value of the <code>SignedVersion (sv)</code> parameter also indicates the version to use to execute the API operation.</p>
+</li>
+<li><p><strong>Requests that use anonymous access</strong>: When utilizing anonymous access against Blob Storage, no version is passed in. The heuristics for determining which version to use for the request are described in the next sections.</p>
+</li>
+</ul>
+<h3 id="authorize-requests-by-using-microsoft-entra-id-shared-key-or-shared-key-lite">Authorize requests by using Microsoft Entra ID, Shared Key, or Shared Key Lite</h3>
+<p>To authorize a request with Microsoft Entra ID, Shared Key, or Shared Key Lite, specify the <code>x-ms-version</code> header on the request. The <code>x-ms-version</code> request header value must be specified in the format YYYY-MM-DD. For example:</p>
+<pre><code>Request Headers:  
+x-ms-version: 2020-04-08
+</code></pre>
+<p>The following rules describe how these requests are evaluated to determine which version to use to process the request.</p>
+<ul>
+<li><p>If a request has a valid <code>x-ms-version</code> header, the storage service uses the specified version. All requests to Azure Table Storage and Azure Queue Storage that don't use a shared access signature must specify an <code>x-ms-version</code> header. All requests to Blob Storage that don't use a shared access signature must specify an <code>x-ms-version</code> header unless the default version is set, as described in the next paragraph.</p>
+</li>
+<li><p>If a request to Blob Storage doesn't include an <code>x-ms-version</code> header, but the account owner sets a default version by using the <a href="set-blob-service-properties" data-linktype="relative-path">Set Blob Service Properties</a> operation, the specified default version is used as the version for the request.</p>
+</li>
+</ul>
+<h3 id="authorize-requests-by-using-a-shared-access-signature">Authorize requests by using a shared access signature</h3>
+<p>A shared access signature (SAS) that's generated by using version 2014-02-14 or later supports two versioning options:</p>
+<ul>
+<li><p>The <code>api-version</code> query parameter defines the REST protocol version to use for processing a request that's made by using the SAS.</p>
+</li>
+<li><p>The <code>SignedVersion (sv)</code> query parameter defines the SAS version to use for authorization.</p>
+</li>
+</ul>
+<p>The <code>SignedVersion</code> query parameter is used for authorization when a client makes a request by using the SAS. Authorization parameters such as <code>si</code>, <code>sr</code>, <code>sp</code>, <code>sig</code>, <code>st</code>, <code>se</code>, <code>tn</code>, <code>spk</code>, <code>srk</code>, <code>epk</code>, and <code>erk</code> are all interpreted by using the specified version.</p>
+<p>REST protocol parameters such as  <code>rscc</code>, <code>rscd</code>, <code>rsce</code>, <code>rscl</code>, and <code>rsct</code> are enforced by using the version provided in the <code>api-version</code> parameter header. If the <code>api-version</code> header isn't specified, the service version provided for <code>SignedVersion</code> is used.</p>
+<p>The <code>api-version</code> parameter isn't part of the string-to-sign in the authorization header, as described in <a href="create-service-sas" data-linktype="relative-path">Create a service SAS</a>.</p>
+<p>The following table explains the versioning scheme that's used by the service for authorization and for calling the REST protocol when the <code>SignedVersion</code> parameter is set to version 2014-02-14 or later.</p>
+<table>
+<thead>
+<tr>
+<th>Value of <em>api-version</em> parameter</th>
+<th>Version used for authorization</th>
+<th>Version used for protocol behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Not specified</td>
+<td>Version specified in the <code>sv</code> parameter</td>
+<td>Version specified in the <code>sv</code> parameter</td>
+</tr>
+<tr>
+<td>Any valid storage services version in format <code>XXXX-XX-XX</code></td>
+<td>Version specified in the <code>sv</code> parameter</td>
+<td>Valid storage services version <code>XXXX-XX-XX</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-1">Example 1</h4>
+<p>The following sample request calls <a href="list-blobs" data-linktype="relative-path">List Blobs</a> with <code>sv=2015-04-05</code>, and without the <code>api-version</code> parameter.</p>
+<p><code>https://myaccount.blob.core.windows.net/mycontainer?restype=container&amp;comp=list&amp;sv=2015-04-05&amp;si=readpolicy&amp;sig=a39 %2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d</code></p>
+<p>In this case, the service authenticates and authorizes the request by using version 2015-04-05, and it runs the operation by using version 2015-04-05.</p>
+<h4 id="example-2">Example 2</h4>
+<p>The following sample request calls <a href="list-blobs" data-linktype="relative-path">List Blobs</a> with <code>sv=2015-04-05</code> and with the <code>api-version</code> parameter.</p>
+<p><code>https://myaccount.blob.core.windows.net/mycontainer?restype=container&amp;comp=list&amp;sv=2015-04-05&amp;si=readpolicy&amp;sig=a39 %2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d&amp;api-version=2012-02-12</code></p>
+<p>Here, the service authorizes the request by using version 2015-04-05, and it runs the operation by using version 2012-02-12.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The .NET Storage client library always sets the REST protocol version (in the <code>api-version</code> parameter) to the base version.</p>
+</div>
+<h3 id="requests-via-anonymous-access">Requests via anonymous access</h3>
+<p>Requests that are made via anonymous access are handled differently, depending on the type of storage account they're made against.</p>
+<h4 id="general-purpose-storage-accounts">General-purpose storage accounts</h4>
+<p>If an anonymous request to a general-purpose storage account doesn't specify the <code>x-ms-version</code> header, and the default version for the service isn't set by using <a href="set-blob-service-properties" data-linktype="relative-path">Set Blob Service Properties</a>, the service uses the earliest possible version to process the request. If the container was made public using the <a href="set-container-acl" data-linktype="relative-path">Set Container ACL</a> operation using version 2009-09-19 or later, the request is processed by using version 2009-09-19.</p>
+<h4 id="for-blob-storage-accounts">For Blob Storage accounts</h4>
+<p>If an anonymous request to a Blob Storage account doesn't specify the <code>x-ms-version</code> header, and the default version for the service isn't set by using <a href="set-blob-service-properties" data-linktype="relative-path">Set Blob Service Properties</a>, the service uses the earliest possible version to process the request. For a Blob Storage account, the earliest possible version is 2014-02-14.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>This section details known issues for the Azure Storage REST APIs.</p>
+<h3 id="invalidheadervalue-error-message"><code>InvalidHeaderValue</code> error message</h3>
+<p>In rare scenarios, applications making direct REST API calls can receive an <code>InvalidHeaderValue</code> error message. The error looks similar to the following sample:</p>
+<pre><code class="lang-console">HTTP/1.1 400 The value for one of the HTTP headers is not in the correct format.
+Content-Length: 328
+Content-Type: application/xml
+Server: Microsoft-HTTPAPI/2.0
+x-ms-request-id: &lt;REMOVED&gt;
+Date: Fri, 19 May 2023 17:10:33 GMT
+ 
+&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Error&gt;&lt;Code&gt;InvalidHeaderValue&lt;/Code&gt;&lt;Message&gt;The value for one of the HTTP headers is not in the correct format.
+RequestId:&lt;REMOVED&gt;
+Time:2023-05-19T17:10:34.2972651Z&lt;/Message&gt;&lt;HeaderName&gt;x-ms-version&lt;/HeaderName&gt;&lt;HeaderValue&gt;yyyy-mm-dd&lt;/HeaderValue&gt;&lt;/Error&gt; 
+</code></pre>
+<p>Using an earlier REST API version to attempt to resolve the issue is recommended. If the issue persists, or if the recommendation isn't feasible, <a href="https://ms.portal.azure.com/#create/Microsoft.Support" data-linktype="external">open a support ticket</a> to discuss further options.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="azure-storage-services-rest-api-reference" data-linktype="relative-path">Storage Services REST</a></li>
+<li><a href="versioning-best-practices" data-linktype="relative-path">Versioning best practices</a></li>
+<li><a href="protocol-version-support-for-.net-client-library-versions" data-linktype="relative-path">Protocol version support for .NET client library versions</a></li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-09-23T08:00:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-09-23
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

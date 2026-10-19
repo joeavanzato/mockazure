@@ -1,0 +1,1511 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Lease File (FileREST API) - Azure Files | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="The Lease File operation creates and manages a lock on a file for write and delete operations." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Lease File (FileREST API) - Azure Files" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file" />
+			<meta property="og:description" content="The Lease File operation creates and manages a lock on a file for write and delete operations." />
+			<meta name="platform_id" content="889958d0-b64e-a8ca-eea6-ce667bff14dc" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="wgries" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="wmgries" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2024-04-02T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="ea8fda2d-4654-0edd-48ac-7863355f9b57" />
+	
+		<meta name="document_version_independent_id" content="714535a2-7d6c-d0f6-5c83-890c76798987" />
+	
+		<meta name="updated_at" content="2025-02-11T23:07:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/lease-file.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/231318188e00b63c841173a28803c321c6349066/docs-ref-conceptual/storageservices/lease-file.md" />
+	
+		<meta name="git_commit_id" content="231318188e00b63c841173a28803c321c6349066" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="1797" />
+	
+		<meta name="asset_id" content="api/storageservices/lease-file" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/lease-file.md" />
+	
+		<meta name="previous_tlsh_hash" content="4C328D32730D8A20EFC19E419D279AA9B5F0C40E8630B5C4233D7595F05E8E2BCB157DA727A7B6893736074201D1BA0DA7D5DF2DCD6C3324127E649C919C370B8AD63FB9EA" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/lease-file.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/lease-file.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/lease-file.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/lease-file.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="lease-file">Lease File</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>The <code>Lease File</code> operation creates and manages a lock on a file for write and delete operations. <code>Lease File</code> is supported for version 2019-02-02 and later.</p>
+<p>You can call the <code>Lease File</code> operation in one of the following modes:</p>
+<ul>
+<li><code>Acquire</code>, to request a new lease.</li>
+<li><code>Change</code>, to change the ID of an existing lease.</li>
+<li><code>Release</code>, to free the lease if it's no longer needed, so that another client can immediately acquire a lease against the file.</li>
+<li><code>Break</code>, to forcibly end the lease, but ensure that another client can't acquire a new lease until the current lease period has expired.</li>
+</ul>
+<h2 id="protocol-availability">Protocol availability</h2>
+<table>
+<thead>
+<tr>
+<th>Enabled file share protocol</th>
+<th style="text-align: center;">Available</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SMB</td>
+<td style="text-align: center;"><img src="media/yes-icon.png" alt="Yes" data-linktype="relative-path"></td>
+</tr>
+<tr>
+<td>NFS</td>
+<td style="text-align: center;"><img src="media/no-icon.png" alt="No" data-linktype="relative-path"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="request">Request</h2>
+<p>The <code>Lease File</code> request is constructed as follows. We recommend that you use HTTPS.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td><code>https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<p>Replace the path components shown in the request URI with your own, as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Path component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>myaccount</code></td>
+<td>The name of your storage account.</td>
+</tr>
+<tr>
+<td><code>myshare</code></td>
+<td>The name of your file share.</td>
+</tr>
+<tr>
+<td><code>mydirectorypath</code></td>
+<td>Optional. The path to the directory.</td>
+</tr>
+<tr>
+<td><code>myfile</code></td>
+<td>The name of the file.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uri-parameters">URI parameters</h3>
+<p>You can specify the following additional parameter on the request URI.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>timeout</code></td>
+<td>Optional. The <code>timeout</code> parameter is expressed in seconds. For more information, see <a href="setting-timeouts-for-file-service-operations" data-linktype="relative-path">Setting timeouts for Azure Files operations</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-headers">Request headers</h3>
+<p>The following table describes required and optional request headers.</p>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization</code></td>
+<td>Required. Specifies the authorization scheme, account name, and signature. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>Date</code> or <code>x-ms-date</code></td>
+<td>Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Optional. Specifies the version of the operation to use for this request. For more information, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for the Azure Storage services</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-lease-id:&lt;ID&gt;</code></td>
+<td>Required to renew, change, or release the lease.<br><br> You can specify the value of <code>x-ms-lease-id</code> in any valid, GUID string format. See <a href="https://msdn.microsoft.com/library/96ff78dc.aspx" data-linktype="external">Guid Constructor (String)</a> for a list of valid formats.</td>
+</tr>
+<tr>
+<td><code>x-ms-lease-action: &lt;acquire ¦ change ¦ release ¦ break&gt;</code></td>
+<td><code>acquire</code>: Requests a new lease. If the file doesn't have an active lease, Azure Files creates a lease on the file, and returns a new lease ID. If the file has an active lease, you can only request a new lease by using the active lease ID.<br><br> <code>change</code>: Changes the lease ID of an active lease. A <code>change</code> must include the current lease ID in <code>x-ms-lease-id</code>, and a new lease ID in <code>x-ms-proposed-lease-id</code>.<br><br> <code>release</code>: Releases the lease. You can release the lease if the lease ID specified on the request matches that associated with the file. Releasing the lease allows another client to immediately acquire the lease for the file, as soon as the release is complete.<br><br> <code>break</code>: Breaks the lease, if the file has an active lease. Any authorized request can break the lease. The request isn't required to specify a matching lease ID. An infinite lease is broken immediately.</td>
+</tr>
+<tr>
+<td><code>x-ms-lease-duration: -1</code></td>
+<td>Allowed and required only on an <code>acquire</code> operation. Required to be <code>-1</code>, to indicate a lease that never expires.</td>
+</tr>
+<tr>
+<td><code>x-ms-proposed-lease-id: &lt;ID&gt;</code></td>
+<td>Optional for <code>acquire</code>, and required for <code>change</code>. Proposed lease ID, in a GUID string format. Azure Files returns <code>400 (Invalid request)</code> if the proposed lease ID isn't in the correct format. See <a href="https://msdn.microsoft.com/library/96ff78dc.aspx" data-linktype="external">Guid Constructor (String)</a> for a list of valid formats.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see <a href="/en-us/azure/storage/files/storage-files-monitoring" data-linktype="absolute-path">Monitor Azure Files</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-file-request-intent</code></td>
+<td>Required if <code>Authorization</code> header specifies an OAuth token. Acceptable value is <code>backup</code>. This header specifies that the <code>Microsoft.Storage/storageAccounts/fileServices/readFileBackupSemantics/action</code> or <code>Microsoft.Storage/storageAccounts/fileServices/writeFileBackupSemantics/action</code> should be granted if they are included in the RBAC policy assigned to the identity that is authorized using the <code>Authorization</code> header. Available for version 2022-11-02 and later.</td>
+</tr>
+<tr>
+<td><code>x-ms-allow-trailing-dot: { &lt;Boolean&gt; }</code></td>
+<td>Optional. Version 2022-11-02 and later. The Boolean value specifies if a trailing dot present in request url should be trimmed or not. For more information, see <a href="naming-and-referencing-shares--directories--files--and-metadata" data-linktype="relative-path">Naming and referencing shares, directories, files, and metadata</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body">Request body</h3>
+<p>None.</p>
+<h3 id="sample-request">Sample request</h3>
+<p>The following sample request shows how to acquire a lease:</p>
+<pre><code class="lang-http">Request Syntax:  
+PUT https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease HTTP/1.1  
+  
+Request Headers:  
+x-ms-version: 2019-07-07  
+x-ms-lease-action: acquire  
+x-ms-lease-duration: -1  
+x-ms-proposed-lease-id: 1f812371-a41d-49e6-b123-f4b542e851c5  
+x-ms-date: &lt;date&gt;  
+Authorization: SharedKey myaccount:esSKMOYdK4o+nGTuTyeOLBI+xqnqi6aBmiW4XI699+o=  
+</code></pre>
+<h2 id="response">Response</h2>
+<p>The response includes an HTTP status code and a set of response headers.</p>
+<h3 id="status-code">Status code</h3>
+<p>The success status codes returned for lease operations are the following:</p>
+<ul>
+<li><code>Acquire</code>: A successful operation returns status code 201 (Created).</li>
+<li><code>Change</code>: A successful operation returns status code 200 (OK).</li>
+<li><code>Release</code>: A successful operation returns status code 200 (OK).</li>
+<li><code>Break</code>: A successful operation returns status code 202 (Accepted).</li>
+</ul>
+<p>For information about status codes, see <a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a>.</p>
+<h3 id="response-headers">Response headers</h3>
+<p>The response for this operation includes the headers in the following table. The response may also include additional standard HTTP headers. All standard headers conform to the <a href="https://go.microsoft.com/fwlink/?LinkId=73147" data-linktype="external">HTTP/1.1 protocol specification</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Response header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ETag</code></td>
+<td>Contains a value that you can use to perform operations conditionally, in quotes. The <code>Lease File</code> operation doesn't modify this property.</td>
+</tr>
+<tr>
+<td><code>Last-Modified</code></td>
+<td>The date/time that the file was last modified. For more information, see <a href="representation-of-date-time-values-in-headers" data-linktype="relative-path">Representation of date-time values in headers</a>.<br><br> Any write operation on the file, including updates on the file's metadata or properties, changes the last-modified time of the file. The <code>Lease File</code> operation doesn't modify this property.</td>
+</tr>
+<tr>
+<td><code>x-ms-lease-id:&lt;ID&gt;</code></td>
+<td>When you request a lease, Azure Files returns a unique lease ID. While the lease is active, you must include the lease ID with any request to write to the file, or to change, or release the lease.<br><br> A successful renew operation also returns the lease ID for the active lease.</td>
+</tr>
+<tr>
+<td><code>x-ms-lease-time: seconds</code></td>
+<td>Returned only for a successful request to break the lease. <code>0</code> is returned for immediate breaks.</td>
+</tr>
+<tr>
+<td><code>x-ms-request-id</code></td>
+<td>Uniquely identifies the request that was made, and can be used for troubleshooting the request. For more information, see <a href="troubleshooting-api-operations" data-linktype="relative-path">Troubleshooting API operations</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Indicates the version of Azure Files used to run the request.</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>A UTC date/time value that indicates the time at which the response was initiated. The service generates this value.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the <code>x-ms-client-request-id</code> header, if it's present in the request. The value is at most 1,024 visible ASCII characters. If the <code>x-ms-client-request-id</code> header isn't present in the request, it won't be present in the response.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response-body">Response body</h3>
+<p>None.</p>
+<h3 id="sample-response">Sample response</h3>
+<p>The following is a sample response for a request to acquire a lease:</p>
+<pre><code class="lang-http">Response Status:  
+HTTP/1.1 201 Created  
+  
+Response Headers:  
+Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
+x-ms-request-id: cc6b209a-b593-4be1-a38a-dde7c106f402  
+x-ms-version: 2019-07-07
+x-ms-lease-id: 1f812371-a41d-49e6-b123-f4b542e851c5  
+Date: &lt;date&gt;  
+</code></pre>
+<h2 id="authorization">Authorization</h2>
+<p>Only the account owner may call this operation.</p>
+<h2 id="remarks">Remarks</h2>
+<p>A lease on a file provides exclusive write and delete access to the file. To write to a file with an active lease, a client must include the active lease ID with the write request. The lease is granted for an infinite duration.</p>
+<p>When a client acquires a lease, a lease ID is returned. Azure Files generates a lease ID if one isn't specified in the acquire request. The client can use this lease ID to change its lease ID or release the lease.</p>
+<p>When a lease is active, the lease ID must be included in the request for any of the following operations:</p>
+<ul>
+<li><a href="create-file" data-linktype="relative-path">Create File</a></li>
+<li><a href="set-file-metadata" data-linktype="relative-path">Set File Metadata</a></li>
+<li><a href="set-file-properties" data-linktype="relative-path">Set File Properties</a></li>
+<li><a href="delete-file2" data-linktype="relative-path">Delete File</a></li>
+<li><a href="put-range" data-linktype="relative-path">Put Range</a></li>
+<li><a href="copy-file" data-linktype="relative-path">Copy File</a> (Lease ID needed for destination file.)</li>
+</ul>
+<p>If the lease ID isn't included, these operations fail on a leased file, with <code>412 – Precondition failed</code>.</p>
+<p>The following operations succeed on a leased file, without including the lease ID:</p>
+<ul>
+<li><a href="get-file" data-linktype="relative-path">Get File</a></li>
+<li><a href="get-file-metadata" data-linktype="relative-path">Get File Metadata</a></li>
+<li><a href="get-file-properties" data-linktype="relative-path">Get File Properties</a></li>
+<li><a href="list-ranges" data-linktype="relative-path">List Ranges</a></li>
+<li><a href="list-directories-and-files" data-linktype="relative-path">List Directories and Files</a></li>
+<li><a href="copy-file" data-linktype="relative-path">Copy File</a> (No lease ID needed for source file.)</li>
+<li><a href="lease-file" data-linktype="relative-path">Lease File (REST API)</a> (No lease ID needed for <code>x-ms-lease-action: break</code>.)</li>
+</ul>
+<p>It's not necessary to include the lease ID for GET operations on a file that has an active lease. However, all GET operations support a conditional lease parameter. In this type of parameter, the operation only proceeds if the lease ID included with the request is valid.</p>
+<p>All share operations are permitted on a share that includes files with an active lease, including <a href="delete-share" data-linktype="relative-path">Delete Share</a>. Therefore, you can delete a share even if files within it have active leases.</p>
+<h3 id="lease-states">Lease states</h3>
+<p>The following diagram shows the three states of a lease, and the commands or events that cause lease state changes.</p>
+<p><img src="media/fileleasestates.png" alt="Diagram that shows file lease states and state change triggers." title="FileLeaseStates" data-linktype="relative-path"></p>
+<p>A lease can be in three states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions shown in the preceding diagram cause state transitions.</p>
+<ul>
+<li><code>Available</code>: The lease is unlocked and can be acquired. Allowed action: <code>acquire</code>.</li>
+<li><code>Leased</code>: The lease is locked. Allowed actions: <code>acquire</code> (same lease ID only), <code>change</code>, <code>release</code>, and <code>break</code>.</li>
+<li><code>Broken</code>: The lease has been broken. Allowed actions: <code>acquire</code>, <code>release</code>, and <code>break</code>.</li>
+</ul>
+<p>Note that a lease can't be granted for a file in a share snapshot, because snapshots are read-only. Requesting a lease against a file in a share snapshot results in status code 400 (Bad Request).</p>
+<p>If a file lease is in the <strong>Broken</strong> state and a Put Range operation writes to the file, the lease state will change to <strong>Available</strong>. However, if the file has the read-only attribute set, the server will return conflict 409.</p>
+<p>The file's <code>Last-Modified-Time</code> property isn't updated by calls to <code>Lease File</code>.</p>
+<p>The following tables show outcomes of actions on files with leases in various lease states. Letters (A), (B), and (C) represent lease IDs, and (X) represents a lease ID generated by Azure Files.</p>
+<h3 id="outcomes-of-use-attempts-on-files-by-lease-state">Outcomes of use attempts on files by lease state</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Available</th>
+<th>Leased (A)</th>
+<th>Broken (A)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write by using (A)</td>
+<td>Fails (412)</td>
+<td>Leased (A), write succeeds</td>
+<td>Fails (412)</td>
+</tr>
+<tr>
+<td>Write by using (B)</td>
+<td>Fails (412)</td>
+<td>Fails (409)</td>
+<td>Fails (412)</td>
+</tr>
+<tr>
+<td>Write, no lease specified</td>
+<td>Available, write succeeds</td>
+<td>Fails (412)</td>
+<td>Available, write succeeds</td>
+</tr>
+<tr>
+<td>Read by using (A)</td>
+<td>Fails (412)</td>
+<td>Leased (A), read succeeds</td>
+<td>Fails (412)</td>
+</tr>
+<tr>
+<td>Read by using (B)</td>
+<td>Fails (412)</td>
+<td>Fails (409)</td>
+<td>Fails (412)</td>
+</tr>
+<tr>
+<td>Read, no lease specified</td>
+<td>Available, read succeeds</td>
+<td>Leased (A), read succeeds</td>
+<td>Broken (A), read succeeds</td>
+</tr>
+</tbody>
+</table>
+<h3 id="outcomes-of-lease-operations-on-files-by-lease-state">Outcomes of lease operations on files by lease state</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Available</th>
+<th>Leased (A)</th>
+<th>Broken (A)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Acquire</code>, no proposed lease ID</td>
+<td>Leased (X)</td>
+<td>Fails (409)</td>
+<td>Leased (X)</td>
+</tr>
+<tr>
+<td><code>Acquire</code> (A)</td>
+<td>Leased (A)</td>
+<td>Leased (A)</td>
+<td>Leased (A)</td>
+</tr>
+<tr>
+<td><code>Acquire</code> (B)</td>
+<td>Leased (B)</td>
+<td>Fails (409)</td>
+<td>Leased (B)</td>
+</tr>
+<tr>
+<td><code>Break</code></td>
+<td>Fails (409)</td>
+<td>Broken (A)</td>
+<td>Broken (A)</td>
+</tr>
+<tr>
+<td><code>Change</code>, (A) to (B)</td>
+<td>Fails (409)</td>
+<td>Leased (B)</td>
+<td>Fails (409)</td>
+</tr>
+<tr>
+<td><code>Change</code>, (B) to (A)</td>
+<td>Fails (409)</td>
+<td>Leased (A)</td>
+<td>Fails (409)</td>
+</tr>
+<tr>
+<td><code>Change</code>, (B) to (C)</td>
+<td>Fails (409)</td>
+<td>Fails (409)</td>
+<td>Fails (409)</td>
+</tr>
+<tr>
+<td><code>Release</code> (A)</td>
+<td>Fails (409)</td>
+<td>Available</td>
+<td>Available</td>
+</tr>
+<tr>
+<td><code>Release</code> (B)</td>
+<td>Fails (409)</td>
+<td>Fails (409)</td>
+<td>Fails (409)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="operations-on-files" data-linktype="relative-path">Operations on Files</a></li>
+<li><a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a></li>
+<li><a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a></li>
+<li><a href="file-service-error-codes" data-linktype="relative-path">Azure Files error codes</a></li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2024-04-02T08:00:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2024-04-02
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>
