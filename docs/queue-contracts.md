@@ -63,3 +63,5 @@ version/operation documents with the shared structural schema, explicitly noted
 in its catalog. User-delegation operations remain unsupported. Native phase-D
 reports must identify each ecosystem's actual version; an SDK override is not
 used to hide the module's request version.
+
+The [phase D report](qualification/cloud-phase-d.json) records passing original Python, PowerShell, .NET and TypeScript workflows at runtime `589d741`, including receipt rotation, stale receipt rejection, API/worker restart, cloud restore and cross-language message reads.

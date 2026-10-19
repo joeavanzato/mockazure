@@ -1,0 +1,328 @@
+{
+  "phase": "D",
+  "sourceCommit": "589d7417e68f2b28d8b982807bad6f8724cdb3cb",
+  "sourceFingerprint": "5e5c67f30d6e7e4208e70394ab8600fbcd6202630ce028b3d97cfa2097f10ece",
+  "passed": true,
+  "ecosystems": {
+    "python": {
+      "status": "passed",
+      "clientVersions": {
+        "azure-data-tables": "12.7.0",
+        "azure-storage-queue": "12.15.0",
+        "azure-keyvault-secrets": "4.11.3"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "table.structured",
+          "operationIds": [
+            "table.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "tableMutation": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "queue.structured",
+          "operationIds": [
+            "queue.Queue_Create",
+            "queue.Messages_Enqueue",
+            "queue.Messages_Peek",
+            "queue.Messages_Dequeue",
+            "queue.MessageId_Update",
+            "queue.MessageId_Delete"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "queueReceipts": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "keyvault.structured",
+          "operationIds": [
+            "SetSecret",
+            "GetSecret",
+            "GetSecretVersions",
+            "DeleteSecret",
+            "RecoverDeletedSecret",
+            "PurgeDeletedSecret",
+            "BackupSecret",
+            "RestoreSecret"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "secretRecovery": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "secretBackupRestore": true,
+            "metadataOnlySnapshot": true,
+            "cross_language_reads": true
+          }
+        }
+      ]
+    },
+    "typescript": {
+      "status": "passed",
+      "clientVersions": {
+        "@azure/data-tables": "13.3.2",
+        "@azure/storage-queue": "12.32.0",
+        "@azure/keyvault-secrets": "4.11.2"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "table.structured",
+          "operationIds": [
+            "table.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "tableMutation": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "queue.structured-20260406",
+          "operationIds": [
+            "queue20260406.Queue_Create",
+            "queue20260406.Messages_Enqueue",
+            "queue20260406.Messages_Peek",
+            "queue20260406.Messages_Dequeue",
+            "queue20260406.MessageId_Update",
+            "queue20260406.MessageId_Delete"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "queueReceipts": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "keyvault.structured",
+          "operationIds": [
+            "SetSecret",
+            "GetSecret",
+            "GetSecretVersions",
+            "DeleteSecret",
+            "RecoverDeletedSecret",
+            "PurgeDeletedSecret",
+            "BackupSecret",
+            "RestoreSecret"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "secretRecovery": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "secretBackupRestore": true,
+            "metadataOnlySnapshot": true,
+            "cross_language_reads": true
+          }
+        }
+      ]
+    },
+    "dotnet": {
+      "status": "passed",
+      "clientVersions": {
+        "Azure.Data.Tables": "12.13.0",
+        "Azure.Storage.Queues": "12.28.1",
+        "Azure.Security.KeyVault.Secrets": "4.11.2"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "table.structured",
+          "operationIds": [
+            "table.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "tableMutation": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "queue.structured",
+          "operationIds": [
+            "queue.Queue_Create",
+            "queue.Messages_Enqueue",
+            "queue.Messages_Peek",
+            "queue.Messages_Dequeue",
+            "queue.MessageId_Update",
+            "queue.MessageId_Delete"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "queueReceipts": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "keyvault.structured",
+          "operationIds": [
+            "SetSecret",
+            "GetSecret",
+            "GetSecretVersions",
+            "DeleteSecret",
+            "RecoverDeletedSecret",
+            "PurgeDeletedSecret",
+            "BackupSecret",
+            "RestoreSecret"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "secretRecovery": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "secretBackupRestore": true,
+            "metadataOnlySnapshot": true,
+            "cross_language_reads": true
+          }
+        }
+      ]
+    },
+    "powershell": {
+      "status": "passed",
+      "clientVersions": {
+        "Az.Accounts": "5.5.3",
+        "Az.KeyVault": "6.6.1",
+        "Az.Storage": "8.1.0"
+      },
+      "restFallbacks": [
+        "Table entity CRUD: Az.Storage has no native entity cmdlets"
+      ],
+      "cases": [
+        {
+          "workflow": "table.structured-powershell",
+          "operationIds": [
+            "table20170729.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "transport": "module+rest",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "tableMutation": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "queue.structured-powershell",
+          "operationIds": [
+            "queue20250105.Queue_Create",
+            "queue20250105.Messages_Enqueue",
+            "queue20250105.Messages_Peek",
+            "queue20250105.Messages_Dequeue",
+            "queue20250105.MessageId_Update",
+            "queue20250105.MessageId_Delete"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "queueReceipts": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "keyvault.structured-powershell",
+          "operationIds": [
+            "v7.SetSecret",
+            "v7.GetSecret",
+            "v7.GetSecretVersions",
+            "v7.DeleteSecret",
+            "v7.RecoverDeletedSecret",
+            "v7.PurgeDeletedSecret",
+            "v7.BackupSecret",
+            "v7.RestoreSecret"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "secretRecovery": true,
+            "api_worker_restart": true,
+            "cloud_restore": true,
+            "key_rotation": true,
+            "secretBackupRestore": true,
+            "metadataOnlySnapshot": true,
+            "cross_language_reads": true
+          }
+        }
+      ]
+    }
+  },
+  "nativeReport": "D:\\projects\\mockazure\\.worktrees\\structured\\work\\default-smoke-73c46bbdfaa2\\structured-services-report.json",
+  "crossRead": {
+    "before": {
+      "objects": 12,
+      "valuesMissing": false,
+      "passed": true
+    },
+    "after": {
+      "objects": 12,
+      "valuesMissing": false,
+      "passed": true
+    }
+  },
+  "elapsedSeconds": 203.2029999999795
+}

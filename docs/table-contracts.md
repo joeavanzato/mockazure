@@ -12,7 +12,7 @@ Shared Key/Lite uses Table-specific canonicalization. Current Storage OAuth data
 
 Table state participates in typed cloud export/import/reset. Invalid input is rejected before replacement; imports rotate account keys, allocate fresh internal identities and discard continuation authority. Public mutations append service facts atomically without copying property values into facts. Import is not a public entity-write event. Expired continuation records are pruned by cloud maintenance. Migration 064 refuses a downgrade that would discard Table state.
 
-Validation is recorded in `tests/unit/test_table_edm.py` and the `test_table_*` integration suites. Original-client Python checks use `azure-data-tables==12.7.0` over a local CA-verified HTTPS listener. Full four-ecosystem phase D qualification remains pending until Queue and Key Vault workflows are available.
+Validation is recorded in `tests/unit/test_table_edm.py` and the `test_table_*` integration suites. Original-client Python checks use `azure-data-tables==12.7.0` over a local CA-verified HTTPS listener. The [phase D report](qualification/cloud-phase-d.json) qualifies Python, PowerShell, .NET and TypeScript workflows at runtime `589d741`, including restart, cloud restore, key rotation and cross-language reads. PowerShell entity CRUD is explicitly labeled REST fallback.
 
 
 Original Az.Storage 8.1.0 uses Microsoft.Azure.Cosmos.Table 1.0.8 with

@@ -86,8 +86,7 @@ a valid local token and sets the SDK's documented `verify_challenge_resource=Fal
 because the loopback origin differs from the Microsoft resource audience. TLS
 verification stays enabled, token scope is checked, server audience enforcement
 stays enabled, and the harness rejects requests escaping the configured origin.
-No SDK/parser/protocol replacement is used. Four-ecosystem phase D qualification
-remains pending D4; no throughput claim is made before G2 measurements.
+No SDK/parser/protocol replacement is used. The [phase D report](qualification/cloud-phase-d.json) qualifies all four ecosystems at runtime `589d741`, including restart, metadata-only restore denial and explicit backup recovery. No throughput claim is made before G2 measurements.
 
 See [Set Secret](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/set-secret/set-secret?view=rest-keyvault-secrets-2025-07-01),
 [Get Secret](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/get-secret/get-secret?view=rest-keyvault-secrets-2025-07-01),
