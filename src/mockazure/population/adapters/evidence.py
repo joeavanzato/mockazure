@@ -75,6 +75,8 @@ class EvidenceAdapter(PayloadAdapter):
         )
 
     def record(self, payload):
+        if payload.keys() & {"family", "api_version"}:
+            raise ValueError("Evidence family and API version are owned by the catalog")
         if "id" not in payload or "payload" not in payload:
             raise ValueError("Evidence requires id and historical record envelope")
         record = EvidenceRecord.model_validate(

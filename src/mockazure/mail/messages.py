@@ -175,12 +175,15 @@ async def recount(session, box, folders=None):
     await session.flush()
 
 
-async def import_mail_content(session, tenant_id: UUID, batch: MailContentImport) -> ImportResult:
+async def import_mail_content(
+    session, tenant_id: UUID, batch: MailContentImport, *, insert_only=False
+) -> ImportResult:
     from mockazure.mail.send import lock_workflow
     from mockazure.mail.workflow_lifecycle import retire_mail_workflows
 
     await lock_workflow(session, tenant_id)
-    await retire_mail_workflows(session, tenant_id, batch.mailbox_user_id)
+    if not insert_only:
+        await retire_mail_workflows(session, tenant_id, batch.mailbox_user_id)
     box = await resolve_mailbox(session, tenant_id, str(batch.mailbox_user_id))
     await session.refresh(box, with_for_update=True)
     state = await state_for(session, box)
@@ -230,6 +233,14 @@ async def import_mail_content(session, tenant_id: UUID, batch: MailContentImport
             )
         )
     }
+    if insert_only and (
+        current
+        or batch.attachments
+        or batch.tombstones
+        or batch.mailbox_settings is not None
+        or any(folder.id in folders for folder in batch.folders)
+    ):
+        raise AdminError(409, "MailAppendConflict", "Append cannot modify existing mail state")
     for row in batch.messages:
         if immutable_key(row.id) is not None:
             raise AdminError(

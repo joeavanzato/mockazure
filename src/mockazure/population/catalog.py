@@ -2,13 +2,30 @@
 
 from functools import lru_cache
 
-from mockazure.population.adapters import activity, arm, directory, evidence, security, workloads
+from mockazure.population import identity
+from mockazure.population.adapters import (
+    activity,
+    arm,
+    directory,
+    evidence,
+    keyvault,
+    mail,
+    monitor,
+    security,
+    storage,
+    workloads,
+)
 
 
 @lru_cache(maxsize=1)
 def registry():
     entries = [
         *directory.adapters(),
+        *identity.adapters(),
+        *storage.adapters(),
+        *keyvault.adapters(),
+        *monitor.adapters(),
+        *mail.adapters(),
         *security.adapters(),
         *workloads.adapters(),
         *evidence.adapters(),

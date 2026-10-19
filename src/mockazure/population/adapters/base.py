@@ -150,6 +150,9 @@ class PayloadAdapter:
         item = page.items[0]
         return Inspection(actual_id=item.id, version=item.version, exists=True)
 
+    def matches(self, existing, desired):
+        return all(existing.get(key) == value for key, value in desired.items())
+
     async def apply(self, ctx, mutations):
         if not 1 <= len(mutations) <= 1000:
             raise ValueError("Expected 1 to 1000 mutations")
@@ -171,7 +174,7 @@ class PayloadAdapter:
                     old.version if old else "absent"
                 ):
                     raise AdminError(409, "ResourceConflict", "Resource changed; preview again")
-                if old and all(old.properties.get(key) == value for key, value in payload.items()):
+                if old and self.matches(old.properties, payload):
                     effects["unchanged"] += 1
                     items.append(old)
                     continue
