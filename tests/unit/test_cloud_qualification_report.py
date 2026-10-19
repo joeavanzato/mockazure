@@ -339,3 +339,35 @@ def test_exchange_bootstrap_preserves_separate_data_origins(tmp_path):
         database_url="postgresql://localhost/mockazure",
         client_profiles={"host": adapted, "container": EndpointProfile()},
     )
+
+
+@pytest.mark.parametrize("module_name", ["tools.verify_graph", "tools.verify_evidence"])
+def test_legacy_native_replica_owns_only_its_core_listener(tmp_path, monkeypatch, module_name):
+    import importlib
+    import json
+
+    from mockazure.config import Settings
+    from mockazure.storage.endpoints import listener_ports
+
+    module = importlib.import_module(module_name)
+    runtime = tmp_path / "runtime"
+    (runtime / "instance").mkdir(parents=True)
+    config = {
+        "database_url": "postgresql://localhost/mockazure",
+        "data_dir": ".",
+        "service_endpoints": {"login": "https://login.mockazure.test"},
+        "client_profiles": {"host": {"login": "https://localhost:40443"}},
+    }
+    (runtime / "instance/native.json").write_text(json.dumps(config))
+    monkeypatch.setattr(module, "RUNTIME", runtime)
+    replica = module.Replica("unused-python", 40444)
+    assert listener_ports(Settings(**replica.values)) == (40444,)
+
+
+def test_exchange_bootstrap_can_add_a_missing_host_profile():
+    from tools.verify_exchange_collections import native_exchange_profile
+
+    adapted = native_exchange_profile({"login": "https://localhost:28443"})
+    assert adapted["exchange"] == "https://localhost"
+    assert adapted["storage"] == "https://localhost:28444"
+    assert adapted["logs"] == "https://localhost:28449"
