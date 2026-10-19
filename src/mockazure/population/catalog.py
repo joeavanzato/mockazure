@@ -2,12 +2,19 @@
 
 from functools import lru_cache
 
-from mockazure.population.adapters import directory, security
+from mockazure.population.adapters import activity, arm, directory, evidence, security, workloads
 
 
 @lru_cache(maxsize=1)
 def registry():
-    entries = [*directory.adapters(), *security.adapters()]
+    entries = [
+        *directory.adapters(),
+        *security.adapters(),
+        *workloads.adapters(),
+        *evidence.adapters(),
+        *activity.adapters(),
+        *arm.adapters(),
+    ]
     result = {item.describe().key: item for item in entries}
     if len(result) != len(entries):
         raise RuntimeError("Duplicate population family")

@@ -36,6 +36,8 @@ def coerce(column, value):
 
 
 class PayloadAdapter:
+    identity_field = "id"
+
     def __init__(self, descriptor, read_spec, normalizer, writer, *, replace_allowed=False):
         self.descriptor = descriptor
         self.spec = read_spec
@@ -139,7 +141,7 @@ class PayloadAdapter:
     async def inspect(self, ctx, mutation):
         payload = self.normalize(mutation)
         page = await self.browse(
-            ctx, ResourceQuery(identifier=str(payload["id"]), parent=mutation.parent)
+            ctx, ResourceQuery(identifier=str(payload[self.identity_field]), parent=mutation.parent)
         )
         if not page.items:
             return Inspection(actual_id=None, version=None, exists=False)
@@ -152,13 +154,15 @@ class PayloadAdapter:
         if not 1 <= len(mutations) <= 1000:
             raise ValueError("Expected 1 to 1000 mutations")
         prepared = [(item, self.normalize(item)) for item in mutations]
-        if len({(m.parent, str(p["id"])) for m, p in prepared}) != len(prepared):
+        if len({(m.parent, str(p[self.identity_field])) for m, p in prepared}) != len(prepared):
             raise ValueError("Duplicate resource in batch")
         effects = {"created": 0, "updated": 0, "unchanged": 0}
         pending, items = [], []
         async with ctx.database.sessions.begin() as session:
             for mutation, payload in prepared:
-                query = ResourceQuery(identifier=str(payload["id"]), parent=mutation.parent)
+                query = ResourceQuery(
+                    identifier=str(payload[self.identity_field]), parent=mutation.parent
+                )
                 page = await self.browse_session(session, ctx, query, lock=True)
                 if len(page.items) > 1:
                     raise AdminError(422, "AmbiguousResource", "Select the parent resource")
@@ -184,7 +188,9 @@ class PayloadAdapter:
                     page = await self.browse_session(
                         session,
                         ctx,
-                        ResourceQuery(identifier=str(payload["id"]), parent=mutation.parent),
+                        ResourceQuery(
+                            identifier=str(payload[self.identity_field]), parent=mutation.parent
+                        ),
                     )
                     items.extend(page.items)
         return BatchResult(items=items, effects=effects)

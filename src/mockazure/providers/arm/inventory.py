@@ -262,3 +262,30 @@ async def seed_resources(session, tenant, subscription_id, values):
         await session.flush()
         result.append(inventory_view(row))
     return result
+
+
+async def seed_subscription(session, tenant_id, value):
+    """Create an explicitly identified local subscription for reproducible lab fixtures."""
+    from uuid import UUID
+
+    from mockazure.admin.errors import AdminError
+    from mockazure.db.models import Tenant
+
+    if set(value) - {"id", "displayName", "state"}:
+        raise ValueError("Unsupported subscription fixture field")
+    identifier = UUID(value["id"])
+    name, state = value["displayName"], value.get("state", "Enabled")
+    if (
+        not isinstance(name, str)
+        or not 1 <= len(name) <= 200
+        or state not in {"Enabled", "Disabled"}
+    ):
+        raise ValueError("Invalid subscription fixture")
+    if await session.get(Tenant, tenant_id) is None:
+        raise AdminError(404, "TenantNotFound", "Tenant not found")
+    if await session.get(Subscription, identifier) is not None:
+        raise AdminError(409, "SubscriptionConflict", "Subscription identity already exists")
+    row = Subscription(id=identifier, tenant_id=tenant_id, display_name=name, state=state)
+    session.add(row)
+    await session.flush()
+    return row
