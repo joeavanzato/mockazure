@@ -443,3 +443,26 @@ def test_data_listener_readiness_rejects_unavailable_origin(monkeypatch):
     with httpx.Client(transport=httpx.MockTransport(lambda request: httpx.Response(503))) as client:
         with pytest.raises(TimeoutError, match="service origins"):
             verify_default.wait_for_service_origins(client, ["https://localhost:8444"], attempts=2)
+
+
+def test_data_listener_readiness_accepts_only_the_service_owned_unsupported_probe(monkeypatch):
+    import httpx
+
+    from tools import verify_default
+
+    monkeypatch.setattr(verify_default.time, "sleep", lambda _: None)
+    for code in ("MockAzureOperationNotImplemented", "UnexpectedServerFailure"):
+        with httpx.Client(
+            transport=httpx.MockTransport(
+                lambda request: httpx.Response(501, headers={"x-ms-error-code": code})
+            )
+        ) as client:
+            if code == "MockAzureOperationNotImplemented":
+                verify_default.wait_for_service_origins(
+                    client, ["https://localhost:8444"], attempts=1
+                )
+            else:
+                with pytest.raises(TimeoutError):
+                    verify_default.wait_for_service_origins(
+                        client, ["https://localhost:8444"], attempts=1
+                    )

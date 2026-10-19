@@ -50,16 +50,22 @@ def default_ports():
 def wait_for_service_origins(client, origins, *, attempts=120):
     """Wait for each TLS proxy listener, after the core database health check.
 
-    Data listeners own their routes and return a service-shaped 4xx for this
-    unauthenticated probe. A completed TLS/HTTP response establishes transport
-    readiness only; the original SDK workflow must still prove every operation.
+    Data listeners own their routes and return a service-shaped 4xx or explicit
+    MockAzureOperationNotImplemented for this unauthenticated probe. A completed
+    TLS/HTTP response establishes transport readiness only. Original SDK
+    workflows must still prove every operation.
     """
     pending = {origin.rstrip("/") for origin in origins}
     for _ in range(attempts):
         for origin in tuple(pending):
             try:
                 response = client.get(origin + "/_mock/ready", timeout=2)
-                if response.status_code in {200, 400, 401, 403, 404}:
+                unsupported_probe = (
+                    response.status_code == 501
+                    and response.headers.get("x-ms-error-code")
+                    == "MockAzureOperationNotImplemented"
+                )
+                if response.status_code in {200, 400, 401, 403, 404} or unsupported_probe:
                     pending.remove(origin)
             except httpx.HTTPError:
                 pass
