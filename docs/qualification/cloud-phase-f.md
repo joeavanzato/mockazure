@@ -19,3 +19,14 @@ The exact F1–F4 test union passed 74 tests after review fixes. The preceding a
 The final reviewer made seven Important findings; the empty-string finding was promoted to Important because it changes nested typed predicates. All eight entered one tested fix pass; no second review was dispatched. No minor findings remain deferred for this phase. Earlier E was not re-reviewed.
 
 [Query contracts](../query-contracts.md) and [language limits](../query-language.md) define the supported profile. This is representative local workflow qualification, not exhaustive Microsoft parity or final release qualification. G's combined matrix, scale, coverage, package parity and original collector gates remain required. Original MES malformed audit JSON remains the previously accepted documented upstream limitation. No real Microsoft tenant or VTW files were used. Local success is not a GitHub Actions success; the most recently observed Actions runs were blocked before execution by account billing/spending limits.
+
+
+Additional regression reconciliation: the broad run recorded 1,668 passes, four
+skips and 13 failures. Six failures were migration-head assertions still naming
+071 after migrations 072/073; those now assert 073 without changing downgrade
+or state-preservation requirements. Six subprocess failures used an older
+checkout's editable interpreter; they pass with this checkout's locked virtual
+environment. The remaining managed-identity test reserved five adjacent ports;
+Logs adds a sixth, so its identity port could collide with the Logs listener.
+The corrected reservation passes. All 13 failing cases passed targeted reruns;
+the final G qualification will rerun the full suite from its own environment.
