@@ -256,6 +256,32 @@ class PublicActions:
                     raise AdminError(
                         409, "ResourceConflict", "Public resource changed after preview"
                     )
+                if action.binary:
+                    from mockazure.content.repository import object_row
+
+                    async with ctx.database.sessions() as session:
+                        row = await object_row(
+                            session, ctx.tenant_id, data.content_id, finalized=True
+                        )
+                        expected = {"sha256": row.sha256, "size": row.size}
+                    actual = await transport.request(
+                        action.service,
+                        "GET",
+                        path,
+                        params=self.read_params(action),
+                        headers=self.read_headers(action),
+                        digest=True,
+                    )
+                    self.check(actual)
+                    if actual.json() != expected:
+                        raise AdminError(
+                            409, "InsertOnly", "Public content differs from the requested upload"
+                        )
+                    result = self.result(action, path, identity, old, unchanged=True)
+                    result.items[0].properties.update(
+                        content_sha256=expected["sha256"], content_size=expected["size"]
+                    )
+                    return result
                 try:
                     matches = not action.binary and subset(data.body, old.json())
                 except ValueError:
@@ -389,6 +415,13 @@ class PublicActions:
             version = urlsplit(identifier).path.rsplit("/", 1)[-1]
             if re.fullmatch(r"[a-fA-F0-9]{32}", version):
                 read_path = path + "/" + version
+        if self.base.describe().key == "monitor.workspaces":
+            try:
+                identifier = str(UUID(response.json()["properties"]["customerId"]))
+            except (KeyError, ValueError, TypeError):
+                raise AdminError(
+                    502, "UncertainServiceResult", "Workspace returned no query identity"
+                ) from None
         item = ResourceItem(
             id=identifier,
             parent=None,
@@ -406,6 +439,11 @@ class PublicActions:
                 "shared_key": action.shared_key,
             },
         )
+        if action.response_kind in {"json", "entity"} and not action.binary:
+            try:
+                item.properties["response_fingerprint"] = fingerprint(response.json())
+            except ValueError:
+                pass
         if action.response_kind == "table":
             item.properties["parameters"] = {
                 "$filter": "TableName eq '" + identifier + "'",
@@ -435,6 +473,16 @@ class PublicActions:
             if response.status_code in {404, 202}:
                 continue
             self.check(response)
+            if (
+                "response_fingerprint" in p
+                and fingerprint(response.json()) != p["response_fingerprint"]
+            ):
+                return VerificationResult(
+                    status="failed",
+                    expected=len(result.items),
+                    actual=count,
+                    errors=["Public resource changed after the recorded operation"],
+                )
             if "content_sha256" in p and response.json() != {
                 "sha256": p["content_sha256"],
                 "size": p["content_size"],

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "name": "exchange-mail-and-audits",
+  "kind": "data",
+  "steps": {
+    "mail-settings": {
+      "family": "mail.settings",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.mail-settings",
+        "count": 1
+      },
+      "dependsOn": []
+    },
+    "mailbox": {
+      "family": "mail.mailboxes",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.mailbox",
+        "count": 1
+      },
+      "dependsOn": [
+        "users",
+        "mail-settings"
+      ]
+    },
+    "mail-folders": {
+      "family": "mail.folders",
+      "operation": "append",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.mail-folders",
+        "count": 3
+      },
+      "dependsOn": [
+        "mailbox"
+      ]
+    },
+    "mail-messages": {
+      "family": "mail.messages",
+      "operation": "append",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "mail.messages",
+        "count": 20
+      },
+      "dependsOn": [
+        "mail-folders"
+      ]
+    },
+    "calendar": {
+      "family": "mail.events",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.calendar",
+        "count": 1
+      },
+      "dependsOn": [
+        "mail-folders",
+        "client"
+      ]
+    },
+    "directory-audits": {
+      "family": "evidence.directoryAudit",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "evidence.directory-audits",
+        "count": 20
+      },
+      "dependsOn": [
+        "users"
+      ]
+    }
+  }
+}

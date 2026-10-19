@@ -59,6 +59,15 @@ async def test_calendar_action_uses_declared_identity_and_captures_public_id(
         assert result.items[0].id
         assert (await adapter.verify(ctx, result)).status == "succeeded"
         assert "body" not in result.model_dump_json()
+        changed = await (await transport(adapter, ctx, "writer")).request(
+            "graph",
+            "PATCH",
+            result.items[0].properties["read_path"],
+            json={"subject": "Changed outside population"},
+        )
+        assert changed.status_code == 200
+        assert (await adapter.verify(ctx, result)).status == "failed"
+
         denied = mutation.model_copy(update={"identity_ref": "missing"})
         with pytest.raises(AdminError):
             await adapter.apply(ctx, [denied])

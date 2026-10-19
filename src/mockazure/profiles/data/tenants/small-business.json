@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "name": "small-business",
+  "kind": "tenant",
+  "parameterDefinitions": {
+    "users": {
+      "type": "integer",
+      "default": 20,
+      "minimum": 1,
+      "maximum": 100000,
+      "shared": true
+    }
+  },
+  "steps": {
+    "users": {
+      "family": "directory.users",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "directory.users",
+        "count": {
+          "$param": "shared.users"
+        }
+      },
+      "dependsOn": [],
+      "target": "primary-user"
+    },
+    "groups": {
+      "family": "directory.groups",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "directory.groups",
+        "count": 1
+      },
+      "dependsOn": [],
+      "target": "directory-group"
+    },
+    "client": {
+      "family": "identity.clients",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.client",
+        "count": 1
+      },
+      "dependsOn": [],
+      "target": "client"
+    }
+  },
+  "resources": {
+    "primary-user": {
+      "family": "directory.users"
+    },
+    "directory-group": {
+      "family": "directory.groups"
+    },
+    "client": {
+      "family": "identity.clients"
+    }
+  }
+}

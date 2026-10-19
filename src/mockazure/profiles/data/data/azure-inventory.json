@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "name": "azure-inventory",
+  "kind": "data",
+  "steps": {
+    "subscription": {
+      "family": "arm.subscriptions",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.subscription",
+        "count": 1
+      },
+      "dependsOn": [],
+      "target": "subscription"
+    },
+    "group": {
+      "family": "arm.resourceGroups",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.group",
+        "count": 1
+      },
+      "dependsOn": [
+        "subscription"
+      ],
+      "target": "group"
+    },
+    "roles": {
+      "family": "arm.roles",
+      "operation": "assign",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.roles",
+        "count": 6
+      },
+      "dependsOn": [
+        "client",
+        "subscription"
+      ]
+    },
+    "providers": {
+      "family": "arm.providers",
+      "operation": "register",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.providers",
+        "count": 3
+      },
+      "dependsOn": [
+        "roles"
+      ]
+    },
+    "inventory": {
+      "family": "arm.inventory",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "cloud.inventory",
+        "count": 3
+      },
+      "dependsOn": [
+        "group"
+      ]
+    }
+  },
+  "resources": {
+    "subscription": {
+      "family": "arm.subscriptions"
+    },
+    "group": {
+      "family": "arm.resourceGroups"
+    }
+  }
+}
+

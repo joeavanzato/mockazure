@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "name": "baseline-business-activity",
+  "kind": "data",
+  "steps": {
+    "signins": {
+      "family": "evidence.signIn",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "evidence.signins",
+        "count": 100
+      },
+      "dependsOn": [
+        "users"
+      ]
+    }
+  }
+}

@@ -1,12 +1,14 @@
 """Workload editing preserves outgoing edges unless explicitly managed elsewhere."""
 
 from collections import defaultdict
+from uuid import UUID
 
+from pydantic import Field
 from sqlalchemy import select, tuple_
 
 from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
-from mockazure.population.types import FamilyDescriptor, OperationDescriptor
-from mockazure.workloads.imports import WorkloadImport
+from mockazure.population.types import FamilyDescriptor, Input, OperationDescriptor
+from mockazure.workloads.imports import WorkloadEdge, WorkloadImport
 from mockazure.workloads.intune import validate_intune_record
 from mockazure.workloads.intune_contracts import KINDS as INTUNE_KINDS
 from mockazure.workloads.models import WorkloadRelation, WorkloadVersion
@@ -105,6 +107,20 @@ async def preserved_edges(session, tenant, workload, scope, kind, identifiers):
     ]
 
 
+class LinkedRecord(Input):
+    payload: dict
+    edges: list[WorkloadEdge] = Field(default_factory=list, max_length=100)
+    content_id: UUID | None = None
+
+
+class WorkloadAdapter(PayloadAdapter):
+    def normalize(self, mutation):
+        if mutation.operation == "import-linked":
+            value = LinkedRecord.model_validate(mutation.payload)
+            return self.normalizer(value.payload)
+        return super().normalize(mutation)
+
+
 def adapters():
     result = []
     for workload, kinds, validator in (
@@ -123,21 +139,56 @@ def adapters():
                 for mutation, payload in pending:
                     if not mutation.parent:
                         raise ValueError("Workload scope is required")
-                    grouped[mutation.parent].append(payload)
-                for scope, records in grouped.items():
+                    grouped[mutation.parent].append((mutation, payload))
+                for scope, entries in grouped.items():
+                    records = [payload for _, payload in entries]
                     state = await scope_row(
                         session, ctx.tenant_id, workload, scope, create=True, lock=True
                     )
                     edges = await preserved_edges(
                         session, ctx.tenant_id, workload, scope, kind, [r["id"] for r in records]
                     )
+                    current = WorkloadVersion
+                    preserved = dict(
+                        (
+                            await session.execute(
+                                select(current.id, current.content_id).where(
+                                    current.tenant_id == ctx.tenant_id,
+                                    current.workload == workload,
+                                    current.scope == scope,
+                                    current.kind == kind,
+                                    current.valid_to.is_(None),
+                                    current.id.in_([r["id"] for r in records]),
+                                )
+                            )
+                        ).all()
+                    )
+                    bound = []
+                    for mutation, payload in entries:
+                        content = preserved.get(payload["id"])
+                        if mutation.operation == "import-linked":
+                            linked = LinkedRecord.model_validate(mutation.payload)
+                            if "content_id" in linked.model_fields_set:
+                                content = linked.content_id
+                            edges.extend(
+                                e.model_dump(mode="json", by_alias=True) for e in linked.edges
+                            )
+                        bound.append(
+                            {
+                                "kind": kind,
+                                "id": payload["id"],
+                                "payload": payload,
+                                "content_id": content,
+                            }
+                        )
+                    edges = list(
+                        {str(WorkloadEdge.model_validate(e).key()): e for e in edges}.values()
+                    )
                     batch = WorkloadImport.model_validate(
                         {
                             "scope": scope,
                             "expected_revision": state.revision,
-                            "records": [
-                                {"kind": kind, "id": row["id"], "payload": row} for row in records
-                            ],
+                            "records": bound,
                             "edges": edges,
                         }
                     )
@@ -160,17 +211,26 @@ def adapters():
                             "required": ["id"],
                             "x-microsoft-type": kind,
                         },
-                    )
+                    ),
+                    OperationDescriptor(
+                        key="import-linked",
+                        mode="fixture",
+                        method="POST",
+                        path_template=f"/_mock/tenants/{{tenant}}/workloads/{workload}/import",
+                        api_version="v1.0",
+                        input_schema=LinkedRecord.model_json_schema(),
+                    ),
                 ],
                 contract_refs=["src/mockazure/providers/graph/schemas/README.md"],
                 limitations=[
                     "Scope is required; existing outgoing relationships are preserved.",
-                    "Use bulk import for custom keys, new relationships or content bindings.",
+                    "Use import-linked for atomic relationships/content; bulk import for "
+                    "custom keys.",
                 ],
             )
             row = WorkloadVersion
             result.append(
-                PayloadAdapter(
+                WorkloadAdapter(
                     descriptor,
                     ReadSpec(
                         row,

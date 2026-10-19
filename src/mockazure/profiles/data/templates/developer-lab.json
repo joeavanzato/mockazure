@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "name": "developer-lab",
+  "kind": "template",
+  "tenantProfile": "small-business",
+  "dataProfiles": [
+    "baseline-business-activity",
+    "security-evidence",
+    "exchange-mail-and-audits",
+    "sharepoint-and-teams",
+    "intune-inventory"
+  ]
+}

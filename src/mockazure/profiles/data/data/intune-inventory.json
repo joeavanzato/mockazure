@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "intune-inventory",
+  "kind": "data",
+  "steps": {
+    "license": {
+      "family": "identity.skus",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.license",
+        "count": 1
+      },
+      "dependsOn": []
+    },
+    "devices": {
+      "family": "intune.managedDevice",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "workloads.devices",
+        "count": {
+          "$param": "shared.users"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "license"
+      ]
+    }
+  }
+}

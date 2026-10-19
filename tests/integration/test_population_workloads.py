@@ -83,3 +83,52 @@ async def test_workload_import_preserves_contract_and_parent_scope(database, set
     with pytest.raises(ValueError):
         adapter.validate(value.model_copy(update={"payload": {"id": site, "invented": 1}}))
     assert (await adapter.browse(ctx, ResourceQuery(parent="other"))).items == []
+
+
+async def test_workload_metadata_edit_preserves_attached_content(database, settings):
+    from sqlalchemy import select
+
+    from mockazure.population.types import AdapterContext
+    from mockazure.workloads.models import WorkloadVersion
+    from tests.integration.graph_support import graph_client
+    from tests.integration.site_drive_support import seed_site
+
+    async with graph_client(database, settings) as (client, tenant, _, user):
+        fixture = await seed_site(client, database, tenant, user)
+        ctx = AdapterContext(database, settings, tenant)
+        adapter = get_adapter("sharepoint.driveItem")
+        row = (
+            await adapter.browse(
+                ctx, ResourceQuery(parent=fixture["site"], identifier=fixture["item"])
+            )
+        ).items[0]
+        async with database.sessions() as session:
+            original = await session.scalar(
+                select(WorkloadVersion.content_id).where(
+                    WorkloadVersion.tenant_id == tenant,
+                    WorkloadVersion.id == fixture["item"],
+                    WorkloadVersion.valid_to.is_(None),
+                )
+            )
+        assert original
+        await adapter.apply(
+            ctx,
+            [
+                Mutation(
+                    operation="import",
+                    logical_key="rename",
+                    parent=fixture["site"],
+                    payload={**row.properties, "name": "renamed.txt"},
+                    expected_version=row.version,
+                )
+            ],
+        )
+        async with database.sessions() as session:
+            actual = await session.scalar(
+                select(WorkloadVersion.content_id).where(
+                    WorkloadVersion.tenant_id == tenant,
+                    WorkloadVersion.id == fixture["item"],
+                    WorkloadVersion.valid_to.is_(None),
+                )
+            )
+        assert actual == original

@@ -5,6 +5,9 @@ import re
 from datetime import UTC, datetime, timedelta
 from uuid import UUID, uuid5
 
+from mockazure.population.generators.directory import user_payload
+from mockazure.population.generators.evidence import signin_payload
+
 NAMESPACE = UUID("2d615aa7-e0df-4af7-84a0-8d09272a683d")
 BASE = datetime(2026, 10, 7, 12, tzinfo=UTC)
 
@@ -58,14 +61,13 @@ def iter_directory_batches(seed, users, batch_size=1000):
             "schema_version": 1,
             "provenance": provenance(seed),
             "users": [
-                {
-                    "id": user_id(seed, index),
-                    "displayName": f"Scale user {index}",
-                    "userPrincipalName": upn(seed, index),
-                    "mailNickname": f"u{index:06d}",
-                    "accountEnabled": True,
-                    "createdDateTime": timestamp(0),
-                }
+                user_payload(
+                    user_id(seed, index),
+                    f"Scale user {index}",
+                    upn(seed, index),
+                    f"u{index:06d}",
+                    timestamp(0),
+                )
                 for index in range(start, min(start + batch_size, users))
             ],
         }
@@ -79,18 +81,15 @@ def iter_evidence_batches(seed, users, records, batch_size=1000):
         for index in range(start, min(start + batch_size, records)):
             subject = index % users
             stamp = timestamp(index)
-            payload = {
-                "id": record_id(seed, index),
-                "createdDateTime": stamp,
-                "userId": user_id(seed, subject),
-                "userPrincipalName": upn(seed, subject),
-                "userDisplayName": f"Scale user {subject}",
-                "appId": app_id,
-                "appDisplayName": "Scale fixture",
-                "ipAddress": "192.0.2.42",
-                "isInteractive": True,
-                "status": {"errorCode": 0},
-            }
+            payload = signin_payload(
+                record_id(seed, index),
+                stamp,
+                user_id(seed, subject),
+                upn(seed, subject),
+                f"Scale user {subject}",
+                app_id,
+                "Scale fixture",
+            )
             batch.append(
                 {
                     "family": "signIn",
