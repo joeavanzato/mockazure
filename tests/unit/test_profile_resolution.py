@@ -187,3 +187,20 @@ def test_inherited_parameter_definition_retains_unsupplied_constraints():
     }
     with pytest.raises(ValueError):
         resolve(data)
+
+
+def test_long_valid_dependency_chain_uses_bounded_iterative_ordering():
+    from mockazure.profiles.models import StepDefinition
+    from mockazure.profiles.resolver import order_steps
+
+    steps = {
+        f"s{i}": StepDefinition(
+            mode="fixture",
+            family="directory.users",
+            operation="import",
+            parameters={},
+            dependsOn=[f"s{i + 1}"] if i < 1023 else [],
+        )
+        for i in range(1024)
+    }
+    assert list(order_steps(steps))[0] == "s1023"

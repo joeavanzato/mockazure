@@ -40,9 +40,11 @@ DataLoader.add_implicit_resolver(
 )
 
 
-def parse_document(data: bytes, *, remaining_nodes: int = MAX_NODES) -> tuple[dict, int]:
-    if len(data) > MAX_DOCUMENT_BYTES:
-        raise ValueError("Document exceeds 1 MiB")
+def parse_document(
+    data: bytes, *, remaining_nodes: int = MAX_NODES, max_bytes: int = MAX_DOCUMENT_BYTES
+) -> tuple[dict, int]:
+    if len(data) > max_bytes:
+        raise ValueError("Structured input exceeds its byte limit")
     depth, nodes = 0, 0
     try:
         source = data.decode("utf-8-sig")

@@ -26,13 +26,13 @@ def read_bundle(path: Path):
         if entry.is_symlink() or not entry.is_file():
             raise ValueError("Bundle contains an unsupported path")
         with entry.open("rb") as stream:
-            data = stream.read(MAX_DOCUMENT_BYTES + 1)
+            data = stream.read((MAX_DOCUMENT_BYTES if path.is_dir() else MAX_BUNDLE_BYTES) + 1)
         total += len(data)
         if total > MAX_BUNDLE_BYTES or len(documents) >= 128:
             raise ValueError("Bundle limit exceeded")
         documents[entry.name] = data
     if len(documents) == 1:
-        value, _ = parse_document(next(iter(documents.values())))
+        value, _ = parse_document(next(iter(documents.values())), max_bytes=MAX_BUNDLE_BYTES)
         if set(value) == {"documents"} and isinstance(value["documents"], dict):
             return load_bundle(
                 {key: json.dumps(doc).encode() for key, doc in value["documents"].items()}

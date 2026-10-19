@@ -64,3 +64,44 @@ async def test_activity_feed_import_replays_and_browse_does_not_change_subscript
     assert (await adapter.apply(ctx, [mutation])).effects["unchanged"] == 1
     page = await adapter.browse(ctx, ResourceQuery(identifier=record["Id"]))
     assert page.items[0].properties == record
+
+
+async def test_subscription_receipt_survives_child_inventory_changes(database, settings):
+    from uuid import uuid4
+
+    from mockazure.population.catalog import get_adapter
+    from mockazure.population.types import Mutation
+    from mockazure.providers.arm.models import Subscription
+    from tests.integration.test_population_adapters import context
+
+    ctx = await context(database, settings)
+    identifier = uuid4()
+    adapter = get_adapter("arm.subscriptions")
+    result = await adapter.apply(
+        ctx,
+        [
+            Mutation(
+                operation="import",
+                logical_key="subscription",
+                payload={"id": str(identifier), "displayName": "Lab"},
+            )
+        ],
+    )
+    await get_adapter("arm.resourceGroups").apply(
+        ctx,
+        [
+            Mutation(
+                operation="import",
+                logical_key="group",
+                payload={
+                    "id": f"/subscriptions/{identifier}/resourceGroups/lab",
+                    "location": "eastus",
+                },
+            )
+        ],
+    )
+    assert (await adapter.verify(ctx, result)).status == "succeeded"
+    async with database.sessions.begin() as session:
+        row = await session.get(Subscription, identifier)
+        row.display_name = "Changed"
+    assert (await adapter.verify(ctx, result)).status == "failed"

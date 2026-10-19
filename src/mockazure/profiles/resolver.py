@@ -103,22 +103,23 @@ def resolve_value(value, parameters, resources):
 
 def order_steps(steps):
     ordered, active = {}, set()
-
-    def visit(key):
-        if key in ordered:
-            return
-        if key not in steps:
-            raise ValueError("Missing step dependency")
-        if key in active:
-            raise ValueError("Step dependency cycle")
-        active.add(key)
-        for dependency in steps[key].dependsOn:
-            visit(dependency)
-        active.remove(key)
-        ordered[key] = steps[key]
-
-    for key in steps:
-        visit(key)
+    for root in steps:
+        stack = [(root, False)]
+        while stack:
+            key, leaving = stack.pop()
+            if leaving:
+                active.remove(key)
+                ordered[key] = steps[key]
+                continue
+            if key in ordered:
+                continue
+            if key not in steps:
+                raise ValueError("Missing step dependency")
+            if key in active:
+                raise ValueError("Step dependency cycle")
+            active.add(key)
+            stack.append((key, True))
+            stack.extend((dependency, False) for dependency in reversed(steps[key].dependsOn))
     return ordered
 
 

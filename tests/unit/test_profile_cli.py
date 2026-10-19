@@ -46,3 +46,24 @@ def test_profile_cli_rejects_invalid_input_without_traceback(tmp_path):
     result = CliRunner().invoke(app, ["profile", "validate", "--bundle", str(path)])
     assert result.exit_code != 0
     assert "Traceback" not in result.output
+
+
+def test_exported_aggregate_bundle_can_exceed_one_document_limit(tmp_path):
+    import json
+
+    from mockazure.commands.profiles import read_bundle
+
+    documents = {
+        name: {
+            "schemaVersion": 1,
+            "kind": "data",
+            "name": name,
+            "resources": {
+                "item": {"family": "content.objects", "properties": {"text": "x" * 600000}}
+            },
+        }
+        for name in ("first", "second")
+    }
+    path = tmp_path / "export.json"
+    path.write_text(json.dumps({"documents": documents}), encoding="utf-8")
+    assert set(read_bundle(path).documents) == {"first", "second"}

@@ -5,13 +5,12 @@ from sqlalchemy import select
 from mockazure.admin.errors import AdminError
 from mockazure.evidence.datasets import EvidenceDataset, EvidenceRecord, import_evidence
 from mockazure.evidence.models import EvidenceState, EvidenceVersion
-from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
+from mockazure.population.adapters.base import PayloadAdapter, ReadSpec, coerce
 from mockazure.population.types import (
     BatchResult,
     FamilyDescriptor,
     OperationDescriptor,
     ResourceItem,
-    ResourceQuery,
     VerificationResult,
 )
 
@@ -100,11 +99,10 @@ class EvidenceAdapter(PayloadAdapter):
         records = []
         for mutation in mutations:
             self.validate(mutation)
-            inspection = await self.inspect(ctx, mutation)
-            if mutation.expected_version and mutation.expected_version != (
-                inspection.version or "absent"
-            ):
-                raise AdminError(409, "ResourceConflict", "Evidence changed; preview again")
+            if mutation.expected_version:
+                inspection = await self.inspect(ctx, mutation)
+                if mutation.expected_version != (inspection.version or "absent"):
+                    raise AdminError(409, "ResourceConflict", "Evidence changed; preview again")
             records.append(self.record(mutation.payload))
         dataset = EvidenceDataset.model_validate(
             {
@@ -125,13 +123,30 @@ class EvidenceAdapter(PayloadAdapter):
         )
 
     async def verify(self, ctx, result):
-        actual = 0
-        for item in result.items:
-            page = await self.browse(ctx, ResourceQuery(identifier=item.id))
-            if page.items and all(
-                page.items[0].properties.get(k) == v for k, v in item.properties.items()
-            ):
-                actual += 1
+        if len(result.items) > 1000:
+            raise ValueError("Expected at most 1000 receipt items")
+        spec = self.spec
+        async with ctx.database.sessions() as session:
+            rows = await session.execute(
+                select(spec.identifier, spec.payload)
+                .where(
+                    spec.model.tenant_id == ctx.tenant_id,
+                    *spec.conditions,
+                    spec.identifier.in_(
+                        [coerce(spec.identifier, item.id) for item in result.items]
+                    ),
+                )
+                .limit(1000)
+            )
+            actual_by_id = {str(identifier): payload for identifier, payload in rows}
+        actual = sum(
+            1
+            for item in result.items
+            if item.id in actual_by_id
+            and all(
+                actual_by_id[item.id].get(key) == value for key, value in item.properties.items()
+            )
+        )
         return VerificationResult(
             status="succeeded" if actual == len(result.items) else "pending",
             expected=len(result.items),

@@ -8,7 +8,13 @@ from sqlalchemy import cast, func
 from sqlalchemy.dialects.postgresql import JSONB
 
 from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
-from mockazure.population.types import FamilyDescriptor, Input, OperationDescriptor
+from mockazure.population.types import (
+    FamilyDescriptor,
+    Input,
+    OperationDescriptor,
+    ResourceQuery,
+    VerificationResult,
+)
 from mockazure.providers.arm.contracts import validate_arm_payload
 from mockazure.providers.arm.inventory import (
     clean_public,
@@ -52,6 +58,22 @@ def descriptor(key, path, fields, schema, *, limitation):
     )
 
 
+class SubscriptionAdapter(PayloadAdapter):
+    async def verify(self, ctx, result):
+        # The subscription revision fences the entire ARM inventory, including children.
+        # Receipt readback verifies only the subscription fields this fixture owns.
+        actual = 0
+        for expected in result.items:
+            page = await self.browse(ctx, ResourceQuery(identifier=expected.id))
+            if len(page.items) == 1 and page.items[0].properties == expected.properties:
+                actual += 1
+        return VerificationResult(
+            status="succeeded" if actual == len(result.items) else "failed",
+            expected=len(result.items),
+            actual=actual,
+        )
+
+
 def adapters():
     def normalize_subscription(payload):
         value = SubscriptionFixture.model_validate(payload)
@@ -63,7 +85,7 @@ def adapters():
         for _, payload in pending:
             await seed_subscription(session, ctx.tenant_id, payload)
 
-    subscription = PayloadAdapter(
+    subscription = SubscriptionAdapter(
         descriptor(
             "subscriptions",
             "/subscriptions",
