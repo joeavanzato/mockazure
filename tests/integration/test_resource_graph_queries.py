@@ -140,3 +140,35 @@ async def test_resourcegraph_paging(database, settings):
         ).status_code == 200
         stale = await client.post(PATH, headers=headers, json=next_body)
         assert stale.status_code == 400 and stale.json()["error"]["code"] == "InvalidSkipToken"
+
+
+async def test_review_resourcegraph_temporal_wire_values(database, settings):
+    from datetime import datetime
+
+    async with graph_client(database, settings) as (client, tenant, app, _):
+        subscription, base, _, _ = await seed_arm(client, tenant)
+        headers = await access(database, settings, tenant, app)
+        async with database.sessions() as session:
+            actor = await session.scalar(
+                select(ServicePrincipal.id).where(
+                    ServicePrincipal.tenant_id == tenant, ServicePrincipal.client_id == app
+                )
+            )
+        await assign(client, base, actor, f"/subscriptions/{subscription}", "Reader")
+        for format in ("table", "objectArray"):
+            response = await client.post(
+                PATH,
+                headers=headers,
+                json={
+                    "subscriptions": [subscription],
+                    "query": "Resources | take 1 | project stamp=now(), elapsed=now()-ago(1h)",
+                    "options": {"resultFormat": format},
+                },
+            )
+            assert response.status_code == 200, response.text
+            value = response.json()["data"]
+            stamp, elapsed = (
+                value["rows"][0] if format == "table" else (value[0]["stamp"], value[0]["elapsed"])
+            )
+            assert datetime.fromisoformat(stamp).tzinfo is not None
+            assert elapsed == "01:00:00"

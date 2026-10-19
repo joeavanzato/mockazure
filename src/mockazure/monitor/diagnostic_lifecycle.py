@@ -3,7 +3,7 @@
 from datetime import UTC, datetime
 from types import SimpleNamespace
 from typing import Literal
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from pydantic import Field, model_validator
 from sqlalchemy import delete, select
@@ -153,6 +153,8 @@ async def replace_diagnostics(session, tenant, value):
                 destinations = await destination_caps(
                     session, SimpleNamespace(tenant_id=tenant), properties, administrative=True
                 )
+                for destination in destinations:
+                    destination["epoch"] = str(uuid4())
                 existing = await session.get(DiagnosticSetting, item.id)
                 if existing is not None:
                     raise ValueError("Diagnostic identity belongs to another tenant")
@@ -205,9 +207,31 @@ async def replace_diagnostics(session, tenant, value):
                     ),
                     None,
                 )
-                if destination is None:
-                    raise ValueError("Snapshot delivery destination is no longer configured")
-                destination = dict(destination)
+                if item.state == "pending":
+                    if destination is None:
+                        raise ValueError("Snapshot delivery destination is no longer configured")
+                    destination = dict(destination)
+                else:
+                    # Terminal history is inert: preserve its original destination
+                    # without granting it the capability of a current attachment.
+                    from mockazure.providers.arm.models import Subscription
+
+                    destination = dict(item.destination)
+                    historical = parse_scope(destination["resource"])
+                    subscription = await session.get(Subscription, historical.subscription_id)
+                    expected_type = (
+                        "microsoft.operationalinsights/workspaces"
+                        if item.destination_kind == "workspace"
+                        else "microsoft.storage/storageaccounts"
+                    )
+                    if (
+                        subscription is None
+                        or subscription.tenant_id != tenant
+                        or "/".join(historical.resource_parts[1:3]).lower() != expected_type
+                        or len(historical.resource_parts) != 4
+                        or destination.get("kind") != item.destination_kind
+                    ):
+                        raise ValueError("Invalid terminal delivery destination")
                 if item.destination_kind == "workspace":
                     mode = item.destination.get("mode")
                     if mode not in {"Dedicated", "AzureDiagnostics"}:

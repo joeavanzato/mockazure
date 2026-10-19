@@ -209,6 +209,7 @@ async def eligible(session, delivery, setting):
         d["kind"] == destination["kind"]
         and d["resource"] == destination["resource"]
         and d["identity"] == destination["identity"]
+        and d.get("epoch") == destination.get("epoch")
         for d in setting.destinations
     ):
         return False

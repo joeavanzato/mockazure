@@ -446,3 +446,75 @@ async def test_diagnostic_permissions_and_restore_rejects_wrong_source(database,
         after = (await client.get(admin + "/state")).json()
         assert after["diagnostics"] == before["diagnostics"]
         assert after["logs"] == before["logs"]
+
+
+async def test_review_destination_removal_never_revives_pending_work(database, settings):
+    from mockazure.monitor.diagnostic_models import DiagnosticDelivery, DiagnosticSetting
+    from mockazure.monitor.publication import eligible
+
+    async with graph_client(database, settings) as (client, tenant, app, _):
+        _, _, path, body, arm, endpoints, key, _, _ = await setup(
+            client, database, settings, tenant, app
+        )
+        assert (await client.put(path, headers=arm, params=VERSION, json=body)).status_code == 200
+        assert (
+            await call(client, "PUT", endpoints["blob"] + "revoked", key, {"restype": "container"})
+        ).status_code == 201
+        async with database.sessions() as session:
+            delivery_id = await session.scalar(
+                select(DiagnosticDelivery.id).where(
+                    DiagnosticDelivery.tenant_id == tenant,
+                    DiagnosticDelivery.destination_kind == "workspace",
+                )
+            )
+        reduced = {
+            "properties": {k: v for k, v in body["properties"].items() if k != "workspaceId"}
+        }
+        assert (
+            await client.put(path, headers=arm, params=VERSION, json=reduced)
+        ).status_code == 200
+        assert (await client.put(path, headers=arm, params=VERSION, json=body)).status_code == 200
+        async with database.sessions() as session:
+            delivery = await session.get(DiagnosticDelivery, delivery_id)
+            setting = await session.get(DiagnosticSetting, delivery.setting_id)
+            assert not await eligible(session, delivery, setting)
+        results = await drain(database, tenant)
+        assert sorted(r.state for r in results) == ["failed", "succeeded"]
+
+
+async def test_review_terminal_delivery_history_survives_destination_change(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, _):
+        _, _, path, body, arm, endpoints, key, _, _ = await setup(
+            client, database, settings, tenant, app
+        )
+        assert (await client.put(path, headers=arm, params=VERSION, json=body)).status_code == 200
+        assert (
+            await call(client, "PUT", endpoints["blob"] + "history", key, {"restype": "container"})
+        ).status_code == 201
+        assert all(r.state == "succeeded" for r in await drain(database, tenant))
+        assert (
+            await call(client, "PUT", endpoints["blob"] + "pending", key, {"restype": "container"})
+        ).status_code == 201
+        reduced = {
+            "properties": {k: v for k, v in body["properties"].items() if k != "workspaceId"}
+        }
+        assert (
+            await client.put(path, headers=arm, params=VERSION, json=reduced)
+        ).status_code == 200
+        admin = f"/_mock/tenants/{tenant}/cloud/state"
+        snapshot = (await client.get(admin)).json()
+        historical = {
+            d["id"]: d["state"]
+            for d in snapshot["diagnostics"]["deliveries"]
+            if d["destination_kind"] == "workspace"
+        }
+        assert set(historical.values()) == {"succeeded", "failed"}
+        restored = await client.put(admin, json=snapshot)
+        assert restored.status_code == 200, restored.text
+        after = (await client.get(admin)).json()
+        assert {
+            d["id"]: d["state"]
+            for d in after["diagnostics"]["deliveries"]
+            if d["destination_kind"] == "workspace"
+        } == historical
+        assert all(r.state == "succeeded" for r in await drain(database, tenant))

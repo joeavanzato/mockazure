@@ -10,7 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
 
 from mockazure.monitor.log_models import LogRecord
-from mockazure.monitor.tables import catalog, instant, typed_row, validate_row, wire_time
+from mockazure.monitor.tables import catalog, instant, typed_row, validate_row
 from mockazure.monitor.workspaces import Workspace
 from mockazure.providers.arm.authorization import grant_query
 from mockazure.providers.arm.errors import ArmError
@@ -21,6 +21,7 @@ from mockazure.query.ast import Binding, Pipeline
 from mockazure.query.compiler import execute_query
 from mockazure.query.parser import parse_query
 from mockazure.query.types import QueryError, QueryResult, QueryScope
+from mockazure.query.wire import cell
 
 AUDIENCE = "https://api.loganalytics.io"
 
@@ -210,24 +211,6 @@ async def input_tables(session, actor, workspace_ids, names, intervals, *, limit
             raise QueryError("Workspace query input limit exceeded", "QueryLimitExceeded")
         result[row.table_name].rows.append(typed_row(row.table_name, row.payload))
     return result
-
-
-def cell(value, kind):
-    if value is None:
-        return None
-    if kind == "datetime":
-        return wire_time(value)
-    if kind == "timespan":
-        micros = round(value.total_seconds() * 1000000)
-        sign = "-" if micros < 0 else ""
-        seconds, fraction = divmod(abs(micros), 1000000)
-        days, seconds = divmod(seconds, 86400)
-        hours, seconds = divmod(seconds, 3600)
-        minutes, seconds = divmod(seconds, 60)
-        return f"{sign}{str(days) + '.' if days else ''}{hours:02}:{minutes:02}:{seconds:02}" + (
-            f".{fraction:06}0" if fraction else ""
-        )
-    return value
 
 
 async def query_workspace(

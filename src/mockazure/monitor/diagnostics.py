@@ -2,6 +2,7 @@
 
 import copy
 import re
+from uuid import uuid4
 
 from sqlalchemy import func, select
 
@@ -276,6 +277,18 @@ async def mutate_diagnostic_setting(session, actor, resource_id, name, operation
                 name_key=name.lower(),
             )
             session.add(row)
+        # An attachment keeps its capability only while continuously configured.
+        # Removing and re-adding the same resource must never revive captured work.
+        for destination in destinations:
+            previous = next(
+                (
+                    d
+                    for d in (row.destinations or [])
+                    if all(d.get(k) == destination[k] for k in ("kind", "resource", "identity"))
+                ),
+                None,
+            )
+            destination["epoch"] = previous.get("epoch") if previous else str(uuid4())
         row.properties, row.destinations, row.updated_at = properties, destinations, now
         await session.flush()
         await publish_setting(session, actor, scope, name, before, view(row), now, "write")

@@ -241,8 +241,12 @@ def binary(op, a, b):
         return True if a is True or b is True else None if a is None or b is None else False
     if op in ("in", "!in", "in~", "!in~"):
         folded = op.endswith("~")
-        found = any(binary("=~" if folded else "==", a, value) is True for value in b)
-        return not found if op.startswith("!") else found
+        negate = op.startswith("!")
+        comparison = ("!~" if folded else "!=") if negate else ("=~" if folded else "==")
+        result = True if negate else False
+        for value in b:
+            result = binary("and" if negate else "or", result, binary(comparison, a, value))
+        return result
     if op in ("==", "!=", "=~", "!~"):
         if a is None and b is None:
             return None
@@ -361,7 +365,10 @@ def _evaluate(node, row, symbols, now, budget):
     if name == "not":
         return None if args[0] is None else not args[0]
     if name == "coalesce":
-        return next((v for v in args if v is not None and v != ""), None)
+        return next(
+            (v for v in args if v is not None and v != ""),
+            "" if any(isinstance(v, str) for v in args) else None,
+        )
     if name in ("iff", "iif"):
         return args[1] if args[0] is True else args[2]
     if name == "case":
@@ -402,5 +409,9 @@ def _evaluate(node, row, symbols, now, budget):
             return timedelta(seconds=math.floor(value.total_seconds() / seconds) * seconds)
         if size <= 0:
             return None
-        return math.floor(value / size) * size
+        return (
+            value // size
+            if isinstance(value, int) and isinstance(size, int)
+            else math.floor(value / size)
+        ) * size
     raise QueryError("Unsupported scalar function")

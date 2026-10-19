@@ -118,6 +118,10 @@ class Parser:
         self.depth = 0
         self.counts = {}
         self.table_names = set()
+        if profile == "loganalytics":
+            from mockazure.monitor.tables import catalog
+
+            self.table_names.update(catalog())
         self.right_tables = set()
 
     def peek(self):
@@ -276,6 +280,7 @@ class Parser:
                 op = self.pop()
                 if op not in OPERATORS:
                     raise QueryError("Unsupported query operator: " + op)
+                legacy_expand = op == "mvexpand"
                 op = {"sort": "order", "limit": "take", "mvexpand": "mv-expand"}.get(op, op)
                 self.counts[op] = self.counts.get(op, 0) + 1
                 args = ()
@@ -342,7 +347,9 @@ class Parser:
                     limit = (
                         self.number()
                         if self.accept("limit")
-                        else (128 if self.profile == "resourcegraph" else 1000000)
+                        else (
+                            128 if self.profile == "resourcegraph" or legacy_expand else 2147483647
+                        )
                     )
                     validate_profile(self.profile, self.counts, expansion=limit)
                     options = (limit, kind)

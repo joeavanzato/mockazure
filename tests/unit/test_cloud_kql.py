@@ -274,3 +274,64 @@ def test_union_type_suffix_collision_preserves_every_column():
     )
     assert result.columns == [("x_long1", "long"), ("x_long", "long"), ("x_string", "string")]
     assert result.rows == [[1, 9, ""], [None, None, "one"]]
+
+
+def test_review_nullable_membership():
+    result = run(
+        "Resources | project yes=n in (int(null)), no=n !in (int(null))",
+        [("n", "long")],
+        [[None], [1]],
+    )
+    assert result.rows == [[None, None], [False, True]]
+    assert run(
+        "Resources | where n !in (int(null)) | count", [("n", "long")], [[None], [1]]
+    ).rows == [[1]]
+
+
+def test_review_integer_bin_preserves_long_precision():
+    result = run(
+        "Resources | project v=bin(n, 1), negative=bin(-n, 2)",
+        [("n", "long")],
+        [[9223372036854775807]],
+    )
+    assert result.rows == [[9223372036854775807, -9223372036854775808]]
+
+
+def test_review_bare_logs_table_binding():
+    from mockazure.monitor.logs import sources
+    from mockazure.monitor.tables import catalog
+
+    for name in catalog():
+        plan = parse_query(f"let t={name}; let u=t; u | count", "loganalytics")
+        assert sources(plan) == {name}
+        assert evaluate_query(plan, {name: QueryResult([("n", "long")], [[1]])}, NOW).rows == [[1]]
+    assert run("let n=1; let m=n; Resources | project v=m", [("n", "long")], [[2]]).rows == [[1]]
+
+
+def test_review_logs_expansion_default_is_not_local_truncation():
+    from mockazure.query.types import QueryLimits
+
+    plan = parse_query("Resources | mv-expand d | summarize n=count()", "loganalytics")
+    assert plan.nodes[0].operations[0].options[0] == 2147483647
+    with pytest.raises(QueryError, match="limit"):
+        evaluate_query(
+            plan,
+            {"Resources": QueryResult([("d", "dynamic")], [[[1, 2, 3, 4]]])},
+            NOW,
+            limits=QueryLimits(expanded=3),
+        )
+    limited = parse_query("Resources | mv-expand d limit 2 | summarize n=count()", "loganalytics")
+    assert evaluate_query(
+        limited,
+        {"Resources": QueryResult([("d", "dynamic")], [[[1, 2, 3, 4]]])},
+        NOW,
+        limits=QueryLimits(expanded=3),
+    ).rows == [[2]]
+
+
+def test_review_empty_string_coalesce_preserves_type():
+    assert run(
+        "Resources | project s=coalesce('', ''), missing=isnull(coalesce('', ''))",
+        [("n", "long")],
+        [[1]],
+    ).rows == [["", False]]

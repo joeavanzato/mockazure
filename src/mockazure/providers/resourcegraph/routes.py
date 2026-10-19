@@ -12,6 +12,7 @@ from mockazure.providers.resourcegraph.paging import page_result, page_state
 from mockazure.query.compiler import execute_query
 from mockazure.query.parser import parse_query
 from mockazure.query.types import QueryError, QueryScope
+from mockazure.query.wire import cell
 
 router = APIRouter()
 
@@ -55,6 +56,10 @@ async def resources(request: Request):
                 instant,
             )
             rows, more, token = await page_result(session, state, result, predecessor)
+        rows = [
+            [cell(value, kind) for value, (_, kind) in zip(row, result.columns, strict=True)]
+            for row in rows
+        ]
         if options.get("resultFormat", "objectArray") == "table":
             data = {"columns": [{"name": n, "type": t} for n, t in result.columns], "rows": rows}
         else:
