@@ -42,6 +42,7 @@ class Settings(BaseSettings):
     content_max_object_bytes: int = Field(default=256 * 1024 * 1024, ge=1, le=1024**4)
     keyvault_backup_key_file: Path | None = None
     keyvault_backup_key_ref: str | None = Field(default=None, min_length=1, max_length=128)
+    notification_receivers: dict[str, dict[str, str]] = Field(default_factory=dict)
     pool_size: int = Field(default=5, ge=1, le=100)
     pool_max_overflow: int = Field(default=5, ge=0, le=100)
 
@@ -59,6 +60,19 @@ class Settings(BaseSettings):
             raise ValueError(
                 "Managed identity must bind loopback or an explicit container interface"
             )
+        return value
+
+    @field_validator("notification_receivers")
+    @classmethod
+    def local_receivers(cls, value):
+        from mockazure.notifications.receivers import resolve_receiver
+        from mockazure.providers.graph.errors import GraphError
+
+        try:
+            for url in value:
+                resolve_receiver(url, value)
+        except GraphError:
+            raise ValueError("Invalid local receiver registry") from None
         return value
 
     @field_validator("database_url")
@@ -184,6 +198,7 @@ def load_settings(config_file: Path, environ: Mapping[str, str] | None = None) -
                             "service_endpoints",
                             "client_profiles",
                             "data_listen_ports",
+                            "notification_receivers",
                         )
                         else value
                     )
@@ -192,6 +207,8 @@ def load_settings(config_file: Path, environ: Mapping[str, str] | None = None) -
             values["keyvault_backup_key_file"] = (
                 config_file.parent / values["keyvault_backup_key_file"]
             ).resolve()
+        for binding in values.get("notification_receivers", {}).values():
+            binding["ca_file"] = str((config_file.parent / binding["ca_file"]).resolve())
         return Settings(**values)
     except (ValueError, KeyError, TypeError, OSError):
         raise ValueError(

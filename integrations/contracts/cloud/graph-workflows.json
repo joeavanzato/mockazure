@@ -5133,6 +5133,1311 @@
       ],
       "status": "implemented",
       "action": "getSchedule"
+    },
+    {
+      "kind": "rest",
+      "operationId": "subscription.create",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/subscriptions",
+      "aliases": [],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "subscription"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/subscription"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "request-id",
+        "client-request-id",
+        "Retry-After"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "outlookLifetimeMinutes": 10080,
+        "driveLifetimeMinutes": 42300,
+        "minimumExpirationMinutes": 45,
+        "clientStateCharacters": 128,
+        "localActiveSubscriptionsPerApp": 1000,
+        "callbackRetryHours": 4
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-post-subscriptions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "635b7757cc1d652039b052d212a42d0de4a53252e722299daa0dba2a6639ec5d",
+          "localPath": "sources/api-reference__v1.0__api__subscription-post-subscriptions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-list.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f344ce56d72b2f0c7b51b9f2834b45bea78b8dd9e4c40ff8516fd45a5a9991e0",
+          "localPath": "sources/api-reference__v1.0__api__subscription-list.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "642016a750b7f77ebf4ea4f6d800529f926f90f3c33614ac6ac2ecdd9399e36a",
+          "localPath": "sources/api-reference__v1.0__api__subscription-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "38237524a2f94262a1b55fd85e49ec59dfdb5e1547da79af4c7da098aa9d3095",
+          "localPath": "sources/api-reference__v1.0__api__subscription-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b26b745a4a8a963344e719ec5493c3b42a827b622eb4695d18084c5b9462c468",
+          "localPath": "sources/api-reference__v1.0__api__subscription-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-reauthorize.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "bc91dfb74eee02f481ae03591b44c468f84b09f2bafb387aa52d990b355a7e8f",
+          "localPath": "sources/api-reference__v1.0__api__subscription-reauthorize.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/subscription.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ce038f5078d071792b73e1403207e2268de69185e8d88280134b5834dfeb95b5",
+          "localPath": "sources/api-reference__v1.0__resources__subscription.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotification.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "8a6295900b8217861defe3d9c5bc806f7a26f9bc1976d29f440920edbd235646",
+          "localPath": "sources/api-reference__v1.0__resources__changenotification.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotificationcollection.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b6569638dc7ecb752f882fade31c012b840cc273970d990d5f61ac46d620c5f0",
+          "localPath": "sources/api-reference__v1.0__resources__changenotificationcollection.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/resourcedata.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b517709b6d47eeed13dcc7b04b9fb5ebcd9f8a2b28af2e5bac46144533ba4bce",
+          "localPath": "sources/api-reference__v1.0__resources__resourcedata.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-overview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d1be64f57dfaa4d9e0e04c4daaa82a219c8e640f0d1423e6c96a616f83432791",
+          "localPath": "sources/concepts__change-notifications-overview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-delivery-webhooks.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ed01b5c3c348d2266a2a5bfaf96254fcb5af5c6ce20c78a9942739d432a50015",
+          "localPath": "sources/concepts__change-notifications-delivery-webhooks.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-lifecycle-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3a7dcafdae3176cf6383cebd81a1091a872e90eec0108660f56fc7efdcfaadbf",
+          "localPath": "sources/concepts__change-notifications-lifecycle-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-with-resource-data.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b5fbacc2edea90aa98de82af7df028794b85122bacb95be3feeda3849c80f5a8",
+          "localPath": "sources/concepts__change-notifications-with-resource-data.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-subscription-lifetime.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "cdea63bdc76cb64966636226899660aa345a02bc9e63733f58bba00be1885b16",
+          "localPath": "sources/concepts__includes__change-notifications-subscription-lifetime.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-delivery-latency.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7579f91ec91b4f3ef72985decbbbd599785770372d6a124cd86ebfa96f23635d",
+          "localPath": "sources/concepts__includes__change-notifications-delivery-latency.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Mail messages (whole mailbox or folder) and calendar events support created/updated/deleted. Drive root supports updated only.",
+        "Delegated mail/calendar subscriptions require the signed-in mailbox; shared/delegated folders are not subscribed.",
+        "Only original-application subscription management; tenant-wide advanced subscription inventory is unsupported.",
+        "Only exact registered HTTPS URLs with pinned private/loopback addresses and explicit local CA; no callback DNS or redirects.",
+        "Rich encrypted notifications, notification filters, arbitrary resource routes and personal drive folders are unsupported.",
+        "Lifecycle events use authenticated local injection; missed is also emitted after the retry deadline for mail/calendar. No guessed service token timer.",
+        "At-least-once callbacks can duplicate after a crash. Receiver rebinding invalidates queued work.",
+        "Export preserves descriptions only; callback authority/clientState/URLs are excluded. Import requires explicit recreation.",
+        "Native four-ecosystem E qualification pending."
+      ],
+      "tests": [
+        "tests/integration/test_graph_notifications.py",
+        "tests/unit/test_notification_receivers.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "subscription.list",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/subscriptions",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "schema.json#/types/subscription"
+              }
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "request-id",
+        "client-request-id",
+        "Retry-After"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "outlookLifetimeMinutes": 10080,
+        "driveLifetimeMinutes": 42300,
+        "minimumExpirationMinutes": 45,
+        "clientStateCharacters": 128,
+        "localActiveSubscriptionsPerApp": 1000,
+        "callbackRetryHours": 4
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-post-subscriptions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "635b7757cc1d652039b052d212a42d0de4a53252e722299daa0dba2a6639ec5d",
+          "localPath": "sources/api-reference__v1.0__api__subscription-post-subscriptions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-list.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f344ce56d72b2f0c7b51b9f2834b45bea78b8dd9e4c40ff8516fd45a5a9991e0",
+          "localPath": "sources/api-reference__v1.0__api__subscription-list.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "642016a750b7f77ebf4ea4f6d800529f926f90f3c33614ac6ac2ecdd9399e36a",
+          "localPath": "sources/api-reference__v1.0__api__subscription-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "38237524a2f94262a1b55fd85e49ec59dfdb5e1547da79af4c7da098aa9d3095",
+          "localPath": "sources/api-reference__v1.0__api__subscription-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b26b745a4a8a963344e719ec5493c3b42a827b622eb4695d18084c5b9462c468",
+          "localPath": "sources/api-reference__v1.0__api__subscription-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-reauthorize.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "bc91dfb74eee02f481ae03591b44c468f84b09f2bafb387aa52d990b355a7e8f",
+          "localPath": "sources/api-reference__v1.0__api__subscription-reauthorize.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/subscription.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ce038f5078d071792b73e1403207e2268de69185e8d88280134b5834dfeb95b5",
+          "localPath": "sources/api-reference__v1.0__resources__subscription.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotification.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "8a6295900b8217861defe3d9c5bc806f7a26f9bc1976d29f440920edbd235646",
+          "localPath": "sources/api-reference__v1.0__resources__changenotification.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotificationcollection.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b6569638dc7ecb752f882fade31c012b840cc273970d990d5f61ac46d620c5f0",
+          "localPath": "sources/api-reference__v1.0__resources__changenotificationcollection.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/resourcedata.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b517709b6d47eeed13dcc7b04b9fb5ebcd9f8a2b28af2e5bac46144533ba4bce",
+          "localPath": "sources/api-reference__v1.0__resources__resourcedata.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-overview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d1be64f57dfaa4d9e0e04c4daaa82a219c8e640f0d1423e6c96a616f83432791",
+          "localPath": "sources/concepts__change-notifications-overview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-delivery-webhooks.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ed01b5c3c348d2266a2a5bfaf96254fcb5af5c6ce20c78a9942739d432a50015",
+          "localPath": "sources/concepts__change-notifications-delivery-webhooks.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-lifecycle-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3a7dcafdae3176cf6383cebd81a1091a872e90eec0108660f56fc7efdcfaadbf",
+          "localPath": "sources/concepts__change-notifications-lifecycle-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-with-resource-data.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b5fbacc2edea90aa98de82af7df028794b85122bacb95be3feeda3849c80f5a8",
+          "localPath": "sources/concepts__change-notifications-with-resource-data.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-subscription-lifetime.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "cdea63bdc76cb64966636226899660aa345a02bc9e63733f58bba00be1885b16",
+          "localPath": "sources/concepts__includes__change-notifications-subscription-lifetime.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-delivery-latency.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7579f91ec91b4f3ef72985decbbbd599785770372d6a124cd86ebfa96f23635d",
+          "localPath": "sources/concepts__includes__change-notifications-delivery-latency.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Mail messages (whole mailbox or folder) and calendar events support created/updated/deleted. Drive root supports updated only.",
+        "Delegated mail/calendar subscriptions require the signed-in mailbox; shared/delegated folders are not subscribed.",
+        "Only original-application subscription management; tenant-wide advanced subscription inventory is unsupported.",
+        "Only exact registered HTTPS URLs with pinned private/loopback addresses and explicit local CA; no callback DNS or redirects.",
+        "Rich encrypted notifications, notification filters, arbitrary resource routes and personal drive folders are unsupported.",
+        "Lifecycle events use authenticated local injection; missed is also emitted after the retry deadline for mail/calendar. No guessed service token timer.",
+        "At-least-once callbacks can duplicate after a crash. Receiver rebinding invalidates queued work.",
+        "Export preserves descriptions only; callback authority/clientState/URLs are excluded. Import requires explicit recreation.",
+        "Native four-ecosystem E qualification pending."
+      ],
+      "tests": [
+        "tests/integration/test_graph_notifications.py",
+        "tests/unit/test_notification_receivers.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "subscription.get",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/subscriptions/{id}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/subscription"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "request-id",
+        "client-request-id",
+        "Retry-After"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "outlookLifetimeMinutes": 10080,
+        "driveLifetimeMinutes": 42300,
+        "minimumExpirationMinutes": 45,
+        "clientStateCharacters": 128,
+        "localActiveSubscriptionsPerApp": 1000,
+        "callbackRetryHours": 4
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-post-subscriptions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "635b7757cc1d652039b052d212a42d0de4a53252e722299daa0dba2a6639ec5d",
+          "localPath": "sources/api-reference__v1.0__api__subscription-post-subscriptions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-list.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f344ce56d72b2f0c7b51b9f2834b45bea78b8dd9e4c40ff8516fd45a5a9991e0",
+          "localPath": "sources/api-reference__v1.0__api__subscription-list.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "642016a750b7f77ebf4ea4f6d800529f926f90f3c33614ac6ac2ecdd9399e36a",
+          "localPath": "sources/api-reference__v1.0__api__subscription-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "38237524a2f94262a1b55fd85e49ec59dfdb5e1547da79af4c7da098aa9d3095",
+          "localPath": "sources/api-reference__v1.0__api__subscription-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b26b745a4a8a963344e719ec5493c3b42a827b622eb4695d18084c5b9462c468",
+          "localPath": "sources/api-reference__v1.0__api__subscription-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-reauthorize.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "bc91dfb74eee02f481ae03591b44c468f84b09f2bafb387aa52d990b355a7e8f",
+          "localPath": "sources/api-reference__v1.0__api__subscription-reauthorize.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/subscription.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ce038f5078d071792b73e1403207e2268de69185e8d88280134b5834dfeb95b5",
+          "localPath": "sources/api-reference__v1.0__resources__subscription.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotification.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "8a6295900b8217861defe3d9c5bc806f7a26f9bc1976d29f440920edbd235646",
+          "localPath": "sources/api-reference__v1.0__resources__changenotification.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotificationcollection.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b6569638dc7ecb752f882fade31c012b840cc273970d990d5f61ac46d620c5f0",
+          "localPath": "sources/api-reference__v1.0__resources__changenotificationcollection.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/resourcedata.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b517709b6d47eeed13dcc7b04b9fb5ebcd9f8a2b28af2e5bac46144533ba4bce",
+          "localPath": "sources/api-reference__v1.0__resources__resourcedata.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-overview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d1be64f57dfaa4d9e0e04c4daaa82a219c8e640f0d1423e6c96a616f83432791",
+          "localPath": "sources/concepts__change-notifications-overview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-delivery-webhooks.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ed01b5c3c348d2266a2a5bfaf96254fcb5af5c6ce20c78a9942739d432a50015",
+          "localPath": "sources/concepts__change-notifications-delivery-webhooks.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-lifecycle-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3a7dcafdae3176cf6383cebd81a1091a872e90eec0108660f56fc7efdcfaadbf",
+          "localPath": "sources/concepts__change-notifications-lifecycle-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-with-resource-data.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b5fbacc2edea90aa98de82af7df028794b85122bacb95be3feeda3849c80f5a8",
+          "localPath": "sources/concepts__change-notifications-with-resource-data.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-subscription-lifetime.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "cdea63bdc76cb64966636226899660aa345a02bc9e63733f58bba00be1885b16",
+          "localPath": "sources/concepts__includes__change-notifications-subscription-lifetime.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-delivery-latency.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7579f91ec91b4f3ef72985decbbbd599785770372d6a124cd86ebfa96f23635d",
+          "localPath": "sources/concepts__includes__change-notifications-delivery-latency.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Mail messages (whole mailbox or folder) and calendar events support created/updated/deleted. Drive root supports updated only.",
+        "Delegated mail/calendar subscriptions require the signed-in mailbox; shared/delegated folders are not subscribed.",
+        "Only original-application subscription management; tenant-wide advanced subscription inventory is unsupported.",
+        "Only exact registered HTTPS URLs with pinned private/loopback addresses and explicit local CA; no callback DNS or redirects.",
+        "Rich encrypted notifications, notification filters, arbitrary resource routes and personal drive folders are unsupported.",
+        "Lifecycle events use authenticated local injection; missed is also emitted after the retry deadline for mail/calendar. No guessed service token timer.",
+        "At-least-once callbacks can duplicate after a crash. Receiver rebinding invalidates queued work.",
+        "Export preserves descriptions only; callback authority/clientState/URLs are excluded. Import requires explicit recreation.",
+        "Native four-ecosystem E qualification pending."
+      ],
+      "tests": [
+        "tests/integration/test_graph_notifications.py",
+        "tests/unit/test_notification_receivers.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "subscription.update",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/subscriptions/{id}",
+      "aliases": [],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "subscription"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/subscription"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "request-id",
+        "client-request-id",
+        "Retry-After"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "outlookLifetimeMinutes": 10080,
+        "driveLifetimeMinutes": 42300,
+        "minimumExpirationMinutes": 45,
+        "clientStateCharacters": 128,
+        "localActiveSubscriptionsPerApp": 1000,
+        "callbackRetryHours": 4
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-post-subscriptions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "635b7757cc1d652039b052d212a42d0de4a53252e722299daa0dba2a6639ec5d",
+          "localPath": "sources/api-reference__v1.0__api__subscription-post-subscriptions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-list.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f344ce56d72b2f0c7b51b9f2834b45bea78b8dd9e4c40ff8516fd45a5a9991e0",
+          "localPath": "sources/api-reference__v1.0__api__subscription-list.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "642016a750b7f77ebf4ea4f6d800529f926f90f3c33614ac6ac2ecdd9399e36a",
+          "localPath": "sources/api-reference__v1.0__api__subscription-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "38237524a2f94262a1b55fd85e49ec59dfdb5e1547da79af4c7da098aa9d3095",
+          "localPath": "sources/api-reference__v1.0__api__subscription-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b26b745a4a8a963344e719ec5493c3b42a827b622eb4695d18084c5b9462c468",
+          "localPath": "sources/api-reference__v1.0__api__subscription-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-reauthorize.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "bc91dfb74eee02f481ae03591b44c468f84b09f2bafb387aa52d990b355a7e8f",
+          "localPath": "sources/api-reference__v1.0__api__subscription-reauthorize.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/subscription.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ce038f5078d071792b73e1403207e2268de69185e8d88280134b5834dfeb95b5",
+          "localPath": "sources/api-reference__v1.0__resources__subscription.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotification.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "8a6295900b8217861defe3d9c5bc806f7a26f9bc1976d29f440920edbd235646",
+          "localPath": "sources/api-reference__v1.0__resources__changenotification.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotificationcollection.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b6569638dc7ecb752f882fade31c012b840cc273970d990d5f61ac46d620c5f0",
+          "localPath": "sources/api-reference__v1.0__resources__changenotificationcollection.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/resourcedata.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b517709b6d47eeed13dcc7b04b9fb5ebcd9f8a2b28af2e5bac46144533ba4bce",
+          "localPath": "sources/api-reference__v1.0__resources__resourcedata.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-overview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d1be64f57dfaa4d9e0e04c4daaa82a219c8e640f0d1423e6c96a616f83432791",
+          "localPath": "sources/concepts__change-notifications-overview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-delivery-webhooks.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ed01b5c3c348d2266a2a5bfaf96254fcb5af5c6ce20c78a9942739d432a50015",
+          "localPath": "sources/concepts__change-notifications-delivery-webhooks.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-lifecycle-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3a7dcafdae3176cf6383cebd81a1091a872e90eec0108660f56fc7efdcfaadbf",
+          "localPath": "sources/concepts__change-notifications-lifecycle-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-with-resource-data.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b5fbacc2edea90aa98de82af7df028794b85122bacb95be3feeda3849c80f5a8",
+          "localPath": "sources/concepts__change-notifications-with-resource-data.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-subscription-lifetime.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "cdea63bdc76cb64966636226899660aa345a02bc9e63733f58bba00be1885b16",
+          "localPath": "sources/concepts__includes__change-notifications-subscription-lifetime.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-delivery-latency.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7579f91ec91b4f3ef72985decbbbd599785770372d6a124cd86ebfa96f23635d",
+          "localPath": "sources/concepts__includes__change-notifications-delivery-latency.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Mail messages (whole mailbox or folder) and calendar events support created/updated/deleted. Drive root supports updated only.",
+        "Delegated mail/calendar subscriptions require the signed-in mailbox; shared/delegated folders are not subscribed.",
+        "Only original-application subscription management; tenant-wide advanced subscription inventory is unsupported.",
+        "Only exact registered HTTPS URLs with pinned private/loopback addresses and explicit local CA; no callback DNS or redirects.",
+        "Rich encrypted notifications, notification filters, arbitrary resource routes and personal drive folders are unsupported.",
+        "Lifecycle events use authenticated local injection; missed is also emitted after the retry deadline for mail/calendar. No guessed service token timer.",
+        "At-least-once callbacks can duplicate after a crash. Receiver rebinding invalidates queued work.",
+        "Export preserves descriptions only; callback authority/clientState/URLs are excluded. Import requires explicit recreation.",
+        "Native four-ecosystem E qualification pending."
+      ],
+      "tests": [
+        "tests/integration/test_graph_notifications.py",
+        "tests/unit/test_notification_receivers.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "subscription.delete",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/subscriptions/{id}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "request-id",
+        "client-request-id",
+        "Retry-After"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "outlookLifetimeMinutes": 10080,
+        "driveLifetimeMinutes": 42300,
+        "minimumExpirationMinutes": 45,
+        "clientStateCharacters": 128,
+        "localActiveSubscriptionsPerApp": 1000,
+        "callbackRetryHours": 4
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-post-subscriptions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "635b7757cc1d652039b052d212a42d0de4a53252e722299daa0dba2a6639ec5d",
+          "localPath": "sources/api-reference__v1.0__api__subscription-post-subscriptions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-list.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f344ce56d72b2f0c7b51b9f2834b45bea78b8dd9e4c40ff8516fd45a5a9991e0",
+          "localPath": "sources/api-reference__v1.0__api__subscription-list.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "642016a750b7f77ebf4ea4f6d800529f926f90f3c33614ac6ac2ecdd9399e36a",
+          "localPath": "sources/api-reference__v1.0__api__subscription-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "38237524a2f94262a1b55fd85e49ec59dfdb5e1547da79af4c7da098aa9d3095",
+          "localPath": "sources/api-reference__v1.0__api__subscription-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b26b745a4a8a963344e719ec5493c3b42a827b622eb4695d18084c5b9462c468",
+          "localPath": "sources/api-reference__v1.0__api__subscription-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-reauthorize.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "bc91dfb74eee02f481ae03591b44c468f84b09f2bafb387aa52d990b355a7e8f",
+          "localPath": "sources/api-reference__v1.0__api__subscription-reauthorize.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/subscription.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ce038f5078d071792b73e1403207e2268de69185e8d88280134b5834dfeb95b5",
+          "localPath": "sources/api-reference__v1.0__resources__subscription.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotification.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "8a6295900b8217861defe3d9c5bc806f7a26f9bc1976d29f440920edbd235646",
+          "localPath": "sources/api-reference__v1.0__resources__changenotification.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotificationcollection.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b6569638dc7ecb752f882fade31c012b840cc273970d990d5f61ac46d620c5f0",
+          "localPath": "sources/api-reference__v1.0__resources__changenotificationcollection.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/resourcedata.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b517709b6d47eeed13dcc7b04b9fb5ebcd9f8a2b28af2e5bac46144533ba4bce",
+          "localPath": "sources/api-reference__v1.0__resources__resourcedata.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-overview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d1be64f57dfaa4d9e0e04c4daaa82a219c8e640f0d1423e6c96a616f83432791",
+          "localPath": "sources/concepts__change-notifications-overview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-delivery-webhooks.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ed01b5c3c348d2266a2a5bfaf96254fcb5af5c6ce20c78a9942739d432a50015",
+          "localPath": "sources/concepts__change-notifications-delivery-webhooks.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-lifecycle-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3a7dcafdae3176cf6383cebd81a1091a872e90eec0108660f56fc7efdcfaadbf",
+          "localPath": "sources/concepts__change-notifications-lifecycle-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-with-resource-data.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b5fbacc2edea90aa98de82af7df028794b85122bacb95be3feeda3849c80f5a8",
+          "localPath": "sources/concepts__change-notifications-with-resource-data.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-subscription-lifetime.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "cdea63bdc76cb64966636226899660aa345a02bc9e63733f58bba00be1885b16",
+          "localPath": "sources/concepts__includes__change-notifications-subscription-lifetime.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-delivery-latency.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7579f91ec91b4f3ef72985decbbbd599785770372d6a124cd86ebfa96f23635d",
+          "localPath": "sources/concepts__includes__change-notifications-delivery-latency.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Mail messages (whole mailbox or folder) and calendar events support created/updated/deleted. Drive root supports updated only.",
+        "Delegated mail/calendar subscriptions require the signed-in mailbox; shared/delegated folders are not subscribed.",
+        "Only original-application subscription management; tenant-wide advanced subscription inventory is unsupported.",
+        "Only exact registered HTTPS URLs with pinned private/loopback addresses and explicit local CA; no callback DNS or redirects.",
+        "Rich encrypted notifications, notification filters, arbitrary resource routes and personal drive folders are unsupported.",
+        "Lifecycle events use authenticated local injection; missed is also emitted after the retry deadline for mail/calendar. No guessed service token timer.",
+        "At-least-once callbacks can duplicate after a crash. Receiver rebinding invalidates queued work.",
+        "Export preserves descriptions only; callback authority/clientState/URLs are excluded. Import requires explicit recreation.",
+        "Native four-ecosystem E qualification pending."
+      ],
+      "tests": [
+        "tests/integration/test_graph_notifications.py",
+        "tests/unit/test_notification_receivers.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "subscription.reauthorize",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/subscriptions/{id}/reauthorize",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "request-id",
+        "client-request-id",
+        "Retry-After"
+      ],
+      "permissions": {
+        "application": [
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ],
+        "delegated": [
+          "Mail.ReadBasic",
+          "Mail.Read",
+          "Mail.ReadWrite",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Files.Read.All",
+          "Files.ReadWrite.All"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "outlookLifetimeMinutes": 10080,
+        "driveLifetimeMinutes": 42300,
+        "minimumExpirationMinutes": 45,
+        "clientStateCharacters": 128,
+        "localActiveSubscriptionsPerApp": 1000,
+        "callbackRetryHours": 4
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-post-subscriptions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "635b7757cc1d652039b052d212a42d0de4a53252e722299daa0dba2a6639ec5d",
+          "localPath": "sources/api-reference__v1.0__api__subscription-post-subscriptions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-list.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f344ce56d72b2f0c7b51b9f2834b45bea78b8dd9e4c40ff8516fd45a5a9991e0",
+          "localPath": "sources/api-reference__v1.0__api__subscription-list.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "642016a750b7f77ebf4ea4f6d800529f926f90f3c33614ac6ac2ecdd9399e36a",
+          "localPath": "sources/api-reference__v1.0__api__subscription-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "38237524a2f94262a1b55fd85e49ec59dfdb5e1547da79af4c7da098aa9d3095",
+          "localPath": "sources/api-reference__v1.0__api__subscription-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b26b745a4a8a963344e719ec5493c3b42a827b622eb4695d18084c5b9462c468",
+          "localPath": "sources/api-reference__v1.0__api__subscription-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/subscription-reauthorize.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "bc91dfb74eee02f481ae03591b44c468f84b09f2bafb387aa52d990b355a7e8f",
+          "localPath": "sources/api-reference__v1.0__api__subscription-reauthorize.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/subscription.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ce038f5078d071792b73e1403207e2268de69185e8d88280134b5834dfeb95b5",
+          "localPath": "sources/api-reference__v1.0__resources__subscription.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotification.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "8a6295900b8217861defe3d9c5bc806f7a26f9bc1976d29f440920edbd235646",
+          "localPath": "sources/api-reference__v1.0__resources__changenotification.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/changenotificationcollection.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b6569638dc7ecb752f882fade31c012b840cc273970d990d5f61ac46d620c5f0",
+          "localPath": "sources/api-reference__v1.0__resources__changenotificationcollection.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/resourcedata.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b517709b6d47eeed13dcc7b04b9fb5ebcd9f8a2b28af2e5bac46144533ba4bce",
+          "localPath": "sources/api-reference__v1.0__resources__resourcedata.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-overview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "d1be64f57dfaa4d9e0e04c4daaa82a219c8e640f0d1423e6c96a616f83432791",
+          "localPath": "sources/concepts__change-notifications-overview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-delivery-webhooks.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "ed01b5c3c348d2266a2a5bfaf96254fcb5af5c6ce20c78a9942739d432a50015",
+          "localPath": "sources/concepts__change-notifications-delivery-webhooks.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-lifecycle-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3a7dcafdae3176cf6383cebd81a1091a872e90eec0108660f56fc7efdcfaadbf",
+          "localPath": "sources/concepts__change-notifications-lifecycle-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/change-notifications-with-resource-data.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "b5fbacc2edea90aa98de82af7df028794b85122bacb95be3feeda3849c80f5a8",
+          "localPath": "sources/concepts__change-notifications-with-resource-data.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-subscription-lifetime.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "cdea63bdc76cb64966636226899660aa345a02bc9e63733f58bba00be1885b16",
+          "localPath": "sources/concepts__includes__change-notifications-subscription-lifetime.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/includes/change-notifications-delivery-latency.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7579f91ec91b4f3ef72985decbbbd599785770372d6a124cd86ebfa96f23635d",
+          "localPath": "sources/concepts__includes__change-notifications-delivery-latency.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "Mail messages (whole mailbox or folder) and calendar events support created/updated/deleted. Drive root supports updated only.",
+        "Delegated mail/calendar subscriptions require the signed-in mailbox; shared/delegated folders are not subscribed.",
+        "Only original-application subscription management; tenant-wide advanced subscription inventory is unsupported.",
+        "Only exact registered HTTPS URLs with pinned private/loopback addresses and explicit local CA; no callback DNS or redirects.",
+        "Rich encrypted notifications, notification filters, arbitrary resource routes and personal drive folders are unsupported.",
+        "Lifecycle events use authenticated local injection; missed is also emitted after the retry deadline for mail/calendar. No guessed service token timer.",
+        "At-least-once callbacks can duplicate after a crash. Receiver rebinding invalidates queued work.",
+        "Export preserves descriptions only; callback authority/clientState/URLs are excluded. Import requires explicit recreation.",
+        "Native four-ecosystem E qualification pending."
+      ],
+      "tests": [
+        "tests/integration/test_graph_notifications.py",
+        "tests/unit/test_notification_receivers.py"
+      ],
+      "status": "implemented"
     }
   ]
 }

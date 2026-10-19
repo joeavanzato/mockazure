@@ -240,6 +240,9 @@ def main():
                 "attachmentItem",
                 "uploadSession",
                 "scheduleInformation",
+                "subscription",
+                "changeNotification",
+                "resourceData",
             )
             if args.version == "v1.0"
             else (),

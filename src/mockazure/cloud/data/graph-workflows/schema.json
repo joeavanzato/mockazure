@@ -16955,6 +16955,192 @@
         "fourth",
         "last"
       ]
+    },
+    "changeNotification": {
+      "properties": {
+        "changeType": {
+          "type": "graph.changeType",
+          "nullable": false
+        },
+        "clientState": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "encryptedContent": {
+          "type": "graph.changeNotificationEncryptedContent",
+          "nullable": true
+        },
+        "id": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lifecycleEvent": {
+          "type": "graph.lifecycleEventType",
+          "nullable": true
+        },
+        "resource": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "resourceData": {
+          "type": "graph.resourceData",
+          "nullable": true
+        },
+        "subscriptionExpirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "subscriptionId": {
+          "type": "Edm.Guid",
+          "nullable": false
+        },
+        "tenantId": {
+          "type": "Edm.Guid",
+          "nullable": false
+        }
+      },
+      "required": [
+        "changeType",
+        "resource",
+        "subscriptionExpirationDateTime",
+        "subscriptionId",
+        "tenantId"
+      ]
+    },
+    "changeNotificationEncryptedContent": {
+      "properties": {
+        "data": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "dataKey": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "dataSignature": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "encryptionCertificateId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "encryptionCertificateThumbprint": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "data",
+        "dataKey",
+        "dataSignature",
+        "encryptionCertificateId",
+        "encryptionCertificateThumbprint"
+      ]
+    },
+    "changeType": {
+      "enum": [
+        "created",
+        "updated",
+        "deleted",
+        "unknownFutureValue"
+      ]
+    },
+    "lifecycleEventType": {
+      "enum": [
+        "missed",
+        "subscriptionRemoved",
+        "reauthorizationRequired"
+      ]
+    },
+    "resourceData": {
+      "properties": {},
+      "required": [],
+      "open": true
+    },
+    "subscription": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "applicationId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "changeType": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "clientState": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "creatorId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "encryptionCertificate": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "encryptionCertificateId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "expirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": false
+        },
+        "includeResourceData": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "latestSupportedTlsVersion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "lifecycleNotificationUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "notificationQueryOptions": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "notificationUrl": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "notificationUrlAppId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "resource": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "vapidPublicKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webPushEncryptionP256dhPublicKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "webPushEncryptionSecret": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "changeType",
+        "expirationDateTime",
+        "notificationUrl",
+        "resource"
+      ],
+      "base": "entity"
     }
   },
   "actions": [

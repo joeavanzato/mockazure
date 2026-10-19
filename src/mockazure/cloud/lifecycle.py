@@ -31,6 +31,12 @@ from mockazure.keyvault.lifecycle import (
     prune_keyvault,
     replace_keyvault,
 )
+from mockazure.notifications.lifecycle import (
+    NotificationStateInput,
+    export_notifications,
+    prune_notifications,
+    replace_notifications,
+)
 from mockazure.providers.arm.contracts import validate_arm_payload
 from mockazure.providers.arm.inventory import clean_public, seed_group
 from mockazure.providers.arm.models import ArmResource, Subscription
@@ -84,6 +90,7 @@ class CloudInput(IdentityInput):
     resources: ResourceStateInput = Field(default_factory=ResourceStateInput)
     keyvault: KeyVaultStateInput = Field(default_factory=KeyVaultStateInput)
     calendars: CalendarStateInput = Field(default_factory=CalendarStateInput)
+    notifications: NotificationStateInput = Field(default_factory=NotificationStateInput)
 
     @model_validator(mode="after")
     def distinct(self):
@@ -201,6 +208,7 @@ async def export_cloud(session: AsyncSession, tenant_id: UUID) -> dict:
         resources=await export_provider_resources(session, tenant_id),
         keyvault=await export_keyvault(session, tenant_id),
         calendars=await export_calendars(session, tenant_id),
+        notifications=await export_notifications(session, tenant_id),
     ).model_dump(mode="json")
 
 
@@ -243,6 +251,7 @@ async def import_cloud(session: AsyncSession, tenant_id: UUID, document: dict) -
         await replace_storage_accounts(session, tenant_id, value.storage)
         await replace_provider_state(session, tenant_id, value.provider)
         await replace_calendars(session, tenant_id, value.calendars)
+        await replace_notifications(session, tenant_id, value.notifications)
 
 
 async def reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generation: int) -> None:
@@ -255,6 +264,7 @@ async def reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generatio
     await replace_storage_accounts(session, tenant_id, StorageStateInput())
     await replace_provider_state(session, tenant_id, ProviderStateInput())
     await replace_calendars(session, tenant_id, CalendarStateInput())
+    await replace_notifications(session, tenant_id, NotificationStateInput())
 
 
 async def prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, limit: int) -> int:
@@ -268,6 +278,8 @@ async def prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, lim
         used += await prune_keyvault(session, tenant_id, now, limit - used)
     if used < limit:
         used += await prune_calendars(session, tenant_id, now, limit - used)
+    if used < limit:
+        used += await prune_notifications(session, tenant_id, now, limit - used)
     # Retired generations have no delivery authority. Active-generation facts are retained for F3.
     ids = (
         list(

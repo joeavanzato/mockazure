@@ -13,6 +13,7 @@ from mockazure.evidence.projection import process_projection
 from mockazure.jobs.repository import fail_job, finish_export
 from mockazure.jobs.schemas import JobClaim, JobResult, parse_export
 from mockazure.mail.send import process_mail_delivery
+from mockazure.notifications.delivery import process_notification
 from mockazure.providers.arm.errors import ArmError
 from mockazure.providers.arm.operations import process_arm_delete
 from mockazure.providers.arm.provider_jobs import process_provider_operation
@@ -29,6 +30,7 @@ async def process_export(database: Database, claim: JobClaim, wall_now: datetime
 
 
 HANDLERS = {
+    "graph.notification": process_notification,
     "calendar.meeting": process_meeting_delivery,
     "mail.delivery": process_mail_delivery,
     "authentication.passwordReset": process_password_reset,
@@ -56,6 +58,7 @@ async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) 
         code = "TransientError"
     except (ValueError, TypeError, KeyError):
         code = {
+            "graph.notification": "NotificationDeliveryFailed",
             "calendar.meeting": "MeetingDeliveryFailed",
             "mail.delivery": "MailDeliveryFailed",
             "evidence.project": "InvalidEvidenceSource",

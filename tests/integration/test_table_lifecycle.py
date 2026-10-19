@@ -144,7 +144,7 @@ async def test_table_migration_refuses_lossy_downgrade(database, settings):
                 config.attributes["connection"] = connection
                 command.downgrade(config, "063")
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "070"
+            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "071"
             assert connection.scalar(text("SELECT name FROM storage_tables")) == "Preserved"
     finally:
         engine.dispose()

@@ -31,10 +31,11 @@ def create_database(settings: Settings) -> Database:
             engine,
             expire_on_commit=False,
             info={
+                "notification_receivers": settings.notification_receivers,
                 "graph_read_budget": {
                     "limit": settings.graph_collection_request_limit,
                     "window_seconds": settings.graph_collection_window_seconds,
-                }
+                },
             },
         ),
     )

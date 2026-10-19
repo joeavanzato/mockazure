@@ -167,6 +167,7 @@ def event_view(row, *, basic=False):
 
 
 async def save_event(session, box, row, now):
+    existed = bool(row.revision)
     state = await state_for(session, box)
     state.revision += 1
     row.revision = state.revision
@@ -185,6 +186,9 @@ async def save_event(session, box, row, now):
         )
     )
     await session.flush()
+    from mockazure.notifications.publication import publish_calendar
+
+    await publish_calendar(session, box, row, existed, now)
 
 
 async def event_fact(session, actor, box, row, operation, before, now):

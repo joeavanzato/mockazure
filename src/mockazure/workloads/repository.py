@@ -425,6 +425,15 @@ async def import_workload(session, tenant_id: UUID, workload: str, batch: Worklo
             )
         )
     await session.flush()
+    if workload == "sharepoint":
+        from mockazure.notifications.publication import publish_drive
+
+        changed_edges = set(new_edges) | {
+            ((e.source_kind, e.source_id), e.relation, (e.target_kind, e.target_id)) for e in close
+        }
+        await publish_drive(
+            session, tenant_id, batch.scope, revision, incoming.keys() | deleted, changed_edges
+        )
     return ImportResult(
         revision=revision, count=len(batch.records) + len(batch.edges) + len(batch.tombstones)
     )

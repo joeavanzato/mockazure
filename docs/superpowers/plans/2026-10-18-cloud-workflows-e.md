@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** E1/E2/E3 implemented with local regression and source-contract evidence; four-ecosystem qualification remains pending the shared E gate. E4 is next; Linux/Windows native qualification remains part of the shared E gate. GitHub CI remains blocked before execution by account billing/spending limits.
+**Status:** E1/E2/E3/E4 implemented with local regression and source-contract evidence; four-ecosystem qualification remains pending the shared E gate. E4 local callbacks and lifecycle are tested; Linux/Windows native qualification remains part of the shared E gate. GitHub CI remains blocked before execution by account billing/spending limits.
 
 ## Global Constraints
 
@@ -118,7 +118,7 @@ assert revoked_delta.status_code == 403
 
 **Interfaces:** Produce `async mutate_subscription(session: AsyncSession, actor: PrincipalContext, subscription_id: str | None, operation: str, body: dict, now: datetime) -> dict | None`; `async process_notification(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult`; `resolve_receiver(url: str, configured_receivers: dict) -> dict`. Receiver validation returns only pre-registered local target bindings; never arbitrary public resolution.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_subscription_validation_lifecycle performs exact validationToken response handshake, renew/get/list/delete/reauthorize, expiry and local lifecycle delivery for supported combinations. test_notification_retry_and_revoke retries a failed receiver after restart and stops revoked/expired subscriptions. test_receiver_boundary rejects unregistered hosts, redirect escape and DNS changes; rich resource-data requests reject explicitly.
+- [x] **Step 1 — Add the named failing scenarios.** test_subscription_validation_lifecycle performs exact validationToken response handshake, renew/get/list/delete/reauthorize, expiry and local lifecycle delivery for supported combinations. test_notification_retry_and_revoke retries a failed receiver after restart and stops revoked/expired subscriptions. test_receiver_boundary rejects unregistered hosts, redirect escape and DNS changes; rich resource-data requests reject explicitly.
 
 ```python
 assert receiver_validation_body == expected_validation_token
@@ -128,7 +128,7 @@ assert external_requests == []
 assert post_revocation_deliveries == 0
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_graph_notifications.py tests/unit/test_graph_workflow_contracts.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Pin per-resource/changeType/expiration/lifecycle rules for supported mail/calendar/drive subscriptions. Implement documented notification envelopes and retry behavior, durable outbox/fences and explicit current authorization boundaries. At-least-once deliveries may repeat; never claim exactly-once callbacks. Keep rich encrypted notifications deferred as approved. Add lifecycle cleanup/export and four-ecosystem workflows via G1; update coverage by resource combination.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_graph_notifications.py tests/unit/test_graph_workflow_contracts.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Pin per-resource/changeType/expiration/lifecycle rules for supported mail/calendar/drive subscriptions. Implement documented notification envelopes and retry behavior, durable outbox/fences and explicit current authorization boundaries. At-least-once deliveries may repeat; never claim exactly-once callbacks. Keep rich encrypted notifications deferred as approved. Add lifecycle cleanup/export and four-ecosystem workflows via G1; update coverage by resource combination.
 - [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add durable local Graph subscriptions"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add durable local Graph subscriptions"`. Preserve unrelated work. Push/review according to the program's phase PR rules.

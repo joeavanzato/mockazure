@@ -107,6 +107,14 @@ def owner_for(row, revision):
 
 
 async def save_version(session, row, revision, *, deleted=False):
+    previous = await session.scalar(
+        select(MailMessageVersion).where(
+            MailMessageVersion.tenant_id == row.tenant_id,
+            MailMessageVersion.user_id == row.user_id,
+            MailMessageVersion.immutable_id == row.immutable_id,
+            MailMessageVersion.valid_to.is_(None),
+        )
+    )
     await session.execute(
         update(MailMessageVersion)
         .where(
@@ -140,6 +148,9 @@ async def save_version(session, row, revision, *, deleted=False):
                 session, row.tenant_id, content_id, "mail-version", owner_for(row, revision)
             )
     await session.flush()
+    from mockazure.notifications.publication import publish_mail
+
+    await publish_mail(session, row, previous, deleted, revision)
 
 
 async def recount(session, box, folders=None):
