@@ -159,3 +159,45 @@ async def test_vault_auth_mode_switch(database, settings):
         )
         assert switched.status_code == 200
         assert (await client.get(url, params=ARGS, headers=head)).status_code == 403
+
+
+async def test_legacy_secret_schema_and_paging(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        path, admin, principal, arm, base, head, _ = await provision_vault(
+            client, database, settings, tenant, app
+        )
+        await assign(client, admin, principal, path, "Key Vault Secrets Officer")
+        args = {"api-version": "7.0"}
+        for name in ("first", "second"):
+            result = await client.put(
+                base + "secrets/" + name,
+                params=args,
+                headers=head,
+                json={"value": "test", "tags": {"attributes": "preserved"}},
+            )
+            assert result.status_code == 200, result.text
+            assert "recoverableDays" not in result.json()["attributes"]
+            assert result.json()["tags"]["attributes"] == "preserved"
+        result = await client.get(base + "secrets", params=args | {"maxresults": 1}, headers=head)
+        assert result.status_code == 200 and "api-version=7.0" in result.json()["nextLink"]
+        assert (await client.get(result.json()["nextLink"], headers=head)).status_code == 200
+        denied = await client.put(
+            base + "secrets/bad",
+            params=args,
+            headers=head,
+            json={"value": "test", "attributes": {"recoverableDays": 90}},
+        )
+        assert denied.status_code == 400
+        denied = await client.put(
+            base + "secrets/bad",
+            params=args,
+            headers=head,
+            json={"value": "test", "attributes": {"enabled": "true"}},
+        )
+        assert denied.status_code == 400
+        deleted = await client.delete(base + "secrets/first", params=args, headers=head)
+        assert deleted.status_code == 200 and "recoverableDays" not in deleted.json()["attributes"]
+        recovered = await client.post(
+            base + "deletedsecrets/first/recover", params=args, headers=head
+        )
+        assert recovered.status_code == 200

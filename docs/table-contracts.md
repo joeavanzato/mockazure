@@ -13,3 +13,13 @@ Shared Key/Lite uses Table-specific canonicalization. Current Storage OAuth data
 Table state participates in typed cloud export/import/reset. Invalid input is rejected before replacement; imports rotate account keys, allocate fresh internal identities and discard continuation authority. Public mutations append service facts atomically without copying property values into facts. Import is not a public entity-write event. Expired continuation records are pruned by cloud maintenance. Migration 064 refuses a downgrade that would discard Table state.
 
 Validation is recorded in `tests/unit/test_table_edm.py` and the `test_table_*` integration suites. Original-client Python checks use `azure-data-tables==12.7.0` over a local CA-verified HTTPS listener. Full four-ecosystem phase D qualification remains pending until Queue and Key Vault workflows are available.
+
+
+Original Az.Storage 8.1.0 uses Microsoft.Azure.Cosmos.Table 1.0.8 with
+`x-ms-version: 2017-07-29`. A bounded legacy profile supports namespace
+create/list/delete, including its `POST /Tables()` alias. Entity calls still use
+2019-02-02; no legacy SAS or Cosmos behavior is claimed. The catalog distinguishes
+the official version/operation documentation from the newer shared structural
+Swagger. The PowerShell matrix uses an explicit REST fallback for entity CRUD
+because Az.Storage has no entity cmdlets. Batch `$format` selects the actual JSON
+metadata mode; omitted Content-ID stays omitted, and supplied IDs are echoed.

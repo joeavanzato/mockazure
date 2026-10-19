@@ -126,7 +126,9 @@ def entity_view(entity, mode="minimalmetadata", projection=None):
 SYSTEM_TYPES = {"PartitionKey": "Edm.String", "RowKey": "Edm.String", "Timestamp": "Edm.DateTime"}
 
 
-async def mutate_entity(session, access, table, partition, row, operation, body, etag, now):
+async def mutate_entity(
+    session, access, table, partition, row, operation, body, etag, now, *, mode="minimalmetadata"
+):
     parent = await find_table(session, access, table)
     current = await find_entity(session, access, parent, partition, row)
     if operation not in {"insert", "merge", "replace", "delete"}:
@@ -175,7 +177,7 @@ async def mutate_entity(session, access, table, partition, row, operation, body,
         current.etag = table_etag(current.timestamp_text)
         await session.flush()
         output = {
-            "body": entity_view(current),
+            "body": entity_view(current, mode),
             "etag": current.etag,
             "status": 201 if operation == "insert" else 204,
         }
@@ -219,6 +221,7 @@ async def transact_entities(session, access, table, operations, now):
                         op["body"],
                         op["etag"],
                         now,
+                        mode=op.get("mode", "minimalmetadata"),
                     )
                 )
             except StorageError as error:

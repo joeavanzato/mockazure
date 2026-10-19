@@ -232,7 +232,12 @@ async def list_secrets(session, actor, vault_id, name, args, now, *, deleted=Fal
         bad("maxresults must be between 1 and 25")
     vault, props = await vault_configuration(session, actor.tenant_id, vault_id)
     secret = await find_secret(session, actor.tenant_id, vault_id, name) if name else None
-    query = {"name": secret.name_key if secret else None, "maxresults": maximum, "deleted": deleted}
+    query = {
+        "name": secret.name_key if secret else None,
+        "maxresults": maximum,
+        "deleted": deleted,
+        "api_version": args.get("api-version", "2025-07-01"),
+    }
     generation = (await session.get(CloudState, actor.tenant_id)).generation
     last = None
     if args.get("$skiptoken"):
@@ -302,7 +307,11 @@ async def list_secrets(session, actor, vault_id, name, args, now, *, deleted=Fal
             + path
             + "?"
             + urlencode(
-                {"api-version": "2025-07-01", "maxresults": maximum, "$skiptoken": str(cursor.id)}
+                {
+                    "api-version": args.get("api-version", "2025-07-01"),
+                    "maxresults": maximum,
+                    "$skiptoken": str(cursor.id),
+                }
             )
         )
 

@@ -60,7 +60,7 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
         not in (
             {"2019-02-02", "2025-11-05"}
             if service == "table"
-            else {"2026-02-06"}
+            else {"2026-02-06", "2026-04-06", "2025-01-05"}
             if service == "queue"
             else {"2025-11-05"}
         )
@@ -269,7 +269,7 @@ def authorize_table_sas(keys, account, request, action, resource, now):
 def authorize_queue_sas(keys, account, request, action, resource, now):
     args = dict(request.query_params.multi_items())
     if (
-        args.get("sv") != "2026-02-06"
+        args.get("sv") not in {"2026-02-06", "2026-04-06", "2025-01-05"}
         or args.get("si")
         or any(k in args for k in ("skoid", "sr", "ss", "srt"))
     ):

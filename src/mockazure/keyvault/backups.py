@@ -1,5 +1,6 @@
 """Explicit portable secret backups use a separate operator-provided key reference."""
 
+import re
 from pathlib import Path
 from uuid import UUID, uuid4
 
@@ -131,8 +132,11 @@ async def restore_secret(session, actor, vault_id, body, now):
     cipher, reference = backup_cipher(session)
     try:
         token = body["value"].encode("ascii")
-        if len(token) > 32 * 1024 * 1024:
+        if len(token) > 32 * 1024 * 1024 or not re.fullmatch(rb"[A-Za-z0-9_-]+={0,2}", token):
             raise ValueError()
+        # REST uses base64url; original JS clients omit optional trailing padding.
+        token = token.rstrip(b"=")
+        token += b"=" * (-len(token) % 4)
         manifest = SecretBackup.model_validate_json(cipher.decrypt(token))
     except (InvalidToken, ValueError, UnicodeError, ValidationError):
         raise VaultError(400, "BadParameter", "Invalid encrypted secret backup") from None

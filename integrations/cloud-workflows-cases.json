@@ -216,6 +216,202 @@
         }
       ],
       "notApplicable": {}
+    },
+    "D": {
+      "workflows": [
+        {
+          "id": "table.structured",
+          "service": "storage",
+          "operationIds": [
+            "table.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "ecosystems": [
+            "python",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module+rest"
+          },
+          "assertions": [
+            "tableMutation",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "table.structured-powershell",
+          "service": "storage",
+          "operationIds": [
+            "table20170729.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module+rest"
+          },
+          "assertions": [
+            "tableMutation",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "queue.structured",
+          "service": "storage",
+          "operationIds": [
+            "queue.Queue_Create",
+            "queue.Messages_Enqueue",
+            "queue.Messages_Peek",
+            "queue.Messages_Dequeue",
+            "queue.MessageId_Update",
+            "queue.MessageId_Delete"
+          ],
+          "ecosystems": [
+            "python",
+            "dotnet"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "queueReceipts",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "queue.structured-20260406",
+          "service": "storage",
+          "operationIds": [
+            "queue20260406.Queue_Create",
+            "queue20260406.Messages_Enqueue",
+            "queue20260406.Messages_Peek",
+            "queue20260406.Messages_Dequeue",
+            "queue20260406.MessageId_Update",
+            "queue20260406.MessageId_Delete"
+          ],
+          "ecosystems": [
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "queueReceipts",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "keyvault.structured",
+          "service": "keyvault",
+          "operationIds": [
+            "SetSecret",
+            "GetSecret",
+            "GetSecretVersions",
+            "DeleteSecret",
+            "RecoverDeletedSecret",
+            "PurgeDeletedSecret",
+            "BackupSecret",
+            "RestoreSecret"
+          ],
+          "ecosystems": [
+            "python",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "secretRecovery",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "secretBackupRestore",
+            "metadataOnlySnapshot",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "queue.structured-powershell",
+          "service": "storage",
+          "operationIds": [
+            "queue20250105.Queue_Create",
+            "queue20250105.Messages_Enqueue",
+            "queue20250105.Messages_Peek",
+            "queue20250105.Messages_Dequeue",
+            "queue20250105.MessageId_Update",
+            "queue20250105.MessageId_Delete"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "queueReceipts",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "keyvault.structured-powershell",
+          "service": "keyvault",
+          "operationIds": [
+            "v7.SetSecret",
+            "v7.GetSecret",
+            "v7.GetSecretVersions",
+            "v7.DeleteSecret",
+            "v7.RecoverDeletedSecret",
+            "v7.PurgeDeletedSecret",
+            "v7.BackupSecret",
+            "v7.RestoreSecret"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "secretRecovery",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "secretBackupRestore",
+            "metadataOnlySnapshot",
+            "cross_language_reads"
+          ]
+        }
+      ],
+      "notApplicable": {}
     }
   }
 }

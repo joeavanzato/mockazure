@@ -93,3 +93,20 @@ See [Set Secret](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/set
 [Get Secret](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/get-secret/get-secret?view=rest-keyvault-secrets-2025-07-01),
 [secret attributes](https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets),
 and [Key Vault RBAC](https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide).
+
+
+The original Az.KeyVault 6.6.1 secret cmdlets use REST 7.0. That profile is bound to
+the actual cached `Legacy/stable/7.0/keyvault.json`, including inherited attributes
+and writable/read-only rules. Responses omit the later `recoverableDays` field;
+paging preserves and binds the selected API version. Keys and certificates are
+still outside this secret profile.
+
+Az's `VaultUriHelper` always builds `https://{vault}.{dnsSuffix}` on port 443.
+The qualification harness supplies its configured local DNS suffix, an isolated
+container hosts mapping, and a loopback-only TCP passthrough from 443 to the
+dedicated 8448 listener in the same isolated Docker network namespace. TLS remains
+end-to-end and verified against the instance CA. This changes no host-computer DNS,
+SDK code, command implementation, signatures or API payloads. The temporary port
+adapter is removed after each PowerShell run. Explicit encrypted backups accept
+both padded and unpadded base64url wire encoding, with the same authenticated
+manifest checks.

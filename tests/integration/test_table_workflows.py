@@ -257,3 +257,80 @@ async def test_table_binary_filter_uses_bytes_and_delete_is_durable(database, se
             )
         ).status_code == 201
         assert (await table_call(client, "GET", base + "BinaryValues()", key)).json()["value"] == []
+
+
+async def test_table_mutation_representation(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        _, _, endpoints, key = await provision(client, database, settings, tenant, app)
+        base = endpoints["table"]
+        assert (
+            await table_call(client, "POST", base + "Tables", key, body={"TableName": "Evidence"})
+        ).status_code == 201
+        response = await table_call(
+            client,
+            "POST",
+            base + "Evidence",
+            key,
+            body={"PartitionKey": "p", "RowKey": "one", "Count": 1},
+            params={"$format": "application/json;odata=fullmetadata"},
+        )
+        assert response.status_code == 201
+        assert response.json()["odata.etag"] == response.headers["ETag"]
+        assert response.json()["Timestamp@odata.type"] == "Edm.DateTime"
+        raw = batch(
+            base,
+            [
+                (
+                    "POST",
+                    "Evidence?$format=application%2Fjson%3Bodata%3Dfullmetadata",
+                    {"PartitionKey": "p", "RowKey": "two"},
+                    None,
+                )
+            ],
+        )
+        response = await table_call(
+            client,
+            "POST",
+            base + "$batch",
+            key,
+            raw=raw,
+            headers={"Content-Type": "multipart/mixed; boundary=batch_test"},
+        )
+        assert response.status_code == 202 and "HTTP/1.1 201" in response.text
+        assert (
+            '"odata.etag"' in response.text
+            and '"Timestamp@odata.type": "Edm.DateTime"' in response.text
+        )
+
+
+async def test_legacy_table_namespace_profile(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, user):
+        _, _, endpoints, key = await provision(client, database, settings, tenant, app)
+        base = endpoints["table"]
+        headers = {"x-ms-version": "2017-07-29"}
+        created = await table_call(
+            client,
+            "POST",
+            base + "Tables()",
+            key,
+            body={"TableName": "LegacyEvidence"},
+            headers=headers,
+        )
+        assert created.status_code == 201, created.text
+        assert created.headers["x-ms-version"] == "2017-07-29"
+        listed = await table_call(client, "GET", base + "Tables()", key, headers=headers)
+        assert listed.json()["value"][0]["TableName"] == "LegacyEvidence"
+        denied = await table_call(
+            client,
+            "POST",
+            base + "LegacyEvidence",
+            key,
+            body={"PartitionKey": "p", "RowKey": "r"},
+            headers=headers,
+        )
+        assert denied.status_code == 400
+        assert (
+            await table_call(
+                client, "DELETE", base + "Tables('LegacyEvidence')", key, headers=headers
+            )
+        ).status_code == 204

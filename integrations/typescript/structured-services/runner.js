@@ -1,0 +1,70 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {TableClient, TableServiceClient, AzureNamedKeyCredential} from '@azure/data-tables';
+import {QueueServiceClient, StorageSharedKeyCredential, newPipeline} from '@azure/storage-queue';
+import {SecretClient} from '@azure/keyvault-secrets';
+const option = name => process.argv[process.argv.indexOf(name)+1];
+const p=JSON.parse(fs.readFileSync(option('--profile'),'utf8'));
+const mode=option('--mode');
+assert(['write','read','restore'].includes(mode));
+const origins=new Set([p.table_endpoint,p.queue_endpoint,p.vault_endpoint].map(x=>new URL(x).origin));
+for(const origin of origins){const u=new URL(origin);assert(u.protocol==='https:'&&['localhost','127.0.0.1'].includes(u.hostname));}
+const guard={name:'localOnly',sendRequest(request,next){assert(origins.has(new URL(request.url).origin));return next(request);}};
+const options={retryOptions:{maxRetries:0},additionalPolicies:[{policy:guard,position:'perCall'}]};
+const credential=new AzureNamedKeyCredential(p.account,p.key);
+const tableName='TypescriptPersist';
+const table=new TableClient(p.table_endpoint,tableName,credential,options);
+const tables=new TableServiceClient(p.table_endpoint,credential,options);
+const pipeline=newPipeline(new StorageSharedKeyCredential(p.account,p.key),{retryOptions:{maxTries:1}});
+pipeline.factories.push({create(next){return {sendRequest(request){assert(origins.has(new URL(request.url).origin));return next.sendRequest(request);}};}});
+const queues=new QueueServiceClient(p.queue_endpoint,pipeline);
+const queue=queues.getQueueClient('typescript-persist');
+const scopes=[];
+const secrets=new SecretClient(p.vault_endpoint,{getToken(requested){assert.deepEqual(requested,['https://vault.azure.net/.default']);scopes.push(requested);return {token:p.token,expiresOnTimestamp:Date.now()+3600000};}},{...options,serviceVersion:'2025-07-01',disableChallengeResourceVerification:true});
+const secretName='typescript-secret';
+const backupFile=option('--backup');
+const assertions={};
+if(mode==='write'){
+ await tables.createTable(tableName);
+ const created=await table.createEntity({partitionKey:'p',rowKey:'one',Count:{type:'Int64',value:'9007199254740993'},Bytes:{type:'Binary',value:Buffer.from([0,1,255]).toString('base64')}});
+ await table.getEntity('p','one');
+ // Minimal-metadata responses omit odata.etag; use the original create response header.
+ assert(created.etag);
+ await table.updateEntity({partitionKey:'p',rowKey:'one',Keep:true},'Merge',{etag:created.etag});
+ await assert.rejects(()=>table.updateEntity({partitionKey:'p',rowKey:'one',Keep:false},'Merge',{etag:created.etag}),error=>error.statusCode===412);
+ await table.submitTransaction([['create',{partitionKey:'p',rowKey:'two'}],['create',{partitionKey:'p',rowKey:'three'}]]);
+ await assert.rejects(()=>table.submitTransaction([['create',{partitionKey:'p',rowKey:'rollback'}],['create',{partitionKey:'p',rowKey:'one'}]]),error=>error.statusCode===409);
+ const rows=[];for await(const page of table.listEntities({queryOptions:{filter:"PartitionKey eq 'p'"}}).byPage({maxPageSize:1}))rows.push(...page);
+ assert.equal(rows.length,3);await table.deleteEntity('p','three');assertions.tableMutation=true;
+ await queue.create();await queue.setMetadata({writer:'typescript'});
+ await queue.sendMessage('first',{messageTimeToLive:-1});
+ const message=(await queue.receiveMessages({numberOfMessages:1,visibilityTimeout:30})).receivedMessageItems[0];
+ const updated=await queue.updateMessage(message.messageId,message.popReceipt,'second',0);
+ assert.notEqual(updated.popReceipt,message.popReceipt);
+ await assert.rejects(()=>queue.deleteMessage(message.messageId,message.popReceipt),error=>error.statusCode===400);
+ const next=(await queue.receiveMessages({numberOfMessages:1})).receivedMessageItems[0];
+ assert.equal(next.messageText,'second');assert.equal(next.dequeueCount,2);await queue.deleteMessage(next.messageId,next.popReceipt);
+ await queue.sendMessage('persistent ☃',{messageTimeToLive:-1});assertions.queueReceipts=true;
+ const a=await secrets.setSecret(secretName,'first');const b=await secrets.setSecret(secretName,'second');
+ assert.notEqual(a.properties.version,b.properties.version);
+ assert.equal((await secrets.getSecret(secretName,{version:a.properties.version})).value,'first');
+ const backup=await secrets.backupSecret(secretName);fs.writeFileSync(backupFile,backup);
+ await (await secrets.beginDeleteSecret(secretName)).pollUntilDone();
+ assert.equal((await secrets.getDeletedSecret(secretName)).name,secretName);
+ await (await secrets.beginRecoverDeletedSecret(secretName)).pollUntilDone();
+ assert.equal((await secrets.getSecret(secretName)).properties.version,b.properties.version);
+ assertions.secretRecovery=true;
+}
+if(mode==='restore'||mode==='write'){
+ const oldVersion=(await secrets.getSecret(secretName).catch(error=>{if(mode==='restore'&&error.statusCode===409)return null;throw error;}))?.properties.version;
+ await (await secrets.beginDeleteSecret(secretName)).pollUntilDone();await secrets.purgeDeletedSecret(secretName);
+ const restored=await secrets.restoreSecretBackup(fs.readFileSync(backupFile));
+ if(oldVersion)assert.equal(restored.version,oldVersion);
+ assertions.secretBackupRestore=true;
+}
+const entity=await table.getEntity('p','one');assert.equal(String(entity.Count),'9007199254740993');assert.equal(entity.Keep,true);
+assert.equal((await queue.peekMessages()).peekedMessageItems[0].messageText,'persistent ☃');
+assert.equal((await secrets.getSecret(secretName)).value,'second');
+const versions=[];for await(const item of secrets.listPropertiesOfSecretVersions(secretName))versions.push(item);
+assert.equal(versions.length,2);assert(scopes.length>0);
+fs.writeFileSync(option('--report'),JSON.stringify({passed:true,mode,assertions:{...assertions,persistentRead:true},clientVersions:{'@azure/data-tables':'13.3.2','@azure/storage-queue':'12.32.0','@azure/keyvault-secrets':'4.11.2'}},null,2));

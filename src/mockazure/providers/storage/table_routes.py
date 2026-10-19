@@ -6,7 +6,7 @@ from datetime import UTC, datetime
 from email.parser import BytesParser
 from email.policy import default
 from http import HTTPStatus
-from urllib.parse import quote, unquote, urlsplit
+from urllib.parse import parse_qsl, quote, unquote, urlsplit
 from uuid import uuid4
 
 from sqlalchemy import select
@@ -69,7 +69,7 @@ def parse_path(path, method, body=None):
     if path in {"Tables", "Tables()"}:
         if method == "GET":
             return "list", "", None, None
-        if method == "POST" and path == "Tables":
+        if method == "POST":
             if not isinstance(body, dict) or set(body) != {"TableName"}:
                 invalid("Create Table requires TableName")
             table_name(body["TableName"])
@@ -128,6 +128,10 @@ def json_body(raw):
 
 def representation(request):
     accept = request.query_params.get("$format", request.headers.get("accept", "application/json"))
+    return representation_mode(accept)
+
+
+def representation_mode(accept):
     if accept == "json":
         accept = "application/json"
     if accept == "*/*":
@@ -177,7 +181,10 @@ def metadata(body, mode, base, name, *, collection=False):
 def output(request, body=None, status=200, extra=None, mode="minimalmetadata"):
     head = (
         headers(request)
-        | {"x-ms-version": "2019-02-02", "DataServiceVersion": "3.0;"}
+        | {
+            "x-ms-version": request.headers.get("x-ms-version", "2019-02-02"),
+            "DataServiceVersion": "3.0;",
+        }
         | (extra or {})
     )
     if status == 204:
@@ -273,12 +280,17 @@ def parse_batch(request, raw, account):
         if (
             protocol != "HTTP/1.1"
             or parsed.fragment
-            or parsed.query
             or parsed.scheme != request.url.scheme
             or parsed.netloc.lower() != request.headers["host"].lower()
             or not parsed.path.startswith("/" + account + "/")
         ):
             invalid("Embedded request must target this local account")
+        try:
+            query = parse_qsl(parsed.query, keep_blank_values=True, strict_parsing=True)
+        except ValueError:
+            invalid("Invalid embedded query")
+        if len(query) > 1 or any(k != "$format" for k, _ in query):
+            invalid("Unsupported embedded query option")
         raw_headers, sep, raw_body = rest.partition(b"\r\n\r\n")
         if not sep:
             invalid("Invalid embedded HTTP headers")
@@ -290,6 +302,9 @@ def parse_batch(request, raw, account):
             or head.get("Transfer-Encoding")
         ):
             invalid("Invalid embedded headers")
+        mode = representation_mode(
+            dict(query).get("$format", head.get("Accept", "application/json"))
+        )
         body = json_body(raw_body) if raw_body.strip() else {}
         if body and not head.get("Content-Type", "").startswith("application/json"):
             invalid("Expected JSON entity")
@@ -307,10 +322,11 @@ def parse_batch(request, raw, account):
                 "row": r,
                 "body": body,
                 "etag": head.get("If-Match"),
-                "content_id": part.get(
-                    "Content-ID", head.get("Content-ID", str(len(operations) + 1))
-                ),
+                "content_id": part.get("Content-ID", head.get("Content-ID")),
                 "prefer": head.get("Prefer", ""),
+                "mode": mode,
+                "table": name,
+                "base": parsed.scheme + "://" + parsed.netloc + "/" + account + "/",
             }
         )
     if not operations:
@@ -336,23 +352,27 @@ def batch_response(request, results, operations, error=None):
                 "etag": None,
             }
         ]
-        operations = [operations[index] if index < len(operations) else {"content_id": "1"}]
+        operations = [operations[index] if index < len(operations) else {"content_id": None}]
     for result, op in zip(results, operations, strict=True):
         status = result["status"]
         if error is None and op.get("prefer") == "return-no-content":
             status = 204
+        mode = op.get("mode", "minimalmetadata")
         lines += [
             "--" + change,
             "Content-Type: application/http",
             "Content-Transfer-Encoding: binary",
-            "Content-ID: " + op["content_id"],
+            *(["Content-ID: " + op["content_id"]] if op.get("content_id") is not None else []),
             "",
             f"HTTP/1.1 {status} {HTTPStatus(status).phrase}",
-            "Content-Type: application/json;odata=minimalmetadata",
+            "Content-Type: application/json;odata=" + mode,
         ]
         if result.get("etag"):
             lines += ["ETag: " + result["etag"]]
-        lines += ["", json.dumps(result["body"]) if status != 204 else ""]
+        body = result["body"]
+        if body and error is None:
+            body = metadata(body, mode, op["base"], op["table"])
+        lines += ["", json.dumps(body) if status != 204 else ""]
     lines += ["--" + change + "--", "--" + boundary + "--", ""]
     return Response(
         "\r\n".join(lines),
@@ -370,7 +390,8 @@ async def dispatch_table(request):
     args = request.query_params
     if len(args) != len(args.multi_items()) or set(args) - QUERY - SAS:
         invalid("Unknown or duplicate Table query option")
-    if request.headers.get("x-ms-version", args.get("sv")) != "2019-02-02":
+    version = request.headers.get("x-ms-version", args.get("sv"))
+    if version not in {"2019-02-02", "2017-07-29"}:
         invalid("Unsupported Table request version", "InvalidHeaderValue")
     if any(
         h in request.headers
@@ -391,10 +412,12 @@ async def dispatch_table(request):
     action, name, p, r = (
         parse_path(path, request.method, body) if path != "$batch" else ("batch", "", None, None)
     )
+    if version == "2017-07-29" and action not in {"create", "list", "delete"}:
+        invalid("Legacy Table profile supports namespace operations only", "InvalidHeaderValue")
     if (
         action != "batch"
         and action not in {"list", "query_entities", "read_entity"}
-        and set(args) & QUERY - {"timeout"}
+        and set(args) & QUERY - {"timeout", "$format"}
     ):
         invalid("Query option not supported on this mutation")
     allowed_query = {
@@ -409,7 +432,7 @@ async def dispatch_table(request):
             "timeout",
         },
         "read_entity": {"$select", "$format", "timeout"},
-    }.get(action, {"timeout"})
+    }.get(action, {"timeout", "$format"})
     if set(args) & QUERY - allowed_query:
         invalid("Query option is not supported for this Table operation")
     if "$select" in args:
@@ -508,6 +531,7 @@ async def dispatch_table(request):
                     body,
                     request.headers.get("If-Match"),
                     now,
+                    mode=mode,
                 )
                 status = result["status"]
                 if status == 201 and request.headers.get("Prefer") == "return-no-content":

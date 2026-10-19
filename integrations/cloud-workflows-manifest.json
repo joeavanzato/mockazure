@@ -4,14 +4,15 @@
   "enabledPhases": [
     "A",
     "B",
-    "C"
+    "C",
+    "D"
   ],
   "clients": {
     "powershell": {
       "ExchangeOnlineManagement": "3.11.0"
     }
   },
-  "status": "A/B profiles qualified; C binary matrix enabled (consult source-matched qualification reports); D-F unavailable.",
+  "status": "A-C profiles qualified; D matrix enabled (consult source-matched qualification reports); E-F unavailable.",
   "phaseClients": {
     "B": {
       "python": {
@@ -45,6 +46,28 @@
       "typescript": {
         "@azure/storage-blob": "12.29.1",
         "@azure/storage-file-share": "12.29.1"
+      }
+    },
+    "D": {
+      "python": {
+        "azure-data-tables": "12.7.0",
+        "azure-storage-queue": "12.15.0",
+        "azure-keyvault-secrets": "4.11.3"
+      },
+      "typescript": {
+        "@azure/data-tables": "13.3.2",
+        "@azure/storage-queue": "12.32.0",
+        "@azure/keyvault-secrets": "4.11.2"
+      },
+      "dotnet": {
+        "Azure.Data.Tables": "12.13.0",
+        "Azure.Storage.Queues": "12.28.1",
+        "Azure.Security.KeyVault.Secrets": "4.11.2"
+      },
+      "powershell": {
+        "Az.Accounts": "5.5.3",
+        "Az.Storage": "8.1.0",
+        "Az.KeyVault": "6.6.1"
       }
     }
   }

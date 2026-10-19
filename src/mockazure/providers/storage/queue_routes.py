@@ -106,7 +106,11 @@ async def dispatch_queue(request):
     args = request.query_params
     if len(args) != len(args.multi_items()):
         invalid("Duplicate query parameter")
-    if request.headers.get("x-ms-version", args.get("sv")) != VERSION:
+    if request.headers.get("x-ms-version", args.get("sv")) not in {
+        VERSION,
+        "2026-04-06",
+        "2025-01-05",
+    }:
         invalid("Unsupported Queue version", "InvalidHeaderValue")
     if any(k.startswith("if-") for k in request.headers):
         invalid("Queue conditional headers are unsupported", "InvalidHeaderValue")

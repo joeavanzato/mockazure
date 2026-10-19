@@ -1,0 +1,74 @@
+"""Prepare pinned upstream structured-service clients in ignored work directories."""
+
+import argparse
+import shutil
+import subprocess
+from pathlib import Path
+
+from tools.prepare_clients import prepare as modules
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def prepare(*, update_lock=False, build=True):
+    modules(ROOT / "integrations/structured-clients-manifest.json", ROOT / "work/cloud-d-vendor")
+    output = ROOT / "work/cloud-d-clients"
+    npm = output / "npm"
+    npm.mkdir(parents=True, exist_ok=True)
+    source = ROOT / "integrations/typescript/structured-services"
+    for name in ("package.json", "package-lock.json", "runner.js"):
+        if (source / name).exists():
+            shutil.copyfile(source / name, npm / name)
+    subprocess.run(
+        [
+            shutil.which("npm") or "npm",
+            "install" if update_lock else "ci",
+            "--ignore-scripts",
+            "--no-audit",
+            "--no-fund",
+        ],
+        cwd=npm,
+        check=True,
+        timeout=300,
+    )
+    if update_lock:
+        shutil.copyfile(npm / "package-lock.json", source / "package-lock.json")
+    project = ROOT / "integrations/dotnet/StructuredServices/StructuredServices.csproj"
+    intermediate = "-p:BaseIntermediateOutputPath=" + (output / "dotnet-obj").as_posix() + "/"
+    subprocess.run(
+        [
+            "dotnet",
+            "restore",
+            str(project),
+            *(["--force-evaluate"] if update_lock else ["--locked-mode"]),
+            "--packages",
+            str(output / "nuget"),
+            intermediate,
+        ],
+        cwd=ROOT,
+        check=True,
+        timeout=300,
+    )
+    if build:
+        subprocess.run(
+            [
+                "dotnet",
+                "build",
+                str(project),
+                "--no-restore",
+                intermediate,
+                "-o",
+                str(output / "dotnet"),
+            ],
+            cwd=ROOT,
+            check=True,
+            timeout=300,
+        )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--update-lock", action="store_true")
+    parser.add_argument("--no-build", action="store_true")
+    args = parser.parse_args()
+    prepare(update_lock=args.update_lock, build=not args.no_build)

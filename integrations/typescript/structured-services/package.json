@@ -1,0 +1,10 @@
+{
+  "name": "mockazure-structured-qualification",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@azure/data-tables": "13.3.2",
+    "@azure/storage-queue": "12.32.0",
+    "@azure/keyvault-secrets": "4.11.2"
+  }
+}

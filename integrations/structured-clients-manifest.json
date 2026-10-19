@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "name": "Az.Accounts",
+      "version": "5.5.3",
+      "source": "https://www.powershellgallery.com/api/v2/package/Az.Accounts/5.5.3",
+      "sha256": "5a8be006e80a7ca66134df1f28e0ead93ef4bc437685b647b6720583cb58e615",
+      "archive": "Az.Accounts-5.5.3.zip",
+      "extracted": "modules/Az.Accounts/5.5.3",
+      "dependencies": []
+    },
+    {
+      "name": "Az.Storage",
+      "version": "8.1.0",
+      "source": "https://www.powershellgallery.com/api/v2/package/Az.Storage/8.1.0",
+      "sha256": "9167db866a8d71ca558917439cc29aa2b51d6d5ad923e366f496fa18e77039eb",
+      "archive": "Az.Storage-8.1.0.zip",
+      "extracted": "modules/Az.Storage/8.1.0",
+      "dependencies": [
+        "Az.Accounts==5.5.3"
+      ]
+    },
+    {
+      "name": "Az.KeyVault",
+      "version": "6.6.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Az.KeyVault/6.6.1",
+      "sha256": "a2d3ed00c5547124b9ebfba7779240c006d4cefa6a3a6f30b788250083b3b79d",
+      "archive": "Az.KeyVault-6.6.1.zip",
+      "extracted": "modules/Az.KeyVault/6.6.1",
+      "dependencies": [
+        "Az.Accounts==5.5.3"
+      ]
+    }
+  ]
+}

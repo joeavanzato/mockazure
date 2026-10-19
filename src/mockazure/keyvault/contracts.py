@@ -9,9 +9,41 @@ from mockazure.providers.keyvault.errors import VaultError
 
 
 @lru_cache
-def definitions():
-    source = load_contract("keyvault", "SetSecret")["sources"][0]["localPath"]
-    return json.loads((DATA / "keyvault" / source).read_text(encoding="utf-8"))["definitions"]
+def definitions(api_version="2025-07-01"):
+    operation = "v7.SetSecret" if api_version == "7.0" else "SetSecret"
+    source = load_contract("keyvault", operation)["sources"][0]["localPath"]
+    raw = json.loads((DATA / "keyvault" / source).read_text(encoding="utf-8"))["definitions"]
+
+    def expand(schema, depth=0):
+        if depth > 16:
+            raise RuntimeError("Recursive schema inheritance")
+        result = dict(schema)
+        parents = result.pop("allOf", [])
+        if parents:
+            fields = {}
+            required = []
+            for parent in parents:
+                inherited = expand(raw[parent["$ref"].split("/")[-1]], depth + 1)
+                fields.update(inherited.get("properties", {}))
+                required.extend(inherited.get("required", []))
+            result["properties"] = fields | result.get("properties", {})
+            result["required"] = list(dict.fromkeys(required + result.get("required", [])))
+        if "properties" in result:
+            result.setdefault("type", "object")
+        return result
+
+    return {name: expand(schema) for name, schema in raw.items()}
+
+
+def validate_response(schema, value, api_version):
+    if api_version == "7.0":
+        rows = (
+            value["value"] if schema in {"SecretListResult", "DeletedSecretListResult"} else [value]
+        )
+        for row in rows:
+            if isinstance(row, dict) and "attributes" in row:
+                row["attributes"].pop("recoverableDays", None)
+    validate_shape(schema, value, api_version=api_version)
 
 
 def bad(message="Invalid secret request"):
@@ -24,17 +56,21 @@ def name_key(name):
     return name.lower()
 
 
-def validate_shape(schema, value, *, writable=False, depth=0):
+def validate_shape(schema, value, *, writable=False, depth=0, api_version="2025-07-01"):
     if depth > 12:
         bad("Request nesting exceeds local limit")
     if isinstance(schema, str):
-        schema = definitions()[schema]
+        schema = definitions(api_version)[schema]
     if "$ref" in schema:
         ref = schema["$ref"]
         if not ref.startswith("#/definitions/"):
             raise RuntimeError("Unsupported schema reference")
         return validate_shape(
-            definitions()[ref.split("/")[-1]], value, writable=writable, depth=depth + 1
+            definitions(api_version)[ref.split("/")[-1]],
+            value,
+            writable=writable,
+            depth=depth + 1,
+            api_version=api_version,
         )
     if writable and schema.get("readOnly"):
         bad("Read-only field is not writable")
@@ -48,21 +84,27 @@ def validate_shape(schema, value, *, writable=False, depth=0):
         if any(k not in value for k in schema.get("required", [])):
             bad("Missing required field")
         for key, item in value.items():
-            validate_shape({"type": "string"}, key, depth=depth + 1)
+            validate_shape({"type": "string"}, key, depth=depth + 1, api_version=api_version)
             if key not in fields:
                 extra = schema.get("additionalProperties", False)
                 if not isinstance(extra, dict):
                     bad("Unknown field")
-                validate_shape(extra, item, writable=writable, depth=depth + 1)
+                validate_shape(
+                    extra, item, writable=writable, depth=depth + 1, api_version=api_version
+                )
             else:
                 if writable and fields[key].get("readOnly"):
                     bad("Read-only field is not writable")
-                validate_shape(fields[key], item, writable=writable, depth=depth + 1)
+                validate_shape(
+                    fields[key], item, writable=writable, depth=depth + 1, api_version=api_version
+                )
     elif kind == "array":
         if not isinstance(value, list):
             bad("Expected array")
         for item in value:
-            validate_shape(schema["items"], item, writable=writable, depth=depth + 1)
+            validate_shape(
+                schema["items"], item, writable=writable, depth=depth + 1, api_version=api_version
+            )
     elif kind == "string":
         if not isinstance(value, str):
             bad("Expected string")
