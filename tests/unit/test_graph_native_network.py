@@ -62,7 +62,9 @@ def test_restart_readiness_opens_a_fresh_verified_connection_each_attempt(monkey
 
     monkeypatch.setattr(verify_graph_workflows, "LocalSession", Session)
     monkeypatch.setattr(verify_graph_workflows.time, "sleep", lambda _: None)
-    verify_graph_workflows.wait_for_fresh_connection("https://localhost:8443", "lab-ca.pem")
+    verify_graph_workflows.wait_for_fresh_connection(
+        "https://localhost:8443", "lab-ca.pem", stable_seconds=0
+    )
     assert len(sessions) == 2
     assert all(session.closed for session in sessions)
 
@@ -89,3 +91,38 @@ def test_callback_receiver_has_its_own_restart_independent_network(tmp_path):
         assert run[run.index("--network") + 1] == "lab_internal"
         assert not any(args[:3] == ["docker", "rm", "-f"] for args in calls)
     assert calls[-1][:3] == ["docker", "rm", "-f"]
+
+
+def test_restart_readiness_requires_stability_after_transient_success(monkeypatch):
+    from types import SimpleNamespace
+
+    clock = [0.0]
+    statuses = iter([200, 503, 200, 200, 200])
+    attempts = []
+
+    class Session:
+        def __init__(self, *args):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            pass
+
+        def get(self, *args, **kwargs):
+            status = next(statuses)
+            attempts.append(status)
+            return SimpleNamespace(status_code=status)
+
+    monkeypatch.setattr(verify_graph_workflows, "LocalSession", Session)
+    monkeypatch.setattr(verify_graph_workflows.time, "monotonic", lambda: clock[0])
+    monkeypatch.setattr(
+        verify_graph_workflows.time,
+        "sleep",
+        lambda seconds: clock.__setitem__(0, clock[0] + seconds),
+    )
+    verify_graph_workflows.wait_for_fresh_connection(
+        "https://localhost:8443", "ca", stable_seconds=1
+    )
+    assert attempts == [200, 503, 200, 200, 200]

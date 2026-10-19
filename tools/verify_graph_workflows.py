@@ -34,17 +34,24 @@ def callback_address(networks):
     return str(address)
 
 
-def wait_for_fresh_connection(origin, ca):
+def wait_for_fresh_connection(origin, ca, *, stable_seconds=6):
     # A pooled connection can survive while ingress still rejects new sessions.
     # Probe the same verified, local-only transport used by MSAL after restarts.
+    stable_since = None
     for _ in range(120):
         try:
             with LocalSession(origin, ca) as transport:
                 response = transport.get(origin + "/_mock/ready", timeout=5, allow_redirects=False)
                 if response.status_code == 200:
-                    return
+                    now = time.monotonic()
+                    if stable_since is None:
+                        stable_since = now
+                    if now - stable_since >= stable_seconds:
+                        return
+                else:
+                    stable_since = None
         except RequestException:
-            pass
+            stable_since = None
         time.sleep(0.5)
     raise RuntimeError("Local Graph restart readiness failed on fresh TLS connections")
 
