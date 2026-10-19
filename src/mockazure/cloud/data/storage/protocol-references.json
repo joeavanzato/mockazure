@@ -1,0 +1,372 @@
+{
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/caa2c94790bedd5b5f56c8a099fd46d0e1f1fadf/docs-ref-conceptual/storageservices/Authorize-with-Shared-Key.md",
+      "sha256": "cc735f4e6fbad741581bb00e4391c38517aac35546f2fb6709e2d3cfa1580fdb",
+      "localPath": "references/authorize-with-shared-key.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/6e84167704645735ce673849931a542ab3813d2e/docs-ref-conceptual/storageservices/create-account-sas.md",
+      "sha256": "6f58412491d97dac53e04304f373755304cd9b542083e50dff8eee089695b938",
+      "localPath": "references/create-account-sas.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md",
+      "sha256": "a78c26eda3e3d0f640dd122034ca36df2eaf5010eb631cd2355273c3d52351c0",
+      "localPath": "references/create-service-sas.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-user-delegation-sas",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/39e18694c81d1f13500d37c7d9a56ba5ca385955/docs-ref-conceptual/storageservices/create-user-delegation-sas.md",
+      "sha256": "51ff72dd917b91a4a0f5ef1b839a1fd47569f741aad21e547516dd75132178d5",
+      "localPath": "references/create-user-delegation-sas.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/84dc418a7713bd1e8862b026082028d8ceea5857/docs-ref-conceptual/storageservices/Get-User-Delegation-Key.md",
+      "sha256": "506e824dfbad90e301cde190a19c748b813e55a4456ab8e900becc3af32e9f05",
+      "localPath": "references/get-user-delegation-key.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Get-Container-Properties.md",
+      "sha256": "d6225a2855b52635dbb36028db526609d0a84264e23b3db48fc9dcb5efb0c59b",
+      "localPath": "references/get-container-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-share-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/d7fd7be17d5de93f27d01039bb45dc8dacc60ab1/docs-ref-conceptual/storageservices/Get-Share-Properties.md",
+      "sha256": "8a018efa5eee21d2518307d327ff98f9a865c7d2ad75e8cd887b92aee17b81f6",
+      "localPath": "references/get-share-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/33521b7142a7fde59075208589c0f87c3e1482c6/docs-ref-conceptual/storageservices/Set-Container-ACL.md",
+      "sha256": "24f9640632a028fc536d130e902c982d3e28ca8f576f197c99d2d4213eb53087",
+      "localPath": "references/set-container-acl.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-acl",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/1c16e08cadef389c391aacc6dbb85560313c432c/docs-ref-conceptual/storageservices/Set-Share-ACL.md",
+      "sha256": "ff9ddc6e37a48399f2815372541549994d647c70311bede997451f132c18bb1a",
+      "localPath": "references/set-share-acl.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/authorize-with-azure-active-directory",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0f0ae741adaf2e448d2668bd919c3e1e3cf97555/docs-ref-conceptual/storageservices/authorize-with-azure-active-directory.md",
+      "sha256": "51edb4780fd46f06f6e0714e1fcf21ad103364ba1f6b15916345bcc07380febf",
+      "localPath": "references/authorize-with-azure-active-directory.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/version-2019-07-07",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/version-2019-07-07.md",
+      "sha256": "eb5917c3757e9d8f802f3ae4d7d0bcd01daedec98293c0cf60cdd46e709adb6d",
+      "localPath": "references/version-2019-07-07.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/versioning-for-the-azure-storage-services",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/637e7c6a8b49bfc603240cd31ddd1ff22dabacd3/docs-ref-conceptual/storageservices/Versioning-for-the-Azure-Storage-Services.md",
+      "sha256": "bd09aefff0a9db4fa946ee8673b14e75188ff73b4598e5a86bed14c761ecb415",
+      "localPath": "references/versioning-for-the-azure-storage-services.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-container",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/30c72e8364ba25828eef980fbe0ba4886a9d31b8/docs-ref-conceptual/storageservices/Create-Container.md",
+      "sha256": "fe86d43a3e6fef264f30e779c0422d34cc659800341836ffe43a0407c78e0018",
+      "localPath": "references/create-container.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/List-Containers2.md",
+      "sha256": "72a49c4cd7ae1124762fd22945f4778969d983d2b11bf1b261d22c83fa87a464",
+      "localPath": "references/list-containers2.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-share",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/660831237e2c5e0368cf90326b5024bc8d668ad3/docs-ref-conceptual/storageservices/Create-Share.md",
+      "sha256": "2896d1b15938115ffc4fd740bdd4cb44cc0a9156c7932237d9beecbe749dfc64",
+      "localPath": "references/create-share.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-shares",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/63df07934ebb9b3bef4f66bffbc0347d9d813dc0/docs-ref-conceptual/storageservices/List-Shares.md",
+      "sha256": "0710bfc04a2f12fe7a31b127998039e04453aca9579a51d45159ba11e5600c22",
+      "localPath": "references/list-shares.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/Put-Blob.md",
+      "sha256": "3aa0ec66ae09f27e5c0d1e87dafe6a6a2842b5ce5fde349eff50faedd9ee261a",
+      "localPath": "references/put-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-block",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/Put-Block.md",
+      "sha256": "597ae6960ca22e0114dae325b6616942bca373e0eeda7f55290f136c22046a2a",
+      "localPath": "references/put-block.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-block-list",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/Put-Block-List.md",
+      "sha256": "92ea24c7294d02420fe234864937bdbb78298950594fa50c0cd506c8fa44c213",
+      "localPath": "references/put-block-list.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-block-list",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Get-Block-List.md",
+      "sha256": "ede4ea70739b132996b59b364902069da31ab3a799efef97178cb1427106d08f",
+      "localPath": "references/get-block-list.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/Get-Blob.md",
+      "sha256": "f7e2329a8ee55b1752c722299c8cd86302be36ea12f46c6d4f2e4f8d0c983018",
+      "localPath": "references/get-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/01b1bfc52c2a9104d1000d2bda90fb178dffd7bd/docs-ref-conceptual/storageservices/Get-Blob-Properties.md",
+      "sha256": "7ce3126ae92ede0bea39f0cd8dab5fb13f1036b507391424f2113c6e8c5e8f71",
+      "localPath": "references/get-blob-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/788bc9a3b971a055687ad66dfb9cc300173f5ce6/docs-ref-conceptual/storageservices/Delete-Blob.md",
+      "sha256": "4455114eed8ea72f6a3a5d8557037aa64db2d4782a37e966e0886e60832b7a5d",
+      "localPath": "references/delete-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/undelete-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Undelete-Blob.md",
+      "sha256": "81a0b5276bf0a3078d848c5ebbe0e3cabe9c4fede9fbd06611415a0ed7f0b28e",
+      "localPath": "references/undelete-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Lease-Blob.md",
+      "sha256": "c0ce6b3341033cbee91f3df68dbb0b541b0dad347d9142c07ac9d2e3dbb9dd59",
+      "localPath": "references/lease-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-blob",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/0a5023e1638964f12809b25898b1c88b83233704/docs-ref-conceptual/storageservices/Snapshot-Blob.md",
+      "sha256": "f8c4ecac45e02b6b667f81ee363bd7a5e9e8b71661bfb9d2b6c419126ab08233",
+      "localPath": "references/snapshot-blob.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/List-Blobs.md",
+      "sha256": "87496b50661811989eff3aea6fc7c59145bf04c0d0f3e60c6f7a640c0a51a7cb",
+      "localPath": "references/list-blobs.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/788bc9a3b971a055687ad66dfb9cc300173f5ce6/docs-ref-conceptual/storageservices/Specifying-Conditional-Headers-for-Blob-Service-Operations.md",
+      "sha256": "3c82a17f1fe4ffda7cf3d24a1b1df9139d0281fb1307601d323d9871ce1ee7d7",
+      "localPath": "references/specifying-conditional-headers-for-blob-service-operations.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-metadata",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/Get-Blob-Metadata.md",
+      "sha256": "6aa5ed745250dd1eeac853f089a667797a358ccc94ae13943cb34a1a1ce00f8d",
+      "localPath": "references/get-blob-metadata.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-file",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/18aa560175170ade8d2639bec8940b50d0b3c1a2/docs-ref-conceptual/storageservices/Create-File.md",
+      "sha256": "8a7ad6040a64ced5905fd4fcfe50310761bc1bdc2b221df2bbdaa6cf29d5382d",
+      "localPath": "references/create-file.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-file",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/87469515e4343194b9246a813fe00dc4047e437f/docs-ref-conceptual/storageservices/Get-File.md",
+      "sha256": "f837d595efa2674a0fab69311dda216679eed9b99cc29043631e345f94181f8f",
+      "localPath": "references/get-file.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-file-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/97eb4b3a889335366fdec15659865171f3412a5b/docs-ref-conceptual/storageservices/Get-File-Properties.md",
+      "sha256": "ffb322fb278185b66abce430e7d6d0a52b7e84e58a0c6f7ceb8567a5e88f38c3",
+      "localPath": "references/get-file-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-file-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/b99009d88ad8c6e1457ef7c2cc6ece41e2b32b68/docs-ref-conceptual/storageservices/Set-File-Properties.md",
+      "sha256": "fb7ad04328f514902e4e84fcda32001c6c2e372fcabdb29540eab807ac70054e",
+      "localPath": "references/set-file-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-file-metadata",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/892ab3ef941c3798546e17e2d5a4ca10e293159d/docs-ref-conceptual/storageservices/Set-File-Metadata.md",
+      "sha256": "2118437ef93b2a3bdea5c4a83f31afa67243d49b0c220829c835ac70e3e334a1",
+      "localPath": "references/set-file-metadata.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-file2",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/892ab3ef941c3798546e17e2d5a4ca10e293159d/docs-ref-conceptual/storageservices/Delete-File2.md",
+      "sha256": "b3301fe9661ef1dafc1d95ceaec39da785998e27a9fe90a33bfb3e8c31fc1c01",
+      "localPath": "references/delete-file2.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/put-range",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/87469515e4343194b9246a813fe00dc4047e437f/docs-ref-conceptual/storageservices/Put-Range.md",
+      "sha256": "ef97046257cf84b769326d549ce893e0df3efde16cb0909b61a4d8d77b9cf765",
+      "localPath": "references/put-range.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-ranges",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/3c20a0dc9f09889a7964959c2b74751172169bc1/docs-ref-conceptual/storageservices/List-Ranges.md",
+      "sha256": "a5d83f045a9caea552887d7c46756e5ccabe2c5bb906e8807d2880a61787781b",
+      "localPath": "references/list-ranges.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/create-directory",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/565bc3c31570494c39b4b22426a20d1f46d795ef/docs-ref-conceptual/storageservices/Create-Directory.md",
+      "sha256": "e1ccb0286c5d7248fa6f02e60f9ec0cdfb65ca6c0a684f973525a7c47dbf241d",
+      "localPath": "references/create-directory.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/get-directory-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/97eb4b3a889335366fdec15659865171f3412a5b/docs-ref-conceptual/storageservices/Get-Directory-Properties.md",
+      "sha256": "086ba9a6bc178e73e783358450485d4b82aecacc456b25e551b3c2d77e80b18d",
+      "localPath": "references/get-directory-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-directory-properties",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7996558cff624d8bc9c2f8aa1f77b431f95b7f12/docs-ref-conceptual/storageservices/set-directory-properties.md",
+      "sha256": "7a451a2e05d158556c32f72b1d968e286c9a5d5e36802945aef83315c9450b4d",
+      "localPath": "references/set-directory-properties.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/892ab3ef941c3798546e17e2d5a4ca10e293159d/docs-ref-conceptual/storageservices/Set-Directory-Metadata.md",
+      "sha256": "51f78becc7b095407089a1b6649c1121d5c5d4347b82079e524da5d59accda18",
+      "localPath": "references/set-directory-metadata.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/delete-directory",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/892ab3ef941c3798546e17e2d5a4ca10e293159d/docs-ref-conceptual/storageservices/Delete-Directory.md",
+      "sha256": "a42df6675132f960d3897d16d4b572643f0114462ffd211b0fb9c6ef88903940",
+      "localPath": "references/delete-directory.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/78470b453b9f5ed331cb32945fb1a95a9429a8ec/docs-ref-conceptual/storageservices/List-Directories-and-Files.md",
+      "sha256": "715a85df8d6a337a94dee4a22c19bd5c6c03960c54914293ca23c5b3164aa90a",
+      "localPath": "references/list-directories-and-files.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-share",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/827577739fdd1182a0464d07dc5e03f96e8ed9a5/docs-ref-conceptual/storageservices/snapshot-share.md",
+      "sha256": "5aceea22e9b855197ccc4e629cf2d7434c29a6cc41464fbee3e49f913090d328",
+      "localPath": "references/snapshot-share.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/231318188e00b63c841173a28803c321c6349066/docs-ref-conceptual/storageservices/lease-file.md",
+      "sha256": "a224f2e6829b913affc42a11cea8bbda1c862e12f8994bf4a120b569e8170c8a",
+      "localPath": "references/lease-file.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata",
+      "revision": "https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/78470b453b9f5ed331cb32945fb1a95a9429a8ec/docs-ref-conceptual/storageservices/Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md",
+      "sha256": "ae7e3437660dcdef8eb55044f19dfe4033dabb61d9fc056a462babbe5484d943",
+      "localPath": "references/naming-and-referencing-shares--directories--files--and-metadata.html",
+      "retrievedAt": "2026-10-18",
+      "license": "Microsoft documentation terms; snapshot for protocol conformance"
+    }
+  ]
+}

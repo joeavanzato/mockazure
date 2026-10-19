@@ -143,3 +143,62 @@ class RoleAssignment(Base):
 
 # Import compatibility only: no second table or source of permission.
 ReaderAssignment = RoleAssignment
+
+
+class ProviderResource(Base):
+    """Marks a resource as managed by an explicit provider handler."""
+
+    __tablename__ = "cloud_resources"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "scope_key"],
+            ["arm_resources.tenant_id", "arm_resources.scope_key"],
+            ondelete="CASCADE",
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    scope_key: Mapped[str] = mapped_column(String(2048), primary_key=True)
+    family: Mapped[str] = mapped_column(String(32))
+
+
+class ResourceRelationship(Base):
+    __tablename__ = "cloud_resource_relationships"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "source_key"],
+            ["arm_resources.tenant_id", "arm_resources.scope_key"],
+            ondelete="CASCADE",
+        ),
+        ForeignKeyConstraint(
+            ["tenant_id", "target_key"],
+            ["arm_resources.tenant_id", "arm_resources.scope_key"],
+            deferrable=True,
+            initially="DEFERRED",
+        ),
+        CheckConstraint(
+            "split_part(source_key, '/', 3) = split_part(target_key, '/', 3)",
+            name="ck_cloud_relationship_subscription",
+        ),
+        Index("ix_cloud_relationship_target", "tenant_id", "target_key"),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    source_key: Mapped[str] = mapped_column(String(2048), primary_key=True)
+    path: Mapped[str] = mapped_column(String(1024), primary_key=True)
+    target_key: Mapped[str] = mapped_column(String(2048))
+
+
+class VmState(Base):
+    __tablename__ = "cloud_vm_states"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "scope_key"],
+            ["cloud_resources.tenant_id", "cloud_resources.scope_key"],
+            ondelete="CASCADE",
+        ),
+        CheckConstraint("power_state IN ('running','stopped','deallocated')"),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    scope_key: Mapped[str] = mapped_column(String(2048), primary_key=True)
+    power_state: Mapped[str] = mapped_column(
+        String(24), default="running", server_default="running"
+    )

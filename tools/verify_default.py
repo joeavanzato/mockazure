@@ -8,6 +8,7 @@ import socket
 import ssl
 import subprocess
 import time
+from contextlib import ExitStack
 from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
@@ -23,15 +24,64 @@ def free_port():
         return sock.getsockname()[1]
 
 
+def default_ports():
+    # Docker publishes seven adjacent service ports. A free base port does not
+    # imply its neighbours are bindable (notably Windows excluded ranges).
+    for _ in range(100):
+        api_port = free_port()
+        if api_port > 65529:
+            continue
+        try:
+            with ExitStack() as sockets:
+                for port in range(api_port, api_port + 7):
+                    sock = sockets.enter_context(socket.socket())
+                    sock.bind(("127.0.0.1", port))
+                db_port = free_port()
+                if db_port in range(api_port, api_port + 7):
+                    continue
+                sock = sockets.enter_context(socket.socket())
+                sock.bind(("127.0.0.1", db_port))
+                return api_port, db_port
+        except OSError:
+            continue
+    raise RuntimeError("No available local service port range was found")
+
+
+def wait_for_service_origins(client, origins, *, attempts=120):
+    """Wait for each TLS proxy listener, after the core database health check.
+
+    Data listeners own their routes and return a service-shaped 4xx or explicit
+    MockAzureOperationNotImplemented for this unauthenticated probe. A completed
+    TLS/HTTP response establishes transport readiness only. Original SDK
+    workflows must still prove every operation.
+    """
+    pending = {origin.rstrip("/") for origin in origins}
+    for _ in range(attempts):
+        for origin in tuple(pending):
+            try:
+                response = client.get(origin + "/_mock/ready", timeout=2)
+                unsupported_probe = (
+                    response.status_code == 501
+                    and response.headers.get("x-ms-error-code")
+                    == "MockAzureOperationNotImplemented"
+                )
+                if response.status_code in {200, 400, 401, 403, 404} or unsupported_probe:
+                    pending.remove(origin)
+            except httpx.HTTPError:
+                pass
+        if not pending:
+            return
+        time.sleep(0.5)
+    raise TimeoutError("Local service origins did not recover: " + ", ".join(sorted(pending)))
+
+
 def main(*, qualify=None):
     run_id = uuid4().hex[:12]
     directory = ROOT / "work" / ("default-smoke-" + run_id)
     directory.mkdir(parents=True)
     project = "mockazure-default-" + run_id
     image = "mockazure:default-" + run_id
-    api_port, db_port = free_port(), free_port()
-    while db_port == api_port:
-        db_port = free_port()
+    api_port, db_port = default_ports()
     shutil.copyfile(ROOT / "compose.yaml", directory / "compose.yaml")
     (directory / "deploy").mkdir()
     for name in ("haproxy.cfg", "postgres-guard.sh"):

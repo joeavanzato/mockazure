@@ -76,7 +76,7 @@ class AuthenticationFact(StrictModel):
         "interactiveUser", "nonInteractiveUser", "servicePrincipal", "managedIdentity"
     ]
     occurred_at: AwareDatetime
-    resource: Literal["graph", "exchange", "arm", "activity"] | None
+    resource: Literal["graph", "exchange", "arm", "activity", "storage", "keyvault", "logs"] | None
     correlation_id: UUID
     outcome: Literal["success", "failure"]
     error_code: int = Field(strict=True)

@@ -3,6 +3,7 @@ import typer
 from mockazure import __version__
 from mockazure.commands import (
     clients,
+    console,
     database,
     directory,
     evidence,
@@ -12,6 +13,8 @@ from mockazure.commands import (
     local,
     maintenance,
     managed_identity,
+    populate,
+    profiles,
     tenants,
 )
 
@@ -54,3 +57,9 @@ app.add_typer(managed_identity.app, name="managed-identity")
 app.add_typer(evidence.app, name="evidence")
 
 app.add_typer(maintenance.app, name="maintenance")
+
+app.add_typer(profiles.app, name="profile")
+
+app.add_typer(populate.app, name="populate")
+
+app.add_typer(console.app, name="console")

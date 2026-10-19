@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "name": "logs-and-diagnostics",
+  "kind": "data",
+  "steps": {
+    "workspace": {
+      "family": "monitor.workspaces",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.workspace",
+        "count": 1
+      },
+      "dependsOn": [
+        "group",
+        "providers"
+      ],
+      "target": "workspace"
+    },
+    "logs": {
+      "family": "monitor.records",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "cloud.logs",
+        "count": 20
+      },
+      "dependsOn": [
+        "workspace"
+      ]
+    },
+    "diagnostics": {
+      "family": "monitor.diagnostics",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.diagnostics",
+        "count": 1
+      },
+      "dependsOn": [
+        "account",
+        "workspace"
+      ]
+    }
+  },
+  "resources": {
+    "workspace": {
+      "family": "monitor.workspaces"
+    }
+  }
+}

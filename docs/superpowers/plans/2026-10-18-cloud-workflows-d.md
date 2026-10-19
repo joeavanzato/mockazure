@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** Proposed implementation plan; no tasks executed.
+**Status:** D1-D4 implemented and reviewed. Local qualification passed at runtime `589d741`: 103 structured/ARM lifecycle regression tests, 587 unit tests, and original Python/PowerShell/.NET/TypeScript write/restart/restore workflows. Three Important review findings were reproduced and fixed. See [qualification report](../../qualification/cloud-phase-d.json).
 
 ## Global Constraints
 

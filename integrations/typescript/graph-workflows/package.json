@@ -1,0 +1,10 @@
+{
+  "name": "mockazure-graph-workflows",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "3.0.7"
+  }
+}

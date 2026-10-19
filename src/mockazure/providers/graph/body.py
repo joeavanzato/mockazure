@@ -9,14 +9,20 @@ def invalid(message="Invalid directory request"):
     raise GraphError(400, "Request_BadRequest", message)
 
 
-async def read_json(request, limit=1024 * 1024):
-    if request.headers.get("content-type", "").split(";")[0].strip().lower() != "application/json":
+async def read_json(request, limit=1024 * 1024, *, allow_empty=False):
+    content_type = request.headers.get("content-type", "").split(";")[0].strip().lower()
+    if not allow_empty and content_type != "application/json":
         invalid("Content-Type must be application/json")
     data = bytearray()
     async for chunk in request.stream():
         if len(data) + len(chunk) > limit:
             raise GraphError(413, "Request_EntityTooLarge", "Request exceeds the local size limit")
         data.extend(chunk)
+
+    if allow_empty and not data:
+        return {}
+    if content_type != "application/json":
+        invalid("Content-Type must be application/json")
 
     def pairs(items):
         result = {}
@@ -54,3 +60,18 @@ def typed_body(body, kind):
     if "@odata.type" in body and body["@odata.type"] != "#microsoft.graph." + kind:
         invalid("Graph type annotation mismatch")
     return {key: value for key, value in body.items() if key != "@odata.type"}
+
+
+def action_parameters(body, names):
+    """Resolve exact CSDL PascalCase and documented REST lower-camel parameters."""
+    if not isinstance(body, dict):
+        invalid("A JSON object is required")
+    aliases = {name: name for name in names}
+    aliases.update({name[0].upper() + name[1:]: name for name in names})
+    result = {}
+    for name, value in body.items():
+        canonical = aliases.get(name)
+        if canonical is None or canonical in result:
+            invalid("Unknown or duplicate action parameter")
+        result[canonical] = value
+    return result

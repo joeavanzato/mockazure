@@ -13,6 +13,7 @@ cert = typer.Typer()
 def init(
     data_dir: Path = typer.Option(Path(".runtime/instance")),
     advertised_host: str = "localhost",
+    bind_address: str = "127.0.0.1",
     port: int = 8443,
     compose: bool = False,
     project_dir: Path = typer.Option(Path(".")),
@@ -21,7 +22,13 @@ def init(
     """Initialize local credentials. Set MOCKAZURE_DATABASE_URL first."""
     if compose:
         try:
-            files = initialize_compose(project_dir, api_port=port, db_port=db_port)
+            files = initialize_compose(
+                project_dir,
+                api_port=port,
+                db_port=db_port,
+                advertised_host=advertised_host,
+                bind_address=bind_address,
+            )
         except (ValueError, OSError):
             typer.echo(
                 "Compose initialization failed; check ports and existing instance files.", err=True
@@ -35,7 +42,11 @@ def init(
         raise typer.BadParameter("Set MOCKAZURE_DATABASE_URL to a PostgreSQL connection URL")
     try:
         files = initialize_instance(
-            data_dir, database_url=database_url, advertised_host=advertised_host, port=port
+            data_dir,
+            database_url=database_url,
+            advertised_host=advertised_host,
+            port=port,
+            bind_address=bind_address,
         )
     except (ValueError, OSError):
         typer.echo(
@@ -80,7 +91,14 @@ def serve(config: Path = typer.Option(Path(".runtime/instance/native.json"))):
                 log_level="warning",
             )
         )
-        run(server.serve())
+        from mockazure.storage.endpoints import open_listeners
+
+        listeners = open_listeners(settings)
+        try:
+            run(server.serve(sockets=listeners))
+        finally:
+            for listener in listeners:
+                listener.close()
     except (ValueError, OSError):
         typer.echo("Server startup failed; check configuration and certificate files.", err=True)
         raise typer.Exit(2) from None

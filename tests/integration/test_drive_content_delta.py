@@ -229,3 +229,29 @@ async def test_drive_alias_and_download_use_one_connection(database, settings):
         finally:
             client._transport.app.state.database = original
             await close_database(isolated)
+
+
+async def test_download_capability_cannot_execute_uploaded_html(database, settings):
+    import hashlib
+    from types import SimpleNamespace
+
+    from mockazure.content.repository import begin_upload, finalize_upload, put_chunk
+    from mockazure.workloads.drives import issue_download
+
+    async with graph_client(database, settings) as (client, tenant, *_):
+        data = b'<script>fetch("/_mock/console/session")</script>'
+        async with database.sessions.begin() as session:
+            upload_id = await begin_upload(
+                session, tenant, len(data), hashlib.sha256(data).hexdigest(), "text/html"
+            )
+            await put_chunk(session, tenant, upload_id, 0, data)
+            content = await finalize_upload(session, tenant, upload_id)
+            token = await issue_download(
+                session, SimpleNamespace(tenant_id=tenant), content.id, datetime.now(UTC)
+            )
+        response = await client.get("/content/" + token)
+        assert response.status_code == 200
+        assert response.content == data
+        assert response.headers.get("content-disposition", "").startswith("attachment;")
+        assert response.headers.get("content-security-policy") == "sandbox; default-src 'none'"
+        assert response.headers.get("x-content-type-options") == "nosniff"

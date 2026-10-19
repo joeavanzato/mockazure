@@ -212,6 +212,9 @@ async def test_managed_identity_sdk_end_to_end(database, settings, tmp_path, mon
     from azure.identity import ManagedIdentityCredential
 
     public_port, managed_port = free_port(), free_port()
+    # The native provider owns its core plus six adjacent data listeners.
+    while public_port <= managed_port <= public_port + 6:
+        managed_port = free_port()
     files = initialize_instance(
         tmp_path / "live",
         database_url=settings.database_url.get_secret_value(),

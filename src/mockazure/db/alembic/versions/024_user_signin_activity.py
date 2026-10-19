@@ -1,4 +1,5 @@
 """Retain compact sign-in attempt references for the lifetime of a user."""
+
 from alembic import op
 
 revision = "024"

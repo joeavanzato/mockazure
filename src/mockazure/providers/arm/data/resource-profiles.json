@@ -1,0 +1,190 @@
+{
+  "Microsoft.KeyVault/vaults": {
+    "schemaNamespace": "vaults",
+    "responseType": "Vault",
+    "family": "vault",
+    "apiVersion": "2025-05-01",
+    "properties": [
+      "enabledForDeployment",
+      "enabledForDiskEncryption",
+      "enabledForTemplateDeployment",
+      "tenantId",
+      "sku",
+      "accessPolicies",
+      "enableSoftDelete",
+      "softDeleteRetentionInDays",
+      "enableRbacAuthorization",
+      "enablePurgeProtection",
+      "networkAcls",
+      "publicNetworkAccess",
+      "createMode"
+    ],
+    "children": [],
+    "locationRequired": true
+  },
+  "Microsoft.OperationalInsights/workspaces": {
+    "schemaNamespace": "workspaces",
+    "responseType": "Workspace",
+    "family": "workspace",
+    "apiVersion": "2025-02-01",
+    "properties": [
+      "sku",
+      "retentionInDays",
+      "workspaceCapping",
+      "publicNetworkAccessForIngestion",
+      "publicNetworkAccessForQuery",
+      "features"
+    ],
+    "children": [],
+    "locationRequired": true
+  },
+  "Microsoft.Compute/virtualMachines": {
+    "schemaNamespace": "compute",
+    "responseType": "VirtualMachine",
+    "family": "vm",
+    "apiVersion": "2025-04-01",
+    "properties": [
+      "hardwareProfile",
+      "storageProfile",
+      "osProfile",
+      "networkProfile",
+      "diagnosticsProfile",
+      "licenseType"
+    ],
+    "children": [
+      "extensions"
+    ],
+    "locationRequired": true
+  },
+  "Microsoft.Compute/virtualMachines/extensions": {
+    "schemaNamespace": "compute",
+    "responseType": "VirtualMachineExtension",
+    "family": "extension",
+    "apiVersion": "2025-04-01",
+    "properties": [
+      "publisher",
+      "type",
+      "typeHandlerVersion",
+      "autoUpgradeMinorVersion",
+      "enableAutomaticUpgrade",
+      "settings",
+      "suppressFailures",
+      "forceUpdateTag"
+    ],
+    "children": [],
+    "locationRequired": true
+  },
+  "Microsoft.Compute/disks": {
+    "schemaNamespace": "disks",
+    "responseType": "Disk",
+    "family": "disk",
+    "apiVersion": "2025-01-02",
+    "properties": [
+      "creationData",
+      "diskSizeGB",
+      "osType",
+      "networkAccessPolicy",
+      "publicNetworkAccess"
+    ],
+    "children": [],
+    "locationRequired": true
+  },
+  "Microsoft.Network/virtualNetworks": {
+    "schemaNamespace": "networkVirtual",
+    "responseType": "VirtualNetwork",
+    "family": "vnet",
+    "apiVersion": "2025-03-01",
+    "properties": [
+      "addressSpace",
+      "dhcpOptions",
+      "flowTimeoutInMinutes",
+      "enableDdosProtection",
+      "enableVmProtection"
+    ],
+    "children": [
+      "subnets"
+    ],
+    "locationRequired": true
+  },
+  "Microsoft.Network/virtualNetworks/subnets": {
+    "schemaNamespace": "networkVirtual",
+    "responseType": "Subnet",
+    "family": "subnet",
+    "apiVersion": "2025-03-01",
+    "properties": [
+      "addressPrefix",
+      "addressPrefixes",
+      "networkSecurityGroup",
+      "privateEndpointNetworkPolicies",
+      "privateLinkServiceNetworkPolicies",
+      "defaultOutboundAccess"
+    ],
+    "children": [],
+    "locationRequired": false
+  },
+  "Microsoft.Network/networkSecurityGroups": {
+    "schemaNamespace": "networkSecurity",
+    "responseType": "NetworkSecurityGroup",
+    "family": "nsg",
+    "apiVersion": "2025-03-01",
+    "properties": [
+      "flushConnection"
+    ],
+    "children": [
+      "securityRules"
+    ],
+    "locationRequired": true
+  },
+  "Microsoft.Network/networkSecurityGroups/securityRules": {
+    "schemaNamespace": "networkSecurity",
+    "responseType": "SecurityRule",
+    "family": "rule",
+    "apiVersion": "2025-03-01",
+    "properties": [
+      "description",
+      "protocol",
+      "sourcePortRange",
+      "destinationPortRange",
+      "sourceAddressPrefix",
+      "sourceAddressPrefixes",
+      "destinationAddressPrefix",
+      "destinationAddressPrefixes",
+      "sourcePortRanges",
+      "destinationPortRanges",
+      "access",
+      "priority",
+      "direction"
+    ],
+    "children": [],
+    "locationRequired": false
+  },
+  "Microsoft.Network/networkInterfaces": {
+    "schemaNamespace": "networkInterface",
+    "responseType": "NetworkInterface",
+    "family": "nic",
+    "apiVersion": "2025-03-01",
+    "properties": [
+      "networkSecurityGroup",
+      "ipConfigurations",
+      "dnsSettings",
+      "enableAcceleratedNetworking",
+      "enableIPForwarding"
+    ],
+    "children": [],
+    "locationRequired": true
+  },
+  "Microsoft.Network/publicIPAddresses": {
+    "schemaNamespace": "networkPublicIP",
+    "responseType": "PublicIPAddress",
+    "family": "publicip",
+    "apiVersion": "2025-03-01",
+    "properties": [
+      "publicIPAllocationMethod",
+      "publicIPAddressVersion",
+      "dnsSettings",
+      "idleTimeoutInMinutes"
+    ],
+    "children": [],
+    "locationRequired": true
+  }
+}

@@ -233,6 +233,16 @@ def main():
                 "itemAttachment",
                 "referenceAttachment",
                 "mailboxSettings",
+                "calendar",
+                "calendarGroup",
+                "event",
+                "eventMessage",
+                "attachmentItem",
+                "uploadSession",
+                "scheduleInformation",
+                "subscription",
+                "changeNotification",
+                "resourceData",
             )
             if args.version == "v1.0"
             else (),

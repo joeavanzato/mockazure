@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -21,7 +22,22 @@ def cases():
 def validate_report(report, required_ecosystems):
     phase = report["phase"]
     definitions = cases()
-    if phase not in definitions or phase == "all":
+    if phase == "all":
+        phases = report.get("phases", [])
+        if (
+            required_ecosystems != ECOSYSTEMS
+            or len(phases) != 6
+            or {p.get("phase") for p in phases} != set("ABCDEF")
+        ):
+            raise ValueError("The complete six-phase matrix is required")
+        for child in phases:
+            if child.get("passed") is not True or any(
+                child.get(k) != report.get(k) for k in ("sourceCommit", "sourceFingerprint")
+            ):
+                raise ValueError("Phase evidence failed or differs from aggregate source")
+            validate_report(child, required_ecosystems)
+        return
+    if phase not in definitions:
         raise ValueError("Phase is not yet qualified")
     if set(report["ecosystems"]) != required_ecosystems or required_ecosystems != ECOSYSTEMS:
         raise ValueError("The complete four-ecosystem matrix is required")
@@ -43,7 +59,8 @@ def validate_report(report, required_ecosystems):
         if entry.get("status") != "passed" or not entry.get("clientVersions"):
             raise ValueError("Native client execution is missing")
         manifest = json.loads((ROOT / "integrations/cloud-workflows-manifest.json").read_text())
-        if entry["clientVersions"] != manifest["clients"].get(ecosystem):
+        expected_versions = manifest.get("phaseClients", {}).get(phase, manifest["clients"])
+        if entry["clientVersions"] != expected_versions.get(ecosystem):
             raise ValueError("Unpinned native client version")
         actual = entry.get("cases", [])
         if len(actual) != len(expected) or {r["workflow"] for r in actual} != {
@@ -53,7 +70,10 @@ def validate_report(report, required_ecosystems):
         for definition in expected:
             result = next(row for row in actual if row["workflow"] == definition["id"])
             if (
-                result["transport"] != definition["transport"]
+                result["transport"]
+                != definition.get("transportByEcosystem", {}).get(
+                    ecosystem, definition["transport"]
+                )
                 or set(result["operationIds"]) != set(definition["operationIds"])
                 or result["expectedStatus"] != result["actualStatus"]
                 or not result.get("assertions")
@@ -83,16 +103,404 @@ def source_identity():
     return commit, digest.hexdigest()
 
 
+def run_structured(path):
+    from tools.prepare_structured_clients import prepare
+    from tools.verify_default import main as smoke
+    from tools.verify_structured_services import qualify
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "D",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        assert observed["passed"] and observed["localOnly"]
+        report["nativeReport"] = str(args[0] / "structured-services-report.json")
+        report["crossRead"] = observed["crossRead"]
+        for ecosystem, entry in observed["written"].items():
+            assertions = dict(entry["assertions"])
+            assertions.update(
+                api_worker_restart=observed["restarted"][ecosystem]["assertions"]["persistentRead"],
+                cloud_restore=observed["restored"][ecosystem]["assertions"]["persistentRead"]
+                and observed["restored"][ecosystem]["assertions"]["secretBackupRestore"],
+                key_rotation=observed["oldKeyDenied"],
+                metadataOnlySnapshot=observed["metadataOnlySnapshot"],
+                cross_language_reads=all(
+                    v["passed"] and v["objects"] == 12 for v in observed["crossRead"].values()
+                ),
+            )
+            rows = []
+            for definition in cases()["D"]["workflows"]:
+                if ecosystem not in definition["ecosystems"]:
+                    continue
+                rows.append(
+                    {
+                        "workflow": definition["id"],
+                        "operationIds": definition["operationIds"],
+                        "transport": definition.get("transportByEcosystem", {}).get(
+                            ecosystem, definition["transport"]
+                        ),
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {name: assertions[name] for name in definition["assertions"]},
+                    }
+                )
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": entry["clientVersions"],
+                "restFallbacks": entry.get("restFallbacks", []),
+                "cases": rows,
+            }
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
+def run_management(path):
+    from tools.prepare_cloud_clients import prepare
+    from tools.verify_cloud_management import qualify
+    from tools.verify_default import main as smoke
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "B",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        report["nativeReport"] = str(args[0] / "cloud-management-report.json")
+        definition = cases()["B"]["workflows"][0]
+        for ecosystem, entry in observed["clients"].items():
+            assert entry["passed"] and entry["cleanup"]["passed"]
+            assert (
+                entry["assertions"]["created"] == 12
+                and entry["cleanup"]["assertions"]["deleted"] == 12
+            )
+            cross = (
+                entry["cross_read"]["assertions"]["cross_reads"]
+                if ecosystem == "python"
+                else entry["assertions"]["cross_reads"]
+            )
+            assert cross == 12 and entry["assertions"]["updated"] is True
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": entry["clientVersions"],
+                "transportAdaptations": [
+                    "Explicit local HTTPS origin and instance CA",
+                    "Local signed bearer via configured TokenCredential or Az custom environment",
+                    "Generic ARM SDK/module with actual per-provider api-version",
+                    "TypeScript and Az Get-AzResource IDs omit the client-supplied separator",
+                    ".NET uses Network SDK child models and full-resource PUT for VM tag update",
+                ],
+                "cases": [
+                    {
+                        "workflow": definition["id"],
+                        "operationIds": definition["operationIds"],
+                        "transport": entry["transport"],
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {name: True for name in definition["assertions"]},
+                    }
+                ],
+            }
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
+def run_storage(path):
+    from tools.prepare_storage_clients import prepare
+    from tools.verify_default import main as smoke
+    from tools.verify_storage_binary import qualify
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "C",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        assert observed["passed"] and observed["prior"]["passed"]
+        assert observed["crossRead"]["objects"] == 8 and observed["revoked"]["oldKeyDenied"]
+        definition = cases()["C"]["workflows"][0]
+        for ecosystem, written in observed["written"].items():
+            assert (
+                written["passed"]
+                and observed["restarted"][ecosystem]["passed"]
+                and observed["restored"][ecosystem]["passed"]
+            )
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": written["clientVersions"],
+                "transportAdaptations": [
+                    "Explicit local HTTPS endpoints and instance CA",
+                    "Loopback-IP path addressing for original .NET/Az.Storage URI builders",
+                    "2019-07-07 legacy writes and selected 2025-01-05 reads for Az.Storage",
+                ],
+                "cases": [
+                    {
+                        "workflow": definition["id"],
+                        "operationIds": definition["operationIds"],
+                        "transport": "module" if ecosystem == "powershell" else "sdk",
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {name: True for name in definition["assertions"]},
+                    }
+                ],
+            }
+        report["nativeReport"] = str(args[0] / "storage-binary-report.json")
+        report["pythonBytesPerObject"] = observed["written"]["python"]["objects"]["blob"]["bytes"]
+        assert report["pythonBytesPerObject"] == 268435456
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
+def run_graph(path):
+    from tools.prepare_graph_workflow_clients import prepare
+    from tools.verify_default import main as smoke
+    from tools.verify_graph_workflows import qualify
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "E",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        assert (
+            observed["passed"] and observed["localOnly"] and observed["timezonePlatformEquivalence"]
+        )
+        report["nativeReport"] = str(args[0] / "graph-workflows-report.json")
+        report["timezonePlatformEquivalence"] = True
+        for ecosystem, entry in observed["written"].items():
+            assertions = {
+                **entry["assertions"],
+                **observed["restarted"][ecosystem]["assertions"],
+                **{
+                    key: observed[key]
+                    for key in ("callback_delivery", "callback_retry", "revoked_callbacks")
+                },
+            }
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": entry["clientVersions"],
+                "restFallbacks": entry.get("restFallbacks", []),
+                "cases": [
+                    {
+                        "workflow": row["id"],
+                        "operationIds": row["operationIds"],
+                        "transport": row.get("transportByEcosystem", {}).get(
+                            ecosystem, row["transport"]
+                        ),
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {key: assertions[key] for key in row["assertions"]},
+                    }
+                    for row in cases()["E"]["workflows"]
+                ],
+            }
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
+def run_queries(path):
+    from tools.prepare_query_clients import prepare
+    from tools.verify_cloud_queries import qualify
+    from tools.verify_default import main as smoke
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "F",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        assert observed["passed"] and observed["localOnly"] and observed["legacy_batch_rest"]
+        report["nativeReport"] = str(args[0] / "cloud-queries-report.json")
+        report["legacyBatchRest"] = True
+        for ecosystem, entry in observed["written"].items():
+            assertions = {
+                **entry["assertions"],
+                **observed["restarted"][ecosystem]["assertions"],
+                "restart_recovery": all(observed["restarted"][ecosystem]["assertions"].values()),
+            }
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": entry["clientVersions"],
+                "restFallbacks": entry.get("restFallbacks", []),
+                "cases": [
+                    {
+                        "workflow": row["id"],
+                        "operationIds": row["operationIds"],
+                        "transport": row.get("transportByEcosystem", {}).get(
+                            ecosystem, row["transport"]
+                        ),
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {key: assertions[key] for key in row["assertions"]},
+                    }
+                    for row in cases()["F"]["workflows"]
+                ],
+            }
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
+def run_all(path):
+    """Run every original-client profile against one frozen source identity."""
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "all",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "phases": [],
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    evidence = path.parent / (path.stem + "-phases")
+    evidence.mkdir(exist_ok=True)
+    try:
+        for phase in "ABCDEF":
+            if source_identity() != (commit, fingerprint):
+                raise ValueError("Source changed during aggregate qualification")
+            child = evidence / (phase + ".json")
+            log = evidence / (phase + ".log")
+            print(f"Qualifying phase {phase}; log: {log}", flush=True)
+            with log.open("w", encoding="utf-8") as stream:
+                completed = subprocess.run(
+                    [
+                        sys.executable,
+                        "-X",
+                        "utf8",
+                        "-m",
+                        "tools.verify_cloud_workflows",
+                        "--phase",
+                        phase,
+                        "--ecosystems",
+                        *sorted(ECOSYSTEMS),
+                        "--report",
+                        str(child.resolve()),
+                    ],
+                    cwd=ROOT,
+                    stdout=stream,
+                    stderr=subprocess.STDOUT,
+                    check=False,
+                )
+            if completed.returncode:
+                raise RuntimeError(f"Phase {phase} failed; inspect {log}")
+            value = json.loads(child.read_text(encoding="utf-8"))
+            report["phases"].append(value)
+            print(f"Phase {phase} completed", flush=True)
+        validate_report(report, ECOSYSTEMS)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Source changed during aggregate qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = round(time.monotonic() - started, 3)
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--phase", required=True, choices=[*list("ABCDEF"), "all"])
     parser.add_argument("--ecosystems", nargs="+", required=True, choices=sorted(ECOSYSTEMS))
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
+    if args.phase == "all" and set(args.ecosystems) == ECOSYSTEMS:
+        run_all(args.report)
+        return
+    if args.phase == "F" and set(args.ecosystems) == ECOSYSTEMS:
+        run_queries(args.report)
+        return
+    if args.phase == "E" and set(args.ecosystems) == ECOSYSTEMS:
+        run_graph(args.report)
+        return
+    if args.phase == "C" and set(args.ecosystems) == ECOSYSTEMS:
+        run_storage(args.report)
+        return
+    if args.phase == "D" and set(args.ecosystems) == ECOSYSTEMS:
+        run_structured(args.report)
+        return
+    if args.phase == "B" and set(args.ecosystems) == ECOSYSTEMS:
+        run_management(args.report)
+        return
     if args.phase != "A" or set(args.ecosystems) != ECOSYSTEMS:
-        parser.error(
-            "Only the current A1-A4 Exchange matrix is executable; later phases remain unavailable"
-        )
+        parser.error("The complete four-ecosystem matrix is required")
     from tools.prepare_clients import prepare
     from tools.verify_default import main as smoke
     from tools.verify_exchange_workflows import qualify

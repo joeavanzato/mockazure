@@ -3,6 +3,7 @@ import os
 import re
 import secrets
 from dataclasses import dataclass
+from ipaddress import IPv4Address
 from pathlib import Path
 
 from mockazure.config import Settings, load_settings, validate_host
@@ -22,14 +23,21 @@ class InstanceFiles:
 
 
 def initialize_instance(
-    data_dir: Path, *, database_url: str, advertised_host: str, port: int
+    data_dir: Path,
+    *,
+    database_url: str,
+    advertised_host: str,
+    port: int,
+    bind_address: str = "127.0.0.1",
 ) -> InstanceFiles:
     data_dir = data_dir.resolve()
     advertised_host = validate_host(advertised_host)
+    bind_address = str(IPv4Address(bind_address))
     settings = Settings(
         data_dir=data_dir,
         database_url=database_url,
         listen_port=port,
+        listen_host=bind_address,
         admin_base_url=f"https://{advertised_host}:{port}",
         allowed_hosts=tuple(dict.fromkeys(("localhost", "127.0.0.1", advertised_host))),
     )
@@ -58,6 +66,7 @@ def initialize_instance(
                 existing.database_url != settings.database_url
                 or str(existing.admin_base_url) != str(settings.admin_base_url)
                 or existing.data_dir != settings.data_dir
+                or existing.listen_host != settings.listen_host
             ):
                 raise ValueError(
                     "Existing configuration differs; edit it explicitly instead of reinitializing"
@@ -76,10 +85,21 @@ def initialize_instance(
 
 
 def initialize_compose(
-    project_dir: Path, *, api_port: int = 8443, db_port: int = 55432
+    project_dir: Path,
+    *,
+    api_port: int = 8443,
+    db_port: int = 55432,
+    advertised_host: str = "localhost",
+    bind_address: str = "127.0.0.1",
 ) -> InstanceFiles:
     project_dir = project_dir.resolve()
-    if not 1 <= api_port <= 65535 or not 1 <= db_port <= 65535 or api_port == db_port:
+    bind_address = str(IPv4Address(bind_address))
+    advertised_host = validate_host(advertised_host)
+    if (
+        not 1 <= api_port <= 65529
+        or not 1 <= db_port <= 65535
+        or db_port in range(api_port, api_port + 7)
+    ):
         raise ValueError("Compose ports must be distinct valid TCP ports")
     runtime = project_dir / ".runtime"
     instance = runtime / "instance"
@@ -94,6 +114,15 @@ def initialize_compose(
         if any(present) and not all(present):
             raise ValueError("Partial Compose initialization; restore missing files")
         base_environment = f"MOCKAZURE_API_PORT={api_port}\nMOCKAZURE_DB_PORT={db_port}\n"
+        bind_environment = (
+            f"MOCKAZURE_BIND_ADDRESS={bind_address}\n" if bind_address != "127.0.0.1" else ""
+        )
+        data_environment = "".join(
+            f"MOCKAZURE_{name}_PORT={api_port + offset}\n"
+            for offset, name in enumerate(
+                ("STORAGE", "FILE", "QUEUE", "TABLE", "KEYVAULT", "LOGS"), 1
+            )
+        )
         legacy_storage = runtime / "postgres"
         cluster = legacy_storage / "18/docker"
 
@@ -110,7 +139,18 @@ def initialize_compose(
         storage = "postgres-data"
         upgrade_environment = False
         if all(present):
-            existing_environment = environment_file.read_text()
+            existing_environment = environment_file.read_text(encoding="utf-8")
+            if bind_environment:
+                if not existing_environment.endswith(bind_environment):
+                    raise ValueError("Existing Compose binding differs")
+                existing_environment = existing_environment.removesuffix(bind_environment)
+            if existing_environment.endswith(data_environment):
+                existing_environment = existing_environment.removesuffix(data_environment)
+            else:
+                legacy_data = data_environment.rsplit("MOCKAZURE_LOGS_PORT=", 1)[0]
+                if existing_environment.endswith(legacy_data):
+                    existing_environment = existing_environment.removesuffix(legacy_data)
+                upgrade_environment = True
             if existing_environment == base_environment:
                 if not valid_legacy_cluster():
                     raise ValueError(
@@ -146,7 +186,8 @@ def initialize_compose(
         files = initialize_instance(
             instance,
             database_url=f"postgresql://mockazure:{password}@127.0.0.1:{db_port}/mockazure",
-            advertised_host="localhost",
+            advertised_host=advertised_host,
+            bind_address=bind_address,
             port=api_port,
         )
         settings = load_settings(files.config_file, {})
@@ -155,6 +196,7 @@ def initialize_compose(
             data_dir=".",
             listen_host="0.0.0.0",
             listen_port=8443,
+            data_listen_ports=[8444, 8445, 8446, 8447, 8448, 8449],
             database_url=f"postgresql+psycopg://mockazure:{password}@db:5432/mockazure",
         )
         legacy_container = (json.dumps(container, indent=2) + "\n").encode()
@@ -164,13 +206,44 @@ def initialize_compose(
                 "container", EndpointProfile().model_dump(mode="json")
             ),
         }
+        container["population_endpoints"] = EndpointProfile(
+            **{
+                name: "https://api:8443"
+                for name in ("login", "graph", "exchange", "arm", "activity", "browser_login")
+            }
+        ).model_dump(mode="json")
+        container["client_profiles"]["internal"] = container["population_endpoints"]
+        container["allowed_hosts"] = list(dict.fromkeys([*container["allowed_hosts"], "api"]))
         upgrade_container = (
             container_file.exists() and container_file.read_bytes() == legacy_container
         )
+        if container_file.exists() and not upgrade_container:
+            # Normalize only newly defaulted fields; never overwrite a divergent existing setting.
+            previous = json.loads(container_file.read_text(encoding="utf-8"))
+            for name in ("console_enabled", "console_inspector_enabled", "console_public_origin"):
+                previous.setdefault(name, container[name])
+            if previous.get("client_profiles") == {}:
+                previous["client_profiles"] = container["client_profiles"]
+            if previous.get("population_endpoints") is None:
+                previous["population_endpoints"] = container["population_endpoints"]
+                previous["allowed_hosts"] = list(dict.fromkeys([*previous["allowed_hosts"], "api"]))
+            if not previous.get("data_listen_ports"):
+                previous["data_listen_ports"] = [8444, 8445, 8446, 8447, 8448, 8449]
+            previous["client_profiles"].setdefault("internal", container["population_endpoints"])
+            if previous.get("data_listen_ports") == [8444, 8445, 8446, 8447, 8448]:
+                previous["data_listen_ports"].append(8449)
+            for profile in previous.get("client_profiles", {}).values():
+                defaults = EndpointProfile.model_validate(profile).model_dump(mode="json")
+                for name in ("storage", "file", "queue", "table", "keyvault", "logs"):
+                    profile.setdefault(name, defaults[name])
+            upgrade_container = previous == container
         expected = {
             container_file: (json.dumps(container, indent=2) + "\n").encode(),
             environment_file: (
-                base_environment + f"MOCKAZURE_POSTGRES_STORAGE={storage}\n"
+                base_environment
+                + f"MOCKAZURE_POSTGRES_STORAGE={storage}\n"
+                + data_environment
+                + bind_environment
             ).encode(),
         }
         for path, content in expected.items():
@@ -185,4 +258,12 @@ def initialize_compose(
                     raise ValueError("Compose configuration differs; inspect the existing settings")
             else:
                 write_private(path, content)
+    from cryptography import x509
+
+    from mockazure.tls import renew_leaf
+
+    certificate = x509.load_pem_x509_certificate(files.server_cert_file.read_bytes())
+    sans = certificate.extensions.get_extension_for_class(x509.SubjectAlternativeName).value
+    if "api" not in sans.get_values_for_type(x509.DNSName):
+        renew_leaf(instance, tuple(container["allowed_hosts"]))
     return files

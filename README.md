@@ -8,6 +8,13 @@ Use it with explicit local endpoint overrides and its generated CA. It never fal
 back to a Microsoft tenant. Permissions, supported directory roles, policy conditions,
 pagination and asynchronous jobs are enforced; unsupported operations fail explicitly.
 
+## Populate and browse a lab
+
+[Getting started](docs/getting-started.md) covers Docker/native deployment, the
+shared-password console, stacked data templates, the population script and recovery.
+[Profile authoring](docs/profiles.md) explains inheritance and reproducible datasets.
+Open `https://localhost:8443/_mock/ui/` after setting the console password.
+
 ## Start with Docker (PowerShell)
 
 Docker Desktop must use Linux containers. Run from this repository:

@@ -10,6 +10,16 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    *(
+        PermissionDefinition("graph", name, kind, kind == "application")
+        for name in ("Calendars.Read", "Calendars.ReadWrite")
+        for kind in ("application", "delegated")
+    ),
+    PermissionDefinition("graph", "Calendars.ReadBasic.All", "application", True),
+    *(
+        PermissionDefinition("graph", name, "delegated", False)
+        for name in ("Calendars.ReadBasic", "Calendars.Read.Shared", "Calendars.ReadWrite.Shared")
+    ),
     PermissionDefinition("graph", "Policy.Read.AuthenticationMethod", "application", True),
     PermissionDefinition("graph", "Policy.Read.AuthenticationMethod", "delegated", True),
     PermissionDefinition("graph", "Policy.ReadWrite.AuthenticationMethod", "application", True),
@@ -174,7 +184,10 @@ CATALOG = (
     PermissionDefinition("graph", "Device.ReadWrite.All", "application", True),
     PermissionDefinition("exchange", "Exchange.ManageAsApp", "application", True),
     PermissionDefinition("exchange", "Exchange.Manage", "delegated", True),
+    PermissionDefinition("logs", "Data.Read", "delegated", True),
     PermissionDefinition("arm", "user_impersonation", "delegated", True),
+    PermissionDefinition("storage", "user_impersonation", "delegated", True),
+    PermissionDefinition("keyvault", "user_impersonation", "delegated", True),
 )
 DIRECTORY_ROLES = frozenset({"Global Administrator", "Global Reader", "Directory Readers"})
 

@@ -1,0 +1,1468 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>List Containers (REST API) - Azure Storage | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="The List Containers operation returns a list of the containers under the specified storage account." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="List Containers (REST API) - Azure Storage" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2" />
+			<meta property="og:description" content="The List Containers operation returns a list of the containers under the specified storage account." />
+			<meta name="platform_id" content="2733e9e5-59b8-465b-233d-123e137f91c1" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="seanmcc" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="seanmcc-msft" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2023-01-30T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="f6a9cec5-59bd-cf69-4b8f-7bb2481648ae" />
+	
+		<meta name="document_version_independent_id" content="4bbe8b84-8f47-b3d9-193d-a97e981c2629" />
+	
+		<meta name="updated_at" content="2024-05-14T22:24:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Containers2.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/7311e3c3222f07325501561cc216c4161547a961/docs-ref-conceptual/storageservices/List-Containers2.md" />
+	
+		<meta name="git_commit_id" content="7311e3c3222f07325501561cc216c4161547a961" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="2361" />
+	
+		<meta name="asset_id" content="api/storageservices/list-containers2" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/List-Containers2.md" />
+	
+		<meta name="previous_tlsh_hash" content="DC59E362850CDF64FF822C053C17A65594F0C4499670AD8C1D695AE1BD8A2E770726ACCAA7436FC523329342029E7D0EA3C9FB3CE16D33AA5664A4DEC25C76474B9A37F5CC" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/List-Containers2.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/List-Containers2.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/List-Containers2.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/List-Containers2.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="list-containers">List Containers</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>The <code>List Containers</code> operation returns a list of the containers under the specified storage account.</p>
+<h2 id="Request"> Request</h2>
+<p>You can construct the <code>List Containers</code> request as follows. HTTPS is recommended. Replace <em>myaccount</em> with the name of your storage account.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>https://myaccount.blob.core.windows.net/?comp=list</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of the <code>List Containers</code> operation, the path portion of the URI is empty.</p>
+<h3 id="emulated-storage-service-request">Emulated storage service request</h3>
+<p>When you make a request against the emulated storage service, specify the emulator hostname and Azure Blob Storage port as <code>127.0.0.1:10000</code>, followed by the emulated storage account name.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Request URI</th>
+<th>HTTP version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>http://127.0.0.1:10000/devstoreaccount1?comp=list</code></td>
+<td>HTTP/1.1</td>
+</tr>
+</tbody>
+</table>
+<p>Note that emulated storage only supports blob sizes up to 2 GiB.</p>
+<p>For more information, see <a href="/en-us/azure/storage/common/storage-use-azurite" data-linktype="absolute-path">Use Azurite emulator for local Azure Storage development</a> and <a href="/en-us/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage" data-linktype="absolute-path">Differences between the Storage emulator and Azure Storage services</a>.</p>
+<h3 id="uri-parameters">URI parameters</h3>
+<p>You can specify the following additional parameters on the request URI.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prefix</code></td>
+<td>Optional. Filters the results to return only containers with a name that begins with the specified prefix.</td>
+</tr>
+<tr>
+<td><code>marker</code></td>
+<td>Optional. A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the <code>NextMarker</code> value within the response body, if the listing operation didn't return all containers remaining to be listed with the current page. You can use the <code>NextMarker</code> value as the value for the <code>marker</code> parameter in a subsequent call to request the next page of list items.<br><br> The marker value is opaque to the client.</td>
+</tr>
+<tr>
+<td><code>maxresults</code></td>
+<td>Optional. Specifies the maximum number of containers to return. If the request doesn't specify <code>maxresults</code>, or specifies a value greater than 5000, the server will return up to 5000 items. <br><br>Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it's possible that the service will return fewer results than specified by <code>maxresults</code>, or than the default of 5000. <br><br>If the parameter is set to a value less than or equal to zero, the server returns status code 400 (Bad Request).</td>
+</tr>
+<tr>
+<td><code>include={metadata,deleted,system}</code></td>
+<td>Optional. Specifies one or more datasets to include in the response:<br><br> -<code>metadata</code>: Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of Blob Storage. Beginning with this version, all metadata names must adhere to the naming conventions for <a href="/en-us/dotnet/csharp/language-reference" data-linktype="absolute-path">C# identifiers</a>.<br> -<code>deleted</code>: Version 2019-12-12 and later. Specifies that soft-deleted containers should be included in the response.<br>-<code>system</code>: Version 2020-10-02 and later. Specifies if system containers are to be included in the response. Including this option will list system containers, such as <code>$logs</code> and <code>$changefeed</code>. Note that the specific system containers returned will vary, based on which service features are enabled on the storage account.</td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>Optional. The <code>timeout</code> parameter is expressed in seconds. For more information, see <a href="setting-timeouts-for-blob-service-operations" data-linktype="relative-path">Setting timeouts for Blob Storage operations</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-headers">Request headers</h3>
+<p>The following table describes required and optional request headers.</p>
+<table>
+<thead>
+<tr>
+<th>Request header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization</code></td>
+<td>Required. Specifies the authorization scheme, account name, and signature. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>Date</code> or <code>x-ms-date</code></td>
+<td>Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see <a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for the Azure Storage services</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see <a href="/en-us/azure/storage/blobs/monitor-blob-storage" data-linktype="absolute-path">Monitor Azure Blob Storage</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body">Request body</h3>
+<p>None.</p>
+<h2 id="Response"> Response</h2>
+<p>The response includes an HTTP status code, a set of response headers, and a response body in XML format.</p>
+<h3 id="status-code">Status code</h3>
+<p>A successful operation returns status code 200 (OK). For information about status codes, see <a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a>.</p>
+<h3 id="response-headers">Response headers</h3>
+<p>The response for this operation includes the following headers. The response also includes additional, standard HTTP headers. All standard headers conform to the <a href="https://go.microsoft.com/fwlink/?linkid=150478" data-linktype="external">HTTP/1.1 protocol specification</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Response header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Content-Type</code></td>
+<td>Standard HTTP/1.1 header. Specifies the format in which the results are returned. Currently, this value is <code>application/xml</code>.</td>
+</tr>
+<tr>
+<td><code>x-ms-request-id</code></td>
+<td>This header uniquely identifies the request that was made, and can be used for troubleshooting the request. For more information, see <a href="troubleshooting-api-operations" data-linktype="relative-path">Troubleshooting API operations</a>.</td>
+</tr>
+<tr>
+<td><code>x-ms-version</code></td>
+<td>Indicates the version of Blob Storage used to run the request. This header is returned for requests made against version 2009-09-19 and later.</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>A UTC date/time value that indicates the time at which the response was initiated. The service generates this value.</td>
+</tr>
+<tr>
+<td><code>x-ms-client-request-id</code></td>
+<td>You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the <code>x-ms-client-request-id</code> header, if it's present in the request. The value is at most 1024 visible ASCII characters. If the <code>x-ms-client-request-id</code> header isn't present in the request, this header won't be present in the response.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response-body">Response body</h3>
+<p>The format of the response body is as follows.</p>
+<pre><code class="lang-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;  
+&lt;EnumerationResults ServiceEndpoint="https://myaccount.blob.core.windows.net"&gt;  
+  &lt;Prefix&gt;string-value&lt;/Prefix&gt;  
+  &lt;Marker&gt;string-value&lt;/Marker&gt;  
+  &lt;MaxResults&gt;int-value&lt;/MaxResults&gt;  
+  &lt;Containers&gt;  
+    &lt;Container&gt;  
+      &lt;Name&gt;container-name&lt;/Name&gt;  
+      &lt;Version&gt;container-version&lt;/Version&gt;
+      &lt;Deleted&gt;true&lt;/Deleted&gt;
+      &lt;Properties&gt;  
+        &lt;Last-Modified&gt;date/time-value&lt;/Last-Modified&gt;  
+        &lt;Etag&gt;etag&lt;/Etag&gt;  
+        &lt;LeaseStatus&gt;locked | unlocked&lt;/LeaseStatus&gt;  
+        &lt;LeaseState&gt;available | leased | expired | breaking | broken&lt;/LeaseState&gt;  
+        &lt;LeaseDuration&gt;infinite | fixed&lt;/LeaseDuration&gt; 
+        &lt;PublicAccess&gt;container | blob&lt;/PublicAccess&gt;
+        &lt;HasImmutabilityPolicy&gt;true | false&lt;/HasImmutabilityPolicy&gt;
+        &lt;HasLegalHold&gt;true | false&lt;/HasLegalHold&gt;
+        &lt;DeletedTime&gt;datetime&lt;/DeletedTime&gt;
+        &lt;RemainingRetentionDays&gt;no-of-days&lt;/RemainingRetentionDays&gt;
+      &lt;/Properties&gt;  
+      &lt;Metadata&gt;  
+        &lt;metadata-name&gt;value&lt;/metadata-name&gt;  
+      &lt;/Metadata&gt;  
+    &lt;/Container&gt;  
+  &lt;/Containers&gt;  
+  &lt;NextMarker&gt;marker-value&lt;/NextMarker&gt;  
+&lt;/EnumerationResults&gt;  
+</code></pre>
+<p><code>LeaseStatus</code>, <code>LeaseState</code>, and <code>LeaseDuration</code> only appear in version 2012-02-12 and later.</p>
+<p>Beginning with version 2013-08-15, the <code>AccountName</code> attribute for the <code>EnumerationResults</code> element has been renamed to <code>ServiceEndpoint</code>. The <code>URL</code> element has also been removed from the <code>Container</code> element. For versions prior to 2013-08-15, the container's URL, as specified by the <code>URL</code> field, doesn't include the <code>restype=container</code> parameter. If you use this value to make subsequent requests against the enumerated containers, be sure to append this parameter to indicate that the resource type is a container.</p>
+<p>The <code>Prefix</code>, <code>Marker</code>, and <code>MaxResults</code> elements are only present if you specify them on the URI. The <code>NextMarker</code> element has a value only if the list results aren't complete.</p>
+<p>The <code>Metadata</code> element is present only if you specify the <code>include=metadata</code> parameter on the URI. Within the <code>Metadata</code> element, the value of each name-value pair is listed within an element corresponding to the pair's name.</p>
+<p>If a metadata name-value pair violates the naming restrictions enforced by the 2009-09-19 version, the response body indicates the problematic name within an <code>x-ms-invalid-name</code> element. The following XML fragment shows this:</p>
+<pre><code>  
+&lt;Metadata&gt;  
+  &lt;MyMetadata1&gt;first value&lt;/MyMetadata1&gt;  
+  &lt;MyMetadata2&gt;second value&lt;/MyMetadata2&gt;  
+  &lt;x-ms-invalid-name&gt;invalid-metadata-name&lt;/x-ms-invalid-name&gt;  
+&lt;/Metadata&gt;  
+  
+</code></pre>
+<p>Beginning with the 2016-05-31 version, the container public permissions are provided in the <code>PublicAccess</code> property. It indicates whether data in the container can be accessed publicly, and the level of access. Possible values include:</p>
+<ul>
+<li><code>container</code>: Indicates full, public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but can't enumerate containers within the storage account.</li>
+<li><code>blob</code>: Indicates public read access for blobs. Blob data within this container can be read via anonymous request, but container data isn't available. Clients can't enumerate blobs within the container via anonymous request.</li>
+</ul>
+<p>If this property isn't specified in the <code>&lt;properties&gt;</code> section, the container is private to the account owner.</p>
+<p><code>HasImmutabilityPolicy</code> and <code>HasLegalHold</code> only appear in version 2017-11-09 and later.
+<code>HasImmutabilityPolicy</code> is <code>true</code> if the container has an immutability policy set on it, and <code>false</code> otherwise.
+<code>HasLegalHold</code> is <code>true</code> if the container has one or more legal holds on it, and <code>false</code> otherwise.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>Beginning with version 2009-09-19, the response body for <code>List Containers</code> returns the container's last modified time, in an element named <code>Last-Modified</code>. In previous versions, this element was named <code>LastModified</code>.</p>
+</div>
+<p>The <code>Version</code>, <code>Deleted</code>, <code>DeletedTime</code>, and <code>RemainingRetentiondays</code> elements only appear in version 2019-12-12 and later if you specify the <code>deleted</code> value for the query parameter <code>include</code>. These elements only appear if the container is soft deleted and is eligible to be restored. The <code>Version</code>, <code>Deleted</code>, <code>DeletedTime</code>, and <code>RemainingRetentiondays</code> elements only appear in version 2019-12-12 and later if the deleted value is specified for the <code>include</code> query parameter and if the container is soft deleted and eligible to be restored.</p>
+<h2 id="authorization">Authorization</h2>
+<p>Authorization is required when calling any data access operation in Azure Storage. You can authorize the <code>List Containers</code> operation as described below.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Microsoft recommends using Microsoft Entra ID with managed identities to authorize requests to Azure Storage. Microsoft Entra ID provides superior security and ease of use compared to Shared Key authorization.</p>
+</div>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_microsoft-entra-id" role="tab" aria-controls="tabpanel_1_microsoft-entra-id" data-tab="microsoft-entra-id" tabindex="0" aria-selected="true" data-linktype="self-bookmark">Microsoft Entra ID (recommended)</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_shared-access-signatures" role="tab" aria-controls="tabpanel_1_shared-access-signatures" data-tab="shared-access-signatures" tabindex="-1" data-linktype="self-bookmark">Shared access signatures (SAS)</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_shared-key" role="tab" aria-controls="tabpanel_1_shared-key" data-tab="shared-key" tabindex="-1" data-linktype="self-bookmark">Shared key</a>
+</li>
+</ul>
+<section id="tabpanel_1_microsoft-entra-id" role="tabpanel" data-tab="microsoft-entra-id">
+
+<p>Azure Storage supports using Microsoft Entra ID to authorize requests to blob data. With Microsoft Entra ID, you can use Azure role-based access control (Azure RBAC) to grant permissions to a security principal. The security principal may be a user, group, application service principal, or Azure managed identity. The security principal is authenticated by Microsoft Entra ID to return an OAuth 2.0 token. The token can then be used to authorize a request against the Blob service.</p>
+<p>To learn more about authorization using Microsoft Entra ID, see <a href="authorize-with-azure-active-directory" data-linktype="relative-path">Authorize access to blobs using Microsoft Entra ID</a>.</p>
+<h3 id="permissions">Permissions</h3>
+<p>Listed below are the RBAC action necessary for a Microsoft Entra user, group, managed identity, or service principal to call the <code>List Containers</code> operation, and the least privileged built-in Azure RBAC role that includes this action:</p>
+<ul>
+<li><strong>Azure RBAC action:</strong> <a href="/en-us/azure/role-based-access-control/resource-provider-operations#microsoftstorage" data-linktype="absolute-path">Microsoft.Storage/storageAccounts/blobServices/containers/read</a> (scoped to the storage account or above)</li>
+<li><strong>Least privileged built-in role:</strong> <a href="/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor" data-linktype="absolute-path">Storage Blob Data Contributor</a> (scoped to the storage account or above)</li>
+</ul>
+<p>To learn more about assigning roles using Azure RBAC, see <a href="/en-us/azure/storage/blobs/assign-azure-role-data-access" data-linktype="absolute-path">Assign an Azure role for access to blob data</a>.</p>
+</section>
+<section id="tabpanel_1_shared-access-signatures" role="tabpanel" data-tab="shared-access-signatures" aria-hidden="true" hidden="hidden">
+
+<p>A shared access signature (SAS) provides secure delegated access to resources in a storage account. With a SAS, you have granular control over how a client can access data. You can specify what resource the client may access, what permissions they have to those resources, and how long the SAS is valid.</p>
+<p>The <code>List Containers</code> operation supports authorization using an account SAS.</p>
+<p>When Shared Key access is disallowed for the storage account, an account SAS token will not be permitted on a request to Blob Storage. To learn more, see <a href="/en-us/azure/storage/common/shared-key-authorization-prevent#understand-how-disallowing-shared-key-affects-sas-tokens" data-linktype="absolute-path">Understand how disallowing Shared Key affects SAS tokens</a>.</p>
+<h3 id="account-sas">Account SAS</h3>
+<p>An account SAS is secured with the storage account key. An account SAS delegates access to resources in one or more of the storage services. All of the operations available via a service or user delegation SAS are also available via an account SAS.</p>
+<p>The following table indicates the signed resource type and signed permissions to specify when delegating access:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Signed service</th>
+<th>Signed resource type</th>
+<th>Signed permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List Containers</td>
+<td>Blob (b)</td>
+<td>Service (s)</td>
+<td>List (l)</td>
+</tr>
+</tbody>
+</table>
+<p>To learn more about the account SAS, see <a href="create-account-sas" data-linktype="relative-path">Create an account SAS</a>.</p>
+</section>
+<section id="tabpanel_1_shared-key" role="tabpanel" data-tab="shared-key" aria-hidden="true" hidden="hidden">
+
+<p>The <code>List Containers</code> operation supports <a href="authorize-with-shared-key" data-linktype="relative-path">Shared Key authorization</a>. Authorizing with account keys is not recommended for most scenarios, as it's less secure. Microsoft recommends disallowing Shared Key authorization for the storage account when possible. For more information, see <a href="/en-us/azure/storage/common/shared-key-authorization-prevent" data-linktype="absolute-path">Prevent authorization with Shared Key</a>.</p>
+</section>
+</div>
+<h2 id="remarks">Remarks</h2>
+<p>If you specify a value for the <code>maxresults</code> parameter, and the number of containers to return exceeds this value, or exceeds the default value for <code>maxresults</code>, the response body will contain the <code>NextMarker</code> element. (This is also referred to as a <em>continuation token</em>).</p>
+<p><code>NextMarker</code> indicates the next container to return on a subsequent request. To return the next set of items, specify the value of <code>NextMarker</code> for the <code>marker</code> parameter on the URI for the subsequent request. Note that the value of <code>NextMarker</code> should be treated as opaque.</p>
+<p>If the listing operation crosses a partition boundary, then the service will return a value for the <code>NextMarker</code> element for retrieving the remainder of the results from the next partition. A listing operation that spans more than one partition results in a smaller set of items being returned than is specified by <code>maxresults</code>, or than the default of 5000. Your application should always check for the presence of the <code>NextMarker</code> element when you perform a listing operation, and handle it accordingly.</p>
+<p>Containers are listed in alphabetical order in the response body.</p>
+<p>The <code>List Containers</code> operation times out after 30 seconds.</p>
+<h3 id="billing">Billing</h3>
+<p>Pricing requests can originate from clients that use Blob Storage APIs, either directly through the Blob Storage REST API, or from an Azure Storage client library. These requests accrue charges per transaction. The type of transaction affects how the account is charged. For example, read transactions accrue to a different billing category than write transactions. The following table shows the billing category for <code>List Containers</code> requests based on the storage account type:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Storage account type</th>
+<th>Billing category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List Containers</td>
+<td>Premium block blob<br>Standard general-purpose v2<br>Standard general-purpose v1</td>
+<td>List and Create Container operations</td>
+</tr>
+</tbody>
+</table>
+<p>To learn about pricing for the specified billing category, see <a href="https://azure.microsoft.com/pricing/details/storage/blobs/" data-linktype="external">Azure Blob Storage Pricing</a>.</p>
+<h2 id="Samplerequestandresponse"> Sample request and response</h2>
+<p>The following sample URI requests the list of containers for an account, setting the maximum results to return for the initial operation to three.</p>
+<pre><code>GET https://myaccount.blob.core.windows.net/?comp=list&amp;maxresults=3 HTTP/1.1  
+</code></pre>
+<p>The request is sent with these headers:</p>
+<pre><code>x-ms-version: 2016-05-31  
+x-ms-date: Wed, 26 Oct 2016 22:08:44 GMT  
+Authorization: SharedKey myaccount:CY1OP3O3jGFpYFbTCBimLn0Xov0vt0khH/D5Gy0fXvg=  
+</code></pre>
+<p>The status code and response headers are returned as follows:</p>
+<pre><code>HTTP/1.1 200 OK  
+Transfer-Encoding: chunked  
+Content-Type: application/xml  
+Date: Wed, 26 Oct 2016 22:08:54 GMT  
+x-ms-version: 2016-05-31  
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
+  
+</code></pre>
+<p>The response XML for this request is as follows. Note that the <code>NextMarker</code> element follows the set of containers, and includes the name of the next container to be returned.</p>
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;  
+&lt;EnumerationResults ServiceEndpoint="https://myaccount.blob.core.windows.net/"&gt;  
+  &lt;MaxResults&gt;3&lt;/MaxResults&gt;  
+  &lt;Containers&gt;  
+    &lt;Container&gt;  
+      &lt;Name&gt;audio&lt;/Name&gt;  
+      &lt;Properties&gt;  
+        &lt;Last-Modified&gt;Wed, 26 Oct 2016 20:39:39 GMT&lt;/Last-Modified&gt;  
+        &lt;Etag&gt;0x8CACB9BD7C6B1B2&lt;/Etag&gt; 
+        &lt;PublicAccess&gt;container&lt;/PublicAccess&gt; 
+      &lt;/Properties&gt;  
+    &lt;/Container&gt;  
+    &lt;Container&gt;  
+      &lt;Name&gt;images&lt;/Name&gt;  
+      &lt;Properties&gt;  
+        &lt;Last-Modified&gt;Wed, 26 Oct 2016 20:39:39 GMT&lt;/Last-Modified&gt;  
+        &lt;Etag&gt;0x8CACB9BD7C1EEEC&lt;/Etag&gt;  
+      &lt;/Properties&gt;  
+    &lt;/Container&gt;  
+    &lt;Container&gt;  
+      &lt;Name&gt;textfiles&lt;/Name&gt;  
+      &lt;Properties&gt;  
+        &lt;Last-Modified&gt;Wed, 26 Oct 2016 20:39:39 GMT&lt;/Last-Modified&gt;  
+        &lt;Etag&gt;0x8CACB9BD7BACAC3&lt;/Etag&gt;  
+      &lt;/Properties&gt;  
+    &lt;/Container&gt;  
+  &lt;/Containers&gt;  
+  &lt;NextMarker&gt;video&lt;/NextMarker&gt;  
+&lt;/EnumerationResults&gt;  
+</code></pre>
+<p>The subsequent list operation specifies the marker on the request URI, as follows. The next set of results is returned, beginning with the container specified by the marker.</p>
+<pre><code>https://myaccount.blob.core.windows.net/?comp=list&amp;maxresults=3&amp;marker=video  
+</code></pre>
+<h2 id="see-also">See also</h2>
+<p><a href="authorize-requests-to-azure-storage" data-linktype="relative-path">Authorize requests to Azure Storage</a><br>
+<a href="status-and-error-codes2" data-linktype="relative-path">Status and error codes</a><br>
+<a href="blob-service-error-codes" data-linktype="relative-path">Blob Storage error codes</a><br>
+<a href="enumerating-blob-resources" data-linktype="relative-path">Enumerating blob resources</a><br>
+<a href="/en-us/azure/storage/storage-use-emulator" data-linktype="absolute-path">Using the Azure Storage emulator for development and testing</a><br>
+<a href="setting-timeouts-for-blob-service-operations" data-linktype="relative-path">Setting timeouts for Blob Storage operations</a></p>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2024-05-14T22:24:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2024-05-14
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

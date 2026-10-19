@@ -13,6 +13,7 @@ from mockazure.config import Settings
 @dataclass
 class Database:
     engine: AsyncEngine
+    settings: Settings
     sessions: async_sessionmaker[AsyncSession]
 
 
@@ -27,14 +28,27 @@ def create_database(settings: Settings) -> Database:
     )
     return Database(
         engine,
+        settings,
         async_sessionmaker(
             engine,
             expire_on_commit=False,
             info={
+                "query_limits": {
+                    "seconds": settings.query_timeout_seconds,
+                    "rows": settings.query_max_rows,
+                    "bytes": settings.query_max_bytes,
+                    "expanded": settings.query_max_expanded_rows,
+                },
+                "diagnostic_delivery": {
+                    "delay": settings.diagnostic_delay_seconds,
+                    "retry": settings.diagnostic_retry_seconds,
+                    "attempts": settings.diagnostic_max_attempts,
+                },
+                "notification_receivers": settings.notification_receivers,
                 "graph_read_budget": {
                     "limit": settings.graph_collection_request_limit,
                     "window_seconds": settings.graph_collection_window_seconds,
-                }
+                },
             },
         ),
     )

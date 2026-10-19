@@ -115,6 +115,436 @@
         "dotnet": "Exchange cmdlets require the PowerShell module; no .NET Exchange SDK is claimed.",
         "typescript": "Exchange cmdlets require the PowerShell module; no TypeScript Exchange SDK is claimed."
       }
+    },
+    "B": {
+      "workflows": [
+        {
+          "id": "arm.resource-management",
+          "service": "arm-providers",
+          "operationIds": [
+            "Vaults_Get",
+            "Vaults_CreateOrUpdate",
+            "Vaults_Delete",
+            "Workspaces_CreateOrUpdate",
+            "Workspaces_Delete",
+            "Workspaces_Get",
+            "VirtualMachines_Get",
+            "VirtualMachines_CreateOrUpdate",
+            "VirtualMachines_Delete",
+            "VirtualMachineExtensions_Get",
+            "VirtualMachineExtensions_CreateOrUpdate",
+            "VirtualMachineExtensions_Delete",
+            "Disks_Get",
+            "Disks_CreateOrUpdate",
+            "Disks_Delete",
+            "VirtualNetworks_Delete",
+            "VirtualNetworks_Get",
+            "VirtualNetworks_CreateOrUpdate",
+            "Subnets_Delete",
+            "Subnets_Get",
+            "Subnets_CreateOrUpdate",
+            "NetworkSecurityGroups_Delete",
+            "NetworkSecurityGroups_Get",
+            "NetworkSecurityGroups_CreateOrUpdate",
+            "SecurityRules_Delete",
+            "SecurityRules_Get",
+            "SecurityRules_CreateOrUpdate",
+            "NetworkInterfaces_Delete",
+            "NetworkInterfaces_Get",
+            "NetworkInterfaces_CreateOrUpdate",
+            "PublicIPAddresses_Delete",
+            "PublicIPAddresses_Get",
+            "PublicIPAddresses_CreateOrUpdate",
+            "StorageAccounts_Create",
+            "StorageAccounts_GetProperties",
+            "StorageAccounts_Delete"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "twelve_families_created",
+            "native_reads",
+            "cross_language_reads",
+            "tag_update",
+            "native_delete_polling"
+          ]
+        }
+      ],
+      "notApplicable": {}
+    },
+    "C": {
+      "workflows": [
+        {
+          "id": "storage-binary",
+          "service": "storage",
+          "operationIds": [
+            "blob.Container_Create",
+            "file.Share_Create",
+            "blob.BlockBlob_Upload",
+            "blob.Blob_Download",
+            "blob.Blob_GetProperties",
+            "file.File_Create",
+            "file.File_UploadRange",
+            "file.File_Download",
+            "file.File_GetProperties"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "namespace_roundtrip",
+            "byte_hashes",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation"
+          ]
+        }
+      ],
+      "notApplicable": {}
+    },
+    "D": {
+      "workflows": [
+        {
+          "id": "table.structured",
+          "service": "storage",
+          "operationIds": [
+            "table.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "ecosystems": [
+            "python",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module+rest"
+          },
+          "assertions": [
+            "tableMutation",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "table.structured-powershell",
+          "service": "storage",
+          "operationIds": [
+            "table20170729.Table_Create",
+            "table.Table_InsertEntity",
+            "table.Table_QueryEntityWithPartitionAndRowKey",
+            "table.Table_MergeEntity"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module+rest"
+          },
+          "assertions": [
+            "tableMutation",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "queue.structured",
+          "service": "storage",
+          "operationIds": [
+            "queue.Queue_Create",
+            "queue.Messages_Enqueue",
+            "queue.Messages_Peek",
+            "queue.Messages_Dequeue",
+            "queue.MessageId_Update",
+            "queue.MessageId_Delete"
+          ],
+          "ecosystems": [
+            "python",
+            "dotnet"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "queueReceipts",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "queue.structured-20260406",
+          "service": "storage",
+          "operationIds": [
+            "queue20260406.Queue_Create",
+            "queue20260406.Messages_Enqueue",
+            "queue20260406.Messages_Peek",
+            "queue20260406.Messages_Dequeue",
+            "queue20260406.MessageId_Update",
+            "queue20260406.MessageId_Delete"
+          ],
+          "ecosystems": [
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "queueReceipts",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "keyvault.structured",
+          "service": "keyvault",
+          "operationIds": [
+            "SetSecret",
+            "GetSecret",
+            "GetSecretVersions",
+            "DeleteSecret",
+            "RecoverDeletedSecret",
+            "PurgeDeletedSecret",
+            "BackupSecret",
+            "RestoreSecret"
+          ],
+          "ecosystems": [
+            "python",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "secretRecovery",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "secretBackupRestore",
+            "metadataOnlySnapshot",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "queue.structured-powershell",
+          "service": "storage",
+          "operationIds": [
+            "queue20250105.Queue_Create",
+            "queue20250105.Messages_Enqueue",
+            "queue20250105.Messages_Peek",
+            "queue20250105.Messages_Dequeue",
+            "queue20250105.MessageId_Update",
+            "queue20250105.MessageId_Delete"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "queueReceipts",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "keyvault.structured-powershell",
+          "service": "keyvault",
+          "operationIds": [
+            "v7.SetSecret",
+            "v7.GetSecret",
+            "v7.GetSecretVersions",
+            "v7.DeleteSecret",
+            "v7.RecoverDeletedSecret",
+            "v7.PurgeDeletedSecret",
+            "v7.BackupSecret",
+            "v7.RestoreSecret"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "secretRecovery",
+            "api_worker_restart",
+            "cloud_restore",
+            "key_rotation",
+            "secretBackupRestore",
+            "metadataOnlySnapshot",
+            "cross_language_reads"
+          ]
+        }
+      ],
+      "notApplicable": {}
+    },
+    "E": {
+      "workflows": [
+        {
+          "id": "graph.mail-delivery",
+          "service": "graph-workflows",
+          "operationIds": [
+            "message.create",
+            "message.update",
+            "user.sendMail"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "mail_roundtrip",
+            "persistent_read",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "graph.calendar-workflow",
+          "service": "graph-workflows",
+          "operationIds": [
+            "event.create",
+            "event.update",
+            "event.accept",
+            "event.instances",
+            "event.delta"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "calendar_recurrence_delta",
+            "meeting_response",
+            "persistent_read",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "graph.subscription-workflow",
+          "service": "graph-workflows",
+          "operationIds": [
+            "subscription.create",
+            "subscription.get",
+            "subscription.update",
+            "subscription.reauthorize",
+            "subscription.delete"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "subscription_management",
+            "callback_delivery",
+            "callback_retry",
+            "revoked_callbacks"
+          ]
+        }
+      ],
+      "notApplicable": {}
+    },
+    "F": {
+      "workflows": [
+        {
+          "id": "queries.inventory",
+          "service": "queries",
+          "operationIds": [
+            "resourcegraph.resources"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "inventory_paging"
+          ]
+        },
+        {
+          "id": "diagnostics.delivery",
+          "service": "queries",
+          "operationIds": [
+            "diagnostics.settings.put",
+            "diagnostics.settings.get",
+            "loganalytics.query.post"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "diagnostic_settings",
+            "native_logs_query",
+            "cross_language_reads",
+            "restart_recovery"
+          ]
+        }
+      ],
+      "notApplicable": {}
     }
   }
 }

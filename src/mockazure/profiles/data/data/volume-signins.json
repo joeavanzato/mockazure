@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "name": "volume-signins",
+  "kind": "data",
+  "parameterDefinitions": {
+    "records": {
+      "type": "integer",
+      "default": 100000,
+      "minimum": 1,
+      "maximum": 1000000
+    }
+  },
+  "steps": {
+    "volume-signins": {
+      "family": "evidence.signIn",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "evidence.signins",
+        "count": {
+          "$param": "volume-signins.records"
+        }
+      },
+      "dependsOn": [
+        "users"
+      ]
+    }
+  }
+}

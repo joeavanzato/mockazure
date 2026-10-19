@@ -1,0 +1,2074 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Create a service SAS - Azure Storage | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="A service shared access signature (SAS) delegates access to a resource in Azure Blob Storage, Azure Queue Storage, Azure Table Storage, or Azure Files." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Create a service SAS - Azure Storage" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas" />
+			<meta property="og:description" content="A service shared access signature (SAS) delegates access to a resource in Azure Blob Storage, Azure Queue Storage, Azure Table Storage, or Azure Files." />
+			<meta name="platform_id" content="54dfe245-dfe3-ce1b-e5b9-703e4d6f1f52" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="pauljewell" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="pauljewellmsft" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2024-11-12T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="ms.reviewer" content="cbrooks" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="31049243-3fe6-35c0-cc9e-9330bca3d29c" />
+	
+		<meta name="document_version_independent_id" content="be3b9a93-ae52-fd2c-f451-fb595c2a7efb" />
+	
+		<meta name="updated_at" content="2026-03-26T22:22:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/create-service-sas.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/8e98cfb6c352e570de7a3a60b30bf19a304160d5/docs-ref-conceptual/storageservices/create-service-sas.md" />
+	
+		<meta name="git_commit_id" content="8e98cfb6c352e570de7a3a60b30bf19a304160d5" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="5827" />
+	
+		<meta name="asset_id" content="api/storageservices/create-service-sas" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/create-service-sas.md" />
+	
+		<meta name="previous_tlsh_hash" content="DEBF00E2B80DD729BF921E296927FA5180F4C0895BB0AA88183D6AE692561F670F35547BBB17BB8423310B4302DABD0EB3E1FB3180FC72A21294DD5DC15C7396B6E43BF5E5" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/create-service-sas.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/create-service-sas.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/create-service-sas.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/create-service-sas.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="create-a-service-sas">Create a service SAS</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><div class="IMPORTANT">
+<p>Important</p>
+<p>For optimal security, Microsoft recommends using Microsoft Entra ID with managed identities to authorize requests against blob, queue, and table data, whenever possible. Authorization with Microsoft Entra ID and managed identities provides superior security and ease of use over Shared Key authorization. To learn more, see <a href="authorize-with-azure-active-directory" data-linktype="relative-path">Authorize with Microsoft Entra ID</a>. To learn more about managed identities, see <a href="/en-us/entra/identity/managed-identities-azure-resources/overview" data-linktype="absolute-path">What are managed identities for Azure resources</a>.</p>
+<p>For resources hosted outside of Azure, such as on-premises applications, you can use managed identities through Azure Arc. For example, apps running on Azure Arc-enabled servers can use managed identities to connect to Azure services. To learn more, see <a href="/en-us/azure/azure-arc/servers/managed-identity-authentication" data-linktype="absolute-path">Authenticate against Azure resources with Azure Arc-enabled servers</a>.</p>
+<p>For scenarios where shared access signatures (SAS) are used, Microsoft recommends using a user delegation SAS. A user delegation SAS is secured with Microsoft Entra credentials instead of the account key. To learn about shared access signatures, see <a href="create-user-delegation-sas" data-linktype="relative-path">Create a user delegation SAS</a>.</p>
+</div>
+<p>A service shared access signature (SAS) delegates access to a resource in just one of the storage services: Blob Storage (including Data Lake Storage and <code>dfs</code> endpoints), Queue Storage, Table Storage, or Azure Files. The URI for a service-level SAS consists of the URI to the resource for which the SAS will delegate access, followed by the SAS token.</p>
+<p>The SAS token is the query string that includes all the information that's required to authorize a request. The token specifies the resource that a client may access, the permissions granted, and the time period during which the signature is valid.</p>
+<p>A SAS can also specify the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, or an optional access policy identifier that's associated with the request.</p>
+<p>Finally, every SAS token includes a signature.</p>
+<div class="CAUTION">
+<p>Caution</p>
+<p>Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.</p>
+</div>
+<h2 id="authorize-a-service-sas">Authorize a service SAS</h2>
+<p>You secure an account SAS by using a storage account key. When you create an account SAS, your client application must possess the account key.</p>
+<p>To use Microsoft Entra credentials to secure a SAS for a container or blob, <a href="create-user-delegation-sas" data-linktype="relative-path">create a user delegation SAS</a>.</p>
+<h2 id="service-sas-support-for-directory-scoped-access">Service SAS support for directory-scoped access</h2>
+<p>A service SAS supports directory scope (<code>sr=d</code>) when the authorization version (<code>sv</code>) is 2020-02-10 or later. The semantics for directory scope (<code>sr=d</code>) are similar to those for container scope (<code>sr=c</code>), except that access is restricted to a directory and any files and subdirectories within it. When <code>sr=d</code> is specified, the <code>sdd</code> query parameter is also required.</p>
+<p>The string-to-sign format for authorization version 2020-02-10 is unchanged.</p>
+<h2 id="construct-a-service-sas">Construct a service SAS</h2>
+<p>The following image represents the parts of the shared access signature URI. The required parts appear in orange. The fields that make up the SAS token are described in subsequent sections.</p>
+<p><span class="mx-imgBorder">
+<img src="media/elementsofasharedaccesssignatureurl.png" alt="Diagram of the parameter elements of a shared access signature URL." data-linktype="relative-path">
+</span>
+</p>
+<p>The following sections describe how to specify the parameters that make up the service SAS token.</p>
+<h3 id="specify-the-signedversion-field">Specify the <code>signedVersion</code> field</h3>
+<p>The <code>signedVersion</code> (<code>sv</code>) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization that's used by this shared access signature (in the <code>signature</code> field). The value also specifies the service version for requests that are made with this shared access signature.</p>
+<p>For information about which version is used when you execute requests via a shared access signature, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for Azure Storage services</a>.</p>
+<p>For information about how this parameter affects the authorization of requests made with a shared access signature, see <a href="delegate-access-with-shared-access-signature" data-linktype="relative-path">Delegate access with a shared access signature</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Query parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signedVersion</code></td>
+<td><code>sv</code></td>
+<td>Required. Supported in version 2012-02-12 and later. The storage service version to use to authorize and handle requests that you make with this shared access signature. For more information, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for Azure Storage services</a>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="determine-the-version-of-a-legacy-sas-request">Determine the version of a legacy SAS request</h4>
+<p>In legacy scenarios where <code>signedVersion</code> isn't used, Blob Storage applies rules to determine the version. For more information about these rules, see <a href="versioning-for-the-azure-storage-services" data-linktype="relative-path">Versioning for Azure Storage services</a>.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Client software might experience unexpected protocol behavior when you use a shared access signature URI that uses a storage service version that's newer than the client software. Code that constructs shared access signature URIs should rely on versions that are understood by the client software that makes storage service requests.</p>
+</div>
+<h3 id="specify-the-signed-resource-blob-storage-only">Specify the signed resource (Blob Storage only)</h3>
+<p>The required <code>signedResource</code> (<code>sr</code>) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob or container resource in the SAS token.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Parameter value</th>
+<th>Supported versions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blob</td>
+<td>b</td>
+<td>All</td>
+<td>Grants access to the content and metadata of the blob.</td>
+</tr>
+<tr>
+<td>Blob version</td>
+<td>bv</td>
+<td>2018-11-09 and later</td>
+<td>Grants access to the content and metadata of the blob version, but not the base blob.</td>
+</tr>
+<tr>
+<td>Blob snapshot</td>
+<td>bs</td>
+<td>2018-11-09 and later</td>
+<td>Grants access to the content and metadata of the blob snapshot, but not the base blob.</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>c</td>
+<td>All</td>
+<td>Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.</td>
+</tr>
+<tr>
+<td>Directory</td>
+<td>d</td>
+<td>2020-02-10 and later</td>
+<td>Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory. If a directory is specified for the <code>signedResource</code> field, the <code>signedDirectoryDepth</code> (<code>sdd</code>) parameter is also required. A directory is always nested within a container.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="specify-the-signed-resource-azure-files">Specify the signed resource (Azure Files)</h3>
+<p>SAS is supported for Azure Files version 2015-02-21 and later.</p>
+<p>The <code>signedResource</code> field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a file or share resource on the URI.</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Query parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signedResource</code></td>
+<td><code>sr</code></td>
+<td>Required.<br><br> Specify <code>f</code> if the shared resource is a file. Doing so grants access to the content and metadata of the file.<br><br> Specify <code>s</code> if the shared resource is a share. Doing so grants access to the content and metadata of any file in the share, and to the list of directories and files in the share.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="specify-query-parameters-to-override-response-headers-blob-storage-and-azure-files-only">Specify query parameters to override response headers (Blob Storage and Azure Files only)</h3>
+<p>To define values for certain response headers to be returned when the shared access signature is used in a request, you can specify response headers in query parameters. This feature is supported as of version 2013-08-15 for Blob Storage and version 2015-02-21 for Azure Files. Shared access signatures that use this feature must include the <code>sv</code> parameter set to <code>2013-08-15</code> or later for Blob Storage, or to <code>2015-02-21</code> or later for Azure Files.</p>
+<p>The response headers and corresponding query parameters are listed in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Response header name</th>
+<th>Corresponding SAS query parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cache-Control</code></td>
+<td><code>rscc</code></td>
+</tr>
+<tr>
+<td><code>Content-Disposition</code></td>
+<td><code>rscd</code></td>
+</tr>
+<tr>
+<td><code>Content-Encoding</code></td>
+<td><code>rsce</code></td>
+</tr>
+<tr>
+<td><code>Content-Language</code></td>
+<td><code>rscl</code></td>
+</tr>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code>rsct</code></td>
+</tr>
+</tbody>
+</table>
+<p>For example, if you specify the <code>rsct=binary</code> query parameter on a shared access signature that's created with version 2013-08-15 or later, the <code>Content-Type</code> response header is set to <code>binary</code>. This value overrides the <code>Content-Type</code> header value that's stored for the blob for a request that uses this shared access signature only.</p>
+<p>If you create a shared access signature that specifies response headers as query parameters, you must include them in the string-to-sign that's used to construct the signature string. For more information, see the "<a href="#construct-the-signature-string" data-linktype="self-bookmark">Construct the signature string</a>" section later in this article. For additional examples, see <a href="service-sas-examples" data-linktype="relative-path">Service SAS examples</a>.</p>
+<h3 id="specify-the-table-name-table-storage-only">Specify the table name (Table Storage only)</h3>
+<p>The <code>tableName</code> field specifies the name of the table to share.</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Query parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tableName</code></td>
+<td><code>tn</code></td>
+<td>Required. The name of the table to share.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="specify-the-access-policy">Specify the access policy</h3>
+<p>The access policy portion of the URI indicates the period of time during which the shared access signature is valid and the permissions to be granted to the user. The parts of the URI that make up the access policy are described in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Query parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signedStart</code></td>
+<td><code>st</code></td>
+<td>Optional. The time when the shared access signature becomes valid, expressed in one of the accepted ISO 8601 UTC formats. If this parameter is omitted, the current UTC time is used as the start time.<br><br> In versions that are earlier than 2012-02-12, the duration between <code>signedStart</code> and <code>signedExpiry</code> can't exceed one hour unless a container policy is used. For more information about accepted UTC formats, see <a href="formatting-datetime-values" data-linktype="relative-path">Format date/time values</a>.</td>
+</tr>
+<tr>
+<td><code>signedExpiry</code></td>
+<td><code>se</code></td>
+<td>Required. The time when the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. You must omit this field if it has been specified in an associated stored access policy. For more information about accepted UTC formats, see <a href="formatting-datetime-values" data-linktype="relative-path">Format date/time values</a>.</td>
+</tr>
+<tr>
+<td><code>signedPermissions</code><sup>1</sup></td>
+<td><code>sp</code></td>
+<td>Required. The permissions that are associated with the shared access signature. The user is restricted to operations that are allowed by the permissions. You must omit this field if it has been specified in an associated stored access policy.</td>
+</tr>
+<tr>
+<td><code>startPk</code><sup>2</sup><br><br> <code>startRk</code><sup>2</sup></td>
+<td><code>spk</code><br><br> <code>srk</code></td>
+<td>Table Storage only.<br><br> Optional, but <code>startPk</code> must accompany <code>startRk</code>. The minimum partition and row keys that are accessible with this shared access signature. Key values are inclusive. If they're omitted, there's no lower bound on the table entities that can be accessed.</td>
+</tr>
+<tr>
+<td><code>endPk</code><sup>2</sup><br><br> <code>endRk</code><sup>2</sup></td>
+<td><code>epk</code><br><br> <code>erk</code></td>
+<td>Table Storage only.<br><br> Optional, but <code>endPk</code> must accompany <code>endRk</code>. The maximum partition and row keys that are accessible with this shared access signature. Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.</td>
+</tr>
+</tbody>
+</table>
+<p><sup>1</sup> The <code>signedPermissions</code> field is required on the URI unless it's specified as part of a stored access policy.<br>
+<sup>2</sup> The <code>startPk</code>, <code>startRk</code>, <code>endPk</code>, and <code>endRk</code> fields can be specified only on Table Storage resources.</p>
+<h3 id="specify-permissions">Specify permissions</h3>
+<p>The permissions that are specified for the <code>signedPermissions</code> (<code>sp</code>) field on the SAS token indicate which operations a client may perform on the resource.</p>
+<p>You can combine permissions to permit a client to perform multiple operations with the same SAS. When you construct the SAS, you must include permissions in the following order:</p>
+<p><code>racwdxltmeop</code></p>
+<p>Examples of valid permissions settings for a container include <code>rw</code>, <code>rd</code>, <code>rl</code>, <code>wd</code>, <code>wl</code>, and <code>rl</code>. Examples of invalid settings include <code>wr</code>, <code>dr</code>, <code>lr</code>, and <code>dw</code>. You can't specify a permission designation more than once.</p>
+<p>A service SAS can't grant access to certain operations:</p>
+<ul>
+<li>Containers, queues, and tables can't be created, deleted, or listed.</li>
+<li>Container metadata and properties can't be read or written.</li>
+<li>Queues can't be cleared, and their metadata can't be written.</li>
+<li>Containers can't be leased.</li>
+</ul>
+<p>To construct a SAS that grants access to these operations, use an account SAS. For more information, see <a href="create-account-sas" data-linktype="relative-path">Create an account SAS</a>.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. Perform operations that use shared access signatures only over an HTTPS connection, and distribute shared access signature URIs only on a secure connection, such as HTTPS.</p>
+</div>
+<p>The permissions that are supported for each resource type are described in the following sections.</p>
+<h4 id="permissions-for-a-directory-container-or-blob">Permissions for a directory, container, or blob</h4>
+<p>The permissions that are supported for each resource type are described in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>URI symbol</th>
+<th>Resource</th>
+<th>Version support</th>
+<th>Allowed operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td>r</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>All</td>
+<td>Read the content, block list, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation.</td>
+</tr>
+<tr>
+<td>Add</td>
+<td>a</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>All</td>
+<td>Add a block to an append blob.</td>
+</tr>
+<tr>
+<td>Create</td>
+<td>c</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>All</td>
+<td>Write a new blob, snapshot a blob, or copy a blob to a new blob.</td>
+</tr>
+<tr>
+<td>Write</td>
+<td>w</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>All</td>
+<td>Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>d</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>All</td>
+<td>Delete a blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the <a href="lease-blob" data-linktype="relative-path">Lease Blob</a> operation.</td>
+</tr>
+<tr>
+<td>Delete version</td>
+<td>x</td>
+<td>Container<br>Blob</td>
+<td>2019-12-12 and later</td>
+<td>Delete a blob version.</td>
+</tr>
+<tr>
+<td>Permanent delete</td>
+<td>y</td>
+<td>Blob</td>
+<td>2020-02-10 and later</td>
+<td>Permanently delete a blob snapshot or version.</td>
+</tr>
+<tr>
+<td>List</td>
+<td>l</td>
+<td>Container<br>Directory</td>
+<td>All</td>
+<td>List blobs non-recursively.</td>
+</tr>
+<tr>
+<td>Tags</td>
+<td>t</td>
+<td>Blob</td>
+<td>2019-12-12 and later</td>
+<td>Read or write the tags on a blob.</td>
+</tr>
+<tr>
+<td>Find</td>
+<td>f</td>
+<td>Container</td>
+<td>2019-12-12 and later</td>
+<td>Find blobs with index tags.</td>
+</tr>
+<tr>
+<td>Move</td>
+<td>m</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>2020-02-10 and later</td>
+<td>Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the <code>saoid</code> parameter is included on the SAS token and the sticky bit is set on the parent directory.</td>
+</tr>
+<tr>
+<td>Execute</td>
+<td>e</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>2020-02-10 and later</td>
+<td>Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. doesn't permit the caller to read user-defined metadata.</td>
+</tr>
+<tr>
+<td>Ownership</td>
+<td>o</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>2020-02-10 and later</td>
+<td>When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set.</td>
+</tr>
+<tr>
+<td>Permissions</td>
+<td>p</td>
+<td>Container<br>Directory<br>Blob</td>
+<td>2020-02-10 and later</td>
+<td>When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs.</td>
+</tr>
+<tr>
+<td>Set Immutability Policy</td>
+<td>i</td>
+<td>Container<br>Blob</td>
+<td>2020-06-12 and later</td>
+<td>Set or delete the immutability policy or legal hold on a blob.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="permissions-for-a-file">Permissions for a file</h4>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>URI symbol</th>
+<th>Allowed operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td>r</td>
+<td>Read the content, properties, metadata. Use the file as the source of a copy operation.</td>
+</tr>
+<tr>
+<td>Create</td>
+<td>c</td>
+<td>Create a new file or copy a file to a new file.</td>
+</tr>
+<tr>
+<td>Write</td>
+<td>w</td>
+<td>Create or write content, properties, metadata. Resize the file. Use the file as the destination of a copy operation.</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>d</td>
+<td>Delete the file.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="permissions-for-a-share">Permissions for a share</h4>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>URI symbol</th>
+<th>Allowed operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td>r</td>
+<td>Read the content, properties, or metadata of any file in the share. Use any file in the share as the source of a copy operation.</td>
+</tr>
+<tr>
+<td>Create</td>
+<td>c</td>
+<td>Create a new file in the share, or copy a file to a new file in the share.</td>
+</tr>
+<tr>
+<td>Write</td>
+<td>w</td>
+<td>For any file in the share, create or write content, properties, or metadata. Resize the file. Use the file as the destination of a copy operation. <strong>Note</strong>: You can't grant permissions to read or write share properties or metadata by using a service SAS. Use an account SAS instead.</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>d</td>
+<td>Delete any file in the share. <strong>Note</strong>: You can't grant permissions to delete a share by using a service SAS. Use an account SAS instead.</td>
+</tr>
+<tr>
+<td>List</td>
+<td>l</td>
+<td>List files and directories in the share.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="permissions-for-a-queue">Permissions for a queue</h4>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>URI symbol</th>
+<th>Allowed operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td>r</td>
+<td>Read metadata and properties, including message count. Peek at messages.</td>
+</tr>
+<tr>
+<td>Add</td>
+<td>a</td>
+<td>Add messages to the queue.</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>u</td>
+<td>Update messages in the queue. <strong>Note</strong>: Use the Process permission with Update so that you can first get the message that you want to update.</td>
+</tr>
+<tr>
+<td>Process</td>
+<td>p</td>
+<td>Get and delete messages from the queue.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="permissions-for-a-table">Permissions for a table</h4>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>URI symbol</th>
+<th>Allowed operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Query</td>
+<td>r</td>
+<td>Get entities and query entities.</td>
+</tr>
+<tr>
+<td>Add</td>
+<td>a</td>
+<td>Add entities. <strong>Note</strong>: Add and Update permissions are required for upsert operations.</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>u</td>
+<td>Update entities. <strong>Note</strong>: Add and Update permissions are required for upsert operations.</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>d</td>
+<td>Delete entities.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="specify-an-ip-address-or-ip-range">Specify an IP address or IP range</h3>
+<p>As of version 2015-04-05, the optional <code>signedIp</code> (<code>sip</code>) field specifies a public IP address or a range of public IP addresses from which to accept requests. If the IP address from which the request originates doesn't match the IP address or address range that's specified on the SAS token, the request isn't authorized. Only IPv4 addresses are supported.</p>
+<p>When you're specifying a range of IP addresses, note that the range is inclusive. For example, specifying <code>sip=198.51.100.0</code> or <code>sip=198.51.100.10-198.51.100.20</code> on the SAS restricts the request to those IP addresses.</p>
+<p>The following table describes whether to include the <code>signedIp</code> field on a SAS token for a specified scenario, based on the client environment and the location of the storage account.</p>
+<table>
+<thead>
+<tr>
+<th>Client environment</th>
+<th>Storage account location</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client running in Azure</td>
+<td>In the same region as the client</td>
+<td>A SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the <code>signedIp</code> field. Requests that are made from within the same region that use a SAS with a specified outbound IP address will fail.<br><br> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see <a href="/en-us/azure/storage/common/storage-network-security" data-linktype="absolute-path">Configure Azure Storage firewalls and virtual networks</a>.</td>
+</tr>
+<tr>
+<td>Client running in Azure</td>
+<td>In a different region from the client</td>
+<td>A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the <code>signedIp</code> field. A request made with the SAS must originate from the specified IP address or range of addresses.</td>
+</tr>
+<tr>
+<td>Client running on-premises or in a different cloud environment</td>
+<td>In any Azure region</td>
+<td>A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the <code>signedIp</code> field. A request made with the SAS must originate from the specified IP address or range of addresses.<br><br> If the request passes through a proxy or gateway, provide the public outbound IP address of that proxy or gateway for the <code>signedIp</code> field.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="specify-the-http-protocol">Specify the HTTP protocol</h3>
+<p>As of version 2015-04-05, the optional <code>signedProtocol</code> (<code>spr</code>) field specifies the protocol that's permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (<code>https,http</code>) or HTTPS only (<code>https</code>).  The default value is <code>https,http</code>.  Note that HTTP only isn't a permitted value.</p>
+<h3 id="specify-table-access-ranges">Specify table access ranges</h3>
+<p>The <code>startPk</code>, <code>startRk</code>, <code>endPk</code>, and <code>endRk</code> fields define a range of table entities that are associated with a shared access signature. Table queries return only results that are within the range, and attempts to use the shared access signature to add, update, or delete entities outside this range will fail.</p>
+<p>If <code>startPk</code> equals <code>endPk</code>, the shared access signature authorizes access to entities in only one partition in the table.</p>
+<p>If <code>startPk</code> equals <code>endPk</code> and <code>startRk</code> equals <code>endRk</code>, the shared access signature can access only one entity in one partition.</p>
+<p>To understand how these fields constrain access to entities in a table, refer to the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Fields present</th>
+<th>Scope of constraint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>startPk</code></td>
+<td>partitionKey &gt;= <code>startPk</code></td>
+</tr>
+<tr>
+<td><code>endPk</code></td>
+<td>partitionKey &lt;= <code>endPk</code></td>
+</tr>
+<tr>
+<td><code>startPk</code>, <code>startRk</code></td>
+<td>(partitionKey &gt; <code>startPk</code>) || (partitionKey == <code>startPk</code> &amp;&amp; rowKey &gt;= <code>startRk</code>)</td>
+</tr>
+<tr>
+<td><code>endPk</code>, <code>endRk</code></td>
+<td>(partitionKey &lt; <code>endPk</code>) || (partitionKey == <code>endPk</code> &amp;&amp; rowKey &lt;= <code>endRk</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="specify-the-directory-depth">Specify the directory depth</h3>
+<p>When the <code>signedResource</code> field specifies a directory (<code>sr=d</code>), you must also specify the <code>signedDirectoryDepth</code> (<code>sdd</code>) field to indicate the number of subdirectories under the root directory. The value of the <code>sdd</code> field must be a non-negative integer.</p>
+<p>For example, the root directory <code>https://{account}.blob.core.windows.net/{container}/</code> has a depth of 0. Each subdirectory within the root directory adds to the depth by 1. The directory <code>https://{account}.blob.core.windows.net/{container}/d1/d2</code> has a depth of 2.</p>
+<p>This field is supported with version 2020-02-10 or later.</p>
+<h3 id="specify-the-signed-identifier">Specify the signed identifier</h3>
+<p>When you specify the <code>signedIdentifier</code> field on the URI, you relate the specified shared access signature to a corresponding stored access policy. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed. Each container, queue, table, or share can have up to five stored access policies.</p>
+<p>The following table describes how to refer to a signed identifier on the URI:</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Query parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signedIdentifier</code></td>
+<td><code>si</code></td>
+<td>Optional. A unique value of up to 64 characters that correlates to an access policy that's specified for the container, queue, or table.</td>
+</tr>
+</tbody>
+</table>
+<p>A stored access policy includes a signed identifier, a value of up to 64 characters that's unique within the resource. You can specify the value of this signed identifier for the <code>signedidentifier</code> field in the URI for the shared access signature. When you specify a signed identifier on the URI, you associate the signature with the stored access policy. To establish a container-level access policy by using the REST API, see <a href="delegate-access-with-shared-access-signature" data-linktype="relative-path">Delegate access with a shared access signature</a>.</p>
+<h3 id="specify-the-encryption-scope">Specify the encryption scope</h3>
+<p>By using the <code>signedEncryptionScope</code> field on the URI, you can specify the encryption scope that the client application can use. It enforces the server-side encryption with the specified encryption scope when you upload blobs (PUT) with the SAS token. The GET and HEAD will not be restricted and performed as before.</p>
+<p>The following table describes how to refer to a signed encryption scope on the URI:</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Query parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signedEncryptionScope</code></td>
+<td><code>ses</code></td>
+<td>Optional. Indicates the encryption scope to use to encrypt the request contents.</td>
+</tr>
+</tbody>
+</table>
+<p>This field is supported with version 2020-12-06 or later. If you add the <code>ses</code> before the supported version, the service returns error response code 403 (Forbidden).</p>
+<p>If you set the default encryption scope for the container or file system, the <code>ses</code> query parameter respects the container encryption policy. If there's a mismatch between the <code>ses</code> query parameter and <code>x-ms-default-encryption-scope</code> header, and the <code>x-ms-deny-encryption-scope-override</code> header is set to <code>true</code>, the service returns error response code 403 (Forbidden).</p>
+<p>When you provide the <code>x-ms-encryption-scope</code> header and the <code>ses</code> query parameter in the PUT request, the service returns error response code 400 (Bad Request) if there's a mismatch.</p>
+<h3 id="specify-the-signature">Specify the signature</h3>
+<p>You use the signature part of the URI to authorize the request that's made with the shared access signature. Azure Storage uses a Shared Key authorization scheme to authorize a service SAS.</p>
+<p>The following table describes how to specify the signature on the URI:</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Query parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>signature</code></td>
+<td><code>sig</code></td>
+<td>The string-to-sign is a unique string that's constructed from the fields and that must be verified to authorize the request. The signature is a hash-based message authentication code (HMAC) that you compute over the string-to-sign and key by using the SHA256 algorithm, and then encode by using Base64 encoding.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="construct-the-signature-string">Construct the signature string</h4>
+<p>To construct the signature string of a shared access signature, first construct the string-to-sign from the fields that make up the request, encode the string as UTF-8, and then compute the signature by using the HMAC-SHA256 algorithm. The fields that are included in the string-to-sign must be URL-decoded.</p>
+<h5 id="version-2020-12-06-and-later">Version 2020-12-06 and later</h5>
+<p>Version 2020-12-06 adds support for the signed encryption scope field. To construct the string-to-sign for Blob Storage resources, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedVersion + "\n" +  
+               signedResource + "\n" +
+               signedSnapshotTime + "\n" +
+               signedEncryptionScope + "\n" +
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +
+               rsct
+</code></pre>
+<h5 id="version-2018-11-09-and-later">Version 2018-11-09 and later</h5>
+<p>Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields. These fields must be included in the string-to-sign. To construct the string-to-sign for Blob Storage resources, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedVersion + "\n" +  
+               signedResource + "\n"
+               signedSnapshotTime + "\n" +
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+               rsct  
+</code></pre>
+<h5 id="version-2015-04-05-and-later">Version 2015-04-05 and later</h5>
+<p>Version 2015-04-05 adds support for the signed IP and signed protocol fields. These fields must be included in the string-to-sign. To construct the string-to-sign for Blob Storage or Azure Files resources, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedVersion + "\n" +  
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+               rsct  
+</code></pre>
+<p>To construct the string-to-sign for Table Storage resources, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedVersion + "\n" +  
+               startingPartitionKey + "\n"  
+               startingRowKey + "\n"  
+               endingPartitionKey + "\n"  
+               endingRowKey  
+  
+</code></pre>
+<p>To construct the string-to-sign for Queue Storage resources, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedVersion  
+  
+</code></pre>
+<h5 id="version-2013-08-15-through-2015-02-21">Version 2013-08-15 through 2015-02-21</h5>
+<p>To construct the string-to-sign for Blob Storage or Azure Files resources by using version 2013-08-15 through 2015-02-21, use the following format. For Azure Files, SAS is supported as of version 2015-02-21.</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion + "\n" +  
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+               rsct  
+</code></pre>
+<p>To construct the string-to-sign for a table, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion + "\n" +  
+               startPk + "\n" +  
+               startRk + "\n" +  
+               endPk + "\n" +  
+               endRk  
+  
+</code></pre>
+<p>To construct the string-to-sign for a queue, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion 
+</code></pre>
+<h5 id="version-2012-02-12">Version 2012-02-12</h5>
+<p>To construct the string-to-sign for Blob Storage resources for version 2012-02-12, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion  
+</code></pre>
+<h5 id="versions-earlier-than-2012-02-12">Versions earlier than 2012-02-12</h5>
+<p>To construct the string-to-sign for Blob Storage resources for versions that are earlier than 2012-02-12, use the following format:</p>
+<pre><code>StringToSign = signedPermissions + "\n" +  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; signedStart + "\n" +  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; signedExpiry + "\n" +  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; canonicalizedResource + "\n" +  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; signedIdentifier  
+  
+</code></pre>
+<p>When you're constructing the string to be signed, keep in mind the following:</p>
+<ul>
+<li><p>If a field is optional and not provided as part of the request, specify an empty string for that field. Be sure to include the newline character (\n) after the empty string.</p>
+</li>
+<li><p>String-to-sign for a table must include the additional parameters, even if they're empty strings.</p>
+</li>
+<li><p>The <code>signedpermission</code> portion of the string must include the permission designations in a fixed order that's specific to each resource type. Any combination of these permissions is acceptable, but the order of permission letters must match the order in the following table.</p>
+<table>
+<thead>
+<tr>
+<th>Resource type</th>
+<th>Order of permissions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blob</td>
+<td>racwd</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>racwdl</td>
+</tr>
+<tr>
+<td>Queue</td>
+<td>raup</td>
+</tr>
+<tr>
+<td>File</td>
+<td>rcwd</td>
+</tr>
+<tr>
+<td>Share</td>
+<td>rcwdl</td>
+</tr>
+<tr>
+<td>Table</td>
+<td>raud</td>
+</tr>
+</tbody>
+</table>
+<p>For example, examples of valid permissions settings for a container include <code>rw</code>, <code>rd</code>, <code>rl</code>, <code>wd</code>, <code>wl</code>, and <code>rl</code>. Examples of invalid settings include <code>wr</code>, <code>dr</code>, <code>lr</code>, and <code>dw</code>. Specifying a permission designation more than once isn't permitted.</p>
+</li>
+<li><p>Provide a value for the <code>signedIdentifier</code> portion of the string if you're associating the request with a stored access policy.</p>
+</li>
+<li><p>A shared access signature that specifies a storage service version that's earlier than 2012-02-12 can share only a blob or container, and it must omit <code>signedVersion</code> and the newline character before it.</p>
+</li>
+<li><p>The <code>canonicalizedResource</code> portion of the string is a canonical path to the signed resource. It must include the service name (Blob Storage, Table Storage, Queue Storage, or Azure Files) for version 2015-02-21 or later, the storage account name, and the resource name, and it must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lowercase.</p>
+</li>
+</ul>
+<p>The canonicalized resource string for a container, queue, table, or file share must omit the trailing slash (/) for a SAS that provides access to that object.</p>
+<p>The following examples show how to construct the <code>canonicalizedResource</code> portion of the string, depending on the type of resource.</p>
+<p><strong>Containers</strong></p>
+<p>For version 2015-02-21 and later:</p>
+<pre><code>URL = https://myaccount.blob.core.windows.net/music  
+canonicalizedResource = "/blob/myaccount/music"  
+</code></pre>
+<p>For versions earlier than 2015-02-21:</p>
+<pre><code>URL = https://myaccount.blob.core.windows.net/music
+canonicalizedResource = "/myaccount/music"  
+</code></pre>
+<p><strong>Blobs</strong></p>
+<p>For version 2015-02-21 and later:</p>
+<pre><code>URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
+canonicalizedResource = "/blob/myaccount/music/intro.mp3"  
+
+</code></pre>
+<p>For versions earlier than 2015-02-21:</p>
+<pre><code>URL = https://myaccount.blob.core.windows.net/music/intro.mp3
+canonicalizedResource = "/myaccount/music/intro.mp3"  
+</code></pre>
+<p><strong>File Shares</strong></p>
+<pre><code>URL = https://myaccount.file.core.windows.net/music
+canonicalizedResource = "/file/myaccount/music"  
+</code></pre>
+<p><strong>Files</strong></p>
+<pre><code>URL = https://myaccount.file.core.windows.net/music/intro.mp3
+canonicalizedResource = "/file/myaccount/music/intro.mp3"  
+</code></pre>
+<p><strong>Queues</strong></p>
+<p>For version 2015-02-21 and later:</p>
+<pre><code>URL = https://myaccount.queue.core.windows.net/thumbnails  
+canonicalizedResource = "/queue/myaccount/thumbnails"  
+
+</code></pre>
+<p>For versions earlier than 2015-02-21:</p>
+<pre><code>URL = https://myaccount.queue.core.windows.net/thumbnails  
+canonicalizedResource = "/myaccount/thumbnails"  
+
+</code></pre>
+<p><strong>Tables</strong></p>
+<p>If the signed resource is a table, ensure that the table name is lowercase in the canonicalized format.</p>
+<p>For version 2015-02-21 and later:</p>
+<pre><code>URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
+canonicalizedResource = "/table/myaccount/employees"  
+
+</code></pre>
+<p>For versions earlier than 2015-02-21:</p>
+<pre><code>URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
+canonicalizedResource = "/myaccount/employees"  
+
+</code></pre>
+<h2 id="lifetime-and-revocation-of-a-shared-access-signature">Lifetime and revocation of a shared access signature</h2>
+<p>Shared access signatures grant users access rights to storage account resources. When you're planning to use a SAS, think about the lifetime of the SAS and whether your application might need to revoke access rights under certain circumstances.</p>
+<h3 id="ad-hoc-sas-versus-stored-access-policy">Ad hoc SAS versus stored access policy</h3>
+<p>A service SAS can take one of two forms:</p>
+<ul>
+<li><p><strong>Ad hoc SAS</strong>: When you create an ad hoc SAS, the start time, expiration time, and permissions for the SAS are all specified in the SAS URI (or implied, if the start time is omitted). Any type of SAS can be an ad hoc SAS.</p>
+<p>You can manage the lifetime of an ad hoc SAS by using the <code>signedExpiry</code> field. If you want to continue to grant a client access to the resource after the expiration time, you must issue a new signature. We recommend that you keep the lifetime of a shared access signature short. Prior to version 2012-02-12, a shared access signature not associated with a stored access policy could not have an active period that exceeded one hour.</p>
+</li>
+<li><p><strong>SAS with stored access policy</strong>: A stored access policy is defined on a resource container, which can be a blob container, table, queue, or file share. You can use the stored access policy to manage constraints for one or more shared access signatures. When you associate a SAS with a stored access policy, the SAS inherits the constraints (that is, the start time, expiration time, and permissions) that are defined for the stored access policy.</p>
+<p>The stored access policy is represented by the <code>signedIdentifier</code> field on the URI. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed.</p>
+</li>
+</ul>
+<h3 id="revoke-a-sas">Revoke a SAS</h3>
+<p>Because a SAS URI is a URL, anyone who obtains the SAS can use it, regardless of who originally created it. If a SAS is published publicly, it can be used by anyone in the world. A SAS grants access to resources to anyone who possesses it until one of four things happens:</p>
+<ul>
+<li><p>The expiration time that's specified on an ad hoc SAS is reached.</p>
+</li>
+<li><p>The expiration time that's specified on the stored access policy referenced by the SAS is reached, if a stored access policy is referenced and the access policy specifies an expiration time.</p>
+<p>The expiration time can be reached either because the interval elapses or because you've modified the stored access policy to have an expiration time in the past, which is one way to revoke the SAS.</p>
+</li>
+<li><p>The stored access policy that's referenced by the SAS is deleted, which revokes the SAS. If Azure Storage can't locate the stored access policy that's specified in the shared access signature, the client can't access the resource that's indicated by the URI.</p>
+<p>If you re-create the stored access policy with exactly the same name as the deleted policy, all existing SAS tokens will again be valid, according to the permissions associated with that stored access policy. This assumes that the expiration time on the SAS has not passed. If you intend to revoke the SAS, be sure to use a different name when you re-create the access policy with an expiration time in the future.</p>
+</li>
+<li><p>The account key that was used to create the SAS is regenerated. Regenerating an account key causes all application components that use that key to fail to authorize until they're updated to use either the other valid account key or the newly regenerated account key. Regenerating the account key is the only way to immediately revoke an ad hoc SAS.</p>
+</li>
+</ul>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>A shared access signature URI is associated with the account key that's used to create the signature and the associated stored access policy, if applicable. If no stored access policy is specified, the only way to revoke a shared access signature is to change the account key.</p>
+</div>
+<p>As a best practice, we recommend that you use a stored access policy with a service SAS. If you choose not to use a stored access policy, be sure to keep the period during which the ad hoc SAS is valid short. For more information about associating a service SAS with a stored access policy, see <a href="define-stored-access-policy" data-linktype="relative-path">Define a stored access policy</a>.</p>
+<h2 id="service-sas-example">Service SAS example</h2>
+<p>The following example shows a blob URI with a service SAS token appended to it. The service SAS token provides read and write permissions to the blob.</p>
+<pre><code>https://myaccount.blob.core.windows.net/sascontainer/blob1.txt?sp=rw&amp;st=2023-05-24T01:13:55Z&amp;se=2023-05-24T09:13:55Z&amp;sip=198.51.100.10-198.51.100.20&amp;spr=https&amp;sv=2022-11-02&amp;sr=b&amp;sig=&lt;signature&gt;
+</code></pre>
+<p>Each part of the URI is described in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>SAS portion</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resource URI</td>
+<td><code>https://myaccount.blob.core.windows.net/sascontainer/blob1.txt</code></td>
+<td>The address of the blob. We highly recommend that you use HTTPS.</td>
+</tr>
+<tr>
+<td>Delimiter</td>
+<td><code>?</code></td>
+<td>The delimiter that precedes the query string. The delimiter is not part of the SAS token.</td>
+</tr>
+<tr>
+<td>Permissions</td>
+<td><code>sp=rw</code></td>
+<td>The permissions granted by the SAS include Read (r) and Write (w).</td>
+</tr>
+<tr>
+<td>Start time</td>
+<td><code>st=2023-05-24T01:13:55Z</code></td>
+<td>Specified in UTC time. If you want the SAS to be valid immediately, omit the start time.</td>
+</tr>
+<tr>
+<td>Expiration time</td>
+<td><code>se=2023-05-24T09:13:55Z</code></td>
+<td>Specified in UTC time.</td>
+</tr>
+<tr>
+<td>IP range</td>
+<td><code>sip=198.51.100.10-198.51.100.20</code></td>
+<td>The range of IP addresses from which a request will be accepted.</td>
+</tr>
+<tr>
+<td>Protocol</td>
+<td><code>spr=https</code></td>
+<td>Only requests that use HTTPS are permitted.</td>
+</tr>
+<tr>
+<td>Azure Storage version</td>
+<td><code>sv=2023-05-24</code></td>
+<td>For Azure Storage version 2012-02-12 and later, this parameter indicates the version to use.</td>
+</tr>
+<tr>
+<td>Resource</td>
+<td><code>sr=b</code></td>
+<td>The resource is a blob.</td>
+</tr>
+<tr>
+<td>Signature</td>
+<td><code>sig=&lt;signature&gt;</code></td>
+<td>Used to authorize access to the blob. The signature is an HMAC that's computed over a string-to-sign and key by using the SHA256 algorithm, and then encoded by using Base64 encoding.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="delegate-access-with-shared-access-signature" data-linktype="relative-path">Delegate access with a shared access signature</a></li>
+<li><a href="create-user-delegation-sas" data-linktype="relative-path">Create a user delegation SAS</a></li>
+<li><a href="create-account-sas" data-linktype="relative-path">Create an account SAS</a></li>
+<li><a href="sas-error-codes" data-linktype="relative-path">SAS error codes</a></li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2024-11-12T08:00:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2024-11-12
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

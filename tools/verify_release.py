@@ -253,12 +253,83 @@ def validate_release(report):
             validate_artifact_report(read_backing_report(entry), ROOT, fingerprint)
         except (AssertionError, KeyError, TypeError, ValueError, OSError):
             entry.update(passed=False, parity=False)
+    validate_cloud_gates(report)
     return release_readiness(report, fingerprint)
 
 
-def read_backing_report(entry):
+def validate_cloud_gates(report):
+    from tools.benchmark_cloud_workflows import validate_scale_report
+    from tools.build_release import validate_cloud_distribution
+    from tools.check_cloud_coverage import check
+    from tools.verify_cloud_workflows import ECOSYSTEMS, source_identity, validate_report
+
+    identity = None
+    for name in ("matrix", "scale", "distribution", "coverage"):
+        entry = report.get("cloud", {}).get(name, {})
+        if entry.get("passed") is not True:
+            continue
+        try:
+            value = read_backing_report(entry, directory=ROOT / "work")
+            if identity is None:
+                identity = source_identity()
+            assert (value["sourceCommit"], value["sourceFingerprint"]) == identity
+            assert value["passed"] is True
+            if name == "matrix":
+                assert value["phase"] == "all"
+                validate_report(value, ECOSYSTEMS)
+            elif name == "scale":
+                validate_scale_report(value, *identity)
+            elif name == "distribution":
+                validate_cloud_distribution(value, *identity)
+            else:
+                matrix = report["cloud"]["matrix"]
+                assert matrix["validated"] is True and matrix["passed"] is True
+                assert value["matrixSha256"] == matrix["report_sha256"]
+                result = check(ROOT / matrix["report"])
+                assert all(value[key] == result[key] for key in result)
+            entry["validated"] = True
+        except (AssertionError, KeyError, TypeError, ValueError, OSError):
+            entry.update(passed=False, validated=False)
+
+
+def attach_cloud_gates(report, matrix=None, scale=None, distribution=None):
+    from tools.check_cloud_coverage import check
+    from tools.verify_cloud_workflows import source_identity
+
+    cloud = report.setdefault("cloud", {})
+    paths = {"matrix": matrix, "scale": scale, "distribution": distribution}
+    if matrix is not None:
+        matrix = matrix.resolve()
+        assert matrix.is_relative_to((ROOT / "work").resolve())
+        coverage = check(matrix)
+        commit, fingerprint = source_identity()
+        coverage.update(
+            sourceCommit=commit,
+            sourceFingerprint=fingerprint,
+            matrixSha256=hashlib.sha256(matrix.read_bytes()).hexdigest(),
+        )
+        path = LOGS / "cloud-coverage.json"
+        save(path, coverage)
+        paths["coverage"] = path
+    for name, path in paths.items():
+        if path is None:
+            continue
+        path = path.resolve()
+        assert path.is_relative_to((ROOT / "work").resolve())
+        value = json.loads(path.read_text(encoding="utf-8"))
+        cloud[name] = {
+            "passed": value.get("passed") is True,
+            "validated": False,
+            "report": path.relative_to(ROOT).as_posix(),
+            "report_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
+    report.update(validate_release(report))
+    return report
+
+
+def read_backing_report(entry, directory=LOGS):
     path = (ROOT / entry["report"]).resolve()
-    assert path.is_relative_to(LOGS.resolve()) and path.is_file()
+    assert path.is_relative_to(directory.resolve()) and path.is_file()
     assert hashlib.sha256(path.read_bytes()).hexdigest() == entry["report_sha256"]
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -374,6 +445,9 @@ def main():
     parser.add_argument("--report", type=Path, default=LOGS / "qualification.json")
     parser.add_argument("--scale-report", type=Path, nargs="*", default=[])
     parser.add_argument("--artifact-report", type=Path)
+    parser.add_argument("--cloud-matrix", type=Path)
+    parser.add_argument("--cloud-scale", type=Path)
+    parser.add_argument("--cloud-distribution", type=Path)
     args = parser.parse_args()
     os.environ["MOCKAZURE_QUALIFICATION_PROFILE"] = "release"
     os.environ.setdefault("UV_CACHE_DIR", str(ROOT.parents[1] / ".runtime/uv-cache"))
@@ -398,6 +472,9 @@ def main():
     report = run_suites(output, args.stages)
     if args.scale_report or args.artifact_report:
         attach_extra_gates(report, args.scale_report, args.artifact_report)
+        save(output, report)
+    if args.cloud_matrix or args.cloud_scale or args.cloud_distribution:
+        attach_cloud_gates(report, args.cloud_matrix, args.cloud_scale, args.cloud_distribution)
         save(output, report)
     print(
         json.dumps(

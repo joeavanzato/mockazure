@@ -6,7 +6,13 @@ from sqlalchemy import and_, literal_column, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from mockazure.db.job_model import Job
-from mockazure.jobs.schemas import ExportSnapshot, JobClaim, JobView
+from mockazure.jobs.schemas import (
+    CloudExportSnapshot,
+    ExportSnapshot,
+    JobClaim,
+    JobView,
+    parse_export,
+)
 from mockazure.tenants.repository import get_tenant
 from mockazure.tenants.schemas import TenantCreate
 
@@ -15,7 +21,7 @@ class TenantNotFound(Exception):
     pass
 
 
-async def enqueue_export(session: AsyncSession, tenant_id: UUID) -> JobView:
+async def enqueue_export(session: AsyncSession, tenant_id: UUID, *, include_cloud=False) -> JobView:
     tenant = await get_tenant(session, tenant_id)
     if tenant is None:
         raise TenantNotFound()
@@ -26,6 +32,13 @@ async def enqueue_export(session: AsyncSession, tenant_id: UUID) -> JobView:
             tenant.model_dump(include=set(TenantCreate.model_fields))
         ),
     )
+    if include_cloud:
+        from mockazure.jobs.exports import export_cloud_snapshot
+
+        snapshot = CloudExportSnapshot(
+            **snapshot.model_dump(exclude={"schema_version"}),
+            cloud=await export_cloud_snapshot(session, tenant_id),
+        )
     job = Job(tenant_id=tenant_id, payload=snapshot.model_dump(mode="json"))
     session.add(job)
     await session.flush()
@@ -56,7 +69,7 @@ async def get_export_result(
             Job.kind == "tenant.export",
         )
     )
-    return ExportSnapshot.model_validate(result) if result else None
+    return parse_export(result) if result else None
 
 
 async def claim_job(
@@ -88,13 +101,30 @@ async def claim_job(
         )
         if expired_arm:
             await fail_arm_delete(session, expired_arm, now)
+    from mockazure.providers.arm.provider_jobs import fail_provider_operation
+
+    if kind in {None, "arm.provider.operation"}:
+        expired_provider = await session.scalar(
+            select(Job.id)
+            .where(
+                True if tenant_id is None else Job.tenant_id == tenant_id,
+                Job.kind == "arm.provider.operation",
+                Job.state == "running",
+                Job.attempts >= 3,
+                Job.lease_until <= now,
+            )
+            .order_by(Job.id)
+            .limit(1)
+        )
+        if expired_provider:
+            await fail_provider_operation(session, expired_provider, now)
     await session.execute(
         update(Job)
         .where(
             True if tenant_id is None else Job.tenant_id == tenant_id,
             True if kind is None else Job.kind == kind,
             Job.state == "running",
-            Job.kind != "arm.group.delete",
+            Job.kind.not_in(("arm.group.delete", "arm.provider.operation")),
             Job.attempts >= 3,
             Job.lease_until <= now,
         )
@@ -104,6 +134,23 @@ async def claim_job(
             lease_owner=None,
             lease_until=None,
             claim_epoch=Job.claim_epoch + 1,
+            updated_at=now,
+        )
+    )
+    from mockazure.population.models import ACTIVE, PopulationRun
+
+    # A terminal job failure must not leave a population tenant slot wedged forever.
+    await session.execute(
+        update(PopulationRun)
+        .where(
+            PopulationRun.state.in_(ACTIVE),
+            PopulationRun.job_id.in_(
+                select(Job.id).where(Job.kind == "population.apply", Job.state == "failed")
+            ),
+        )
+        .values(
+            state="needs-attention",
+            errors=["Worker failed or exhausted its lease; inspect and resume"],
             updated_at=now,
         )
     )
@@ -186,7 +233,7 @@ async def finish_export(
 ) -> bool:
     if claim.kind != "tenant.export":
         return False
-    result = ExportSnapshot.model_validate(result)
+    result = parse_export(result)
     now = now or datetime.now(UTC)
     row = await lock_claim(session, claim, now)
     if row is None:
@@ -216,6 +263,12 @@ async def fail_job(
         "ArmOperationFailed",
     }
     code = error_code if error_code in allowed else "ExportFailed"
+    if claim.kind == "arm.provider.operation":
+        from mockazure.providers.arm.provider_jobs import fail_provider_operation
+
+        return await fail_provider_operation(
+            session, claim.id, now, claim=claim, terminal=terminal, error_code=code
+        )
     if claim.kind == "arm.group.delete":
         from mockazure.providers.arm.failure import fail_arm_delete
 

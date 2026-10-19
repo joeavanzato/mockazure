@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "name": "storage-content",
+  "kind": "data",
+  "steps": {
+    "account": {
+      "family": "storage.accounts",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.account",
+        "count": 1
+      },
+      "dependsOn": [
+        "group",
+        "providers"
+      ],
+      "target": "account"
+    },
+    "content": {
+      "family": "content.objects",
+      "operation": "generate",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.content",
+        "count": 1
+      },
+      "dependsOn": [],
+      "target": "content"
+    },
+    "container": {
+      "family": "storage.containers",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.container",
+        "count": 1
+      },
+      "dependsOn": [
+        "account"
+      ],
+      "target": "container"
+    },
+    "share": {
+      "family": "storage.shares",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.share",
+        "count": 1
+      },
+      "dependsOn": [
+        "account"
+      ],
+      "target": "share"
+    },
+    "queue": {
+      "family": "storage.queues",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.queue",
+        "count": 1
+      },
+      "dependsOn": [
+        "account"
+      ],
+      "target": "queue"
+    },
+    "table": {
+      "family": "storage.tables",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.table",
+        "count": 1
+      },
+      "dependsOn": [
+        "account"
+      ],
+      "target": "table"
+    },
+    "blob": {
+      "family": "storage.blobs",
+      "operation": "upload",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.blob",
+        "count": 1
+      },
+      "dependsOn": [
+        "container",
+        "content"
+      ]
+    },
+    "file": {
+      "family": "storage.files",
+      "operation": "upload",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.file",
+        "count": 1
+      },
+      "dependsOn": [
+        "share",
+        "content"
+      ]
+    },
+    "entity": {
+      "family": "storage.entities",
+      "operation": "insert",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.entity",
+        "count": 1
+      },
+      "dependsOn": [
+        "table"
+      ]
+    },
+    "queue-message": {
+      "family": "storage.messages",
+      "operation": "enqueue",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.queue-message",
+        "count": 1
+      },
+      "dependsOn": [
+        "queue"
+      ]
+    }
+  },
+  "resources": {
+    "account": {
+      "family": "storage.accounts"
+    },
+    "content": {
+      "family": "content.objects"
+    },
+    "container": {
+      "family": "storage.containers"
+    },
+    "share": {
+      "family": "storage.shares"
+    },
+    "queue": {
+      "family": "storage.queues"
+    },
+    "table": {
+      "family": "storage.tables"
+    }
+  }
+}

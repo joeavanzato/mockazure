@@ -22,6 +22,8 @@ dependencies = [
   "typer>=0.15,<1",
   "httpx>=0.28,<1",
   "pyjwt[crypto]>=2.10,<3",
+  "tzdata==2026.5",
+  "pyyaml>=6,<7",
 ]
 
 [project.scripts]
@@ -31,18 +33,31 @@ mockazure = "mockazure.cli:app"
 clients = [
     "msal==1.39.0",
     "msgraph-sdk==1.64.0",
-  "azure-identity==1.26.0",
-  "azure-mgmt-resource==23.4.0",
-  "azure-mgmt-authorization==4.0.0",
-  "azure-mgmt-monitor==6.0.2",
+    "azure-identity==1.26.0",
+    "azure-mgmt-resource==23.4.0",
+    "azure-storage-blob==12.27.0",
+    "azure-storage-file-share==12.23.0",
+    "azure-mgmt-authorization==4.0.0",
+    "azure-mgmt-monitor==6.0.2",
+    "azure-mgmt-resourcegraph==8.0.1",
+    "azure-monitor-query==2.0.0",
+    "azure-data-tables==12.7.0",
+    "azure-storage-queue==12.15.0",
+    "azure-keyvault-secrets==4.11.3",
 ]
-dev = ["pytest>=8", "pytest-asyncio>=1", "ruff>=0.11", "build>=1"]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=1",
+    "ruff>=0.11",
+    "build>=1",
+    "playwright>=1.64.0",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mockazure"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/build-requirements.txt"]
+include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/build-requirements.txt", "/examples", "/docs/getting-started.md", "/docs/profiles.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

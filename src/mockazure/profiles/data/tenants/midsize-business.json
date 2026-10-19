@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "name": "midsize-business",
+  "kind": "tenant",
+  "extends": "small-business",
+  "parameters": {
+    "shared.users": 500
+  }
+}

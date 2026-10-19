@@ -84,6 +84,9 @@ async def download(tenant_id: UUID, content_id: UUID, request: Request):
         headers = {
             "Content-Length": str(end - start),
             "Accept-Ranges": "bytes",
+            "Content-Disposition": f'attachment; filename="{content_id}.bin"',
+            "Content-Security-Policy": "sandbox; default-src 'none'",
+            "X-Content-Type-Options": "nosniff",
             "ETag": '"' + row.sha256 + '"',
         }
         status = 200

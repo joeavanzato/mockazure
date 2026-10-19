@@ -1,0 +1,2026 @@
+{
+  "AzureActivity": {
+    "columns": [
+      {
+        "name": "ActivityStatus",
+        "type": "string"
+      },
+      {
+        "name": "ActivityStatusValue",
+        "type": "string"
+      },
+      {
+        "name": "ActivitySubstatus",
+        "type": "string"
+      },
+      {
+        "name": "ActivitySubstatusValue",
+        "type": "string"
+      },
+      {
+        "name": "Authorization",
+        "type": "string"
+      },
+      {
+        "name": "Authorization_d",
+        "type": "dynamic"
+      },
+      {
+        "name": "_BilledSize",
+        "type": "real"
+      },
+      {
+        "name": "Caller",
+        "type": "string"
+      },
+      {
+        "name": "CallerIpAddress",
+        "type": "string"
+      },
+      {
+        "name": "Category",
+        "type": "string"
+      },
+      {
+        "name": "CategoryValue",
+        "type": "string"
+      },
+      {
+        "name": "Claims",
+        "type": "string"
+      },
+      {
+        "name": "Claims_d",
+        "type": "dynamic"
+      },
+      {
+        "name": "CorrelationId",
+        "type": "string"
+      },
+      {
+        "name": "EventDataId",
+        "type": "string"
+      },
+      {
+        "name": "EventSubmissionTimestamp",
+        "type": "datetime"
+      },
+      {
+        "name": "Hierarchy",
+        "type": "string"
+      },
+      {
+        "name": "HTTPRequest",
+        "type": "string"
+      },
+      {
+        "name": "_IsBillable",
+        "type": "string"
+      },
+      {
+        "name": "Level",
+        "type": "string"
+      },
+      {
+        "name": "OperationId",
+        "type": "string"
+      },
+      {
+        "name": "OperationName",
+        "type": "string"
+      },
+      {
+        "name": "OperationNameValue",
+        "type": "string"
+      },
+      {
+        "name": "Properties",
+        "type": "string"
+      },
+      {
+        "name": "Properties_d",
+        "type": "dynamic"
+      },
+      {
+        "name": "Resource",
+        "type": "string"
+      },
+      {
+        "name": "ResourceGroup",
+        "type": "string"
+      },
+      {
+        "name": "ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "_ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "ResourceProvider",
+        "type": "string"
+      },
+      {
+        "name": "ResourceProviderValue",
+        "type": "string"
+      },
+      {
+        "name": "SourceSystem",
+        "type": "string"
+      },
+      {
+        "name": "SubscriptionId",
+        "type": "string"
+      },
+      {
+        "name": "_SubscriptionId",
+        "type": "string"
+      },
+      {
+        "name": "TenantId",
+        "type": "string"
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime"
+      },
+      {
+        "name": "Type",
+        "type": "string"
+      }
+    ],
+    "source": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azureactivity.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c.md",
+      "sha256": "91fc36db8aad2b66d96c78d81d80e8b665cc26290a5e20170a4a0e6aa4d43d8c",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19"
+    }
+  },
+  "AzureDiagnostics": {
+    "columns": [
+      {
+        "name": "action_id_s",
+        "type": "string"
+      },
+      {
+        "name": "action_name_s",
+        "type": "string"
+      },
+      {
+        "name": "action_s",
+        "type": "string"
+      },
+      {
+        "name": "ActivityId_g",
+        "type": "guid"
+      },
+      {
+        "name": "AdditionalFields",
+        "type": "dynamic"
+      },
+      {
+        "name": "AdHocOrScheduledJob_s",
+        "type": "string"
+      },
+      {
+        "name": "application_name_s",
+        "type": "string"
+      },
+      {
+        "name": "audit_schema_version_d",
+        "type": "real"
+      },
+      {
+        "name": "avg_cpu_percent_s",
+        "type": "string"
+      },
+      {
+        "name": "avg_mean_time_s",
+        "type": "string"
+      },
+      {
+        "name": "backendHostname_s",
+        "type": "string"
+      },
+      {
+        "name": "Caller_s",
+        "type": "string"
+      },
+      {
+        "name": "callerId_s",
+        "type": "string"
+      },
+      {
+        "name": "CallerIPAddress",
+        "type": "string"
+      },
+      {
+        "name": "calls_s",
+        "type": "string"
+      },
+      {
+        "name": "Category",
+        "type": "string"
+      },
+      {
+        "name": "client_ip_s",
+        "type": "string"
+      },
+      {
+        "name": "clientInfo_s",
+        "type": "string"
+      },
+      {
+        "name": "clientIP_s",
+        "type": "string"
+      },
+      {
+        "name": "clientIp_s",
+        "type": "string"
+      },
+      {
+        "name": "clientIpAddress_s",
+        "type": "string"
+      },
+      {
+        "name": "clientPort_d",
+        "type": "real"
+      },
+      {
+        "name": "code_s",
+        "type": "string"
+      },
+      {
+        "name": "collectionName_s",
+        "type": "string"
+      },
+      {
+        "name": "conditions_destinationIP_s",
+        "type": "string"
+      },
+      {
+        "name": "conditions_destinationPortRange_s",
+        "type": "string"
+      },
+      {
+        "name": "conditions_None_s",
+        "type": "string"
+      },
+      {
+        "name": "conditions_protocols_s",
+        "type": "string"
+      },
+      {
+        "name": "conditions_sourceIP_s",
+        "type": "string"
+      },
+      {
+        "name": "conditions_sourcePortRange_s",
+        "type": "string"
+      },
+      {
+        "name": "CorrelationId",
+        "type": "string"
+      },
+      {
+        "name": "count_executions_d",
+        "type": "real"
+      },
+      {
+        "name": "cpu_time_d",
+        "type": "real"
+      },
+      {
+        "name": "database_name_s",
+        "type": "string"
+      },
+      {
+        "name": "database_principal_name_s",
+        "type": "string"
+      },
+      {
+        "name": "DatabaseName_s",
+        "type": "string"
+      },
+      {
+        "name": "db_id_s",
+        "type": "string"
+      },
+      {
+        "name": "direction_s",
+        "type": "string"
+      },
+      {
+        "name": "dop_d",
+        "type": "real"
+      },
+      {
+        "name": "duration_d",
+        "type": "real"
+      },
+      {
+        "name": "duration_milliseconds_d",
+        "type": "real"
+      },
+      {
+        "name": "DurationMs",
+        "type": "long"
+      },
+      {
+        "name": "ElasticPoolName_s",
+        "type": "string"
+      },
+      {
+        "name": "endTime_t",
+        "type": "datetime"
+      },
+      {
+        "name": "Environment_s",
+        "type": "string"
+      },
+      {
+        "name": "error_code_s",
+        "type": "string"
+      },
+      {
+        "name": "error_message_s",
+        "type": "string"
+      },
+      {
+        "name": "errorLevel_s",
+        "type": "string"
+      },
+      {
+        "name": "event_class_s",
+        "type": "string"
+      },
+      {
+        "name": "event_s",
+        "type": "string"
+      },
+      {
+        "name": "event_subclass_s",
+        "type": "string"
+      },
+      {
+        "name": "event_time_t",
+        "type": "datetime"
+      },
+      {
+        "name": "EventName_s",
+        "type": "string"
+      },
+      {
+        "name": "execution_type_d",
+        "type": "real"
+      },
+      {
+        "name": "executionInfo_endTime_t",
+        "type": "datetime"
+      },
+      {
+        "name": "executionInfo_exitCode_d",
+        "type": "real"
+      },
+      {
+        "name": "executionInfo_startTime_t",
+        "type": "datetime"
+      },
+      {
+        "name": "host_s",
+        "type": "string"
+      },
+      {
+        "name": "httpMethod_s",
+        "type": "string"
+      },
+      {
+        "name": "httpStatus_d",
+        "type": "real"
+      },
+      {
+        "name": "httpStatusCode_d",
+        "type": "real"
+      },
+      {
+        "name": "httpStatusCode_s",
+        "type": "string"
+      },
+      {
+        "name": "httpVersion_s",
+        "type": "string"
+      },
+      {
+        "name": "id_s",
+        "type": "string"
+      },
+      {
+        "name": "identity_claim_appid_g",
+        "type": "guid"
+      },
+      {
+        "name": "identity_claim_ipaddr_s",
+        "type": "string"
+      },
+      {
+        "name": "instanceId_s",
+        "type": "string"
+      },
+      {
+        "name": "interval_end_time_d",
+        "type": "real"
+      },
+      {
+        "name": "interval_start_time_d",
+        "type": "real"
+      },
+      {
+        "name": "ip_s",
+        "type": "string"
+      },
+      {
+        "name": "is_column_permission_s",
+        "type": "string"
+      },
+      {
+        "name": "isAccessPolicyMatch_b",
+        "type": "bool"
+      },
+      {
+        "name": "JobDurationInSecs_s",
+        "type": "string"
+      },
+      {
+        "name": "JobFailureCode_s",
+        "type": "string"
+      },
+      {
+        "name": "JobId_g",
+        "type": "guid"
+      },
+      {
+        "name": "jobId_s",
+        "type": "string"
+      },
+      {
+        "name": "JobOperation_s",
+        "type": "string"
+      },
+      {
+        "name": "JobOperationSubType_s",
+        "type": "string"
+      },
+      {
+        "name": "JobStartDateTime_s",
+        "type": "string"
+      },
+      {
+        "name": "JobStatus_s",
+        "type": "string"
+      },
+      {
+        "name": "JobUniqueId_g",
+        "type": "guid"
+      },
+      {
+        "name": "Level",
+        "type": "string"
+      },
+      {
+        "name": "log_bytes_used_d",
+        "type": "real"
+      },
+      {
+        "name": "logical_io_reads_d",
+        "type": "real"
+      },
+      {
+        "name": "logical_io_writes_d",
+        "type": "real"
+      },
+      {
+        "name": "LogicalServerName_s",
+        "type": "string"
+      },
+      {
+        "name": "macAddress_s",
+        "type": "string"
+      },
+      {
+        "name": "matchedConnections_d",
+        "type": "real"
+      },
+      {
+        "name": "max_cpu_time_d",
+        "type": "real"
+      },
+      {
+        "name": "max_dop_d",
+        "type": "real"
+      },
+      {
+        "name": "max_duration_d",
+        "type": "real"
+      },
+      {
+        "name": "max_log_bytes_used_d",
+        "type": "real"
+      },
+      {
+        "name": "max_logical_io_reads_d",
+        "type": "real"
+      },
+      {
+        "name": "max_logical_io_writes_d",
+        "type": "real"
+      },
+      {
+        "name": "max_num_physical_io_reads_d",
+        "type": "real"
+      },
+      {
+        "name": "max_physical_io_reads_d",
+        "type": "real"
+      },
+      {
+        "name": "max_query_max_used_memory_d",
+        "type": "real"
+      },
+      {
+        "name": "max_rowcount_d",
+        "type": "real"
+      },
+      {
+        "name": "max_time_s",
+        "type": "string"
+      },
+      {
+        "name": "mean_time_s",
+        "type": "string"
+      },
+      {
+        "name": "Message",
+        "type": "string"
+      },
+      {
+        "name": "min_time_s",
+        "type": "string"
+      },
+      {
+        "name": "msg_s",
+        "type": "string"
+      },
+      {
+        "name": "num_physical_io_reads_d",
+        "type": "real"
+      },
+      {
+        "name": "object_id_d",
+        "type": "real"
+      },
+      {
+        "name": "object_name_s",
+        "type": "string"
+      },
+      {
+        "name": "OperationName",
+        "type": "string"
+      },
+      {
+        "name": "OperationVersion",
+        "type": "string"
+      },
+      {
+        "name": "partitionKey_s",
+        "type": "string"
+      },
+      {
+        "name": "physical_io_reads_d",
+        "type": "real"
+      },
+      {
+        "name": "plan_id_d",
+        "type": "real"
+      },
+      {
+        "name": "policy_s",
+        "type": "string"
+      },
+      {
+        "name": "policyMode_s",
+        "type": "string"
+      },
+      {
+        "name": "primaryIPv4Address_s",
+        "type": "string"
+      },
+      {
+        "name": "priority_d",
+        "type": "real"
+      },
+      {
+        "name": "properties_enabledForDeployment_b",
+        "type": "bool"
+      },
+      {
+        "name": "properties_enabledForDiskEncryption_b",
+        "type": "bool"
+      },
+      {
+        "name": "properties_enabledForTemplateDeployment_b",
+        "type": "bool"
+      },
+      {
+        "name": "properties_s",
+        "type": "string"
+      },
+      {
+        "name": "properties_sku_Family_s",
+        "type": "string"
+      },
+      {
+        "name": "properties_sku_Name_s",
+        "type": "string"
+      },
+      {
+        "name": "properties_tenantId_g",
+        "type": "guid"
+      },
+      {
+        "name": "query_hash_s",
+        "type": "string"
+      },
+      {
+        "name": "query_id_d",
+        "type": "real"
+      },
+      {
+        "name": "query_max_used_memory_d",
+        "type": "real"
+      },
+      {
+        "name": "query_plan_hash_s",
+        "type": "string"
+      },
+      {
+        "name": "query_time_d",
+        "type": "real"
+      },
+      {
+        "name": "querytext_s",
+        "type": "string"
+      },
+      {
+        "name": "receivedBytes_d",
+        "type": "real"
+      },
+      {
+        "name": "Region_s",
+        "type": "string"
+      },
+      {
+        "name": "requestCharge_s",
+        "type": "string"
+      },
+      {
+        "name": "requestQuery_s",
+        "type": "string"
+      },
+      {
+        "name": "requestResourceId_s",
+        "type": "string"
+      },
+      {
+        "name": "requestResourceType_s",
+        "type": "string"
+      },
+      {
+        "name": "requestUri_s",
+        "type": "string"
+      },
+      {
+        "name": "reserved_storage_mb_s",
+        "type": "string"
+      },
+      {
+        "name": "Resource",
+        "type": "string"
+      },
+      {
+        "name": "resource_actionName_s",
+        "type": "string"
+      },
+      {
+        "name": "resource_location_s",
+        "type": "string"
+      },
+      {
+        "name": "resource_originRunId_s",
+        "type": "string"
+      },
+      {
+        "name": "resource_resourceGroupName_s",
+        "type": "string"
+      },
+      {
+        "name": "resource_runId_s",
+        "type": "string"
+      },
+      {
+        "name": "resource_subscriptionId_g",
+        "type": "guid"
+      },
+      {
+        "name": "resource_triggerName_s",
+        "type": "string"
+      },
+      {
+        "name": "resource_workflowId_g",
+        "type": "guid"
+      },
+      {
+        "name": "resource_workflowName_s",
+        "type": "string"
+      },
+      {
+        "name": "ResourceGroup",
+        "type": "string"
+      },
+      {
+        "name": "_ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "ResourceProvider",
+        "type": "string"
+      },
+      {
+        "name": "ResourceType",
+        "type": "string"
+      },
+      {
+        "name": "response_rows_d",
+        "type": "real"
+      },
+      {
+        "name": "resultCode_s",
+        "type": "string"
+      },
+      {
+        "name": "ResultDescription",
+        "type": "string"
+      },
+      {
+        "name": "resultDescription_ChildJobs_s",
+        "type": "string"
+      },
+      {
+        "name": "resultDescription_ErrorJobs_s",
+        "type": "string"
+      },
+      {
+        "name": "resultMessage_s",
+        "type": "string"
+      },
+      {
+        "name": "ResultSignature",
+        "type": "string"
+      },
+      {
+        "name": "ResultType",
+        "type": "string"
+      },
+      {
+        "name": "rootCauseAnalysis_s",
+        "type": "string"
+      },
+      {
+        "name": "routingRuleName_s",
+        "type": "string"
+      },
+      {
+        "name": "rowcount_d",
+        "type": "real"
+      },
+      {
+        "name": "ruleName_s",
+        "type": "string"
+      },
+      {
+        "name": "RunbookName_s",
+        "type": "string"
+      },
+      {
+        "name": "RunOn_s",
+        "type": "string"
+      },
+      {
+        "name": "schema_name_s",
+        "type": "string"
+      },
+      {
+        "name": "sentBytes_d",
+        "type": "real"
+      },
+      {
+        "name": "sequence_group_id_g",
+        "type": "guid"
+      },
+      {
+        "name": "sequence_number_d",
+        "type": "real"
+      },
+      {
+        "name": "server_principal_sid_s",
+        "type": "string"
+      },
+      {
+        "name": "session_id_d",
+        "type": "real"
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime"
+      },
+      {
+        "name": "TenantId",
+        "type": "string"
+      },
+      {
+        "name": "Type",
+        "type": "string"
+      }
+    ],
+    "source": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azurediagnostics.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf.md",
+      "sha256": "0dc9585a9c36deb39cb2f02f06971fe8412c8407b34fc883d4906f5e97077aaf",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19"
+    },
+    "standardColumnsSource": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/logs/log-standard-columns.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466.md",
+      "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+    }
+  },
+  "StorageBlobLogs": {
+    "columns": [
+      {
+        "name": "AccessTier",
+        "type": "string"
+      },
+      {
+        "name": "AccountName",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationHash",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationType",
+        "type": "string"
+      },
+      {
+        "name": "AuthorizationDetails",
+        "type": "dynamic"
+      },
+      {
+        "name": "_BilledSize",
+        "type": "real"
+      },
+      {
+        "name": "CallerIpAddress",
+        "type": "string"
+      },
+      {
+        "name": "Category",
+        "type": "string"
+      },
+      {
+        "name": "ClientRequestId",
+        "type": "string"
+      },
+      {
+        "name": "ConditionsUsed",
+        "type": "string"
+      },
+      {
+        "name": "ContentLengthHeader",
+        "type": "long"
+      },
+      {
+        "name": "CopyDestinationArmId",
+        "type": "string"
+      },
+      {
+        "name": "CorrelationId",
+        "type": "string"
+      },
+      {
+        "name": "DestinationUri",
+        "type": "string"
+      },
+      {
+        "name": "DurationMs",
+        "type": "real"
+      },
+      {
+        "name": "EncryptionKeyTypeOfBlob",
+        "type": "string"
+      },
+      {
+        "name": "Etag",
+        "type": "string"
+      },
+      {
+        "name": "_IsBillable",
+        "type": "string"
+      },
+      {
+        "name": "LastModifiedTime",
+        "type": "datetime"
+      },
+      {
+        "name": "Location",
+        "type": "string"
+      },
+      {
+        "name": "MetricResponseType",
+        "type": "string"
+      },
+      {
+        "name": "ObjectKey",
+        "type": "string"
+      },
+      {
+        "name": "OperationCount",
+        "type": "int"
+      },
+      {
+        "name": "OperationName",
+        "type": "string"
+      },
+      {
+        "name": "OperationVersion",
+        "type": "string"
+      },
+      {
+        "name": "Protocol",
+        "type": "string"
+      },
+      {
+        "name": "ReferrerHeader",
+        "type": "string"
+      },
+      {
+        "name": "RehydratePriority",
+        "type": "string"
+      },
+      {
+        "name": "RequestBodySize",
+        "type": "long"
+      },
+      {
+        "name": "RequesterAppId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterAudience",
+        "type": "string"
+      },
+      {
+        "name": "RequesterObjectId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTenantId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTokenIssuer",
+        "type": "string"
+      },
+      {
+        "name": "RequesterUpn",
+        "type": "string"
+      },
+      {
+        "name": "RequestHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "RequestMd5",
+        "type": "string"
+      },
+      {
+        "name": "RequestRegion",
+        "type": "string"
+      },
+      {
+        "name": "_ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "ResponseBodySize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseMd5",
+        "type": "string"
+      },
+      {
+        "name": "SasExpiryStatus",
+        "type": "string"
+      },
+      {
+        "name": "SchemaVersion",
+        "type": "string"
+      },
+      {
+        "name": "ServerLatencyMs",
+        "type": "real"
+      },
+      {
+        "name": "ServiceType",
+        "type": "string"
+      },
+      {
+        "name": "SourceAccessTier",
+        "type": "string"
+      },
+      {
+        "name": "SourceSystem",
+        "type": "string"
+      },
+      {
+        "name": "SourceUri",
+        "type": "string"
+      },
+      {
+        "name": "StatusCode",
+        "type": "string"
+      },
+      {
+        "name": "StatusText",
+        "type": "string"
+      },
+      {
+        "name": "_SubscriptionId",
+        "type": "string"
+      },
+      {
+        "name": "TenantId",
+        "type": "string"
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime"
+      },
+      {
+        "name": "TlsVersion",
+        "type": "string"
+      },
+      {
+        "name": "TrafficClassification",
+        "type": "string"
+      },
+      {
+        "name": "Type",
+        "type": "string"
+      },
+      {
+        "name": "Uri",
+        "type": "string"
+      },
+      {
+        "name": "UserAgentHeader",
+        "type": "string"
+      }
+    ],
+    "source": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagebloblogs.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e.md",
+      "sha256": "1dce28e2f5b558469eb2ce692023a7d907e51eafb9f7242b58cb05c95bfa3e1e",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19"
+    }
+  },
+  "StorageFileLogs": {
+    "columns": [
+      {
+        "name": "AccountName",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationHash",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationType",
+        "type": "string"
+      },
+      {
+        "name": "AuthorizationDetails",
+        "type": "dynamic"
+      },
+      {
+        "name": "_BilledSize",
+        "type": "real"
+      },
+      {
+        "name": "CallerIpAddress",
+        "type": "string"
+      },
+      {
+        "name": "Category",
+        "type": "string"
+      },
+      {
+        "name": "ClientRequestId",
+        "type": "string"
+      },
+      {
+        "name": "ConditionsUsed",
+        "type": "string"
+      },
+      {
+        "name": "ContentLengthHeader",
+        "type": "long"
+      },
+      {
+        "name": "CorrelationId",
+        "type": "string"
+      },
+      {
+        "name": "DurationMs",
+        "type": "real"
+      },
+      {
+        "name": "Etag",
+        "type": "string"
+      },
+      {
+        "name": "_IsBillable",
+        "type": "string"
+      },
+      {
+        "name": "LastModifiedTime",
+        "type": "datetime"
+      },
+      {
+        "name": "Location",
+        "type": "string"
+      },
+      {
+        "name": "MetricResponseType",
+        "type": "string"
+      },
+      {
+        "name": "ObjectKey",
+        "type": "string"
+      },
+      {
+        "name": "OperationCount",
+        "type": "int"
+      },
+      {
+        "name": "OperationName",
+        "type": "string"
+      },
+      {
+        "name": "OperationVersion",
+        "type": "string"
+      },
+      {
+        "name": "Protocol",
+        "type": "string"
+      },
+      {
+        "name": "ReferrerHeader",
+        "type": "string"
+      },
+      {
+        "name": "RequestBodySize",
+        "type": "long"
+      },
+      {
+        "name": "RequesterAppId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterAudience",
+        "type": "string"
+      },
+      {
+        "name": "RequesterObjectId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTenantId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTokenIssuer",
+        "type": "string"
+      },
+      {
+        "name": "RequesterUpn",
+        "type": "string"
+      },
+      {
+        "name": "RequesterUserName",
+        "type": "string"
+      },
+      {
+        "name": "RequestHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "RequestMd5",
+        "type": "string"
+      },
+      {
+        "name": "_ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "ResponseBodySize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseMd5",
+        "type": "string"
+      },
+      {
+        "name": "SasExpiryStatus",
+        "type": "string"
+      },
+      {
+        "name": "SchemaVersion",
+        "type": "string"
+      },
+      {
+        "name": "ServerLatencyMs",
+        "type": "real"
+      },
+      {
+        "name": "ServiceType",
+        "type": "string"
+      },
+      {
+        "name": "SmbCommandDetail",
+        "type": "string"
+      },
+      {
+        "name": "SmbCommandMajor",
+        "type": "int"
+      },
+      {
+        "name": "SmbCommandMinor",
+        "type": "string"
+      },
+      {
+        "name": "SmbCreditsConsumed",
+        "type": "int"
+      },
+      {
+        "name": "SmbFileId",
+        "type": "string"
+      },
+      {
+        "name": "SmbMessageID",
+        "type": "string"
+      },
+      {
+        "name": "SmbPersistentHandleID",
+        "type": "string"
+      },
+      {
+        "name": "SmbPrimarySID",
+        "type": "string"
+      },
+      {
+        "name": "SmbSessionID",
+        "type": "string"
+      },
+      {
+        "name": "SmbStatusCode",
+        "type": "string"
+      },
+      {
+        "name": "SmbTreeConnectID",
+        "type": "string"
+      },
+      {
+        "name": "SmbVolatileHandleID",
+        "type": "string"
+      },
+      {
+        "name": "SourceSystem",
+        "type": "string"
+      },
+      {
+        "name": "StatusCode",
+        "type": "string"
+      },
+      {
+        "name": "StatusText",
+        "type": "string"
+      },
+      {
+        "name": "_SubscriptionId",
+        "type": "string"
+      },
+      {
+        "name": "TenantId",
+        "type": "string"
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime"
+      },
+      {
+        "name": "TlsVersion",
+        "type": "string"
+      },
+      {
+        "name": "Type",
+        "type": "string"
+      },
+      {
+        "name": "Uri",
+        "type": "string"
+      },
+      {
+        "name": "UserAgentHeader",
+        "type": "string"
+      }
+    ],
+    "source": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagefilelogs.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149.md",
+      "sha256": "68ee9be21ee142b336336aa81e24576a049b6e76729a8be97cc7c857631f8149",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19"
+    }
+  },
+  "StorageQueueLogs": {
+    "columns": [
+      {
+        "name": "AccountName",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationHash",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationType",
+        "type": "string"
+      },
+      {
+        "name": "AuthorizationDetails",
+        "type": "dynamic"
+      },
+      {
+        "name": "_BilledSize",
+        "type": "real"
+      },
+      {
+        "name": "CallerIpAddress",
+        "type": "string"
+      },
+      {
+        "name": "Category",
+        "type": "string"
+      },
+      {
+        "name": "ClientRequestId",
+        "type": "string"
+      },
+      {
+        "name": "ConditionsUsed",
+        "type": "string"
+      },
+      {
+        "name": "ContentLengthHeader",
+        "type": "long"
+      },
+      {
+        "name": "CorrelationId",
+        "type": "string"
+      },
+      {
+        "name": "DurationMs",
+        "type": "real"
+      },
+      {
+        "name": "Etag",
+        "type": "string"
+      },
+      {
+        "name": "_IsBillable",
+        "type": "string"
+      },
+      {
+        "name": "LastModifiedTime",
+        "type": "datetime"
+      },
+      {
+        "name": "Location",
+        "type": "string"
+      },
+      {
+        "name": "MetricResponseType",
+        "type": "string"
+      },
+      {
+        "name": "ObjectKey",
+        "type": "string"
+      },
+      {
+        "name": "OperationCount",
+        "type": "int"
+      },
+      {
+        "name": "OperationName",
+        "type": "string"
+      },
+      {
+        "name": "OperationVersion",
+        "type": "string"
+      },
+      {
+        "name": "Protocol",
+        "type": "string"
+      },
+      {
+        "name": "ReferrerHeader",
+        "type": "string"
+      },
+      {
+        "name": "RequestBodySize",
+        "type": "long"
+      },
+      {
+        "name": "RequesterAppId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterAudience",
+        "type": "string"
+      },
+      {
+        "name": "RequesterObjectId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTenantId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTokenIssuer",
+        "type": "string"
+      },
+      {
+        "name": "RequesterUpn",
+        "type": "string"
+      },
+      {
+        "name": "RequestHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "RequestMd5",
+        "type": "string"
+      },
+      {
+        "name": "_ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "ResponseBodySize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseMd5",
+        "type": "string"
+      },
+      {
+        "name": "SasExpiryStatus",
+        "type": "string"
+      },
+      {
+        "name": "SchemaVersion",
+        "type": "string"
+      },
+      {
+        "name": "ServerLatencyMs",
+        "type": "real"
+      },
+      {
+        "name": "ServiceType",
+        "type": "string"
+      },
+      {
+        "name": "SourceSystem",
+        "type": "string"
+      },
+      {
+        "name": "StatusCode",
+        "type": "string"
+      },
+      {
+        "name": "StatusText",
+        "type": "string"
+      },
+      {
+        "name": "_SubscriptionId",
+        "type": "string"
+      },
+      {
+        "name": "TenantId",
+        "type": "string"
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime"
+      },
+      {
+        "name": "TlsVersion",
+        "type": "string"
+      },
+      {
+        "name": "Type",
+        "type": "string"
+      },
+      {
+        "name": "Uri",
+        "type": "string"
+      },
+      {
+        "name": "UserAgentHeader",
+        "type": "string"
+      }
+    ],
+    "source": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagequeuelogs.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651.md",
+      "sha256": "5094b8b7bc8556ac1e96394a06840936d82ab5494a8df7ee11388e93a5ac4651",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19"
+    }
+  },
+  "StorageTableLogs": {
+    "columns": [
+      {
+        "name": "AccountName",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationHash",
+        "type": "string"
+      },
+      {
+        "name": "AuthenticationType",
+        "type": "string"
+      },
+      {
+        "name": "AuthorizationDetails",
+        "type": "dynamic"
+      },
+      {
+        "name": "_BilledSize",
+        "type": "real"
+      },
+      {
+        "name": "CallerIpAddress",
+        "type": "string"
+      },
+      {
+        "name": "Category",
+        "type": "string"
+      },
+      {
+        "name": "ClientRequestId",
+        "type": "string"
+      },
+      {
+        "name": "ConditionsUsed",
+        "type": "string"
+      },
+      {
+        "name": "ContentLengthHeader",
+        "type": "long"
+      },
+      {
+        "name": "CorrelationId",
+        "type": "string"
+      },
+      {
+        "name": "DurationMs",
+        "type": "real"
+      },
+      {
+        "name": "Etag",
+        "type": "string"
+      },
+      {
+        "name": "_IsBillable",
+        "type": "string"
+      },
+      {
+        "name": "LastModifiedTime",
+        "type": "datetime"
+      },
+      {
+        "name": "Location",
+        "type": "string"
+      },
+      {
+        "name": "MetricResponseType",
+        "type": "string"
+      },
+      {
+        "name": "ObjectKey",
+        "type": "string"
+      },
+      {
+        "name": "OperationCount",
+        "type": "int"
+      },
+      {
+        "name": "OperationName",
+        "type": "string"
+      },
+      {
+        "name": "OperationVersion",
+        "type": "string"
+      },
+      {
+        "name": "Protocol",
+        "type": "string"
+      },
+      {
+        "name": "ReferrerHeader",
+        "type": "string"
+      },
+      {
+        "name": "RequestBodySize",
+        "type": "long"
+      },
+      {
+        "name": "RequesterAppId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterAudience",
+        "type": "string"
+      },
+      {
+        "name": "RequesterObjectId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTenantId",
+        "type": "string"
+      },
+      {
+        "name": "RequesterTokenIssuer",
+        "type": "string"
+      },
+      {
+        "name": "RequesterUpn",
+        "type": "string"
+      },
+      {
+        "name": "RequestHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "RequestMd5",
+        "type": "string"
+      },
+      {
+        "name": "_ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "ResponseBodySize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseHeaderSize",
+        "type": "long"
+      },
+      {
+        "name": "ResponseMd5",
+        "type": "string"
+      },
+      {
+        "name": "SasExpiryStatus",
+        "type": "string"
+      },
+      {
+        "name": "SchemaVersion",
+        "type": "string"
+      },
+      {
+        "name": "ServerLatencyMs",
+        "type": "real"
+      },
+      {
+        "name": "ServiceType",
+        "type": "string"
+      },
+      {
+        "name": "SourceSystem",
+        "type": "string"
+      },
+      {
+        "name": "StatusCode",
+        "type": "string"
+      },
+      {
+        "name": "StatusText",
+        "type": "string"
+      },
+      {
+        "name": "_SubscriptionId",
+        "type": "string"
+      },
+      {
+        "name": "TenantId",
+        "type": "string"
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime"
+      },
+      {
+        "name": "TlsVersion",
+        "type": "string"
+      },
+      {
+        "name": "Type",
+        "type": "string"
+      },
+      {
+        "name": "Uri",
+        "type": "string"
+      },
+      {
+        "name": "UserAgentHeader",
+        "type": "string"
+      }
+    ],
+    "source": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/storagetablelogs.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb.md",
+      "sha256": "8656dc00084919d050dceab6d7f598888b2fdcfe7a4fb982d02559ef3c2239cb",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19"
+    }
+  },
+  "AZKVAuditLogs": {
+    "columns": [
+      {
+        "name": "AddressAuthorizationType",
+        "type": "string"
+      },
+      {
+        "name": "Algorithm",
+        "type": "string"
+      },
+      {
+        "name": "AppliedAssignmentId",
+        "type": "string"
+      },
+      {
+        "name": "_BilledSize",
+        "type": "real"
+      },
+      {
+        "name": "CallerIpAddress",
+        "type": "string"
+      },
+      {
+        "name": "CertificateIssuerProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "CertificatePolicyProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "CertificateProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "CertificateRequestProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "ClientInfo",
+        "type": "string"
+      },
+      {
+        "name": "CorrelationId",
+        "type": "string"
+      },
+      {
+        "name": "DurationMs",
+        "type": "int"
+      },
+      {
+        "name": "EnabledForDeployment",
+        "type": "bool"
+      },
+      {
+        "name": "EnabledForDiskEncryption",
+        "type": "bool"
+      },
+      {
+        "name": "EnabledForTemplateDeployment",
+        "type": "bool"
+      },
+      {
+        "name": "EnablePurgeProtection",
+        "type": "bool"
+      },
+      {
+        "name": "EnableRbacAuthorization",
+        "type": "bool"
+      },
+      {
+        "name": "EnableSoftDelete",
+        "type": "bool"
+      },
+      {
+        "name": "HsmPoolResourceId",
+        "type": "string"
+      },
+      {
+        "name": "HttpStatusCode",
+        "type": "int"
+      },
+      {
+        "name": "Id",
+        "type": "string"
+      },
+      {
+        "name": "Identity",
+        "type": "dynamic"
+      },
+      {
+        "name": "IsAccessPolicyMatch",
+        "type": "bool"
+      },
+      {
+        "name": "IsAddressAuthorized",
+        "type": "bool"
+      },
+      {
+        "name": "_IsBillable",
+        "type": "string"
+      },
+      {
+        "name": "IsRbacAuthorized",
+        "type": "bool"
+      },
+      {
+        "name": "KeyProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "NetworkAcls",
+        "type": "dynamic"
+      },
+      {
+        "name": "Nsp",
+        "type": "dynamic"
+      },
+      {
+        "name": "OperationName",
+        "type": "string"
+      },
+      {
+        "name": "OperationVersion",
+        "type": "string"
+      },
+      {
+        "name": "Properties",
+        "type": "dynamic"
+      },
+      {
+        "name": "RequestUri",
+        "type": "string"
+      },
+      {
+        "name": "_ResourceId",
+        "type": "string"
+      },
+      {
+        "name": "ResultDescription",
+        "type": "string"
+      },
+      {
+        "name": "ResultSignature",
+        "type": "string"
+      },
+      {
+        "name": "ResultType",
+        "type": "string"
+      },
+      {
+        "name": "SecretProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "Sku",
+        "type": "dynamic"
+      },
+      {
+        "name": "SoftDeleteRetentionInDays",
+        "type": "int"
+      },
+      {
+        "name": "SourceSystem",
+        "type": "string"
+      },
+      {
+        "name": "StorageAccountProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "StorageSasDefinitionProperties",
+        "type": "dynamic"
+      },
+      {
+        "name": "SubnetId",
+        "type": "string"
+      },
+      {
+        "name": "_SubscriptionId",
+        "type": "string"
+      },
+      {
+        "name": "TenantId",
+        "type": "string"
+      },
+      {
+        "name": "TimeGenerated",
+        "type": "datetime"
+      },
+      {
+        "name": "Tlsversion",
+        "type": "string"
+      },
+      {
+        "name": "TrustedService",
+        "type": "string"
+      },
+      {
+        "name": "Type",
+        "type": "string"
+      },
+      {
+        "name": "VaultProperties",
+        "type": "dynamic"
+      }
+    ],
+    "source": {
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/azure-monitor-docs/8348d5a240ce35cb717a6bf890007627ada24d68/articles/azure-monitor/reference/tables/azkvauditlogs.md",
+      "revision": "8348d5a240ce35cb717a6bf890007627ada24d68",
+      "localPath": "references/2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9.md",
+      "sha256": "2f308461f2fe444acd52be4e97e8fee3f2096ef058ee99c194375282bafa4ac9",
+      "license": "CC-BY-4.0",
+      "retrievedAt": "2026-10-19"
+    }
+  }
+}

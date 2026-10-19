@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "name": "investigation-lab",
+  "kind": "template",
+  "extends": "collection-lab",
+  "dataProfiles": [
+    "baseline-business-activity",
+    "security-evidence",
+    "exchange-mail-and-audits",
+    "sharepoint-and-teams",
+    "intune-inventory",
+    "azure-inventory",
+    "storage-content",
+    "keyvault-secrets",
+    "logs-and-diagnostics",
+    "activity-feed",
+    "suspicious-signins"
+  ]
+}

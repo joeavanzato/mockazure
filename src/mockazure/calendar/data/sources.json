@@ -1,0 +1,18 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+    "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+    "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+    "localPath": "sources/windowsZones.xml",
+    "license": "Unicode-3.0",
+    "retrievedAt": "2026-10-19T00:00:00Z"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+    "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+    "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+    "localPath": "sources/CLDR-LICENSE.txt",
+    "license": "Unicode-3.0",
+    "retrievedAt": "2026-10-19T00:00:00Z"
+  }
+]

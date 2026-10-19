@@ -37,6 +37,9 @@ def register(path, operation, self_path):
         try:
             async with request.app.state.database.sessions.begin() as session:
                 actor = await principal(request, session)
+                from mockazure.mail.send import lock_workflow
+
+                await lock_workflow(session, actor.tenant_id)
                 if self_path and actor.token_kind != "delegated":
                     raise GraphError(400, "BadRequest", "/me requires delegated authentication")
                 permission = "read" if operation == "delta" else "write"

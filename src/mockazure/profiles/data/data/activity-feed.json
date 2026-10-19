@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "name": "activity-feed",
+  "kind": "data",
+  "steps": {
+    "activity": {
+      "family": "activity.records",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "activity.records",
+        "count": 20
+      },
+      "dependsOn": [
+        "users"
+      ]
+    }
+  }
+}

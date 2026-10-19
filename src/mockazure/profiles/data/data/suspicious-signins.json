@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "name": "suspicious-signins",
+  "kind": "data",
+  "steps": {
+    "suspicious": {
+      "family": "evidence.signIn",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "evidence.suspicious-signins",
+        "count": 20
+      },
+      "dependsOn": [
+        "users"
+      ]
+    }
+  }
+}

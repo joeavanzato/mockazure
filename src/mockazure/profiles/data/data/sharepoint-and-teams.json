@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "name": "sharepoint-and-teams",
+  "kind": "data",
+  "steps": {
+    "site": {
+      "family": "sharepoint.site",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "workloads.sites",
+        "count": 1
+      },
+      "dependsOn": [],
+      "target": "site"
+    },
+    "drive": {
+      "family": "sharepoint.drive",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "workloads.drives",
+        "count": 1
+      },
+      "dependsOn": [
+        "site"
+      ],
+      "target": "drive"
+    },
+    "site-drive-link": {
+      "family": "sharepoint.relationships",
+      "operation": "link",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.site-drive-link",
+        "count": 1
+      },
+      "dependsOn": [
+        "drive"
+      ]
+    },
+    "team": {
+      "family": "teams.team",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "workloads.teams",
+        "count": 1
+      },
+      "dependsOn": [],
+      "target": "team"
+    },
+    "channel": {
+      "family": "teams.channel",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "workloads.channels",
+        "count": 1
+      },
+      "dependsOn": [
+        "team"
+      ],
+      "target": "channel"
+    },
+    "team-channel-link": {
+      "family": "teams.relationships",
+      "operation": "link",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.team-channel-link",
+        "count": 1
+      },
+      "dependsOn": [
+        "channel"
+      ]
+    }
+  },
+  "resources": {
+    "site": {
+      "family": "sharepoint.site"
+    },
+    "drive": {
+      "family": "sharepoint.drive"
+    },
+    "team": {
+      "family": "teams.team"
+    },
+    "channel": {
+      "family": "teams.channel"
+    }
+  }
+}

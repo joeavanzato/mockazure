@@ -1,0 +1,14 @@
+{
+  "name": "mockazure-cloud-workflows",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@azure/arm-resources": "8.0.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "22.19.1"
+  }
+}

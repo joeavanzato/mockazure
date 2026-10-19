@@ -73,3 +73,19 @@ class ContentReference(Base):
             ["tenant_id", "content_id"], ["content_objects.tenant_id", "content_objects.id"]
         ),
     )
+
+
+class StreamUpload(Base):
+    __tablename__ = "content_stream_uploads"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "id"],
+            ["content_objects.tenant_id", "content_objects.id"],
+            ondelete="CASCADE",
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[UUID] = mapped_column(primary_key=True)
+    expected_length: Mapped[int | None] = mapped_column(BigInteger)
+    max_size: Mapped[int] = mapped_column(BigInteger)
+    generation: Mapped[int] = mapped_column(BigInteger)

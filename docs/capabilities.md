@@ -40,3 +40,19 @@ Five additional v1.0 families—alerts, alerts_v2, incidents, secureScores and
 secureScoreControlProfiles—have typed atomic imports, permission-checked list/get,
 SQL filtering and durable snapshot paging. See [the exact profile](collection-evidence.md).
 Legacy alerts are retained for historical collector compatibility after upstream retirement.
+
+
+## Shared lab management
+
+The packaged console at `/_mock/ui/` provides shared-password login, tenant/service
+browsing, validated preview/apply editors, composable profiles and durable run
+progress. Optional inspection is read-only and restricted to approved scalar fields.
+The separate management API exposes catalog descriptors and bounded continuation
+pages, immutable profile versions, redacted manifests and streamed ground truth.
+
+Built-ins combine tenant baselines with data layers across Graph, Exchange, Azure,
+Storage, Key Vault, logs and the activity feed. Fixture provisioning and public
+service actions are explicit modes; only the latter exercise ordinary service
+authorization. Administrative catalog breadth is not a claim that every public API
+operation or every table is editable. See [the guide](getting-started.md),
+[profile contract](profiles.md) and [qualification](lab-console-results.md).

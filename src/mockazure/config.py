@@ -25,20 +25,43 @@ def validate_host(value: str) -> str:
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(extra="forbid", hide_input_in_errors=True)
     data_dir: Path
+    console_enabled: bool = True
+    console_inspector_enabled: bool = False
+    console_public_origin: str | None = None
+
+    @field_validator("console_public_origin")
+    @classmethod
+    def console_origin(cls, value):
+        from mockazure.endpoints import local_origin
+
+        return local_origin(value) if value is not None else None
+
     database_url: SecretStr
     listen_host: str = "127.0.0.1"
     listen_port: int = Field(default=8443, ge=1, le=65535)
+    data_listen_ports: tuple[int, ...] | None = None
     managed_identity_listen_host: str = "127.0.0.1"
     managed_identity_listen_port: int = Field(default=49446, ge=1, le=65535)
     admin_base_url: AnyHttpUrl = "https://localhost:8443"
     allowed_hosts: tuple[str, ...] = ("localhost", "127.0.0.1")
     service_endpoints: EndpointProfile | None = None
+    population_endpoints: EndpointProfile | None = None
     client_profiles: dict[str, EndpointProfile] = Field(default_factory=dict)
     graph_directory_request_limit: int = Field(default=600, ge=1, le=10000000)
     graph_directory_window_seconds: int = Field(default=60, ge=1, le=3600)
     graph_collection_request_limit: int = Field(default=600, ge=1, le=10000000)
     graph_collection_window_seconds: int = Field(default=60, ge=1, le=3600)
     content_max_object_bytes: int = Field(default=256 * 1024 * 1024, ge=1, le=1024**4)
+    keyvault_backup_key_file: Path | None = None
+    keyvault_backup_key_ref: str | None = Field(default=None, min_length=1, max_length=128)
+    notification_receivers: dict[str, dict[str, str]] = Field(default_factory=dict)
+    query_timeout_seconds: float = Field(default=30, gt=0, le=600)
+    query_max_rows: int = Field(default=100000, ge=1, le=10000000)
+    query_max_bytes: int = Field(default=64 * 1024 * 1024, ge=1, le=1024**4)
+    query_max_expanded_rows: int = Field(default=1000000, ge=1, le=100000000)
+    diagnostic_delay_seconds: float = Field(default=0, ge=0, le=86400)
+    diagnostic_retry_seconds: float = Field(default=5, gt=0, le=3600)
+    diagnostic_max_attempts: int = Field(default=3, ge=1, le=20)
     pool_size: int = Field(default=5, ge=1, le=100)
     pool_max_overflow: int = Field(default=5, ge=0, le=100)
 
@@ -56,6 +79,19 @@ class Settings(BaseSettings):
             raise ValueError(
                 "Managed identity must bind loopback or an explicit container interface"
             )
+        return value
+
+    @field_validator("notification_receivers")
+    @classmethod
+    def local_receivers(cls, value):
+        from mockazure.notifications.receivers import resolve_receiver
+        from mockazure.providers.graph.errors import GraphError
+
+        try:
+            for url in value:
+                resolve_receiver(url, value)
+        except GraphError:
+            raise ValueError("Invalid local receiver registry") from None
         return value
 
     @field_validator("database_url")
@@ -100,7 +136,12 @@ class Settings(BaseSettings):
         if self.service_endpoints is not None:
             return self.service_endpoints
         origin = str(self.admin_base_url).rstrip("/")
-        return EndpointProfile(**{name: origin for name in EndpointProfile.model_fields})
+        return EndpointProfile(
+            **{
+                name: origin
+                for name in ("login", "graph", "exchange", "arm", "activity", "browser_login")
+            }
+        )
 
     def advertised_endpoints(self, authority: str) -> EndpointProfile:
         # Return configuration only. Host selects an explicit profile, never supplies URLs.
@@ -108,7 +149,19 @@ class Settings(BaseSettings):
         for profile in self.client_profiles.values():
             if authority in {
                 urlsplit(getattr(profile, name)).netloc.lower()
-                for name in ("login", "graph", "exchange", "arm", "activity")
+                for name in (
+                    "login",
+                    "graph",
+                    "exchange",
+                    "arm",
+                    "activity",
+                    "storage",
+                    "file",
+                    "queue",
+                    "table",
+                    "keyvault",
+                    "logs",
+                )
             }:
                 return profile
         return self.endpoints
@@ -116,11 +169,23 @@ class Settings(BaseSettings):
     @field_validator("client_profiles")
     @classmethod
     def profiles_are_unambiguous(cls, value):
-        if set(value) - {"host", "container"}:
-            raise ValueError("Supported client profiles are host and container")
+        if set(value) - {"host", "container", "internal"}:
+            raise ValueError("Supported client profiles are host, container and internal")
         authorities = {}
         for profile in value.values():
-            for name in ("login", "graph", "exchange", "arm", "activity"):
+            for name in (
+                "login",
+                "graph",
+                "exchange",
+                "arm",
+                "activity",
+                "storage",
+                "file",
+                "queue",
+                "table",
+                "keyvault",
+                "logs",
+            ):
                 authority = urlsplit(getattr(profile, name)).netloc.lower()
                 if authority in authorities and authorities[authority] != profile:
                     raise ValueError("Profile authorities must be unambiguous")
@@ -148,10 +213,23 @@ def load_settings(config_file: Path, environ: Mapping[str, str] | None = None) -
                 if name in Settings.model_fields:
                     values[name] = (
                         json.loads(value)
-                        if name in ("allowed_hosts", "service_endpoints", "client_profiles")
+                        if name
+                        in (
+                            "allowed_hosts",
+                            "service_endpoints",
+                            "client_profiles",
+                            "data_listen_ports",
+                            "notification_receivers",
+                        )
                         else value
                     )
         values["data_dir"] = (config_file.parent / values["data_dir"]).resolve()
+        if values.get("keyvault_backup_key_file"):
+            values["keyvault_backup_key_file"] = (
+                config_file.parent / values["keyvault_backup_key_file"]
+            ).resolve()
+        for binding in values.get("notification_receivers", {}).values():
+            binding["ca_file"] = str((config_file.parent / binding["ca_file"]).resolve())
         return Settings(**values)
     except (ValueError, KeyError, TypeError, OSError):
         raise ValueError(

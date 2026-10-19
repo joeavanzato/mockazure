@@ -30,16 +30,16 @@ async def mutate_message(session, actor, box, row, operation, payload, now):
             raise GraphError(400, "Request_BadRequest", "A destinationId string is required")
         destination = await folder_by_id(session, box, payload["destinationId"])
     elif operation == "update":
-        if not payload or payload.keys() - {"isRead", "categories"}:
-            raise GraphError(400, "Request_BadRequest", "Only isRead and categories can be updated")
-        if "isRead" in payload and type(payload["isRead"]) is not bool:
-            raise GraphError(400, "Request_BadRequest", "isRead must be a boolean")
-        if "categories" in payload and (
-            not isinstance(payload["categories"], list)
-            or len(payload["categories"]) > 100
-            or any(not isinstance(v, str) or len(v) > 256 for v in payload["categories"])
-        ):
-            raise GraphError(400, "Request_BadRequest", "Invalid bounded categories array")
+        from mockazure.mail.workflow_contracts import message_body
+
+        if not payload:
+            raise GraphError(400, "Request_BadRequest", "An update body is required")
+        payload = message_body(payload, update=True, is_draft=row.payload.get("isDraft", False))
+        if payload.keys() & {"from", "sender"}:
+            # The field can be prepared on a draft, but send authority is checked
+            # separately at acceptance and again by the delivery worker.
+            if not row.payload.get("isDraft"):
+                raise GraphError(400, "ErrorInvalidOperation", "Sending identity requires a draft")
         if all(row.payload.get(k) == v for k, v in payload.items()):
             return row
     elif payload:
@@ -69,6 +69,11 @@ async def mutate_message(session, actor, box, row, operation, payload, now):
     row.revision = revision
     if operation != "delete":
         row.payload = {**row.payload, "lastModifiedDateTime": now.isoformat()}
+        if operation == "update" and row.payload.get("isDraft"):
+            from mockazure.mail.composition import render_mime
+
+            content = await render_mime(session, box, row)
+            row.mime_content_id, row.size_bytes = content.id, content.size
         await session.flush()
     await save_version(session, row, revision, deleted=operation == "delete")
     after = {} if operation == "delete" else fact_view(row)

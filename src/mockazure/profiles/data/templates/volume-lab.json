@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "name": "volume-lab",
+  "kind": "template",
+  "tenantProfile": "small-business",
+  "dataProfiles": [
+    "volume-signins"
+  ],
+  "parameters": {
+    "shared.users": 10000
+  }
+}

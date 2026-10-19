@@ -12,7 +12,7 @@ from mockazure.activity.errors import handle as activity_error_handler
 from mockazure.activity.routes import router as activity_router
 from mockazure.admin.activity_routes import router as activity_admin_router
 from mockazure.admin.arm_routes import router as arm_admin_router
-from mockazure.admin.auth import verify_admin_token
+from mockazure.admin.cloud_routes import router as cloud_admin_router
 from mockazure.admin.collection_routes import router as collection_admin_router
 from mockazure.admin.directory_routes import router as directory_admin_router
 from mockazure.admin.errors import AdminError
@@ -25,12 +25,18 @@ from mockazure.admin.licensing_routes import router as licensing_admin_router
 from mockazure.admin.mail_routes import router as mail_admin_router
 from mockazure.admin.maintenance_routes import router as maintenance_admin_router
 from mockazure.admin.managed_identity_routes import router as managed_identity_admin_router
+from mockazure.admin.population_routes import router as population_admin_router
+from mockazure.admin.profile_routes import router as profile_admin_router
+from mockazure.admin.resource_routes import router as resource_admin_router
 from mockazure.admin.routes import router
 from mockazure.admin.security_routes import router as security_admin_router
 from mockazure.admin.session_routes import router as session_router
 from mockazure.admin.workload_routes import router as workload_admin_router
 from mockazure.collections.routes import router as collection_graph_router
 from mockazure.config import Settings
+from mockazure.console.boundary import authorize_management
+from mockazure.console.routes import PUBLIC_PATHS
+from mockazure.console.routes import router as console_router
 from mockazure.content.routes import router as content_admin_router
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
@@ -45,15 +51,22 @@ from mockazure.providers.arm.inventory_routes import router as arm_inventory_rou
 from mockazure.providers.arm.mutation_routes import router as arm_mutation_router
 from mockazure.providers.arm.operations import router as arm_operations_router
 from mockazure.providers.arm.probes import router as arm_router
+from mockazure.providers.arm.provider_job_routes import router as arm_provider_jobs_router
+from mockazure.providers.arm.provider_routes import router as arm_provider_router
 from mockazure.providers.arm.rbac_routes import router as arm_rbac_router
+from mockazure.providers.arm.resource_handlers import router as arm_resource_router
+from mockazure.providers.arm.storage_routes import router as arm_storage_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
 from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
+from mockazure.providers.graph.calendar_routes import router as calendar_router
+from mockazure.providers.graph.calendar_view_routes import router as calendar_view_router
 from mockazure.providers.graph.directory import router_for
 from mockazure.providers.graph.drive_routes import router as drive_router
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
+from mockazure.providers.graph.mail_action_routes import router as mail_action_router
 from mockazure.providers.graph.mail_content_routes import router as mail_content_router
 from mockazure.providers.graph.mail_mutation_routes import router as mail_mutation_router
 from mockazure.providers.graph.mail_routes import router_for as mail_router_for
@@ -68,6 +81,7 @@ from mockazure.providers.graph.security.report_routes import router_for as regis
 from mockazure.providers.graph.security.role_routes import router_for as role_router_for
 from mockazure.providers.graph.security.routes import router_for as security_router_for
 from mockazure.providers.graph.site_routes import router as site_router
+from mockazure.providers.graph.subscription_routes import router as subscription_router
 from mockazure.providers.graph.team_routes import router as team_router
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
@@ -127,6 +141,20 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     @app.middleware("http")
     async def boundary(request: Request, call_next):
         request.state.request_id = str(uuid4())
+        from mockazure.providers.storage.routes import handle as storage_handle
+        from mockazure.providers.storage.routes import service_for_request
+
+        storage_service = service_for_request(request, settings)
+        if storage_service == "logs":
+            from mockazure.providers.loganalytics.routes import handle as logs_handle
+
+            return await logs_handle(request)
+        if storage_service == "keyvault":
+            from mockazure.providers.keyvault.routes import handle as keyvault_handle
+
+            return await keyvault_handle(request)
+        if storage_service is not None:
+            return await storage_handle(request, storage_service)
         # Generated Az scope clients join "/{scope}" with an absolute ARM scope.
         # Normalize that one leading slash only for these precise operation shapes;
         # interior duplicate/encoded separators still fail canonical parsing.
@@ -140,6 +168,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         arm_path = request.scope["path"].lower().split("/")[1] in {"subscriptions", "tenants"}
         request.state.arm_path = arm_path
         if arm_path:
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.insights/(diagnosticsettingscategories|diagnosticsettings)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
             if b"%" in request.scope.get("raw_path", b"") or "\\" in request.scope["path"]:
                 return await handle_arm_error(
                     request, ArmError(400, "InvalidResourceId", "Encoded ARM paths are unsupported")
@@ -151,7 +184,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             )
             # ARM's reserved path segments are case-insensitive; resource names retain case.
             request.scope["path"] = re.sub(
-                r"(?i)(?<=/)(subscriptions|tenants|resourcegroups|resources)(?=/|$)",
+                r"(?i)(?<=/)(subscriptions|tenants|resourcegroups|resources|providers)(?=/|$)",
                 lambda match: match.group(0).lower(),
                 request.scope["path"],
             )
@@ -162,6 +195,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
             )
             request.scope["path"] = re.sub(
                 r"(?i)/providers/microsoft\.authorization/(roledefinitions|roleassignments)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.storage/(storageaccounts|checknameavailability)(?=/|$)",
                 lambda match: match.group(0).lower(),
                 request.scope["path"],
             )
@@ -181,15 +219,14 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
                 "/_mock/health",
                 "/_mock/ready",
             ):
-                scheme, _, token = request.headers.get("authorization", "").partition(" ")
-                if scheme.lower() != "bearer" or not verify_admin_token(token, settings.token_file):
-                    response = error_response(
-                        request, 401, "Unauthorized", "Management authentication required"
-                    )
-                    response.headers["WWW-Authenticate"] = "Bearer"
-                    return response
+                if request.url.path not in PUBLIC_PATHS:
+                    request.state.management_identity = await authorize_management(request)
             await enforce_directory_budget(request)
             response = await call_next(request)
+        except AdminError as error:
+            response = error_response(request, error.status, error.code, error.message)
+            if error.status == 401:
+                response.headers["WWW-Authenticate"] = "Bearer"
         except GraphError as error:
             response = graph_error_response(request, error)
         except SQLAlchemyError:
@@ -301,6 +338,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(mail_admin_router)
     app.include_router(maintenance_admin_router)
     app.include_router(router)
+    app.include_router(console_router)
+    app.include_router(resource_admin_router)
+    app.include_router(profile_admin_router)
+    app.include_router(population_admin_router)
     app.include_router(evidence_admin_router)
     app.include_router(collection_admin_router)
     app.include_router(collection_graph_router)
@@ -310,12 +351,26 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(licensing_graph_router)
     app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
+    app.include_router(cloud_admin_router)
+    from mockazure.providers.keyvault.management import router as vault_management_router
+
+    app.include_router(vault_management_router)
+    from mockazure.providers.arm.diagnostic_routes import router as diagnostic_router
+
+    app.include_router(diagnostic_router)
+    app.include_router(arm_storage_router)
+    from mockazure.providers.resourcegraph.routes import router as resourcegraph_router
+
+    app.include_router(resourcegraph_router)
+    app.include_router(arm_provider_router)
     app.include_router(arm_router)
     app.include_router(arm_inventory_router)
     app.include_router(arm_activity_router)
     app.include_router(arm_mutation_router)
     app.include_router(arm_operations_router)
     app.include_router(arm_rbac_router)
+    app.include_router(arm_provider_jobs_router)
+    app.include_router(arm_resource_router)
     app.include_router(session_router)
     app.include_router(identity_router)
     app.include_router(security_admin_router)
@@ -347,6 +402,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(team_router)
     app.include_router(site_router)
     app.include_router(drive_router)
+    app.include_router(calendar_view_router)
+    app.include_router(subscription_router)
+    app.include_router(calendar_router)
+    app.include_router(mail_action_router)
     app.include_router(mail_mutation_router)
     app.include_router(mail_content_router)
     app.include_router(mail_router_for("v1.0"))

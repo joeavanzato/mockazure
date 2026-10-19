@@ -60,8 +60,14 @@ services:
     volumes:
       - ./deploy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     ports:
-      - "127.0.0.1:${MOCKAZURE_API_PORT:-8443}:8443"
+      - "${MOCKAZURE_BIND_ADDRESS:-127.0.0.1}:${MOCKAZURE_API_PORT:-8443}:8443"
       - "127.0.0.1:${MOCKAZURE_DB_PORT:-55432}:5432"
+      - "${MOCKAZURE_BIND_ADDRESS:-127.0.0.1}:${MOCKAZURE_STORAGE_PORT:-8444}:8444"
+      - "${MOCKAZURE_BIND_ADDRESS:-127.0.0.1}:${MOCKAZURE_FILE_PORT:-8445}:8445"
+      - "${MOCKAZURE_BIND_ADDRESS:-127.0.0.1}:${MOCKAZURE_QUEUE_PORT:-8446}:8446"
+      - "${MOCKAZURE_BIND_ADDRESS:-127.0.0.1}:${MOCKAZURE_TABLE_PORT:-8447}:8447"
+      - "${MOCKAZURE_BIND_ADDRESS:-127.0.0.1}:${MOCKAZURE_KEYVAULT_PORT:-8448}:8448"
+      - "${MOCKAZURE_BIND_ADDRESS:-127.0.0.1}:${MOCKAZURE_LOGS_PORT:-8449}:8449"
     networks: [internal, ingress]
     depends_on:
       api: {condition: service_healthy}

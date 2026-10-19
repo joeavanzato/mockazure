@@ -1,4 +1,3 @@
-
 """Index bounded expired-query and closed-rule-history reclamation."""
 
 from alembic import op
