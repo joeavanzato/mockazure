@@ -197,7 +197,7 @@ jobs:
       - run: uv sync --locked --group clients
       - run: uv run python tools/prepare_tests.py
       - run: docker compose -f compose.test.m6.yaml up -d --wait
-      - run: uv run python -m tools.build_release --source-commit "$(git rev-parse HEAD)" --output-dir work/release/candidate
+      - run: uv run python -m tools.build_release --commit "$(git rev-parse HEAD)" --output work/release/candidate
       - run: uv run python -m tools.verify_cloud_distribution --database-container "$(docker compose -f compose.test.m6.yaml ps -q db)"
         env:
           MOCKAZURE_TEST_DB_PORT: "55445"
