@@ -72,3 +72,5 @@ Export is bounded to 1,000 subscription descriptions, including retained retired
 Pending callbacks intersect their saved permission claims with current applicable application/delegated consent under the tenant security lock. Revoking a grant stops subsequent delivery even if its original public access token has not expired. New grants cannot expand a saved subscription actor beyond its original claims.
 
 Subscription reauthorization accepts both `/reauthorize` and the original Graph PowerShell `microsoft.graph.reauthorize` URI form with the same current authorization and empty-body rules.
+
+[Native E qualification](qualification/cloud-phase-e.md) passed actual private HTTPS delivery, identical-payload retry across API/worker restart, and deletion suppression with four original Graph clients at runtime `dc40b79`. The receiver owns its Docker network namespace and remains reachable during API restart.

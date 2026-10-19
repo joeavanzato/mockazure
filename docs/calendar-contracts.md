@@ -64,7 +64,7 @@ events and exceptions, without granting calendar authority through the source ma
 and basic-read entries omit subject/location. Unknown or unauthorized targets return a local
 per-schedule error. Working-hours settings and distribution-list expansion are not simulated.
 
-Native four-ecosystem and Linux/Windows qualification remains pending the shared E gate.
+Representative native four-ecosystem and Linux/Windows qualification passed at runtime `dc40b79`; see [exact scope and evidence](qualification/cloud-phase-e.md).
 
 Action parameters accept the exact PascalCase spellings in the pinned Microsoft CSDL and lower-camel REST examples, rejecting ambiguous duplicate names. Primary calendarView/delta also accepts the SDK function URI calendarView/delta(); cursors remain bound to the requested path. Attendees-only updates send meeting messages only to changed attendees; local copies retain the current participant list. Imported events must retain valid timing, recurrence exceptions and unique client/calendar transaction identities.
 

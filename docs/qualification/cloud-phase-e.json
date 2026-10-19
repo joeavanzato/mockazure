@@ -1,0 +1,269 @@
+{
+  "phase": "E",
+  "sourceCommit": "dc40b7949bd4a65ea5dc9850c90a218cb0e2f86a",
+  "sourceFingerprint": "d2ea8537bd4d3c119c75ea0a592ffefe18617cc154ae1e752d939736d7623e3f",
+  "passed": true,
+  "ecosystems": {
+    "python": {
+      "status": "passed",
+      "clientVersions": {
+        "msgraph-sdk": "1.64.0"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "graph.mail-delivery",
+          "operationIds": [
+            "message.create",
+            "message.update",
+            "user.sendMail"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "mail_roundtrip": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.calendar-workflow",
+          "operationIds": [
+            "event.create",
+            "event.update",
+            "event.accept",
+            "event.instances",
+            "event.delta"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "calendar_recurrence_delta": true,
+            "meeting_response": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.subscription-workflow",
+          "operationIds": [
+            "subscription.create",
+            "subscription.get",
+            "subscription.update",
+            "subscription.reauthorize",
+            "subscription.delete"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "subscription_management": true,
+            "callback_delivery": true,
+            "callback_retry": true,
+            "revoked_callbacks": true
+          }
+        }
+      ]
+    },
+    "typescript": {
+      "status": "passed",
+      "clientVersions": {
+        "@microsoft/microsoft-graph-client": "3.0.7"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "graph.mail-delivery",
+          "operationIds": [
+            "message.create",
+            "message.update",
+            "user.sendMail"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "mail_roundtrip": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.calendar-workflow",
+          "operationIds": [
+            "event.create",
+            "event.update",
+            "event.accept",
+            "event.instances",
+            "event.delta"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "calendar_recurrence_delta": true,
+            "meeting_response": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.subscription-workflow",
+          "operationIds": [
+            "subscription.create",
+            "subscription.get",
+            "subscription.update",
+            "subscription.reauthorize",
+            "subscription.delete"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "subscription_management": true,
+            "callback_delivery": true,
+            "callback_retry": true,
+            "revoked_callbacks": true
+          }
+        }
+      ]
+    },
+    "dotnet": {
+      "status": "passed",
+      "clientVersions": {
+        "Microsoft.Graph": "5.91.0"
+      },
+      "restFallbacks": [],
+      "cases": [
+        {
+          "workflow": "graph.mail-delivery",
+          "operationIds": [
+            "message.create",
+            "message.update",
+            "user.sendMail"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "mail_roundtrip": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.calendar-workflow",
+          "operationIds": [
+            "event.create",
+            "event.update",
+            "event.accept",
+            "event.instances",
+            "event.delta"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "calendar_recurrence_delta": true,
+            "meeting_response": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.subscription-workflow",
+          "operationIds": [
+            "subscription.create",
+            "subscription.get",
+            "subscription.update",
+            "subscription.reauthorize",
+            "subscription.delete"
+          ],
+          "transport": "sdk",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "subscription_management": true,
+            "callback_delivery": true,
+            "callback_retry": true,
+            "revoked_callbacks": true
+          }
+        }
+      ]
+    },
+    "powershell": {
+      "status": "passed",
+      "clientVersions": {
+        "Microsoft.Graph.Users.Actions": "2.35.1",
+        "Microsoft.Graph.Calendar": "2.35.1",
+        "Microsoft.Graph.Authentication": "2.35.1",
+        "Microsoft.Graph.Mail": "2.35.1",
+        "Microsoft.Graph.ChangeNotifications": "2.35.1"
+      },
+      "restFallbacks": [
+        "primary calendarView/delta through original Invoke-MgGraphRequest"
+      ],
+      "cases": [
+        {
+          "workflow": "graph.mail-delivery",
+          "operationIds": [
+            "message.create",
+            "message.update",
+            "user.sendMail"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "mail_roundtrip": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.calendar-workflow",
+          "operationIds": [
+            "event.create",
+            "event.update",
+            "event.accept",
+            "event.instances",
+            "event.delta"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "calendar_recurrence_delta": true,
+            "meeting_response": true,
+            "persistent_read": true,
+            "cross_language_reads": true
+          }
+        },
+        {
+          "workflow": "graph.subscription-workflow",
+          "operationIds": [
+            "subscription.create",
+            "subscription.get",
+            "subscription.update",
+            "subscription.reauthorize",
+            "subscription.delete"
+          ],
+          "transport": "module",
+          "expectedStatus": "completed",
+          "actualStatus": "completed",
+          "assertions": {
+            "subscription_management": true,
+            "callback_delivery": true,
+            "callback_retry": true,
+            "revoked_callbacks": true
+          }
+        }
+      ]
+    }
+  },
+  "nativeReport": "D:\\projects\\mockazure\\.worktrees\\structured\\work\\default-smoke-1584b3e04885\\graph-workflows-report.json",
+  "timezonePlatformEquivalence": true,
+  "elapsedSeconds": 197.9220000000205
+}
