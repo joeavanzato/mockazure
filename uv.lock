@@ -243,6 +243,21 @@ wheels = [
 ]
 
 [[package]]
+name = "azure-data-tables"
+version = "12.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-core" },
+    { name = "isodate" },
+    { name = "typing-extensions" },
+    { name = "yarl" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ad/b8/e76cfa7f5f847722664c6f8108c391deadcb9d9aad579650c128affd4669/azure_data_tables-12.7.0.tar.gz", hash = "sha256:b14fc94a3223a2835ff5688e17d8e107b27c7cd7c4114138f2ac81373723705d", size = 258650, upload-time = "2025-05-06T17:51:06.323Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/3e/2b8da274b49402659cd732def2ae217f2e86312278feb56b55ccbffbbc26/azure_data_tables-12.7.0-py3-none-any.whl", hash = "sha256:24ed9b5690aa46c213182e32bb1b39a68dd9f526d84f447c287e3a401b437c10", size = 133178, upload-time = "2025-05-06T17:51:07.65Z" },
+]
+
+[[package]]
 name = "azure-identity"
 version = "1.26.0"
 source = { registry = "https://pypi.org/simple" }
@@ -256,6 +271,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/e6/87/e88098a024d74b7434de5b110c261da024fe5d6c139f1847f6f8a2b76678/azure_identity-1.26.0.tar.gz", hash = "sha256:61b4538b87df10d2d6d44b77cd5ea28a8929fd4929d58b45bf3f230f7daba02e", size = 310151, upload-time = "2026-10-01T14:17:47.825Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b2/d5/ae45ce8009d0d015304b206c7c4a6cbab02c03f8f07eedefb32b099ccee3/azure_identity-1.26.0-py3-none-any.whl", hash = "sha256:3c60d9682b3ac01507388d474cb5a5ffbe54152a96b6cdcaa7013da9315cf186", size = 195958, upload-time = "2026-10-01T14:17:49.705Z" },
+]
+
+[[package]]
+name = "azure-keyvault-secrets"
+version = "4.11.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-core" },
+    { name = "isodate" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/57/a4/7b0e582c8b2c97e1ea91d67ef831fa0c5e566a0dda9f6aa45054be47720d/azure_keyvault_secrets-4.11.3.tar.gz", hash = "sha256:193ba3cf9912ae776fb1ba40d147aa3cbfcf5cda5e0e2e35ef8fbe4c78db1217", size = 132370, upload-time = "2026-10-02T21:35:42.783Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/dc/8e/726acb7b6cd8d28cafd06531d6daf7e390667ebbbc4ff39f7cfc5bd75652/azure_keyvault_secrets-4.11.3-py3-none-any.whl", hash = "sha256:c77cc80f33d07e1b8cbbda5e7b6b8a1da1471ca917796f9895603a0c2b5f9c2f", size = 105234, upload-time = "2026-10-02T21:35:44.243Z" },
 ]
 
 [[package]]
@@ -341,6 +370,21 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/5e/04/a44f6d064af89e614d63c68a5ea906a12eb1d3733f1605567f062ce4a435/azure_storage_file_share-12.23.0.tar.gz", hash = "sha256:670f27a44100ec6c08dd5e4bb98fcaa7b661f7799828edc523a28d6ed56b9f66", size = 365780, upload-time = "2025-10-15T15:47:49.578Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/82/ac/089ce5d913f72558c45f7a50663524ca20c558b700c7d958c04ca37450d1/azure_storage_file_share-12.23.0-py3-none-any.whl", hash = "sha256:6c7aecd86ace544629752c2753960f9db85fecaa7dbf5baa78f7edcee9f13360", size = 307379, upload-time = "2025-10-15T15:47:50.987Z" },
+]
+
+[[package]]
+name = "azure-storage-queue"
+version = "12.15.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-core" },
+    { name = "cryptography" },
+    { name = "isodate" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/48/23/e3b46de244a133675c8c20f3ef2be6cbaf22a41f03e04e1cb2acd609bf5f/azure_storage_queue-12.15.0.tar.gz", hash = "sha256:4e01dcae5aefd0c463f7bae5c75c8a91f955c893f14ed7590fc0cd447ac4666d", size = 197521, upload-time = "2026-01-07T00:18:03.616Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d9/22/5da115105c9fe7e2fc11804018649b394f60a62735e19642acf336e3807a/azure_storage_queue-12.15.0-py3-none-any.whl", hash = "sha256:056cfce0cd60458f0b7653d804f639098b14593f843899c6c0fc65b3ebe61210", size = 187547, upload-time = "2026-01-07T00:18:05.23Z" },
 ]
 
 [[package]]
@@ -1183,12 +1227,15 @@ dependencies = [
 
 [package.dev-dependencies]
 clients = [
+    { name = "azure-data-tables" },
     { name = "azure-identity" },
+    { name = "azure-keyvault-secrets" },
     { name = "azure-mgmt-authorization" },
     { name = "azure-mgmt-monitor" },
     { name = "azure-mgmt-resource" },
     { name = "azure-storage-blob" },
     { name = "azure-storage-file-share" },
+    { name = "azure-storage-queue" },
     { name = "msal" },
     { name = "msgraph-sdk" },
 ]
@@ -1216,12 +1263,15 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 clients = [
+    { name = "azure-data-tables", specifier = "==12.7.0" },
     { name = "azure-identity", specifier = "==1.26.0" },
+    { name = "azure-keyvault-secrets", specifier = "==4.11.3" },
     { name = "azure-mgmt-authorization", specifier = "==4.0.0" },
     { name = "azure-mgmt-monitor", specifier = "==6.0.2" },
     { name = "azure-mgmt-resource", specifier = "==23.4.0" },
     { name = "azure-storage-blob", specifier = "==12.27.0" },
     { name = "azure-storage-file-share", specifier = "==12.23.0" },
+    { name = "azure-storage-queue", specifier = "==12.15.0" },
     { name = "msal", specifier = "==1.39.0" },
     { name = "msgraph-sdk", specifier = "==1.64.0" },
 ]

@@ -10684,6 +10684,267 @@
         "tests/integration/test_cloud_resource_inventory.py"
       ],
       "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "Vaults_ListDeleted",
+      "service": "arm-providers",
+      "version": "2025-05-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/DeletedVaultListResult"
+        }
+      },
+      "schemaSource": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.KeyVault/deletedVaults/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "collection": true,
+      "limits": {
+        "deletedVaultsPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/managedidentity.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "03d8098b5f3bf4ce54fc950c949baf41f80095887a5566c961baba514d080508",
+          "localPath": "schemas/specification/common-types/resource-management/v5/managedidentity.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "fc4ca1500bb1e05e47e70a25a875944a15480e9803d1db35b6776e1e25062be5",
+          "localPath": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/examples/listDeletedVaults.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "3b7b4a9a8206cb3e7d8dd08ede70f651bc2ca33fa4346af7056b93e3d151feec",
+          "localPath": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/examples/listDeletedVaults.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous purge; list returns at most the local 10000-vault tenant bound.",
+        "Recovery recreates the original vault configuration; scoped RBAC assignments are not restored."
+      ],
+      "tests": [
+        "tests/integration/test_structured_service_lifecycle.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "Vaults_GetDeleted",
+      "service": "arm-providers",
+      "version": "2025-05-01",
+      "method": "GET",
+      "path": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "#/definitions/DeletedVault"
+        }
+      },
+      "schemaSource": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.KeyVault/locations/deletedVaults/read"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "collection": false,
+      "limits": {
+        "deletedVaultsPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/managedidentity.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "03d8098b5f3bf4ce54fc950c949baf41f80095887a5566c961baba514d080508",
+          "localPath": "schemas/specification/common-types/resource-management/v5/managedidentity.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "fc4ca1500bb1e05e47e70a25a875944a15480e9803d1db35b6776e1e25062be5",
+          "localPath": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/examples/getDeletedVault.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "565cfb76011be810e16dbd231394dcfca6312b8d01fa7f1c84789dc76a2aaaec",
+          "localPath": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/examples/getDeletedVault.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous purge; list returns at most the local 10000-vault tenant bound.",
+        "Recovery recreates the original vault configuration; scoped RBAC assignments are not restored."
+      ],
+      "tests": [
+        "tests/integration/test_structured_service_lifecycle.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "Vaults_PurgeDeleted",
+      "service": "arm-providers",
+      "version": "2025-05-01",
+      "method": "POST",
+      "path": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge",
+      "aliases": [],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": null,
+        "202": null
+      },
+      "schemaSource": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+      "statusCodes": [
+        200,
+        202,
+        400,
+        401,
+        403,
+        404,
+        409
+      ],
+      "headers": [
+        "x-ms-request-id"
+      ],
+      "permissions": [
+        "Microsoft.KeyVault/locations/deletedVaults/purge/action"
+      ],
+      "queryOptions": [
+        "api-version"
+      ],
+      "collection": false,
+      "limits": {
+        "deletedVaultsPerTenant": 10000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/LICENSE",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "b37363bf2295aa0acde60ce78a60034a71a0955075fc01aa09cc23eadff44436",
+          "localPath": "schemas/LICENSE",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/managedidentity.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "03d8098b5f3bf4ce54fc950c949baf41f80095887a5566c961baba514d080508",
+          "localPath": "schemas/specification/common-types/resource-management/v5/managedidentity.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/common-types/resource-management/v5/types.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "66767620b8edfbc04093c76b78d168cc59822cd9da1e726d35a9d45b73e642c1",
+          "localPath": "schemas/specification/common-types/resource-management/v5/types.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "fc4ca1500bb1e05e47e70a25a875944a15480e9803d1db35b6776e1e25062be5",
+          "localPath": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/openapi.json",
+          "license": "MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ae348cc71f54a61f5d17472052cfef279a23db6b/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/examples/purgeDeletedVault.json",
+          "revision": "ae348cc71f54a61f5d17472052cfef279a23db6b",
+          "retrievedAt": "2026-10-18",
+          "sha256": "1446587a46e26b4dbbd6f8f91f4ede7e7a4052e06c0c3bce8f5d586f3f94e9a2",
+          "localPath": "schemas/specification/keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2025-05-01/examples/purgeDeletedVault.json",
+          "license": "MIT"
+        }
+      ],
+      "limitations": [
+        "Synchronous purge; list returns at most the local 10000-vault tenant bound.",
+        "Recovery recreates the original vault configuration; scoped RBAC assignments are not restored."
+      ],
+      "tests": [
+        "tests/integration/test_structured_service_lifecycle.py"
+      ],
+      "status": "implemented"
     }
   ]
 }

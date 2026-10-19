@@ -56,7 +56,15 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     args = dict(pairs)
     if (
         len(args) != len(pairs)
-        or args.get("sv") != "2025-11-05"
+        or args.get("sv")
+        not in (
+            {"2019-02-02", "2025-11-05"}
+            if service == "table"
+            else {"2026-02-06", "2026-04-06", "2025-01-05"}
+            if service == "queue"
+            else {"2025-11-05"}
+        )
+        or (service == "table" and any(k in args for k in ("tn", "spk", "srk", "epk", "erk")))
         or args.get("ses")
         or args.get("si")
     ):
@@ -65,7 +73,12 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
         account
         + "\n"
         + "\n".join(
-            args.get(k, "") for k in ("sp", "ss", "srt", "st", "se", "sip", "spr", "sv", "ses")
+            args.get(k, "")
+            for k in (
+                ("sp", "ss", "srt", "st", "se", "sip", "spr", "sv", "ses")
+                if args.get("sv", "") >= "2020-12-06"
+                else ("sp", "ss", "srt", "st", "se", "sip", "spr", "sv")
+            )
         )
         + "\n"
     )
@@ -74,7 +87,17 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     check_constraints(args, request, now)
     if service[0] not in args.get("ss", ""):
         denied("AuthorizationServiceMismatch")
-    level = "s" if not resource else "c" if "/" not in resource else "o"
+    # Query Tables is explicitly a container operation in the account-SAS
+    # operation matrix; List Queues (and other service listings) remain service.
+    level = (
+        "c"
+        if service == "table" and action == "list"
+        else "s"
+        if not resource
+        else "c"
+        if "/" not in resource
+        else "o"
+    )
     if level not in args.get("srt", ""):
         denied("AuthorizationResourceTypeMismatch")
     needed = {"create": "cw", "read": "r", "list": "l", "delete": "d", "metadata": "w"}.get(
@@ -82,10 +105,29 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     )
     if not needed or not set(needed) & set(args.get("sp", "")):
         denied("AuthorizationPermissionMismatch")
+    if (
+        service == "table"
+        and action in {"replace_entity", "merge_entity"}
+        and not request.headers.get("If-Match")
+        and not {"a", "u"} <= set(args["sp"])
+    ):
+        denied("AuthorizationPermissionMismatch")
     return frozenset(args["sp"])
 
 
 DATA_PERMISSIONS = {
+    "enqueue": "a",
+    "peek": "r",
+    "receive": "p",
+    "update_message": "u",
+    "delete_message": "p",
+    "clear": "d",
+    "insert_entity": "a",
+    "replace_entity": "u",
+    "merge_entity": "u",
+    "delete_entity": "d",
+    "read_entity": "r",
+    "query_entities": "r",
     "read_blob": "r",
     "write_blob": "cw",
     "delete_blob": "d",
@@ -98,6 +140,10 @@ DATA_PERMISSIONS = {
 
 
 async def authorize_service_sas(session, keys, account, request, service, action, resource, now):
+    if service == "queue":
+        return authorize_queue_sas(keys, account, request, action, resource, now), False
+    if service == "table":
+        return authorize_table_sas(keys, account, request, action, resource, now), False
     args = dict(request.query_params.multi_items())
     if (
         len(args) != len(request.query_params.multi_items())
@@ -197,3 +243,72 @@ async def authorize_service_sas(session, keys, account, request, service, action
             denied()
         await require_delegation_issuer(session, delegation, service, action, resource)
     return frozenset(effective["sp"]), bool(delegation)
+
+
+def authorize_table_sas(keys, account, request, action, resource, now):
+    args = dict(request.query_params.multi_items())
+    name = resource.split("/")[0].lower()
+    if (
+        len(args) != len(request.query_params.multi_items())
+        or args.get("sv") != "2019-02-02"
+        or args.get("si")
+        or args.get("tn", "").lower() != name
+        or not name
+        or any(k in args for k in ("skoid", "srt", "ss", "ses"))
+        or ("srk" in args and "spk" not in args)
+        or ("erk" in args and "epk" not in args)
+    ):
+        denied()
+    value = "\n".join(
+        [args.get(k, "") for k in ("sp", "st", "se")]
+        + ["/table/" + account.name + "/" + name]
+        + [args.get(k, "") for k in ("si", "sip", "spr", "sv", "spk", "srk", "epk", "erk")]
+    )
+    if not matches(keys, args.get("sig"), value.encode()):
+        denied()
+    check_constraints(args, request, now)
+    needed = DATA_PERMISSIONS.get(action)
+    if (
+        not needed
+        or needed not in args.get("sp", "")
+        or "".join(c for c in "raud" if c in args.get("sp", "")) != args.get("sp")
+    ):
+        denied("AuthorizationPermissionMismatch")
+    if (
+        action in {"replace_entity", "merge_entity"}
+        and not request.headers.get("If-Match")
+        and "a" not in args.get("sp", "")
+    ):
+        denied("AuthorizationPermissionMismatch")
+    return frozenset(args["sp"])
+
+
+def authorize_queue_sas(keys, account, request, action, resource, now):
+    args = dict(request.query_params.multi_items())
+    if (
+        args.get("sv") not in {"2026-02-06", "2026-04-06", "2025-01-05"}
+        or args.get("si")
+        or any(k in args for k in ("skoid", "sr", "ss", "srt"))
+    ):
+        denied()
+    needed = {
+        "enqueue": "a",
+        "peek": "r",
+        "receive": "p",
+        "update_message": "u",
+        "delete_message": "p",
+        "read": "r",
+    }.get(action)
+    if not needed or needed not in args.get("sp", ""):
+        denied("AuthorizationPermissionMismatch")
+    if "".join(c for c in "raup" if c in args.get("sp", "")) != args.get("sp", ""):
+        denied()
+    fields = (
+        [args.get(k, "") for k in ("sp", "st", "se")]
+        + ["/queue/" + account.name + "/" + resource.split("/")[0]]
+        + [args.get(k, "") for k in ("si", "sip", "spr", "sv")]
+    )
+    if not matches(keys, args.get("sig"), "\n".join(fields).encode()):
+        denied()
+    check_constraints(args, request, now)
+    return frozenset(args["sp"])

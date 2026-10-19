@@ -2,9 +2,10 @@
 
 Endpoint map for **MockAzure**, reviewed on **2026-10-18** against implementation
 snapshot [`0ceb9db`](https://github.com/joeavanzato/mockazure/commit/0ceb9db53ed5d2664c726606ae2a54e64cf3cfb8).
-The table describes the source tree containing this file. The runtime matches the
-qualified coverage expansion at `c418245`; see [qualification results](docs/coverage-expansion-results.md)
-and [the coverage audit](docs/coverage-audit.md) for evidence, corrections and limits.
+The table describes the source tree containing this file. The earlier Graph coverage expansion was qualified at `c418245`; see
+[those qualification results](docs/coverage-expansion-results.md) and
+[the coverage audit](docs/coverage-audit.md). Later cloud workflow additions are
+listed below with their own profiles, tests and remaining qualification limits.
 Microsoft links describe the real API; the support and limits columns describe
 MockAzure. This is an operation map, not a claim of complete Microsoft service parity.
 No real tenant is needed or contacted.
@@ -460,7 +461,7 @@ and User Access Administrator with inherited access/current grant checks.
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/{start|restart|powerOff|deallocate}` | Partial: POST async actions | `2025-04-01` | Persisted simulated running/stopped/deallocated state, current RBAC, lease/generation fencing and native Activity Logs. No guest execution/hibernation. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/start), [profile](docs/arm-contracts.md#durable-lifecycle-and-management-clients-b4). |
 | `/subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Compute/virtualMachines/{name}/instanceView` | Partial: GET | `2025-04-01` | Provisioning/power statuses only; no guest/agent telemetry. [Microsoft](https://learn.microsoft.com/en-us/rest/api/compute/virtual-machines/instance-view). |
 | Opaque local URLs returned in ARM `Azure-AsyncOperation` / `Location` headers | Partial: GET monitor/result | Version of initiating operation | Durable action/delete jobs, current RG/subscription authority, Retry-After and terminal failure envelopes; provider-specific Azure polling URL parity is not claimed. [Microsoft protocol](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations). |
-| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query, storage/Key Vault data planes | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
+| Other provider resource paths, deployments, diagnosticSettings, metrics, Azure Resource Graph, Log Analytics query | Unsupported | None claimed | Inventory/Activity Logs do not imply deployment, diagnostics, KQL or data-plane emulation. |
 
 Reserved path segments are case-insensitive. Percent-encoded ARM paths and unknown
 provider/version combinations are rejected. [ARM contracts](docs/arm-contracts.md) and
@@ -542,7 +543,7 @@ Teams query, membership/RSC, archive and client limits are detailed in the
 [pinned operation sources](integrations/contracts/teams.json).
 
 
-### Azure Storage data plane (C1 namespaces, C2 Blob content)
+### Azure Storage data plane (namespaces, Blob, Files REST, Tables and Queues)
 
 These are separate local service origins with `/{account}` path addressing;
 the table shows Microsoft's service-relative paths. Selected request versions
@@ -570,6 +571,15 @@ are `2019-07-07`, `2025-01-05` and `2025-11-05`. [Contract and authorization det
 | File `/{share}/{directory}?restype=directory[&comp=list/metadata/properties]` | Partial: CRUD/list/properties/metadata | Nonempty directory deletion rejects; 5,000-entry pages, opaque one-hour query/reset-bound cursors; required IDs/timestamps and XML filename encoding. No custom permission key. | [Directory listing](https://learn.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files) |
 | File `PUT /{share}?restype=share&comp=snapshot`; reads with `sharesnapshot=` | Partial: immutable share snapshots | Independent bytes/properties; list and delete snapshots, up to 200/share. No snapshot mutation. Share lifecycle uses key/SAS, not OAuth in this profile. | [Snapshot Share](https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-share) |
 | File `PUT /{share}/{path}?comp=lease` | Partial: four infinite lease actions | Acquire/change/release/break; stale lease writes fail. No renew or Blob-style HTTP preconditions. C4 large-object/four-client qualification passed at 39f68e7. | [Lease File](https://learn.microsoft.com/en-us/rest/api/storageservices/lease-file) |
+| Table `/Tables` and `/Tables('{table}')` | Partial: POST/GET collection; DELETE table | REST `2019-02-02`, plus `2017-07-29` namespace compatibility; durable case-insensitive names, typed lifecycle; current account key/SAS/OAuth checks. No Table ACL/service-properties/stats. | [Create Table](https://learn.microsoft.com/en-us/rest/api/storageservices/create-table), [profile](docs/table-contracts.md) |
+| Table `/{table}` and `/{table}(PartitionKey='{p}',RowKey='{r}')` | Partial: POST insert; GET/PUT/PATCH/MERGE/DELETE entity | Eight EDM types, precision-preserving Int64/date/binary, conditional ETags, merge/replace/upsert. Nulls omitted. JSON metadata modes; no Atom/Cosmos behavior. | [Insert Entity](https://learn.microsoft.com/en-us/rest/api/storageservices/insert-entity), [Update](https://learn.microsoft.com/en-us/rest/api/storageservices/update-entity2) |
+| Table `/{table}()` | Partial: GET | Typed filter comparisons/logical operators, `$select`, `$top`, 1,000/page; one-hour opaque query/account/table/generation-bound continuations with current authorization. Signed key ranges constrain results. No query functions/expansion. | [Query Entities](https://learn.microsoft.com/en-us/rest/api/storageservices/query-entities) |
+| Table `/$batch` | Partial: POST | One atomic MIME changeset, <=100 distinct entities in one partition and <=4 MiB; rollback and per-operation authorization. No mixed query/mutation or multiple changesets. Four-client D qualification passed at `589d741`; PowerShell entity calls use labeled REST fallback. | [Transactions](https://learn.microsoft.com/en-us/rest/api/storageservices/performing-entity-group-transactions) |
+| Queue `/?comp=list`, `/{queue}` | Partial: GET list, PUT create, DELETE queue | REST `2025-01-05`, `2026-02-06`, `2026-04-06`; durable metadata, source-native create/repeat/conflict status, opaque paging. Immediate deletion; no service stats/properties. | [List](https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1), [profile](docs/queue-contracts.md) |
+| Queue `/{queue}?comp=metadata` | Implemented: GET/PUT | Metadata replacement; count includes unexpired invisible messages; current keys, SAS and scoped OAuth checked on each call. | [Metadata](https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata) |
+| Queue `/{queue}/messages` | Implemented: POST enqueue, GET receive/peek, DELETE clear | XML text <=64 KiB; TTL, visibility, counts, competing receivers; no implicit Base64 conversion. Receipt digests survive restart, restore clears authority. | [Put](https://learn.microsoft.com/en-us/rest/api/storageservices/put-message), [Get](https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages) |
+| Queue `/{queue}/messages/{messageid}` | Implemented: PUT update, DELETE | Current receipt required; source-native errors and rotated receipt headers; payloads omitted from operation facts. Original Python, PowerShell, .NET and TypeScript write/restart/restore workflows qualified at `589d741`. | [Update](https://learn.microsoft.com/en-us/rest/api/storageservices/update-message), [Delete](https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2) |
+| Queue `/{queue}?comp=acl`, service properties/stats/user-delegation | Unsupported | Explicit errors; no stored-policy or user-delegation SAS claim. | [Profile limits](docs/queue-contracts.md) |
 
 
 Storage compatibility qualification passed (C4, runtime 39f68e7): the original Az.Storage
@@ -593,3 +603,17 @@ Fifteen focused review regressions passed within 106 affected tests; the full
 source-matched four-client qualification also passed at runtime 39f68e7. Upload reception uses a 1 MiB memory spool
 threshold, 256 MiB body cap and 300-second local deadline. Database-side File
 range updates still rewrite the full revision; no throughput parity is claimed.
+
+
+### Key Vault Secrets data plane
+
+API `2025-07-01` and legacy `7.0`, management `2025-05-01`; native virtual-host IDs and DNS-free local path aliases are detailed in the [Key Vault profile](docs/keyvault-contracts.md). Default snapshots intentionally omit values; metadata-only restore cannot recover them. Recovery/backup domain tests and [four-ecosystem phase D qualification](docs/qualification/cloud-phase-d.json) passed at runtime `589d741`.
+
+| Microsoft URI | MockAzure support | Notes / limitations | Reference |
+| --- | --- | --- | --- |
+| `/secrets/{name}` | Partial: PUT/DELETE; GET/PATCH latest aliases | New version on each set, HTTP200; authenticated encryption and current scoped data authorization. <=25KiB UTF-8. DELETE retains all versions for recovery. | [Set Secret](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/set-secret/set-secret?view=rest-keyvault-secrets-2025-07-01) |
+| `/secrets/{name}/{version}` | Implemented: GET/PATCH | Version-specific values; attribute/tag/content-type updates. Disabled GET403; GET outside nbf/exp remains allowed per Microsoft. No value mutation through PATCH. | [Get](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/get-secret/get-secret?view=rest-keyvault-secrets-2025-07-01), [attributes](https://learn.microsoft.com/en-us/azure/key-vault/secrets/about-secrets) |
+| `/secrets`, `/secrets/{name}/versions` | Implemented: GET | Metadata-only lists, 1..25/page, current permission checks and opaque query/vault/tenant/generation-bound continuations. Original Python4.11.3 HTTPS verified. | [Get Secrets](https://learn.microsoft.com/en-us/rest/api/keyvault/secrets/get-secrets/get-secrets?view=rest-keyvault-secrets-2025-07-01) |
+| `/deletedsecrets`, `/deletedsecrets/{name}`, `/deletedsecrets/{name}/recover` | Partial: GET list/get; DELETE purge; POST recover | Retains version IDs and encrypted values; current permission/network checks, 7..90-day retention and purge protection; metadata-only responses. | [Profile](docs/keyvault-contracts.md) |
+| `/secrets/{name}/backup`, `/secrets/restore` | Partial: POST | Explicit separate backup key/reference, encrypted versioned local envelope, <=500 versions, same tenant/subscription/geography. Original Azure backup blobs are not compatible. | [Backup](https://learn.microsoft.com/en-us/azure/key-vault/general/backup) |
+| ARM `.../Microsoft.KeyVault/deletedVaults`, `.../locations/{location}/deletedVaults/{name}`, `.../{name}/purge`; vault PUT `createMode=recover` | Partial: list/get, synchronous purge, recover | 2025-05-01 schema; retained configuration and encrypted contents. Scoped RBAC assignments must be recreated. Original scope/location required; no keys/certificates/HSM. | [Recovery](https://learn.microsoft.com/en-us/azure/key-vault/general/key-vault-recovery) |

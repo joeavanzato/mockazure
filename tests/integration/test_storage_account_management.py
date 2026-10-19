@@ -486,7 +486,7 @@ def test_storage_upgrade_from_preceding_head(settings):
             assert connection.scalar(text("SELECT to_regclass('storage_accounts')")) is None
         migrate(settings.database_url.get_secret_value())
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "063"
+            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "067"
             assert (
                 connection.scalar(text("SELECT to_regclass('storage_accounts')"))
                 == "storage_accounts"

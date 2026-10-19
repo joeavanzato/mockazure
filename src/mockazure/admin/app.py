@@ -136,6 +136,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         from mockazure.providers.storage.routes import service_for_request
 
         storage_service = service_for_request(request, settings)
+        if storage_service == "keyvault":
+            from mockazure.providers.keyvault.routes import handle as keyvault_handle
+
+            return await keyvault_handle(request)
         if storage_service is not None:
             return await storage_handle(request, storage_service)
         # Generated Az scope clients join "/{scope}" with an absolute ARM scope.
@@ -327,6 +331,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.add_exception_handler(ArmError, handle_arm_error)
     app.include_router(arm_admin_router)
     app.include_router(cloud_admin_router)
+    from mockazure.providers.keyvault.management import router as vault_management_router
+
+    app.include_router(vault_management_router)
     app.include_router(arm_storage_router)
     app.include_router(arm_provider_router)
     app.include_router(arm_router)

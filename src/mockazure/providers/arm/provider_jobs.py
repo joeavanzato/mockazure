@@ -193,6 +193,9 @@ async def process_provider_operation(
             if job.payload["operation"] == "delete":
                 keys = await subtree(session, claim.tenant_id, scope)
                 await require_unreferenced(session, claim.tenant_id, keys)
+                from mockazure.keyvault.vault_recovery import archive_vaults
+
+                await archive_vaults(session, claim.tenant_id, keys, now())
                 await session.execute(
                     update(Job)
                     .where(

@@ -16,7 +16,8 @@
       "enableRbacAuthorization",
       "enablePurgeProtection",
       "networkAcls",
-      "publicNetworkAccess"
+      "publicNetworkAccess",
+      "createMode"
     ],
     "children": [],
     "locationRequired": true

@@ -181,6 +181,11 @@ async def process_arm_delete(database, claim, wall_now):
             await require_unreferenced(
                 session, claim.tenant_id, await subtree(session, claim.tenant_id, scope)
             )
+            from mockazure.keyvault.vault_recovery import archive_vaults
+
+            await archive_vaults(
+                session, claim.tenant_id, await subtree(session, claim.tenant_id, scope), now()
+            )
             from sqlalchemy import func, update
 
             await session.execute(

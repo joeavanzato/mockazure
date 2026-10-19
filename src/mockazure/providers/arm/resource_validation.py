@@ -70,6 +70,8 @@ def configuration(row, profile):
         result["tags"] = copy.deepcopy(row.tags)
     for child in profile["children"]:
         result.get("properties", {}).pop(child, None)
+    # Vault Swagger omits readOnly here, but the local state machine owns this field.
+    result.get("properties", {}).pop("provisioningState", None)
     return result
 
 

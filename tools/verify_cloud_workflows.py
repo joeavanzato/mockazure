@@ -87,6 +87,74 @@ def source_identity():
     return commit, digest.hexdigest()
 
 
+def run_structured(path):
+    from tools.prepare_structured_clients import prepare
+    from tools.verify_default import main as smoke
+    from tools.verify_structured_services import qualify
+
+    started = time.monotonic()
+    commit, fingerprint = source_identity()
+    report = {
+        "phase": "D",
+        "sourceCommit": commit,
+        "sourceFingerprint": fingerprint,
+        "passed": False,
+        "ecosystems": {},
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    def run(*args):
+        observed = qualify(*args)
+        assert observed["passed"] and observed["localOnly"]
+        report["nativeReport"] = str(args[0] / "structured-services-report.json")
+        report["crossRead"] = observed["crossRead"]
+        for ecosystem, entry in observed["written"].items():
+            assertions = dict(entry["assertions"])
+            assertions.update(
+                api_worker_restart=observed["restarted"][ecosystem]["assertions"]["persistentRead"],
+                cloud_restore=observed["restored"][ecosystem]["assertions"]["persistentRead"]
+                and observed["restored"][ecosystem]["assertions"]["secretBackupRestore"],
+                key_rotation=observed["oldKeyDenied"],
+                metadataOnlySnapshot=observed["metadataOnlySnapshot"],
+                cross_language_reads=all(
+                    v["passed"] and v["objects"] == 12 for v in observed["crossRead"].values()
+                ),
+            )
+            rows = []
+            for definition in cases()["D"]["workflows"]:
+                if ecosystem not in definition["ecosystems"]:
+                    continue
+                rows.append(
+                    {
+                        "workflow": definition["id"],
+                        "operationIds": definition["operationIds"],
+                        "transport": definition.get("transportByEcosystem", {}).get(
+                            ecosystem, definition["transport"]
+                        ),
+                        "expectedStatus": "completed",
+                        "actualStatus": "completed",
+                        "assertions": {name: assertions[name] for name in definition["assertions"]},
+                    }
+                )
+            report["ecosystems"][ecosystem] = {
+                "status": "passed",
+                "clientVersions": entry["clientVersions"],
+                "restFallbacks": entry.get("restFallbacks", []),
+                "cases": rows,
+            }
+        validate_report(report, ECOSYSTEMS)
+
+    try:
+        prepare()
+        smoke(qualify=run)
+        if source_identity() != (commit, fingerprint):
+            raise ValueError("Runtime source changed during qualification")
+        report["passed"] = True
+    finally:
+        report["elapsedSeconds"] = time.monotonic() - started
+        path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+
+
 def run_management(path):
     from tools.prepare_cloud_clients import prepare
     from tools.verify_cloud_management import qualify
@@ -224,12 +292,15 @@ def main():
     if args.phase == "C" and set(args.ecosystems) == ECOSYSTEMS:
         run_storage(args.report)
         return
+    if args.phase == "D" and set(args.ecosystems) == ECOSYSTEMS:
+        run_structured(args.report)
+        return
     if args.phase == "B" and set(args.ecosystems) == ECOSYSTEMS:
         run_management(args.report)
         return
     if args.phase != "A" or set(args.ecosystems) != ECOSYSTEMS:
         parser.error(
-            "Only phase A, B and C matrices are executable; later phases remain unavailable"
+            "Only phase A, B, C and D matrices are executable; later phases remain unavailable"
         )
     from tools.prepare_clients import prepare
     from tools.verify_default import main as smoke

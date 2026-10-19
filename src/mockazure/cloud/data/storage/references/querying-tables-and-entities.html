@@ -1,0 +1,1318 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Querying tables and entities (REST API) - Azure Storage | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Querying tables and entities." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Querying tables and entities (REST API) - Azure Storage" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities" />
+			<meta property="og:description" content="Querying tables and entities." />
+			<meta name="platform_id" content="0f8c0b10-a5aa-2011-46cd-13e841910309" /> <meta name="scope" content="Azure,REST" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="azure" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="enable_rest_try_it" content="true" />
+	
+		<meta name="rest_product" content="Azure" />
+	
+		<meta name="breadcrumb_path" content="../../breadcrumb/toc.json" />
+	
+		<meta name="ms.author" content="seanmcc" />
+	
+		<meta name="manager" content="smmark" />
+	
+		<meta name="author" content="seanmcc-msft" />
+	
+		<meta name="ms.topic" content="reference" />
+	
+		<meta name="ms.devlang" content="rest-api" />
+	
+		<meta name="ms.date" content="2023-01-31T00:00:00Z" />
+	
+		<meta name="products" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" />
+	
+		<meta name="ms.service" content="azure-storage" />
+	
+		<meta name="moniker_definition_rel" content="../../.monikers.Azure.AzureRestApi.json" />
+	
+		<meta name="document_id" content="cd175c94-5123-dc2d-1896-6bc7a5aa2d21" />
+	
+		<meta name="document_version_independent_id" content="dde5dfbb-fcb5-5a4e-7776-1e5d5f03e7a9" />
+	
+		<meta name="updated_at" content="2023-06-27T21:44:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/ede20618bc9a933eedfaa72d22c76ef581326087/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md" />
+	
+		<meta name="git_commit_id" content="ede20618bc9a933eedfaa72d22c76ef581326087" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="Azure.AzureRestApi" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../azure/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="1217" />
+	
+		<meta name="asset_id" content="api/storageservices/querying-tables-and-entities" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md" />
+	
+		<meta name="previous_tlsh_hash" content="A1F470F1420F9943FF415D4A7CDDA7A082F1800EFBB06EE414356623601A2F2B4FAE48F5A913F7C1333213D38161E51DA1D2FB6D917C67B966B1A57C027A2143A15D3BB6DA" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/de8ce683-cbe1-461b-bae7-77db0888ec6d" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/a06cf482-4ca9-4582-a142-bcf842258d42" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "azure",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/main/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-rest-apis/blob/live/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs-ref-conceptual/storageservices/Querying-Tables-and-Entities.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="querying-tables-and-entities">Querying tables and entities</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>Querying tables and entities in the Table service requires careful construction of the request URI. The following sections describe query options and demonstrate some common scenarios.</p>
+<h2 id="basic-query-syntax">Basic Query Syntax</h2>
+<p>To return all of the tables in a given storage account, perform a <code>GET</code> operation on the Tables resource, as described in the <a href="query-tables" data-linktype="relative-path">Query Tables</a> operation. The basic URI for addressing the Tables resource is as follows:</p>
+<pre><code>https://myaccount.table.core.windows.net/Tables  
+</code></pre>
+<p>To return a single named table, specify that table as follows:</p>
+<pre><code>https://myaccount.table.core.windows.net/Tables('MyTable')  
+</code></pre>
+<p>To return all entities in a table, specify the table name on the URI, without the Tables resource:</p>
+<pre><code>https://myaccount.table.core.windows.net/MyTable()  
+</code></pre>
+<p>Query results are sorted by <code>PartitionKey</code>, then by <code>RowKey</code>. Ordering results in any other way is not currently supported.</p>
+<p>You can specify additional options to limit the set of tables or entities returned, as described in the following <strong>Supported Query Options</strong> section.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The number of entities returned for a single request may be limited, if the query exceeds the maximum number of entities, exceeds the timeout interval, or crosses a partition boundary. For more information, see <a href="query-timeout-and-pagination" data-linktype="relative-path">Query Timeout and Pagination</a>.</p>
+</div>
+<h2 id="supported-query-options">Supported Query Options</h2>
+<p>The Table service supports the following query options, which conform to the <a href="https://www.odata.org/" data-linktype="external">OData Protocol Specification</a>. You can use these options to limit the set of tables, entities, or entity properties returned by a query.</p>
+<table>
+<thead>
+<tr>
+<th>System query option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$filter</code></td>
+<td>Returns only tables or entities that satisfy the specified filter.<br><br> Note that no more than 15 discrete comparisons are permitted within a <code>$filter</code> string.</td>
+</tr>
+<tr>
+<td><code>$top</code></td>
+<td>Returns only the top <code>n</code> tables or entities from the set.</td>
+</tr>
+<tr>
+<td><code>$select</code></td>
+<td>Returns the desired properties of an entity from the set. This query option is only supported for requests using version 2011-08-18 or newer. For more information, see <a href="writing-linq-queries-against-the-table-service" data-linktype="relative-path">Writing LINQ Queries Against the Table Service</a>.</td>
+</tr>
+</tbody>
+</table>
+<div class="NOTE">
+<p>Note</p>
+<p>A request that returns more than the default maximum or specified maximum number of results returns a continuation token for performing pagination. When making subsequent requests that include continuation tokens, be sure to pass the original URI on the request. For example, if you have specified a <code>$filter</code>, <code>$select</code>, or <code>$top</code> query option as part of the original request, you will want to include that option on subsequent requests. Otherwise your subsequent requests may return unexpected results. See <a href="query-timeout-and-pagination" data-linktype="relative-path">Query Timeout and Pagination</a> for additional information.</p>
+<p>Note that the <code>$top</code> query option in the case where results are paginated specifies the maximum number of results per page, not the maximum number of results in the whole response set.</p>
+<p>Additional query options defined by OData are not supported by the Table service.</p>
+</div>
+<h2 id="supported-comparison-operators">Supported Comparison Operators</h2>
+<p>Within a <code>$filter</code> clause, you can use comparison operators to specify the criteria against which to filter the query results.</p>
+<p>For all property types, the following comparison operators are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>URI expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Equal</code></td>
+<td><code>eq</code></td>
+</tr>
+<tr>
+<td><code>GreaterThan</code></td>
+<td><code>gt</code></td>
+</tr>
+<tr>
+<td><code>GreaterThanOrEqual</code></td>
+<td><code>ge</code></td>
+</tr>
+<tr>
+<td><code>LessThan</code></td>
+<td><code>lt</code></td>
+</tr>
+<tr>
+<td><code>LessThanOrEqual</code></td>
+<td><code>le</code></td>
+</tr>
+<tr>
+<td><code>NotEqual</code></td>
+<td><code>ne</code></td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, the following operators are supported for Boolean properties:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>URI expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>And</code></td>
+<td><code>and</code></td>
+</tr>
+<tr>
+<td><code>Not</code></td>
+<td><code>not</code></td>
+</tr>
+<tr>
+<td><code>Or</code></td>
+<td><code>or</code></td>
+</tr>
+</tbody>
+</table>
+<p>For more information about filter syntax, see the <a href="https://www.odata.org/" data-linktype="external">OData Protocol Specification</a>.</p>
+<h2 id="query-string-encoding">Query String Encoding</h2>
+<p>The following characters must be encoded if they are to be used in a query string:</p>
+<ul>
+<li>Forward slash (/)</li>
+<li>Question mark (?)</li>
+<li>Colon (:)</li>
+<li>'At' symbol (@)</li>
+<li>Ampersand (&amp;)</li>
+<li>Equals sign (=)</li>
+<li>Plus sign (+)</li>
+<li>Comma (,)</li>
+<li>Dollar sign ($)</li>
+</ul>
+<h3 id="single-quote-">Single quote (')</h3>
+<p>Single quotes in query strings must be represented as two consecutive single quotes (<code>''</code>). For example, "o'clock" would be:</p>
+<pre><code>o''clock
+</code></pre>
+<h2 id="sample-query-expressions">Sample Query Expressions</h2>
+<p>The following samples show how to construct the request URI for some typical entity queries using REST syntax. The same queries could be written using LINQ syntax. For more information, see <a href="writing-linq-queries-against-the-table-service" data-linktype="relative-path">Writing LINQ Queries Against the Table Service</a>.</p>
+<p>Note that both the <code>$top</code> and <code>$filter</code> options can be used to filter on table names as well, using the syntax demonstrated for filtering on properties of type <code>String</code>.</p>
+<h3 id="returning-the-top-n-entities">Returning the Top n Entities</h3>
+<p>To return the top <code>n</code> entities for any query, specify the <code>$top</code> query option. The following example returns the top 10 entities from a table named Customers:</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$top=10  
+</code></pre>
+<h3 id="filtering-on-the-partitionkey-and-rowkey-properties">Filtering on the PartitionKey and RowKey Properties</h3>
+<p>Because the <code>PartitionKey</code> and <code>RowKey</code> properties form an entity's primary key, you can use a special syntax to identify the entity, as follows:</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers(PartitionKey='MyPartition',RowKey='MyRowKey1')  
+</code></pre>
+<p>Alternatively, you can specify these properties as part of the <code>$filter</code> option, as shown in the following section.</p>
+<p>Note that the key property names and constant values are case-sensitive. Both the <code>PartitionKey</code> and <code>RowKey</code> properties are of type <code>String</code>.</p>
+<h3 id="constructing-filter-strings">Constructing Filter Strings</h3>
+<p>When constructing a filter string, keep these rules in mind:</p>
+<ul>
+<li><p>Use the logical operators defined by the <a href="https://www.odata.org/" data-linktype="external">OData Protocol Specification</a> to compare a property to a value. Note that it is not possible to compare a property to a dynamic value; one side of the expression must be a constant.</p>
+</li>
+<li><p>The property name, operator, and constant value must be separated by URL-encoded spaces. A space is URL-encoded as <code>%20</code>.</p>
+</li>
+<li><p>All parts of the filter string are case-sensitive.</p>
+</li>
+<li><p>The constant value must be of the same data type as the property in order for the filter to return valid results. For more information about supported property types, see <a href="understanding-the-table-service-data-model" data-linktype="relative-path">Understanding the Table Service Data Model</a>.</p>
+</li>
+</ul>
+<div class="NOTE">
+<p>Note</p>
+<p>Be sure to check whether a property has been explicitly typed before assuming it is of a type other than string. If a property has been explicitly typed, the type is indicated within the response when the entity is returned. If the property has not been explicitly typed, it will be of type <code>String</code>, and the type will not be indicated within the response when the entity is returned.</p>
+</div>
+<h4 id="filtering-on-string-properties">Filtering on String Properties</h4>
+<p>When filtering on string properties, enclose the string constant in single quotes.</p>
+<p>The following example filters on the <code>PartitionKey</code> and <code>RowKey</code> properties; additional non-key properties could also be added to the query string.</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=PartitionKey%20eq%20'MyPartitionKey'%20and%20RowKey%20eq%20'MyRowKey1'  
+</code></pre>
+<p>The following example filters on a <code>FirstName</code> and <code>LastName</code> property:</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=LastName%20eq%20'Smith'%20and%20FirstName%20eq%20'John'  
+</code></pre>
+<p>Note that the Table service does not support wildcard queries. However, you can perform prefix matching by using comparison operators on the desired prefix. The following example returns entities with a <code>LastName</code> property beginning with the letter 'A':</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=LastName%20ge%20'A'%20and%20LastName%20lt%20'B'  
+</code></pre>
+<h4 id="filtering-on-numeric-properties">Filtering on Numeric Properties</h4>
+<p>To filter on an integer or floating-point number, specify the constant value on the URI without quotes.</p>
+<p>This example returns all entities with an <code>Age</code> property whose value is greater than 30:</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=Age%20gt%2030  
+</code></pre>
+<p>This example returns all entities with an <code>AmountDue</code> property whose value is less than or equal to 100.25:</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=AmountDue%20le%20100.25%20  
+</code></pre>
+<h4 id="filtering-on-boolean-properties">Filtering on Boolean Properties</h4>
+<p>To filter on a Boolean value, specify <code>true</code> or <code>false</code> without quotes.</p>
+<p>The following example returns all entities where the <code>IsActive</code> property is set to <code>true</code>:</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=IsActive%20eq%20true  
+</code></pre>
+<h4 id="filtering-on-datetime-properties">Filtering on DateTime Properties</h4>
+<p>To filter on a <code>DateTime</code> value, specify the <code>datetime</code> keyword on the URI, followed by the date/time constant in single quotes. The date/time constant must be in combined UTC format, as described in <a href="formatting-datetime-values" data-linktype="relative-path">Formatting DateTime values</a>.</p>
+<p>The following example returns entities where the <code>CustomerSince</code> property is equal to July 10, 2008:</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=CustomerSince%20eq%20datetime'2008-07-10T00:00:00Z'  
+</code></pre>
+<h2 id="filtering-on-guid-properties">Filtering on GUID Properties</h2>
+<p>To filter on a GUID value, specify the <code>guid</code> keyword on the URI, followed by the guid constant in single quotes.</p>
+<p>The following example returns entities where the <code>GuidValue</code> property is equal to :</p>
+<pre><code>https://myaccount.table.core.windows.net/Customers()?$filter=GuidValue%20eq%20guid'a455c695-df98-5678-aaaa-81d3367e5a34'  
+</code></pre>
+<h2 id="see-also">See Also</h2>
+<p><a href="table-service-concepts" data-linktype="relative-path">Table Service Concepts</a><br>
+<a href="understanding-the-table-service-data-model" data-linktype="relative-path">Understanding the Table Service Data Model</a><br>
+<a href="addressing-table-service-resources" data-linktype="relative-path">Addressing Table Service Resources</a><br>
+<a href="query-timeout-and-pagination" data-linktype="relative-path">Query Timeout and Pagination</a><br>
+<a href="writing-linq-queries-against-the-table-service" data-linktype="relative-path">Writing LINQ Queries Against the Table Service</a></p>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2023-06-27T21:44:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2023-06-27
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

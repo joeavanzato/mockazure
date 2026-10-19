@@ -33,6 +33,10 @@ def service_for_request(request, settings):
     if port == settings.listen_port:
         return None
     authority = request.headers.get("host", "").lower()
+    from mockazure.keyvault.endpoints import selected_profile
+
+    if selected_profile(settings, authority) is not None:
+        return "keyvault"
     for profile in (settings.endpoints, *settings.client_profiles.values()):
         for service, name in SERVICES.items():
             if authority == urlsplit(getattr(profile, name)).netloc.lower():
@@ -95,6 +99,14 @@ async def handle(request, service):
 
 
 async def dispatch(request, service):
+    if service == "queue":
+        from mockazure.providers.storage.queue_routes import dispatch_queue
+
+        return await dispatch_queue(request)
+    if service == "table":
+        from mockazure.providers.storage.table_routes import dispatch_table
+
+        return await dispatch_table(request)
     if service not in {"blob", "file"}:
         raise StorageError(
             501,
