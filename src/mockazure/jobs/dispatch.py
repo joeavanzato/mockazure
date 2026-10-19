@@ -15,6 +15,7 @@ from mockazure.jobs.schemas import JobClaim, JobResult, parse_export
 from mockazure.mail.send import process_mail_delivery
 from mockazure.monitor.publication import process_diagnostic_delivery
 from mockazure.notifications.delivery import process_notification
+from mockazure.population.runner import process_population
 from mockazure.providers.arm.errors import ArmError
 from mockazure.providers.arm.operations import process_arm_delete
 from mockazure.providers.arm.provider_jobs import process_provider_operation
@@ -30,7 +31,9 @@ async def process_export(database: Database, claim: JobClaim, wall_now: datetime
     return JobResult("succeeded" if done else "stale", snapshot.model_dump(mode="json"), None)
 
 
+
 HANDLERS = {
+    "population.apply": process_population,
     "monitor.diagnostic": process_diagnostic_delivery,
     "graph.notification": process_notification,
     "calendar.meeting": process_meeting_delivery,

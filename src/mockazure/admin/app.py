@@ -12,6 +12,8 @@ from mockazure.activity.errors import handle as activity_error_handler
 from mockazure.activity.routes import router as activity_router
 from mockazure.admin.activity_routes import router as activity_admin_router
 from mockazure.admin.arm_routes import router as arm_admin_router
+from mockazure.admin.profile_routes import router as profile_admin_router
+from mockazure.admin.population_routes import router as population_admin_router
 from mockazure.admin.auth import verify_admin_token
 from mockazure.admin.cloud_routes import router as cloud_admin_router
 from mockazure.admin.collection_routes import router as collection_admin_router
@@ -336,6 +338,8 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(maintenance_admin_router)
     app.include_router(router)
     app.include_router(resource_admin_router)
+    app.include_router(profile_admin_router)
+    app.include_router(population_admin_router)
     app.include_router(evidence_admin_router)
     app.include_router(collection_admin_router)
     app.include_router(collection_graph_router)

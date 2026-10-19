@@ -137,6 +137,23 @@ async def claim_job(
             updated_at=now,
         )
     )
+    from mockazure.population.models import ACTIVE, PopulationRun
+
+    # A terminal job failure must not leave a population tenant slot wedged forever.
+    await session.execute(
+        update(PopulationRun)
+        .where(
+            PopulationRun.state.in_(ACTIVE),
+            PopulationRun.job_id.in_(
+                select(Job.id).where(Job.kind == "population.apply", Job.state == "failed")
+            ),
+        )
+        .values(
+            state="needs-attention",
+            errors=["Worker failed or exhausted its lease; inspect and resume"],
+            updated_at=now,
+        )
+    )
     from mockazure.evidence.risk import unpublished_risk_not_due
     from mockazure.evidence.sources import evidence_job_retired
 

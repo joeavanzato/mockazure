@@ -13,6 +13,7 @@ from mockazure.config import Settings
 @dataclass
 class Database:
     engine: AsyncEngine
+    settings: Settings
     sessions: async_sessionmaker[AsyncSession]
 
 
@@ -27,6 +28,7 @@ def create_database(settings: Settings) -> Database:
     )
     return Database(
         engine,
+        settings,
         async_sessionmaker(
             engine,
             expire_on_commit=False,

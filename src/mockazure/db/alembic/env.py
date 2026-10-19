@@ -29,6 +29,7 @@ from mockazure.monitor import (
 from mockazure.monitor import workspaces as workspace_models  # noqa: F401
 from mockazure.notifications import models as notification_models  # noqa: F401
 from mockazure.population import identity_models  # noqa: F401
+from mockazure.population import models as population_models  # noqa: F401
 from mockazure.security import (
     authentication_models,  # noqa: F401
     reset_model,  # noqa: F401
