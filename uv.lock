@@ -343,6 +343,34 @@ wheels = [
 ]
 
 [[package]]
+name = "azure-mgmt-resourcegraph"
+version = "8.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-mgmt-core" },
+    { name = "msrest" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0c/d5/5bd9fdbd5bfca3ca9123ab99ec83e3ffad7c64c24ad723c00abcfff654a6/azure_mgmt_resourcegraph-8.0.1.tar.gz", hash = "sha256:55a21d66da6b28a080d903eca192d02fc1cfd0775e139b30d44117ca4ba6ad1f", size = 47868, upload-time = "2025-11-24T08:10:11.791Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bd/b1/ae75cd3fbcd798ed7a90beffd5ae2476c5013de804cd42a38d850f48c068/azure_mgmt_resourcegraph-8.0.1-py3-none-any.whl", hash = "sha256:de66eaa988c10999054ac77d31e44c112fbecfb829f56fd79bcff5649b4dd50b", size = 59228, upload-time = "2025-11-24T08:10:12.787Z" },
+]
+
+[[package]]
+name = "azure-monitor-query"
+version = "2.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-core" },
+    { name = "isodate" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/c0/e5c760f38224575f1eba35c319842f2be30fab599854ba9bd0b19d39c261/azure_monitor_query-2.0.0.tar.gz", hash = "sha256:7b05f2fcac4fb67fc9f77a7d4c5d98a0f3099fb73b57c69ec1b080773994671b", size = 86658, upload-time = "2025-07-30T22:23:41.534Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/52/0c/6b08a5a1e5f0bd97cefa13c53bf47f281a9a11732d19a94a86709acbc6bd/azure_monitor_query-2.0.0-py3-none-any.whl", hash = "sha256:8f52d581271d785e12f49cd5aaa144b8910fb843db2373855a7ef94c7fc462ea", size = 71102, upload-time = "2025-07-30T22:23:43.056Z" },
+]
+
+[[package]]
 name = "azure-storage-blob"
 version = "12.27.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1234,6 +1262,8 @@ clients = [
     { name = "azure-mgmt-authorization" },
     { name = "azure-mgmt-monitor" },
     { name = "azure-mgmt-resource" },
+    { name = "azure-mgmt-resourcegraph" },
+    { name = "azure-monitor-query" },
     { name = "azure-storage-blob" },
     { name = "azure-storage-file-share" },
     { name = "azure-storage-queue" },
@@ -1271,6 +1301,8 @@ clients = [
     { name = "azure-mgmt-authorization", specifier = "==4.0.0" },
     { name = "azure-mgmt-monitor", specifier = "==6.0.2" },
     { name = "azure-mgmt-resource", specifier = "==23.4.0" },
+    { name = "azure-mgmt-resourcegraph", specifier = "==8.0.1" },
+    { name = "azure-monitor-query", specifier = "==2.0.0" },
     { name = "azure-storage-blob", specifier = "==12.27.0" },
     { name = "azure-storage-file-share", specifier = "==12.23.0" },
     { name = "azure-storage-queue", specifier = "==12.15.0" },
@@ -1340,6 +1372,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/f6/0d/cd93b05e77094ea04b0231f742f41d850861d6b04350c5955d8c8b55d913/msgraph_sdk-1.64.0.tar.gz", hash = "sha256:b84f4ef519285b98353b16fa8c914db38796cc7022b383d7c4899393449c69a6", size = 7103113, upload-time = "2026-10-06T22:37:03.42Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b2/6b/6ed66c942118fe66a8fa38e33d8b71038ffd17d8bef3fd2382a0f82ac0b0/msgraph_sdk-1.64.0-py3-none-any.whl", hash = "sha256:70180dafbb0788310883e89110cb661bb06c577a0ff1b913a2c61ffd58db564e", size = 29139176, upload-time = "2026-10-06T22:37:07.66Z" },
+]
+
+[[package]]
+name = "msrest"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "azure-core" },
+    { name = "certifi" },
+    { name = "isodate" },
+    { name = "requests" },
+    { name = "requests-oauthlib" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/68/77/8397c8fb8fc257d8ea0fa66f8068e073278c65f05acb17dcb22a02bfdc42/msrest-0.7.1.zip", hash = "sha256:6e7661f46f3afd88b75667b7187a92829924446c7ea1d169be8c4bb7eeb788b9", size = 175332, upload-time = "2022-06-13T22:41:25.111Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/15/cf/f2966a2638144491f8696c27320d5219f48a072715075d168b31d3237720/msrest-0.7.1-py3-none-any.whl", hash = "sha256:21120a810e1233e5e6cc7fe40b474eeb4ec6f757a15d7cf86702c369f9567c32", size = 85384, upload-time = "2022-06-13T22:41:22.42Z" },
 ]
 
 [[package]]
@@ -1478,6 +1526,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/b3/ce/2efa1f32a07adfe041d48c6d04c08b6f9db66b8512c765983172399b2855/multidict-7.1.0-cp315-cp315t-win_amd64.whl", hash = "sha256:55392202cb374dd1a1f89a8ce1586644870d9e936752059d053e576acc50bc89", size = 99671, upload-time = "2026-10-09T20:31:31.282Z" },
     { url = "https://files.pythonhosted.org/packages/a9/b3/a44c301fe13716c5f2c08afd89a481018988cde4b337b36e28a2b0fcf3a3/multidict-7.1.0-cp315-cp315t-win_arm64.whl", hash = "sha256:f979a077d1c0a9a36dd4fab0d3a36b8de7b593bf935e13df85a380395b2c11ad", size = 98893, upload-time = "2026-10-09T20:31:33.62Z" },
     { url = "https://files.pythonhosted.org/packages/d0/86/a3de309c5e28ee85b314d0e3ba0e0dea6fd361c313322a05e67be4656e1e/multidict-7.1.0-py3-none-any.whl", hash = "sha256:d9ef29cfd98e17085b4f91bba8fa1570bec6787d5c52ce653ed33a58785585d0", size = 28087, upload-time = "2026-10-09T20:31:35.945Z" },
+]
+
+[[package]]
+name = "oauthlib"
+version = "4.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7a/d8/a1bcc8ba112a627f8ffbdc212a78ce18d3ac07e91a5ca65d27918eee25a1/oauthlib-4.0.0.tar.gz", hash = "sha256:efb274799819440f95b4ab3b818869f1ce9ae26c5beacba0201d1a1b76b54f86", size = 187232, upload-time = "2026-09-28T06:01:18.77Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d9/f4/78229a1066068ca14fc60fb26cf7381cabe4382261392b90e5f9552722d4/oauthlib-4.0.0-py3-none-any.whl", hash = "sha256:624c28c13a0a59cabf9747dfa52af63be3e512a7f2714df16e91b5b3a145e6cd", size = 159715, upload-time = "2026-09-28T06:01:17.008Z" },
 ]
 
 [[package]]
@@ -1945,6 +2002,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ac/c3/e2a2b89f2d3e2179abd6d00ebd70bff6273f37fb3e0cc209f48b39d00cbf/requests-2.34.2.tar.gz", hash = "sha256:f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed", size = 142856, upload-time = "2026-05-14T19:25:27.735Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl", hash = "sha256:2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0", size = 73075, upload-time = "2026-05-14T19:25:26.443Z" },
+]
+
+[[package]]
+name = "requests-oauthlib"
+version = "2.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "oauthlib" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/42/f2/05f29bc3913aea15eb670be136045bf5c5bbf4b99ecb839da9b422bb2c85/requests-oauthlib-2.0.0.tar.gz", hash = "sha256:b3dffaebd884d8cd778494369603a9e7b58d29111bf6b41bdc2dcd87203af4e9", size = 55650, upload-time = "2024-03-22T20:32:29.939Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3b/5d/63d4ae3b9daea098d5d6f5da83984853c1bbacd5dc826764b249fe119d24/requests_oauthlib-2.0.0-py2.py3-none-any.whl", hash = "sha256:7dd8a5c40426b779b0868c404bdef9768deccf22749cde15852df527e6269b36", size = 24179, upload-time = "2024-03-22T20:32:28.055Z" },
 ]
 
 [[package]]

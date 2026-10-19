@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** F1-F3 implemented with local verification: 147 tests pass, lint and offline references verified. F4, phase review, four-client qualification and G acceptance remain pending.
+**Status:** F1-F4 implementation and local verification: 174 tests pass; lint and offline references verified. Four original clients passed debug-lab query/settings/read probes. Fresh phase qualification, final review and G acceptance remain pending.
 
 ## Global Constraints
 
@@ -121,7 +121,7 @@ assert recursive_delivery_count == 0
 
 **Interfaces:** Keep F1/F2 signatures; expose server settings for the documented evaluator budgets and durable delivery delay/retry controls. Extend the shared runner with `queries` and `diagnostics` workflows and exact language-profile reports.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_query_budget_and_isolation exceeds expansion/intermediate/time limits with an authorized query and verifies explicit failure. test_diagnostic_restart_export round-trips settings/logs/pending events and proves source identities survive a worker restart. test_cross_tenant_join never admits rows from a different tenant even when names collide.
+- [x] **Step 1 — Add the named failing scenarios.** test_query_budget_and_isolation exceeds expansion/intermediate/time limits with an authorized query and verifies explicit failure. test_diagnostic_restart_export round-trips settings/logs/pending events and proves source identities survive a worker restart. test_cross_tenant_join never admits rows from a different tenant even when names collide.
 
 ```python
 assert exhausted.status_code == expected_query_limit_status
@@ -130,7 +130,7 @@ assert cross_tenant_rows == []
 assert delivered_source_ids_after_restart == expected_source_ids
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_query_diagnostic_boundaries.py tests/unit/test_cloud_kql.py tests/integration/test_diagnostic_delivery.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Add indexed table/resource scans, cancelable parameterized execution and accounting for dynamic expansions/joins; document supported functions/operators, limits and dcount deviation. Qualify representative SDK queries across four ecosystems and REST legacy batch separately. Verify retention/reset preserves active query snapshots as declared; coverage separately records settings CRUD, event categories, destination delivery and query availability.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_query_diagnostic_boundaries.py tests/unit/test_cloud_kql.py tests/integration/test_diagnostic_delivery.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Add indexed table/resource scans, cancelable parameterized execution and accounting for dynamic expansions/joins; document supported functions/operators, limits and dcount deviation. Qualify representative SDK queries across four ecosystems and REST legacy batch separately. Verify retention/reset preserves active query snapshots as declared; coverage separately records settings CRUD, event categories, destination delivery and query availability.
 - [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
 - [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "test: qualify query language and diagnostic recovery"`. Preserve unrelated work. Push/review according to the program's phase PR rules.

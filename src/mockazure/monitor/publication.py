@@ -96,7 +96,10 @@ async def queue_event(session, event, generation):
                     tenant_id=event.tenant_id,
                     kind="monitor.diagnostic",
                     payload={"delivery_id": str(identifier)},
-                    available_at=event.occurred_at,
+                    available_at=event.occurred_at
+                    + timedelta(
+                        seconds=session.info.get("diagnostic_delivery", {}).get("delay", 0)
+                    ),
                 )
             )
             await session.flush()
@@ -288,9 +291,14 @@ async def process_diagnostic_delivery(database, claim, wall_now):
                     job.state, job.error_code = "succeeded", None
                     job.result = {"sourceId": str(delivery.source_id), "destination": result}
                 except (OSError, StorageError):
-                    job.state = "pending" if claim.attempt < 3 else "failed"
+                    controls = session.info.get("diagnostic_delivery", {})
+                    job.state = (
+                        "pending" if claim.attempt < controls.get("attempts", 3) else "failed"
+                    )
                     job.error_code = "DiagnosticDestinationUnavailable"
-                    job.available_at = now() + timedelta(seconds=5 * 2 ** (claim.attempt - 1))
+                    job.available_at = now() + timedelta(
+                        seconds=min(86400, controls.get("retry", 5) * 2 ** (claim.attempt - 1))
+                    )
             job.lease_owner = job.lease_until = None
             job.updated_at = now()
             await session.flush()

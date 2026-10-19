@@ -34,8 +34,10 @@ async def resources(request: Request):
         if set(body) - {"query", "subscriptions", "options"}:
             raise QueryError("Unsupported Resource Graph query option")
         options = body.get("options", {})
-        if set(options) - {"$top", "$skip", "$skipToken", "resultFormat"}:
+        if set(options) - {"$top", "$skip", "$skipToken", "resultFormat", "allowPartialScopes"}:
             raise QueryError("Unsupported Resource Graph execution option")
+        if options.get("allowPartialScopes", False):
+            raise QueryError("Partial-scope execution is not supported")
         subs = tuple(str(UUID(s)) for s in body.get("subscriptions", []))
         if "subscriptions" in body and not subs:
             raise QueryError("subscriptions cannot be empty")

@@ -1310,11 +1310,27 @@
           "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-sdk-for-net/eeb8364e710442bd7705dfedcde250d17b5a5cfc/sdk/operationalinsights/Microsoft.Azure.OperationalInsights/src/Customized/Models/ApiPreferences.cs",
+          "revision": "eeb8364e710442bd7705dfedcde250d17b5a5cfc",
+          "sha256": "e55cb6eff372444b8f6fbee4087321328c727871779e86e14e16e29307e9e139",
+          "localPath": "references/e55cb6eff372444b8f6fbee4087321328c727871779e86e14e16e29307e9e139.cs",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-sdk-for-net/eeb8364e710442bd7705dfedcde250d17b5a5cfc/LICENSE.txt",
+          "revision": "eeb8364e710442bd7705dfedcde250d17b5a5cfc",
+          "sha256": "9b45236978bb5cd5de992021769e1eeaa79f0116d3b02cf8ba065a1ed603d5fa",
+          "localPath": "references/9b45236978bb5cd5de992021769e1eeaa79f0116d3b02cf8ba065a1ed603d5fa.txt",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
         }
       ],
       "limitations": [
         "Typed local tables and documented KQL subset only; no resource-context query or workspace() language function.",
-        "No include-statistics/include-render preferences; unsupported preferences fail explicitly.",
+        "Explicit false statistics/render and response-v1=true are accepted; enabling statistics/render is unsupported.",
         "Legacy batch POST /query entries only; per-entry errors retained.",
         "Native diagnostic publication is implemented by the diagnostic operations; four-ecosystem qualification remains F4 work."
       ]
@@ -1523,11 +1539,27 @@
           "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-sdk-for-net/eeb8364e710442bd7705dfedcde250d17b5a5cfc/sdk/operationalinsights/Microsoft.Azure.OperationalInsights/src/Customized/Models/ApiPreferences.cs",
+          "revision": "eeb8364e710442bd7705dfedcde250d17b5a5cfc",
+          "sha256": "e55cb6eff372444b8f6fbee4087321328c727871779e86e14e16e29307e9e139",
+          "localPath": "references/e55cb6eff372444b8f6fbee4087321328c727871779e86e14e16e29307e9e139.cs",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-sdk-for-net/eeb8364e710442bd7705dfedcde250d17b5a5cfc/LICENSE.txt",
+          "revision": "eeb8364e710442bd7705dfedcde250d17b5a5cfc",
+          "sha256": "9b45236978bb5cd5de992021769e1eeaa79f0116d3b02cf8ba065a1ed603d5fa",
+          "localPath": "references/9b45236978bb5cd5de992021769e1eeaa79f0116d3b02cf8ba065a1ed603d5fa.txt",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
         }
       ],
       "limitations": [
         "Typed local tables and documented KQL subset only; no resource-context query or workspace() language function.",
-        "No include-statistics/include-render preferences; unsupported preferences fail explicitly.",
+        "Explicit false statistics/render and response-v1=true are accepted; enabling statistics/render is unsupported.",
         "Legacy batch POST /query entries only; per-entry errors retained.",
         "Native diagnostic publication is implemented by the diagnostic operations; four-ecosystem qualification remains F4 work."
       ]
@@ -1936,11 +1968,27 @@
           "sha256": "0c4494081cd3e762ea4a16c866d6b1004b9d0da79fee2558dc98d7b38e71c466",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T13:06:59.778296+00:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-sdk-for-net/eeb8364e710442bd7705dfedcde250d17b5a5cfc/sdk/operationalinsights/Microsoft.Azure.OperationalInsights/src/Customized/Models/ApiPreferences.cs",
+          "revision": "eeb8364e710442bd7705dfedcde250d17b5a5cfc",
+          "sha256": "e55cb6eff372444b8f6fbee4087321328c727871779e86e14e16e29307e9e139",
+          "localPath": "references/e55cb6eff372444b8f6fbee4087321328c727871779e86e14e16e29307e9e139.cs",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Azure/azure-sdk-for-net/eeb8364e710442bd7705dfedcde250d17b5a5cfc/LICENSE.txt",
+          "revision": "eeb8364e710442bd7705dfedcde250d17b5a5cfc",
+          "sha256": "9b45236978bb5cd5de992021769e1eeaa79f0116d3b02cf8ba065a1ed603d5fa",
+          "localPath": "references/9b45236978bb5cd5de992021769e1eeaa79f0116d3b02cf8ba065a1ed603d5fa.txt",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19"
         }
       ],
       "limitations": [
         "Typed local tables and documented KQL subset only; no resource-context query or workspace() language function.",
-        "No include-statistics/include-render preferences; unsupported preferences fail explicitly.",
+        "Explicit false statistics/render and response-v1=true are accepted; enabling statistics/render is unsupported.",
         "Legacy batch POST /query entries only; per-entry errors retained.",
         "Native diagnostic publication is implemented by the diagnostic operations; four-ecosystem qualification remains F4 work."
       ]

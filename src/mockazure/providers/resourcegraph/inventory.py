@@ -30,7 +30,10 @@ COLUMNS = [
 ]
 
 
-async def authorized_tables(session, actor, scope):
+async def authorized_tables(session, actor, scope, *, limits=None):
+    from mockazure.query.types import QueryLimits
+
+    limits = limits or QueryLimits()
     granted = await grant_query(session, actor, "Microsoft.Resources/subscriptions/resources/read")
     allowed = select(Subscription.id).where(
         Subscription.tenant_id == actor.tenant_id,
@@ -54,7 +57,7 @@ async def authorized_tables(session, actor, scope):
         row = [value.get(name, "" if kind == "string" else None) for name, kind in COLUMNS]
         size += len(json.dumps(row, separators=(",", ":")).encode()) + 64 + 32 * len(row)
         count += 1
-        if size > 64 * 1024 * 1024 or count > 1000000:
+        if size > limits.bytes or count > limits.expanded:
             raise QueryError("Authorized query inputs exceed emulator limits", "QueryLimitExceeded")
         tables[table].append(row)
 

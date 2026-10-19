@@ -180,7 +180,10 @@ def timespan(value, now):
     return start, end
 
 
-async def input_tables(session, actor, workspace_ids, names, intervals):
+async def input_tables(session, actor, workspace_ids, names, intervals, *, limits=None):
+    from mockazure.query.types import QueryLimits
+
+    limits = limits or QueryLimits()
     if not names <= catalog().keys():
         raise QueryError("Unknown workspace table")
     for workspace_id in workspace_ids:
@@ -203,7 +206,7 @@ async def input_tables(session, actor, workspace_ids, names, intervals):
     async for row in rows:
         size += len(json.dumps(row.payload, ensure_ascii=False).encode()) + 256
         count += 1
-        if size > 64 * 1024 * 1024 or count > 1000000:
+        if size > limits.bytes or count > limits.expanded:
             raise QueryError("Workspace query input limit exceeded", "QueryLimitExceeded")
         result[row.table_name].rows.append(typed_row(row.table_name, row.payload))
     return result
@@ -232,6 +235,12 @@ async def query_workspace(
 ):
     from mockazure.providers.arm.contracts import validate_arm_payload
 
+    # The original Python Logs SDK serializes unset optional fields as null.
+    # Normalize only these optional omissions before strict schema validation.
+    if isinstance(body, dict):
+        body = {
+            k: v for k, v in body.items() if k not in {"timespan", "workspaces"} or v is not None
+        }
     validate_arm_payload("QueryBody", body, namespace="loganalytics")
     if set(body) - {"query", "timespan", "workspaces"}:
         raise QueryError("Unsupported Logs query field")

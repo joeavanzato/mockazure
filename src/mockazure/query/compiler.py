@@ -1,10 +1,15 @@
 """Type-bound evaluation over inputs authorized before any join or aggregation."""
 
+import asyncio
 import json
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from functools import cmp_to_key
+from threading import Event
+
+from sqlalchemy import func, select
+from sqlalchemy.exc import DBAPIError
 
 from .ast import Access, Binary, Binding, Call, Name, Pipeline
 from .functions import AGGREGATES, NUMERIC, evaluate, infer, require, unify
@@ -38,33 +43,36 @@ class Table:
 
 
 class Budget:
-    def __init__(self, limits):
+    def __init__(self, limits, cancelled=None):
         self.limits = limits
         self.deadline = time.monotonic() + limits.seconds
         self.expanded = 0
+        self.used_bytes = 0
+        self.cancelled = cancelled
 
     def tick(self):
-        if time.monotonic() >= self.deadline:
+        if (self.cancelled and self.cancelled.is_set()) or time.monotonic() >= self.deadline:
             raise QueryError("Query execution time limit exceeded", "QueryLimitExceeded")
+
+    def account(self, value, overhead=64):
+        self.tick()
+        self.used_bytes += (
+            len(
+                json.dumps(
+                    value, default=json_value, separators=(",", ":"), ensure_ascii=False
+                ).encode()
+            )
+            + overhead
+        )
+        if self.used_bytes > self.limits.bytes:
+            raise QueryError("Query accounted memory limit exceeded", "QueryLimitExceeded")
 
     def materialize(self, columns, rows):
         result = []
-        size = 0
         for row in rows:
-            self.tick()
-            size += (
-                len(
-                    json.dumps(
-                        row, default=json_value, separators=(",", ":"), ensure_ascii=False
-                    ).encode()
-                )
-                + 64
-                + len(row) * 32
-            )
-            if size > self.limits.bytes or len(result) >= self.limits.expanded:
-                raise QueryError(
-                    "Query intermediate memory or row limit exceeded", "QueryLimitExceeded"
-                )
+            self.account(row, 64 + len(row) * 32)
+            if len(result) >= self.limits.expanded:
+                raise QueryError("Query intermediate row limit exceeded", "QueryLimitExceeded")
             result.append(row)
         return Table(columns, result)
 
@@ -76,12 +84,11 @@ class Budget:
 
 
 class Evaluator:
-    def __init__(self, tables, now, limits):
+    def __init__(self, tables, now, limits, cancelled=None):
         self.tables = {}
         self.symbols = {}
         self.now = now
-        self.budget = Budget(limits)
-        total = 0
+        self.budget = Budget(limits, cancelled)
         for name, value in tables.items():
             columns = dict(value.columns)
             if len(columns) != len(value.columns):
@@ -94,19 +101,15 @@ class Evaluator:
                     name: ("" if v is None and kind == "string" else v)
                     for (name, kind), v in zip(value.columns, values, strict=True)
                 }
-                total += (
-                    len(json.dumps(row, default=json_value, separators=(",", ":")).encode())
-                    + 64
-                    + 32 * len(row)
-                )
-                if total > limits.bytes:
-                    raise QueryError("Query inputs exceed memory budget", "QueryLimitExceeded")
-                self.budget.tick()
+                self.budget.account(row, 64 + 32 * len(row))
+                if len(rows) >= limits.expanded:
+                    raise QueryError("Query input row limit exceeded", "QueryLimitExceeded")
                 rows.append(row)
             self.tables[name] = Table(columns, rows)
 
     def value(self, expression, row):
-        return evaluate(expression, row, self.symbols, self.now)
+        self.budget.tick()
+        return evaluate(expression, row, self.symbols, self.now, self.budget)
 
     def kind(self, expression, table):
         return infer(expression, table.columns, self.symbols)
@@ -161,6 +164,7 @@ class Evaluator:
                             identity = key(value)
                             if identity in seen:
                                 continue
+                            self.budget.account(value)
                             seen.add(identity)
                         yield value
 
@@ -213,6 +217,7 @@ class Evaluator:
                             return (1 if a > b else -1) * (1 if direction == "asc" else -1)
                     return 0
 
+                self.budget.account(None, 16 * len(table.rows))
                 rows = sorted(table.rows, key=cmp_to_key(compare))
                 table = Table(table.columns, rows[: op.options[0]] if name == "top" else rows)
             elif name == "count":
@@ -286,7 +291,9 @@ class Evaluator:
             values = [self.value(e, row) for _, e, _ in groups]
             identity = key(values)
             if identity not in buckets:
+                self.budget.account(values, 128)
                 buckets[identity] = (values, [])
+            self.budget.account(None, 8)
             buckets[identity][1].append(row)
             self.budget.tick()
         if not groups and not buckets:
@@ -297,6 +304,7 @@ class Evaluator:
                 result = {n: v for (n, _, _), v in zip(groups, group, strict=True)}
                 for output, name, args, returned in aggregates:
                     values = [self.value(args[0], row) for row in rows] if args else []
+                    self.budget.account(values, 16 * len(values))
                     present = [v for v in values if v is not None]
                     if name == "count":
                         value = len(rows)
@@ -388,6 +396,7 @@ class Evaluator:
             self.budget.tick()
             match = identity(row, [b for _, b in pairs])
             if match is not None:
+                self.budget.account(match, 128)
                 index.setdefault(match, []).append((i, row))
         empty_left = {n: "" if k == "string" else None for n, k in left.columns.items()}
         empty_right = {renamed[n]: "" if k == "string" else None for n, k in right.columns.items()}
@@ -396,11 +405,13 @@ class Evaluator:
             matched = set()
             unique = set()
             for row in left.rows:
+                self.budget.tick()
                 match = identity(row, [a for a, _ in pairs])
                 matches = index.get(match, [])
                 if flavor == "innerunique":
                     if match in unique:
                         continue
+                    self.budget.account(match)
                     unique.add(match)
                 if flavor == "leftanti":
                     if not matches:
@@ -409,6 +420,8 @@ class Evaluator:
                 elif matches:
                     for i, other in matches:
                         self.budget.expansion()
+                        if i not in matched:
+                            self.budget.account(i)
                         matched.add(i)
                         yield row | {renamed[n]: v for n, v in other.items()}
                 elif flavor in ("leftouter", "fullouter"):
@@ -515,8 +528,8 @@ class Evaluator:
         return self.make(columns, rows())
 
 
-def evaluate_query(plan, tables, now, *, limits=None):
-    evaluator = Evaluator(tables, now, limits or QueryLimits())
+def evaluate_query(plan, tables, now, *, limits=None, cancelled=None):
+    evaluator = Evaluator(tables, now, limits or QueryLimits(), cancelled)
     result = None
     try:
         for node in plan.nodes:
@@ -529,7 +542,7 @@ def evaluate_query(plan, tables, now, *, limits=None):
                     kind = infer(node.value, {}, evaluator.symbols)
                     evaluator.symbols[node.name] = (
                         kind,
-                        evaluate(node.value, {}, evaluator.symbols, now),
+                        evaluate(node.value, {}, evaluator.symbols, now, evaluator.budget),
                     )
             else:
                 result = evaluator.pipeline(node)
@@ -549,24 +562,65 @@ def evaluate_query(plan, tables, now, *, limits=None):
 async def execute_query(session, actor, scope, plan, now):
     if scope.tenant_id != actor.tenant_id:
         raise QueryError("Query scope does not belong to this tenant")
-    if plan.profile == "resourcegraph":
-        from mockazure.providers.resourcegraph.inventory import authorized_tables
+    values = dict(session.info.get("query_limits", {}))
+    values["seconds"] = min(values.get("seconds", 30), plan.parameters.get("timeout", 600))
+    limits = QueryLimits(**values)
+    started = time.monotonic()
+    cancelled = Event()
+    try:
+        # Savepoint rolls back a cancelled statement, including in legacy batch.
+        async with asyncio.timeout(limits.seconds), session.begin_nested():
+            previous = await session.scalar(select(func.current_setting("statement_timeout")))
+            await session.execute(
+                select(
+                    func.set_config(
+                        "statement_timeout", str(max(1, int(limits.seconds * 1000))), True
+                    )
+                )
+            )
+            if plan.profile == "resourcegraph":
+                from mockazure.providers.resourcegraph.inventory import authorized_tables
 
-        tables = await authorized_tables(session, actor, scope)
-    elif plan.profile == "loganalytics":
-        from uuid import UUID
+                tables = await authorized_tables(session, actor, scope, limits=limits)
+            elif plan.profile == "loganalytics":
+                from uuid import UUID
 
-        from mockazure.monitor.logs import input_tables, sources
+                from mockazure.monitor.logs import input_tables, sources
 
-        tables = await input_tables(
-            session,
-            actor,
-            tuple(UUID(w) for w in scope.workspace_ids),
-            sources(plan),
-            plan.parameters.get("intervals", ()),
-        )
-    else:
-        raise QueryError("Unknown query profile")
-    return evaluate_query(
-        plan, tables, now, limits=QueryLimits(seconds=plan.parameters.get("timeout", 30))
-    )
+                tables = await input_tables(
+                    session,
+                    actor,
+                    tuple(UUID(w) for w in scope.workspace_ids),
+                    sources(plan),
+                    plan.parameters.get("intervals", ()),
+                    limits=limits,
+                )
+            else:
+                raise QueryError("Unknown query profile")
+            remaining = limits.seconds - (time.monotonic() - started)
+            if remaining <= 0:
+                raise QueryError("Query execution time limit exceeded", "QueryLimitExceeded")
+            result = await asyncio.to_thread(
+                evaluate_query,
+                plan,
+                tables,
+                now,
+                limits=QueryLimits(
+                    seconds=remaining,
+                    rows=limits.rows,
+                    bytes=limits.bytes,
+                    expanded=limits.expanded,
+                ),
+                cancelled=cancelled,
+            )
+            await session.execute(select(func.set_config("statement_timeout", previous, True)))
+            return result
+    except TimeoutError:
+        raise QueryError("Query execution time limit exceeded", "QueryLimitExceeded") from None
+    except DBAPIError as error:
+        if getattr(error.orig, "sqlstate", None) == "57014":
+            raise QueryError("Query execution time limit exceeded", "QueryLimitExceeded") from None
+        raise
+    finally:
+        # Cancelling to_thread alone does not stop its worker. Evaluator ticks do.
+        cancelled.set()

@@ -22,11 +22,22 @@ from mockazure.query.types import QueryError
 def preference(value):
     if not value:
         return 30
-    # Explicit local execution bound. Unimplemented preferences fail visibly.
-    match = re.fullmatch(r"wait=(\d+)", value.strip())
-    if match is None or not 1 <= int(match[1]) <= 600:
-        raise LogsError(400, "BadArgumentError", "Supported preference is wait=1..600")
-    return min(30, int(match[1]))
+    options = {}
+    for part in value.split(","):
+        name, sep, argument = part.strip().lower().partition("=")
+        if not sep or name in options:
+            raise LogsError(400, "BadArgumentError", "Invalid query preference")
+        options[name] = argument.strip()
+    if set(options) - {"wait", "include-statistics", "include-render", "response-v1"} or any(
+        options.get(key, "false") != "false" for key in ("include-statistics", "include-render")
+    ):
+        raise LogsError(400, "BadArgumentError", "Unsupported query preference")
+    if options.get("response-v1", "true") != "true":
+        raise LogsError(400, "BadArgumentError", "Only v1 query responses are supported")
+    wait = options.get("wait", "30")
+    if not re.fullmatch(r"\d+", wait) or not 1 <= int(wait) <= 600:
+        raise LogsError(400, "BadArgumentError", "Supported wait preference is 1..600")
+    return int(wait)
 
 
 async def body_json(request):
@@ -169,9 +180,16 @@ async def batch(session, actor, body, now):
             if set(headers) - {"prefer", "content-type"}:
                 raise LogsError(400, "BadArgumentError", "Unsupported batch header")
             timeout = preference(headers.get("prefer", ""))
-            result = await query_workspace(
-                session, actor, UUID(item["workspace"]), item["body"], now, timeout=timeout
-            )
+            # Driver cancellation can invalidate an entire connection. Each
+            # batch item therefore owns its transaction/connection, not merely
+            # a savepoint inside the batch's authentication transaction.
+            from sqlalchemy.ext.asyncio import async_sessionmaker
+
+            sessions = async_sessionmaker(session.bind, expire_on_commit=False, info=session.info)
+            async with sessions.begin() as item_session:
+                result = await query_workspace(
+                    item_session, actor, UUID(item["workspace"]), item["body"], now, timeout=timeout
+                )
             status = 200
         except (LogsError, ValueError, TypeError, KeyError, OverflowError) as error:
             mapped = mapped_error(error)

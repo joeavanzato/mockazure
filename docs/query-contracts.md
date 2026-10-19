@@ -4,7 +4,7 @@ Resource Graph currently implements `POST /providers/Microsoft.ResourceGraph/res
 
 The current tables are Resources and ResourceContainers (subscriptions and resource groups). Management groups, other Resource Graph tables, facets, partial-scope execution, and authorizationScopeFilter are rejected explicitly. Object-array and typed-table output formats work. `$top` defaults to 1,000; `$skip` is supported and resultTruncated indicates additional rows. Opaque `$skipToken` continuation is durable across API replicas and bound to the query, options, scope, principal, permissions and cloud generation. Tokens expire after one hour; query-result changes invalidate them explicitly. Each page rechecks current access and uses the original evaluation time. Identical page retries return identical results. Log Analytics and diagnostics are described separately below.
 
-The typed parser/evaluator supports where, project, project-away, project-rename, extend, distinct, order/sort, take/limit, top, count, summarize, union, equality joins, and mv-expand. Resource Graph has a default Resources table, at most three combined join/union operations, at most three expansions, expansion default128/maximum2,000, no let or leftanti join, and no repeated right-hand table. The separate Log Analytics language profile permits scalar/table let and leftanti; this does not yet expose its HTTP service.
+The typed parser/evaluator supports where, project, project-away, project-rename, extend, distinct, order/sort, take/limit, top, count, summarize, union, equality joins, and mv-expand. Resource Graph has a default Resources table, at most three combined join/union operations, at most three expansions, expansion default128/maximum2,000, no let or leftanti join, and no repeated right-hand table. The separate Log Analytics language profile permits scalar/table let and leftanti; its HTTP service is described below.
 
 Scalar support includes explicit string/int/long/real/datetime/timespan/bool casts, parse_json, null/empty checks, coalesce, iff/case, concatenation/substrings/case conversion, equality/in/string term and substring operators with case variants, now/ago/bin and typed arithmetic. Aggregates are count/countif/sum/avg/min/max/dcount/arg_max. Null string inputs become empty strings; nullable boolean and numeric expressions retain KQL semantics. Union type conflicts produce distinct typed columns and preserve name collisions. dcount is deterministic exact distinct within the local bounds rather than production approximate estimation.
 
@@ -12,9 +12,9 @@ This is an explicit language subset. No arbitrary plugins, SQL, Python evaluatio
 
 The shared ARM schema validator also bounds serialized request/response objects to 2 MiB; the query route bounds incoming requests more tightly to 256 KiB. Oversized responses fail explicitly rather than truncate their cells.
 
-Emulator limits: 65,536 query UTF-8 bytes, 10,000 tokens, 64 nested parser frames, 1,000 explicit subscriptions (10,000 authorized implicit subscriptions), 30 seconds of evaluator time, 100,000 returned rows, 64 MiB accounted table values, and 1,000,000 intermediate/expanded rows. These are local limits, not Microsoft service guarantees. Database loading and full concurrent-process resource bounds remain the F4/G stress gates. Input/table accounting is conservative JSON-plus-container overhead, not an RSS measurement.
+Emulator limits: 65,536 query UTF-8 bytes, 10,000 tokens, 64 nested parser frames, 1,000 explicit subscriptions (10,000 authorized implicit subscriptions), 30 seconds for database scanning and evaluation by default, 100,000 returned rows, 64 MiB cumulative accounted values, and 1,000,000 intermediate/expanded rows. These are local limits, not Microsoft service guarantees. Database scans and off-thread evaluation share a deadline; scalar allocations, retained let results and join/group intermediates share accounting. Configurable limits are documented in [Query language](query-language.md). Full concurrent-process resource bounds remain the G stress gate; accounting is not an RSS measurement.
 
-The [operation catalog](../integrations/contracts/cloud/queries.json) bundles 126 hash-verified official source files, including schema dependencies and upstream licenses. Verification is offline: `python tools/acquire_cloud_contracts.py --service queries --verify-only`. Unit and PostgreSQL integration tests exercise semantics, current authorization, hidden right-side rows, invalid queries, and budget errors. Four-client F qualification is pending; no throughput or full-language compatibility is claimed.
+The [operation catalog](../integrations/contracts/cloud/queries.json) bundles hash-verified official source files, including schema dependencies and upstream licenses. Verification is offline: `python tools/acquire_cloud_contracts.py --service queries --verify-only`. Unit and PostgreSQL integration tests exercise semantics, current authorization, hidden right-side rows, invalid queries, and budget errors. Four-client F qualification is pending; no throughput or full-language compatibility is claimed.
 
 
 ## Log Analytics local profile (F2 implementation)
@@ -29,7 +29,9 @@ authorized before records are loaded; an inaccessible workspace fails the reques
 GET/POST `/v1/workspaces/{workspaceId}/query`, GET metadata and legacy POST
 `/v1/$batch` return the pinned Microsoft v1 envelopes. Body and URL timespans
 intersect before evaluation. `Prefer: wait=1..600` is accepted with the local
-execution ceiling of 30 seconds. Other preferences are explicitly rejected;
+execution ceiling configured by query_timeout_seconds (default 30 seconds).
+Original SDK response-v1=true and explicit false statistics/render preferences
+are accepted; enabling unsupported features is explicitly rejected;
 statistics/render output is not implemented. Batch accepts 1–20 POST `/query`
 entries and retains individual errors. Cross-workspace body/URL lists work;
 `workspace()` expressions and resource-context query paths are not implemented.
@@ -48,7 +50,7 @@ content rolls the complete batch back. Imported rows are distinct from native
 service events and cannot authorize diagnostic publication. Cloud export/import,
 reset and bounded workspace-retention cleanup include logs; restored logs are
 imports. Native publication is described below; original SDK qualification and
-concurrent evaluator budget verification remain F4/G. Local passing tests are
+full native qualification and concurrent process bounds remain F4/G. Local passing tests are
 not evidence that those later gates passed.
 
 
@@ -100,3 +102,8 @@ service facts. Reset removes diagnostic jobs/settings. Completed job audit has
 30-day bounded cleanup; active work is preserved. Generic job status exposes
 delivery failures/results. Native four-client recovery and load qualification
 remain F4/G requirements.
+
+F4 accepts original SDK optional-null timespan/workspaces and explicit false
+statistics/render/partial-scope options as omissions; enabling those unsupported
+features still fails. Configurable budgets and delivery controls are documented
+in [Query language](query-language.md). Native-client qualification is pending.

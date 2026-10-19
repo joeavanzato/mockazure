@@ -303,31 +303,40 @@ def binary(op, a, b):
         return None
 
 
-def evaluate(node, row, symbols, now):
+def evaluate(node, row, symbols, now, budget=None):
+    if budget:
+        budget.tick()
+    value = _evaluate(node, row, symbols, now, budget)
+    if budget and isinstance(node, (Call, Binary, Unary, Values)):
+        budget.account(value)
+    return value
+
+
+def _evaluate(node, row, symbols, now, budget):
     if isinstance(node, Literal):
         return node.value
     if isinstance(node, Name):
         return row[node.name] if node.name in row else symbols[node.name][1]
     if isinstance(node, Access):
-        source = evaluate(node.source, row, symbols, now)
-        key = evaluate(node.key, row, symbols, now)
+        source = evaluate(node.source, row, symbols, now, budget)
+        key = evaluate(node.key, row, symbols, now, budget)
         if isinstance(source, dict):
             return source.get(str(key))
         if isinstance(source, list) and isinstance(key, int) and 0 <= key < len(source):
             return source[key]
         return None
     if isinstance(node, Values):
-        return [evaluate(v, row, symbols, now) for v in node.values]
+        return [evaluate(v, row, symbols, now, budget) for v in node.values]
     if isinstance(node, Unary):
-        value = evaluate(node.operand, row, symbols, now)
+        value = evaluate(node.operand, row, symbols, now, budget)
         return None if value is None else value if node.operator == "+" else -value
     if isinstance(node, Binary):
         return binary(
             node.operator,
-            evaluate(node.left, row, symbols, now),
-            evaluate(node.right, row, symbols, now),
+            evaluate(node.left, row, symbols, now, budget),
+            evaluate(node.right, row, symbols, now, budget),
         )
-    args = [evaluate(v, row, symbols, now) for v in node.arguments]
+    args = [evaluate(v, row, symbols, now, budget) for v in node.arguments]
     name = node.name
     if name in CASTS:
         return cast(args[0], CASTS[name])
@@ -358,7 +367,13 @@ def evaluate(node, row, symbols, now):
     if name == "case":
         return next((args[i + 1] for i in range(0, len(args) - 1, 2) if args[i] is True), args[-1])
     if name == "strcat":
-        return "".join(cast(v, "string") for v in args)
+        strings = [cast(v, "string") for v in args]
+        if (
+            budget
+            and sum(len(v.encode()) for v in strings) > budget.limits.bytes - budget.used_bytes
+        ):
+            raise QueryError("Query scalar memory limit exceeded", "QueryLimitExceeded")
+        return "".join(strings)
     if name == "substring":
         start = args[1] if args[1] >= 0 else max(len(args[0]) + args[1], 0)
         return args[0][start:] if len(args) == 2 else args[0][start : start + max(args[2], 0)]

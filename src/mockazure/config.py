@@ -43,6 +43,13 @@ class Settings(BaseSettings):
     keyvault_backup_key_file: Path | None = None
     keyvault_backup_key_ref: str | None = Field(default=None, min_length=1, max_length=128)
     notification_receivers: dict[str, dict[str, str]] = Field(default_factory=dict)
+    query_timeout_seconds: float = Field(default=30, gt=0, le=600)
+    query_max_rows: int = Field(default=100000, ge=1, le=10000000)
+    query_max_bytes: int = Field(default=64 * 1024 * 1024, ge=1, le=1024**4)
+    query_max_expanded_rows: int = Field(default=1000000, ge=1, le=100000000)
+    diagnostic_delay_seconds: float = Field(default=0, ge=0, le=86400)
+    diagnostic_retry_seconds: float = Field(default=5, gt=0, le=3600)
+    diagnostic_max_attempts: int = Field(default=3, ge=1, le=20)
     pool_size: int = Field(default=5, ge=1, le=100)
     pool_max_overflow: int = Field(default=5, ge=0, le=100)
 
