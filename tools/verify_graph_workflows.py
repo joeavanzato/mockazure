@@ -4,6 +4,7 @@ import base64
 import json
 import sys
 import time
+from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from ipaddress import ip_address
 from uuid import uuid4
@@ -48,21 +49,78 @@ def wait_for_fresh_connection(origin, ca):
     raise RuntimeError("Local Graph restart readiness failed on fresh TLS connections")
 
 
-def qualify(directory, command, compose, client, headers, tenant, check):
+@contextmanager
+def local_receiver(directory, command, compose):
     state = directory / "graph-workflow-clients"
-    state.mkdir()
+    state.mkdir(exist_ok=True)
+    (state / "receiver-status.txt").write_text("202")
     instance = directory / ".runtime/instance"
-    base = "/_mock/tenants/" + tenant["id"]
-    ca = str(instance / "ca.pem")
-    origin = str(client.base_url).rstrip("/")
     api = command(compose + ["ps", "-q", "api"], capture=True)
+    image = command(["docker", "inspect", "--format", "{{.Config.Image}}", api], capture=True)
     networks = json.loads(
         command(
             ["docker", "inspect", "--format", "{{json .NetworkSettings.Networks}}", api],
             capture=True,
         )
     )
-    receiver_ip = callback_address(networks)
+    callback_address(networks)
+    network = next(name for name in networks if name.endswith("_internal"))
+    receiver = "mockazure-graph-receiver-" + uuid4().hex[:12]
+    command(
+        [
+            "docker",
+            "run",
+            "-d",
+            "--name",
+            receiver,
+            "--network",
+            network,
+            "--entrypoint",
+            "python",
+            "--mount",
+            f"type=bind,source={instance},target=/instance,readonly",
+            "--mount",
+            f"type=bind,source={ROOT / 'integrations/local_webhook_receiver.py'},"
+            "target=/receiver.py,readonly",
+            "--mount",
+            f"type=bind,source={state},target=/state",
+            image,
+            "/receiver.py",
+            "--host",
+            "0.0.0.0",
+            "--cert",
+            "/instance/server.pem",
+            "--key",
+            "/instance/server.key",
+            "--output",
+            "/state/notifications.ndjson",
+            "--status-file",
+            "/state/receiver-status.txt",
+        ]
+    )
+    try:
+        networks = json.loads(
+            command(
+                ["docker", "inspect", "--format", "{{json .NetworkSettings.Networks}}", receiver],
+                capture=True,
+            )
+        )
+        yield callback_address(networks)
+    finally:
+        command(["docker", "rm", "-f", receiver])
+
+
+def qualify(directory, command, compose, client, headers, tenant, check):
+    with local_receiver(directory, command, compose) as receiver_ip:
+        return _qualify(directory, command, compose, client, headers, tenant, check, receiver_ip)
+
+
+def _qualify(directory, command, compose, client, headers, tenant, check, receiver_ip):
+    state = directory / "graph-workflow-clients"
+    instance = directory / ".runtime/instance"
+    base = "/_mock/tenants/" + tenant["id"]
+    ca = str(instance / "ca.pem")
+    origin = str(client.base_url).rstrip("/")
     runtime = json.loads((instance / "container.json").read_text("utf-8"))
     callback = "https://localhost:9444/notifications"
     runtime["notification_receivers"] = {
@@ -77,7 +135,6 @@ def qualify(directory, command, compose, client, headers, tenant, check):
     ready()
     api = command(compose + ["ps", "-q", "api"], capture=True)
     image = command(["docker", "inspect", "--format", "{{.Config.Image}}", api], capture=True)
-    receiver = "mockazure-graph-receiver-" + uuid4().hex[:12]
 
     def request(method, path, value=None, status=200):
         response = client.request(method, path, headers=headers, json=value)
@@ -301,41 +358,7 @@ def qualify(directory, command, compose, client, headers, tenant, check):
         raise RuntimeError("Local Graph delivery did not meet its expected outcome")
 
     report = {"passed": False, "localOnly": True, "written": {}, "restarted": {}}
-    started = False
     try:
-        command(
-            [
-                "docker",
-                "run",
-                "-d",
-                "--name",
-                receiver,
-                "--network",
-                "container:" + api,
-                "--entrypoint",
-                "python",
-                "--mount",
-                f"type=bind,source={instance},target=/instance,readonly",
-                "--mount",
-                f"type=bind,source={ROOT / 'integrations/local_webhook_receiver.py'},"
-                "target=/receiver.py,readonly",
-                "--mount",
-                f"type=bind,source={state},target=/state",
-                image,
-                "/receiver.py",
-                "--host",
-                "0.0.0.0",
-                "--cert",
-                "/instance/server.pem",
-                "--key",
-                "/instance/server.key",
-                "--output",
-                "/state/notifications.ndjson",
-                "--status-file",
-                "/state/receiver-status.txt",
-            ]
-        )
-        started = True
         # Native subscription POST performs the actual TLS validation handshake.
         for ecosystem in ECOSYSTEMS:
             report["written"][ecosystem] = run(ecosystem, "write")
@@ -432,8 +455,6 @@ def qualify(directory, command, compose, client, headers, tenant, check):
         report["passed"] = True
         return report
     finally:
-        if started:
-            command(["docker", "rm", "-f", receiver])
         (directory / "graph-workflows-report.json").write_text(
             json.dumps(report, indent=2) + "\n", "utf-8"
         )

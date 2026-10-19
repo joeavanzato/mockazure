@@ -65,3 +65,27 @@ def test_restart_readiness_opens_a_fresh_verified_connection_each_attempt(monkey
     verify_graph_workflows.wait_for_fresh_connection("https://localhost:8443", "lab-ca.pem")
     assert len(sessions) == 2
     assert all(session.closed for session in sessions)
+
+
+def test_callback_receiver_has_its_own_restart_independent_network(tmp_path):
+    import json
+
+    calls = []
+
+    def command(args, **kwargs):
+        calls.append(args)
+        if args[-3:] == ["ps", "-q", "api"]:
+            return "api-container"
+        if "{{.Config.Image}}" in args:
+            return "local-image"
+        if "{{json .NetworkSettings.Networks}}" in args:
+            address = "172.28.0.2" if args[-1] == "api-container" else "172.28.0.9"
+            return json.dumps({"lab_internal": {"IPAddress": address}})
+        return "receiver-container"
+
+    with verify_graph_workflows.local_receiver(tmp_path, command, ["docker", "compose"]) as address:
+        assert address == "172.28.0.9"
+        run = next(args for args in calls if args[:2] == ["docker", "run"])
+        assert run[run.index("--network") + 1] == "lab_internal"
+        assert not any(args[:3] == ["docker", "rm", "-f"] for args in calls)
+    assert calls[-1][:3] == ["docker", "rm", "-f"]
