@@ -163,6 +163,11 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
         arm_path = request.scope["path"].lower().split("/")[1] in {"subscriptions", "tenants"}
         request.state.arm_path = arm_path
         if arm_path:
+            request.scope["path"] = re.sub(
+                r"(?i)/providers/microsoft\.insights/(diagnosticsettingscategories|diagnosticsettings)(?=/|$)",
+                lambda match: match.group(0).lower(),
+                request.scope["path"],
+            )
             if b"%" in request.scope.get("raw_path", b"") or "\\" in request.scope["path"]:
                 return await handle_arm_error(
                     request, ArmError(400, "InvalidResourceId", "Encoded ARM paths are unsupported")
@@ -342,6 +347,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     from mockazure.providers.keyvault.management import router as vault_management_router
 
     app.include_router(vault_management_router)
+    from mockazure.providers.arm.diagnostic_routes import router as diagnostic_router
+
+    app.include_router(diagnostic_router)
     app.include_router(arm_storage_router)
     from mockazure.providers.resourcegraph.routes import router as resourcegraph_router
 

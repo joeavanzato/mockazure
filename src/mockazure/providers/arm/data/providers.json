@@ -150,5 +150,34 @@
         "schemaNamespace": "workspaces"
       }
     ]
+  },
+  "Microsoft.Insights": {
+    "resourceTypes": [
+      {
+        "resourceType": "diagnosticSettings",
+        "apiVersions": [
+          "2021-05-01-preview"
+        ],
+        "locations": [
+          "global"
+        ],
+        "schemaNamespace": "diagnostics"
+      },
+      {
+        "resourceType": "diagnosticSettingsCategories",
+        "apiVersions": [
+          "2021-05-01-preview",
+          "2017-05-01-preview"
+        ],
+        "locations": [
+          "global"
+        ],
+        "schemaNamespace": "diagnosticCategories2021",
+        "schemaNamespaces": {
+          "2017-05-01-preview": "diagnosticCategories",
+          "2021-05-01-preview": "diagnosticCategories2021"
+        }
+      }
+    ]
   }
 }

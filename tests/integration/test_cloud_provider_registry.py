@@ -49,6 +49,7 @@ async def test_provider_discovery_and_version(database, settings):
             "Microsoft.Compute",
             "Microsoft.Network",
             "Microsoft.OperationalInsights",
+            "Microsoft.Insights",
         }
         storage = providers["Microsoft.Storage"]
         assert storage["registrationState"] == "NotRegistered"

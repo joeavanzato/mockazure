@@ -31,6 +31,12 @@ from mockazure.keyvault.lifecycle import (
     prune_keyvault,
     replace_keyvault,
 )
+from mockazure.monitor.diagnostic_lifecycle import (
+    DiagnosticStateInput,
+    export_diagnostics,
+    prune_diagnostics,
+    replace_diagnostics,
+)
 from mockazure.monitor.lifecycle import LogsStateInput, export_logs, prune_logs, replace_logs
 from mockazure.notifications.lifecycle import (
     NotificationStateInput,
@@ -91,6 +97,7 @@ class CloudInput(IdentityInput):
     resources: ResourceStateInput = Field(default_factory=ResourceStateInput)
     keyvault: KeyVaultStateInput = Field(default_factory=KeyVaultStateInput)
     calendars: CalendarStateInput = Field(default_factory=CalendarStateInput)
+    diagnostics: DiagnosticStateInput = Field(default_factory=DiagnosticStateInput)
     logs: LogsStateInput = Field(default_factory=LogsStateInput)
     notifications: NotificationStateInput = Field(default_factory=NotificationStateInput)
 
@@ -210,6 +217,7 @@ async def export_cloud(session: AsyncSession, tenant_id: UUID) -> dict:
         resources=await export_provider_resources(session, tenant_id),
         keyvault=await export_keyvault(session, tenant_id),
         calendars=await export_calendars(session, tenant_id),
+        diagnostics=await export_diagnostics(session, tenant_id),
         logs=await export_logs(session, tenant_id),
         notifications=await export_notifications(session, tenant_id),
     ).model_dump(mode="json")
@@ -254,6 +262,7 @@ async def import_cloud(session: AsyncSession, tenant_id: UUID, document: dict) -
         await replace_keyvault(session, tenant_id, value.keyvault)
         await replace_storage_accounts(session, tenant_id, value.storage)
         await replace_provider_state(session, tenant_id, value.provider)
+        await replace_diagnostics(session, tenant_id, value.diagnostics)
         await replace_calendars(session, tenant_id, value.calendars)
         await replace_notifications(session, tenant_id, value.notifications)
 
@@ -263,6 +272,7 @@ async def reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generatio
     if state.generation != expected_generation:
         raise AdminError(409, "CloudGenerationConflict", "Cloud generation changed")
     await retire_operations(session, tenant_id)
+    await replace_diagnostics(session, tenant_id, DiagnosticStateInput())
     await replace_logs(session, tenant_id, LogsStateInput())
     await replace_keyvault(session, tenant_id, KeyVaultStateInput())
     await replace_provider_resources(session, tenant_id, ResourceStateInput())
@@ -287,6 +297,8 @@ async def prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, lim
         used += await prune_notifications(session, tenant_id, now, limit - used)
     if used < limit:
         used += await prune_logs(session, tenant_id, now, limit - used)
+    if used < limit:
+        used += await prune_diagnostics(session, tenant_id, now, limit - used)
     # Retired generations have no delivery authority. Active-generation facts are retained for F3.
     ids = (
         list(

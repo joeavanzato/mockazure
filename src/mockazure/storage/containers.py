@@ -25,6 +25,15 @@ def view(row):
 
 
 async def record(session, access, service, name, operation, now):
+    if access.mode == "diagnostic":
+        return  # Trusted internal delivery cannot generate recursive diagnostics.
+    category = (
+        "StorageDelete"
+        if operation.startswith("Delete")
+        else "StorageRead"
+        if operation.startswith(("Get", "List", "Peek", "Query"))
+        else "StorageWrite"
+    )
     await append_service_event(
         session,
         ServiceEvent(
@@ -32,7 +41,7 @@ async def record(session, access, service, name, operation, now):
             access.tenant_id,
             access.account_id,
             service,
-            "StorageWrite",
+            category,
             operation,
             now,
             {"name": name, "authenticationType": access.mode, "outcome": "Succeeded"},

@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** F1/F2 implemented with local verification: 125 tests pass, lint and offline references verified. F3/F4, phase review, four-client qualification and G acceptance remain pending.
+**Status:** F1-F3 implemented with local verification: 147 tests pass, lint and offline references verified. F4, phase review, four-client qualification and G acceptance remain pending.
 
 ## Global Constraints
 
@@ -96,7 +96,7 @@ assert denied_workspace_rows == []
 
 **Interfaces:** Produce `async mutate_diagnostic_setting(session: AsyncSession, actor: PrincipalContext, resource_id: str, name: str, operation: str, body: dict, now: datetime) -> MutationResult`; `async process_diagnostic_delivery(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult`. Consume ServiceEvent, C2 Blob write internals and F2 typed ingestion. Delivery uses an internal destination capability scoped to the validated setting, not a reusable user bearer token.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_storage_keyvault_diagnostics selects categories at correct resource/service scope, writes data/secret operations and reads published logs in both Blob and workspace destinations. test_diagnostic_retry_and_changes fails delivery, restarts, changes a setting and verifies the declared snapshot/current-eligibility rule. test_diagnostic_no_feedback prevents delivery's own storage writes recursively generating diagnostic delivery.
+- [x] **Step 1 — Add the named failing scenarios.** test_storage_keyvault_diagnostics selects categories at correct resource/service scope, writes data/secret operations and reads published logs in both Blob and workspace destinations. test_diagnostic_retry_and_changes fails delivery, restarts, changes a setting and verifies the declared snapshot/current-eligibility rule. test_diagnostic_no_feedback prevents delivery's own storage writes recursively generating diagnostic delivery.
 
 ```python
 assert observed_source_ids == expected_eligible_ids
@@ -106,10 +106,10 @@ assert secret_or_key_values_in_logs == []
 assert recursive_delivery_count == 0
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_diagnostic_delivery.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Pin category and settings CRUD/discovery contracts including Storage child-service scopes and subscription Activity Log destinations. Validate supported destination existence/type and configuration rights; snapshot category/destination selection when an eligible source event is committed. On delivery recheck destination existence and current trusted delivery capability; changed settings affect new events, explicit destination removal disables pending delivery. Persist outcome/failure for inspection. Map AzureActivity, StorageBlobLogs/StorageFileLogs/StorageQueueLogs/StorageTableLogs and Key Vault supported resource-specific/legacy tables to actual column references. Do not claim Event Hub or metrics delivery. Preserve public storage record format, category paths and dedup/provenance internally without inventing Microsoft columns.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_diagnostic_delivery.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Pin category and settings CRUD/discovery contracts including Storage child-service scopes and subscription Activity Log destinations. Validate supported destination existence/type and configuration rights; snapshot category/destination selection when an eligible source event is committed. On delivery recheck destination existence and current trusted delivery capability; changed settings affect new events, explicit destination removal disables pending delivery. Persist outcome/failure for inspection. Map AzureActivity, StorageBlobLogs/StorageFileLogs/StorageQueueLogs/StorageTableLogs and Key Vault supported resource-specific/legacy tables to actual column references. Do not claim Event Hub or metrics delivery. Preserve public storage record format, category paths and dedup/provenance internally without inventing Microsoft columns.
 - [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: route diagnostic events to local storage and workspaces"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: route diagnostic events to local storage and workspaces"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task F4: Query and diagnostic recovery/scale qualification
 

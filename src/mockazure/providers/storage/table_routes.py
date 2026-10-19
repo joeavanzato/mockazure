@@ -546,6 +546,17 @@ async def dispatch_table(request):
                     extra,
                     mode,
                 )
+        if action in {"list", "query_entities", "read_entity"}:
+            from mockazure.storage.containers import record
+
+            await record(
+                session,
+                access,
+                "table",
+                name,
+                "QueryTables" if action == "list" else "QueryEntities",
+                now,
+            )
         await session.commit()
         return response
     except BaseException:

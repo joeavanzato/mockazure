@@ -3,6 +3,7 @@
 import copy
 import json
 import re
+from functools import lru_cache
 from pathlib import Path
 
 from mockazure.cloud.contracts import _catalog
@@ -24,19 +25,40 @@ def provider_name(namespace):
     return name
 
 
+@lru_cache
+def operation_bindings():
+    # Pinned contracts are immutable for a running server. Avoid reparsing all
+    # source provenance and rebuilding route expressions on every ARM request.
+    diagnostic = [
+        row for row in _catalog("queries")["operations"] if "/diagnosticSettings" in row["path"]
+    ]
+    bindings = []
+    for operation in [*_catalog("arm-providers")["operations"], *diagnostic]:
+        parts = re.split(r"(\{[^}]+\})", operation["path"])
+        pattern = "".join(
+            ".+"
+            if part == "{resourceUri}"
+            else "[^/]+"
+            if part.startswith("{")
+            else re.escape(part)
+            for part in parts
+        )
+        bindings.append((operation, re.compile(pattern, re.I)))
+    return tuple(bindings)
+
+
 def resolve_operation(method: str, resource_id: str, api_version: str) -> dict:
     if any(c in resource_id for c in "%?#\\") or "//" in resource_id:
         raise ArmError(400, "InvalidResourceId", "Invalid provider path")
     found = []
-    for operation in _catalog("arm-providers")["operations"]:
-        parts = re.split(r"(\{[^}]+\})", operation["path"])
-        pattern = "".join("[^/]+" if part.startswith("{") else re.escape(part) for part in parts)
-        if operation["method"] == method.upper() and re.fullmatch(pattern, resource_id, re.I):
+    for operation, pattern in operation_bindings():
+        if operation["method"] == method.upper() and pattern.fullmatch(resource_id):
             found.append(operation)
     if not found:
         raise ArmError(
             501, "MockAzureOperationNotImplemented", "Provider operation is not implemented"
         )
+    found.sort(key=lambda row: "{resourceUri}" in row["path"])
     match = next((row for row in found if row["version"] == api_version), None)
     if match is None:
         raise ArmError(400, "InvalidApiVersionParameter", "Unsupported provider operation version")
@@ -52,7 +74,11 @@ def provider_view(subscription, namespace, state):
         "registrationState": state,
         "registrationPolicy": "RegistrationRequired",
         "resourceTypes": [
-            {key: value for key, value in row.items() if key != "schemaNamespace"}
+            {
+                key: value
+                for key, value in row.items()
+                if key not in {"schemaNamespace", "schemaNamespaces"}
+            }
             for row in profile["resourceTypes"]
         ],
     }
