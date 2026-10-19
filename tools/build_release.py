@@ -273,7 +273,12 @@ package = {
     "mockazure/" + p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
     for p in root.rglob("*") if p.is_file() and "__pycache__" not in p.parts
 }
+from mockazure.cloud.contracts import verify_references
+services = ("exchange", "arm-providers", "storage", "keyvault", "graph-workflows", "queries")
+for service in services:
+    verify_references(service)
 print(json.dumps({
+    "referencesVerified": list(services),
     "package": package,
     "migration_head": ScriptDirectory.from_config(configuration()).get_current_head(),
     "capabilities": asyncio.run(capabilities(request)),
@@ -501,6 +506,38 @@ def build_candidate(source_commit, output_dir):
         save(report_path, report)
         save(pointer, report)
         raise
+
+
+def validate_cloud_distribution(report, commit, fingerprint):
+    from tools.check_cloud_coverage import SERVICES
+    from tools.verify_cloud_distribution import CASES, validate_junit
+
+    try:
+        assert report["passed"] is True
+        assert report["sourceCommit"] == commit and report["sourceFingerprint"] == fingerprint
+        assert set(report["distributions"]) == {"wheel", "sdist", "docker"}
+        artifact = json.loads((ROOT / "work/release/artifacts.json").read_text(encoding="utf-8"))
+        from tools.release_report import source_fingerprint
+
+        validate_artifact_report(artifact, ROOT, source_fingerprint())
+        assert artifact["source_commit"] == commit
+        assert report["artifactManifestSha256"] == sha(
+            (ROOT / "work/release/artifacts.json").read_bytes()
+        )
+        for result in report["distributions"].values():
+            assert result["passed"] is True and result["caseNames"] == list(CASES)
+            assert result["failed"] == result["skipped"] == 0 and result["passedTests"] >= 6
+            assert result["probe"]["package"] == artifact["package_hashes"]
+            assert set(result["probe"]["referencesVerified"]) == set(SERVICES)
+            xml = (ROOT / result["junitPath"]).resolve()
+            assert xml.is_relative_to(ROOT / "work/release") and xml.is_file()
+            assert sha(xml.read_bytes()) == result["junitSha256"]
+            assert result["passedTests"] == validate_junit(xml)
+    except (AssertionError, KeyError, TypeError, ValueError) as error:
+        raise ValueError(
+            "Cloud distribution qualification is missing, stale or incomplete"
+        ) from error
+    return True
 
 
 def main():

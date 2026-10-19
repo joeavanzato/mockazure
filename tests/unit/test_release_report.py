@@ -28,6 +28,10 @@ def report():
             )
         },
         "artifacts": {"passed": True, "reproducible": True, "parity": True},
+        "cloud": {
+            name: {"passed": True, "validated": True, "report_sha256": "d" * 64}
+            for name in ("matrix", "scale", "distribution", "coverage")
+        },
     }
 
 
@@ -142,3 +146,28 @@ def test_combined_validation_rejects_unbacked_extra_gate_flags(monkeypatch, gate
     verify_release.validate_release(value)
     candidate = value[gate]["small"] if gate == "scale" else value[gate]
     assert candidate["passed"] is False
+
+
+def test_release_readiness_requires_cloud_program_gates():
+    from tools.release_report import release_readiness
+
+    value = report()
+    value["cloud"] = {
+        name: {"passed": True, "validated": True, "report_sha256": "d" * 64}
+        for name in ("matrix", "scale", "distribution", "coverage")
+    }
+    assert release_readiness(value, "a" * 64)["release_ready"] is True
+    for name in value["cloud"]:
+        missing = copy.deepcopy(value)
+        del missing["cloud"][name]
+        assert release_readiness(missing, "a" * 64)["release_ready"] is False
+
+
+@pytest.mark.parametrize("gate", ["matrix", "scale", "distribution", "coverage"])
+def test_cloud_release_flags_require_backing_evidence(monkeypatch, gate):
+    from tools import verify_release
+
+    monkeypatch.setattr(verify_release, "source_fingerprint", lambda: "a" * 64)
+    value = report()
+    verify_release.validate_release(value)
+    assert value["cloud"][gate]["validated"] is False

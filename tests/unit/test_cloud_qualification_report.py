@@ -291,3 +291,27 @@ def test_all_phase_qualification_matrix_completeness():
         mutation(invalid)
         with pytest.raises(ValueError):
             validator()(invalid, ECOSYSTEMS)
+
+
+def test_distribution_xml_requires_each_real_behavior(tmp_path):
+    import pytest
+
+    from tools.verify_cloud_distribution import CASES, validate_junit
+
+    cases = []
+    for node in CASES.values():
+        module, name = node.split("::")
+        cases.append(f'<testcase classname="{module[:-3].replace("/", ".")}" name="{name}"/>')
+    path = tmp_path / "results.xml"
+    path.write_text("<testsuites><testsuite>" + "".join(cases) + "</testsuite></testsuites>")
+    assert validate_junit(path) == 6
+    path.write_text("<testsuites><testsuite>" + "".join(cases[:-1]) + "</testsuite></testsuites>")
+    with pytest.raises(ValueError):
+        validate_junit(path)
+    path.write_text(
+        "<testsuites><testsuite>"
+        + "".join(cases).replace("/>", "><skipped/></testcase>", 1)
+        + "</testsuite></testsuites>"
+    )
+    with pytest.raises(ValueError):
+        validate_junit(path)
