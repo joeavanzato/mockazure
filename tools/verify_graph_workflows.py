@@ -5,6 +5,7 @@ import json
 import sys
 import time
 from datetime import UTC, datetime, timedelta
+from ipaddress import ip_address
 from uuid import uuid4
 
 import msal
@@ -16,6 +17,21 @@ from tools.verify_default import ROOT
 ECOSYSTEMS = ("python", "typescript", "dotnet", "powershell")
 
 
+def callback_address(networks):
+    addresses = [row["IPAddress"] for name, row in networks.items() if name.endswith("_internal")]
+    if len(addresses) != 1:
+        raise ValueError("The receiver requires one shared internal Docker network")
+    address = ip_address(addresses[0])
+    if (
+        not address.is_private
+        or address.is_loopback
+        or address.is_unspecified
+        or address.is_multicast
+    ):
+        raise ValueError("The receiver requires a private address shared by API and worker")
+    return str(address)
+
+
 def qualify(directory, command, compose, client, headers, tenant, check):
     state = directory / "graph-workflow-clients"
     state.mkdir()
@@ -23,10 +39,18 @@ def qualify(directory, command, compose, client, headers, tenant, check):
     base = "/_mock/tenants/" + tenant["id"]
     ca = str(instance / "ca.pem")
     origin = str(client.base_url).rstrip("/")
+    api = command(compose + ["ps", "-q", "api"], capture=True)
+    networks = json.loads(
+        command(
+            ["docker", "inspect", "--format", "{{json .NetworkSettings.Networks}}", api],
+            capture=True,
+        )
+    )
+    receiver_ip = callback_address(networks)
     runtime = json.loads((instance / "container.json").read_text("utf-8"))
     callback = "https://localhost:9444/notifications"
     runtime["notification_receivers"] = {
-        callback: {"address": "127.0.0.1", "ca_file": "/instance/ca.pem"}
+        callback: {"address": receiver_ip, "ca_file": "/instance/ca.pem"}
     }
     (instance / "container.json").write_text(json.dumps(runtime, indent=2) + "\n", "utf-8")
     command(compose + ["restart", "api", "worker"])
@@ -290,6 +314,8 @@ def qualify(directory, command, compose, client, headers, tenant, check):
                 f"type=bind,source={state},target=/state",
                 image,
                 "/receiver.py",
+                "--host",
+                "0.0.0.0",
                 "--cert",
                 "/instance/server.pem",
                 "--key",
@@ -374,11 +400,13 @@ def qualify(directory, command, compose, client, headers, tenant, check):
         )
         assert response.status_code == 200
         wait(lambda: len(matching()) > before)
+        retry_payload = matching()[before]
         command(compose + ["restart", "api", "worker"])
         ready()
         statusfile.write_text("202")
-        wait(lambda: len(matching()) > before + 1)
+        wait(lambda: matching().count(retry_payload) >= 2)
         report["callback_retry"] = True
+        report["callbackRetryPayloadStable"] = True
         for ecosystem in ECOSYSTEMS:
             report["restarted"][ecosystem] = run(ecosystem, "read")
         baseline = len(notifications())
