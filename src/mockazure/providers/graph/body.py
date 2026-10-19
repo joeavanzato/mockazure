@@ -60,3 +60,18 @@ def typed_body(body, kind):
     if "@odata.type" in body and body["@odata.type"] != "#microsoft.graph." + kind:
         invalid("Graph type annotation mismatch")
     return {key: value for key, value in body.items() if key != "@odata.type"}
+
+
+def action_parameters(body, names):
+    """Resolve exact CSDL PascalCase and documented REST lower-camel parameters."""
+    if not isinstance(body, dict):
+        invalid("A JSON object is required")
+    aliases = {name: name for name in names}
+    aliases.update({name[0].upper() + name[1:]: name for name in names})
+    result = {}
+    for name, value in body.items():
+        canonical = aliases.get(name)
+        if canonical is None or canonical in result:
+            invalid("Unknown or duplicate action parameter")
+        result[canonical] = value
+    return result

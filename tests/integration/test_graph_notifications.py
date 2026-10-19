@@ -576,3 +576,27 @@ async def test_receiver_total_timeout_bounds_slow_response(database, tmp_path):
         binding = resolve_receiver(url, database.sessions.kw["info"]["notification_receivers"])
         with pytest.raises(TimeoutError):
             await post_receiver(binding, payload={"value": []}, timeout=0.12)
+
+
+async def test_long_drive_identity_does_not_break_source_import(database, settings, tmp_path):
+    from tests.integration.site_drive_support import seed_site
+
+    with receiver(tmp_path, database) as (url, state):
+        async with graph_client(database, settings) as (client, tenant, app, owner):
+            fixture = await seed_site(client, database, tenant, owner, suffix="d" * 300)
+            headers = await headers_for(database, settings, tenant, app, None, {"Files.Read.All"})
+            await subscribe(
+                client, headers, url, f"drives/{fixture['drive']}/root", changeType="updated"
+            )
+            batch = fixture["batch"]
+            batch["expected_revision"] = 1
+            batch["records"][3]["payload"]["name"] = "Updated long identity"
+            response = await client.post(
+                f"/_mock/tenants/{tenant}/workloads/sharepoint/import", json=batch
+            )
+            assert response.status_code == 200, response.text
+            assert (await notification_worker(database, tenant)).state == "succeeded"
+            assert (
+                state["notifications"][0]["value"][0]["resource"]
+                == f"drives/{fixture['drive']}/root"
+            )

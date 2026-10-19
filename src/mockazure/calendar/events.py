@@ -237,6 +237,11 @@ async def mutate_event(
         if row is None
         else {"id": row.id, "parentFolderId": row.calendar_id, "changeKey": str(row.revision)}
     )
+    prior_members = {
+        a["emailAddress"]["address"].casefold(): {k: v for k, v in a.items() if k != "status"}
+        for a in (row.payload.get("attendees", []) if row else [])
+    }
+    attendees_only = operation == "update" and set(body) == {"attendees"}
     prior_attendees = {
         a["emailAddress"]["address"].casefold(): a.get("status")
         for a in (row.payload.get("attendees", []) if row else [])
@@ -316,7 +321,7 @@ async def mutate_event(
             await restore_overrides(session, box, row.id, [])
     elif operation in {"delete", "cancel"}:
         if operation == "cancel":
-            action_input(operation, body)
+            body = action_input(operation, body)
             if row.organizer_id != owner_id:
                 invalid("You need to be an organizer to cancel a meeting")
         elif body:
@@ -378,7 +383,24 @@ async def mutate_event(
         operation in {"accept", "tentativelyAccept", "decline"} and body.get("sendResponse", True)
     )
     if should_send:
-        await enqueue_meeting(session, actor, box, row, operation, body.get("comment", ""), now)
+        notify_addresses = None
+        if attendees_only:
+            notify_addresses = [
+                a["emailAddress"]["address"].casefold()
+                for a in row.payload.get("attendees", [])
+                if {k: v for k, v in a.items() if k != "status"}
+                != prior_members.get(a["emailAddress"]["address"].casefold())
+            ]
+        await enqueue_meeting(
+            session,
+            actor,
+            box,
+            row,
+            operation,
+            body.get("comment", ""),
+            now,
+            notify_addresses=notify_addresses,
+        )
     return None if operation not in {"create", "update"} else event_view(row)
 
 

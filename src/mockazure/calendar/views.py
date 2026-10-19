@@ -195,13 +195,11 @@ async def read_calendar_view(session, actor, owner_id, query, now):
 
 
 async def get_schedule(session, actor, owner_id, body, prefer, now):
-    if not isinstance(body, dict) or body.keys() - {
-        "schedules",
-        "startTime",
-        "endTime",
-        "availabilityViewInterval",
-    }:
-        invalid("Invalid getSchedule action body")
+    from mockazure.providers.graph.body import action_parameters
+
+    body = action_parameters(
+        body, {"schedules", "startTime", "endTime", "availabilityViewInterval"}
+    )
     schedules = body.get("schedules")
     if (
         not isinstance(schedules, list)

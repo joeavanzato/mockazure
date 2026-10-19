@@ -33,7 +33,9 @@ from mockazure.mail.send import (
 from mockazure.providers.graph.errors import GraphError
 
 
-async def enqueue_meeting(session, actor, box, row, operation, comment, now):
+async def enqueue_meeting(
+    session, actor, box, row, operation, comment, now, *, notify_addresses=None
+):
     from mockazure.calendar.exceptions import snapshot_overrides
 
     identifier = uuid4()
@@ -65,6 +67,7 @@ async def enqueue_meeting(session, actor, box, row, operation, comment, now):
                 "organizer_id": str(row.organizer_id),
                 "revision": row.revision,
                 "comment": comment,
+                "notify_addresses": notify_addresses,
             },
         )
     )
@@ -179,6 +182,9 @@ async def deliver_invitation(session, actor, sender, delivery, now):
         from mockazure.calendar.exceptions import restore_overrides
 
         await restore_overrides(session, target, existing.id, data.get("exceptions", []))
+        notify = data.get("notify_addresses")
+        if notify is not None and target.primary_smtp not in notify:
+            continue
         await local_message(
             session,
             actor,

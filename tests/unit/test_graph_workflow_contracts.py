@@ -148,3 +148,44 @@ def test_calendar_accepts_exact_sdk_type_discriminators():
         ],
     }
     assert event_input(body)["attendees"][0]["emailAddress"]["address"] == "local@contoso.test"
+
+
+def test_original_python_sdk_send_mail_serialization():
+    import json
+
+    from kiota_serialization_json.json_serialization_writer import JsonSerializationWriter
+    from msgraph.generated.models.message import Message
+    from msgraph.generated.users.item.send_mail.send_mail_post_request_body import (
+        SendMailPostRequestBody,
+    )
+
+    writer = JsonSerializationWriter()
+    SendMailPostRequestBody(message=Message(subject="Native"), save_to_sent_items=False).serialize(
+        writer
+    )
+    body = json.loads(writer.get_serialized_content())
+    assert "Message" in body
+    normalized = validate_mail_action("sendMail", body)
+    assert normalized == {"message": {"subject": "Native"}, "saveToSentItems": False}
+
+
+def test_original_python_sdk_meeting_action_serialization():
+    import json
+
+    from kiota_serialization_json.json_serialization_writer import JsonSerializationWriter
+    from msgraph.generated.users.item.events.item.accept.accept_post_request_body import (
+        AcceptPostRequestBody,
+    )
+
+    from mockazure.calendar.contracts import action_input
+
+    writer = JsonSerializationWriter()
+    AcceptPostRequestBody(comment="Accepted", send_response=True).serialize(writer)
+    body = json.loads(writer.get_serialized_content())
+    assert action_input("accept", body) == {"comment": "Accepted", "sendResponse": True}
+
+
+def test_action_aliases_reject_duplicates_and_arbitrary_case():
+    for body in ({"Message": {}, "message": {}}, {"MESSAGE": {}}):
+        with pytest.raises(GraphError):
+            validate_mail_action("sendMail", body)

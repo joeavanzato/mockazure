@@ -9,7 +9,7 @@ from sqlalchemy import delete, select, tuple_, update
 from sqlalchemy.orm import aliased
 
 from mockazure.admin.errors import AdminError
-from mockazure.calendar.contracts import validate
+from mockazure.calendar.contracts import event_input, validate
 from mockazure.calendar.models import (
     Calendar,
     CalendarEvent,
@@ -88,13 +88,14 @@ class OwnerInput(IdentityInput):
         from datetime import date
 
         from mockazure.calendar.contracts import EVENT_FIELDS
-        from mockazure.calendar.recurrence import recurrence_spec
+        from mockazure.calendar.exceptions import occurrence_exists
+        from mockazure.calendar.recurrence import occurrence_on
 
         masters = {e.id: e for e in self.events}
         if len({(e.master_id, e.day) for e in self.exceptions}) != len(self.exceptions):
             raise ValueError("Duplicate calendar exception")
         for entry in self.exceptions:
-            date.fromisoformat(entry.day)
+            day = date.fromisoformat(entry.day)
             if (
                 entry.updated_at.tzinfo is None
                 or entry.master_id not in masters
@@ -107,14 +108,29 @@ class OwnerInput(IdentityInput):
                 raise ValueError("Invalid exception override")
             try:
                 validate("event", entry.overrides)
+                master = masters[entry.master_id]
+                if not occurrence_exists(master.payload, day):
+                    raise ValueError("Exception is not an occurrence of its master")
+                event_input(
+                    entry.overrides,
+                    previous=occurrence_on({**master.payload, "id": master.id}, day),
+                )
             except GraphError:
                 raise ValueError("Invalid exception schema") from None
+        transactions = set()
         for event in self.events:
-            if event.payload.get("recurrence"):
+            if not event.deleted:
                 try:
-                    recurrence_spec(event.payload)
+                    event_input({}, previous=event.payload)
                 except GraphError:
-                    raise ValueError("Invalid event recurrence") from None
+                    raise ValueError("Invalid event timing or recurrence") from None
+            if (event.transaction_client is None) != (event.transaction_id is None):
+                raise ValueError("Transaction client and identity must be paired")
+            if event.transaction_id is not None:
+                key = (event.calendar_id, event.transaction_client, event.transaction_id)
+                if key in transactions:
+                    raise ValueError("Duplicate calendar transaction identity")
+                transactions.add(key)
         return self
 
 

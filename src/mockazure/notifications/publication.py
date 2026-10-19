@@ -1,6 +1,7 @@
 """Notification outbox entries commit with source state; no network in source writes."""
 
 from datetime import UTC, datetime, timedelta
+from hashlib import sha256
 from uuid import uuid4
 
 from sqlalchemy import select
@@ -14,6 +15,10 @@ async def queue_notification(session, sub, source_key, change, payload, now, *, 
         return
     if not lifecycle and change not in sub.payload["changeType"].split(","):
         return
+    # Preserve existing short keys; bound opaque source identities independently
+    # of their public resource URI, which remains intact in the payload.
+    if len(source_key) > 256:
+        source_key = "sha256:" + sha256(source_key.encode("utf-8")).hexdigest()
     prior = await session.scalar(
         select(GraphNotification.id).where(
             GraphNotification.subscription_id == sub.id,

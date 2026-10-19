@@ -59,9 +59,11 @@ retaining the latest item snapshot. Import resets recipient source revisions wit
 generation so new deliveries cannot be suppressed by old revision numbers.
 
 getSchedule supports up to20 individually authorized local targets and a window shorter
-than62days, with intervals5–1440minutes. It derives availability and scheduleItems from canonical
+than62days, with intervals5â€“1440minutes. It derives availability and scheduleItems from canonical
 events and exceptions, without granting calendar authority through the source mailbox. Private
 and basic-read entries omit subject/location. Unknown or unauthorized targets return a local
 per-schedule error. Working-hours settings and distribution-list expansion are not simulated.
 
 Native four-ecosystem and Linux/Windows qualification remains pending the shared E gate.
+
+Action parameters accept the exact PascalCase spellings in the pinned Microsoft CSDL and lower-camel REST examples, rejecting ambiguous duplicate names. Primary calendarView/delta also accepts the SDK function URI calendarView/delta(); cursors remain bound to the requested path. Attendees-only updates send meeting messages only to changed attendees; local copies retain the current participant list. Imported events must retain valid timing, recurrence exceptions and unique client/calendar transaction identities.

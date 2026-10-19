@@ -122,7 +122,7 @@ async def mutate_occurrence(session, actor, box, event_id, calendar_id, operatio
         if operation == "cancel":
             from mockazure.calendar.contracts import action_input
 
-            action_input("cancel", body)
+            body = action_input("cancel", body)
         elif body:
             invalid("Delete takes no body")
         patch = {}

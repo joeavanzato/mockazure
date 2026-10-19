@@ -66,3 +66,5 @@ Import restores disabled descriptions and invalidates pending deliveries; explic
 create subscriptions again after restore. Reset removes descriptions/outbox work.
 Pruning removes old terminal delivery jobs and expired unreferenced subscriptions.
 Migration 071 refuses a lossy downgrade until subscription state is reset.
+
+Export is bounded to 1,000 subscription descriptions, including retained retired descriptions. Larger exports return an explicit 413 NotificationStateLimit; they never silently truncate. Prune eligible retired subscriptions before exporting.

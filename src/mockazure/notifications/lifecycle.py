@@ -6,6 +6,7 @@ from uuid import UUID, uuid4
 from pydantic import Field, field_validator
 from sqlalchemy import delete, select
 
+from mockazure.admin.errors import AdminError
 from mockazure.db.job_model import Job
 from mockazure.identity.types import IdentityInput
 from mockazure.notifications.models import GraphNotification, GraphSubscription
@@ -34,7 +35,13 @@ async def export_notifications(session, tenant):
         select(GraphSubscription)
         .where(GraphSubscription.tenant_id == tenant)
         .order_by(GraphSubscription.created_at, GraphSubscription.id)
+        .limit(1001)
     )
+    rows = list(rows)
+    if len(rows) > 1000:
+        raise AdminError(
+            413, "NotificationStateLimit", "Too many subscription descriptions to export"
+        )
     return NotificationStateInput(
         subscriptions=[
             SubscriptionDescription(

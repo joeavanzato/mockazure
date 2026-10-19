@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 
 from mockazure.calendar.timezones import resolve_zone
 from mockazure.mail.workflow_contracts import recipient_address
-from mockazure.providers.graph.body import typed_body
+from mockazure.providers.graph.body import action_parameters, typed_body
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.schema_reference import validate_payload
 
@@ -119,8 +119,7 @@ def event_input(body, *, previous=None):
 
 def action_input(action, body):
     allowed = {"comment"} | (set() if action == "cancel" else {"sendResponse"})
-    if not isinstance(body, dict) or body.keys() - allowed:
-        invalid("Unknown meeting action parameter")
+    body = action_parameters(body, allowed)
     if "comment" in body and (not isinstance(body["comment"], str) or len(body["comment"]) > 16384):
         invalid("comment must be a bounded string")
     if "sendResponse" in body and type(body["sendResponse"]) is not bool:

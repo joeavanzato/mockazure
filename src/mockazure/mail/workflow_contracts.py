@@ -6,7 +6,7 @@ import json
 from functools import lru_cache
 
 from mockazure.cloud.contracts import DATA
-from mockazure.providers.graph.body import typed_body
+from mockazure.providers.graph.body import action_parameters, typed_body
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.schema_reference import validate_payload
 
@@ -224,8 +224,7 @@ def validate_mail_action(action, body):
         else {"message", "comment"}
         | ({"toRecipients"} if action in {"forward", "createForward"} else set())
     )
-    if body.keys() - allowed:
-        invalid("Unknown action parameter")
+    body = action_parameters(body, allowed)
     if action == "sendMail" and "message" not in body:
         invalid("message is required")
     if "message" in body:

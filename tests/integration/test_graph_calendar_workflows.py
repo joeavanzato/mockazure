@@ -244,3 +244,29 @@ async def test_calendar_attendee_patch_preserves_response(database, settings):
         )
         assert changed.status_code == 200, changed.text
         assert changed.json()["attendees"][0]["status"]["response"] == "accepted"
+
+
+async def test_attendees_only_patch_does_not_notify_unchanged_attendees(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, owner):
+        attendee, _, _ = await setup_mail(client, database, settings, tenant, app, owner)
+        headers = await headers_for(
+            database, settings, tenant, app, None, {"Calendars.ReadWrite", "Mail.Read"}
+        )
+        root = f"/v1.0/users/{owner}/events"
+        response = await client.post(root, headers=headers, json=event_body())
+        assert response.status_code == 201, response.text
+        await meeting_worker(database, tenant)
+        inbox = f"/v1.0/users/{attendee}/messages"
+        before = (await client.get(inbox, headers=headers)).json()["value"]
+        changed = await client.patch(
+            root + "/" + response.json()["id"],
+            headers=headers,
+            json={
+                "attendees": event_body()["attendees"]
+                + [{"type": "required", "emailAddress": {"address": "external@unroutable.test"}}]
+            },
+        )
+        assert changed.status_code == 200, changed.text
+        await meeting_worker(database, tenant)
+        after = (await client.get(inbox, headers=headers)).json()["value"]
+        assert len(after) == len(before)

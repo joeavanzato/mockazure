@@ -286,3 +286,21 @@ async def test_calendar_view_aliases_enforce_parent_scope(database, settings):
         assert (
             await client.get(path.replace(group, "wrong") + "/calendarView" + window, headers=write)
         ).status_code == 404
+
+
+async def test_native_sdk_delta_function_uri(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, owner):
+        await setup_mail(client, database, settings, tenant, app, owner)
+        headers = await headers_for(database, settings, tenant, app, None, {"Calendars.ReadWrite"})
+        root = f"/v1.0/users/{owner}"
+        created = await client.post(root + "/events", headers=headers, json=event_body())
+        assert created.status_code == 201, created.text
+        path = (
+            root
+            + "/calendarView/delta()?startDateTime=2026-10-01T00:00:00Z"
+            "&endDateTime=2026-11-01T00:00:00Z"
+        )
+        rows, link = await collect(client, path, headers)
+        assert created.json()["id"] in {row["id"] for row in rows}
+        assert "/delta()" in link
+        assert (await client.get(link, headers=headers)).status_code == 200

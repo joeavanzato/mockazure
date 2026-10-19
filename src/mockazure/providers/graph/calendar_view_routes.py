@@ -63,6 +63,7 @@ def register(path, kind, self_path=False, default_scoped=False):
 for self_path in (False, True):
     prefix = "/me" if self_path else "/users/{user_id}"
     register(prefix + "/calendarView/delta", "delta", self_path)
+    register(prefix + "/calendarView/delta()", "delta", self_path)
     register(prefix + "/calendar/getSchedule", "schedule", self_path)
     for parent in (
         prefix,
