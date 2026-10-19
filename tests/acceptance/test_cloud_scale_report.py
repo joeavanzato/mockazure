@@ -32,6 +32,16 @@ def test_scale_report_rejects_loss_and_reduced_targets():
         "fileRanges": True,
         "diagnosticFanout": True,
         "queryJoins": True,
+        "requests": {
+            "scope": "workload-http-transports",
+            "attempts": 3,
+            "responses": 3,
+            "transportFailures": 0,
+            "httpErrorResponses": 1,
+            "serverErrorResponses": 0,
+            "statusCounts": {"200": 2, "403": 1},
+            "channelAttempts": {"rest": 2, "sdk": 1},
+        },
         "observations": {
             "databaseBytes": 1,
             "samples": [{"memory": 1}],
@@ -56,6 +66,10 @@ def test_scale_report_rejects_loss_and_reduced_targets():
         lambda r: r.update(tenantIsolation=False),
         lambda r: r["observations"].update(samples=[]),
         lambda r: r.update(sourceCommit="e" * 40),
+        lambda r: r.pop("requests"),
+        lambda r: r["requests"].update(attempts=2),
+        lambda r: r["requests"].update(transportFailures=1),
+        lambda r: r["requests"].update(serverErrorResponses=1),
     ):
         bad = copy.deepcopy(report)
         mutation(bad)

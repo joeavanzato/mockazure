@@ -6,11 +6,12 @@ import json
 import re
 import ssl
 import time
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, wait
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
-from threading import Barrier, BrokenBarrierError, Event, Thread
+from threading import Barrier, BrokenBarrierError, Event, Lock, Thread
 from urllib.parse import urlsplit
 from uuid import uuid4
 
@@ -27,6 +28,59 @@ from integrations.python.arm import LocalSession
 from tools.benchmark_coverage import wait_for_replicas
 from tools.verify_cloud_workflows import source_identity
 from tools.verify_default import main as smoke
+
+
+class RequestMetrics:
+    """Bounded counters only: no URLs, credentials or response bodies are retained."""
+
+    def __init__(self):
+        self.lock = Lock()
+        self.channels = Counter()
+        self.statuses = Counter()
+        self.transport_failures = 0
+
+    def measure(self, channel, operation):
+        status = None
+        try:
+            response = operation()
+            status = response.status_code
+            return response
+        finally:
+            with self.lock:
+                self.channels[channel] += 1
+                if status is None:
+                    self.transport_failures += 1
+                else:
+                    self.statuses[str(status)] += 1
+
+    def snapshot(self):
+        with self.lock:
+            return {
+                "scope": "workload-http-transports",
+                "attempts": sum(self.channels.values()),
+                "responses": sum(self.statuses.values()),
+                "transportFailures": self.transport_failures,
+                "httpErrorResponses": sum(v for k, v in self.statuses.items() if int(k) >= 400),
+                "serverErrorResponses": sum(v for k, v in self.statuses.items() if int(k) >= 500),
+                "statusCounts": dict(self.statuses),
+                "channelAttempts": dict(self.channels),
+            }
+
+
+_request_metrics = None
+
+
+def measured(channel, operation):
+    return operation() if _request_metrics is None else _request_metrics.measure(channel, operation)
+
+
+class MeasuredSession(LocalSession):
+    def send(self, request, **kwargs):
+        return measured("sdk", lambda: super(MeasuredSession, self).send(request, **kwargs))
+
+
+def measured_request(client, method, path, **kwargs):
+    return measured("rest", lambda: client.request(method, path, **kwargs))
 
 
 def dataset_counts(records):
@@ -84,6 +138,24 @@ def validate_scale_report(report, commit, fingerprint, *, full=True):
                 "queryJoins",
             )
         )
+        requests = report["requests"]
+        assert requests["scope"] == "workload-http-transports"
+        statuses, channels = requests["statusCounts"], requests["channelAttempts"]
+        assert set(channels) == {"rest", "sdk"}
+        assert all(type(v) is int and v > 0 for v in channels.values())
+        assert all(re.fullmatch(r"[1-5]\d\d", k) for k in statuses)
+        assert all(type(v) is int and v > 0 for v in statuses.values())
+        assert requests["attempts"] == sum(channels.values())
+        assert requests["responses"] == sum(statuses.values())
+        assert requests["transportFailures"] == requests["serverErrorResponses"] == 0
+        assert requests["attempts"] == requests["responses"] + requests["transportFailures"]
+        assert requests["httpErrorResponses"] == sum(
+            v for k, v in statuses.items() if int(k) >= 400
+        )
+        assert requests["serverErrorResponses"] == sum(
+            v for k, v in statuses.items() if int(k) >= 500
+        )
+        assert statuses.get("403", 0) >= 1
         observation = report["observations"]
         assert (
             observation["databaseBytes"] > 0
@@ -101,7 +173,7 @@ def digest_ids(values):
 @contextmanager
 def sdk(fixture, service):
     endpoint = fixture["endpoints"][service]
-    with LocalSession("https://" + urlsplit(endpoint).netloc, fixture["ca"]) as session:
+    with MeasuredSession("https://" + urlsplit(endpoint).netloc, fixture["ca"]) as session:
         transport = RequestsTransport(
             session=session, session_owner=False, connection_verify=fixture["ca"]
         )
@@ -137,7 +209,7 @@ def sdk(fixture, service):
 def request(client, headers, method, path, body=None, status=(200,)):
     if not path.startswith("/") or path.startswith("//"):
         raise ValueError("Only paths on the configured local origin are permitted")
-    response = client.request(method, path, headers=headers, json=body, timeout=180)
+    response = measured_request(client, method, path, headers=headers, json=body, timeout=180)
     assert response.status_code in status, (method, path, response.status_code, response.text[:240])
     return response.json() if response.content else None
 
@@ -178,7 +250,7 @@ def provision(client, admin, tenant, ca, label):
         },
     )
     origin = str(client.base_url).rstrip("/")
-    with LocalSession(origin, ca) as session:
+    with MeasuredSession(origin, ca) as session:
         auth = msal.ConfidentialClientApplication(
             app["client_id"],
             client_credential=secret,
@@ -639,7 +711,9 @@ def qualify(
             verify=ssl.create_default_context(cafile=ca),
             trust_env=False,
         ) as logs:
-            denied = logs.post(
+            denied = measured_request(
+                logs,
+                "POST",
                 f"/v1/workspaces/{primary['workspace']}/query",
                 headers=secondary["logs"],
                 json={"query": query},
@@ -726,6 +800,8 @@ def exercise_contention(fixture):
 
 
 def main():
+    global _request_metrics
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--records", type=int, default=100000)
     parser.add_argument("--binary-bytes", type=int, default=268435456)
@@ -738,6 +814,7 @@ def main():
     commit, fingerprint = source_identity()
     report = {"sourceCommit": commit, "sourceFingerprint": fingerprint, "passed": False}
     started = time.monotonic()
+    metrics = _request_metrics = RequestMetrics()
     try:
         smoke(
             qualify=lambda *values: qualify(
@@ -749,6 +826,7 @@ def main():
             )
         )
         assert source_identity() == (commit, fingerprint)
+        report["requests"] = metrics.snapshot()
         report["passed"] = True
         validate_scale_report(
             report,
@@ -760,6 +838,8 @@ def main():
         report["passed"] = False
         raise
     finally:
+        report["requests"] = metrics.snapshot()
+        _request_metrics = None
         report["elapsedSeconds"] = time.monotonic() - started
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

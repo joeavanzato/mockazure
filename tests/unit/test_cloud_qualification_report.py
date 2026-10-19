@@ -380,3 +380,34 @@ def test_exchange_bootstrap_can_add_a_missing_host_profile():
     assert adapted["exchange"] == "https://localhost"
     assert adapted["storage"] == "https://localhost:28444"
     assert adapted["logs"] == "https://localhost:28449"
+
+
+def test_scale_request_measurements_preserve_results_and_exceptions():
+    from concurrent.futures import ThreadPoolExecutor
+    from types import SimpleNamespace
+
+    from tools.benchmark_cloud_workflows import RequestMetrics
+
+    metrics = RequestMetrics()
+    response = SimpleNamespace(status_code=200)
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        values = list(pool.map(lambda _: metrics.measure("sdk", lambda: response), range(400)))
+    assert all(value is response for value in values)
+    metrics.measure("rest", lambda: SimpleNamespace(status_code=403))
+    metrics.measure("rest", lambda: SimpleNamespace(status_code=503))
+
+    def broken():
+        raise OSError("synthetic transport failure")
+
+    with pytest.raises(OSError, match="synthetic transport failure"):
+        metrics.measure("rest", broken)
+    assert metrics.snapshot() == {
+        "scope": "workload-http-transports",
+        "attempts": 403,
+        "responses": 402,
+        "transportFailures": 1,
+        "httpErrorResponses": 2,
+        "serverErrorResponses": 1,
+        "statusCounts": {"200": 400, "403": 1, "503": 1},
+        "channelAttempts": {"sdk": 400, "rest": 3},
+    }
