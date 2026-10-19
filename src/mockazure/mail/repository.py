@@ -15,6 +15,7 @@ async def resolve_mailbox(session, tenant: UUID, identity: str) -> Mailbox:
     key = identity.lower()
     matches = [
         func.lower(User.upn) == key,
+        func.lower(User.display_name) == key,
         Mailbox.primary_smtp == key,
         Mailbox.alias == key,
         Mailbox.aliases.contains([key]),

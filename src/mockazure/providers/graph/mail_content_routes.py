@@ -11,7 +11,11 @@ from starlette.background import BackgroundTask
 
 from mockazure.authorization.evaluator import AuthorizationDenied, authorize
 from mockazure.content.repository import object_row, stream_content
-from mockazure.mail.authorization import content_requirement, require_mailbox_access
+from mockazure.mail.authorization import (
+    basic_content_only,
+    content_requirement,
+    require_mailbox_access,
+)
 from mockazure.mail.message_queries import (
     attachment_view,
     binding,
@@ -42,7 +46,7 @@ async def raw_content(request, *, self_path):
         actor = await principal(request, session)
         if self_path and actor.token_kind != "delegated":
             raise GraphError(400, "BadRequest", "/me requires delegated authentication")
-        await authorize(actor, content_requirement("raw"), session)
+        await authorize(actor, content_requirement("raw", shared=None), session)
         identity = str(actor.subject_id) if self_path else request.path_params["user_id"]
         box = await resolve_mailbox(session, actor.tenant_id, identity)
         await require_mailbox_access(session, actor, box, "content.raw")
@@ -125,14 +129,14 @@ def register(path, kind, *, item=False, raw=False, folder_scope=False, self_path
                     if raw or kind == "attachments"
                     else "read"
                 )
-                await authorize(actor, content_requirement(operation), session)
+                await authorize(actor, content_requirement(operation, shared=None), session)
                 box = await resolve_mailbox(session, actor.tenant_id, identity)
                 await require_mailbox_access(session, actor, box, "content." + operation)
                 # Snapshot capture, import and cleanup all serialize on the mailbox.
                 await session.refresh(box, with_for_update=True)
                 state = await state_for(session, box)
                 now = getattr(request.app.state, "clock", lambda: datetime.now(UTC))()
-                basic = not bool(actor.permissions & {"Mail.Read", "Mail.ReadWrite"})
+                basic = basic_content_only(actor, box)
                 folder = None
                 if "folder_id" in request.path_params:
                     folder = await folder_by_id(session, box, request.path_params["folder_id"])

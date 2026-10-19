@@ -25,7 +25,10 @@ async def mailbox_view(session, box):
             effective = recipient.primary_smtp
     elif box.forward_smtp:
         effective = box.forward_smtp.removeprefix("smtp:")
+    from mockazure.mail.delegation import behalf_ids
+
     return {
+        "GrantSendOnBehalfTo": await behalf_ids(session, box),
         "Identity": user.upn,
         "UserPrincipalName": user.upn,
         "Name": user.display_name,
@@ -142,9 +145,17 @@ async def provision_mailbox(session, tenant, user_id, value, now):
 
 
 async def mutate_mailbox(session, actor, mailbox, changes: dict, now) -> dict:
+    from mockazure.mail.delegation import lock_delegation, replace_behalf
+
+    await lock_delegation(session, actor.tenant_id)
     await session.refresh(mailbox, with_for_update=True)
     await require_mailbox_access(session, actor, mailbox, "Set-Mailbox")
-    fields = {"ForwardingAddress", "ForwardingSmtpAddress", "DeliverToMailboxAndForward"}
+    fields = {
+        "ForwardingAddress",
+        "ForwardingSmtpAddress",
+        "DeliverToMailboxAndForward",
+        "GrantSendOnBehalfTo",
+    }
     if not isinstance(changes, dict) or not changes or changes.keys() - fields:
         raise GraphError(400, "InvalidParameter", "Unsupported mailbox configuration property")
     before = await mailbox_view(session, mailbox)
@@ -181,7 +192,9 @@ async def mutate_mailbox(session, actor, mailbox, changes: dict, now) -> dict:
             raise GraphError(
                 400, "InvalidParameter", "DeliverToMailboxAndForward requires a boolean"
             )
-    if (forward_user, forward_smtp, deliver) == (
+    if "GrantSendOnBehalfTo" in changes:
+        await replace_behalf(session, mailbox, changes["GrantSendOnBehalfTo"])
+    if "GrantSendOnBehalfTo" not in changes and (forward_user, forward_smtp, deliver) == (
         mailbox.forward_user_id,
         mailbox.forward_smtp,
         mailbox.deliver_and_forward,

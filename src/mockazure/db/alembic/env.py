@@ -8,6 +8,12 @@ from mockazure.db.models import Base
 from mockazure.evidence import models as evidence_models  # noqa: F401
 from mockazure.licensing import models as licensing_models  # noqa: F401
 from mockazure.mail import collection_models as mail_collection_models  # noqa: F401
+from mockazure.mail import (
+    delegation_models,  # noqa: F401
+    role_management_models,  # noqa: F401
+    security_configuration_models,  # noqa: F401
+    unified_audit_models,  # noqa: F401
+)
 from mockazure.mail import message_models as mail_message_models  # noqa: F401
 from mockazure.mail import models as mail_models  # noqa: F401
 from mockazure.managed_identity import models as managed_identity_models  # noqa: F401

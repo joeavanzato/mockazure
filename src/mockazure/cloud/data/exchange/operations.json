@@ -1,0 +1,3577 @@
+{
+  "schemaVersion": 1,
+  "operations": [
+    {
+      "operationId": "Search-UnifiedAuditLog",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Search-UnifiedAuditLog",
+      "parameterSets": [
+        {
+          "name": "Default",
+          "required": [
+            "StartDate",
+            "EndDate"
+          ],
+          "parameters": {
+            "StartDate": "datetime",
+            "EndDate": "datetime",
+            "Formatted": "switch",
+            "FreeText": "string",
+            "IPAddresses": "string[]",
+            "ObjectIds": "string[]",
+            "Operations": "string[]",
+            "RecordType": "string",
+            "ResultSize": "int",
+            "SessionCommand": "string",
+            "SessionId": "string",
+            "SiteIds": "string[]",
+            "UserIds": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "UnifiedAuditLogSearchResult",
+        "fields": {
+          "Identity": "string",
+          "CreationDate": "datetime",
+          "RecordType": "integer|string",
+          "UserIds": "string[]",
+          "Operations": "string[]",
+          "AuditData": "JSON string",
+          "ResultIndex": "integer",
+          "ResultCount": "integer",
+          "AuditSearchRequestMetadata": {
+            "moreRecordsAvailable": "boolean"
+          }
+        }
+      },
+      "permissions": {
+        "application": [
+          "Exchange.ManageAsApp",
+          "current tenant-wide Exchange command authority"
+        ],
+        "delegated": [
+          "Exchange.Manage",
+          "current tenant-wide Exchange command authority",
+          "Audit Logs or View-Only Audit Logs"
+        ],
+        "entitlement": "audit_tier standard or premium"
+      },
+      "limits": {
+        "defaultResultSize": 100,
+        "maxResultSize": 5000,
+        "largeSet": 50000,
+        "preview": 5000,
+        "mixedSessionModes": 10000,
+        "localSessionSeconds": 3600,
+        "localSnapshotBytes": 33554432,
+        "localActiveSessionsPerTenant": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Search-UnifiedAuditLog.md",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "23f1537e1c591c1114994484d25e4c684c4f37cb7f97befd1dc79e09c3ad47ed",
+          "localPath": "Search-UnifiedAuditLog.md",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "HighCompleteness preview and undocumented LegacyFlow/LongerRetentionEnabled are rejected.",
+        "Only pinned audit record types are accepted.",
+        "Session expiry, snapshot byte and concurrent-session quotas are explicit local limits.",
+        "Date-only and offset ISO8601 transport timestamps are supported; the PowerShell proxy handles native dates.",
+        "Only preview promises chronological order; local large-set storage order is deterministic.",
+        "The command page does not publish a complete output DTO; listed output fields are a bounded documented profile.",
+        "One-shot ResultSize follows its dedicated parameter contract despite broader ambiguous SessionCommand guidance."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_unified_audit.py",
+        "tests/unit/test_cloud_contracts.py",
+        "tests/unit/test_exchange_proxy_dates.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented",
+      "kind": "exchangeCommand",
+      "statusCodes": [
+        200,
+        400,
+        403,
+        410,
+        413,
+        429
+      ],
+      "headers": {
+        "429": {
+          "Retry-After": "60 (local session quota)"
+        }
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-Recipient",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-Recipient",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "Anr": "string",
+            "RecipientType": "string[]",
+            "RecipientTypeDetails": "string[]",
+            "ResultSize": "string",
+            "Filter": "string",
+            "SortBy": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "Recipient",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "DisplayName": "string",
+          "Alias": "string",
+          "PrimarySmtpAddress": "string",
+          "UserPrincipalName": "string",
+          "ExternalDirectoryObjectId": "string",
+          "RecipientType": "string",
+          "RecipientTypeDetails": "string",
+          "ExchangeGuid": "string",
+          "EmailAddresses": "string[]"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-Recipient.md",
+          "sha256": "628c7792670e7e531d53dc40707f0b3889acd7945ca869e26a5ef2e79877658b",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-Recipient.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "One eq/ne string filter predicate; classic -like accepts * only. No composite OPATH expression. Queries run on current state; pages are not immutable snapshots."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization",
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "unlimited": true
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-EXORecipient",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-EXORecipient",
+      "compiledClient": true,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "UserPrincipalName": "string",
+            "PrimarySmtpAddress": "string",
+            "ExternalDirectoryObjectId": "guid",
+            "RecipientType": "string[]",
+            "RecipientTypeDetails": "string[]",
+            "ResultSize": "string",
+            "Filter": "string",
+            "Properties": "string[]",
+            "PropertySets": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "Recipient",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "DisplayName": "string",
+          "Alias": "string",
+          "PrimarySmtpAddress": "string",
+          "UserPrincipalName": "string",
+          "ExternalDirectoryObjectId": "string",
+          "RecipientType": "string",
+          "RecipientTypeDetails": "string",
+          "ExchangeGuid": "string",
+          "EmailAddresses": "string[]",
+          "ObjectKey": "base64 string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-EXORecipient.md",
+          "sha256": "39f1107558805a5e67cabc611b458f238a4627ca6e3a8776c838261a019f9a21",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-EXORecipient.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "One eq/ne string filter predicate; classic -like accepts * only. No composite OPATH expression. Queries run on current state; pages are not immutable snapshots.",
+        "Only Minimum property set and explicitly supported Properties; Anr and arbitrary property sets fail. PageSize is a connection option. Continuation rechecks current command and recipient scope."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization",
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "unlimited": true,
+        "maximumPageSize": 1000
+      },
+      "transport": {
+        "method": "GET",
+        "paths": [
+          "/adminapi/beta/{tenant}/Recipient",
+          "/adminapi/beta/{tenant}/Recipient('{base64-identity}')"
+        ],
+        "identityHeader": "XParameter-Identity when ReadIdsAndParamsFromHeaders=True",
+        "paging": "@odata.nextLink; Prefer odata.maxpagesize=1..1000"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-EXOMailboxPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-EXOMailboxPermission",
+      "compiledClient": true,
+      "parameterSets": [
+        {
+          "name": "bounded identity profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "MailboxPermission",
+        "fields": {
+          "Identity": "string",
+          "User": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "Deny": "boolean"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-EXOMailboxPermission.md",
+          "sha256": "404bab8e671b99920793db0c8b7b4329191f2183c5291000c35835467a89607e",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-EXOMailboxPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "Compiled permission qualification is identity-only. No unscoped listing, User/Trustee/AccessRights filters or ResultSize profile claimed."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      },
+      "transport": {
+        "method": "GET",
+        "path": "/adminapi/beta/{tenant}/Mailbox('{key}')/MailboxPermission?isEncoded=true"
+      },
+      "wireResponseSchema": {
+        "type": "MailboxPermission",
+        "key": "PermissionId",
+        "fields": {
+          "PermissionId": "string",
+          "MailboxIdentity": "string",
+          "User": "string",
+          "PermissionList": "MailboxPermissionInfo[]"
+        },
+        "MailboxPermissionInfo": {
+          "AccessRights": "string[]",
+          "Deny": "boolean",
+          "IsInherited": "boolean",
+          "InheritanceType": "string"
+        }
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-EXORecipientPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-EXORecipientPermission",
+      "compiledClient": true,
+      "parameterSets": [
+        {
+          "name": "bounded identity profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "RecipientPermission",
+        "fields": {
+          "Identity": "string",
+          "Trustee": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "AccessControlType": "string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-EXORecipientPermission.md",
+          "sha256": "3b161a63823a15f7c7ffee6f23b1bbfbd14da8a5a9ddeee83ea9bd34540e39d9",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-EXORecipientPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "Compiled permission qualification is identity-only. No unscoped listing, User/Trustee/AccessRights filters or ResultSize profile claimed."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      },
+      "transport": {
+        "method": "GET",
+        "path": "/adminapi/beta/{tenant}/Recipient('{key}')?$expand=RecipientPermission&isEncoded=true&$select=RecipientPermission,ExternalDirectoryObjectId"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Add-MailboxPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Add-MailboxPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "User",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "User": "string",
+            "AccessRights": "string[]",
+            "InheritanceType": "string",
+            "Deny": "switch",
+            "AutoMapping": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "MailboxPermission",
+        "fields": {
+          "Identity": "string",
+          "User": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "Deny": "boolean"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Add-MailboxPermission.md",
+          "sha256": "e3e304d362f02d5d0f198d83ae06a6cb34772aec368b57d3ceebc4b45d56dadf",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Add-MailboxPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-MailboxPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-MailboxPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "User",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "User": "string",
+            "AccessRights": "string[]",
+            "InheritanceType": "string",
+            "Deny": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-MailboxPermission.md",
+          "sha256": "aeebf574998c219f419dfecff5926be934a88eab6a44283884d24620172fba1a",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-MailboxPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Add-RecipientPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Add-RecipientPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Trustee",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Trustee": "string",
+            "AccessRights": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "RecipientPermission",
+        "fields": {
+          "Identity": "string",
+          "Trustee": "string",
+          "AccessRights": "string[]",
+          "IsInherited": "boolean",
+          "InheritanceType": "string",
+          "AccessControlType": "string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Add-RecipientPermission.md",
+          "sha256": "652a7e9ce45354c751afd958cf29d1604fcdcc8ce3dac78efe060ab73022fd28",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Add-RecipientPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-RecipientPermission",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-RecipientPermission",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Trustee",
+            "AccessRights"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Trustee": "string",
+            "AccessRights": "string[]"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-RecipientPermission.md",
+          "sha256": "06181a2e8bce5e42741c5f6ba34b212a291e70d3da58ffd5455ec7fd366d7603",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-RecipientPermission.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-Mailbox",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-Mailbox",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "ForwardingAddress": "object",
+            "ForwardingSmtpAddress": "object",
+            "DeliverToMailboxAndForward": "bool",
+            "GrantSendOnBehalfTo": "object"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "current command-specific role/grant and recipient scope"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-Mailbox.md",
+          "sha256": "fd1c8f03605327e7a835ab5c8acaa7eff87dddab182c0ddf47bccbf84eb599d5",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-Mailbox.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/LICENSE",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "retrievedAt": "2026-10-18",
+          "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e",
+          "localPath": "LICENSE.docs",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "limitations": [
+        "Only provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox recipients. Mail contacts, mail users, distribution lists and group mailboxes are not enumerated.",
+        "Explicit missing identities fail with 404 instead of the production unfiltered-list fallback. Ambiguous identities fail with 400.",
+        "Imported collectionState ACLs are display-only; delegationState contains separate operational grants. No SID history, inherited-ACE expansion or complete Exchange ACL engine.",
+        "User and current security-group trustees. FullAccess deny wins; Children/Descendents-only ACEs do not grant mailbox-object access. Group membership is resolved on each request.",
+        "FullAccess, SendAs, SendOnBehalf only. AutoMapping is stored and audited; Outlook Autodiscover is not simulated.",
+        "Native module 3.11.0; compiled commands use observed private transport, not a Microsoft public REST contract. Public DTO fields are a bounded projection.",
+        "GrantSendOnBehalfTo accepts replacement identity array, null, or Add/Remove map; Get-Mailbox returns canonical delegate IDs."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_recipients.py",
+        "tests/integration/test_exchange_delegation_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "profile": "provisioned active canonical mailboxes; tenant-scoped current authorization"
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-RemoteDomain",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-RemoteDomain",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "ResultSize": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "RemoteDomain",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "DomainName": "<class 'str'>",
+          "AutoForwardEnabled": "<class 'bool'>",
+          "AutoReplyEnabled": "<class 'bool'>",
+          "AllowedOOFType": "typing.Literal['External', 'ExternalLegacy', 'InternalLegacy', 'None']",
+          "DeliveryReportEnabled": "<class 'bool'>",
+          "NDREnabled": "<class 'bool'>",
+          "IsInternal": "<class 'bool'>",
+          "MeetingForwardNotificationEnabled": "<class 'bool'>",
+          "TNEFEnabled": "typing.Optional[typing.Annotated[bool, Strict(strict=True)]]",
+          "TargetDeliveryDomain": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-RemoteDomain.md",
+          "sha256": "d86a811e8f2ecd20ce2396662019d5c95a998c02994c8fc1adbd7b3669cadf92",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-RemoteDomain.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-RemoteDomain",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-RemoteDomain",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Name",
+            "DomainName"
+          ],
+          "parameters": {
+            "Name": "string",
+            "DomainName": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "RemoteDomain",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "DomainName": "<class 'str'>",
+          "AutoForwardEnabled": "<class 'bool'>",
+          "AutoReplyEnabled": "<class 'bool'>",
+          "AllowedOOFType": "typing.Literal['External', 'ExternalLegacy', 'InternalLegacy', 'None']",
+          "DeliveryReportEnabled": "<class 'bool'>",
+          "NDREnabled": "<class 'bool'>",
+          "IsInternal": "<class 'bool'>",
+          "MeetingForwardNotificationEnabled": "<class 'bool'>",
+          "TNEFEnabled": "typing.Optional[typing.Annotated[bool, Strict(strict=True)]]",
+          "TargetDeliveryDomain": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-RemoteDomain.md",
+          "sha256": "2da5b1b0e3d3c89b884364f7c0d61a8f4344ea922868d452f4fc8bbdd3d063d8",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-RemoteDomain.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-RemoteDomain",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-RemoteDomain",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "AllowedOOFType": "string",
+            "AutoForwardEnabled": "bool",
+            "AutoReplyEnabled": "bool",
+            "DeliveryReportEnabled": "bool",
+            "IsInternal": "bool",
+            "MeetingForwardNotificationEnabled": "bool",
+            "Name": "string",
+            "NDREnabled": "bool",
+            "TargetDeliveryDomain": "bool",
+            "TNEFEnabled": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-RemoteDomain.md",
+          "sha256": "85176745cffd2cb8b082b51e954dc34b8218c027f6f051fc40843a0efea3bc83",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-RemoteDomain.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-RemoteDomain",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-RemoteDomain",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-RemoteDomain.md",
+          "sha256": "d66fd73a892aaa649e0584bec210511430e7fd50edcaac523f2852662d864223",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-RemoteDomain.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-InboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-InboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "ResultSize": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "InboundConnector",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "Enabled": "<class 'bool'>",
+          "ConnectorType": "typing.Literal['OnPremises', 'Partner']",
+          "ConnectorSource": "typing.Literal['Default', 'HybridWizard', 'Migrated']",
+          "Comment": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "CloudServicesMailEnabled": "<class 'bool'>",
+          "SenderDomains": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "SenderIPAddresses": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "RequireTls": "<class 'bool'>",
+          "RestrictDomainsToCertificate": "<class 'bool'>",
+          "RestrictDomainsToIPAddresses": "<class 'bool'>",
+          "TlsSenderCertificateName": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "TreatMessagesAsInternal": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-InboundConnector.md",
+          "sha256": "890f3fcac895c9d2f822c14bfbd1fa7be67de7b7f4921137d0fa7a246f9378c8",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-InboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-InboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-InboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Name",
+            "SenderDomains"
+          ],
+          "parameters": {
+            "Name": "string",
+            "SenderDomains": "string[]",
+            "CloudServicesMailEnabled": "bool",
+            "Comment": "string",
+            "ConnectorSource": "string",
+            "ConnectorType": "string",
+            "Enabled": "bool",
+            "RequireTls": "bool",
+            "RestrictDomainsToCertificate": "bool",
+            "RestrictDomainsToIPAddresses": "bool",
+            "SenderIPAddresses": "string[]",
+            "TlsSenderCertificateName": "string",
+            "TreatMessagesAsInternal": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "InboundConnector",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "Enabled": "<class 'bool'>",
+          "ConnectorType": "typing.Literal['OnPremises', 'Partner']",
+          "ConnectorSource": "typing.Literal['Default', 'HybridWizard', 'Migrated']",
+          "Comment": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "CloudServicesMailEnabled": "<class 'bool'>",
+          "SenderDomains": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "SenderIPAddresses": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "RequireTls": "<class 'bool'>",
+          "RestrictDomainsToCertificate": "<class 'bool'>",
+          "RestrictDomainsToIPAddresses": "<class 'bool'>",
+          "TlsSenderCertificateName": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "TreatMessagesAsInternal": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-InboundConnector.md",
+          "sha256": "4cba5238e2cdd6c80e6ed5f420408803f543ee0f547b8f00e9310e9e9f84d5ee",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-InboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-InboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-InboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "CloudServicesMailEnabled": "bool",
+            "Comment": "string",
+            "ConnectorSource": "string",
+            "ConnectorType": "string",
+            "Enabled": "bool",
+            "Name": "string",
+            "RequireTls": "bool",
+            "RestrictDomainsToCertificate": "bool",
+            "RestrictDomainsToIPAddresses": "bool",
+            "SenderDomains": "string[]",
+            "SenderIPAddresses": "string[]",
+            "TlsSenderCertificateName": "string",
+            "TreatMessagesAsInternal": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-InboundConnector.md",
+          "sha256": "efacf999a3dd0f16563f21fbb7e914b2044faf13d4091bc8df5b85d5ea3778ad",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-InboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-InboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-InboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-InboundConnector.md",
+          "sha256": "06c6261b11dac52692c2cb231a0e6cc50e2cac63cefbc15e63cf2088c0ed9956",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-InboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-OutboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-OutboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "IncludeTestModeConnectors": "bool",
+            "IsTransportRuleScoped": "bool",
+            "ResultSize": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "OutboundConnector",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "Enabled": "<class 'bool'>",
+          "ConnectorType": "typing.Literal['OnPremises', 'Partner']",
+          "ConnectorSource": "typing.Literal['Default', 'HybridWizard', 'Migrated']",
+          "Comment": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "CloudServicesMailEnabled": "<class 'bool'>",
+          "RecipientDomains": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "SmartHosts": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "UseMXRecord": "<class 'bool'>",
+          "AllAcceptedDomains": "<class 'bool'>",
+          "IsTransportRuleScoped": "<class 'bool'>",
+          "TestMode": "<class 'bool'>",
+          "RouteAllMessagesViaOnPremises": "<class 'bool'>",
+          "SenderRewritingEnabled": "<class 'bool'>",
+          "TlsDomain": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "TlsSettings": "typing.Optional[typing.Literal['EncryptionOnly', 'CertificateValidation', 'DomainValidation']]"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-OutboundConnector.md",
+          "sha256": "34fc246a53475c485e3903fb6ced5eb190d1ad1dcd9c801239b3c1d723c0d523",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-OutboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-OutboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-OutboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Name"
+          ],
+          "parameters": {
+            "Name": "string",
+            "AllAcceptedDomains": "bool",
+            "CloudServicesMailEnabled": "bool",
+            "Comment": "string",
+            "ConnectorSource": "string",
+            "ConnectorType": "string",
+            "Enabled": "bool",
+            "IsTransportRuleScoped": "bool",
+            "RecipientDomains": "string[]",
+            "RouteAllMessagesViaOnPremises": "bool",
+            "SenderRewritingEnabled": "bool",
+            "SmartHosts": "string[]",
+            "TestMode": "bool",
+            "TlsDomain": "string",
+            "TlsSettings": "string",
+            "UseMXRecord": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "OutboundConnector",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "Enabled": "<class 'bool'>",
+          "ConnectorType": "typing.Literal['OnPremises', 'Partner']",
+          "ConnectorSource": "typing.Literal['Default', 'HybridWizard', 'Migrated']",
+          "Comment": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "CloudServicesMailEnabled": "<class 'bool'>",
+          "RecipientDomains": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "SmartHosts": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "UseMXRecord": "<class 'bool'>",
+          "AllAcceptedDomains": "<class 'bool'>",
+          "IsTransportRuleScoped": "<class 'bool'>",
+          "TestMode": "<class 'bool'>",
+          "RouteAllMessagesViaOnPremises": "<class 'bool'>",
+          "SenderRewritingEnabled": "<class 'bool'>",
+          "TlsDomain": "typing.Optional[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "TlsSettings": "typing.Optional[typing.Literal['EncryptionOnly', 'CertificateValidation', 'DomainValidation']]"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-OutboundConnector.md",
+          "sha256": "cb416b31bcb7dc5c53015fd37c0ba86a8a5bfd7862d5547c69dff562d9326a47",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-OutboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-OutboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-OutboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "AllAcceptedDomains": "bool",
+            "CloudServicesMailEnabled": "bool",
+            "Comment": "string",
+            "ConnectorSource": "string",
+            "ConnectorType": "string",
+            "Enabled": "bool",
+            "IsTransportRuleScoped": "bool",
+            "Name": "string",
+            "RecipientDomains": "string[]",
+            "RouteAllMessagesViaOnPremises": "bool",
+            "SenderRewritingEnabled": "bool",
+            "SmartHosts": "string[]",
+            "TestMode": "bool",
+            "TlsDomain": "string",
+            "TlsSettings": "string",
+            "UseMXRecord": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-OutboundConnector.md",
+          "sha256": "52c1f401259839dba0f34f87ec323639ec42acee2b69b68e03cb1980b6d6a208",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-OutboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-OutboundConnector",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-OutboundConnector",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-OutboundConnector.md",
+          "sha256": "bb2986dcd3dcd03b1e12c8f44f549a2291b18e8a9eca3703d38e24cd861eb6a6",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-OutboundConnector.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-AuthenticationPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-AuthenticationPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "AuthenticationPolicy",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "AllowBasicAuthActiveSync": "<class 'bool'>",
+          "AllowBasicAuthAutodiscover": "<class 'bool'>",
+          "AllowBasicAuthImap": "<class 'bool'>",
+          "AllowBasicAuthMapi": "<class 'bool'>",
+          "AllowBasicAuthOfflineAddressBook": "<class 'bool'>",
+          "AllowBasicAuthOutlookService": "<class 'bool'>",
+          "AllowBasicAuthPop": "<class 'bool'>",
+          "AllowBasicAuthPowershell": "<class 'bool'>",
+          "AllowBasicAuthReportingWebServices": "<class 'bool'>",
+          "AllowBasicAuthRpc": "<class 'bool'>",
+          "AllowBasicAuthSmtp": "<class 'bool'>",
+          "AllowBasicAuthWebServices": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-AuthenticationPolicy.md",
+          "sha256": "a0426991b6d0319af1e0846efa0fae2a41f62fdb0be2223d4a946588e91e8cd8",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-AuthenticationPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-AuthenticationPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-AuthenticationPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Name"
+          ],
+          "parameters": {
+            "Name": "string",
+            "AllowBasicAuthActiveSync": "switch",
+            "AllowBasicAuthAutodiscover": "switch",
+            "AllowBasicAuthImap": "switch",
+            "AllowBasicAuthMapi": "switch",
+            "AllowBasicAuthOfflineAddressBook": "switch",
+            "AllowBasicAuthOutlookService": "switch",
+            "AllowBasicAuthPop": "switch",
+            "AllowBasicAuthPowershell": "switch",
+            "AllowBasicAuthReportingWebServices": "switch",
+            "AllowBasicAuthRpc": "switch",
+            "AllowBasicAuthSmtp": "switch",
+            "AllowBasicAuthWebServices": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "AuthenticationPolicy",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "AllowBasicAuthActiveSync": "<class 'bool'>",
+          "AllowBasicAuthAutodiscover": "<class 'bool'>",
+          "AllowBasicAuthImap": "<class 'bool'>",
+          "AllowBasicAuthMapi": "<class 'bool'>",
+          "AllowBasicAuthOfflineAddressBook": "<class 'bool'>",
+          "AllowBasicAuthOutlookService": "<class 'bool'>",
+          "AllowBasicAuthPop": "<class 'bool'>",
+          "AllowBasicAuthPowershell": "<class 'bool'>",
+          "AllowBasicAuthReportingWebServices": "<class 'bool'>",
+          "AllowBasicAuthRpc": "<class 'bool'>",
+          "AllowBasicAuthSmtp": "<class 'bool'>",
+          "AllowBasicAuthWebServices": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-AuthenticationPolicy.md",
+          "sha256": "62cd63876e0614ecfe010601a321b7ec0b3a32cee8ff9eb811e4b4338568e243",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-AuthenticationPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-AuthenticationPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-AuthenticationPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "AllowBasicAuthActiveSync": "switch",
+            "AllowBasicAuthAutodiscover": "switch",
+            "AllowBasicAuthImap": "switch",
+            "AllowBasicAuthMapi": "switch",
+            "AllowBasicAuthOfflineAddressBook": "switch",
+            "AllowBasicAuthOutlookService": "switch",
+            "AllowBasicAuthPop": "switch",
+            "AllowBasicAuthPowershell": "switch",
+            "AllowBasicAuthReportingWebServices": "switch",
+            "AllowBasicAuthRpc": "switch",
+            "AllowBasicAuthSmtp": "switch",
+            "AllowBasicAuthWebServices": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-AuthenticationPolicy.md",
+          "sha256": "c83e162c2a645d8297d9030ba9d771780e20e43963480ede9526a27448fdfea0",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-AuthenticationPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-AuthenticationPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-AuthenticationPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-AuthenticationPolicy.md",
+          "sha256": "c4c1ce7d20afd61dacf6c24b430ff7338e2ff555606b9e9638f5ede16ad4ee80",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-AuthenticationPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-OrganizationRelationship",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-OrganizationRelationship",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "OrganizationRelationship",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "DomainNames": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "Enabled": "<class 'bool'>",
+          "FreeBusyAccessEnabled": "<class 'bool'>",
+          "FreeBusyAccessLevel": "typing.Literal['None', 'AvailabilityOnly', 'LimitedDetails']",
+          "MailTipsAccessEnabled": "<class 'bool'>",
+          "MailTipsAccessLevel": "typing.Literal['None', 'All', 'Limited']",
+          "DeliveryReportEnabled": "<class 'bool'>",
+          "PhotosEnabled": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-OrganizationRelationship.md",
+          "sha256": "940d7a0c461ff429f2b7ec74dffeccd896fcccaaeb975f3dc40618e87f0cfe38",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-OrganizationRelationship.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-OrganizationRelationship",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-OrganizationRelationship",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Name",
+            "DomainNames"
+          ],
+          "parameters": {
+            "Name": "string",
+            "DomainNames": "string[]",
+            "DeliveryReportEnabled": "bool",
+            "Enabled": "bool",
+            "FreeBusyAccessEnabled": "bool",
+            "FreeBusyAccessLevel": "string",
+            "MailTipsAccessEnabled": "bool",
+            "MailTipsAccessLevel": "string",
+            "PhotosEnabled": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "OrganizationRelationship",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "DomainNames": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "Enabled": "<class 'bool'>",
+          "FreeBusyAccessEnabled": "<class 'bool'>",
+          "FreeBusyAccessLevel": "typing.Literal['None', 'AvailabilityOnly', 'LimitedDetails']",
+          "MailTipsAccessEnabled": "<class 'bool'>",
+          "MailTipsAccessLevel": "typing.Literal['None', 'All', 'Limited']",
+          "DeliveryReportEnabled": "<class 'bool'>",
+          "PhotosEnabled": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-OrganizationRelationship.md",
+          "sha256": "5623fd10821882f0282c61c74762bce3587f637d240eea23382e2102e46508ec",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-OrganizationRelationship.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-OrganizationRelationship",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-OrganizationRelationship",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "DeliveryReportEnabled": "bool",
+            "DomainNames": "string[]",
+            "Enabled": "bool",
+            "Force": "switch",
+            "FreeBusyAccessEnabled": "bool",
+            "FreeBusyAccessLevel": "string",
+            "MailTipsAccessEnabled": "bool",
+            "MailTipsAccessLevel": "string",
+            "Name": "string",
+            "PhotosEnabled": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-OrganizationRelationship.md",
+          "sha256": "0787870a89bb44b6ed464fd7b722fda29b13ed662be34f294259acdcd1174e7e",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-OrganizationRelationship.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-OrganizationRelationship",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-OrganizationRelationship",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-OrganizationRelationship.md",
+          "sha256": "373b99d7a81ab2df102d50345fb626ed4424019c85e5b72f24698f0982de25d6",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-OrganizationRelationship.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-SharingPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-SharingPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "SharingPolicy",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "Domains": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "Default": "<class 'bool'>",
+          "Enabled": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-SharingPolicy.md",
+          "sha256": "ff61b151abd95ee41a011cd3ac929f3707ed1499325e7fd74268e68fa4698868",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-SharingPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-SharingPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-SharingPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Name",
+            "Domains"
+          ],
+          "parameters": {
+            "Name": "string",
+            "Domains": "string[]",
+            "Default": "switch",
+            "Enabled": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "SharingPolicy",
+        "fields": {
+          "Identity": "string",
+          "Guid": "string",
+          "Name": "<class 'str'>",
+          "Domains": "list[typing.Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), MaxLen(max_length=1024)])]]",
+          "Default": "<class 'bool'>",
+          "Enabled": "<class 'bool'>"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-SharingPolicy.md",
+          "sha256": "d0eb3320becda208584dd58ef95f01bfc88dc49ee1ff972eb5105ceb89568e10",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-SharingPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-SharingPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-SharingPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Default": "switch",
+            "Domains": "string[]",
+            "Enabled": "bool",
+            "Name": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-SharingPolicy.md",
+          "sha256": "38d1a1ba85e688bd5c37e84e664cd8b2abfc05fa35bd587c2094f99e8777e7a5",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-SharingPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-SharingPolicy",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-SharingPolicy",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-SharingPolicy.md",
+          "sha256": "d3c4eb7b42ffea966781e6fc4c933c40d658826fb5d3a388d9f46a7852eeb00b",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-SharingPolicy.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-AdminAuditLogConfig",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-AdminAuditLogConfig",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {}
+        }
+      ],
+      "responseSchemas": {
+        "type": "AdminAuditLogConfig",
+        "fields": {
+          "UnifiedAuditLogIngestionEnabled": "boolean"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-AdminAuditLogConfig.md",
+          "sha256": "7fd4f5f4d0748679a07fc52caff9025cd5cac9109c019f3d8f6c6e581ee307ab",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-AdminAuditLogConfig.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Set-AdminAuditLogConfig",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Set-AdminAuditLogConfig",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Force": "switch",
+            "UnifiedAuditLogIngestionEnabled": "bool"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Exchange service entitlement and tenant-wide command role/grant; Global Reader may Get only"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Set-AdminAuditLogConfig.md",
+          "sha256": "b5851921f3da0750e3dd5155ea4a6596cc603e9c4cfa7eda3e5ffea40a6f8db1",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Set-AdminAuditLogConfig.md",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Strict selected cloud parameters only; on-premises, legacy token, advanced connector, charset and federation parameters are rejected. See parameterSets for the exact allowlist.",
+        "Named tenant-local configuration with Name/GUID identity; DN/canonical-path identity is unsupported. Explicit missing identities return 404 rather than production unfiltered fallback.",
+        "Output is a bounded public field projection, not a full Exchange directory DTO. Connector routing, federation, calendar sharing execution and basic-auth protocols are not simulated.",
+        "Default remote domain uses a stable local GUID. Its removal/rename is rejected. Other configuration collections start empty; fixture PUT performs complete validated replacement.",
+        "UnifiedAuditLogIngestionEnabled controls event-time native Exchange audit publication and blocks both audit search surfaces. Historical evidence is retained. Explicit evidence imports and non-Exchange fact producers are not gated by this setting.",
+        "Configuration mutations emit immutable native ExchangeAdmin audit records. Admin fixture replacement changes operational authority without fabricating command audit events."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_configuration.py",
+        "tests/integration/test_exchange_security_configuration_upgrade.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureRecords": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-RoleGroup",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-RoleGroup",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "ResultSize": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleGroup",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "Roles": "string[]",
+          "Members": "string[]",
+          "ManagedBy": "string[]"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-RoleGroup.md",
+          "sha256": "6bd58c27efab54e3b8a42e5eee388ce9ab6c5044cfbc42fc243586533893c1be",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-RoleGroup.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-RoleGroupMember",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-RoleGroupMember",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "ResultSize": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleGroupMember",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "ExternalDirectoryObjectId": "string"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-RoleGroupMember.md",
+          "sha256": "06718b5915730456753265732eaf4e05c9cf3033bdfcfee3947772799bdaca16",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-RoleGroupMember.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Add-RoleGroupMember",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Add-RoleGroupMember",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Member"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Member": "string",
+            "BypassSecurityGroupManagerCheck": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Add-RoleGroupMember.md",
+          "sha256": "625b2ade63f64ee00c16d0326c3ec9b982b88316005b853283732acf723922f0",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Add-RoleGroupMember.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-RoleGroupMember",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-RoleGroupMember",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity",
+            "Member"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Member": "string",
+            "BypassSecurityGroupManagerCheck": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-RoleGroupMember.md",
+          "sha256": "80c2df8a122beb86e5db1546877e62912140ac102bef28cfc145a2652d2a4106",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-RoleGroupMember.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Get-ManagementRoleAssignment",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Get-ManagementRoleAssignment",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [],
+          "parameters": {
+            "Identity": "string",
+            "Role": "string",
+            "RoleAssignee": "string",
+            "RoleAssigneeType": "string",
+            "Enabled": "bool",
+            "Delegating": "bool",
+            "RecipientGroupScope": "string"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleAssignment",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "Role": "string",
+          "RoleAssigneeName": "string",
+          "RoleAssigneeType": "string",
+          "RoleAssignee": "string",
+          "Enabled": "boolean",
+          "Delegating": "boolean",
+          "RecipientReadScope": "string",
+          "RecipientWriteScope": "string",
+          "RecipientGroupScope": "string|null"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Get-ManagementRoleAssignment.md",
+          "sha256": "8bc50b438053442d4163b6fea66e9b8674fe1cdaf55ea907d6a29f2a75c9e45d",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Get-ManagementRoleAssignment.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "New-ManagementRoleAssignment",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "New-ManagementRoleAssignment",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "User",
+          "required": [
+            "Role",
+            "User"
+          ],
+          "parameters": {
+            "Name": "string",
+            "Role": "string",
+            "User": "string",
+            "RecipientRelativeWriteScope": "string",
+            "RecipientGroupScope": "string",
+            "Force": "switch"
+          }
+        },
+        {
+          "name": "SecurityGroup",
+          "required": [
+            "Role",
+            "SecurityGroup"
+          ],
+          "parameters": {
+            "Name": "string",
+            "Role": "string",
+            "SecurityGroup": "string",
+            "RecipientRelativeWriteScope": "string",
+            "RecipientGroupScope": "string",
+            "Force": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "ExchangeRoleAssignment",
+        "fields": {
+          "Identity": "string",
+          "Name": "string",
+          "Guid": "string",
+          "Role": "string",
+          "RoleAssigneeName": "string",
+          "RoleAssigneeType": "string",
+          "RoleAssignee": "string",
+          "Enabled": "boolean",
+          "Delegating": "boolean",
+          "RecipientReadScope": "string",
+          "RecipientWriteScope": "string",
+          "RecipientGroupScope": "string|null"
+        }
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/New-ManagementRoleAssignment.md",
+          "sha256": "cc4536c1f4b06657e815247937e6f089f868f078e6d36840a391e7b075f00332",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "New-ManagementRoleAssignment.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    },
+    {
+      "kind": "exchangeCommand",
+      "operationId": "Remove-ManagementRoleAssignment",
+      "service": "exchange",
+      "version": "Exchange Online",
+      "command": "Remove-ManagementRoleAssignment",
+      "compiledClient": false,
+      "parameterSets": [
+        {
+          "name": "bounded cloud profile",
+          "required": [
+            "Identity"
+          ],
+          "parameters": {
+            "Identity": "string",
+            "Force": "switch"
+          }
+        }
+      ],
+      "responseSchemas": {
+        "type": "void"
+      },
+      "permissions": {
+        "oauth": "Exchange.ManageAsApp or delegated Exchange.Manage",
+        "authority": "Current Role Management effective authority or administrator/explicit command grant; selected Get commands available to View-Only Configuration/Global Reader"
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-docs-powershell/c5386f4fae7364d13ae8759abb6bbe1fc1be0dde/exchange/exchange-ps/ExchangePowerShell/Remove-ManagementRoleAssignment.md",
+          "sha256": "97d3b87466ad1e0ce083b5070145c0080e3516436896c087a04a492b25d1f9bc",
+          "revision": "c5386f4fae7364d13ae8759abb6bbe1fc1be0dde",
+          "license": "CC-BY-4.0",
+          "localPath": "Remove-ManagementRoleAssignment.md",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo",
+          "sha256": "4931986aaa01d69d8b703bfcdc6f3960bf19e5a03e7f87844a9abe59de52aa8e",
+          "revision": "b566fb9136e06f1bb90cb44e78c9124b940e1bb4",
+          "license": "CC-BY-4.0",
+          "localPath": "permissions-exo.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/role-groups",
+          "sha256": "ed98746aa7fbe2548250fb3c55826150cf9610a867a6efc60bce77c6343a7754",
+          "revision": "b8070cdf191fc6ac45ea8252a43a689d7fc55ae9",
+          "license": "CC-BY-4.0",
+          "localPath": "role-groups.html",
+          "retrievedAt": "2026-10-18"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/exchange/permissions-exo/feature-permissions",
+          "sha256": "a94a37988b3cd8e996532665a567dc50eba9a9b8178f3d2c883bca49b97f282e",
+          "revision": "2dbb4e870cc9dac32350ba58e920de3aa9e45b1b",
+          "license": "CC-BY-4.0",
+          "localPath": "feature-permissions.html",
+          "retrievedAt": "2026-10-18"
+        }
+      ],
+      "limitations": [
+        "Five selected built-in administrator roles and three built-in groups, with an explicit role-to-command map. This is a bounded subset, including within Organization Management; no complete Exchange RBAC claim.",
+        "Current users and security groups. Nested directory security-group membership is resolved for assignees; nested Exchange role groups, linked groups and Entra shadow-group enumeration are unsupported.",
+        "User/SecurityGroup assignment sets only. App data roles, custom roles, delegating assignments, policy/OU/custom/AU/exclusive scopes and arbitrary filters are rejected.",
+        "RecipientGroupScope is supported only for Mail Recipients. Direct members only for writes, current group existence/membership rechecked. Implicit organization-wide reads remain available.",
+        "Baseline built-in group role assignments are immutable projected defaults. Explicit assignments and memberships can be added/removed. Display-only collection metadata never grants authority.",
+        "Roles do not create OAuth grants, Graph mail access, mailbox delegation or Purview audit roles. Current Exchange OAuth, identity and entitlement checks still apply.",
+        "Local roleState GET/PUT is authoritative, typed, atomic and resettable; configuration command changes create native ExchangeAdmin audit events. Fixture changes do not impersonate public cmdlets."
+      ],
+      "tests": [
+        "tests/integration/test_exchange_security_roles.py",
+        "integrations/powershell/Test-ExchangeWorkflows.ps1"
+      ],
+      "status": "implemented-bounded",
+      "errors": {
+        "statuses": [
+          400,
+          401,
+          403,
+          404,
+          409
+        ],
+        "shape": "Exchange transport Graph-style error envelope"
+      },
+      "limits": {
+        "defaultResultSize": 1000,
+        "maximumExplicitResultSize": 100000,
+        "fixtureMembers": 10000,
+        "fixtureAssignments": 10000
+      }
+    }
+  ]
+}

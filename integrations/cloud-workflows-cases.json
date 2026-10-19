@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "phases": {
+    "A": {
+      "workflows": [
+        {
+          "id": "exchange.unified-audit",
+          "service": "exchange",
+          "operationIds": [
+            "Search-UnifiedAuditLog"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "exact_ids",
+            "paging",
+            "utc_dates",
+            "formatted"
+          ]
+        },
+        {
+          "id": "exchange.recipients-and-delegation",
+          "service": "exchange",
+          "operationIds": [
+            "Get-Recipient",
+            "Get-EXORecipient",
+            "Get-EXOMailboxPermission",
+            "Get-EXORecipientPermission",
+            "Add-MailboxPermission",
+            "Remove-MailboxPermission",
+            "Add-RecipientPermission",
+            "Remove-RecipientPermission",
+            "Set-Mailbox"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "identity_selectors",
+            "paging",
+            "permission_mutations",
+            "behalf_mutations",
+            "revoked_permissions_absent"
+          ]
+        },
+        {
+          "id": "exchange.security-configuration",
+          "service": "exchange",
+          "operationIds": [
+            "Get-AdminAuditLogConfig",
+            "Get-AuthenticationPolicy",
+            "Get-InboundConnector",
+            "Get-OrganizationRelationship",
+            "Get-OutboundConnector",
+            "Get-RemoteDomain",
+            "Get-SharingPolicy",
+            "New-AuthenticationPolicy",
+            "New-InboundConnector",
+            "New-OrganizationRelationship",
+            "New-OutboundConnector",
+            "New-RemoteDomain",
+            "New-SharingPolicy",
+            "Remove-AuthenticationPolicy",
+            "Remove-InboundConnector",
+            "Remove-OrganizationRelationship",
+            "Remove-OutboundConnector",
+            "Remove-RemoteDomain",
+            "Remove-SharingPolicy",
+            "Set-AdminAuditLogConfig",
+            "Set-AuthenticationPolicy",
+            "Set-InboundConnector",
+            "Set-OrganizationRelationship",
+            "Set-OutboundConnector",
+            "Set-RemoteDomain",
+            "Set-SharingPolicy"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "six_families_roundtrip",
+            "audit_ingestion_toggle",
+            "configuration_absence"
+          ]
+        },
+        {
+          "id": "exchange.role-management",
+          "service": "exchange",
+          "operationIds": [
+            "Get-RoleGroup",
+            "Get-RoleGroupMember",
+            "Add-RoleGroupMember",
+            "Remove-RoleGroupMember",
+            "Get-ManagementRoleAssignment",
+            "New-ManagementRoleAssignment",
+            "Remove-ManagementRoleAssignment"
+          ],
+          "ecosystems": [
+            "powershell"
+          ],
+          "transport": "module",
+          "assertions": [
+            "role_groups",
+            "membership_roundtrip",
+            "assignment_roundtrip"
+          ]
+        }
+      ],
+      "notApplicable": {
+        "python": "Exchange cmdlets require the PowerShell module; no Python Exchange SDK is claimed.",
+        "dotnet": "Exchange cmdlets require the PowerShell module; no .NET Exchange SDK is claimed.",
+        "typescript": "Exchange cmdlets require the PowerShell module; no TypeScript Exchange SDK is claimed."
+      }
+    }
+  }
+}

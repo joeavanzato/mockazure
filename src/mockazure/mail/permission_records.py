@@ -10,11 +10,11 @@ from mockazure.mail.repository import resolve_mailbox
 
 
 async def read_mailbox_permissions(
-    session, context, mailbox_user_id: UUID, recipient: bool
+    session, context, mailbox_user_id: UUID, recipient: bool, *, operation: str | None = None
 ) -> list[dict]:
     box = await resolve_mailbox(session, context.tenant_id, str(mailbox_user_id))
     command = "Get-RecipientPermission" if recipient else "Get-MailboxPermission"
-    await require_mailbox_access(session, context, box, command)
+    await require_mailbox_access(session, context, box, operation or command)
     rows = await session.scalars(
         select(ExchangePermissionRecord)
         .where(
@@ -24,4 +24,8 @@ async def read_mailbox_permissions(
         )
         .order_by(ExchangePermissionRecord.ordinal, ExchangePermissionRecord.id)
     )
-    return [{"Identity": box.primary_smtp, **row.payload} for row in rows]
+    from mockazure.mail.delegation import delegation_rows
+
+    return [{"Identity": box.primary_smtp, **row.payload} for row in rows] + await delegation_rows(
+        session, box, recipient
+    )

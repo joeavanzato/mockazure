@@ -5,33 +5,49 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, model_validator
 
-EXCHANGE_COMMANDS = frozenset(
-    {
-        "Get-OrganizationConfig",
-        "Get-TransportConfig",
-        "Get-AcceptedDomain",
-        "Get-TransportRule",
-        "Get-MailboxPermission",
-        "Get-RecipientPermission",
-        "Get-Mailbox",
-        "Set-Mailbox",
-        "Get-EXOMailbox",
-        "Get-EXOMailboxStatistics",
-        "Get-EXOMailboxFolderStatistics",
-        "Get-EXOCasMailbox",
-        "Get-InboxRule",
-        "New-InboxRule",
-        "Set-InboxRule",
-        "Remove-InboxRule",
-        "Enable-InboxRule",
-        "Disable-InboxRule",
-        "Get-SweepRule",
-        "New-SweepRule",
-        "Set-SweepRule",
-        "Remove-SweepRule",
-        "Get-MessageTraceV2",
-        "Get-MessageTraceDetailV2",
-    }
+from mockazure.mail.role_management_contracts import PARAMETERS as ROLE_PARAMETERS
+from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
+
+EXCHANGE_COMMANDS = (
+    frozenset(ROLE_PARAMETERS)
+    | frozenset(SECURITY_PARAMETERS)
+    | frozenset(
+        {
+            "Get-Recipient",
+            "Get-EXORecipient",
+            "Get-EXOMailboxPermission",
+            "Get-EXORecipientPermission",
+            "Add-MailboxPermission",
+            "Remove-MailboxPermission",
+            "Add-RecipientPermission",
+            "Remove-RecipientPermission",
+            "Search-UnifiedAuditLog",
+            "Get-OrganizationConfig",
+            "Get-TransportConfig",
+            "Get-AcceptedDomain",
+            "Get-TransportRule",
+            "Get-MailboxPermission",
+            "Get-RecipientPermission",
+            "Get-Mailbox",
+            "Set-Mailbox",
+            "Get-EXOMailbox",
+            "Get-EXOMailboxStatistics",
+            "Get-EXOMailboxFolderStatistics",
+            "Get-EXOCasMailbox",
+            "Get-InboxRule",
+            "New-InboxRule",
+            "Set-InboxRule",
+            "Remove-InboxRule",
+            "Enable-InboxRule",
+            "Disable-InboxRule",
+            "Get-SweepRule",
+            "New-SweepRule",
+            "Set-SweepRule",
+            "Remove-SweepRule",
+            "Get-MessageTraceV2",
+            "Get-MessageTraceDetailV2",
+        }
+    )
 )
 CAS_FIELDS = frozenset(
     {

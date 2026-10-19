@@ -14,7 +14,6 @@ CATALOG = (
     PermissionDefinition("graph", "Policy.Read.AuthenticationMethod", "delegated", True),
     PermissionDefinition("graph", "Policy.ReadWrite.AuthenticationMethod", "application", True),
     PermissionDefinition("graph", "Policy.ReadWrite.AuthenticationMethod", "delegated", True),
-
     PermissionDefinition("activity", "ActivityFeed.Read", "application", True),
     PermissionDefinition("activity", "ActivityFeed.ReadDlp", "application", True),
     PermissionDefinition("graph", "DeviceManagementManagedDevices.Read.All", "application", True),
@@ -90,6 +89,17 @@ CATALOG = (
         for name in ("Mail.Read", "Mail.ReadWrite")
         for kind in ("application", "delegated")
     ),
+    *(
+        PermissionDefinition("graph", name, "delegated", False)
+        for name in (
+            "Mail.Read.Shared",
+            "Mail.ReadWrite.Shared",
+            "Mail.ReadBasic.Shared",
+            "Mail.Send.Shared",
+        )
+    ),
+    PermissionDefinition("graph", "Mail.Send", "application", True),
+    PermissionDefinition("graph", "Mail.Send", "delegated", False),
     PermissionDefinition("graph", "Mail.ReadBasic", "delegated", False),
     PermissionDefinition("graph", "Mail.ReadBasic.All", "application", True),
     PermissionDefinition("graph", "Directory.AccessAsUser.All", "delegated", True),

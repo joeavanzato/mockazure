@@ -20,3 +20,8 @@ Built-in ARM role definitions are derived from Microsoft Learn documentation;
 source snapshots, URLs and SHA256 attribution are recorded in
 src/mockazure/providers/arm/data/references.json. Documentation is licensed under
 CC BY 4.0; code examples under MIT per Microsoft Learn's terms of use.
+
+The bundled Exchange command documentation is Copyright Microsoft Corporation,
+licensed CC BY 4.0. Exact URLs, revisions and hashes are recorded in
+src/mockazure/cloud/data/exchange/operations.json; LICENSE.docs preserves the
+license. MockAzure's operation catalog describes its bounded implementation.

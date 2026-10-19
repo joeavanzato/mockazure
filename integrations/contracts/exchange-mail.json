@@ -48,6 +48,28 @@
       "MAPIEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
       "EwsEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
       "ActiveSyncEnabled": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+    },
+    "Microsoft.Exchange.Management.AdminApiProvider.MailboxPermission": {
+      "PermissionId": "System.String",
+      "MailboxIdentity": "System.String",
+      "IsOwner": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "User": "System.String",
+      "PermissionList": "System.Collections.ObjectModel.ObservableCollection`1[[Microsoft.Exchange.Management.AdminApiProvider.MailboxPermissionInfo, Microsoft.Exchange.Management.AdminApiProvider, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]"
+    },
+    "Microsoft.Exchange.Management.AdminApiProvider.MailboxPermissionInfo": {
+      "AccessRights": "System.Collections.ObjectModel.ObservableCollection`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "ChangedProperties": "System.Collections.ObjectModel.ObservableCollection`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "Deny": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "InheritanceType": "System.String",
+      "IsInherited": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+    },
+    "Microsoft.Exchange.Management.AdminApiProvider.RecipientPermission": {
+      "Identity": "System.String",
+      "InheritanceType": "System.String",
+      "AccessRights": "System.Collections.ObjectModel.ObservableCollection`1[[Microsoft.Exchange.Management.AdminApiProvider.RecipientAccessRight, Microsoft.Exchange.Management.AdminApiProvider, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+      "Trustee": "System.String",
+      "IsInherited": "System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+      "AccessControlType": "System.String"
     }
   },
   "collectionCommands": [
@@ -220,7 +242,7 @@
       "mailbox_permissions": 10000,
       "recipient_permissions": 10000
     },
-    "unsupported": "Arbitrary predicates/actions, transport execution, permission mutations via Exchange, Owner/soft-deleted/unresolved permission switches, Exchange RBAC role-group engine, external relay accepted domains, Get-EXOMailboxPermission/Get-EXORecipientPermission compiled routes."
+    "unsupported": "Arbitrary predicates/actions, transport execution, Owner/soft-deleted/unresolved permission switches, Exchange RBAC role-group engine, external relay accepted domains."
   },
   "fieldReferences": [
     {
@@ -244,5 +266,14 @@
       "retrievedAt": "2026-10-17",
       "usage": "Read-model field names and types only; setter is not implemented"
     }
-  ]
+  ],
+  "compiledDelegation": {
+    "keys": {
+      "MailboxPermission": "PermissionId",
+      "RecipientPermission": "Trustee",
+      "Recipient": "ObjectKey"
+    },
+    "note": "Reflected unchanged module 3.11.0 public DTO metadata; MailboxPermissionList is flattened by the original cmdlet. Runtime core library versions in type names reflect the inspection runtime.",
+    "operationCatalog": "cloud/exchange.json"
+  }
 }

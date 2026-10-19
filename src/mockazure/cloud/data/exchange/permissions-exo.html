@@ -1,0 +1,1704 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Permissions in Exchange Online | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Exchange Online in Microsoft 365 and Office 365 includes a large set of predefined permissions, based on the Role Based Access Control (RBAC) permissions model, which you can use right away to easily grant permissions to your admins and users. You can use the permissions features in Exchange Online so that you can get your new organization up and running quickly." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Permissions in Exchange Online" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo" />
+			<meta property="og:description" content="Exchange Online in Microsoft 365 and Office 365 includes a large set of predefined permissions, based on the Role Based Access Control (RBAC) permissions model, which you can use right away to easily grant permissions to your admins and users. You can use the permissions features in Exchange Online so that you can get your new organization up and running quickly." />
+			<meta name="platform_id" content="2400738f-210f-f7b1-3abc-1f77a0614154" /> <meta name="scope" content="Exchange" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="MSDocsHeader-Exchange" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="Manager" content="serdars" />
+	
+		<meta name="ms.subservice" content="" />
+	
+		<meta name="ms.devlang" content="powershell" />
+	
+		<meta name="ROBOTS" content="INDEX,FOLLOW" />
+	
+		<meta name="breadcrumb_path" content="/exchange/breadcrumb/toc.json" />
+	
+		<meta name="recommendations" content="true" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="ms.localizationpriority" content="medium" />
+	
+		<meta name="ms.topic" content="article" />
+	
+		<meta name="author" content="AshaIyengar21" />
+	
+		<meta name="ms.author" content="srvar" />
+	
+		<meta name="ms.assetid" content="3a219732-87e7-4f11-96bc-8edd2cc91926" />
+	
+		<meta name="ms.reviewer" content="" />
+	
+		<meta name="f1.keywords" content="NOCSH" />
+	
+		<meta name="ms.collection" content="exchange-online" />
+	
+		<meta name="ms.collection" content="M365-email-calendar" />
+	
+		<meta name="audience" content="ITPro" />
+	
+		<meta name="ms.service" content="exchange-online" />
+	
+		<meta name="manager" content="serdars" />
+	
+		<meta name="ms.date" content="2026-07-13T00:00:00Z" />
+	
+		<meta name="document_id" content="3f333b76-dca6-5f8d-2cf2-6e3d01faba4c" />
+	
+		<meta name="document_version_independent_id" content="e4286faa-224b-06aa-994d-29ee568c0aca" />
+	
+		<meta name="updated_at" content="2026-07-16T09:15:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/OfficeDocs-Exchange-pr/blob/live/Exchange/ExchangeOnline/permissions-exo/permissions-exo.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/OfficeDocs-Exchange-pr/blob/b566fb9136e06f1bb90cb44e78c9124b940e1bb4/Exchange/ExchangeOnline/permissions-exo/permissions-exo.md" />
+	
+		<meta name="git_commit_id" content="b566fb9136e06f1bb90cb44e78c9124b940e1bb4" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="office.OfficeDocs-Exchange" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../onlinetoc/toc.json" />
+	
+		<meta name="pdf_url_template" content="https://learn.microsoft.com/pdfstore/en-us/office.OfficeDocs-Exchange/{branchName}{pdfName}" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="3517" />
+	
+		<meta name="asset_id" content="permissions-exo/permissions-exo" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="Exchange/ExchangeOnline/permissions-exo/permissions-exo.md" />
+	
+		<meta name="previous_tlsh_hash" content="E0C8D9B2330A4501EF926E48A826B36216F599CABE7CF14845676A9DC4292E7B17E80D7BEB42F3CC233581C712D33BD959617E3C049EF1C01514D9BCCA788353ABEA37F794" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/OfficeDocs-Exchange-pr/blob/live/Exchange/ExchangeOnline/permissions-exo/permissions-exo.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/exchange/permissions-exo/permissions-exo?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/cf9b82c5-b6dc-45f3-b005-b1bc5fc03bea" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/0c85d34e-bfd2-4466-957c-f0b61e9692df" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03574.8308-9505b1c8/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": true,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": true
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03574.8308-9505b1c8/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					aria-expanded="false"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href=""
+			data-original_content_git_url="https://github.com/MicrosoftDocs/OfficeDocs-Exchange-pr/blob/live/Exchange/ExchangeOnline/permissions-exo/permissions-exo.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/Exchange/ExchangeOnline/permissions-exo/permissions-exo.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="permissions-in-exchange-online">Permissions in Exchange Online</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>Global roles in Microsoft Entra ID allow you to manage permissions and access to capabilities in all of Microsoft 365, which also includes Exchange Online. For more information, see <a href="/en-us/entra/identity/role-based-access-control/manage-roles-portal" data-linktype="absolute-path">Microsoft Entra permissions</a>.</p>
+<p>But, if you need to limit permissions and capabilities to features in Exchange Online, you can assign <strong>Exchange Online</strong> permissions in the Exchange admin center (EAC) and in Exchange Online PowerShell.</p>
+<p>To manage Exchange Online permissions in the EAC, go to <strong>Roles</strong> &gt; <strong>Admin roles</strong> or go directly to the <strong>Admin roles</strong> page at <a href="https://admin.exchange.microsoft.com/#/adminRoles" data-linktype="external">https://admin.exchange.microsoft.com/#/adminRoles</a>.</p>
+<p>You need to be member of the <strong>Organization Management</strong> role group in Exchange Online. Specifically, the <strong>Role Management</strong> role in Exchange Online allows users to view, create, and modify Exchange Online role groups. By default, that role is assigned only to the <strong>Organization Management</strong> role group.</p>
+<p>Exchange Online includes a large set of predefined permissions, based on the Role Based Access Control (RBAC) permissions model, which you can use right away to easily grant permissions to your admins and users. You can use the permissions features in Exchange Online to get your new organization up and running quickly.</p>
+<div class="TIP">
+<p>Tip</p>
+<p>Managing permissions in Exchange Online gives users access to features in the EAC and Exchange Online PowerShell. To grant permissions to other features, such as compliance features in the Microsoft Purview compliance portal, or security features in the Microsoft Defender portal, see the following articles:</p>
+<ul>
+<li><a href="/en-us/purview/purview-compliance-portal-permissions" data-linktype="absolute-path">Permissions in the Microsoft Purview compliance portal</a></li>
+<li><a href="/en-us/defender-office-365/mdo-portal-permissions" data-linktype="absolute-path">Microsoft Defender for Office 365 permissions in the Microsoft Defender portal</a></li>
+</ul>
+<p>Several advanced RBAC features and concepts aren't discussed in this article. If the functionality described in this article doesn't meet your needs, and you want to further customize your permissions model, see <a href="../understanding-role-based-access-control-exchange-2013-help" data-linktype="relative-path">Understanding Role Based Access Control</a>.</p>
+</div>
+<h2 id="role-based-permissions">Role-based permissions</h2>
+<p>Exchange Online permissions are based on the RBAC permissions model. RBAC is the same permissions model that's used by most Microsoft 365 services and Exchange Server; so if you're familiar with the permission structure in these services, granting permissions in Exchange Online should be familiar.</p>
+<ul>
+<li><p>A <strong>role</strong> or <strong>management role</strong> grants the permissions to do a set of tasks. Exchange Online permissions use the following types of roles:</p>
+<ul>
+<li><strong>Administrator roles</strong>: Defines the set of tasks that an admin can do. When an administrator role is assigned to a <strong>role group</strong>, and an admin or user is a member of that role group, that person is granted the permissions provided by the role. These roles are listed and described in this article.</li>
+<li><strong>End-user roles</strong>: These roles, which are assigned using <strong>role assignment policies</strong>, enable users to manage aspects of their own mailbox and distribution groups that they own. End-user roles begin with the prefix <code>My</code>. For more information, see the  section later in this article.</li>
+<li><strong>Application roles</strong>: These role names that start or end with 'Application' are part of RBAC for Applications in Exchange Online. For more information, see <a href="/en-us/exchange/permissions-exo/application-rbac" data-linktype="absolute-path">Role Based Access Control for Applications in Exchange Online</a>.</li>
+</ul>
+<p>Roles give users permissions to perform tasks by making Exchange Online cmdlets available to users. Because the EAC and Exchange Online PowerShell use cmdlets to manage Exchange Online, granting access to a cmdlet gives the admin or user permission to do the task in either of the Exchange Online management interfaces.</p>
+</li>
+<li><p>A <strong>role group</strong> makes it easier to assign <strong>roles</strong> to admins. When a role is assigned to a role group, the permissions granted by the role are granted to all the members of the role group. Exchange Online permissions include default role groups for the most common tasks and functions that you need to assign. You can also create custom role groups. We recommend adding individual users as <strong>members</strong> to the default role groups or custom role groups instead of assigning roles directly to users. Role group members can be Exchange Online users and members of other role groups.</p>
+<p>Adding users to Exchange Online role groups grants administrative rights to users in Exchange Online without even requiring to add them to Microsoft Entra roles. Users receive the permissions granted by the role group in Exchange Online only without permission to other Microsoft 365 features or workload.</p>
+</li>
+</ul>
+<p><span class="mx-imgBorder">
+<a href="../exchangeonline/media/itpro_security_rbac_exo_simplifiedrolegrouprelationship.png#lightbox" data-linktype="relative-path">
+<img src="../exchangeonline/media/itpro_security_rbac_exo_simplifiedrolegrouprelationship.png" alt="Role, role group and member relationship." data-linktype="relative-path">
+</a>
+</span>
+</p>
+<p>The rest of this article describes the administrator roles and role groups in Exchange Online.</p>
+<div class="TIP">
+<p>Tip</p>
+<p>A <strong>role assignment policy</strong> is a type of role group that's used to assign <strong>end-user roles</strong> to users. For more information, see <a href="role-assignment-policies" data-linktype="relative-path">Role assignment policies in Exchange Online</a>.</p>
+</div>
+<h3 id="role-groups-in-exchange-online">Role groups in Exchange Online</h3>
+<p>The table in this section lists the default administrator role groups that are available in Exchange Online, and the roles that are assigned to the role groups by default. To grant permissions to a user to perform tasks in Exchange Online, add them to the appropriate role group.</p>
+<p>If you work in a small organization that has only a few admins, you might need to add those admins to the Organization Management role group only, and you might never need to use the other role groups. If you work in a larger organization, you might have admins who perform specific tasks administering Exchange Online, such as recipient configuration. In those cases, you might add one administrator to the Recipient Management role group and another administrator to the Organization Management role group. Those admins can then manage their specific areas of Exchange Online, but they don't have permissions to manage areas they're not responsible for.</p>
+<p>As a further example, if an admin is added to the Audit Logs role group, they only have access to the parameter set relating to audit settings within the <code>Set-Mailbox</code> cmdlet. If another admin is added to the Mail Recipients role group, they have access to a much larger parameter set within the <code>Set-Mailbox</code> cmdlet, allowing management of recipients to a greater extent.</p>
+<p>If the built-in role groups in Exchange Online don't match the job function of your admins, you can create role groups and add roles to them. For more information, see <a href="role-groups" data-linktype="relative-path">Manage role groups in Exchange Online</a>.</p>
+<div class="TIP">
+<p>Tip</p>
+<p>Unless otherwise noted, the same roles group and role assignments are used in <a href="/en-us/exchange/standalone-eop/standalone-eop" data-linktype="absolute-path">the Built-in security add-on for on-premises mailboxes</a>.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Role group</th>
+<th>Description</th>
+<th>Default roles assigned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Communication Compliance</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Communication Compliance Admin <br><br> Communication Compliance Investigation</td>
+</tr>
+<tr>
+<td>Communication Compliance Administrators</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Communication Compliance Admin</td>
+</tr>
+<tr>
+<td>Compliance Administrator</td>
+<td>Manage settings for device management, data loss prevention, reports, and preservation.</td>
+<td>Communication Compliance Admin <br><br> Insider Risk Management Admin</td>
+</tr>
+<tr>
+<td>Compliance Management</td>
+<td>Members can configure and manage compliance settings within Exchange in accordance with their policies.</td>
+<td>Audit Logs <br><br> Compliance Admin <br><br> Data Loss Prevention <br><br> Information Rights Management <br><br> Journaling <br><br> Message Tracking <br><br> Retention Management <br><br> Transport Rules <br><br> View-Only Audit Logs <br><br> View-Only Configuration <br><br> View-Only Recipients</td>
+</tr>
+<tr>
+<td>Discovery Management</td>
+<td>Members can perform searches of mailboxes in the Exchange Online organization for data that meets specific criteria and can also configure legal holds on mailboxes.</td>
+<td>Legal Hold <br><br> Mailbox Search</td>
+</tr>
+<tr>
+<td>ExchangeServiceAdmins_-&lt;unique value&gt;¹</td>
+<td>Membership in this role group is synchronized across services and is managed centrally. You can't manage this role group in Exchange Online. <br><br> This role group doesn't have any roles assigned to it. However, it's a member of the Organization Management role group (as Exchange Service Administrator) and inherits the permissions provided by that role group. <br><br> You can add members to this role group by adding users to the Microsoft Entra ID Exchange admin role in the Microsoft 365 admin center.</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Help Desk</td>
+<td>Members can view and manage the configuration for individual recipients and view recipients in an Exchange organization. Members of this role group can only manage the configuration each user can manage on their own mailbox.</td>
+<td>Reset Password <br><br> User Options <br><br> View-Only Recipients</td>
+</tr>
+<tr>
+<td>Hygiene Management</td>
+<td>Members can manage Exchange anti-spam features, grant permissions for antivirus products to integrate with Exchange, and manage mail flow rules.</td>
+<td>Transport Hygiene <br><br> View-Only Configuration <br><br> View-Only Recipients</td>
+</tr>
+<tr>
+<td>Information Protection</td>
+<td>Full control over all information protection features, including sensitivity labels and their policies, DLP; all classifier types, activity and content explorers; and all related reports.</td>
+<td>Information Protection Admin <br><br> Information Protection Analyst² <br><br> Information Protection Investigator <br><br> Information Protection Reader</td>
+</tr>
+<tr>
+<td>Information Protection Admins</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Information Protection Admin</td>
+</tr>
+<tr>
+<td>Information Protection Analysts</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/search-unifiedauditlog" data-linktype="absolute-path">Search-UnifiedAuditLog</a> cmdlet in Exchange Online.</td>
+<td>Information Protection Analyst²</td>
+</tr>
+<tr>
+<td>Information Protection Investigators</td>
+<td>Search the unified audit log</td>
+<td>Information Protection Investigator</td>
+</tr>
+<tr>
+<td>Information Protection Readers</td>
+<td>Search the unified audit log and view the Mail Traffic and Mail Traffic Summary reports.</td>
+<td>Information Protection Reader</td>
+</tr>
+<tr>
+<td>Insider Risk Management</td>
+<td>Manage access control for Insider risk management.</td>
+<td>Insider Risk Management Admin <br><br> Insider Risk Management Investigation</td>
+</tr>
+<tr>
+<td>Insider Risk Management Admins</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Insider Risk Management Admin</td>
+</tr>
+<tr>
+<td>Insider Risk Management Investigators</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Insider Risk Management Investigation</td>
+</tr>
+<tr>
+<td>Organization Management</td>
+<td>Members have administrative access to the entire Exchange Online organization and can perform almost any task in Exchange Online. <br><br> <strong>Important</strong>: Because the Organization Management role group is a powerful role, only users that perform organizational-level administrative tasks that can potentially impact the entire Exchange Online organization should be members of this role group.</td>
+<td>Audit Logs <br><br> Communication Compliance Admin <br><br> Communication Compliance Investigation <br><br> Compliance Admin <br><br> Data Loss Prevention <br><br> Distribution Groups <br><br> E-Mail Address Policies <br><br> Federated Sharing <br><br> Information Protection Admin <br><br> Information Protection Analyst² <br><br> Information Protection Investigator <br><br> Information Protection Reader <br><br> Information Rights Management <br><br> Insider Risk Management Admin <br><br> Insider Risk Management Investigation <br><br> Journaling <br><br> Legal Hold <br><br> Mail Enabled Public Folders <br><br> Mail Recipient Creation <br><br> Mail Recipients <br><br> Mail Tips <br><br> Message Tracking <br><br> Migration <br><br> Move Mailboxes <br><br> Org Custom Apps <br><br> Org Marketplace Apps <br><br> Organization Client Access <br><br> Organization Configuration <br><br> Organization Transport Settings <br><br> Privacy Management Admin <br><br> Privacy Management Investigation <br><br> Public Folders <br><br> Recipient Policies <br><br> Remote and Accepted Domains <br><br> Reset Password <br><br> Retention Management <br><br> Role Management <br><br> Security Admin <br><br> Security Group Creation and Membership <br><br> Security Reader <br><br> TenantPlacesManagement <br><br> Transport Hygiene <br><br> Transport Rules <br><br> User Options <br><br> View-Only Audit Logs <br><br> View-Only Configuration <br><br> View-Only Recipients</td>
+</tr>
+<tr>
+<td>Privacy Management</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Privacy Management Admin <br><br> Privacy Management Investigation</td>
+</tr>
+<tr>
+<td>Privacy Management Administrators</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Privacy Management Admin</td>
+</tr>
+<tr>
+<td>Privacy Management Investigators</td>
+<td>The role assignments in this role group give access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Privacy Management Investigation</td>
+</tr>
+<tr>
+<td>Recipient Management</td>
+<td>Members have administrative access to create or modify Exchange Online recipients within the Exchange Online organization.</td>
+<td>Distribution Groups <br><br> Mail Recipient Creation <br><br> Mail Recipients <br><br> Message Tracking <br><br> Migration <br><br> Move Mailboxes <br><br> Recipient Policies <br><br> Reset Password</td>
+</tr>
+<tr>
+<td>Records Management</td>
+<td>Members can configure compliance features, such as retention policy tags, message classifications, and mail flow rules (also known as transport rules).</td>
+<td>Audit Logs <br><br> Journaling <br><br> Message Tracking <br><br> Retention Management <br><br> Transport Rules</td>
+</tr>
+<tr>
+<td>RIM-MailboxAdmins&lt;GUID&gt;</td>
+<td>Not used</td>
+<td>ApplicationImpersonation</td>
+</tr>
+<tr>
+<td>Security Administrator</td>
+<td>Membership in this role group is synchronized across services and is managed centrally. You can't manage this role group in Exchange Online. <br><br> You can add members to this role group by adding users to the Microsoft Entra Security admin role in the Microsoft 365 admin center.</td>
+<td>Security Admin <br><br> SensitivityLabelAdministrator</td>
+</tr>
+<tr>
+<td>Security Operator</td>
+<td>Manage security alerts, and also view reports and settings of security features.</td>
+<td>Tenant AllowBlockList Manager</td>
+</tr>
+<tr>
+<td>Security Reader</td>
+<td>Membership in this role group is synchronized across services and is managed centrally. You can't manage this role group in Exchange Online. <br><br> You can add members to this role group by adding users to the Microsoft Entra Security reader role in the Microsoft 365 admin center.</td>
+<td>Security Reader</td>
+</tr>
+<tr>
+<td>TenantAdmins_-&lt;unique value&gt;</td>
+<td>Membership in this role group is synchronized across services and is managed centrally. You can't manage this role group in Exchange Online. <br><br> This role group doesn't have any roles assigned to it. However, it's a member of the Organization Management role group (as Company Administrator) and inherits the permissions provided by that role group. <br><br> You can add members to this role group by adding users to the Microsoft Entra ID <strong>Global Administrator</strong> role in the Microsoft 365 admin center. <br><br> <strong>Important</strong>: Microsoft recommends that you use roles with the fewest permissions. Using lower permissioned accounts helps improve security for your organization. Global Administrator is a highly privileged role that should be limited to emergency scenarios when you can't use an existing role.</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>View-Only Organization Management</td>
+<td>Members can view the properties of any object in the Exchange Online organization.</td>
+<td>View-Only Configuration <br><br> View-Only Recipients</td>
+</tr>
+</tbody>
+</table>
+<p>¹ This role group isn't available in <a href="/en-us/exchange/standalone-eop/standalone-eop" data-linktype="absolute-path">the Built-in security add-on for on-premises mailboxes</a>.</p>
+<p>² By default, this role isn't assigned any role group in <a href="/en-us/exchange/standalone-eop/standalone-eop" data-linktype="absolute-path">the Built-in security add-on for on-premises mailboxes</a>.</p>
+<h2 id="roles-in-exchange-online">Roles in Exchange Online</h2>
+<p>The table in this section lists the available administrator roles and the role groups that they're assigned to by default.</p>
+<p>Roles that <strong>aren't</strong> assigned to the Organization Management role group by default are marked with <sup>*</sup></p>
+<div class="TIP">
+<p>Tip</p>
+<ul>
+<li>Role names that start with the prefix 'My' (for example, MyContactInformation) are end-user roles. End-user roles are assigned to users in role assignment policies, which allow users to operate on objects they own (for example, their own account or distribution groups they created). For more information, see <a href="role-assignment-policies" data-linktype="relative-path">Role assignment policies in Exchange Online</a>.</li>
+<li>Role names that start or end with 'Application' are part of RBAC for Applications in Exchange Online. For more information, see <a href="application-rbac" data-linktype="relative-path">Role Based Access Control for Applications in Exchange Online</a>.</li>
+<li>Many of the compliance-related roles that are also available in Microsoft Purview compliance and Microsoft Entra don't offer much capability in Exchange Online by themselves.</li>
+<li>Unless otherwise noted, the same roles and role group assignments are used in <a href="/en-us/exchange/standalone-eop/standalone-eop" data-linktype="absolute-path">the Built-in security add-on for on-premises mailboxes</a>.</li>
+</ul>
+</div>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Description</th>
+<th>Default role group assignments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Address Lists<sup>*</sup></td>
+<td>Enables admins to manage address lists, global address lists, and offline address lists in an organization.</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Audit Logs</td>
+<td>Search the administrator audit log and view the results.</td>
+<td>Compliance Management <br><br> Organization Management <br><br> Records Management</td>
+</tr>
+<tr>
+<td>Communication Compliance Admin</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Communication Compliance <br><br> Communication Compliance Administrators <br><br> Compliance Administrator <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Communication Compliance Investigation</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Communication Compliance <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Compliance Admin</td>
+<td>Lets people view and edit settings and reports for compliance features.</td>
+<td>Compliance Management <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Data Loss Prevention</td>
+<td>This role was related to the older mail flow rule (transport rule)related Data Loss Prevention (DLP) settings in the organization. This role gives access to report and mail flow rule management in Exchange Online.</td>
+<td>Compliance Management <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Distribution Groups</td>
+<td>Create and manage all distribution groups, mail-enabled security groups, and members.</td>
+<td>Organization Management <br><br> Recipient Management</td>
+</tr>
+<tr>
+<td>E-Mail Address Policies</td>
+<td>Enables admins to manage email address policies in an organization.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Federated Sharing</td>
+<td>Enables admins to manage cross-forest and cross-organization sharing in an organization.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Information Protection Admin</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Information Protection <br><br> Information Protection Admins <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Information Protection Analyst</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/search-unifiedauditlog" data-linktype="absolute-path">Search-UnifiedAuditLog</a> cmdlet in Exchange Online.</td>
+<td>Information Protection <br><br> Information Protection Analysts¹ <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Information Protection Investigator</td>
+<td>Search the unified audit log.</td>
+<td>Information Protection <br><br> Information Protection Investigators <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Information Protection Reader</td>
+<td>Search the unified audit log and view the Mail Traffic and Mail Traffic Summary reports.</td>
+<td>Information Protection <br><br> Information Protection Readers <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Information Rights Management</td>
+<td>Manage the Information Rights Management (IRM) features of Exchange in an organization.</td>
+<td>Compliance Management <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Insider Risk Management Admin</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Compliance Administrator <br><br> Insider Risk Management <br><br> Insider Risk Management Admins <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Insider Risk Management Investigation</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Insider Risk Management <br><br> Insider Risk Management Investigators <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Journaling</td>
+<td>Enables admins to manage journaling configuration in an organization.</td>
+<td>Compliance Management <br><br> Organization Management <br><br> Records Management</td>
+</tr>
+<tr>
+<td>Legal Hold</td>
+<td>Enables admins to configure whether data within a mailbox should be retained for litigation purposes in an organization.</td>
+<td>Discovery Management <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Mail Enabled Public Folders</td>
+<td>Enables admins to configure whether individual public folders are mail-enabled or mail-disabled in an organization.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Mail Recipient Creation</td>
+<td>Create and remove mail users and mail contacts.</td>
+<td>Organization Management <br><br> Recipient Management</td>
+</tr>
+<tr>
+<td>Mail Recipients</td>
+<td>Modify existing mail users and mail contacts.</td>
+<td>Organization Management <br><br> Recipient Management</td>
+</tr>
+<tr>
+<td>Mail Tips</td>
+<td>Enables admins to manage MailTip settings in an organization.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Mailbox Import Export<sup>*</sup></td>
+<td>Enables admins to import and export mailbox content.</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Mailbox Search<sup>*</sup></td>
+<td>Enables admins to search the content of one or more mailboxes in an organization.</td>
+<td>Discovery Management</td>
+</tr>
+<tr>
+<td>Message Tracking</td>
+<td>Enables admins to track messages in an organization.</td>
+<td>Compliance Management <br><br> Organization Management <br><br> Recipient Management <br><br> Records Management</td>
+</tr>
+<tr>
+<td>Migration</td>
+<td>Enables admins to migrate mailboxes and mailbox content into or out of an organization.</td>
+<td>Organization Management <br><br> Recipient Management</td>
+</tr>
+<tr>
+<td>Move Mailboxes</td>
+<td>Enables admins to move mailboxes.</td>
+<td>Organization Management <br><br> Recipient Management</td>
+</tr>
+<tr>
+<td>O365SupportViewConfig<sup>*</sup></td>
+<td>Not used</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Org Custom Apps</td>
+<td>Enables users to view and modify their org custom apps.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Org Marketplace Apps</td>
+<td>Enables users to view and modify their org marketplace apps.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Organization Client Access</td>
+<td>Enables admins to manage Client Access settings in an organization.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Organization Configuration</td>
+<td>Enables admins to manage organization-wide settings.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Organization Transport Settings</td>
+<td>Enables admins to manage hybrid and organization-wide mail transport settings.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Privacy Management Admin</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Organization Management <br><br> Privacy Management <br><br> Privacy Management Administrators</td>
+</tr>
+<tr>
+<td>Privacy Management Investigation</td>
+<td>This role gives access to the <a href="/en-us/powershell/module/exchangepowershell/test-textextraction" data-linktype="absolute-path">Test-TextExtraction</a> cmdlet in Exchange Online.</td>
+<td>Organization Management <br><br> Privacy Management <br><br> Privacy Management Investigators</td>
+</tr>
+<tr>
+<td>Public Folders</td>
+<td>Enables admins to manage public folders in an organization.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Recipient Policies</td>
+<td>Enables admins to manage recipient policies (authentication policies, data encryption policies, mobile device mailbox policies, and Outlook on the web mailbox policies) in an organization.</td>
+<td>Organization Management <br><br> Recipient Management</td>
+</tr>
+<tr>
+<td>Remote and Accepted Domains</td>
+<td>Manage remote domains, accepted domains, and connectors.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Reset Password</td>
+<td>Enables admins to set room mailbox passwords.</td>
+<td>Help Desk <br><br> Organization Management <br><br> Recipient Management</td>
+</tr>
+<tr>
+<td>Retention Management</td>
+<td>Lets people manage retention policies.</td>
+<td>Compliance Management <br><br> Organization Management <br><br> Records Management</td>
+</tr>
+<tr>
+<td>Role Management</td>
+<td>Enables admins to manage management role groups, role assignment policies, management roles, role entries, assignments, and scopes in an organization.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Security Admin</td>
+<td>Manages the configuration and reports for all security and protection features.</td>
+<td>Organization Management <br><br> Security Administrator</td>
+</tr>
+<tr>
+<td>Security Group Creation and Membership</td>
+<td>Create and manage mail-enabled security groups.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Security Reader</td>
+<td>View the configuration and reports for security and protection features.</td>
+<td>Organization Management <br><br> Security Reader</td>
+</tr>
+<tr>
+<td>SensitivityLabelAdministrator<sup>*</sup></td>
+<td>Lets people edit sensitivity label properties.</td>
+<td>Security Administrator</td>
+</tr>
+<tr>
+<td>Tenant AllowBlockList Manager<sup>*</sup></td>
+<td>Lets people manage the Tenant Allow/Blocklist.</td>
+<td>Security Operator</td>
+</tr>
+<tr>
+<td>TenantPlacesManagement</td>
+<td>Lets people manage settings for <a href="/en-us/deployoffice/places/deployment-guide-for-places" data-linktype="absolute-path">Microsoft Places</a>.</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Transport Hygiene</td>
+<td>Manage anti-malware, anti-spam features, and anti-spoofing features.</td>
+<td>Hygiene Management <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>Transport Rules</td>
+<td>Create and manage mail flow rules (also known as transport rules).</td>
+<td>Compliance Management <br><br> Organization Management <br><br> Records Management</td>
+</tr>
+<tr>
+<td>User Options</td>
+<td>Enables admins to view the Outlook on the web options of users in the organization.</td>
+<td>Help Desk <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>View-Only Audit Logs</td>
+<td>Searches the administrator audit log and views the results.</td>
+<td>Compliance Management <br><br> Organization Management</td>
+</tr>
+<tr>
+<td>View-Only Configuration</td>
+<td>Views all of the organization and mail flow (non-recipient) settings in the organization.</td>
+<td>Compliance Management <br><br> Hygiene Management <br><br> Organization Management <br><br> View-Only Organization Management</td>
+</tr>
+<tr>
+<td>View-Only Recipients</td>
+<td>View recipient properties and run message trace.</td>
+<td>Compliance Management <br><br> Help Desk <br><br> Hygiene Management <br><br> Organization Management <br><br> View-Only Organization Management</td>
+</tr>
+</tbody>
+</table>
+<p>¹ By default, this role isn't assigned to any role groups in the Built-in security add-on for on-premises mailboxes.</p>
+<h2 id="microsoft-365-permissions-in-exchange-online">Microsoft 365 permissions in Exchange Online</h2>
+<p>When you create a user in the Microsoft 365 admin center, you can choose whether to assign various Microsoft Entra roles (for example, Exchange Administrator or Global Reader) to the user. Most of the Microsoft Entra roles grant administrative permissions to the user in Exchange Online.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>The account you used to create your Exchange Online organization is automatically assigned to the Global Administrator role.</p>
+</div>
+<p>The following table lists the Microsoft Entra roles and the Exchange Online role groups that they correspond to. For more information about these roles, see <a href="/en-us/entra/identity/role-based-access-control/manage-roles-portal" data-linktype="absolute-path">Microsoft Entra permissions</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Microsoft Entra role</th>
+<th>Exchange Online role group</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global Administrator</td>
+<td>Organization Management <br><br> <strong>Note</strong>: The Global Administrator role and the Organization Management role group are tied together using a special Company Administrator role group. The Company Administrator role group is managed internally and can't be modified directly.</td>
+</tr>
+<tr>
+<td>Exchange Administrator</td>
+<td>Organization Management</td>
+</tr>
+<tr>
+<td>Global Reader</td>
+<td>View-Only Organization Management</td>
+</tr>
+<tr>
+<td>Helpdesk Administrator</td>
+<td>Help Desk</td>
+</tr>
+<tr>
+<td>Service Support Administrator</td>
+<td>None</td>
+</tr>
+<tr>
+<td>SharePoint Administrator</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Teams Administrator</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Exchange Recipient Administrator</td>
+<td>Recipient Management</td>
+</tr>
+<tr>
+<td>User Experience Success Manager</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<p>Users can be granted administrative rights in Exchange Online without requiring to add them to Microsoft Entra roles by adding the user as a member of an Exchange Online role group. The user gets permissions in Exchange Online, but they don't get permissions in other Microsoft 365 workloads.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Microsoft recommends that you use roles with the fewest permissions. Using lower permissioned accounts helps improve security for your organization. Global Administrator is a highly privileged role that should be limited to emergency scenarios when you can't use an existing role.</p>
+</div>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="role-groups" data-linktype="relative-path">Manage role groups in Exchange Online</a></li>
+<li><a href="role-assignment-policies" data-linktype="relative-path">Manage role assignment policies in Exchange Online</a></li>
+<li><a href="application-rbac" data-linktype="relative-path">Role Based Access Control for Applications in Exchange Online</a></li>
+<li><a href="feature-permissions" data-linktype="relative-path">Feature permissions in Exchange Online</a></li>
+<li><a href="../understanding-role-based-access-control-exchange-2013-help" data-linktype="relative-path">Understanding Role Based Access Control</a></li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			
+		<section
+			id="right-rail-recommendations-mobile"
+			class=""
+			data-bi-name="recommendations"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-07-13T08:00:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-07-13
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

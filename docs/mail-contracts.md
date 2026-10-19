@@ -403,8 +403,9 @@ The [pinned Exchange manifest](../integrations/contracts/exchange-mail.json)
 lists accepted command parameters, returned fields, sources and limits. Public
 reads expose imported state: organization audit/OAuth flags, transport settings,
 accepted domains, transport rules, mailbox ACLs and SendAs permissions. Missing
-optional fields are absent rather than guessed. Transport descriptions/actions
-are evidence; neither rule delivery nor an ACL enforcement engine is simulated.
+optional fields are absent rather than guessed. Transport descriptions/actions are evidence; rule delivery is not simulated.
+Imported ACLs are evidence only; the separate operational delegation profile below
+enforces supported FullAccess and sending permissions.
 Mailbox ACL records are separate from ExchangeCommandGrant and never authorize
 commands. Every read checks current token permissions, roles/grants and relevant
 service entitlement; mailbox reads additionally check current recipient scope.
@@ -451,9 +452,12 @@ Imported MIME, including malformed binary source data, is returned exactly; meta
 is supplied separately and is not silently reconstructed from MIME. Graph bodies use
 stored text/HTML with bounded format conversion. Header properties require `$select`.
 Mail.ReadBasic omits body/bodyPreview/uniqueBody and cannot access attachments or raw
-content. Full reads require Mail.Read or Mail.ReadWrite. Mailbox settings use their
-separate permissions. Delegated access is limited to the signed-in mailbox; shared
-mailboxes and application access policies are not implied by Exchange ACL evidence.
+content. Full reads require Mail.Read/Mail.ReadWrite for application access, or the corresponding
+delegated own/shared scopes. Access to another mailbox additionally requires a current
+operational FullAccess grant. Shared basic scope still omits bodies, even when the token
+also has the non-shared Mail.Read scope. Mailbox settings retain separate permissions
+and ownership checks. Imported ACL evidence grants no access; application access
+policies and per-folder Outlook sharing ACLs are not simulated.
 
 The [operation manifest](../integrations/contracts/coverage-operations.json) pins
 real v1.0 paths and source hashes. No beta routes are added. Message filters support
@@ -521,3 +525,220 @@ saved delta links across database/API restart. No real tenant is contacted.
 Attachment collection pages additionally cap serialized data at8 MiB, reserving16 KiB
 for the response envelope and continuation. A page can contain fewer attachments than
 `$top`; follow its `@odata.nextLink`. An individual oversized JSON projection returns413.
+
+
+## Exchange unified audit search
+
+`Search-UnifiedAuditLog` reads the same canonical, published audit records used by
+Graph UAL and the Management Activity feed. `Identity` and the serialized
+`AuditData.Id` preserve the source record ID. It supports the bounded parameter
+and output profile in `src/mockazure/cloud/data/exchange/operations.json`.
+That catalog pins Microsoft's actual command documentation and license; verify it
+offline with `python -m tools.acquire_cloud_contracts --service exchange --verify-only`.
+
+StartDate and EndDate are required. Unspecified native PowerShell dates and ISO
+date-only strings mean UTC; explicit offsets are normalized. Equal bounds return
+no records. ResultSize defaults to 100 and accepts 1 through 5,000. Repeat the same
+SessionId and filters until the command returns no records. ReturnNextPreviewPage
+promises chronological order and caps at 5,000; ReturnLargeSet caps at 50,000 and
+does not promise ordering. Mixing session modes caps that session at 10,000.
+Formatted emits a record-type name and indented JSON AuditData. Unsupported options
+fail explicitly rather than silently ignoring them.
+
+Each search snapshot binds the tenant, client, subject, token kind, filters and
+evidence generation. Concurrent calls advance its persisted position atomically.
+Subsequent publication does not change snapshot membership. Current Exchange token
+permission, tenant-wide command authority and audit entitlement are rechecked on
+every page; delegated callers also need Audit Logs or View-Only Audit Logs.
+Mailbox-scoped command grants cannot authorize a tenant-wide audit search.
+
+The following are **local emulator limits**, not Microsoft service guarantees:
+one-hour session lifetime, 32 MiB materialized payload per session, and 1,000
+unexpired sessions per tenant. Filter arrays accept up to 100 entries, each at most
+320 characters; scalar filter values use the same entry bound. Expired/reset sessions return 410; narrowed-query
+guidance accompanies a 413 snapshot limit, and session quota returns 429 with
+Retry-After: 60. Shared maintenance cleanup removes snapshot items within its
+row budget and retains seven-day session tombstones. One-shot searches do not
+retain session state. Portable evidence exports contain the original records,
+not active search handles; restore/reset does not revive old paging authority.
+
+`python -m tools.verify_cloud_workflows --phase A --ecosystems python powershell
+dotnet typescript --report work/cloud/A.json` currently qualifies the A1 audit
+workflow with the original ExchangeOnlineManagement 3.11.0 module and bounded
+server-generated proxies. The other ecosystem cells explicitly say not applicable
+to Exchange cmdlets. This is not qualification of later A tasks or the all-phase
+Graph/Azure matrix. Reports record source identity, client version, local transport
+adaptations and exact-ID/paging/date assertions; missing cells cannot pass.
+The original MES JSON-array concatenation limitation remains unchanged.
+
+
+## Exchange recipients and operational delegation
+
+The [cloud operation catalog](../integrations/contracts/cloud/exchange.json) pins nine
+command pages and operation-level limits. Recipient discovery includes explicitly
+provisioned UserMailbox, SharedMailbox, RoomMailbox and EquipmentMailbox identities;
+it does not invent mail enablement for every directory user or enumerate contacts,
+mail users, distribution lists or group mailboxes. Tenant-local UUID/Exchange GUID,
+UPN, primary/alias SMTP, alias and unique display-name lookups are supported. Ambiguity
+fails with 400. An explicit absent identity fails with 404 rather than using the
+Microsoft-documented unfiltered-list fallback.
+
+Classic Get-Recipient supports Anr, recipient kinds, SortBy, ResultSize and a single
+case-insensitive string -eq/-ne/-like predicate; -like accepts * wildcards. Compiled
+Get-EXORecipient supports its observed identity selectors, supported explicit Properties,
+Minimum property set, type selection, eq/ne filter and 1–1,000-row pages. It uses
+ReadIdsAndParamsFromHeaders with XParameter-Identity or the encoded Recipient key path.
+Continuation is a UUID-ordered current-state scan, not a frozen snapshot. Each page
+reauthorizes before limits are applied. Unsupported predicates/property sets fail.
+
+The unchanged ExchangeOnlineManagement 3.11.0 compiled permission commands use different
+wire models from their PowerShell output. Get-EXOMailboxPermission consumes a
+PermissionId-keyed DTO with User, MailboxIdentity and nested PermissionList entries;
+Get-EXORecipientPermission expands RecipientPermission on the Recipient entity.
+The original module performs the output conversion. Both compiled permission profiles
+are qualified for Identity; unscoped listing and extra filters are not claimed.
+The module exposes PageSize on Connect-ExchangeOnline, not on Get-EXORecipient.
+
+Add/Remove-MailboxPermission support FullAccess; Add/Remove-RecipientPermission support
+SendAs. Set-Mailbox GrantSendOnBehalfTo accepts replacement arrays, null, and Add/Remove
+maps. Get-Mailbox returns canonical delegate IDs. Current users and security-group
+trustees are resolved in the owning tenant. Nested current security-group membership
+is evaluated on access; deletion/membership removal and explicit deny revoke access.
+Children/Descendents-only ACEs do not authorize the mailbox object. AutoMapping is
+persisted and audited, but Outlook Autodiscover is not simulated. Other rights,
+SID history and a complete Exchange inheritance/ownership engine are outside this profile.
+
+FullAccess permits the existing Graph content workflows with Mail.Read.Shared,
+Mail.ReadBasic.Shared or Mail.ReadWrite.Shared as appropriate. These delegated scopes
+also permit the caller's own mailbox. FullAccess does not authorize sending or Exchange
+management. The internal require_send_identity checker distinguishes Mail.Send,
+Mail.Send.Shared, SendAs and SendOnBehalf; using another user's sending mailbox also
+requires FullAccess. Graph send endpoints are delivered in the later mail workflow
+phase, not claimed here. See Microsoft's [shared mail](https://learn.microsoft.com/en-us/graph/outlook-share-messages-folders)
+and [send from another user](https://learn.microsoft.com/en-us/graph/outlook-send-mail-from-other-user)
+contracts; selected permission IDs come from the hash-verified pinned permission reference.
+
+Migration 054 adds tenant- and principal-bound operational delegation, separately from
+display-only collectionState records and Exchange command grants. Command authorization,
+changes and immutable native audit facts share a transaction. Permission audit ObjectId
+is the mailbox UPN; rule/item operations retain their item suffix. No-op writes do not
+create duplicate facts. Downgrade refuses nonempty operational delegation.
+
+Authenticated local GET/PUT /_mock/tenants/{tenant}/mail/delegationState exports and
+atomically replaces typed operational grants; {"grants":[]} resets them. Every target
+must already be a current mailbox/principal in that tenant. Imports validate the whole
+batch before replacement. These administrative fixtures explicitly establish authority;
+collectionState permission imports never do. API restart preserves grants in PostgreSQL.
+Exports omit grants for deleted mailboxes/users/groups and groups no longer security-enabled,
+so an unchanged operational export remains restorable. Stored inactive ACEs remain
+visible as permission evidence until replacement/reset. Trustee resolution combines
+directory names and mailbox SMTP aliases; distinct matching principals are rejected
+as ambiguous before any authority or audit mutation.
+
+
+## Exchange security configuration
+
+The selected Get/New/Set/Remove commands for RemoteDomain, InboundConnector,
+OutboundConnector, AuthenticationPolicy, OrganizationRelationship and SharingPolicy
+persist strict typed configuration in PostgreSQL. Get/Set-AdminAuditLogConfig supports
+the cloud `UnifiedAuditLogIngestionEnabled` setting and Set's `Force` switch.
+On-premises audit filters, `AdminAuditLogEnabled`, `Identity` on AdminAuditLogConfig,
+legacy Exchange token switches and unlisted fields fail explicitly.
+
+The [26-command catalog](../integrations/contracts/cloud/exchange.json) records each
+exact parameter set, output projection and pinned Microsoft command source. Sources
+are bundled at revision `c5386f4fae7364d13ae8759abb6bbe1fc1be0dde`, with SHA-256
+and CC-BY-4.0 attribution. This is a bounded Exchange command contract; the private
+PowerShell transport is not a Graph REST schema. Generated auditLogRecord objects
+continue to validate against the pinned Microsoft Graph v1.0 structural schema.
+
+Names are case-insensitively unique within each family. Name/GUID resolve only in the
+current tenant; explicit missing identities return 404, not an unfiltered collection.
+Remote domains are also unique by domain. The default catch-all remote domain has a
+stable local GUID and cannot be removed or renamed. Other families start empty.
+One sharing policy can be marked Default; selecting another clears the old default
+in the same transaction. Mutations enforce current tenant-wide command authority and
+emit immutable ExchangeAdmin evidence without mailbox-owner fields. Returned fields
+are the selected typed projection, not all production directory properties.
+
+Connectors validate routing/TLS combinations and selected domain/IP fields. Their
+state does not execute SMTP, relay traffic or perform DNS/federation calls. Authentication
+policy flags store the documented configuration; no basic-auth protocol is emulated.
+Sharing/organization relationship state does not grant calendar sharing access.
+
+Setting UnifiedAuditLogIngestionEnabled to false blocks Search-UnifiedAuditLog and
+Graph audit query APIs. Native Exchange facts capture ingestion eligibility when
+recorded, so re-enabling before a worker drains cannot publish suppressed events.
+Previously published evidence stays intact and becomes searchable after re-enabling.
+This initial publication gate covers native Exchange emitters; explicit fixture/imported
+evidence and other workload fact producers are not gated. Configuration changes use
+the setting effective before the change: disabling can be audited; re-enabling from
+disabled does not retroactively create a record.
+
+`GET`/`PUT /_mock/tenants/{tenant}/mail/securityConfiguration` exports/replaces
+`{records: [{id, kind, properties}], unified_audit_log_ingestion_enabled: true}`.
+Every record is validated before replacement; IDs survive round trips and API restart.
+An empty records array resets named configuration and recreates the default remote
+domain. Fixture operations change operational configuration without impersonating
+service cmdlets or granting OAuth/RBAC authority. Tenant deletion cascades the state.
+Migration 055 preserves prior mail/delegation state and refuses a downgrade that would
+discard configuration or a disabled ingestion setting.
+
+
+## Exchange role management
+
+Seven public commands now read/change authoritative local Exchange role state:
+Get-RoleGroup, Get-RoleGroupMember, Add/Remove-RoleGroupMember and
+Get/New/Remove-ManagementRoleAssignment. The exact selected parameters and output
+fields are in the [operation catalog](../integrations/contracts/cloud/exchange.json).
+Original ExchangeOnlineManagement 3.11.0 invokes the server-provided bounded proxies.
+
+The profile contains three built-in groups: Organization Management, Recipient
+Management and View-Only Organization Management. It contains five selected roles:
+
+| Role | Supported command authority |
+| --- | --- |
+| View-Only Recipients | Canonical recipient/mailbox/statistics/CAS/ACL reads listed in the explicit runtime map |
+| View-Only Configuration | Selected organization, transport, A3 configuration and role-state reads |
+| Mail Recipients | Recipient reads, Set-Mailbox and Add/Remove mailbox/recipient permission |
+| Remote and Accepted Domains | Get-AcceptedDomain and Get/New/Set/Remove-RemoteDomain |
+| Role Management | The seven role commands and organization bootstrap read |
+
+Organization Management has these five selected roles, Recipient Management has
+Mail Recipients, and View-Only Organization Management has the two view-only roles.
+This is a bounded subset even for Organization Management; it does not model every
+production role, command or parameter-level role entry. Existing Entra administrator
+roles and explicit local command grants continue to authorize their existing commands.
+
+Role-group membership accepts current users and directory security groups. Current
+nested directory security-group membership is resolved on each request. Nested Exchange
+role groups, linked groups, manager configuration and Entra shadow-group enumeration
+are not implemented. The local built-in groups have empty ManagedBy lists; the
+BypassSecurityGroupManagerCheck switch never bypasses current command authority.
+
+New-ManagementRoleAssignment supports mutually exclusive User or SecurityGroup sets.
+SecurityGroup can identify a supported built-in role group or a current directory
+security group. Name/GUID identify assignments; built-in baseline assignments are
+read-only projections, while explicit assignments are persisted and removable.
+RecipientRelativeWriteScope supports Organization only. RecipientGroupScope supports
+Mail Recipients only and restricts writes to **direct** current members of that group;
+nested members are excluded. The role's implicit organization read scope remains.
+Missing/deleted principals and scope groups cannot authorize requests. Removal affects
+already-issued tokens on the next request and the same check governs module advertisement.
+
+App data-access roles, custom management roles/scopes, delegating assignments,
+end-user assignment policies, OU/AU/exclusive scopes, arbitrary filters and complete
+Exchange parameter-level RBAC are unsupported and rejected. These commands do not
+create OAuth consent, mailbox data access, delegation or Purview audit roles.
+Microsoft's role/group documentation is bundled as hash-bound public-page snapshots
+with the content revisions reported by Microsoft; command pages use the pinned
+office-docs-powershell revision. Runtime and CI require no documentation network access.
+
+`GET`/`PUT /_mock/tenants/{tenant}/mail/roleState` exports/replaces
+`{members: [{group_name, principal_id}], assignments: [{id, name, role, principal_id,
+group_name, recipient_group_id}]}`. Each assignment has one principal_id or group_name.
+An empty state removes explicit memberships/assignments; built-in definitions remain.
+Validation completes before replacement, and fixture writes never create command audit
+events. Public mutations produce native ExchangeAdmin audit facts without mailbox-owner
+fields. Collection evidence cannot import these operational grants. Migration 056
+refuses to discard nonempty role state on downgrade.

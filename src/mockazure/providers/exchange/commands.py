@@ -10,6 +10,7 @@ from mockazure.mail.models import Mailbox, MailRule
 from mockazure.mail.repository import resolve_mailbox
 from mockazure.mail.rules import mutate_rule
 from mockazure.mail.schemas import smtp_address
+from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
 from mockazure.mail.sweep import mutate_sweep
 from mockazure.providers.exchange.bootstrap import PARAMETERS
 from mockazure.providers.exchange.serialization import (
@@ -39,7 +40,11 @@ def checked_parameters(name, values):
         key = canonical[key.lower()]
         kind = PARAMETERS[name][key]
         if value is None:
-            if key not in {"ForwardingAddress", "ForwardingSmtpAddress"}:
+            if key not in {"ForwardingAddress", "ForwardingSmtpAddress", "GrantSendOnBehalfTo"} | (
+                {"TNEFEnabled", "Comment", "TlsSenderCertificateName", "TlsDomain", "TlsSettings"}
+                if name in SECURITY_PARAMETERS
+                else set()
+            ):
                 invalid("Null command parameter")
         elif kind in {"bool", "switch"} and type(value) is not bool:
             invalid("Boolean command parameter required")
@@ -47,6 +52,8 @@ def checked_parameters(name, values):
             invalid("Integer command parameter required")
         elif kind == "string[]" and (
             not isinstance(value, (str, list))
+            or isinstance(value, str)
+            and (len(value) > 320 or "\0" in value)
             or isinstance(value, list)
             and any(not isinstance(v, str) or len(v) > 320 or "\0" in v for v in value)
         ):
@@ -147,6 +154,36 @@ async def invoke_command(session, actor, name: str, parameters: dict, now) -> li
     name = canonical[name.lower()]
     parameters = checked_parameters(name, parameters)
 
+    from mockazure.mail.role_management_contracts import PARAMETERS as ROLE_PARAMETERS
+    from mockazure.mail.security_configuration_contracts import PARAMETERS as SECURITY_PARAMETERS
+
+    if name in ROLE_PARAMETERS:
+        from mockazure.mail.role_management import invoke_role_management
+
+        return await invoke_role_management(session, actor, name, parameters, now)
+
+    if name in SECURITY_PARAMETERS:
+        from mockazure.mail.security_configuration import invoke_security_configuration
+
+        return await invoke_security_configuration(session, actor, name, parameters, now)
+
+    if name == "Get-Recipient":
+        from mockazure.mail.recipients import query_recipients
+
+        return await query_recipients(session, actor, parameters, name)
+    if name in {
+        "Add-MailboxPermission",
+        "Remove-MailboxPermission",
+        "Add-RecipientPermission",
+        "Remove-RecipientPermission",
+    }:
+        from mockazure.mail.delegation import mutate_permission
+
+        return await mutate_permission(session, actor, name, parameters, now)
+    if name == "Search-UnifiedAuditLog":
+        from mockazure.mail.unified_audit import search_unified_audit
+
+        return await search_unified_audit(session, actor, parameters, now)
     if name in {"Get-MessageTraceV2", "Get-MessageTraceDetailV2"}:
         from mockazure.mail.trace import query_trace, query_trace_detail
 
