@@ -1,0 +1,34 @@
+# Graph calendar workflow contracts
+
+The v1.0 calendar profile uses the pinned Graph CSDL and REST operation snapshots in
+`src/mockazure/cloud/data/graph-workflows`. Calendar groups, calendars, events and meeting
+actions persist in PostgreSQL. Resource schema checks are supplemented by writable-field,
+action-body, permission and semantic checks; a resource definition alone is not a write contract.
+
+Application tokens use Calendars.ReadBasic.All/Read/ReadWrite. Delegated tokens use
+Calendars.ReadBasic/Read/ReadWrite for their own mailbox; another mailbox requires
+Calendars.Read.Shared/ReadWrite.Shared and current FullAccess delegation. ReadBasic excludes
+body, attachments and extended content. Mail.Send alone grants no calendar access, and
+calendar meeting messages do not require a separate Mail.Send grant.
+
+The worker rechecks authority and mailbox/evidence/cloud generations. Each invitation,
+response or cancellation commits recipient event and local eventMessage state together.
+The event and message have distinct IDs; organizer and attendee events share iCalUId.
+Responses with sendResponse=false update only the attendee copy. Recipient source revisions
+and cancellation tombstones prevent out-of-order jobs from reviving or cancelling newer state.
+Unknown recipients never cause real outbound delivery. Automatic incoming messages do not
+produce user Create audit events; public calendar mutations emit item-level facts.
+
+Calendar fixtures participate in cloud state export/import/reset. Imported state has fresh
+generations and retires old jobs; pending delivery authority is not exported. Migration069
+refuses downgrade while calendar state exists. Completed delivery records participate in pruning.
+Calendar history retention and public calendar delta are implemented in task E3.
+
+The E2 checkpoint covers single-instance events and UTC/IANA zones. It intentionally excludes
+calendar ACL APIs, Microsoft365 group calendars, event attachments/extensions, new-time proposals,
+and online meeting provisioning. Non-default calendars must have no active events before deletion;
+groups must be empty. Default containers cannot be deleted. Lists support selection, count and
+opaque paging (1000 per page, 10000 per snapshot); unsupported query options fail explicitly.
+Event bodies accept at most1MiB, up to500 attendees; action comments at most16384characters.
+Recurrence, Windows zones, calendarView/instances/getSchedule/delta belong to E3 and notification
+subscriptions to E4. Four-ecosystem native qualification remains pending the combined E gate.

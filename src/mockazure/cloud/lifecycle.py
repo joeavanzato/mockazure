@@ -9,6 +9,12 @@ from sqlalchemy import delete, select, text, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from mockazure.admin.errors import AdminError
+from mockazure.calendar.lifecycle import (
+    CalendarStateInput,
+    export_calendars,
+    prune_calendars,
+    replace_calendars,
+)
 from mockazure.cloud.events import lock_cloud_state
 from mockazure.cloud.models import CloudEvent
 from mockazure.cloud.provider_state import (
@@ -77,6 +83,7 @@ class CloudInput(IdentityInput):
     storage: StorageStateInput = Field(default_factory=StorageStateInput)
     resources: ResourceStateInput = Field(default_factory=ResourceStateInput)
     keyvault: KeyVaultStateInput = Field(default_factory=KeyVaultStateInput)
+    calendars: CalendarStateInput = Field(default_factory=CalendarStateInput)
 
     @model_validator(mode="after")
     def distinct(self):
@@ -193,6 +200,7 @@ async def export_cloud(session: AsyncSession, tenant_id: UUID) -> dict:
         storage=await export_storage_accounts(session, tenant_id),
         resources=await export_provider_resources(session, tenant_id),
         keyvault=await export_keyvault(session, tenant_id),
+        calendars=await export_calendars(session, tenant_id),
     ).model_dump(mode="json")
 
 
@@ -234,6 +242,7 @@ async def import_cloud(session: AsyncSession, tenant_id: UUID, document: dict) -
         await replace_keyvault(session, tenant_id, value.keyvault)
         await replace_storage_accounts(session, tenant_id, value.storage)
         await replace_provider_state(session, tenant_id, value.provider)
+        await replace_calendars(session, tenant_id, value.calendars)
 
 
 async def reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generation: int) -> None:
@@ -245,6 +254,7 @@ async def reset_cloud(session: AsyncSession, tenant_id: UUID, expected_generatio
     await replace_provider_resources(session, tenant_id, ResourceStateInput())
     await replace_storage_accounts(session, tenant_id, StorageStateInput())
     await replace_provider_state(session, tenant_id, ProviderStateInput())
+    await replace_calendars(session, tenant_id, CalendarStateInput())
 
 
 async def prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, limit: int) -> int:
@@ -256,6 +266,8 @@ async def prune_cloud(session: AsyncSession, tenant_id: UUID, now: datetime, lim
         used += await prune_storage_accounts(session, tenant_id, now, limit - used)
     if used < limit:
         used += await prune_keyvault(session, tenant_id, now, limit - used)
+    if used < limit:
+        used += await prune_calendars(session, tenant_id, now, limit - used)
     # Retired generations have no delivery authority. Active-generation facts are retained for F3.
     ids = (
         list(

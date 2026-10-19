@@ -1291,6 +1291,85 @@
       ],
       "base": "entity"
     },
+    "attachmentItem": {
+      "properties": {
+        "attachmentType": {
+          "type": "graph.attachmentType",
+          "nullable": true
+        },
+        "contentId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "contentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isInline": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "size": {
+          "type": "Edm.Int64",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "attachmentType": {
+      "enum": [
+        "file",
+        "item",
+        "reference"
+      ]
+    },
+    "attendee": {
+      "properties": {
+        "emailAddress": {
+          "type": "graph.emailAddress",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.attendeeType",
+          "nullable": true
+        },
+        "proposedNewTime": {
+          "type": "graph.timeSlot",
+          "nullable": true
+        },
+        "status": {
+          "type": "graph.responseStatus",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "attendeeBase"
+    },
+    "attendeeBase": {
+      "properties": {
+        "emailAddress": {
+          "type": "graph.emailAddress",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.attendeeType",
+          "nullable": true
+        }
+      },
+      "required": [],
+      "base": "recipient"
+    },
+    "attendeeType": {
+      "enum": [
+        "required",
+        "optional",
+        "resource"
+      ]
+    },
     "attestationLevel": {
       "enum": [
         "attested",
@@ -1774,6 +1853,109 @@
         }
       },
       "required": []
+    },
+    "calendar": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "allowedOnlineMeetingProviders": {
+          "type": "Collection(graph.onlineMeetingProviderType)",
+          "nullable": true
+        },
+        "canEdit": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "canShare": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "canViewPrivateItems": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "changeKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "color": {
+          "type": "graph.calendarColor",
+          "nullable": true
+        },
+        "defaultOnlineMeetingProvider": {
+          "type": "graph.onlineMeetingProviderType",
+          "nullable": true
+        },
+        "hexColor": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isDefaultCalendar": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isRemovable": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isTallyingResponses": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "owner": {
+          "type": "graph.emailAddress",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "calendarColor": {
+      "enum": [
+        "auto",
+        "lightBlue",
+        "lightGreen",
+        "lightOrange",
+        "lightGray",
+        "lightYellow",
+        "lightTeal",
+        "lightPink",
+        "lightBrown",
+        "lightRed",
+        "maxColor"
+      ]
+    },
+    "calendarGroup": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "changeKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "classId": {
+          "type": "Edm.Guid",
+          "nullable": true
+        },
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
     },
     "certification": {
       "properties": {
@@ -4229,9 +4411,363 @@
         "id"
       ]
     },
+    "event": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "categories": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "changeKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "allowNewTimeProposals": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "attendees": {
+          "type": "Collection(graph.attendee)",
+          "nullable": true
+        },
+        "body": {
+          "type": "graph.itemBody",
+          "nullable": true
+        },
+        "bodyPreview": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "cancelledOccurrences": {
+          "type": "Collection(Edm.String)",
+          "nullable": false
+        },
+        "end": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "hasAttachments": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "hideAttendees": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "iCalUId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "importance": {
+          "type": "graph.importance",
+          "nullable": true
+        },
+        "isAllDay": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isCancelled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isDraft": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isOnlineMeeting": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isOrganizer": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isReminderOn": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "location": {
+          "type": "graph.location",
+          "nullable": true
+        },
+        "locations": {
+          "type": "Collection(graph.location)",
+          "nullable": true
+        },
+        "onlineMeeting": {
+          "type": "graph.onlineMeetingInfo",
+          "nullable": true
+        },
+        "onlineMeetingProvider": {
+          "type": "graph.onlineMeetingProviderType",
+          "nullable": true
+        },
+        "onlineMeetingUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "organizer": {
+          "type": "graph.recipient",
+          "nullable": true
+        },
+        "originalEndTimeZone": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "originalStart": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "originalStartTimeZone": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "recurrence": {
+          "type": "graph.patternedRecurrence",
+          "nullable": true
+        },
+        "reminderMinutesBeforeStart": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "responseRequested": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "responseStatus": {
+          "type": "graph.responseStatus",
+          "nullable": true
+        },
+        "sensitivity": {
+          "type": "graph.sensitivity",
+          "nullable": true
+        },
+        "seriesMasterId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "showAs": {
+          "type": "graph.freeBusyStatus",
+          "nullable": true
+        },
+        "start": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "subject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "transactionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.eventType",
+          "nullable": true
+        },
+        "webLink": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "cancelledOccurrences"
+      ],
+      "open": true,
+      "base": "outlookItem"
+    },
+    "eventMessage": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "categories": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "changeKey": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "bccRecipients": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "body": {
+          "type": "graph.itemBody",
+          "nullable": true
+        },
+        "bodyPreview": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ccRecipients": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "conversationId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "conversationIndex": {
+          "type": "Edm.Binary",
+          "nullable": true
+        },
+        "flag": {
+          "type": "graph.followupFlag",
+          "nullable": true
+        },
+        "from": {
+          "type": "graph.recipient",
+          "nullable": true
+        },
+        "hasAttachments": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "importance": {
+          "type": "graph.importance",
+          "nullable": true
+        },
+        "inferenceClassification": {
+          "type": "graph.inferenceClassificationType",
+          "nullable": true
+        },
+        "internetMessageHeaders": {
+          "type": "Collection(graph.internetMessageHeader)",
+          "nullable": true
+        },
+        "internetMessageId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isDeliveryReceiptRequested": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isDraft": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isRead": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isReadReceiptRequested": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "parentFolderId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "receivedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "replyTo": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "sender": {
+          "type": "graph.recipient",
+          "nullable": true
+        },
+        "sentDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "subject": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "toRecipients": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "uniqueBody": {
+          "type": "graph.itemBody",
+          "nullable": true
+        },
+        "webLink": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "endDateTime": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "isAllDay": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isDelegated": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isOutOfDate": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "location": {
+          "type": "graph.location",
+          "nullable": true
+        },
+        "meetingMessageType": {
+          "type": "graph.meetingMessageType",
+          "nullable": true
+        },
+        "recurrence": {
+          "type": "graph.patternedRecurrence",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.eventType",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "message"
+    },
     "eventMessageDetail": {
       "properties": {},
       "required": []
+    },
+    "eventType": {
+      "enum": [
+        "singleInstance",
+        "occurrence",
+        "exception",
+        "seriesMaster"
+      ]
     },
     "excludeTarget": {
       "properties": {
@@ -4532,6 +5068,29 @@
         "notFlagged",
         "complete",
         "flagged"
+      ]
+    },
+    "freeBusyError": {
+      "properties": {
+        "message": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "responseCode": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "freeBusyStatus": {
+      "enum": [
+        "unknown",
+        "free",
+        "tentative",
+        "busy",
+        "oof",
+        "workingElsewhere"
       ]
     },
     "geoCoordinates": {
@@ -6221,6 +6780,66 @@
       },
       "required": []
     },
+    "location": {
+      "properties": {
+        "address": {
+          "type": "graph.physicalAddress",
+          "nullable": true
+        },
+        "coordinates": {
+          "type": "graph.outlookGeoCoordinates",
+          "nullable": true
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "locationEmailAddress": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "locationType": {
+          "type": "graph.locationType",
+          "nullable": true
+        },
+        "locationUri": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "uniqueId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "uniqueIdType": {
+          "type": "graph.locationUniqueIdType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "locationType": {
+      "enum": [
+        "default",
+        "conferenceRoom",
+        "homeAddress",
+        "businessAddress",
+        "geoCoordinates",
+        "streetAddress",
+        "hotel",
+        "restaurant",
+        "localBusiness",
+        "postalAddress"
+      ]
+    },
+    "locationUniqueIdType": {
+      "enum": [
+        "unknown",
+        "locationStore",
+        "directory",
+        "private",
+        "bing"
+      ]
+    },
     "logonType": {
       "enum": [
         "unknown",
@@ -7047,6 +7666,16 @@
         "tvRating"
       ]
     },
+    "meetingMessageType": {
+      "enum": [
+        "none",
+        "meetingRequest",
+        "meetingCancelled",
+        "meetingAccepted",
+        "meetingTenativelyAccepted",
+        "meetingDeclined"
+      ]
+    },
     "message": {
       "properties": {
         "id": {
@@ -7839,6 +8468,43 @@
       },
       "required": []
     },
+    "onlineMeetingInfo": {
+      "properties": {
+        "conferenceId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "joinUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "phones": {
+          "type": "Collection(graph.phone)",
+          "nullable": true
+        },
+        "quickDial": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "tollFreeNumbers": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "tollNumber": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "onlineMeetingProviderType": {
+      "enum": [
+        "unknown",
+        "skypeForBusiness",
+        "skypeForConsumer",
+        "teamsForBusiness"
+      ]
+    },
     "operationResult": {
       "enum": [
         "success",
@@ -8010,6 +8676,31 @@
       "open": true,
       "base": "directoryObject"
     },
+    "outlookGeoCoordinates": {
+      "properties": {
+        "accuracy": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "altitude": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "altitudeAccuracy": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "latitude": {
+          "type": "Edm.Double",
+          "nullable": true
+        },
+        "longitude": {
+          "type": "Edm.Double",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "outlookItem": {
       "properties": {
         "id": {
@@ -8157,6 +8848,19 @@
       },
       "required": []
     },
+    "patternedRecurrence": {
+      "properties": {
+        "pattern": {
+          "type": "graph.recurrencePattern",
+          "nullable": true
+        },
+        "range": {
+          "type": "graph.recurrenceRange",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "pendingContentUpdate": {
       "properties": {
         "queuedDateTime": {
@@ -8295,6 +8999,27 @@
         "never"
       ]
     },
+    "phone": {
+      "properties": {
+        "language": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "number": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "region": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.phoneType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "phoneAuthenticationMethod": {
       "properties": {
         "id": {
@@ -8322,6 +9047,20 @@
         "id"
       ],
       "base": "authenticationMethod"
+    },
+    "phoneType": {
+      "enum": [
+        "home",
+        "business",
+        "mobile",
+        "other",
+        "assistant",
+        "homeFax",
+        "businessFax",
+        "otherFax",
+        "pager",
+        "radio"
+      ]
     },
     "photo": {
       "properties": {
@@ -8359,6 +9098,31 @@
         },
         "takenDateTime": {
           "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "physicalAddress": {
+      "properties": {
+        "city": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "countryOrRegion": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "postalCode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "state": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "street": {
+          "type": "Edm.String",
           "nullable": true
         }
       },
@@ -8818,6 +9582,87 @@
       },
       "required": []
     },
+    "recurrencePattern": {
+      "properties": {
+        "dayOfMonth": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "daysOfWeek": {
+          "type": "Collection(graph.dayOfWeek)",
+          "nullable": true
+        },
+        "firstDayOfWeek": {
+          "type": "graph.dayOfWeek",
+          "nullable": true
+        },
+        "index": {
+          "type": "graph.weekIndex",
+          "nullable": true
+        },
+        "interval": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "month": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "type": {
+          "type": "graph.recurrencePatternType",
+          "nullable": true
+        }
+      },
+      "required": [
+        "dayOfMonth",
+        "interval",
+        "month"
+      ]
+    },
+    "recurrencePatternType": {
+      "enum": [
+        "daily",
+        "weekly",
+        "absoluteMonthly",
+        "relativeMonthly",
+        "absoluteYearly",
+        "relativeYearly"
+      ]
+    },
+    "recurrenceRange": {
+      "properties": {
+        "endDate": {
+          "type": "Edm.Date",
+          "nullable": true
+        },
+        "numberOfOccurrences": {
+          "type": "Edm.Int32",
+          "nullable": false
+        },
+        "recurrenceTimeZone": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startDate": {
+          "type": "Edm.Date",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.recurrenceRangeType",
+          "nullable": true
+        }
+      },
+      "required": [
+        "numberOfOccurrences"
+      ]
+    },
+    "recurrenceRangeType": {
+      "enum": [
+        "endDate",
+        "noEnd",
+        "numbered"
+      ]
+    },
     "redirectUriSettings": {
       "properties": {
         "index": {
@@ -9120,6 +9965,29 @@
         "isEnabled"
       ]
     },
+    "responseStatus": {
+      "properties": {
+        "response": {
+          "type": "graph.responseType",
+          "nullable": true
+        },
+        "time": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "responseType": {
+      "enum": [
+        "none",
+        "organizer",
+        "tentativelyAccepted",
+        "accepted",
+        "declined",
+        "notResponded"
+      ]
+    },
     "riskDetail": {
       "enum": [
         "none",
@@ -9338,6 +10206,60 @@
     "samlSingleSignOnSettings": {
       "properties": {
         "relayState": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "scheduleInformation": {
+      "properties": {
+        "availabilityView": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "error": {
+          "type": "graph.freeBusyError",
+          "nullable": true
+        },
+        "scheduleId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "scheduleItems": {
+          "type": "Collection(graph.scheduleItem)",
+          "nullable": true
+        },
+        "workingHours": {
+          "type": "graph.workingHours",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "scheduleItem": {
+      "properties": {
+        "end": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "isPrivate": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "location": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "start": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": true
+        },
+        "status": {
+          "type": "graph.freeBusyStatus",
+          "nullable": true
+        },
+        "subject": {
           "type": "Edm.String",
           "nullable": true
         }
@@ -15508,6 +16430,22 @@
         "emailUser"
       ]
     },
+    "timeSlot": {
+      "properties": {
+        "end": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": false
+        },
+        "start": {
+          "type": "graph.dateTimeTimeZone",
+          "nullable": false
+        }
+      },
+      "required": [
+        "end",
+        "start"
+      ]
+    },
     "timeZoneBase": {
       "properties": {
         "name": {
@@ -15627,6 +16565,23 @@
       "required": [
         "allowedResourceActions"
       ]
+    },
+    "uploadSession": {
+      "properties": {
+        "expirationDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "nextExpectedRanges": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "uploadUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "uriClickSecurityState": {
       "properties": {
@@ -16388,6 +17343,15 @@
         }
       },
       "required": []
+    },
+    "weekIndex": {
+      "enum": [
+        "first",
+        "second",
+        "third",
+        "fourth",
+        "last"
+      ]
     },
     "weeklySchedule": {
       "enum": [

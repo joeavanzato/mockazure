@@ -1714,6 +1714,2223 @@
         ],
         "nativeClients": "pending phase E qualification"
       }
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendarGroup.list",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/calendarGroups",
+      "aliases": [
+        "/me/calendarGroups"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "schema.json#/types/calendarGroup"
+              }
+            },
+            "@odata.nextLink": {
+              "type": "string"
+            },
+            "@odata.count": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken",
+        "$count"
+      ],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendargroups.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "0d100d63415f88000374f5b01029a602f17634de3aab249f18baa2bb52db2249",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendargroups.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendargroup.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "6c4bce73b11411e55c0223f368213c193348a8df3cb80702d167da1df5fd5ab9",
+          "localPath": "sources/api-reference__v1.0__resources__calendargroup.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/user-list-calendargroups-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "90ec255438de7c6d1f3c8391f4598fc84dadc0593db8a5a8a01f2ae2f330bcf3",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__user-list-calendargroups-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendarGroup.create",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/calendarGroups",
+      "aliases": [
+        "/me/calendarGroups"
+      ],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "calendarGroup"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/calendarGroup"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-post-calendargroups.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "9933f822d06c4ebfbf42022d173fe77e7df2d53d2d4586e96d7da02268cbded3",
+          "localPath": "sources/api-reference__v1.0__api__user-post-calendargroups.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendargroup.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "6c4bce73b11411e55c0223f368213c193348a8df3cb80702d167da1df5fd5ab9",
+          "localPath": "sources/api-reference__v1.0__resources__calendargroup.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/user-post-calendargroups-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__user-post-calendargroups-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendarGroup.get",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/calendarGroups/{id}",
+      "aliases": [
+        "/me/calendarGroups/{id}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/calendarGroup"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendargroup-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "7af979849207f4b4dab8288ec842612c809d21fd2a1f1fd337ce85d73a38cbf4",
+          "localPath": "sources/api-reference__v1.0__api__calendargroup-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendargroup.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "6c4bce73b11411e55c0223f368213c193348a8df3cb80702d167da1df5fd5ab9",
+          "localPath": "sources/api-reference__v1.0__resources__calendargroup.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/calendargroup-get-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "8d35de7be61590537f086a2743bc82015c5813f54344795c99a24e831ae72faf",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__calendargroup-get-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendarGroup.update",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/users/{user}/calendarGroups/{id}",
+      "aliases": [
+        "/me/calendarGroups/{id}"
+      ],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "calendarGroup"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/calendarGroup"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendargroup-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "041cf587ff453a7d387e24d44e798e343355eb25d4d32252b851ca12add98233",
+          "localPath": "sources/api-reference__v1.0__api__calendargroup-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendargroup.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "6c4bce73b11411e55c0223f368213c193348a8df3cb80702d167da1df5fd5ab9",
+          "localPath": "sources/api-reference__v1.0__resources__calendargroup.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/calendargroup-update-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__calendargroup-update-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendarGroup.delete",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/users/{user}/calendarGroups/{id}",
+      "aliases": [
+        "/me/calendarGroups/{id}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendargroup-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "357a89ee0a55cf3f79eeabdc629e4fe8578bba0be1ac84d369e17b048f3c9de3",
+          "localPath": "sources/api-reference__v1.0__api__calendargroup-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendargroup.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "6c4bce73b11411e55c0223f368213c193348a8df3cb80702d167da1df5fd5ab9",
+          "localPath": "sources/api-reference__v1.0__resources__calendargroup.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/calendargroup-delete-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__calendargroup-delete-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendar.list",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/calendars",
+      "aliases": [
+        "/me/calendars",
+        "/users/{user}/calendarGroups/{group}/calendars",
+        "/me/calendarGroups/{group}/calendars"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "schema.json#/types/calendar"
+              }
+            },
+            "@odata.nextLink": {
+              "type": "string"
+            },
+            "@odata.count": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken",
+        "$count"
+      ],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendars.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3e84bc895118924a9e9dddb69381c1cd3626fc472b1b43c254a8f7a620b77c23",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendars.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendar.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "0a1e29fe3e832e36a006ed591d5d9511f61126e0d5da1f3365a4a8545d5dbacf",
+          "localPath": "sources/api-reference__v1.0__resources__calendar.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/user-list-calendars-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "05100475c8bc41ab92a6e96c4acde1df74adfd1a840a121df1d28ef67282315f",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__user-list-calendars-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendar.create",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/calendars",
+      "aliases": [
+        "/me/calendars",
+        "/users/{user}/calendarGroups/{group}/calendars",
+        "/me/calendarGroups/{group}/calendars"
+      ],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "calendar"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/calendar"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-post-calendars.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "995c7eb04a0df7f237da8c67feaaa99ec45332c130e030103a2e768d96cfff8d",
+          "localPath": "sources/api-reference__v1.0__api__user-post-calendars.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendar.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "0a1e29fe3e832e36a006ed591d5d9511f61126e0d5da1f3365a4a8545d5dbacf",
+          "localPath": "sources/api-reference__v1.0__resources__calendar.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendar.get",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/calendars/{id}",
+      "aliases": [
+        "/me/calendars/{id}",
+        "/users/{user}/calendarGroups/{group}/calendars/{id}",
+        "/me/calendarGroups/{group}/calendars/{id}",
+        "/users/{user}/calendar",
+        "/me/calendar"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/calendar"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendar-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c7f9a8c346cd69c03cd7760936ca1d07fb004bc9b4398a145c8b22a37fdfcc78",
+          "localPath": "sources/api-reference__v1.0__api__calendar-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendar.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "0a1e29fe3e832e36a006ed591d5d9511f61126e0d5da1f3365a4a8545d5dbacf",
+          "localPath": "sources/api-reference__v1.0__resources__calendar.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendar.update",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/users/{user}/calendars/{id}",
+      "aliases": [
+        "/me/calendars/{id}",
+        "/users/{user}/calendarGroups/{group}/calendars/{id}",
+        "/me/calendarGroups/{group}/calendars/{id}",
+        "/users/{user}/calendar",
+        "/me/calendar"
+      ],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "calendar"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/calendar"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendar-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "5dcf5259493a35caa6b34fc9c35e2bd31e195af7cccaa9ba0a29f74c3b210109",
+          "localPath": "sources/api-reference__v1.0__api__calendar-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendar.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "0a1e29fe3e832e36a006ed591d5d9511f61126e0d5da1f3365a4a8545d5dbacf",
+          "localPath": "sources/api-reference__v1.0__resources__calendar.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendar.delete",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/users/{user}/calendars/{id}",
+      "aliases": [
+        "/me/calendars/{id}",
+        "/users/{user}/calendarGroups/{group}/calendars/{id}",
+        "/me/calendarGroups/{group}/calendars/{id}",
+        "/users/{user}/calendar",
+        "/me/calendar"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendar-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "5c26094df336953e57afcf3548d41545f3164ec0487dda8412590c9d71dc3235",
+          "localPath": "sources/api-reference__v1.0__api__calendar-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/calendar.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "0a1e29fe3e832e36a006ed591d5d9511f61126e0d5da1f3365a4a8545d5dbacf",
+          "localPath": "sources/api-reference__v1.0__resources__calendar.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/calendar-delete-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__calendar-delete-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.list",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/events",
+      "aliases": [
+        "/me/events",
+        "/users/{user}/calendar/events",
+        "/me/calendar/events",
+        "/users/{user}/calendars/{calendar}/events",
+        "/me/calendars/{calendar}/events",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "schema.json#/types/event"
+              }
+            },
+            "@odata.nextLink": {
+              "type": "string"
+            },
+            "@odata.count": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "$select",
+        "$top",
+        "$skiptoken",
+        "$count"
+      ],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "299baeda136523fb6d5525a7eac6c4c5b3b47d1bcf255eda3ae6392edd3c3c77",
+          "localPath": "sources/api-reference__v1.0__api__user-list-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.create",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/events",
+      "aliases": [
+        "/me/events",
+        "/users/{user}/calendar/events",
+        "/me/calendar/events",
+        "/users/{user}/calendars/{calendar}/events",
+        "/me/calendars/{calendar}/events",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events"
+      ],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "event"
+      },
+      "responseSchemas": {
+        "201": {
+          "$ref": "schema.json#/types/event"
+        }
+      },
+      "statusCodes": [
+        201,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-post-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4d567881cd257540b330733918da9adfbb5e8f43af9e966163419b3711331ca2",
+          "localPath": "sources/api-reference__v1.0__api__user-post-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendar-post-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "bf0535de28eaa2ab746eac9bb0010b9bf2e0faef03c9c42b0aa81c646dbcdacb",
+          "localPath": "sources/api-reference__v1.0__api__calendar-post-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.get",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/events/{id}",
+      "aliases": [
+        "/me/events/{id}",
+        "/users/{user}/calendar/events/{id}",
+        "/me/calendar/events/{id}",
+        "/users/{user}/calendars/{calendar}/events/{id}",
+        "/me/calendars/{calendar}/events/{id}",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/event"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "$select"
+      ],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-get.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "471e365e425fa384b07319f2b2c2eb396f6f26a549d909e3ceeb6f7d42bcf035",
+          "localPath": "sources/api-reference__v1.0__api__event-get.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.update",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "PATCH",
+      "path": "/users/{user}/events/{id}",
+      "aliases": [
+        "/me/events/{id}",
+        "/users/{user}/calendar/events/{id}",
+        "/me/calendar/events/{id}",
+        "/users/{user}/calendars/{calendar}/events/{id}",
+        "/me/calendars/{calendar}/events/{id}",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}"
+      ],
+      "requestSchema": {
+        "type": "resource",
+        "reference": "schema.json",
+        "name": "event"
+      },
+      "responseSchemas": {
+        "200": {
+          "$ref": "schema.json#/types/event"
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-update.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "3f240ef934fe50eb722618269d70987105f0140727b3884717a9eda484b70111",
+          "localPath": "sources/api-reference__v1.0__api__event-update.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.delete",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "DELETE",
+      "path": "/users/{user}/events/{id}",
+      "aliases": [
+        "/me/events/{id}",
+        "/users/{user}/calendar/events/{id}",
+        "/me/calendar/events/{id}",
+        "/users/{user}/calendars/{calendar}/events/{id}",
+        "/me/calendars/{calendar}/events/{id}",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "204": null
+      },
+      "statusCodes": [
+        204,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-delete.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a4297e66f4a8553e495300a5913f99e8ebde83665ad70a83c23d1a54536ac863",
+          "localPath": "sources/api-reference__v1.0__api__event-delete.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.accept",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/events/{id}/accept",
+      "aliases": [
+        "/me/events/{id}/accept",
+        "/users/{user}/calendar/events/{id}/accept",
+        "/me/calendar/events/{id}/accept",
+        "/users/{user}/calendars/{calendar}/events/{id}/accept",
+        "/me/calendars/{calendar}/events/{id}/accept",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/accept",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/accept"
+      ],
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "accept"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-accept.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "e2ed4894f59b5906ed5c02454d9217b8d1523c11bc45ff655b1c321959fa2d8f",
+          "localPath": "sources/api-reference__v1.0__api__event-accept.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/event-accept-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__event-accept-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented",
+      "action": "accept"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.tentativelyAccept",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/events/{id}/tentativelyAccept",
+      "aliases": [
+        "/me/events/{id}/tentativelyAccept",
+        "/users/{user}/calendar/events/{id}/tentativelyAccept",
+        "/me/calendar/events/{id}/tentativelyAccept",
+        "/users/{user}/calendars/{calendar}/events/{id}/tentativelyAccept",
+        "/me/calendars/{calendar}/events/{id}/tentativelyAccept",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/tentativelyAccept",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/tentativelyAccept"
+      ],
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "tentativelyAccept"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-tentativelyaccept.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4e686e5ef961f47140df1b7f672c6bf86ac100c4f09659de941ac6034cc580f9",
+          "localPath": "sources/api-reference__v1.0__api__event-tentativelyaccept.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/event-tentativelyaccept-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__event-tentativelyaccept-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented",
+      "action": "tentativelyAccept"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.decline",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/events/{id}/decline",
+      "aliases": [
+        "/me/events/{id}/decline",
+        "/users/{user}/calendar/events/{id}/decline",
+        "/me/calendar/events/{id}/decline",
+        "/users/{user}/calendars/{calendar}/events/{id}/decline",
+        "/me/calendars/{calendar}/events/{id}/decline",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/decline",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/decline"
+      ],
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "decline"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-decline.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2eb32cad20ea01692467b31695af738365f314522566db605bc688b07c5f6cf",
+          "localPath": "sources/api-reference__v1.0__api__event-decline.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/event-decline-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__event-decline-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented",
+      "action": "decline"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.cancel",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/events/{id}/cancel",
+      "aliases": [
+        "/me/events/{id}/cancel",
+        "/users/{user}/calendar/events/{id}/cancel",
+        "/me/calendar/events/{id}/cancel",
+        "/users/{user}/calendars/{calendar}/events/{id}/cancel",
+        "/me/calendars/{calendar}/events/{id}/cancel",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/cancel",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/cancel"
+      ],
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "cancel"
+      },
+      "responseSchemas": {
+        "202": null
+      },
+      "statusCodes": [
+        202,
+        400,
+        401,
+        403,
+        404,
+        409,
+        412,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "ETag",
+        "If-Match",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadWrite",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localAttendees": 500,
+        "localCollectionSnapshot": 10000,
+        "localPageSize": 1000
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-cancel.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f20c67de5dd6e3b6a83890b5e0fee546015c559ea6ac52c9e7a18be2bcbf5e57",
+          "localPath": "sources/api-reference__v1.0__api__event-cancel.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/permissions-reference.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "4c86b08715ab23cccfd542d057019f7e9df9d57aed8afa38e2c88cc5c3f70447",
+          "localPath": "sources/concepts__permissions-reference.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/includes/permissions/event-cancel-permissions.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "f2d0d04a21d99a27ec43d722954b56ef09e73c6980f084d79bd5a3ae432ff802",
+          "localPath": "sources/api-reference__v1.0__includes__permissions__event-cancel-permissions.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
+        "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
+        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
+        "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+      ],
+      "tests": [
+        "tests/integration/test_graph_calendar_workflows.py",
+        "tests/unit/test_graph_workflow_contracts.py",
+        "tests/integration/test_graph_calendar_lifecycle.py",
+        "tests/unit/test_calendar_request_body.py"
+      ],
+      "status": "implemented",
+      "action": "cancel"
     }
   ]
 }

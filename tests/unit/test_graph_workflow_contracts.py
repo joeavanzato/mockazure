@@ -94,3 +94,57 @@ def test_mail_operation_schemas_resolve_to_actual_types_and_upload_methods():
         assert any(
             s["localPath"].endswith("outlook-large-attachments.md") for s in upload["sources"]
         )
+
+
+def test_calendar_meeting_message_is_a_real_importable_graph_type():
+    from mockazure.mail.content_models import MessageImport
+
+    imported = MessageImport(
+        id="message",
+        folder_id="inbox",
+        payload={
+            "@odata.type": "#microsoft.graph.eventMessage",
+            "subject": "Meeting",
+            "meetingMessageType": "meetingRequest",
+            "isDraft": False,
+        },
+    )
+    assert imported.payload["meetingMessageType"] == "meetingRequest"
+
+
+@pytest.mark.parametrize("resource", ["calendarGroup", "calendar", "event"])
+def test_calendar_catalog_describes_collection_and_item_envelopes(resource):
+    collection = load_contract("graph-workflows", resource + ".list")
+    response = collection["responseSchemas"]["200"]
+    assert response["type"] == "object"
+    assert response["properties"]["value"]["items"] == {"$ref": "schema.json#/types/" + resource}
+    item = load_contract("graph-workflows", resource + ".get")
+    assert item["responseSchemas"]["200"] == {"$ref": "schema.json#/types/" + resource}
+    assert item["queryOptions"] == ["$select"]
+
+
+def test_calendar_accepts_exact_sdk_type_discriminators():
+    from mockazure.calendar.contracts import event_input
+
+    body = {
+        "@odata.type": "#microsoft.graph.event",
+        "subject": "Typed calendar",
+        "start": {
+            "@odata.type": "#microsoft.graph.dateTimeTimeZone",
+            "dateTime": "2026-10-25T10:00:00",
+            "timeZone": "UTC",
+        },
+        "end": {
+            "@odata.type": "#microsoft.graph.dateTimeTimeZone",
+            "dateTime": "2026-10-25T11:00:00",
+            "timeZone": "UTC",
+        },
+        "attendees": [
+            {
+                "@odata.type": "#microsoft.graph.attendee",
+                "type": "required",
+                "emailAddress": {"address": "local@contoso.test"},
+            }
+        ],
+    }
+    assert event_input(body)["attendees"][0]["emailAddress"]["address"] == "local@contoso.test"

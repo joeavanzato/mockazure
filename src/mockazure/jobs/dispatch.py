@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from mockazure.activity.publication import process_activity
 from mockazure.auditlog.worker import process_audit_query
+from mockazure.calendar.meetings import process_meeting_delivery
 from mockazure.db.engine import Database
 from mockazure.evidence.projection import process_projection
 from mockazure.jobs.repository import fail_job, finish_export
@@ -28,6 +29,7 @@ async def process_export(database: Database, claim: JobClaim, wall_now: datetime
 
 
 HANDLERS = {
+    "calendar.meeting": process_meeting_delivery,
     "mail.delivery": process_mail_delivery,
     "authentication.passwordReset": process_password_reset,
     "activity.publish": process_activity,
@@ -54,6 +56,7 @@ async def dispatch_job(database: Database, claim: JobClaim, wall_now: datetime) 
         code = "TransientError"
     except (ValueError, TypeError, KeyError):
         code = {
+            "calendar.meeting": "MeetingDeliveryFailed",
             "mail.delivery": "MailDeliveryFailed",
             "evidence.project": "InvalidEvidenceSource",
             "activity.publish": "InvalidActivitySource",

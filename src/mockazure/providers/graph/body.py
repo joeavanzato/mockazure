@@ -9,14 +9,20 @@ def invalid(message="Invalid directory request"):
     raise GraphError(400, "Request_BadRequest", message)
 
 
-async def read_json(request, limit=1024 * 1024):
-    if request.headers.get("content-type", "").split(";")[0].strip().lower() != "application/json":
+async def read_json(request, limit=1024 * 1024, *, allow_empty=False):
+    content_type = request.headers.get("content-type", "").split(";")[0].strip().lower()
+    if not allow_empty and content_type != "application/json":
         invalid("Content-Type must be application/json")
     data = bytearray()
     async for chunk in request.stream():
         if len(data) + len(chunk) > limit:
             raise GraphError(413, "Request_EntityTooLarge", "Request exceeds the local size limit")
         data.extend(chunk)
+
+    if allow_empty and not data:
+        return {}
+    if content_type != "application/json":
+        invalid("Content-Type must be application/json")
 
     def pairs(items):
         result = {}
