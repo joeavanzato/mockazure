@@ -11,7 +11,7 @@ from concurrent.futures import ThreadPoolExecutor, wait
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
-from threading import Barrier, BrokenBarrierError, Event, Lock, Thread
+from threading import Barrier, BrokenBarrierError, Lock
 from urllib.parse import urlsplit
 from uuid import uuid4
 
@@ -157,13 +157,110 @@ def validate_scale_report(report, commit, fingerprint, *, full=True):
         )
         assert statuses.get("403", 0) >= 1
         observation = report["observations"]
-        assert (
-            observation["databaseBytes"] > 0
-            and observation["samples"]
-            and observation["processHighWaterKiB"]
-        )
+        assert type(observation["databaseBytes"]) is int and observation["databaseBytes"] > 0
+        validate_memory_observations(observation, report["replicas"])
     except (AssertionError, KeyError, TypeError, ValueError) as error:
         raise ValueError("Incomplete, stale or reduced cloud scale evidence") from error
+
+
+# Fixed local qualification budgets, deliberately below a whole 256 MiB payload.
+MEMORY_ALLOWANCE = {"perProcessKiB": 256 * 1024, "transferGrowthKiB": 64 * 1024}
+MEMORY_STAGES = (
+    "start",
+    "beforeUpload",
+    "afterUpload",
+    "replicated",
+    "beforeRestart1",
+    "afterRestart1",
+    "beforeRestart2",
+    "afterRestart2",
+    "beforeDownload",
+    "afterDownload",
+    "finish",
+)
+
+
+def validate_memory_observations(observation, replicas):
+    assert len(replicas) == len(set(replicas)) == 2
+    assert observation["memoryAllowance"] == MEMORY_ALLOWANCE
+    samples = observation["samples"]
+    assert [sample["stage"] for sample in samples] == list(MEMORY_STAGES)
+    peaks, by_stage = {}, {}
+    for index, sample in enumerate(samples):
+        assert datetime.fromisoformat(sample["at"]).tzinfo is not None
+        processes = sample["processes"]
+        expected = {replicas[0]} if index < 3 else set(replicas)
+        assert {p["container"] for p in processes} == expected and len(processes) == len(expected)
+        by_stage[sample["stage"]] = {p["container"]: p for p in processes}
+        for process in processes:
+            rss, peak = process["rssKiB"], process["highWaterKiB"]
+            assert type(rss) is int and type(peak) is int
+            assert 0 < rss <= peak <= MEMORY_ALLOWANCE["perProcessKiB"]
+            generation = process["generation"]
+            assert generation.startswith(process["container"] + ":")
+            assert generation.rsplit(":", 1)[1].isdigit()
+            assert peak >= peaks.get(generation, 0)
+            peaks[generation] = peak
+    assert observation["processHighWaterKiB"] == peaks
+    # Every process lifetime is preserved; only the two explicit restarts may
+    # replace a process. A crash/replacement between checkpoints fails closed.
+    for previous, current in zip(samples, samples[1:]):
+        old, new = by_stage[previous["stage"]], by_stage[current["stage"]]
+        restarting = current["stage"] in {"afterRestart1", "afterRestart2"}
+        for container in old.keys() & new.keys():
+            changed = old[container]["generation"] != new[container]["generation"]
+            assert changed == restarting
+    for transfer in ("Upload", "Download"):
+        before, after = by_stage["before" + transfer], by_stage["after" + transfer]
+        for container in before:
+            growth = after[container]["highWaterKiB"] - before[container]["highWaterKiB"]
+            assert 0 <= growth <= MEMORY_ALLOWANCE["transferGrowthKiB"]
+
+
+class MemoryObserver:
+    """Kernel VmHWM retains transient peaks without sampling/polling blind spots.
+
+    Snapshot before every restart, so each old process's lifetime peak survives.
+    PID 1 is the single MockAzure API process (all seven listeners share it).
+    The docker-exec helper and healthcheck processes are intentionally excluded.
+    """
+
+    def __init__(self, command, compose, report):
+        self.command, self.compose = command, compose
+        self.observation = report.setdefault("observations", {})
+        self.observation.update(
+            samples=[],
+            processHighWaterKiB={},
+            memoryAllowance=dict(MEMORY_ALLOWANCE),
+            highWaterDefinition=(
+                "API PID 1 kernel VmHWM, retained separately for every container/process "
+                "start time; not total container memory"
+            ),
+        )
+
+    def capture(self, stage):
+        containers = self.command(self.compose + ["ps", "-q", "api"], capture=True).splitlines()
+        assert containers, "No API process available for memory observation"
+        code = (
+            "import json,pathlib; p=pathlib.Path('/proc/1'); "
+            "cmd=(p/'cmdline').read_bytes(); assert b'mockazure' in cmd and b'serve' in cmd; "
+            "v=dict(line.split(':',1) for line in (p/'status').read_text().splitlines()); "
+            "print(json.dumps({'rssKiB':int(v['VmRSS'].split()[0]), "
+            "'highWaterKiB':int(v['VmHWM'].split()[0]), "
+            "'startTicks':(p/'stat').read_text().rsplit(')',1)[1].split()[19]}))"
+        )
+        processes = []
+        for container in containers:
+            value = json.loads(
+                self.command(["docker", "exec", container, "python", "-c", code], capture=True)
+            )
+            generation = container + ":" + value.pop("startTicks")
+            value.update(container=container, generation=generation)
+            processes.append(value)
+            self.observation["processHighWaterKiB"][generation] = value["highWaterKiB"]
+        self.observation["samples"].append(
+            {"stage": stage, "at": datetime.now(UTC).isoformat(), "processes": processes}
+        )
 
 
 def digest_ids(values):
@@ -188,7 +285,11 @@ def sdk(fixture, service):
             )
         elif service == "blob":
             client = BlobServiceClient(
-                endpoint, credential=fixture["key"], api_version="2025-11-05", **common
+                endpoint,
+                credential=fixture["key"],
+                api_version="2025-11-05",
+                max_single_put_size=268435456,
+                **common,
             )
         elif service == "file":
             client = ShareServiceClient(
@@ -401,6 +502,8 @@ def qualify(
 ):
     counts = dataset_counts(records)
     assert readers == 8 and 0 < binary_bytes <= 268435456
+    memory = MemoryObserver(command, compose, report)
+    memory.capture("start")
     ca = str(directory / ".runtime/instance/ca.pem")
     primary = provision(client, headers, tenant, ca, "primary")
     other = request(
@@ -424,7 +527,6 @@ def qualify(
         datasets={},
         readers=[],
         restarts=[],
-        observations={"samples": []},
     )
     expected_inventory = set()
     for i in range(counts["inventory"]):
@@ -467,10 +569,12 @@ def qualify(
                 part = block[: min(len(block), binary_bytes - offset)]
                 stream.write(part)
                 digest.update(part)
+        memory.capture("beforeUpload")
         with source.open("rb") as stream:
             blobs.get_blob_client("evidence", "binary").upload_blob(
                 stream, length=binary_bytes, max_concurrency=1
             )
+        memory.capture("afterUpload")
         setting = (
             primary["account"]
             + "/blobServices/default/providers/Microsoft.Insights/diagnosticSettings/scale"
@@ -549,43 +653,18 @@ def qualify(
     command(compose + ["restart", "ingress"])
     replicas = command(compose + ["ps", "-q", "api"], capture=True).splitlines()
     assert len(replicas) == 2
+    first = report["observations"]["samples"][0]["processes"][0]["container"]
+    replicas.sort(key=lambda container: container != first)
     report["replicas"] = replicas
-    stopped = Event()
-
-    def observe():
-        while not stopped.is_set():
-            try:
-                sample = [
-                    json.loads(line)
-                    for line in command(
-                        [
-                            "docker",
-                            "stats",
-                            "--no-stream",
-                            "--format",
-                            "{{json .}}",
-                            *replicas,
-                            command(compose + ["ps", "-q", "db"], capture=True),
-                        ],
-                        capture=True,
-                    ).splitlines()
-                ]
-                report["observations"]["samples"].append(
-                    {"at": datetime.now(UTC).isoformat(), "containers": sample}
-                )
-            except (OSError, RuntimeError):
-                report["observations"].setdefault("samplingErrors", 0)
-                report["observations"]["samplingErrors"] += 1
-            stopped.wait(2)
-
-    observer = Thread(target=observe, daemon=True)
-    observer.start()
+    memory.capture("replicated")
 
     def restart():
         marker = {"started": datetime.now(UTC).isoformat(), "completed": False}
         report["restarts"].append(marker)
+        memory.capture("beforeRestart" + str(len(report["restarts"])))
         command(compose + ["restart", "api", "worker"], timeout=300)
         wait_for_replicas(command, client, replicas)
+        memory.capture("afterRestart" + str(len(report["restarts"])))
         marker.update(completed=True, finished=datetime.now(UTC).isoformat())
         check("cloud_scale_restart_" + str(len(report["restarts"])))
 
@@ -646,111 +725,90 @@ def qualify(
                 acknowledged.append(key)
         barrier.wait(timeout=900)
 
-    try:
+    def guarded(function, *args):
+        try:
+            return function(*args)
+        except BaseException:
+            barrier.abort()
+            raise
 
-        def guarded(function, *args):
-            try:
-                return function(*args)
-            except BaseException:
-                barrier.abort()
-                raise
-
-        with ThreadPoolExecutor(max_workers=9) as pool:
-            futures = [pool.submit(guarded, read, i) for i in range(readers)]
-            writer = pool.submit(guarded, write)
-            wait([*futures, writer])
-            errors = [f.exception() for f in [*futures, writer] if f.exception()]
-            if errors:
-                raise next((e for e in errors if not isinstance(e, BrokenBarrierError)), errors[0])
-            report["readers"] = [f.result() for f in futures]
-            writer.result()
-        for name in counts:
-            report["datasets"][name]["actual"] = report["readers"][0][name + "Count"]
-        with sdk(primary, "table") as table:
-            retained = {
-                row["RowKey"] for row in table.query_entities("PartitionKey eq 'concurrent'")
-            }
-        report.update(
-            acknowledgedWrites=len(acknowledged),
-            lostAcknowledgedWrites=len(set(acknowledged) - retained),
-        )
-        assert retained == set(acknowledged)
-        with sdk(primary, "blob") as blobs:
-            downloaded, size = hashlib.sha256(), 0
-            for chunk in (
-                blobs.get_blob_client("evidence", "binary")
-                .download_blob(max_concurrency=1)
-                .chunks()
-            ):
-                downloaded.update(chunk)
-                size += len(chunk)
-            assert size == binary_bytes and downloaded.hexdigest() == digest.hexdigest()
-            report["binary"]["downloadedSha256"] = downloaded.hexdigest()
-            archives = []
-            for blob in blobs.get_container_client("insights-logs-storagewrite").list_blobs():
-                archives.extend(
-                    json.loads(
-                        blobs.get_blob_client("insights-logs-storagewrite", blob.name)
-                        .download_blob()
-                        .readall()
-                    )["records"]
-                )
-            assert {r["correlationId"] for r in archives} == source_ids and len(archives) == len(
-                source_ids
+    with ThreadPoolExecutor(max_workers=9) as pool:
+        futures = [pool.submit(guarded, read, i) for i in range(readers)]
+        writer = pool.submit(guarded, write)
+        wait([*futures, writer])
+        errors = [f.exception() for f in [*futures, writer] if f.exception()]
+        if errors:
+            raise next((e for e in errors if not isinstance(e, BrokenBarrierError)), errors[0])
+        report["readers"] = [f.result() for f in futures]
+        writer.result()
+    for name in counts:
+        report["datasets"][name]["actual"] = report["readers"][0][name + "Count"]
+    with sdk(primary, "table") as table:
+        retained = {row["RowKey"] for row in table.query_entities("PartitionKey eq 'concurrent'")}
+    report.update(
+        acknowledgedWrites=len(acknowledged),
+        lostAcknowledgedWrites=len(set(acknowledged) - retained),
+    )
+    assert retained == set(acknowledged)
+    memory.capture("beforeDownload")
+    with sdk(primary, "blob") as blobs:
+        downloaded, size = hashlib.sha256(), 0
+        for chunk in (
+            blobs.get_blob_client("evidence", "binary").download_blob(max_concurrency=1).chunks()
+        ):
+            downloaded.update(chunk)
+            size += len(chunk)
+        assert size == binary_bytes and downloaded.hexdigest() == digest.hexdigest()
+        report["binary"]["downloadedSha256"] = downloaded.hexdigest()
+        memory.capture("afterDownload")
+        archives = []
+        for blob in blobs.get_container_client("insights-logs-storagewrite").list_blobs():
+            archives.extend(
+                json.loads(
+                    blobs.get_blob_client("insights-logs-storagewrite", blob.name)
+                    .download_blob()
+                    .readall()
+                )["records"]
             )
-            report["diagnosticFanout"] = True
-        joined = log_rows(
-            primary,
-            "let t=StorageBlobLogs | where OperationName == 'PutBlob' | project CorrelationId; "
-            "t | join kind=inner (t) on CorrelationId | count",
+        assert {r["correlationId"] for r in archives} == source_ids and len(archives) == len(
+            source_ids
         )
-        assert joined == [[len(source_ids)]]
-        report["queryJoins"] = True
-        with httpx.Client(
-            base_url=primary["logsOrigin"],
-            verify=ssl.create_default_context(cafile=ca),
-            trust_env=False,
-        ) as logs:
-            denied = measured_request(
-                logs,
-                "POST",
-                f"/v1/workspaces/{primary['workspace']}/query",
-                headers=secondary["logs"],
-                json={"query": query},
-            )
-            assert denied.status_code == 403
-        with sdk(secondary, "table") as table:
-            assert {r["RowKey"] for r in table.list_entities()} == {"FOREIGN_SENTINEL"}
-        with sdk(secondary, "blob") as blobs:
-            assert (
-                blobs.get_blob_client("evidence", "FOREIGN_SENTINEL").download_blob().readall()
-                == b"foreign-only-bytes"
-            )
-        report["tenantIsolation"] = True
-        exercise_contention(primary)
-        report.update(queueContention=True, fileRanges=True)
-        report["observations"]["databaseBytes"] = int(
-            sql("SELECT pg_database_size(current_database());")
+        report["diagnosticFanout"] = True
+    joined = log_rows(
+        primary,
+        "let t=StorageBlobLogs | where OperationName == 'PutBlob' | project CorrelationId; "
+        "t | join kind=inner (t) on CorrelationId | count",
+    )
+    assert joined == [[len(source_ids)]]
+    report["queryJoins"] = True
+    with httpx.Client(
+        base_url=primary["logsOrigin"],
+        verify=ssl.create_default_context(cafile=ca),
+        trust_env=False,
+    ) as logs:
+        denied = measured_request(
+            logs,
+            "POST",
+            f"/v1/workspaces/{primary['workspace']}/query",
+            headers=secondary["logs"],
+            json={"query": query},
         )
-        peaks = []
-        code = (
-            "import pathlib; print(sum(int(next((v.split()[1] for v in "
-            "p.read_text().splitlines() if v.startswith('VmHWM:')), '0')) "
-            "for p in pathlib.Path('/proc').glob('[0-9]*/status') if p.exists()))"
+        assert denied.status_code == 403
+    with sdk(secondary, "table") as table:
+        assert {r["RowKey"] for r in table.list_entities()} == {"FOREIGN_SENTINEL"}
+    with sdk(secondary, "blob") as blobs:
+        assert (
+            blobs.get_blob_client("evidence", "FOREIGN_SENTINEL").download_blob().readall()
+            == b"foreign-only-bytes"
         )
-        for replica in replicas:
-            peaks.append(
-                int(command(["docker", "exec", replica, "python", "-c", code], capture=True))
-            )
-        report["observations"]["processHighWaterKiB"] = peaks
-        report["observations"]["highWaterDefinition"] = (
-            "Sum of per-process VmHWM within each API container; separately sampled "
-            "container memory, not a simultaneous RSS maximum"
-        )
-        check("cloud_scale_exact_counts_eight_readers_two_restarts")
-    finally:
-        stopped.set()
-        observer.join(timeout=15)
+    report["tenantIsolation"] = True
+    exercise_contention(primary)
+    report.update(queueContention=True, fileRanges=True)
+    report["observations"]["databaseBytes"] = int(
+        sql("SELECT pg_database_size(current_database());")
+    )
+    memory.capture("finish")
+    check("cloud_scale_exact_counts_eight_readers_two_restarts")
 
 
 def exercise_contention(fixture):

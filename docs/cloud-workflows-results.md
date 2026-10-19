@@ -11,7 +11,7 @@ report artifacts. A missing, stale, skipped or failed required gate is a failure
 
 | Gate | Command / evidence | Requirement |
 | --- | --- | --- |
-| Native clients | `python -m tools.verify_cloud_workflows --phase all --report work/cloud/all.json` | All six phases, four declared ecosystem cells, pinned versions, one commit and fingerprint; explicit not-applicable and REST-fallback cells remain visible. |
+| Native clients | `python -m tools.verify_cloud_workflows --phase all --ecosystems python powershell dotnet typescript --report work/cloud/all.json` | All six phases, four declared ecosystem cells, pinned versions, one commit and fingerprint; explicit not-applicable and REST-fallback cells remain visible. |
 | Cloud scale | `python -m tools.benchmark_cloud_workflows --records 100000 --binary-bytes 268435456 --readers 8 --report work/cloud/scale.json` | Exact IDs, 256 MiB hash, eight readers, two API replicas/restarts, 32 acknowledged concurrent writes, tenant isolation, queue contention, file ranges, diagnostics and request/failure counters. |
 | Coverage | `python -m tools.check_cloud_coverage --check --report work/cloud/all.json` | Explicit operation declarations, current contracts, implementation and behavior references, offline Microsoft source closure. |
 | Candidate artifacts | `python -m tools.build_release --commit HEAD_SHA --output work/release/candidate` | Committed source bytes, reproducible wheel/sdist and Docker package parity. |
@@ -40,7 +40,13 @@ repository owner's attention.
 `sourceCommit` and `sourceFingerprint` identify the exact native/scale/distribution
 inputs. Scale reports include expected and observed counts, each reader's ID-set
 hashes, uploaded/downloaded content hashes, restart markers, acknowledged writes,
-database size, sampled container memory and process high-water measurements.
+database size and API process memory checkpoints. Kernel `VmHWM` captures transient
+peaks, including the public HTTP upload, and checkpoints immediately before each
+restart preserve every process generation. Each API process must stay within
+256 MiB, and upload/download high-water growth must stay within 64 MiB. The
+256 MiB upload uses a single native SDK Put Blob request. These are local test
+allowances, not production sizing guidance. PID 1 owns all API listeners; helper,
+worker and PostgreSQL processes are outside this API memory allowance.
 
 `requests` counts workload REST and SDK/MSAL HTTP transport attempts, response
 status codes and transport exceptions. It excludes lab bootstrap/readiness probes
