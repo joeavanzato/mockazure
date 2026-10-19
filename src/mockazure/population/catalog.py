@@ -9,8 +9,13 @@ from mockazure.population.adapters import (
     directory,
     evidence,
     keyvault,
+    licensing,
+    log_records,
     mail,
+    mail_folders,
     monitor,
+    permissions,
+    relationships,
     security,
     storage,
     workloads,
@@ -22,9 +27,14 @@ def registry():
     entries = [
         *directory.adapters(),
         *identity.adapters(),
+        *licensing.adapters(),
+        *relationships.adapters(),
+        *permissions.adapters(),
         *storage.adapters(),
         *keyvault.adapters(),
-        *monitor.adapters(),
+        *(a for a in monitor.adapters() if a.describe().key != "monitor.records"),
+        *mail_folders.adapters(),
+        *log_records.adapters(),
         *mail.adapters(),
         *security.adapters(),
         *workloads.adapters(),
@@ -32,6 +42,9 @@ def registry():
         *activity.adapters(),
         *arm.adapters(),
     ]
+    from mockazure.population.actions import attach_public_actions
+
+    entries = attach_public_actions(entries)
     result = {item.describe().key: item for item in entries}
     if len(result) != len(entries):
         raise RuntimeError("Duplicate population family")

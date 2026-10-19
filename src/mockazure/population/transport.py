@@ -1,7 +1,10 @@
 """Explicit local HTTPS service calls with ordinary client-credential authorization."""
 
+import hashlib
 import ssl
 from dataclasses import dataclass
+from datetime import UTC, datetime
+from email.utils import format_datetime
 from urllib.parse import urlsplit
 from uuid import UUID
 
@@ -36,9 +39,19 @@ class LocalTransport:
         self.context = context
         self.credential = credential
         self.client = client
+        self.shared_key = False
 
     async def request(
-        self, service, method, path, *, json=None, content=None, params=None, headers=None
+        self,
+        service,
+        method,
+        path,
+        *,
+        json=None,
+        content=None,
+        params=None,
+        headers=None,
+        digest=False,
     ):
         if service not in AUDIENCES:
             raise ValueError("Unknown local service")
@@ -95,18 +108,96 @@ class LocalTransport:
                 raise AdminError(
                     502, "InvalidTokenResponse", "Local login returned no access token"
                 )
-            response = await client.request(
+            authorization = "Bearer " + raw
+            headers = dict(headers or {})
+            if self.shared_key and service == "file":
+                # Namespace management does not accept FileREST OAuth. Obtain a key
+                # using the selected identity's actual ARM listKeys permission.
+                if json is not None or content is not None:
+                    raise ValueError("Shared Key adapter is limited to empty namespace requests")
+                from sqlalchemy import select
+
+                from mockazure.storage.models import StorageAccount
+                from mockazure.storage.signing import canonicalize_storage_request, signature
+
+                account = path.split("/")[1]
+                async with self.context.database.sessions() as session:
+                    scope = await session.scalar(
+                        select(StorageAccount.scope_key).where(
+                            StorageAccount.tenant_id == self.context.tenant_id,
+                            StorageAccount.name == account,
+                        )
+                    )
+                if not scope:
+                    raise AdminError(404, "AccountNotFound", "Storage account not found in tenant")
+                keys = await self.request(
+                    "arm", "POST", scope + "/listKeys", params={"api-version": "2025-06-01"}
+                )
+                if keys.status_code != 200:
+                    raise AdminError(
+                        keys.status_code,
+                        "StorageKeyAccessDenied",
+                        "Selected identity cannot list local account keys",
+                    )
+                headers["x-ms-date"] = format_datetime(datetime.now(UTC), usegmt=True)
+                if method in {"PUT", "POST"}:
+                    headers["Content-Length"] = "0"
+                url = httpx.URL(origin + path, params=params)
+                canonical = canonicalize_storage_request(
+                    method,
+                    url.raw_path.split(b"?")[0],
+                    list(url.params.multi_items()),
+                    list(headers.items()),
+                    account,
+                    "file",
+                    headers["x-ms-version"],
+                )
+                authorization = (
+                    "SharedKey "
+                    + account
+                    + ":"
+                    + signature(keys.json()["keys"][0]["value"], canonical)
+                )
+            async with client.stream(
                 method,
                 origin + path,
                 json=json,
                 content=content,
                 params=params,
-                headers={**(headers or {}), "Authorization": "Bearer " + raw, "Cookie": ""},
+                headers={**(headers or {}), "Authorization": authorization, "Cookie": ""},
                 follow_redirects=False,
-            )
-            if 300 <= response.status_code < 400:
-                raise AdminError(502, "UnexpectedRedirect", "Local service redirected unexpectedly")
-            return response
+            ) as response:
+                if 300 <= response.status_code < 400:
+                    raise AdminError(
+                        502, "UnexpectedRedirect", "Local service redirected unexpectedly"
+                    )
+                hashing = digest and 200 <= response.status_code < 300
+                hasher, size, chunks = hashlib.sha256(), 0, []
+                limit = settings.content_max_object_bytes if hashing else 16 * 1024 * 1024
+                async for chunk in response.aiter_bytes():
+                    size += len(chunk)
+                    if size > limit:
+                        raise AdminError(
+                            413,
+                            "ServiceResponseTooLarge",
+                            "Use a bounded resource or content operation",
+                        )
+                    if hashing:
+                        hasher.update(chunk)
+                    else:
+                        chunks.append(chunk)
+                if hashing:
+                    return httpx.Response(
+                        response.status_code,
+                        json={"sha256": hasher.hexdigest(), "size": size},
+                        request=response.request,
+                    )
+                return httpx.Response(
+                    response.status_code,
+                    content=b"".join(chunks),
+                    headers=response.headers,
+                    request=response.request,
+                )
         except httpx.HTTPError:
             raise AdminError(
                 503, "LocalServiceUnavailable", "Local service connection failed"
