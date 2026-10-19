@@ -108,6 +108,32 @@ def save(path, value):
     temporary.replace(path)
 
 
+async def submit_preview(client, request, *, delay=0.5):
+    """Refresh a rejected stale preview; never retry an uncertain write or other conflict."""
+    for refreshes in range(5):
+        preview = await client.request("POST", "/_mock/population/previews", json=request)
+        response = await client.http.post(
+            "/_mock/population/runs",
+            json={"preview_id": preview["id"], "digest": preview["digest"]},
+        )
+        if response.status_code == 201:
+            return preview, response.json(), refreshes
+        try:
+            code = response.json().get("error", {}).get("code", "Unknown")
+        except ValueError:
+            code = "Unknown"
+        if response.status_code != 409 or code != "PreviewStale" or refreshes == 4:
+            safe_code = (
+                code
+                if isinstance(code, str) and re.fullmatch(r"[A-Za-z0-9_]{1,80}", code)
+                else "Unknown"
+            )
+            raise RuntimeError(
+                f"Population submission rejected: HTTP {response.status_code} {safe_code}"
+            )
+        await asyncio.sleep(delay * (refreshes + 1))
+
+
 async def terminal(client, identifier, *, timeout=7200):
     end = time.monotonic() + timeout
     while time.monotonic() < end:
@@ -241,20 +267,14 @@ async def qualify(config, profiles, output, *, resume=False, recheck=False, dist
                             }
                         },
                     }
-                    preview = await client.request(
-                        "POST", "/_mock/population/previews", json=request
-                    )
-                    created = await client.request(
-                        "POST",
-                        "/_mock/population/runs",
-                        json={"preview_id": preview["id"], "digest": preview["digest"]},
-                    )
+                    preview, created, refreshes = await submit_preview(client, request)
                     result.update(
                         run_id=created["id"],
                         tenant_id=created["tenant_id"],
                         digest=preview["resolved_digest"],
                         request=request,
                         interrupted_resumed=False,
+                        submission_preview_refreshes=refreshes,
                     )
                     save(output, report)
                 if name == "volume-lab" and not result["interrupted_resumed"]:
@@ -299,15 +319,11 @@ async def qualify(config, profiles, output, *, resume=False, recheck=False, dist
                     **result["request"],
                     "target": {"existing_tenant_id": result["tenant_id"]},
                 }
-                preview = await client.request("POST", "/_mock/population/previews", json=request)
-                repeated = await client.request(
-                    "POST",
-                    "/_mock/population/runs",
-                    json={"preview_id": preview["id"], "digest": preview["digest"]},
-                )
+                preview, repeated, refreshes = await submit_preview(client, request)
                 repeated = await terminal(client, repeated["id"])
                 result.update(
                     replay_state=repeated["state"],
+                    replay_preview_refreshes=refreshes,
                     replay_created=repeated["progress"].get("created"),
                     replay_run_id=repeated["id"],
                     seconds=round(time.monotonic() - started, 3),

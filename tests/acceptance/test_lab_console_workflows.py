@@ -91,3 +91,41 @@ def test_actual_local_workflow_report():
     if not path:
         pytest.skip("Set MOCKAZURE_LAB_REPORT to the generated local qualification report")
     validate_report(json.loads(Path(path).read_text()), expected_fingerprint=source_fingerprint())
+
+
+@pytest.mark.parametrize("code", ["PreviewStale", "TenantBusy"])
+async def test_qualification_refreshes_only_explicitly_stale_previews(code):
+    from types import SimpleNamespace
+
+    import httpx
+
+    from tools.verify_lab_console import submit_preview
+
+    calls = []
+
+    async def route(request):
+        calls.append(request.url.path)
+        if request.url.path.endswith("/previews"):
+            return httpx.Response(201, json={"id": str(len(calls)), "digest": "checked"})
+        if len(calls) == 2:
+            return httpx.Response(409, json={"error": {"code": code}})
+        return httpx.Response(201, json={"id": "run"})
+
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(route), base_url="https://localhost:8443"
+    ) as http:
+
+        async def request(method, path, **options):
+            return (await http.request(method, path, **options)).json()
+
+        client = SimpleNamespace(http=http, request=request)
+        if code == "PreviewStale":
+            preview, created, retries = await submit_preview(
+                client, {"target": "disposable"}, delay=0
+            )
+            assert preview["id"] == "3" and created["id"] == "run" and retries == 1
+            assert len(calls) == 4
+        else:
+            with pytest.raises(RuntimeError, match="TenantBusy"):
+                await submit_preview(client, {"target": "disposable"}, delay=0)
+            assert len(calls) == 2
