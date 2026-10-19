@@ -173,3 +173,12 @@ def test_scale_memory_gate_rejects_unbounded_or_incomplete_observations(fault):
         observation["samples"][-1]["processes"].pop()
     with pytest.raises(ValueError):
         validate_scale_report(report, "a" * 40, "b" * 64)
+
+
+def test_scale_memory_retains_maximum_when_kernel_rss_accounting_decreases():
+    from tools.benchmark_cloud_workflows import validate_scale_report
+
+    report = valid_report()
+    # Linux proc RSS accounting is approximate; a later VmHWM read may be lower.
+    report["observations"]["samples"][4]["processes"][0]["highWaterKiB"] = 109500
+    validate_scale_report(report, "a" * 40, "b" * 64)

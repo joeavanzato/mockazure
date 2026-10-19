@@ -199,8 +199,13 @@ def validate_memory_observations(observation, replicas):
             generation = process["generation"]
             assert generation.startswith(process["container"] + ":")
             assert generation.rsplit(":", 1)[1].isdigit()
-            assert peak >= peaks.get(generation, 0)
-            peaks[generation] = peak
+            # Linux proc RSS accounting is approximate; preserve the maximum of
+            # every observed lifetime high-water instead of assuming monotonic reads.
+            peaks[generation] = max(peak, peaks.get(generation, 0))
+            by_stage[sample["stage"]][process["container"]] = {
+                **process,
+                "highWaterKiB": peaks[generation],
+            }
     assert observation["processHighWaterKiB"] == peaks
     # Every process lifetime is preserved; only the two explicit restarts may
     # replace a process. A crash/replacement between checkpoints fails closed.
@@ -257,7 +262,8 @@ class MemoryObserver:
             generation = container + ":" + value.pop("startTicks")
             value.update(container=container, generation=generation)
             processes.append(value)
-            self.observation["processHighWaterKiB"][generation] = value["highWaterKiB"]
+            peaks = self.observation["processHighWaterKiB"]
+            peaks[generation] = max(peaks.get(generation, 0), value["highWaterKiB"])
         self.observation["samples"].append(
             {"stage": stage, "at": datetime.now(UTC).isoformat(), "processes": processes}
         )
