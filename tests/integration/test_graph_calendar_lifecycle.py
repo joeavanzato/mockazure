@@ -226,3 +226,67 @@ async def test_calendar_removed_attendee_update_cannot_cancel_newer_reinvite(dat
         assert (await dispatch_job(database, removed, datetime.now(UTC))).state == "succeeded"
         events = (await client.get(f"/v1.0/users/{attendee}/events", headers=write)).json()["value"]
         assert len(events) == 1 and not events[0]["isCancelled"]
+
+
+async def test_calendar_import_rebases_recipient_revisions_for_new_delivery(database, settings):
+    async with graph_client(database, settings) as (client, tenant, app, owner):
+        attendee, _, _ = await setup_mail(client, database, settings, tenant, app, owner)
+        write = await headers_for(database, settings, tenant, app, None, {"Calendars.ReadWrite"})
+        root = f"/v1.0/users/{owner}/events"
+        created = await client.post(root, headers=write, json=event_body())
+        await meeting_worker(database, tenant)
+        path = root + "/" + created.json()["id"]
+        for n in range(3):
+            assert (
+                await client.patch(path, headers=write, json={"subject": str(n)})
+            ).status_code == 200
+            await meeting_worker(database, tenant)
+        cloud = f"/_mock/tenants/{tenant}/cloud/state"
+        snapshot = (await client.get(cloud)).json()
+        assert (await client.put(cloud, json=snapshot)).status_code == 200
+        assert (
+            await client.patch(path, headers=write, json={"subject": "New generation"})
+        ).status_code == 200
+        await meeting_worker(database, tenant)
+        rows = (await client.get(f"/v1.0/users/{attendee}/events", headers=write)).json()["value"]
+        assert rows[0]["subject"] == "New generation"
+
+
+async def test_calendar_history_pruning_is_bounded_and_keeps_current_state(database, settings):
+    from datetime import timedelta
+
+    from sqlalchemy import func, select
+
+    from mockazure.calendar.lifecycle import prune_calendars
+    from mockazure.calendar.models import CalendarEventVersion
+
+    async with graph_client(database, settings) as (client, tenant, app, owner):
+        await setup_mail(client, database, settings, tenant, app, owner)
+        write = await headers_for(database, settings, tenant, app, None, {"Calendars.ReadWrite"})
+        body = event_body()
+        body["attendees"] = []
+        root = f"/v1.0/users/{owner}/events"
+        created = await client.post(root, headers=write, json=body)
+        path = root + "/" + created.json()["id"]
+        for n in range(3):
+            assert (
+                await client.patch(path, headers=write, json={"subject": str(n)})
+            ).status_code == 200
+        async with database.sessions.begin() as session:
+            count = (
+                select(func.count())
+                .select_from(CalendarEventVersion)
+                .where(CalendarEventVersion.tenant_id == tenant)
+            )
+            assert await session.scalar(count) == 4
+            assert (
+                await prune_calendars(session, tenant, datetime.now(UTC) + timedelta(days=2), 2)
+                == 2
+            )
+            assert await session.scalar(count) == 2
+            assert (
+                await prune_calendars(session, tenant, datetime.now(UTC) + timedelta(days=2), 2)
+                == 1
+            )
+            assert await session.scalar(count) == 1
+        assert (await client.get(path, headers=write)).json()["subject"] == "2"

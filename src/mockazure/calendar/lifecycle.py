@@ -5,7 +5,8 @@ from datetime import UTC, datetime, timedelta
 from uuid import UUID, uuid4
 
 from pydantic import Field, model_validator
-from sqlalchemy import delete, select, update
+from sqlalchemy import delete, select, tuple_, update
+from sqlalchemy.orm import aliased
 
 from mockazure.admin.errors import AdminError
 from mockazure.calendar.contracts import validate
@@ -13,6 +14,7 @@ from mockazure.calendar.models import (
     Calendar,
     CalendarEvent,
     CalendarEventVersion,
+    CalendarException,
     CalendarGroup,
     CalendarState,
     MeetingDelivery,
@@ -42,10 +44,19 @@ class EventInput(GroupInput):
     transaction_id: str | None = Field(default=None, max_length=256)
 
 
+class ExceptionInput(IdentityInput):
+    master_id: str = Field(min_length=1, max_length=128)
+    day: str
+    overrides: dict
+    deleted: bool = False
+    updated_at: datetime
+
+
 class OwnerInput(IdentityInput):
     user_id: UUID
     default_calendar_id: str
     default_group_id: str
+    exceptions: list[ExceptionInput] = Field(default_factory=list, max_length=10000)
     groups: list[GroupInput] = Field(default_factory=list, max_length=1000)
     calendars: list[CalendarInput] = Field(default_factory=list, max_length=1000)
     events: list[EventInput] = Field(default_factory=list, max_length=10000)
@@ -74,6 +85,36 @@ class OwnerInput(IdentityInput):
                     validate(kind, {**value.payload, "id": value.id})
         except GraphError:
             raise ValueError("Calendar payload violates Graph schema") from None
+        from datetime import date
+
+        from mockazure.calendar.contracts import EVENT_FIELDS
+        from mockazure.calendar.recurrence import recurrence_spec
+
+        masters = {e.id: e for e in self.events}
+        if len({(e.master_id, e.day) for e in self.exceptions}) != len(self.exceptions):
+            raise ValueError("Duplicate calendar exception")
+        for entry in self.exceptions:
+            date.fromisoformat(entry.day)
+            if (
+                entry.updated_at.tzinfo is None
+                or entry.master_id not in masters
+                or not masters[entry.master_id].payload.get("recurrence")
+            ):
+                raise ValueError("Invalid exception parent or timestamp")
+            if entry.overrides.keys() - (
+                EVENT_FIELDS - {"recurrence", "transactionId", "attendees"}
+            ):
+                raise ValueError("Invalid exception override")
+            try:
+                validate("event", entry.overrides)
+            except GraphError:
+                raise ValueError("Invalid exception schema") from None
+        for event in self.events:
+            if event.payload.get("recurrence"):
+                try:
+                    recurrence_spec(event.payload)
+                except GraphError:
+                    raise ValueError("Invalid event recurrence") from None
         return self
 
 
@@ -141,6 +182,25 @@ async def export_calendars(session, tenant):
                         }
                     )
                 document[key].append(value)
+        exceptions = list(
+            await session.scalars(
+                select(CalendarException)
+                .where(
+                    CalendarException.tenant_id == tenant,
+                    CalendarException.user_id == state.user_id,
+                )
+                .limit(10001)
+            )
+        )
+        if len(exceptions) > 10000:
+            raise AdminError(413, "CalendarStateLimit", "Too many calendar exceptions")
+        document["exceptions"] = [
+            {
+                key: getattr(e, key)
+                for key in ["master_id", "day", "overrides", "deleted", "updated_at"]
+            }
+            for e in exceptions
+        ]
         owners.append(document)
     return CalendarStateInput.model_validate({"owners": owners})
 
@@ -196,6 +256,8 @@ async def replace_calendars(session, tenant, value):
         for event in owner.events:
             state.revision += 1
             values = event.model_dump()
+            # New generation revisions restart; old jobs are already fenced out.
+            values["source_revision"] = 0
             session.add(
                 CalendarEvent(
                     tenant_id=tenant, user_id=owner.user_id, revision=state.revision, **values
@@ -212,6 +274,11 @@ async def replace_calendars(session, tenant, value):
                     payload=event.payload,
                     occurred_at=datetime.now(UTC),
                 )
+            )
+        await session.flush()
+        for entry in owner.exceptions:
+            session.add(
+                CalendarException(tenant_id=tenant, user_id=owner.user_id, **entry.model_dump())
             )
         await session.flush()
 
@@ -232,5 +299,50 @@ async def prune_calendars(session, tenant, now, limit):
     )
     if ids:
         await session.execute(delete(MeetingDelivery).where(MeetingDelivery.id.in_(ids)))
-    # History retention is consumed by E3's generation-bound delta/cursor pruning.
-    return len(ids)
+    used = len(ids)
+    if used < limit:
+        newer = aliased(CalendarEventVersion)
+        rows = list(
+            (
+                await session.execute(
+                    select(
+                        CalendarEventVersion.user_id,
+                        CalendarEventVersion.id,
+                        CalendarEventVersion.revision,
+                    )
+                    .where(
+                        CalendarEventVersion.tenant_id == tenant,
+                        CalendarEventVersion.occurred_at < now - timedelta(days=1),
+                        select(newer.revision)
+                        .where(
+                            newer.tenant_id == CalendarEventVersion.tenant_id,
+                            newer.user_id == CalendarEventVersion.user_id,
+                            newer.id == CalendarEventVersion.id,
+                            newer.revision > CalendarEventVersion.revision,
+                        )
+                        .exists(),
+                    )
+                    .order_by(
+                        CalendarEventVersion.occurred_at,
+                        CalendarEventVersion.user_id,
+                        CalendarEventVersion.id,
+                        CalendarEventVersion.revision,
+                    )
+                    .limit(limit - used)
+                )
+            ).all()
+        )
+        if rows:
+            await session.execute(
+                delete(CalendarEventVersion).where(
+                    CalendarEventVersion.tenant_id == tenant,
+                    tuple_(
+                        CalendarEventVersion.user_id,
+                        CalendarEventVersion.id,
+                        CalendarEventVersion.revision,
+                    ).in_(rows),
+                )
+            )
+        used += len(rows)
+    # Delta stores its bounded baseline in expiring cursors, not history authority.
+    return used

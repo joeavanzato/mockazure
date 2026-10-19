@@ -69,12 +69,9 @@ def formatted_event(row, request, basic):
         value["body"] = body_format(value["body"], body.group(1).lower() if body else "html")
     zone = re.search(r'outlook.timezone="([^"]+)"', prefer, re.I)
     zone = zone.group(1) if zone else "UTC"
-    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+    from mockazure.calendar.timezones import resolve_zone
 
-    try:
-        target = UTC if zone == "UTC" else ZoneInfo(zone)
-    except ZoneInfoNotFoundError:
-        invalid("Unsupported response time zone")
+    target = resolve_zone(zone)
     for field in ("start", "end"):
         if value.get(field):
             local = instant(value[field]).astimezone(target).replace(tzinfo=None)

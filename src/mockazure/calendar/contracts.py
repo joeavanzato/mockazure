@@ -2,8 +2,8 @@
 
 import copy
 from datetime import UTC, datetime
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from mockazure.calendar.timezones import resolve_zone
 from mockazure.mail.workflow_contracts import recipient_address
 from mockazure.providers.graph.body import typed_body
 from mockazure.providers.graph.errors import GraphError
@@ -52,15 +52,17 @@ def instant(value):
         value = typed_body(value, "dateTimeTimeZone")
         if set(value) != {"dateTime", "timeZone"}:
             raise ValueError()
-        zone = UTC if value["timeZone"] in {"UTC", "Etc/UTC"} else ZoneInfo(value["timeZone"])
+        zone = resolve_zone(value["timeZone"])
         local = datetime.fromisoformat(value["dateTime"])
         if local.tzinfo is not None:
             raise ValueError()
         aware = local.replace(tzinfo=zone)
+        if aware.utcoffset() != local.replace(tzinfo=zone, fold=1).utcoffset():
+            raise ValueError()
         if aware.astimezone(UTC).astimezone(zone).replace(tzinfo=None) != local:
             raise ValueError()
         return aware.astimezone(UTC)
-    except (KeyError, ValueError, TypeError, ZoneInfoNotFoundError):
+    except (KeyError, ValueError, TypeError):
         invalid("A valid local dateTime and supported timeZone are required")
 
 
@@ -71,8 +73,6 @@ def event_input(body, *, previous=None):
     if isinstance(value.get("body"), dict) and isinstance(value["body"].get("contentType"), str):
         value["body"]["contentType"] = value["body"]["contentType"].lower()
     validate("event", value)
-    if value.get("recurrence") is not None:
-        raise GraphError(501, "NotSupported", "Recurring event writes are not yet enabled")
     if value.get("isOnlineMeeting") or value.get("onlineMeetingProvider", "unknown") != "unknown":
         raise GraphError(501, "NotSupported", "Online meeting provisioning is not supported")
     if "subject" in value and (
@@ -106,6 +106,10 @@ def event_input(body, *, previous=None):
             for field in ("start", "end")
         ):
             invalid("All-day events require midnight boundaries in the same time zone")
+    if result.get("recurrence") is not None:
+        from mockazure.calendar.recurrence import recurrence_spec
+
+        recurrence_spec(result)
     if "location" in value:
         value["locations"] = [] if value["location"] is None else [value["location"]]
     elif "locations" in value:

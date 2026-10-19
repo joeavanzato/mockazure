@@ -32,3 +32,36 @@ opaque paging (1000 per page, 10000 per snapshot); unsupported query options fai
 Event bodies accept at most1MiB, up to500 attendees; action comments at most16384characters.
 Recurrence, Windows zones, calendarView/instances/getSchedule/delta belong to E3 and notification
 subscriptions to E4. Four-ecosystem native qualification remains pending the combined E gate.
+
+
+## E3: recurrence, windows and availability
+
+All six Graph pattern types and all three range types are implemented with pinned
+tzdata2026.5 transition data and CLDR48.1 Windows/IANA mapping (Unicode-3.0 license included).
+Month-end clipping follows the documented Exchange recurrence convention. A recurrence-local
+date identifies an occurrence, preserving IDs when the series time changes; iCalUId is shared
+between corresponding organizer/attendee occurrences and differs between dates. Exceptions
+store only local overrides and cancellation state. Series updates preserve valid overrides;
+removing recurrence retires them. Individual edits enforce the documented neighboring-day
+restriction. Individual response actions and attendee-list edits remain unsupported.
+
+DST gaps and ambiguous fold wall times fail explicitly; no undocumented Exchange choice is
+invented. Calendar windows are limited to366days,10000rows and16MiB, with explicit errors rather
+than truncation. Recurrence evaluation is also bounded. Gregorian patterns only. The same
+pinned tzdata files are loaded directly on every host, independent of host zone databases.
+
+calendarView/instances pages and primary-calendar calendarView/delta use durable one-hour
+tokens, bound to tenant, owner, app, delegated subject, permissions, generation, route and
+preferences. Every resume reauthorizes. Delta stores a bounded baseline fingerprint per item;
+new rounds compare current window state and return changed records and removal tombstones.
+It does not require indefinite event-history retention. Pruning removes old history while
+retaining the latest item snapshot. Import resets recipient source revisions with the new
+generation so new deliveries cannot be suppressed by old revision numbers.
+
+getSchedule supports up to20 individually authorized local targets and a window shorter
+than62days, with intervals5–1440minutes. It derives availability and scheduleItems from canonical
+events and exceptions, without granting calendar authority through the source mailbox. Private
+and basic-read entries omit subject/location. Unknown or unauthorized targets return a local
+per-schedule error. Working-hours settings and distribution-list expansion are not simulated.
+
+Native four-ecosystem and Linux/Windows qualification remains pending the shared E gate.

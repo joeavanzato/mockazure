@@ -1222,6 +1222,7 @@ dependencies = [
     { name = "pyjwt", extra = ["crypto"] },
     { name = "sqlalchemy" },
     { name = "typer" },
+    { name = "tzdata" },
     { name = "uvicorn" },
 ]
 
@@ -1258,6 +1259,7 @@ requires-dist = [
     { name = "pyjwt", extras = ["crypto"], specifier = ">=2.10,<3" },
     { name = "sqlalchemy", specifier = ">=2.0,<2.1" },
     { name = "typer", specifier = ">=0.15,<1" },
+    { name = "tzdata", specifier = "==2026.5" },
     { name = "uvicorn", specifier = ">=0.34,<1" },
 ]
 

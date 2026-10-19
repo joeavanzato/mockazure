@@ -34,6 +34,8 @@ from mockazure.providers.graph.errors import GraphError
 
 
 async def enqueue_meeting(session, actor, box, row, operation, comment, now):
+    from mockazure.calendar.exceptions import snapshot_overrides
+
     identifier = uuid4()
     state = await state_for(session, box)
     job = Job(
@@ -58,6 +60,7 @@ async def enqueue_meeting(session, actor, box, row, operation, comment, now):
             event_id=row.id,
             snapshot={
                 "event": event_view(row),
+                "exceptions": await snapshot_overrides(session, box, row.id),
                 "meeting_id": str(row.meeting_id),
                 "organizer_id": str(row.organizer_id),
                 "revision": row.revision,
@@ -173,13 +176,18 @@ async def deliver_invitation(session, actor, sender, delivery, now):
             existing.payload = payload
             existing.source_revision = data["revision"]
         await save_event(session, target, existing, now)
+        from mockazure.calendar.exceptions import restore_overrides
+
+        await restore_overrides(session, target, existing.id, data.get("exceptions", []))
         await local_message(
             session,
             actor,
             sender,
             target,
             event,
-            "meetingCancelled" if cancelled else "meetingRequest",
+            "meetingCancelled"
+            if cancelled or delivery.operation == "occurrenceCancel"
+            else "meetingRequest",
             data["comment"],
             now,
         )

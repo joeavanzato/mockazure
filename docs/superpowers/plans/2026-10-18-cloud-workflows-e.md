@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** E1/E2 implemented with local regression and source-contract evidence; four-ecosystem qualification remains pending the shared E gate. E3/E4 are next. GitHub CI remains blocked before execution by account billing/spending limits.
+**Status:** E1/E2/E3 implemented with local regression and source-contract evidence; four-ecosystem qualification remains pending the shared E gate. E4 is next; Linux/Windows native qualification remains part of the shared E gate. GitHub CI remains blocked before execution by account billing/spending limits.
 
 ## Global Constraints
 
@@ -94,7 +94,7 @@ assert invalid_owner_mutation.status_code == expected_permission_error
 
 **Interfaces:** Produce `expand_occurrences(series: dict, start: datetime, end: datetime, limit: int) -> list[dict]`; `async read_calendar_view(session: AsyncSession, actor: PrincipalContext, owner_id: UUID, query: dict, now: datetime) -> dict`; `async read_calendar_delta(session: AsyncSession, actor: PrincipalContext, owner_id: UUID, query: dict, now: datetime) -> dict`. Recurrence owns supported pattern/range parsing, time-zone mappings and stable occurrence/exception identity.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_calendar_dst_and_exceptions crosses spring/fall time transitions, changes a single occurrence, cancels one, changes the series and compares calendarView/instances. test_calendar_delta_reauthorization resumes a bound date-window cursor after restart, rejects another scope/window and rechecks permissions. getSchedule must show only the authorized availability shape.
+- [x] **Step 1 — Add the named failing scenarios.** test_calendar_dst_and_exceptions crosses spring/fall time transitions, changes a single occurrence, cancels one, changes the series and compares calendarView/instances. test_calendar_delta_reauthorization resumes a bound date-window cursor after restart, rejects another scope/window and rechecks permissions. getSchedule must show only the authorized availability shape.
 
 ```python
 assert occurrence_ids == expected_stable_ids
@@ -103,10 +103,10 @@ assert len(window_ids) == len(set(window_ids))
 assert revoked_delta.status_code == 403
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_calendar_recurrence.py tests/integration/test_graph_calendar_views.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Implement all approved documented recurrence pattern/range forms and sourced Windows/IANA mappings using a pinned, licensed time-zone dependency/data source if stdlib is insufficient; validate Windows and Linux equivalence. Bound expansion with explicit errors, never silent truncation. Add calendarView/instances/getSchedule and only documented v1.0 delta paths/options with current-access checks and tombstones. Test malformed/ambiguous local times against the selected documented profile.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_calendar_recurrence.py tests/integration/test_graph_calendar_views.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Implement all approved documented recurrence pattern/range forms and sourced Windows/IANA mappings using a pinned, licensed time-zone dependency/data source if stdlib is insufficient; validate Windows and Linux equivalence. Bound expansion with explicit errors, never silent truncation. Add calendarView/instances/getSchedule and only documented v1.0 delta paths/options with current-access checks and tombstones. Test malformed/ambiguous local times against the selected documented profile.
 - [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add calendar recurrence availability and delta"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add calendar recurrence availability and delta"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task E4: Subscriptions and local notification delivery
 

@@ -120,3 +120,21 @@ class MeetingDelivery(Base):
     operation: Mapped[str] = mapped_column(String(32))
     event_id: Mapped[str] = mapped_column(String(128))
     snapshot: Mapped[dict] = mapped_column(JSONB)
+
+
+class CalendarException(Base):
+    __tablename__ = "calendar_exceptions"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "user_id", "master_id"],
+            ["calendar_events.tenant_id", "calendar_events.user_id", "calendar_events.id"],
+            ondelete="CASCADE",
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    user_id: Mapped[UUID] = mapped_column(primary_key=True)
+    master_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    day: Mapped[str] = mapped_column(String(10), primary_key=True)
+    overrides: Mapped[dict] = mapped_column(JSONB)
+    deleted: Mapped[bool]
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))

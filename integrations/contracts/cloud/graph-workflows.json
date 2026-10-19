@@ -1839,7 +1839,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -1952,7 +1951,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2068,7 +2066,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2181,7 +2178,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2288,7 +2284,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2426,7 +2421,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2533,7 +2527,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2645,7 +2638,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2754,7 +2746,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2865,7 +2856,6 @@
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
         "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
       ],
@@ -2994,14 +2984,62 @@
           "localPath": "sources/concepts__permissions-reference.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3113,14 +3151,62 @@
           "localPath": "sources/api-reference__v1.0__api__calendar-post-events.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3227,14 +3313,62 @@
           "localPath": "sources/concepts__permissions-reference.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3338,14 +3472,62 @@
           "localPath": "sources/concepts__permissions-reference.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3443,14 +3625,62 @@
           "localPath": "sources/concepts__permissions-reference.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3560,14 +3790,62 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__event-accept-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3678,14 +3956,62 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__event-tentativelyaccept-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3796,14 +4122,62 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__event-decline-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3914,14 +4288,62 @@
           "localPath": "sources/api-reference__v1.0__includes__permissions__event-cancel-permissions.md",
           "license": "CC-BY-4.0",
           "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
         }
       ],
       "limitations": [
         "User mailbox calendars only; Microsoft365 group calendars and calendar-specific sharing APIs are outside this profile.",
         "Local meeting delivery only. Online meeting provisioning, event attachments/extensions and proposed new times are not implemented.",
-        "Recurrence, Windows time zones, calendarView, delta and availability are supplied by task E3, not this E2 checkpoint.",
         "Calendar-specific ACLs are unsupported; shared-calendar access requires current FullAccess mailbox delegation plus Calendars.*.Shared.",
-        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate."
+        "Delete active events before deleting a non-default calendar; delete calendars before their group. Four-ecosystem native qualification is pending the shared E gate.",
+        "DST gap/fold wall times fail explicitly. Recurrence is Gregorian only; occurrence responses and occurrence-specific attendee edits remain unsupported."
       ],
       "tests": [
         "tests/integration/test_graph_calendar_workflows.py",
@@ -3931,6 +4353,786 @@
       ],
       "status": "implemented",
       "action": "cancel"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendar.calendarView",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/calendarView",
+      "aliases": [
+        "/me/calendarView",
+        "/users/{user}/calendar/calendarView",
+        "/me/calendar/calendarView",
+        "/users/{user}/calendars/{calendar}/calendarView",
+        "/me/calendars/{calendar}/calendarView",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/calendarView",
+        "/me/calendarGroups/{group}/calendars/{calendar}/calendarView"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "schema.json#/types/event"
+              }
+            },
+            "@odata.nextLink": {
+              "type": "string"
+            },
+            "@odata.deltaLink": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        410,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "startDateTime",
+        "endDateTime",
+        "$select",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": {
+        "localWindowDays": 366,
+        "localSnapshotRows": 10000,
+        "localSnapshotBytes": 16777216,
+        "localPageSize": 1000,
+        "continuationLifetimeSeconds": 3600
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencepattern.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a2e8239735375d9e80a2a9e49b17b7e94edc2ac796e7e35237dd3bdb6ebc2dbb",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencepattern.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencerange.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "9719c82fc7f44dfbd67d0b56e1ae45e6f74b75bc3cb5b4d4218652e55672ea5b",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencerange.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; no Microsoft365 group calendar support.",
+        "DST gap/fold wall times reject explicitly; Gregorian recurrence only.",
+        "Delta uses expiring local snapshot baselines and returns changed items/removals; no invented delta aliases or unsupported query options.",
+        "getSchedule applies current target-mailbox authority and omits private/basic-read subject/location. Working-hours settings and distribution-list expansion are not modeled.",
+        "Occurrence-specific response actions and attendee changes are unsupported; edit attendees on the series master.",
+        "Four-ecosystem native E qualification remains pending."
+      ],
+      "tests": [
+        "tests/unit/test_calendar_recurrence.py",
+        "tests/integration/test_graph_calendar_views.py",
+        "tests/integration/test_graph_calendar_lifecycle.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.instances",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/events/{id}/instances",
+      "aliases": [
+        "/me/events/{id}/instances",
+        "/users/{user}/calendar/events/{id}/instances",
+        "/me/calendar/events/{id}/instances",
+        "/users/{user}/calendars/{calendar}/events/{id}/instances",
+        "/me/calendars/{calendar}/events/{id}/instances",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/instances",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/instances"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "schema.json#/types/event"
+              }
+            },
+            "@odata.nextLink": {
+              "type": "string"
+            },
+            "@odata.deltaLink": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        410,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "startDateTime",
+        "endDateTime",
+        "$select",
+        "$top",
+        "$count",
+        "$skiptoken"
+      ],
+      "limits": {
+        "localWindowDays": 366,
+        "localSnapshotRows": 10000,
+        "localSnapshotBytes": 16777216,
+        "localPageSize": 1000,
+        "continuationLifetimeSeconds": 3600
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-list-instances.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "fe7f45d1da26c8e1335e59877486b50942a71466e1b7287473a8d871edcc3853",
+          "localPath": "sources/api-reference__v1.0__api__event-list-instances.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencepattern.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a2e8239735375d9e80a2a9e49b17b7e94edc2ac796e7e35237dd3bdb6ebc2dbb",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencepattern.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencerange.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "9719c82fc7f44dfbd67d0b56e1ae45e6f74b75bc3cb5b4d4218652e55672ea5b",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencerange.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; no Microsoft365 group calendar support.",
+        "DST gap/fold wall times reject explicitly; Gregorian recurrence only.",
+        "Delta uses expiring local snapshot baselines and returns changed items/removals; no invented delta aliases or unsupported query options.",
+        "getSchedule applies current target-mailbox authority and omits private/basic-read subject/location. Working-hours settings and distribution-list expansion are not modeled.",
+        "Occurrence-specific response actions and attendee changes are unsupported; edit attendees on the series master.",
+        "Four-ecosystem native E qualification remains pending."
+      ],
+      "tests": [
+        "tests/unit/test_calendar_recurrence.py",
+        "tests/integration/test_graph_calendar_views.py",
+        "tests/integration/test_graph_calendar_lifecycle.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "event.delta",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "GET",
+      "path": "/users/{user}/calendarView/delta",
+      "aliases": [
+        "/me/calendarView/delta"
+      ],
+      "requestSchema": null,
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "schema.json#/types/event"
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "@removed"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "@removed": {
+                        "type": "object",
+                        "properties": {
+                          "reason": {
+                            "const": "deleted"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "@odata.nextLink": {
+              "type": "string"
+            },
+            "@odata.deltaLink": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        410,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [
+        "startDateTime",
+        "endDateTime",
+        "$skiptoken",
+        "$deltatoken"
+      ],
+      "limits": {
+        "localWindowDays": 366,
+        "localSnapshotRows": 10000,
+        "localSnapshotBytes": 16777216,
+        "localPageSize": 1000,
+        "continuationLifetimeSeconds": 3600
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/event-delta.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "0696683ad756d443eb7a83b7582ce30c5a8a074aa94a07b58c2006708039ae5b",
+          "localPath": "sources/api-reference__v1.0__api__event-delta.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencepattern.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a2e8239735375d9e80a2a9e49b17b7e94edc2ac796e7e35237dd3bdb6ebc2dbb",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencepattern.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencerange.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "9719c82fc7f44dfbd67d0b56e1ae45e6f74b75bc3cb5b4d4218652e55672ea5b",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencerange.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; no Microsoft365 group calendar support.",
+        "DST gap/fold wall times reject explicitly; Gregorian recurrence only.",
+        "Delta uses expiring local snapshot baselines and returns changed items/removals; no invented delta aliases or unsupported query options.",
+        "getSchedule applies current target-mailbox authority and omits private/basic-read subject/location. Working-hours settings and distribution-list expansion are not modeled.",
+        "Occurrence-specific response actions and attendee changes are unsupported; edit attendees on the series master.",
+        "Four-ecosystem native E qualification remains pending."
+      ],
+      "tests": [
+        "tests/unit/test_calendar_recurrence.py",
+        "tests/integration/test_graph_calendar_views.py",
+        "tests/integration/test_graph_calendar_lifecycle.py"
+      ],
+      "status": "implemented"
+    },
+    {
+      "kind": "rest",
+      "operationId": "calendar.getSchedule",
+      "service": "graph-workflows",
+      "version": "v1.0",
+      "method": "POST",
+      "path": "/users/{user}/calendar/getSchedule",
+      "aliases": [
+        "/me/calendar/getSchedule"
+      ],
+      "requestSchema": {
+        "type": "action",
+        "reference": "schema.json",
+        "name": "getSchedule"
+      },
+      "responseSchemas": {
+        "200": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "schema.json#/types/scheduleInformation"
+              }
+            },
+            "@odata.nextLink": {
+              "type": "string"
+            },
+            "@odata.deltaLink": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "statusCodes": [
+        200,
+        400,
+        401,
+        403,
+        404,
+        410,
+        413,
+        429,
+        501
+      ],
+      "headers": [
+        "Authorization",
+        "Content-Type",
+        "Prefer",
+        "Preference-Applied",
+        "request-id",
+        "client-request-id"
+      ],
+      "permissions": {
+        "application": [
+          "Calendars.ReadBasic.All",
+          "Calendars.Read",
+          "Calendars.ReadWrite"
+        ],
+        "delegated": [
+          "Calendars.ReadBasic",
+          "Calendars.Read",
+          "Calendars.ReadWrite",
+          "Calendars.Read.Shared",
+          "Calendars.ReadWrite.Shared"
+        ]
+      },
+      "queryOptions": [],
+      "limits": {
+        "localWindowDays": 366,
+        "localSnapshotRows": 10000,
+        "localSnapshotBytes": 16777216,
+        "localPageSize": 1000,
+        "continuationLifetimeSeconds": 3600,
+        "schedules": 20,
+        "windowDaysExclusive": 62,
+        "intervalMinutesMin": 5,
+        "intervalMinutesMax": 1440
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+          "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+          "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0",
+          "localPath": "sources/v1.0-Prod.csdl",
+          "license": "MIT",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/calendar-getschedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "9b6ec6652f9938ba0fa6b8d6e1107ee170fbd1672e56fa87e054d5962ecf91e6",
+          "localPath": "sources/api-reference__v1.0__api__calendar-getschedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/event.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "49c6e16531bbf1ecd102a84c6e04d12dd7c5041d169fbe079600211796be07cd",
+          "localPath": "sources/api-reference__v1.0__resources__event.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencepattern.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "a2e8239735375d9e80a2a9e49b17b7e94edc2ac796e7e35237dd3bdb6ebc2dbb",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencepattern.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/resources/recurrencerange.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "9719c82fc7f44dfbd67d0b56e1ae45e6f74b75bc3cb5b4d4218652e55672ea5b",
+          "localPath": "sources/api-reference__v1.0__resources__recurrencerange.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-schedule-recurring-events.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "eb24de78d50f5a920a4e6be6b915d4a98a5be45215afc239a2575f6888221686",
+          "localPath": "sources/concepts__outlook-schedule-recurring-events.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/concepts/outlook-get-free-busy-schedule.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c3b13188298627c70e8d65dd6b7aa20ca540dec715a1d43c6839fa8fea79d829",
+          "localPath": "sources/concepts__outlook-get-free-busy-schedule.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/98a98cc88051a857c119a2e1bb61587633585284/api-reference/v1.0/api/user-list-calendarview.md",
+          "revision": "98a98cc88051a857c119a2e1bb61587633585284",
+          "sha256": "c4bbca289e2afdcc2f7a330e3fc4b1b1e77ea56e310afe7a0c4bfa27e8c4c6a6",
+          "localPath": "sources/api-reference__v1.0__api__user-list-calendarview.md",
+          "license": "CC-BY-4.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/4f8a95e3-542a-4c8b-88b3-1b00355286e7",
+          "revision": "dd74261849a0340f55cf8d02f2f16521d3884cde",
+          "sha256": "7235f4cba0a16b0893bcd2c048cacbf5f610dcbfbdec1a77a3f0a574e27d6a77",
+          "localPath": "sources/exchange-month-end.html",
+          "license": "Microsoft-Open-Specifications",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/common/supplemental/windowsZones.xml",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "9cf3db6a31fb382fee21b70be6feba1e82766b0fcd06e6261fb7936a73e537ff",
+          "localPath": "sources/windowsZones.xml",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/225136a3bd3eff573f3d64c8fa25d6f9afa974ad/LICENSE",
+          "revision": "225136a3bd3eff573f3d64c8fa25d6f9afa974ad",
+          "sha256": "b4c0ae8ef04f7059f96ce5bbe0467f9fe6f6d81bbe13517701dfeb961fb4d0b6",
+          "localPath": "sources/CLDR-LICENSE.txt",
+          "license": "Unicode-3.0",
+          "retrievedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "limitations": [
+        "User mailbox calendars only; no Microsoft365 group calendar support.",
+        "DST gap/fold wall times reject explicitly; Gregorian recurrence only.",
+        "Delta uses expiring local snapshot baselines and returns changed items/removals; no invented delta aliases or unsupported query options.",
+        "getSchedule applies current target-mailbox authority and omits private/basic-read subject/location. Working-hours settings and distribution-list expansion are not modeled.",
+        "Occurrence-specific response actions and attendee changes are unsupported; edit attendees on the series master.",
+        "Four-ecosystem native E qualification remains pending."
+      ],
+      "tests": [
+        "tests/unit/test_calendar_recurrence.py",
+        "tests/integration/test_graph_calendar_views.py",
+        "tests/integration/test_graph_calendar_lifecycle.py"
+      ],
+      "status": "implemented",
+      "action": "getSchedule"
     }
   ]
 }

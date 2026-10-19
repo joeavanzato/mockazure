@@ -121,6 +121,10 @@ async def calendar_for(session, box, calendar_id=None, group_id=None):
 
 
 async def event_for(session, box, event_id, calendar_id=None, *, deleted=False):
+    if ".o." in event_id:
+        from mockazure.calendar.exceptions import occurrence_for
+
+        return await occurrence_for(session, box, event_id, calendar_id, deleted=deleted)
     row = await session.get(CalendarEvent, (box.tenant_id, box.user_id, event_id))
     if (
         row is None
@@ -217,6 +221,12 @@ async def mutate_event(
     box = await resolve_mailbox(session, actor.tenant_id, str(owner_id))
     await require_calendar_access(session, actor, box, write=True)
     calendar = await calendar_for(session, box, calendar_id)
+    if event_id and ".o." in event_id:
+        from mockazure.calendar.exceptions import mutate_occurrence
+
+        return await mutate_occurrence(
+            session, actor, box, event_id, calendar.id, operation, body, now
+        )
     row = await event_for(session, box, event_id, calendar.id) if event_id else None
     before = (
         {}
@@ -296,6 +306,10 @@ async def mutate_event(
                 invalid("Only the organizer can change meeting content")
         body = event_input(body, previous=row.payload)
         row.payload = {**row.payload, **body}
+        if "recurrence" in body and body["recurrence"] is None:
+            from mockazure.calendar.exceptions import restore_overrides
+
+            await restore_overrides(session, box, row.id, [])
     elif operation in {"delete", "cancel"}:
         if operation == "cancel":
             action_input(operation, body)
@@ -337,6 +351,11 @@ async def mutate_event(
                 }
                 for a in row.payload.get("attendees", [])
             ],
+        }
+    if operation in {"create", "update"}:
+        row.payload = {
+            **row.payload,
+            "type": "seriesMaster" if row.payload.get("recurrence") else "singleInstance",
         }
     await save_event(session, box, row, now)
     await event_fact(
