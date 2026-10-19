@@ -22,6 +22,7 @@ RECIPE_FAMILIES = {
     "mail-folders": ("mail.folders", "append", "fixture"),
     "calendar": ("mail.events", "create", "service"),
     "license": ("identity.skus", "provision", "fixture"),
+    "entra-license": ("identity.skus", "provision", "fixture"),
     "subscription": ("arm.subscriptions", "import", "fixture"),
     "group": ("arm.resourceGroups", "import", "fixture"),
     "roles": ("arm.roles", "assign", "fixture"),
@@ -116,6 +117,21 @@ def generate(name, parameters, refs, *, offset, limit):
                         "timeZone": "UTC",
                     },
                 },
+            }
+        elif kind == "entra-license":
+            from mockazure.licensing.catalog import P2_PLAN, P2_SKU
+
+            body = {
+                "id": str(P2_SKU),
+                "sku_part_number": "AAD_PREMIUM_P2",
+                "enabled": 100000,
+                "service_plans": [
+                    {
+                        "servicePlanId": str(P2_PLAN),
+                        "servicePlanName": "AAD_PREMIUM_P2",
+                        "provisioningStatus": "Success",
+                    }
+                ],
             }
         elif kind == "license":
             body = {

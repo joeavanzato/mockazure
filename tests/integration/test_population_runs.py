@@ -155,3 +155,27 @@ async def test_two_tenants_can_hold_independent_worker_claims(database, settings
         assert {one.tenant_id, two.tenant_id} == {first.tenant_id, second.tenant_id}
         assert (await process_population(database, one, datetime.now(UTC))).state == "pending"
         assert (await process_population(database, two, datetime.now(UTC))).state == "pending"
+
+
+async def test_starter_profile_provisions_license_for_public_signin_collection(database, settings):
+    from sqlalchemy import select
+
+    from mockazure.population.identity import resolve_identity
+    from mockazure.population.identity_models import LabIdentity
+    from mockazure.population.transport import LocalTransport
+    from mockazure.population.types import AdapterContext
+
+    async with identity_client(database, settings) as (client, tenant, *_):
+        p = await preview(database, request_for(tenant), datetime.now(UTC))
+        created = await submit_run(database, p.id, p.digest, datetime.now(UTC))
+        assert (await drive(database, created.id)).state == "succeeded"
+        ctx = AdapterContext(database, settings, created.tenant_id)
+        async with database.sessions() as session:
+            binding = await session.scalar(
+                select(LabIdentity).where(LabIdentity.tenant_id == created.tenant_id)
+            )
+        response = await LocalTransport(
+            ctx, await resolve_identity(ctx, binding.name), client=client
+        ).request("graph", "GET", "/v1.0/auditLogs/signIns")
+        assert response.status_code == 200, response.text
+        assert len(response.json()["value"]) == 5

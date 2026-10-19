@@ -124,6 +124,7 @@
     "recipe.content",
     "recipe.diagnostics",
     "recipe.entity",
+    "recipe.entra-license",
     "recipe.file",
     "recipe.group",
     "recipe.license",

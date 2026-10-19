@@ -46,6 +46,16 @@
       },
       "dependsOn": [],
       "target": "client"
+    },
+    "entra-license": {
+      "family": "identity.skus",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.entra-license",
+        "count": 1
+      },
+      "dependsOn": []
     }
   },
   "resources": {

@@ -2,7 +2,7 @@
 
 from mockazure.population.generators import cloud, directory, evidence, mail, recipes, workloads
 
-VERSION = "lab-generators-v1"
+VERSION = "lab-generators-v2"
 GENERATORS = {
     "directory.users": (directory, "directory.users"),
     "directory.groups": (directory, "directory.groups"),
