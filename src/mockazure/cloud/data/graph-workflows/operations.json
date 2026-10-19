@@ -10,7 +10,9 @@
       "method": "POST",
       "path": "/users/{user}/sendMail",
       "aliases": [
-        "/me/sendMail"
+        "/me/sendMail",
+        "/users/{user}/microsoft.graph.sendMail",
+        "/me/microsoft.graph.sendMail"
       ],
       "action": "sendMail",
       "requestSchema": {
@@ -330,7 +332,11 @@
       "aliases": [
         "/me/messages/{message}/send",
         "/users/{user}/mailFolders/{folder}/messages/{message}/send",
-        "/me/mailFolders/{folder}/messages/{message}/send"
+        "/me/mailFolders/{folder}/messages/{message}/send",
+        "/users/{user}/messages/{message}/microsoft.graph.send",
+        "/me/messages/{message}/microsoft.graph.send",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/microsoft.graph.send",
+        "/me/mailFolders/{folder}/messages/{message}/microsoft.graph.send"
       ],
       "action": "send",
       "requestSchema": {
@@ -446,7 +452,11 @@
       "aliases": [
         "/me/messages/{message}/reply",
         "/users/{user}/mailFolders/{folder}/messages/{message}/reply",
-        "/me/mailFolders/{folder}/messages/{message}/reply"
+        "/me/mailFolders/{folder}/messages/{message}/reply",
+        "/users/{user}/messages/{message}/microsoft.graph.reply",
+        "/me/messages/{message}/microsoft.graph.reply",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/microsoft.graph.reply",
+        "/me/mailFolders/{folder}/messages/{message}/microsoft.graph.reply"
       ],
       "action": "reply",
       "requestSchema": {
@@ -562,7 +572,11 @@
       "aliases": [
         "/me/messages/{message}/replyAll",
         "/users/{user}/mailFolders/{folder}/messages/{message}/replyAll",
-        "/me/mailFolders/{folder}/messages/{message}/replyAll"
+        "/me/mailFolders/{folder}/messages/{message}/replyAll",
+        "/users/{user}/messages/{message}/microsoft.graph.replyAll",
+        "/me/messages/{message}/microsoft.graph.replyAll",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/microsoft.graph.replyAll",
+        "/me/mailFolders/{folder}/messages/{message}/microsoft.graph.replyAll"
       ],
       "action": "replyAll",
       "requestSchema": {
@@ -678,7 +692,11 @@
       "aliases": [
         "/me/messages/{message}/forward",
         "/users/{user}/mailFolders/{folder}/messages/{message}/forward",
-        "/me/mailFolders/{folder}/messages/{message}/forward"
+        "/me/mailFolders/{folder}/messages/{message}/forward",
+        "/users/{user}/messages/{message}/microsoft.graph.forward",
+        "/me/messages/{message}/microsoft.graph.forward",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/microsoft.graph.forward",
+        "/me/mailFolders/{folder}/messages/{message}/microsoft.graph.forward"
       ],
       "action": "forward",
       "requestSchema": {
@@ -794,7 +812,11 @@
       "aliases": [
         "/me/messages/{message}/createReply",
         "/users/{user}/mailFolders/{folder}/messages/{message}/createReply",
-        "/me/mailFolders/{folder}/messages/{message}/createReply"
+        "/me/mailFolders/{folder}/messages/{message}/createReply",
+        "/users/{user}/messages/{message}/microsoft.graph.createReply",
+        "/me/messages/{message}/microsoft.graph.createReply",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/microsoft.graph.createReply",
+        "/me/mailFolders/{folder}/messages/{message}/microsoft.graph.createReply"
       ],
       "action": "createReply",
       "requestSchema": {
@@ -912,7 +934,11 @@
       "aliases": [
         "/me/messages/{message}/createReplyAll",
         "/users/{user}/mailFolders/{folder}/messages/{message}/createReplyAll",
-        "/me/mailFolders/{folder}/messages/{message}/createReplyAll"
+        "/me/mailFolders/{folder}/messages/{message}/createReplyAll",
+        "/users/{user}/messages/{message}/microsoft.graph.createReplyAll",
+        "/me/messages/{message}/microsoft.graph.createReplyAll",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/microsoft.graph.createReplyAll",
+        "/me/mailFolders/{folder}/messages/{message}/microsoft.graph.createReplyAll"
       ],
       "action": "createReplyAll",
       "requestSchema": {
@@ -1030,7 +1056,11 @@
       "aliases": [
         "/me/messages/{message}/createForward",
         "/users/{user}/mailFolders/{folder}/messages/{message}/createForward",
-        "/me/mailFolders/{folder}/messages/{message}/createForward"
+        "/me/mailFolders/{folder}/messages/{message}/createForward",
+        "/users/{user}/messages/{message}/microsoft.graph.createForward",
+        "/me/messages/{message}/microsoft.graph.createForward",
+        "/users/{user}/mailFolders/{folder}/messages/{message}/microsoft.graph.createForward",
+        "/me/mailFolders/{folder}/messages/{message}/microsoft.graph.createForward"
       ],
       "action": "createForward",
       "requestSchema": {
@@ -1336,7 +1366,9 @@
       "method": "POST",
       "path": "/users/{user}/messages/{message}/attachments/createUploadSession",
       "aliases": [
-        "/me/messages/{message}/attachments/createUploadSession"
+        "/me/messages/{message}/attachments/createUploadSession",
+        "/users/{user}/messages/{message}/attachments/microsoft.graph.createUploadSession",
+        "/me/messages/{message}/attachments/microsoft.graph.createUploadSession"
       ],
       "action": "createUploadSession",
       "requestSchema": {
@@ -3704,7 +3736,15 @@
         "/users/{user}/calendars/{calendar}/events/{id}/accept",
         "/me/calendars/{calendar}/events/{id}/accept",
         "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/accept",
-        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/accept"
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/accept",
+        "/users/{user}/events/{id}/microsoft.graph.accept",
+        "/me/events/{id}/microsoft.graph.accept",
+        "/users/{user}/calendar/events/{id}/microsoft.graph.accept",
+        "/me/calendar/events/{id}/microsoft.graph.accept",
+        "/users/{user}/calendars/{calendar}/events/{id}/microsoft.graph.accept",
+        "/me/calendars/{calendar}/events/{id}/microsoft.graph.accept",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.accept",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.accept"
       ],
       "requestSchema": {
         "type": "action",
@@ -3870,7 +3910,15 @@
         "/users/{user}/calendars/{calendar}/events/{id}/tentativelyAccept",
         "/me/calendars/{calendar}/events/{id}/tentativelyAccept",
         "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/tentativelyAccept",
-        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/tentativelyAccept"
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/tentativelyAccept",
+        "/users/{user}/events/{id}/microsoft.graph.tentativelyAccept",
+        "/me/events/{id}/microsoft.graph.tentativelyAccept",
+        "/users/{user}/calendar/events/{id}/microsoft.graph.tentativelyAccept",
+        "/me/calendar/events/{id}/microsoft.graph.tentativelyAccept",
+        "/users/{user}/calendars/{calendar}/events/{id}/microsoft.graph.tentativelyAccept",
+        "/me/calendars/{calendar}/events/{id}/microsoft.graph.tentativelyAccept",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.tentativelyAccept",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.tentativelyAccept"
       ],
       "requestSchema": {
         "type": "action",
@@ -4036,7 +4084,15 @@
         "/users/{user}/calendars/{calendar}/events/{id}/decline",
         "/me/calendars/{calendar}/events/{id}/decline",
         "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/decline",
-        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/decline"
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/decline",
+        "/users/{user}/events/{id}/microsoft.graph.decline",
+        "/me/events/{id}/microsoft.graph.decline",
+        "/users/{user}/calendar/events/{id}/microsoft.graph.decline",
+        "/me/calendar/events/{id}/microsoft.graph.decline",
+        "/users/{user}/calendars/{calendar}/events/{id}/microsoft.graph.decline",
+        "/me/calendars/{calendar}/events/{id}/microsoft.graph.decline",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.decline",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.decline"
       ],
       "requestSchema": {
         "type": "action",
@@ -4202,7 +4258,15 @@
         "/users/{user}/calendars/{calendar}/events/{id}/cancel",
         "/me/calendars/{calendar}/events/{id}/cancel",
         "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/cancel",
-        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/cancel"
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/cancel",
+        "/users/{user}/events/{id}/microsoft.graph.cancel",
+        "/me/events/{id}/microsoft.graph.cancel",
+        "/users/{user}/calendar/events/{id}/microsoft.graph.cancel",
+        "/me/calendar/events/{id}/microsoft.graph.cancel",
+        "/users/{user}/calendars/{calendar}/events/{id}/microsoft.graph.cancel",
+        "/me/calendars/{calendar}/events/{id}/microsoft.graph.cancel",
+        "/users/{user}/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.cancel",
+        "/me/calendarGroups/{group}/calendars/{calendar}/events/{id}/microsoft.graph.cancel"
       ],
       "requestSchema": {
         "type": "action",
@@ -6235,7 +6299,9 @@
       "version": "v1.0",
       "method": "POST",
       "path": "/subscriptions/{id}/reauthorize",
-      "aliases": [],
+      "aliases": [
+        "/subscriptions/{id}/microsoft.graph.reauthorize"
+      ],
       "requestSchema": null,
       "responseSchemas": {
         "204": null

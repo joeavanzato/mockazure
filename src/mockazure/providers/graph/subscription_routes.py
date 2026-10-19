@@ -72,7 +72,8 @@ async def handle(request: Request):
                 return JSONResponse({"value": result})
             operation = (
                 "reauthorize"
-                if request.url.path.endswith("/reauthorize")
+                if request.url.path.rsplit("/", 1)[-1]
+                in {"reauthorize", "microsoft.graph.reauthorize"}
                 else {"POST": "create", "PATCH": "update", "DELETE": "delete"}[request.method]
             )
             body = await read_json(request, allow_empty=operation in {"delete", "reauthorize"})
@@ -91,6 +92,9 @@ router.add_api_route(
     "/v1.0/subscriptions/{subscription_id}", handle, methods=["GET", "PATCH", "DELETE"]
 )
 router.add_api_route("/v1.0/subscriptions/{subscription_id}/reauthorize", handle, methods=["POST"])
+router.add_api_route(
+    "/v1.0/subscriptions/{subscription_id}/microsoft.graph.reauthorize", handle, methods=["POST"]
+)
 
 
 @router.post(

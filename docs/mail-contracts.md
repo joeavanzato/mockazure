@@ -788,3 +788,5 @@ and [mailbox audit operations](https://learn.microsoft.com/en-us/purview/audit-m
 Mail actions accept the exact PascalCase parameter spellings generated from the pinned Microsoft CSDL as well as documented lower-camel REST spellings. Supplying both spellings of one parameter is rejected. Resource property names remain schema-bound.
 
 Accepted local sends and attachment-upload capabilities recheck current Graph consent in addition to current identity and mailbox delegation. Forward/createForward preserve source body content and attachments; text commentary is escaped when composed into an HTML forward. Quoting layout is a local representation rather than a claim of identical Outlook rendering.
+
+Bound mail actions also accept their exact `microsoft.graph.<action>` CSDL-qualified URI forms. The original Graph PowerShell 2.35.1 Users.Actions module emits this form for sendMail; action parameter casing and all authorization/validation remain identical. Unsupported namespaces and actions are not normalized into valid routes.
