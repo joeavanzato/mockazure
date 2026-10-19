@@ -22,6 +22,7 @@ dependencies = [
   "typer>=0.15,<1",
   "httpx>=0.28,<1",
   "pyjwt[crypto]>=2.10,<3",
+  "tzdata==2026.5",
 ]
 
 [project.scripts]

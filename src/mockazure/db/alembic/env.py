@@ -2,6 +2,7 @@ from alembic import context
 
 from mockazure.activity import models as activity_models  # noqa: F401
 from mockazure.auditlog import models as auditlog_models  # noqa: F401
+from mockazure.calendar import models as calendar_models  # noqa: F401
 from mockazure.cloud import models as cloud_models  # noqa: F401
 from mockazure.collections import models as collection_models  # noqa: F401
 from mockazure.content import models as content_models  # noqa: F401
@@ -15,12 +16,14 @@ from mockazure.mail import (
     delegation_models,  # noqa: F401
     role_management_models,  # noqa: F401
     security_configuration_models,  # noqa: F401
+    send_models,  # noqa: F401
     unified_audit_models,  # noqa: F401
 )
 from mockazure.mail import message_models as mail_message_models  # noqa: F401
 from mockazure.mail import models as mail_models  # noqa: F401
 from mockazure.managed_identity import models as managed_identity_models  # noqa: F401
 from mockazure.monitor import workspaces as workspace_models  # noqa: F401
+from mockazure.notifications import models as notification_models  # noqa: F401
 from mockazure.security import (
     authentication_models,  # noqa: F401
     reset_model,  # noqa: F401

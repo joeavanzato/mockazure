@@ -8,7 +8,7 @@
 **Tech Stack:** Python 3.12+, FastAPI, SQLAlchemy/psycopg, PostgreSQL 18, Docker; official Python, PowerShell, .NET and JavaScript/TypeScript clients.
 **Spec:** [Approved cloud workflows specification](../specs/2026-10-18-cloud-workflows-design.md).
 **Program:** [Execution index and shared acceptance contract](2026-10-18-cloud-workflows.md).
-**Status:** Proposed implementation plan; no tasks executed.
+**Status:** E1-E4 implemented, reviewed, and locally qualified through all four original client ecosystems at runtime dc40b79. Named E regression130PASS and harness16PASS; [evidence](../../qualification/cloud-phase-e.md). GitHub CI remains unverified; F and final G gates remain pending.
 
 ## Global Constraints
 
@@ -46,7 +46,7 @@ Authoritative source starting points: [sendMail](https://learn.microsoft.com/en-
 
 **Interfaces:** Produce `async accept_mail_action(session: AsyncSession, actor: PrincipalContext, mailbox_id: UUID, action: str, message_id: str | None, body: dict | bytes, now: datetime) -> MutationResult`; `async process_mail_delivery(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult`. Consume A2 `require_send_identity`; attachments use shared content and explicit public upload-session rules.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_sendmail_wire_and_local_delivery checks JSON and base64 MIME input, empty 202, saved Sent Items and delivered local recipient copy after a worker cycle. test_draft_reply_forward verifies references/recipients/attachments and supported send identities. test_attachment_upload_contract tests content ranges, expiry, size limits and upload-session authority. Do not add generic idempotency guarantees absent from the operation contract.
+- [x] **Step 1 — Add the named failing scenarios.** test_sendmail_wire_and_local_delivery checks JSON and base64 MIME input, empty 202, saved Sent Items and delivered local recipient copy after a worker cycle. test_draft_reply_forward verifies references/recipients/attachments and supported send identities. test_attachment_upload_contract tests content ranges, expiry, size limits and upload-session authority. Do not add generic idempotency guarantees absent from the operation contract.
 
 ```python
 assert accepted.status_code == 202 and accepted.content == b''
@@ -55,10 +55,10 @@ assert sender_sent_item_count == expected_sent_items
 assert unauthorized_send.status_code == 403
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_graph_workflow_contracts.py tests/integration/test_graph_send_workflows.py tests/integration/test_mail_content_delta.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Pin each draft/send/reply/replyAll/forward/createReply/createReplyAll/createForward/attachment operation and allowed aliases/permissions. Implement exact action and MIME wire handling, durable delivery, local recipient outcome and audit/message-delta publication. Preserve recipient permissions and mailbox scopes; store no invented Graph fields. Add source-schema closure tests, rollback/fencing, restart and failures before claiming SDK support.
-- [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add schema-conformant Graph mail workflows"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_graph_workflow_contracts.py tests/integration/test_graph_send_workflows.py tests/integration/test_mail_content_delta.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Pin each draft/send/reply/replyAll/forward/createReply/createReplyAll/createForward/attachment operation and allowed aliases/permissions. Implement exact action and MIME wire handling, durable delivery, local recipient outcome and audit/message-delta publication. Preserve recipient permissions and mailbox scopes; store no invented Graph fields. Add source-schema closure tests, rollback/fencing, restart and failures before claiming SDK support.
+- [x] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add schema-conformant Graph mail workflows"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task E2: Calendar resources events and meeting responses
 
@@ -70,7 +70,7 @@ assert unauthorized_send.status_code == 403
 
 **Interfaces:** Produce `async mutate_event(session: AsyncSession, actor: PrincipalContext, owner_id: UUID, calendar_id: str, event_id: str | None, operation: str, body: dict, now: datetime) -> dict | None`; `async process_meeting_delivery(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult`. Use E1 delivery infrastructure for local meeting messages without conflating event identity with message identity.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_calendar_meeting_roundtrip creates calendar groups/calendars/events, updates and deletes, invites a local attendee and processes accept/tentativelyAccept/decline/cancel. test_calendar_permissions enforces read/basic-read/write distinctions, organizer ownership and application versus delegated aliases. Pin transactionId handling and response headers.
+- [x] **Step 1 — Add the named failing scenarios.** test_calendar_meeting_roundtrip creates calendar groups/calendars/events, updates and deletes, invites a local attendee and processes accept/tentativelyAccept/decline/cancel. test_calendar_permissions enforces read/basic-read/write distinctions, organizer ownership and application versus delegated aliases. Pin transactionId handling and response headers.
 
 ```python
 assert organizer_event['id'] != attendee_event['id']
@@ -79,10 +79,10 @@ assert calendar_owner_unchanged is True
 assert invalid_owner_mutation.status_code == expected_permission_error
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_graph_calendar_workflows.py tests/unit/test_graph_workflow_contracts.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Acquire calendar/event/action schemas and exact operation mappings, including list/get/update/delete for groups/calendars/events. Add permission-aware canonical calendar storage, organizer/attendee relationships and durable meeting delivery. Emit events only into documented audit/notification mappings. Integrate tenant lifecycle from first storage migration.
-- [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add Graph calendar and meeting workflows"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_graph_calendar_workflows.py tests/unit/test_graph_workflow_contracts.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Acquire calendar/event/action schemas and exact operation mappings, including list/get/update/delete for groups/calendars/events. Add permission-aware canonical calendar storage, organizer/attendee relationships and durable meeting delivery. Emit events only into documented audit/notification mappings. Integrate tenant lifecycle from first storage migration.
+- [x] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add Graph calendar and meeting workflows"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task E3: Recurrence time zones availability and delta
 
@@ -94,7 +94,7 @@ assert invalid_owner_mutation.status_code == expected_permission_error
 
 **Interfaces:** Produce `expand_occurrences(series: dict, start: datetime, end: datetime, limit: int) -> list[dict]`; `async read_calendar_view(session: AsyncSession, actor: PrincipalContext, owner_id: UUID, query: dict, now: datetime) -> dict`; `async read_calendar_delta(session: AsyncSession, actor: PrincipalContext, owner_id: UUID, query: dict, now: datetime) -> dict`. Recurrence owns supported pattern/range parsing, time-zone mappings and stable occurrence/exception identity.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_calendar_dst_and_exceptions crosses spring/fall time transitions, changes a single occurrence, cancels one, changes the series and compares calendarView/instances. test_calendar_delta_reauthorization resumes a bound date-window cursor after restart, rejects another scope/window and rechecks permissions. getSchedule must show only the authorized availability shape.
+- [x] **Step 1 — Add the named failing scenarios.** test_calendar_dst_and_exceptions crosses spring/fall time transitions, changes a single occurrence, cancels one, changes the series and compares calendarView/instances. test_calendar_delta_reauthorization resumes a bound date-window cursor after restart, rejects another scope/window and rechecks permissions. getSchedule must show only the authorized availability shape.
 
 ```python
 assert occurrence_ids == expected_stable_ids
@@ -103,10 +103,10 @@ assert len(window_ids) == len(set(window_ids))
 assert revoked_delta.status_code == 403
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_calendar_recurrence.py tests/integration/test_graph_calendar_views.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Implement all approved documented recurrence pattern/range forms and sourced Windows/IANA mappings using a pinned, licensed time-zone dependency/data source if stdlib is insufficient; validate Windows and Linux equivalence. Bound expansion with explicit errors, never silent truncation. Add calendarView/instances/getSchedule and only documented v1.0 delta paths/options with current-access checks and tombstones. Test malformed/ambiguous local times against the selected documented profile.
-- [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add calendar recurrence availability and delta"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/unit/test_calendar_recurrence.py tests/integration/test_graph_calendar_views.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Implement all approved documented recurrence pattern/range forms and sourced Windows/IANA mappings using a pinned, licensed time-zone dependency/data source if stdlib is insufficient; validate Windows and Linux equivalence. Bound expansion with explicit errors, never silent truncation. Add calendarView/instances/getSchedule and only documented v1.0 delta paths/options with current-access checks and tombstones. Test malformed/ambiguous local times against the selected documented profile.
+- [x] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add calendar recurrence availability and delta"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
 
 ## Task E4: Subscriptions and local notification delivery
 
@@ -118,7 +118,7 @@ assert revoked_delta.status_code == 403
 
 **Interfaces:** Produce `async mutate_subscription(session: AsyncSession, actor: PrincipalContext, subscription_id: str | None, operation: str, body: dict, now: datetime) -> dict | None`; `async process_notification(database: Database, claim: JobClaim, wall_now: datetime) -> JobResult`; `resolve_receiver(url: str, configured_receivers: dict) -> dict`. Receiver validation returns only pre-registered local target bindings; never arbitrary public resolution.
 
-- [ ] **Step 1 — Add the named failing scenarios.** test_subscription_validation_lifecycle performs exact validationToken response handshake, renew/get/list/delete/reauthorize, expiry and local lifecycle delivery for supported combinations. test_notification_retry_and_revoke retries a failed receiver after restart and stops revoked/expired subscriptions. test_receiver_boundary rejects unregistered hosts, redirect escape and DNS changes; rich resource-data requests reject explicitly.
+- [x] **Step 1 — Add the named failing scenarios.** test_subscription_validation_lifecycle performs exact validationToken response handshake, renew/get/list/delete/reauthorize, expiry and local lifecycle delivery for supported combinations. test_notification_retry_and_revoke retries a failed receiver after restart and stops revoked/expired subscriptions. test_receiver_boundary rejects unregistered hosts, redirect escape and DNS changes; rich resource-data requests reject explicitly.
 
 ```python
 assert receiver_validation_body == expected_validation_token
@@ -128,7 +128,7 @@ assert external_requests == []
 assert post_revocation_deliveries == 0
 ```
 
-- [ ] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_graph_notifications.py tests/unit/test_graph_workflow_contracts.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
-- [ ] **Step 3 — Implement the declared interfaces.** Pin per-resource/changeType/expiration/lifecycle rules for supported mail/calendar/drive subscriptions. Implement documented notification envelopes and retry behavior, durable outbox/fences and explicit current authorization boundaries. At-least-once deliveries may repeat; never claim exactly-once callbacks. Keep rich encrypted notifications deferred as approved. Add lifecycle cleanup/export and four-ecosystem workflows via G1; update coverage by resource combination.
-- [ ] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
-- [ ] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add durable local Graph subscriptions"`. Preserve unrelated work. Push/review according to the program's phase PR rules.
+- [x] **Step 2 — Prove the missing behavior.** Run `uv run python -m pytest tests/integration/test_graph_notifications.py tests/unit/test_graph_workflow_contracts.py -q`. Expect the named new scenario to fail for absent behavior; diagnose setup failures separately. Existing regression tests must not be weakened.
+- [x] **Step 3 — Implement the declared interfaces.** Pin per-resource/changeType/expiration/lifecycle rules for supported mail/calendar/drive subscriptions. Implement documented notification envelopes and retry behavior, durable outbox/fences and explicit current authorization boundaries. At-least-once deliveries may repeat; never claim exactly-once callbacks. Keep rich encrypted notifications deferred as approved. Add lifecycle cleanup/export and four-ecosystem workflows via G1; update coverage by resource combination.
+- [x] **Step 4 — Verify the task.** Rerun the exact pytest command above and require PASS, then perform the index's lint/diff, lifecycle, source-schema and applicable phase-client checks. Record actual counts/client versions and operation-level limitations; never mark unrun checks passing.
+- [x] **Step 5 — Commit.** Stage only this task's explicit paths plus its owned catalog/migration/lifecycle/coverage changes. Run `git diff --cached --check` and inspect staged names, then `git commit -m "feat: add durable local Graph subscriptions"`. Preserve unrelated work. Push/review according to the program's phase PR rules.

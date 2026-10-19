@@ -38,17 +38,17 @@ async def identity_client(database, settings, *, legacy_method_policy=True):
         base_url="https://localhost:8443",
         headers={"Authorization": "Bearer " + "A" * 43},
     ) as client:
-        tenant = (
-            await client.post(
-                "/_mock/tenants",
-                json={
-                    "slug": "contoso",
-                    "display_name": "Contoso",
-                    "domain": "contoso.test",
-                    "licences": ["E5"],
-                },
-            )
-        ).json()["id"]
+        tenant_response = await client.post(
+            "/_mock/tenants",
+            json={
+                "slug": "contoso",
+                "display_name": "Contoso",
+                "domain": "contoso.test",
+                "licences": ["E5"],
+            },
+        )
+        assert tenant_response.status_code == 201, tenant_response.text
+        tenant = tenant_response.json()["id"]
         # Historical OAuth regression fixtures deliberately model an upgraded tenant.
         # Fresh-policy qualification opts out and exercises the actual production default.
         if legacy_method_policy:
@@ -59,22 +59,22 @@ async def identity_client(database, settings, *, legacy_method_policy=True):
                     MethodPolicyState(tenant_id=UUID(tenant), enforced=False, configurations={})
                 )
         base = f"/_mock/tenants/{tenant}/identity"
-        app = (
-            await client.post(
-                base + "/applications",
-                json={
-                    "display_name": "Collector",
-                    "client_mode": "confidential",
-                    "required_permissions": [
-                        {
-                            "resource": "graph",
-                            "kind": "application",
-                            "permissions": ["Organization.Read.All"],
-                        }
-                    ],
-                },
-            )
-        ).json()
+        app_response = await client.post(
+            base + "/applications",
+            json={
+                "display_name": "Collector",
+                "client_mode": "confidential",
+                "required_permissions": [
+                    {
+                        "resource": "graph",
+                        "kind": "application",
+                        "permissions": ["Organization.Read.All"],
+                    }
+                ],
+            },
+        )
+        assert app_response.status_code == 201, app_response.text
+        app = app_response.json()
         client_id = app["client_id"]
         secret = (
             await client.post(

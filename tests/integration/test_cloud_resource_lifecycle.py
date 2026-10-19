@@ -452,7 +452,7 @@ async def test_cloud_migration_from_052_preserves_inventory(settings):
                 )
         migrate(settings.database_url.get_secret_value())
         with engine.begin() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "067"
+            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "071"
             assert (
                 connection.scalar(text("SELECT to_regclass('cloud_vm_states')"))
                 == "cloud_vm_states"

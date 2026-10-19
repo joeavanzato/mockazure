@@ -412,6 +412,89 @@
         }
       ],
       "notApplicable": {}
+    },
+    "E": {
+      "workflows": [
+        {
+          "id": "graph.mail-delivery",
+          "service": "graph-workflows",
+          "operationIds": [
+            "message.create",
+            "message.update",
+            "user.sendMail"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "mail_roundtrip",
+            "persistent_read",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "graph.calendar-workflow",
+          "service": "graph-workflows",
+          "operationIds": [
+            "event.create",
+            "event.update",
+            "event.accept",
+            "event.instances",
+            "event.delta"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "calendar_recurrence_delta",
+            "meeting_response",
+            "persistent_read",
+            "cross_language_reads"
+          ]
+        },
+        {
+          "id": "graph.subscription-workflow",
+          "service": "graph-workflows",
+          "operationIds": [
+            "subscription.create",
+            "subscription.get",
+            "subscription.update",
+            "subscription.reauthorize",
+            "subscription.delete"
+          ],
+          "ecosystems": [
+            "python",
+            "powershell",
+            "dotnet",
+            "typescript"
+          ],
+          "transport": "sdk",
+          "transportByEcosystem": {
+            "powershell": "module"
+          },
+          "assertions": [
+            "subscription_management",
+            "callback_delivery",
+            "callback_retry",
+            "revoked_callbacks"
+          ]
+        }
+      ],
+      "notApplicable": {}
     }
   }
 }

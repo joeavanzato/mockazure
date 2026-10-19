@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "name": "Microsoft.Graph.Authentication",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Authentication/2.35.1",
+      "sha256": "3c38c977f8ab70a8ca7cdb6659e0d01e6f592aa1b3c8b46e965987609bd38cf6",
+      "archive": "Microsoft.Graph.Authentication-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Authentication/2.35.1",
+      "dependencies": [],
+      "probe": "integrations/contracts/connections.md"
+    },
+    {
+      "name": "Microsoft.Graph.Mail",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Mail/2.35.1",
+      "sha256": "87ab76a8a4cd0e96eb0644f601bea9ffde194b8986454fa61551ac65d19876e1",
+      "archive": "Microsoft.Graph.Mail-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Mail/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "integrations/contracts/mail.md"
+    },
+    {
+      "name": "Microsoft.Graph.Calendar",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Calendar/2.35.1",
+      "sha256": "c7cd5e91cd794fb701a7b5d88fcbe176623610811f9b7c23f0119b0f02ee5ef0",
+      "archive": "Microsoft.Graph.Calendar-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Calendar/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "docs/notification-contracts.md"
+    },
+    {
+      "name": "Microsoft.Graph.ChangeNotifications",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.ChangeNotifications/2.35.1",
+      "sha256": "512e3cbc9319bc5b3bc9f517ce7ad538b47e4b87c0604f49ce27f5099453308f",
+      "archive": "Microsoft.Graph.ChangeNotifications-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.ChangeNotifications/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "docs/notification-contracts.md"
+    },
+    {
+      "name": "Microsoft.Graph.Users.Actions",
+      "version": "2.35.1",
+      "source": "https://www.powershellgallery.com/api/v2/package/Microsoft.Graph.Users.Actions/2.35.1",
+      "sha256": "d9908fb451123a65122c1acf1b05e18001a3b07125c37619edbd037190d6ebbb",
+      "archive": "Microsoft.Graph.Users.Actions-2.35.1.zip",
+      "extracted": "modules/Microsoft.Graph.Users.Actions/2.35.1",
+      "dependencies": [
+        "Microsoft.Graph.Authentication==2.35.1"
+      ],
+      "probe": "docs/mail-contracts.md"
+    }
+  ]
+}

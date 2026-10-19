@@ -58,7 +58,16 @@ def project_mail(source):
         rule = facts["after"] or facts["before"]
         if item_id := rule.get("id", rule.get("RuleIdentity")):
             object_id += "\\" + item_id
-    item_operation = facts["operation"] in {"Update", "Move", "Copy", "SoftDelete"}
+    item_operation = facts["operation"] in {
+        "Update",
+        "Move",
+        "Copy",
+        "SoftDelete",
+        "Create",
+        "Send",
+        "SendAs",
+        "SendOnBehalf",
+    }
     data = {
         "Id": str(identifier),
         "CreationTime": source.occurred_at.isoformat(),

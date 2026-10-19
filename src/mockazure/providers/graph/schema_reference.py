@@ -9,7 +9,7 @@ import binascii
 import json
 import math
 import re
-from datetime import datetime
+from datetime import date, datetime
 from functools import lru_cache
 from pathlib import Path
 from uuid import UUID
@@ -94,6 +94,10 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
         elif kind in {"Edm.Double", "Edm.Single", "Edm.Decimal"}:
             if type(value) not in {int, float} or not math.isfinite(value):
                 raise ValueError("Graph finite number required")
+        elif kind == "Edm.Date":
+            if not isinstance(value, str) or not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", value):
+                raise ValueError("Graph date requires YYYY-MM-DD")
+            date.fromisoformat(value)
         elif kind == "Edm.DateTimeOffset":
             if not isinstance(value, str):
                 raise ValueError("Graph timestamp required")

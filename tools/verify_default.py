@@ -8,6 +8,7 @@ import socket
 import ssl
 import subprocess
 import time
+from contextlib import ExitStack
 from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
@@ -24,13 +25,26 @@ def free_port():
 
 
 def default_ports():
-    api_port = free_port()
-    while api_port > 65530:
+    # Docker publishes six adjacent service ports. A free base port does not
+    # imply its neighbours are bindable (notably Windows excluded ranges).
+    for _ in range(100):
         api_port = free_port()
-    db_port = free_port()
-    while db_port in range(api_port, api_port + 6):
-        db_port = free_port()
-    return api_port, db_port
+        if api_port > 65530:
+            continue
+        try:
+            with ExitStack() as sockets:
+                for port in range(api_port, api_port + 6):
+                    sock = sockets.enter_context(socket.socket())
+                    sock.bind(("127.0.0.1", port))
+                db_port = free_port()
+                if db_port in range(api_port, api_port + 6):
+                    continue
+                sock = sockets.enter_context(socket.socket())
+                sock.bind(("127.0.0.1", db_port))
+                return api_port, db_port
+        except OSError:
+            continue
+    raise RuntimeError("No available local service port range was found")
 
 
 def main(*, qualify=None):

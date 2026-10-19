@@ -54,11 +54,14 @@ from mockazure.providers.arm.storage_routes import router as arm_storage_router
 from mockazure.providers.exchange.probes import router as exchange_router
 from mockazure.providers.exchange.routes import router as exchange_compiled_router
 from mockazure.providers.graph.audit_query_routes import router_for as audit_query_router_for
+from mockazure.providers.graph.calendar_routes import router as calendar_router
+from mockazure.providers.graph.calendar_view_routes import router as calendar_view_router
 from mockazure.providers.graph.directory import router_for
 from mockazure.providers.graph.drive_routes import router as drive_router
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
 from mockazure.providers.graph.licensing import router as licensing_graph_router
+from mockazure.providers.graph.mail_action_routes import router as mail_action_router
 from mockazure.providers.graph.mail_content_routes import router as mail_content_router
 from mockazure.providers.graph.mail_mutation_routes import router as mail_mutation_router
 from mockazure.providers.graph.mail_routes import router_for as mail_router_for
@@ -73,6 +76,7 @@ from mockazure.providers.graph.security.report_routes import router_for as regis
 from mockazure.providers.graph.security.role_routes import router_for as role_router_for
 from mockazure.providers.graph.security.routes import router_for as security_router_for
 from mockazure.providers.graph.site_routes import router as site_router
+from mockazure.providers.graph.subscription_routes import router as subscription_router
 from mockazure.providers.graph.team_routes import router as team_router
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
@@ -375,6 +379,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(team_router)
     app.include_router(site_router)
     app.include_router(drive_router)
+    app.include_router(calendar_view_router)
+    app.include_router(subscription_router)
+    app.include_router(calendar_router)
+    app.include_router(mail_action_router)
     app.include_router(mail_mutation_router)
     app.include_router(mail_content_router)
     app.include_router(mail_router_for("v1.0"))
