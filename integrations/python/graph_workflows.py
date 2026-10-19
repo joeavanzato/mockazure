@@ -83,7 +83,12 @@ async def run(p, mode):
             assert changed.value
             target = graph.users.by_user_id(p["recipient"])
             for _ in range(80):
-                messages = await target.messages.get()
+                message_query = urlencode(
+                    {"$filter": "subject eq '" + p["send_body"]["subject"].replace("'", "''") + "'"}
+                )
+                messages = await target.messages.with_url(
+                    origin + f"/v1.0/users/{p['recipient']}/messages?" + message_query
+                ).get()
                 meetings = await target.events.get()
                 mail = next(
                     (m for m in messages.value if m.subject == p["send_body"]["subject"]), None

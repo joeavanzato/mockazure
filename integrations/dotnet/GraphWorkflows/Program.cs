@@ -67,7 +67,7 @@ if(mode=="write"){
  var changed=(await user.CalendarView.Delta.WithUrl(delta.OdataDeltaLink).GetAsDeltaGetResponseAsync())!;Check(changed.Value!.Count>0);
  var target=graph.Users[Value("recipient")];Message? mail=null;Event? invite=null;
  for(int i=0;i<80;i++){
-  mail=(await target.Messages.GetAsync())!.Value!.FirstOrDefault(m=>m.Subject==p.GetProperty("send_body").GetProperty("subject").GetString());
+  mail=(await target.Messages.GetAsync(c=>c.QueryParameters.Filter="subject eq '"+p.GetProperty("send_body").GetProperty("subject").GetString()!.Replace("'","''")+"'"))!.Value!.FirstOrDefault(m=>m.Subject==p.GetProperty("send_body").GetProperty("subject").GetString());
   invite=(await target.Events.GetAsync())!.Value!.FirstOrDefault(v=>v.ICalUId==e.ICalUId);
   if(mail!=null&&invite!=null)break;await Task.Delay(250);
  }

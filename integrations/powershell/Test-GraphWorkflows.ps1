@@ -9,7 +9,7 @@ Import-Module Microsoft.Graph.ChangeNotifications -RequiredVersion 2.35.1
 Add-MgEnvironment -Name MockAzure -GraphEndpoint $p.endpoint -AzureADEndpoint $p.endpoint | Out-Null
 Connect-MgGraph -AccessToken (ConvertTo-SecureString $p.token -AsPlainText -Force) -Environment MockAzure -NoWelcome
 . /project/integrations/powershell/Graph-LocalTransport.ps1 -LocalOrigin $p.endpoint
-function Check($value){if(-not $value){throw 'Native Graph workflow assertion failed'}}
+function Check($value){if(-not $value){$line=(Get-PSCallStack)[1].ScriptLineNumber;throw "Native Graph workflow assertion failed at line $line"}}
 function GraphRequest($path,$method='GET',$body){
     $params=@{Uri="$($p.endpoint)/v1.0$path";Method=$method;Headers=@{Authorization="Bearer $($p.token)"}}
     if($null -ne $body){$params.Body=($body | ConvertTo-Json -Depth 30);$params.ContentType='application/json'}
@@ -36,7 +36,7 @@ if($Mode -eq 'write'){
     Check ($changed.value.Count -gt 0)
     $mail=$null;$invite=$null
     for($i=0;$i -lt 80;$i++){
-        $mail=Get-MgUserMessage -UserId $p.recipient | Where-Object Subject -eq $p.send_body.subject | Select-Object -First 1
+        $mail=Get-MgUserMessage -UserId $p.recipient -Filter ("subject eq '"+$p.send_body.subject.Replace("'","''")+"'") | Where-Object Subject -eq $p.send_body.subject | Select-Object -First 1
         $invite=Get-MgUserEvent -UserId $p.recipient | Where-Object ICalUId -eq $event.ICalUId | Select-Object -First 1
         if($mail -and $invite){break};Start-Sleep -Milliseconds 250
     }

@@ -33,7 +33,7 @@ if(mode==='write'){
  const changed=await api(delta['@odata.deltaLink']).get();assert(changed.value.length);
  const target=`/users/${p.recipient}`;let mail,invite;
  for(let i=0;i<80;i++){
-  mail=(await api(target+'/messages').get()).value.find(m=>m.subject===p.send_body.subject);
+  mail=(await api(target+'/messages').filter("subject eq '"+p.send_body.subject.replaceAll("'","''")+"'").get()).value.find(m=>m.subject===p.send_body.subject);
   invite=(await api(target+'/events').get()).value.find(e=>e.iCalUId===event.iCalUId);
   if(mail&&invite)break;await new Promise(r=>setTimeout(r,250));
  }
