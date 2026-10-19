@@ -74,8 +74,9 @@ class LocalTransport:
         ):
             raise ValueError("Service credentials and authority are managed by the instance")
         settings = self.context.settings
-        origin = local_origin(getattr(settings.endpoints, service))
-        login_origin = local_origin(settings.endpoints.login)
+        endpoints = settings.population_endpoints or settings.endpoints
+        origin = local_origin(getattr(endpoints, service))
+        login_origin = local_origin(endpoints.login)
         owned = self.client is None
         client = self.client
         if owned:
