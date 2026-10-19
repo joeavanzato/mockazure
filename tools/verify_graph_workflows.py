@@ -9,6 +9,7 @@ from ipaddress import ip_address
 from uuid import uuid4
 
 import msal
+from requests.exceptions import RequestException
 
 from integrations.python.arm import LocalSession
 from tools.verify_collections import PS_IMAGE
@@ -30,6 +31,21 @@ def callback_address(networks):
     ):
         raise ValueError("The receiver requires a private address shared by API and worker")
     return str(address)
+
+
+def wait_for_fresh_connection(origin, ca):
+    # A pooled connection can survive while ingress still rejects new sessions.
+    # Probe the same verified, local-only transport used by MSAL after restarts.
+    for _ in range(120):
+        try:
+            with LocalSession(origin, ca) as transport:
+                response = transport.get(origin + "/_mock/ready", timeout=5, allow_redirects=False)
+                if response.status_code == 200:
+                    return
+        except RequestException:
+            pass
+        time.sleep(0.5)
+    raise RuntimeError("Local Graph restart readiness failed on fresh TLS connections")
 
 
 def qualify(directory, command, compose, client, headers, tenant, check):
@@ -56,14 +72,7 @@ def qualify(directory, command, compose, client, headers, tenant, check):
     command(compose + ["restart", "api", "worker"])
 
     def ready():
-        for _ in range(120):
-            try:
-                if client.get("/_mock/ready").status_code == 200:
-                    return
-            except Exception:
-                pass
-            time.sleep(0.5)
-        raise RuntimeError("Local Graph restart readiness failed")
+        wait_for_fresh_connection(origin, ca)
 
     ready()
     api = command(compose + ["ps", "-q", "api"], capture=True)
