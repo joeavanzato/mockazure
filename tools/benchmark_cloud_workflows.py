@@ -285,7 +285,10 @@ def log_rows(fixture, query):
 def inventory(client, fixture):
     body = {
         "subscriptions": [fixture["subscription"]],
-        "query": "Resources | where tags.cohort == 'cloud-scale' | project id=tolower(id) | order by id asc",
+        "query": (
+            "Resources | where tags.cohort == 'cloud-scale' "
+            "| project id=tolower(id) | order by id asc"
+        ),
         "options": {"$top": 50},
     }
     ids = []
