@@ -21,6 +21,10 @@ from tools.verify_lab_console import save, source_fingerprint, submit_preview, t
 
 
 def validate_report(report):
+    if report.get("phase") == "identity":
+        from tools.living_identity import validate
+
+        return validate(report)
     if report.get("phase") == "evidence":
         from tools.living_evidence import validate
 
@@ -44,8 +48,8 @@ def validate_report(report):
 
 
 async def qualify(config, phase, output, scale="small", distribution="native"):
-    if phase not in {"content", "evidence"}:
-        raise ValueError("Only content and evidence qualification are implemented at this stage")
+    if phase not in {"content", "evidence", "identity"}:
+        raise ValueError("Hunting qualification is not yet implemented")
     from tools.living_tenant_clients import collect
 
     settings = load_settings(config)
@@ -72,7 +76,9 @@ async def qualify(config, phase, output, scale="small", distribution="native"):
             admin.http.timeout = 120
             request = {
                 "bundle_id": "builtin",
-                "template": "living-small-business" if scale == "small" else "living-enterprise",
+                "template": "living-identity-lab"
+                if phase == "identity"
+                else ("living-small-business" if scale == "small" else "living-enterprise"),
                 "dataset_namespace": "living-" + stamp,
                 "target": {
                     "create_tenant": {
@@ -111,6 +117,16 @@ async def qualify(config, phase, output, scale="small", distribution="native"):
             credential = await resolve_identity(ctx, refs["client"])
             transport = LocalTransport(ctx, credential)
             report.update(tenant_id=str(tenant_id), run_id=submitted["id"])
+            if phase == "identity":
+                from tools.living_identity import qualify_identity
+
+                refs["domain"] = request["target"]["create_tenant"]["domain"]
+                report.update(await qualify_identity(config, settings, admin, ctx, refs))
+                report["passed"] = True
+                report["completed_at"] = datetime.now(UTC).isoformat()
+                validate_report(report)
+                save(output, report)
+                return
             if phase == "evidence":
                 from tools.living_evidence import qualify_evidence
 

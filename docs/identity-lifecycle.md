@@ -301,3 +301,43 @@ and the API retain their normal native configuration.
 Omit `--prepare-clients` on subsequent runs to verify the local archives without
 downloading them.
 
+# Stacked lifecycle exercises and inspection
+
+`living-identity-lab` stacks the connected small-business baseline with
+`business-identity-lifecycle` and `business-privileged-access`. Both layers can also
+be selected in your own template. They use different, explicitly disposable
+subjects and operators within the selected namespace. Use a new namespace for a
+new destructive exercise.
+
+The lifecycle layer calls Graph to create a user, change its department, disable
+it, soft-delete it, and restore the same ID. The privileged layer creates a
+different subject and a two-hour Security Reader eligibility schedule. Eligibility
+does not activate that role. Public responses bind downstream IDs; profiles contain
+no passwords or private keys. Joiner passwords are generated in memory and not
+returned. To exercise interactive sign-in, provision a separate disposable user
+with a caller-held password as demonstrated by the qualification tool.
+
+The service browser exposes `identity.lifecycle` actions, `identity.deletedObjects`,
+`identity.guestInvitations`, `identity.pimEligibility`, and `identity.pimAssignments`.
+Deletion and recovery are marked destructive; uncertain service outcomes require
+manual reconciliation. PIM views show their security wall time and schedule status.
+A provisioned schedule is still subject to enabled-account and policy checks; the
+view is not an authorization decision. Deleted-item inspection excludes purged or
+expired recovery entries. Neither view uses the synthetic evidence reference time.
+
+New directory user deletions carry the `recoverable-v1` fact discriminator and
+publish `Delete user`. Historical facts without that discriminator retain their
+original `Hard Delete user` label; permanent purge keeps its separate audit action.
+
+Run the original-client qualification against an owned local instance:
+
+```powershell
+python -m tools.verify_living_tenant --config PATH --phase identity --report work/living-identity.json
+```
+
+It exercises real local PKCE, Graph SDK lifecycle and password rollover, local guest
+redemption, audit collection, Azure SDK role removal and Blob access denial, and
+the pinned original Graph PowerShell PIM workflow. On Windows the PowerShell client
+uses Docker while the API and worker run natively. See
+[the qualification results](qualification/living-identity.md).
+

@@ -1028,3 +1028,13 @@ conditional creation. These restrict writes under domain locks and are not claim
 as Microsoft headers. Console workload edits cap scope validation at 10,000 records
 and 20,000 relationships including the submitted batch; larger scopes use bulk
 imports. Resource browsing remains paged.
+# Living identity exercise coverage
+
+`living-identity-lab` provides stacked disposable lifecycle and privileged-access
+layers. The service browser separates active users, deleted objects, guest delivery
+records, PIM eligibility, and PIM assignments. It does not interpret eligibility as
+authorization. [Native client results](docs/qualification/living-identity.md)
+cover Graph SDK create/update/delete/restore and invitations, real credential
+rollover, existing-token denial after disablement, original PowerShell PIM, and
+Azure SDK role removal followed by Blob access denial. New soft-deletions publish
+`Delete user`; historical hard-delete facts retain their original labels.

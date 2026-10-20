@@ -97,6 +97,12 @@ def project_directory(source: SourceEnvelope) -> ProjectionBatch:
     activity = names[(facts.object_kind, facts.operation)]
     if (
         facts.object_kind == "user"
+        and facts.operation == "delete"
+        and facts.deletion_semantics == "recoverable-v1"
+    ):
+        activity = "Delete user"
+    if (
+        facts.object_kind == "user"
         and facts.operation == "update"
         and (facts.changed_fields == ["accountEnabled"])
     ):

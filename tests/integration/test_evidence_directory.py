@@ -90,7 +90,7 @@ async def test_directory_audit_mapping(database, settings):
         "Update group",
         "Add member to group",
         "Remove member from group",
-        "Hard Delete user",
+        "Delete user",
         "Delete group",
     ]
     for audit, facts in audits:
@@ -265,7 +265,7 @@ async def test_delegated_actor_initial_members_and_delete_cascade(database, sett
     assert [a["activityDisplayName"] for a, _ in audits] == [
         "Add user",
         "Add group",
-        "Hard Delete user",
+        "Delete user",
     ]
     for audit, _ in audits:
         assert audit["initiatedBy"] == {

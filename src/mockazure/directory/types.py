@@ -62,6 +62,7 @@ FACT_FIELDS = frozenset(
         "changed_fields",
         "legacy_incomplete",
         "modified_properties",
+        "deletion_semantics",
     }
 )
 

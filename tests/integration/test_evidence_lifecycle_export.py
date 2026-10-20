@@ -26,7 +26,7 @@ async def test_native_create_delete_audit_export_is_complete_json(database, sett
         assert response.status_code == 200
         exported = EvidenceDataset.model_validate(response.json())
         names = {r.payload["activityDisplayName"] for r in exported.records}
-        assert {"Add user", "Hard Delete user"} <= names
+        assert {"Add user", "Delete user"} <= names
         changes = [
             c
             for r in exported.records

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "name": "business-identity-lifecycle",
+  "kind": "data",
+  "extends": "organization-projects",
+  "steps": {
+    "lifecycle-client": {
+      "family": "identity.clients", "operation": "provision", "mode": "fixture",
+      "parameters": {"generator": "lifecycle.client", "count": 1},
+      "dependsOn": [], "target": "lifecycle-client"
+    },
+    "lifecycle-joiner": {
+      "family": "identity.lifecycle", "operation": "joiner", "mode": "service",
+      "parameters": {"generator": "lifecycle.joiner", "count": 1},
+      "dependsOn": ["lifecycle-client"], "target": "lifecycle-user"
+    },
+    "lifecycle-mover": {
+      "family": "identity.lifecycle", "operation": "mover", "mode": "service",
+      "parameters": {"generator": "lifecycle.mover", "count": 1},
+      "dependsOn": ["lifecycle-joiner"]
+    },
+    "lifecycle-leaver": {
+      "family": "identity.lifecycle", "operation": "leaver", "mode": "service",
+      "parameters": {"generator": "lifecycle.leaver", "count": 1},
+      "dependsOn": ["lifecycle-mover"]
+    },
+    "lifecycle-delete": {
+      "family": "identity.lifecycle", "operation": "delete", "mode": "service",
+      "parameters": {"generator": "lifecycle.delete", "count": 1},
+      "dependsOn": ["lifecycle-leaver"]
+    },
+    "lifecycle-restore": {
+      "family": "identity.lifecycle", "operation": "restore", "mode": "service",
+      "parameters": {"generator": "lifecycle.restore", "count": 1},
+      "dependsOn": ["lifecycle-delete"]
+    }
+  },
+  "resources": {
+    "lifecycle-client": {"family": "identity.clients"},
+    "lifecycle-user": {"family": "identity.lifecycle"}
+  }
+}

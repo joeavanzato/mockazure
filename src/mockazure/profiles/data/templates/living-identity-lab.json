@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "name": "living-identity-lab",
+  "kind": "template",
+  "tenantProfile": "small-business",
+  "dataProfiles": [
+    "business-mail-calendar",
+    "business-sharepoint-teams",
+    "business-device-estate",
+    "storage-content",
+    "keyvault-secrets",
+    "logs-and-diagnostics",
+    "business-azure-operations",
+    "business-identity-lifecycle",
+    "business-privileged-access"
+  ],
+  "parameters": {
+    "shared.users": 20,
+    "shared.days": 7
+  }
+}
