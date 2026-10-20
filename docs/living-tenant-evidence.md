@@ -46,3 +46,35 @@ and a hash-verified snapshot of Microsoft's current
 The latter's publishing Git repository is private. For `Members.Role`, the
 structured Management Activity enum (Member 0, Owner 1, Guest 2) takes precedence
 over differing role numbers in the activity-description prose.
+
+## Failed data-plane operations
+
+Authenticated Blob, File, Table, Queue and Key Vault failures can also reach the
+configured diagnostic tables and archives. Capture begins only after local
+credential verification and same-tenant account/vault ownership are established.
+Permission denials, precondition failures and supported validation errors after
+that point retain the real HTTP status and service error code. A Table changeset
+failure retains its failed child operation while preserving the normal outer
+HTTP 202 response and rolling back the changeset.
+
+The failure source is written in a separate bounded transaction after rollback.
+Its identity derives from the server request ID, so retrying capture cannot
+duplicate delivery. Client correlation IDs do not grant idempotency authority.
+The source contains the owning resource ID, verified principal ID when available,
+operation, time, status, error code and authentication mode. It does not copy
+headers, bodies, child paths, secret values, keys, tokens, SAS strings or exception
+messages. Shared Key and SAS facts need not identify an individual principal.
+
+Invalid credentials, foreign-tenant targets, unknown accounts/vaults, anonymous
+requests and validation failures before authentication do not select a diagnostic
+tenant. This also excludes network-policy rejection performed before credential
+validation and malformed batch envelopes without an authenticated child operation.
+These are deliberate attribution limits. If failure persistence itself fails,
+the original public error is preserved and a sanitized request-ID warning is
+written to the runtime log.
+
+Failure rows expose `StatusCode`/`StatusText` in Storage tables and
+`ResultType`/`ResultSignature` in Key Vault tables. Archives carry `resultType:
+Failed`, the status signature and `level: Error`. Successful historical events
+are not rewritten. Native lease events use `LeaseBlob`/`LeaseFile`; FileREST range
+reads use the documented [List Ranges operation](https://learn.microsoft.com/rest/api/storageservices/list-ranges).

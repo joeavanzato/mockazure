@@ -134,6 +134,7 @@ async def test_queue_current_receipt_survives_visibility_and_invalid_update(
 
 async def test_queue_migration_refuses_lossy_downgrade(database, settings):
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import create_engine, text
     from sqlalchemy.exc import DBAPIError
 
@@ -152,7 +153,10 @@ async def test_queue_migration_refuses_lossy_downgrade(database, settings):
                 config.attributes["connection"] = connection
                 command.downgrade(config, "064")
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "076"
+            assert (
+                connection.scalar(text("SELECT version_num FROM alembic_version"))
+                == ScriptDirectory.from_config(configuration()).get_current_head()
+            )
             assert (
                 connection.scalar(text("SELECT name FROM storage_namespaces WHERE service='queue'"))
                 == "preserved"

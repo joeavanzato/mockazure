@@ -29,7 +29,7 @@ async def record(session, access, service, name, operation, now):
         return  # Trusted internal delivery cannot generate recursive diagnostics.
     category = (
         "StorageDelete"
-        if operation.startswith("Delete")
+        if operation.startswith(("Delete", "Clear"))
         else "StorageRead"
         if operation.startswith(("Get", "List", "Peek", "Query"))
         else "StorageWrite"

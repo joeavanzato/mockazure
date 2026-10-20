@@ -4088,7 +4088,7 @@
     {
       "operation_key": "cloud.keyvault.GetDeletedSecrets",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4097,13 +4097,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.GetDeletedSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4112,13 +4113,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.PurgeDeletedSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4127,13 +4129,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.RecoverDeletedSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4142,13 +4145,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.GetSecrets",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4157,13 +4161,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.SetSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4172,13 +4177,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.DeleteSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4187,13 +4193,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.GetSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4202,13 +4209,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.UpdateSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4217,13 +4225,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.BackupSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4232,13 +4241,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.GetSecretVersions",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4247,13 +4257,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.RestoreSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4262,13 +4273,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.GetDeletedSecrets",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4277,13 +4289,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.GetDeletedSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4292,13 +4305,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.PurgeDeletedSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4307,13 +4321,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.RecoverDeletedSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4322,13 +4337,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.GetSecrets",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4337,13 +4353,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.SetSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4352,13 +4369,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.DeleteSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4367,13 +4385,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.GetSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4382,13 +4401,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.UpdateSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4397,13 +4417,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.BackupSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4412,13 +4433,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.GetSecretVersions",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4427,13 +4449,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.keyvault.v7.RestoreSecret",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "AZKVAuditLogs"
       ],
@@ -4442,7 +4465,8 @@
       ],
       "native": true,
       "limitations": [
-        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
@@ -4677,7 +4701,7 @@
     {
       "operation_key": "cloud.storage.blob.Service_ListContainersSegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4686,13 +4710,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Service_GetUserDelegationKey",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4701,13 +4726,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4716,13 +4742,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4731,13 +4758,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4746,13 +4774,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4761,13 +4790,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_GetAccessPolicy",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4776,13 +4806,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_SetAccessPolicy",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4791,13 +4822,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Service_ListSharesSegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -4806,13 +4838,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Share_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -4821,13 +4854,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Share_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -4836,13 +4870,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Share_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -4851,13 +4886,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Share_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -4866,13 +4902,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Share_GetAccessPolicy",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -4881,13 +4918,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Share_SetAccessPolicy",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -4896,13 +4934,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_ListBlobFlatSegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4911,13 +4950,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Container_ListBlobHierarchySegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4926,13 +4966,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_Download",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4941,13 +4982,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4956,13 +4998,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4971,13 +5014,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.BlockBlob_Upload",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -4986,13 +5030,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_Undelete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5001,13 +5046,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_SetHTTPHeaders",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5016,13 +5062,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5031,13 +5078,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_AcquireLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5046,13 +5094,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_ReleaseLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5061,13 +5110,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_RenewLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5076,13 +5126,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_ChangeLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5091,13 +5142,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_BreakLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5106,13 +5158,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.Blob_CreateSnapshot",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5121,13 +5174,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.BlockBlob_StageBlock",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5136,13 +5190,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.BlockBlob_CommitBlockList",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5151,13 +5206,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.blob.BlockBlob_GetBlockList",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageBlobLogs"
       ],
@@ -5166,13 +5222,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Share_CreateSnapshot",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5181,13 +5238,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Directory_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5196,13 +5254,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Directory_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5211,13 +5270,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Directory_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5226,13 +5286,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Directory_SetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5241,13 +5302,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Directory_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5256,13 +5318,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.Directory_ListFilesAndDirectoriesSegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5271,13 +5334,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5286,13 +5350,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_Download",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5301,13 +5366,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5316,13 +5382,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5331,13 +5398,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_SetHTTPHeaders",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5346,13 +5414,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5361,13 +5430,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_AcquireLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5376,13 +5446,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_ReleaseLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5391,13 +5462,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_ChangeLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5406,13 +5478,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_BreakLease",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5421,13 +5494,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_UploadRange",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5436,13 +5510,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.file.File_GetRangeList",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageFileLogs"
       ],
@@ -5451,13 +5526,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_QueryEntities",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5466,13 +5542,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_QueryEntityWithPartitionAndRowKey",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5481,13 +5558,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_UpdateEntity",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5496,13 +5574,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_MergeEntity",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5511,13 +5590,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_DeleteEntity",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5526,13 +5606,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_InsertEntity",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5541,13 +5622,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_Query",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5556,13 +5638,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5571,13 +5654,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Table_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5586,13 +5670,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table.Batch",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5601,13 +5686,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Service_ListQueuesSegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5616,13 +5702,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Queue_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5631,13 +5718,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Queue_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5646,13 +5734,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Queue_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5661,13 +5750,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Queue_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5676,13 +5766,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Messages_Dequeue",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5691,13 +5782,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Messages_Clear",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5706,13 +5798,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Messages_Enqueue",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5721,13 +5814,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.Messages_Peek",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5736,13 +5830,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.MessageId_Update",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5751,13 +5846,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue.MessageId_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5766,13 +5862,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Service_ListQueuesSegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5781,13 +5878,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Queue_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5796,13 +5894,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Queue_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5811,13 +5910,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Queue_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5826,13 +5926,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Queue_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5841,13 +5942,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Messages_Dequeue",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5856,13 +5958,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Messages_Clear",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5871,13 +5974,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Messages_Enqueue",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5886,13 +5990,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.Messages_Peek",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5901,13 +6006,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.MessageId_Update",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5916,13 +6022,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20260406.MessageId_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5931,13 +6038,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table20170729.Table_Query",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5946,13 +6054,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table20170729.Table_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5961,13 +6070,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.table20170729.Table_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageTableLogs"
       ],
@@ -5976,13 +6086,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Service_ListQueuesSegment",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -5991,13 +6102,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Queue_Create",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6006,13 +6118,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Queue_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6021,13 +6134,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Queue_GetProperties",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6036,13 +6150,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Queue_SetMetadata",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6051,13 +6166,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Messages_Dequeue",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6066,13 +6182,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Messages_Clear",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6081,13 +6198,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Messages_Enqueue",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6096,13 +6214,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.Messages_Peek",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6111,13 +6230,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.MessageId_Update",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6126,13 +6246,14 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {
       "operation_key": "cloud.storage.queue20250105.MessageId_Delete",
       "source_kind": "service",
-      "outcome": "success",
+      "outcome": "success_or_failure",
       "destinations": [
         "StorageQueueLogs"
       ],
@@ -6141,7 +6262,8 @@
       ],
       "native": true,
       "limitations": [
-        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation.",
+        "Failures are captured only after verified local authentication and source ownership; pre-authentication errors and foreign targets are not attributed."
       ]
     },
     {

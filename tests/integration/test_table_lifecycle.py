@@ -124,6 +124,7 @@ async def test_table_failed_actions_emit_no_success_fact(database, settings):
 
 async def test_table_migration_refuses_lossy_downgrade(database, settings):
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import create_engine, text
     from sqlalchemy.exc import DBAPIError
 
@@ -144,7 +145,10 @@ async def test_table_migration_refuses_lossy_downgrade(database, settings):
                 config.attributes["connection"] = connection
                 command.downgrade(config, "063")
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "076"
+            assert (
+                connection.scalar(text("SELECT version_num FROM alembic_version"))
+                == ScriptDirectory.from_config(configuration()).get_current_head()
+            )
             assert connection.scalar(text("SELECT name FROM storage_tables")) == "Preserved"
     finally:
         engine.dispose()

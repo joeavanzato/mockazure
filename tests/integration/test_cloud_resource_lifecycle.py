@@ -394,6 +394,7 @@ async def test_provider_polling_authority_and_exhausted_lease(database, settings
 
 async def test_cloud_migration_from_052_preserves_inventory(settings):
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import MetaData, Table, create_engine, text
 
     from mockazure.db.migrations import configuration, migrate
@@ -452,7 +453,10 @@ async def test_cloud_migration_from_052_preserves_inventory(settings):
                 )
         migrate(settings.database_url.get_secret_value())
         with engine.begin() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "076"
+            assert (
+                connection.scalar(text("SELECT version_num FROM alembic_version"))
+                == ScriptDirectory.from_config(configuration()).get_current_head()
+            )
             assert (
                 connection.scalar(text("SELECT to_regclass('cloud_vm_states')"))
                 == "cloud_vm_states"
