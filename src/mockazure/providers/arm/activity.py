@@ -14,6 +14,10 @@ STAMP = re.compile(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d{1,7}))?(Z|[+-
 EPOCH = datetime(1, 1, 1, tzinfo=UTC)
 
 
+def activity_scope(value):
+    return parse_scope(value, allow_subscription_resource=True, allow_provider_registration=True)
+
+
 def datetime_ticks(value):
     if value.tzinfo is None or value.utcoffset() is None:
         raise ValueError("An aware timestamp is required")
@@ -38,7 +42,7 @@ def event_identity(payload):
     match = re.fullmatch(r"(.+)/events/([0-9a-fA-F-]{36})/ticks/([0-9]{1,19})", payload["id"])
     if match is None or UUID(match[2]) != identifier:
         raise ValueError("Activity ARM ID does not contain its eventDataId")
-    scope = parse_scope(match[1], allow_subscription_resource=True)
+    scope = activity_scope(match[1])
     return identifier, scope, int(match[3])
 
 
@@ -61,11 +65,7 @@ def validate_activity_payload(payload, *, tenant=None, occurred_at=None, availab
             recorded_tenant = UUID(payload["tenantId"])
             if tenant is not None and recorded_tenant != tenant:
                 raise ValueError("Activity tenant mismatch")
-        if (
-            "resourceId" in payload
-            and parse_scope(payload["resourceId"], allow_subscription_resource=True).key
-            != scope.key
-        ):
+        if "resourceId" in payload and activity_scope(payload["resourceId"]).key != scope.key:
             raise ValueError("Activity resource ID mismatch")
         if (
             "resourceGroupName" in payload
@@ -73,7 +73,7 @@ def validate_activity_payload(payload, *, tenant=None, occurred_at=None, availab
         ):
             raise ValueError("Activity resource group mismatch")
         if auth_scope := payload.get("authorization", {}).get("scope"):
-            authority = parse_scope(auth_scope, allow_subscription_resource=True)
+            authority = activity_scope(auth_scope)
             if not authority.contains(scope):
                 raise ValueError("Activity authorization scope is unrelated to its resource")
         if occurred_at is not None and occurred_at != event_at:
@@ -108,7 +108,7 @@ def project_arm(source):
     facts = validate_arm_facts(source.facts)
     scope = parse_scope(facts["scope"])
     target = facts["after"].get("id") or facts["before"].get("id") or scope.display_id
-    target_scope = parse_scope(target, allow_subscription_resource=True)
+    target_scope = activity_scope(target)
     if not scope.contains(target_scope):
         raise ValueError("Native ARM target escaped its captured authorization scope")
     identifier = uuid5(source.ref.id, "mockazure:activityLog")
@@ -117,7 +117,9 @@ def project_arm(source):
     provider_positions = [i for i in range(0, len(parts), 2) if parts[i].lower() == "providers"]
     provider = parts[provider_positions[-1] + 1] if provider_positions else "Microsoft.Resources"
     resource_type = (
-        provider + "/" + "/".join(parts[provider_positions[-1] + 2 :: 2])
+        "Microsoft.Resources/providers"
+        if len(parts) == 2 and parts[0].lower() == "providers"
+        else provider + "/" + "/".join(parts[provider_positions[-1] + 2 :: 2])
         if provider_positions
         else "Microsoft.Resources/resourceGroups"
         if scope.group

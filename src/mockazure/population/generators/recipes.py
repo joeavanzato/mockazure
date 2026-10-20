@@ -36,11 +36,13 @@ RECIPE_FAMILIES = {
     "queue": ("storage.queues", "create", "service"),
     "table": ("storage.tables", "create", "service"),
     "content": ("content.objects", "generate", "fixture"),
+    "business-content": ("content.objects", "render", "fixture"),
     "blob": ("storage.blobs", "upload", "service"),
     "file": ("storage.files", "upload", "service"),
     "entity": ("storage.entities", "insert", "service"),
     "queue-message": ("storage.messages", "enqueue", "service"),
     "diagnostics": ("monitor.diagnostics", "create", "service"),
+    "business-diagnostics": ("monitor.diagnostics", "create", "service"),
     "site-drive-link": ("sharepoint.relationships", "link", "fixture"),
     "team-channel-link": ("teams.relationships", "link", "fixture"),
 }
@@ -58,6 +60,8 @@ def generate(name, parameters, refs, *, offset, limit):
         if kind == "providers"
         else 3
         if kind == "mail-folders"
+        else 5
+        if kind == "business-diagnostics"
         else 1
     )
     if g.count > maximum:
@@ -175,6 +179,15 @@ def generate(name, parameters, refs, *, offset, limit):
                 if r["type"] == type_name
             )
             body = {"variables": {"resource": resource["id"]}, "body": resource["body"]}
+        elif kind == "business-content":
+            body = {
+                "logical_key": "document:" + g.label,
+                "format": parameters.get("format", "docx"),
+                "theme": parameters.get("theme", "operations"),
+                "seed": g.seed,
+                "revision": parameters.get("revision", 1),
+                "fields": parameters.get("fields", {}),
+            }
         elif kind == "content":
             body = {
                 "text": "Synthetic " + g.namespace + " evidence.\n",
@@ -221,11 +234,18 @@ def generate(name, parameters, refs, *, offset, limit):
             else:
                 variables["queue"] = "evidence"
                 body["body"] = {"text": "Synthetic queue item " + g.namespace}
-        elif kind == "diagnostics":
+        elif kind in {"diagnostics", "business-diagnostics"}:
+            source = (
+                refs["vault"]
+                if kind == "business-diagnostics" and i == 4
+                else refs["account"]
+                + "/"
+                + ("blob", "file", "table", "queue")[i]
+                + "Services/default"
+            )
             body = {
                 "variables": {
-                    "resource": refs["account"]
-                    + "/blobServices/default/providers/Microsoft.Insights/diagnosticSettings/lab"
+                    "resource": source + "/providers/Microsoft.Insights/diagnosticSettings/lab"
                 },
                 "body": {
                     "properties": {
@@ -237,6 +257,11 @@ def generate(name, parameters, refs, *, offset, limit):
                     }
                 },
             }
+            if kind == "business-diagnostics":
+                body["body"]["properties"].update(
+                    storageAccountId=refs["account"],
+                    logs=[{"categoryGroup": "allLogs", "enabled": True}],
+                )
         elif kind == "site-drive-link":
             parent, body = (
                 refs["site"],

@@ -473,6 +473,7 @@ async def test_storage_fixture_lifecycle_excludes_keys_and_rejects_foreign_state
 
 def test_storage_upgrade_from_preceding_head(settings):
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import create_engine, text
 
     from mockazure.db.migrations import configuration, migrate
@@ -486,7 +487,10 @@ def test_storage_upgrade_from_preceding_head(settings):
             assert connection.scalar(text("SELECT to_regclass('storage_accounts')")) is None
         migrate(settings.database_url.get_secret_value())
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "076"
+            assert (
+                connection.scalar(text("SELECT version_num FROM alembic_version"))
+                == ScriptDirectory.from_config(configuration()).get_current_head()
+            )
             assert (
                 connection.scalar(text("SELECT to_regclass('storage_accounts')"))
                 == "storage_accounts"

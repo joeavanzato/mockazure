@@ -124,6 +124,12 @@ def router_for(version):
         async def remove_secret(identifier: str, request: Request):
             return await write(request, identifier, "remove_password")
 
+        async def add_key(identifier: str, request: Request):
+            return await write(request, identifier, "add_key")
+
+        async def remove_key(identifier: str, request: Request):
+            return await write(request, identifier, "remove_key")
+
         async def owners(identifier: str, request: Request):
             async with request.app.state.database.sessions.begin() as session:
                 actor = await principal(request, session)
@@ -193,6 +199,13 @@ def router_for(version):
                     router.add_api_route(
                         prefix + "/" + namespace + "removePassword", remove_secret, methods=["POST"]
                     )
+                    if version == "v1.0":
+                        router.add_api_route(
+                            prefix + "/" + namespace + "addKey", add_key, methods=["POST"]
+                        )
+                        router.add_api_route(
+                            prefix + "/" + namespace + "removeKey", remove_key, methods=["POST"]
+                        )
 
     for resource, kind in [
         ("applications", "application"),

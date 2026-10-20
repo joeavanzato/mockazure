@@ -109,7 +109,11 @@ class PublicActions:
             else:
                 if (
                     not 1 <= len(value) <= 512
-                    or not re.fullmatch(r"[A-Za-z0-9_:@., -]+", value)
+                    or (
+                        any(ord(c) < 32 or c in "/\\" for c in value)
+                        if action.service == "graph"
+                        else not re.fullmatch(r"[A-Za-z0-9_:@., -]+", value)
+                    )
                     or value in {".", ".."}
                 ):
                     raise ValueError("Invalid public resource path variable")
@@ -521,6 +525,32 @@ class PublicActions:
 
 def attach_public_actions(entries):
     actions = {
+        "teams.chat": [
+            Action("create", "graph", "POST", "/v1.0/chats", "v1.0", graph_type="chat"),
+        ],
+        "teams.conversationMember": [
+            Action(
+                "add-" + kind,
+                "graph",
+                "POST",
+                path + "/members",
+                "v1.0",
+                graph_type="aadUserConversationMember",
+            )
+            for kind, path in (
+                ("team", "/v1.0/teams/{team}"),
+                ("channel", "/v1.0/teams/{team}/channels/{channel}"),
+                ("chat", "/v1.0/chats/{chat}"),
+            )
+        ],
+        "teams.chatMessage": [
+            Action("send-" + kind, "graph", "POST", path, "v1.0", graph_type="chatMessage")
+            for kind, path in (
+                ("channel", "/v1.0/teams/{team}/channels/{channel}/messages"),
+                ("reply", "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies"),
+                ("chat", "/v1.0/chats/{chat}/messages"),
+            )
+        ],
         "storage.messages": [
             Action(
                 "enqueue",

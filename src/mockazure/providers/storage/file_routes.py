@@ -680,7 +680,9 @@ async def dispatch_file(request, account, share, raw_path):
                         access,
                         "file",
                         share + "/" + path,
-                        "GetFile"
+                        ("GetDirectoryMetadata" if directory else "GetFileMetadata")
+                        if operation == "get_metadata"
+                        else "GetFile"
                         if operation == "read"
                         else "GetDirectoryProperties"
                         if directory
@@ -843,7 +845,7 @@ async def dispatch_file(request, account, share, raw_path):
                         access,
                         "file",
                         share + "/" + path,
-                        "LeaseFile:" + request.headers["x-ms-lease-action"],
+                        "LeaseFile",
                         now,
                     )
                 elif operation == "delete":
@@ -884,7 +886,11 @@ async def dispatch_file(request, account, share, raw_path):
                     access,
                     "file",
                     share + "/" + path,
-                    "ListFilesAndDirectories" if operation == "list" else "GetFileProperties",
+                    {
+                        "list": "ListFilesAndDirectories",
+                        "rangelist": "ListRanges",
+                        "share_read": "GetShareProperties",
+                    }.get(operation, "GetFileProperties"),
                     now,
                 )
             await session.commit()

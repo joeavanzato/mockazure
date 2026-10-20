@@ -105,7 +105,12 @@ async def test_table_failed_actions_emit_no_success_fact(database, settings):
         ).status_code == 201
         async with database.sessions() as session:
             before = await session.scalar(
-                select(func.count()).select_from(CloudEvent).where(CloudEvent.tenant_id == tenant)
+                select(func.count())
+                .select_from(CloudEvent)
+                .where(
+                    CloudEvent.tenant_id == tenant,
+                    CloudEvent.payload["outcome"].astext == "Succeeded",
+                )
             )
         result = await table_call(
             client,
@@ -117,13 +122,31 @@ async def test_table_failed_actions_emit_no_success_fact(database, settings):
         assert result.status_code == 400
         async with database.sessions() as session:
             after = await session.scalar(
-                select(func.count()).select_from(CloudEvent).where(CloudEvent.tenant_id == tenant)
+                select(func.count())
+                .select_from(CloudEvent)
+                .where(
+                    CloudEvent.tenant_id == tenant,
+                    CloudEvent.payload["outcome"].astext == "Succeeded",
+                )
+            )
+            failed = list(
+                await session.scalars(
+                    select(CloudEvent).where(
+                        CloudEvent.tenant_id == tenant,
+                        CloudEvent.payload["outcome"].astext == "Failed",
+                    )
+                )
             )
         assert before == after
+        assert len(failed) == 1
+        assert failed[0].operation == "InsertEntity"
+        assert failed[0].payload["statusCode"] == 400
+        assert key not in json.dumps(failed[0].payload)
 
 
 async def test_table_migration_refuses_lossy_downgrade(database, settings):
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import create_engine, text
     from sqlalchemy.exc import DBAPIError
 
@@ -144,7 +167,10 @@ async def test_table_migration_refuses_lossy_downgrade(database, settings):
                 config.attributes["connection"] = connection
                 command.downgrade(config, "063")
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "076"
+            assert (
+                connection.scalar(text("SELECT version_num FROM alembic_version"))
+                == ScriptDirectory.from_config(configuration()).get_current_head()
+            )
             assert connection.scalar(text("SELECT name FROM storage_tables")) == "Preserved"
     finally:
         engine.dispose()

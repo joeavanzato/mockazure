@@ -62,6 +62,7 @@ from mockazure.providers.graph.audit_query_routes import router_for as audit_que
 from mockazure.providers.graph.calendar_routes import router as calendar_router
 from mockazure.providers.graph.calendar_view_routes import router as calendar_view_router
 from mockazure.providers.graph.directory import router_for
+from mockazure.providers.graph.drive_mutation_routes import router as drive_mutation_router
 from mockazure.providers.graph.drive_routes import router as drive_router
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
@@ -82,6 +83,7 @@ from mockazure.providers.graph.security.role_routes import router_for as role_ro
 from mockazure.providers.graph.security.routes import router_for as security_router_for
 from mockazure.providers.graph.site_routes import router as site_router
 from mockazure.providers.graph.subscription_routes import router as subscription_router
+from mockazure.providers.graph.team_mutation_routes import router as team_mutation_router
 from mockazure.providers.graph.team_routes import router as team_router
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
@@ -392,6 +394,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(policy_router_for("v1.0"))
     app.include_router(policy_router_for("beta"))
     app.include_router(role_router_for("v1.0"))
+    from mockazure.providers.graph.security.pim_routes import router as pim_router
+
+    app.include_router(pim_router)
     app.include_router(role_router_for("beta"))
     app.include_router(grant_router_for("v1.0"))
     app.include_router(grant_router_for("beta"))
@@ -399,8 +404,10 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(security_router_for("beta"))
     app.include_router(audit_query_router_for("v1.0"))
     app.include_router(audit_query_router_for("beta"))
+    app.include_router(team_mutation_router)
     app.include_router(team_router)
     app.include_router(site_router)
+    app.include_router(drive_mutation_router)
     app.include_router(drive_router)
     app.include_router(calendar_view_router)
     app.include_router(subscription_router)
@@ -418,6 +425,23 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
 
     app.include_router(device_user_router())
     app.include_router(object_router())
+    from mockazure.providers.graph.identity_lifecycle_routes import router as lifecycle_router
+
+    app.include_router(lifecycle_router)
+    from mockazure.providers.graph.deleted_routes import router as deleted_router
+
+    app.include_router(deleted_router)
+    from mockazure.admin.guest_routes import router as guest_router
+    from mockazure.providers.graph.invitation_routes import router as invitation_router
+
+    app.include_router(guest_router)
+    from mockazure.admin.hunting_routes import router as hunting_admin_router
+
+    app.include_router(hunting_admin_router)
+    from mockazure.providers.graph.hunting_routes import router as hunting_graph_router
+
+    app.include_router(hunting_graph_router)
+    app.include_router(invitation_router)
     app.include_router(router_for("v1.0"))
     app.include_router(router_for("beta"))
     app.include_router(exchange_router)

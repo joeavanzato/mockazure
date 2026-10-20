@@ -565,9 +565,7 @@ async def dispatch_blob(request, account, container, name):
                     )
                 action = values.get("x-ms-lease-action")
                 status, extra = await operate_lease(session, blob, version, action, values, now)
-                await record(
-                    session, access, "blob", container + "/" + name, "LeaseBlob:" + str(action), now
-                )
+                await record(session, access, "blob", container + "/" + name, "LeaseBlob", now)
                 result = Response(
                     status_code=status,
                     headers=headers(request)

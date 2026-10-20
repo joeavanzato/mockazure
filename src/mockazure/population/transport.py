@@ -32,6 +32,9 @@ AUDIENCES = {
 class ClientCredential:
     client_id: UUID
     secret: SecretStr
+    username: str | None = None
+    password: SecretStr | None = None
+    scopes: tuple[str, ...] = ()
 
 
 class LocalTransport:
@@ -87,17 +90,28 @@ class LocalTransport:
                 timeout=60,
             )
         try:
-            token = await client.post(
-                f"{login_origin}/{self.context.tenant_id}/oauth2/v2.0/token",
-                data={
-                    "grant_type": "client_credentials",
-                    "client_id": str(self.credential.client_id),
-                    "client_secret": self.credential.secret.get_secret_value(),
-                    "scope": AUDIENCES[service] + "/.default",
-                },
-                headers={"Authorization": "", "Cookie": ""},
-                follow_redirects=False,
-            )
+            if self.credential.password is not None:
+                from mockazure.population.delegated_login import acquire
+
+                if service != "graph":
+                    raise AdminError(
+                        422,
+                        "UnsupportedDelegatedService",
+                        "Named delegated activity currently supports Graph only",
+                    )
+                token = await acquire(client, login_origin, self.context.tenant_id, self.credential)
+            else:
+                token = await client.post(
+                    f"{login_origin}/{self.context.tenant_id}/oauth2/v2.0/token",
+                    data={
+                        "grant_type": "client_credentials",
+                        "client_id": str(self.credential.client_id),
+                        "client_secret": self.credential.secret.get_secret_value(),
+                        "scope": AUDIENCES[service] + "/.default",
+                    },
+                    headers={"Authorization": "", "Cookie": ""},
+                    follow_redirects=False,
+                )
             if 300 <= token.status_code < 400:
                 raise AdminError(502, "UnexpectedRedirect", "Local login redirected unexpectedly")
             if token.status_code != 200:

@@ -24,6 +24,7 @@ dependencies = [
   "pyjwt[crypto]>=2.10,<3",
   "tzdata==2026.5",
   "pyyaml>=6,<7",
+  "reportlab>=4.4,<5",
 ]
 
 [project.scripts]
@@ -57,7 +58,7 @@ dev = [
 packages = ["src/mockazure"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/build-requirements.txt", "/examples", "/docs/getting-started.md", "/docs/profiles.md"]
+include = ["/src", "/pyproject.toml", "/README.md", "/LICENSE", "/NOTICE", "/build-requirements.txt", "/examples", "/docs/getting-started.md", "/docs/profiles.md", "/docs/living-tenant-profiles.md", "/docs/finite-activity.md", "/docs/hunting-data.md", "/docs/hunting-cookbook.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -595,6 +595,19 @@ async def execute_query(session, actor, scope, plan, now):
                     plan.parameters.get("intervals", ()),
                     limits=limits,
                 )
+            elif plan.profile == "hunting":
+                from uuid import UUID
+
+                from mockazure.hunting.service import input_tables
+
+                tables = await input_tables(
+                    session,
+                    actor,
+                    UUID(scope.workspace_ids[0]) if scope.workspace_ids else None,
+                    plan,
+                    now,
+                    limits=limits,
+                )
             else:
                 raise QueryError("Unknown query profile")
             remaining = limits.seconds - (time.monotonic() - started)

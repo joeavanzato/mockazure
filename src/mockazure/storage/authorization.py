@@ -50,6 +50,21 @@ async def authorize_storage(
     auth = values.get("authorization", "")
     scheme, _, credential = auth.partition(" ")
     actor = None
+
+    def remember(mode, principal=None):
+        from mockazure.evidence.failures import attribute, storage_operation
+
+        attribute(
+            request,
+            row.tenant_id,
+            row.scope_key,
+            service,
+            storage_operation(request, service, action),
+            now,
+            principal,
+            mode,
+        )
+
     if scheme == "Bearer":
         if "sig" in request.query_params:
             raise StorageError(
@@ -61,6 +76,9 @@ async def authorize_storage(
             )
             if actor.tenant_id != row.tenant_id:
                 raise ArmError(403, "AuthorizationFailed", "Wrong tenant")
+            from mockazure.evidence.failures import principal_id
+
+            remember("oauth", await principal_id(session, actor))
             permissions = await require_oauth(
                 session, actor, row, service, action, resource, request
             )
@@ -87,7 +105,15 @@ async def authorize_storage(
             )
     if not auth and "skoid" in request.query_params:
         permissions, _ = await authorize_service_sas(
-            session, [], row, request, service, action, resource, now
+            session,
+            [],
+            row,
+            request,
+            service,
+            action,
+            resource,
+            now,
+            on_authenticated=lambda: remember("user_delegation_sas"),
         )
         return StorageAccess(row.tenant_id, row.scope_key, "user_delegation_sas", None, permissions)
     if not props.get("allowSharedKeyAccess", True):
@@ -127,13 +153,31 @@ async def authorize_storage(
             raise StorageError(
                 403, "AuthenticationFailed", "Request signature or timestamp is invalid"
             ) from None
+        remember("shared_key")
         return StorageAccess(row.tenant_id, row.scope_key, "shared_key", None, frozenset({"*"}))
     if not auth and "sig" in request.query_params:
         if "ss" not in request.query_params:
             permissions, _ = await authorize_service_sas(
-                session, keys, row, request, service, action, resource, now
+                session,
+                keys,
+                row,
+                request,
+                service,
+                action,
+                resource,
+                now,
+                on_authenticated=lambda: remember("service_sas"),
             )
             return StorageAccess(row.tenant_id, row.scope_key, "service_sas", None, permissions)
-        permissions = authorize_account_sas(keys, account, request, service, action, resource, now)
+        permissions = authorize_account_sas(
+            keys,
+            account,
+            request,
+            service,
+            action,
+            resource,
+            now,
+            on_authenticated=lambda: remember("account_sas"),
+        )
         return StorageAccess(row.tenant_id, row.scope_key, "account_sas", None, permissions)
     raise StorageError(403, "AuthenticationFailed", "Storage authorization is required")

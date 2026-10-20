@@ -21,7 +21,7 @@ ASSETS = {
     "styles.css": "text/css",
     **{
         name + ".js": "text/javascript"
-        for name in ("app", "api", "resources", "profiles", "runs", "inspector")
+        for name in ("app", "api", "resources", "profiles", "runs", "inspector", "hunting")
     },
 }
 PUBLIC_PATHS = {"/_mock/console/login", "/_mock/ui/", *{"/_mock/ui/" + name for name in ASSETS}}

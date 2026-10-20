@@ -322,6 +322,12 @@ async def publish_batch(session: AsyncSession, batch: ProjectionBatch) -> Publis
         await record_activity(session, key[0], item)
     await session.flush()
     await publish_linked_risk(session, source, revision)
+    from mockazure.hunting.projection import project_hunting
+    from mockazure.hunting.publication import publish_hunting
+
+    # The existing receipt is the replay fence, including after hunting reset or
+    # retention. This shares the source generation, rollback and worker lease.
+    await publish_hunting(session, source, project_hunting(source))
     record_ids = tuple(item.id for item in batch.items)
     session.add(
         ProjectionReceipt(

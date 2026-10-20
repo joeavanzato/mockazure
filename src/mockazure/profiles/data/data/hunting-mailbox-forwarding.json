@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "name": "hunting-mailbox-forwarding",
+  "kind": "data",
+  "extends": "business-security-telemetry",
+  "steps": {
+    "hunting-overlay-mailbox-forwarding": {
+      "family": "hunting.CloudAppEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.CloudAppEvents",
+        "overlay": "mailbox-forwarding",
+        "count": 3,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "hunting-CloudAppEvents"
+      ]
+    }
+  }
+}

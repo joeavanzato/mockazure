@@ -18,7 +18,10 @@ USER_FIELDS = frozenset(
         "assignedLicenses",
         "assignedPlans",
         "userType",
+        "externalUserState",
+        "externalUserStateChangeDateTime",
         "createdDateTime",
+        "signInSessionsValidFromDateTime",
         "jobTitle",
         "department",
         "officeLocation",
@@ -59,6 +62,7 @@ FACT_FIELDS = frozenset(
         "changed_fields",
         "legacy_incomplete",
         "modified_properties",
+        "deletion_semantics",
     }
 )
 

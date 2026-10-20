@@ -8,8 +8,11 @@ from mockazure.population.adapters import (
     administration,
     arm,
     content,
+    device_estate,
     directory,
     evidence,
+    hunting,
+    identity_lifecycle,
     keyvault,
     licensing,
     log_records,
@@ -19,6 +22,7 @@ from mockazure.population.adapters import (
     permissions,
     relationships,
     security,
+    site_access,
     storage,
     workloads,
 )
@@ -28,8 +32,10 @@ from mockazure.population.adapters import (
 def registry():
     entries = [
         *directory.adapters(),
-        *administration.adapters(),
+        *(a for a in administration.adapters() if a.describe().key != "directory.devices"),
+        *device_estate.adapters(),
         *identity.adapters(),
+        *identity_lifecycle.adapters(),
         *content.adapters(),
         *licensing.adapters(),
         *relationships.adapters(),
@@ -41,8 +47,10 @@ def registry():
         *log_records.adapters(),
         *mail.adapters(),
         *security.adapters(),
+        *site_access.adapters(),
         *workloads.adapters(),
         *evidence.adapters(),
+        *hunting.adapters(),
         *activity.adapters(),
         *arm.adapters(),
     ]

@@ -1,4 +1,4 @@
-"""Immutable local site permission facts; no unverified Microsoft audit operation names."""
+"""Immutable workload facts with versioned, source-verified audit projections."""
 
 import json
 from datetime import timedelta
@@ -7,13 +7,29 @@ from uuid import uuid4
 from mockazure.evidence.clock import evidence_now
 from mockazure.evidence.repository import append_source, lock_state
 from mockazure.evidence.risk import actor_snapshot
-from mockazure.evidence.schemas import EvidenceSettings, ProjectionBatch, SourceInput, SourceRef
+from mockazure.evidence.schemas import EvidenceSettings, SourceInput, SourceRef
 from mockazure.evidence.sources import enqueue_projection
 from mockazure.mail.audit_schemas import public_audit_data
 
+NATIVE_OPERATIONS = (
+    {"site.permission.create", "site.permission.delete", "teams.chat.create"}
+    | {f"drive.{action}" for action in ("upload", "update", "copy", "delete")}
+    | {
+        f"teams.{kind}.member.{action}"
+        for kind in ("team", "channel", "chat")
+        for action in ("add", "update", "delete")
+        if (kind, action) != ("chat", "update")
+    }
+    | {
+        f"teams.{kind}.message.{action}"
+        for kind in ("channel", "reply", "chat")
+        for action in ("send", "update", "softdelete", "undosoftdelete")
+    }
+)
+
 
 def validate_workload_facts(value):
-    if not isinstance(value, dict) or set(value) != {
+    if not isinstance(value, dict) or set(value) - {"mapping_version"} != {
         "operation",
         "scope",
         "actor",
@@ -22,10 +38,9 @@ def validate_workload_facts(value):
         "provenance",
     }:
         raise ValueError("Invalid workload fact")
-    if (
-        value["operation"] not in {"site.permission.create", "site.permission.delete"}
-        or value["provenance"] != "native"
-    ):
+    if "mapping_version" in value and value["mapping_version"] != "business-evidence-v1":
+        raise ValueError("Unknown workload evidence mapping version")
+    if value["operation"] not in NATIVE_OPERATIONS or value["provenance"] != "native":
         raise ValueError("Unsupported native workload operation")
     if not isinstance(value["scope"], str) or not 1 <= len(value["scope"]) <= 512:
         raise ValueError("Invalid site scope")
@@ -57,6 +72,7 @@ async def record_permission_fact(session, actor, operation, scope, before, after
                 "before": before,
                 "after": after,
                 "provenance": "native",
+                "mapping_version": "business-evidence-v1",
             },
         ),
     )
@@ -64,9 +80,6 @@ async def record_permission_fact(session, actor, operation, scope, before, after
 
 
 def project_workload(source):
-    validate_workload_facts(source.facts)
-    # Retain/query the native fact; an exact Purview event mapping is not documented
-    # for these Graph site-grant operations. Never counterfeit a Microsoft event name.
-    return ProjectionBatch(
-        source=source.ref, generation=source.generation, items=(), receipt_status="suppressed"
-    )
+    from mockazure.workloads.audit import project
+
+    return project(source)

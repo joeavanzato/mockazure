@@ -8,6 +8,11 @@ in `src/mockazure/security/data/`.
 
 ## Public reads
 
+Native upload, rename/move, copy and delete are specified separately in the
+[file workflow contract](../../docs/drive-native-workflows.md), with pinned
+v1.0 operation sources in the living tenant inventory. Read semantics below apply
+to both imported data and native results.
+
 | Microsoft Graph URI (prefix `/v1.0`) | Implemented behavior | Limits |
 | --- | --- | --- |
 | `/sites/{site-id}`, `/sites/root`, `/sites/{hostname}:/{path}` | Composite IDs, imported root facet, case-insensitive imported `webUrl` lookup | Ambiguous roots/paths return 404; URL is evidence, never fetched |
@@ -17,10 +22,10 @@ in `src/mockazure/security/data/`.
 | `/sites/{site}/drives`, `/drives/{drive}` | Canonical drive metadata | No drive creation |
 | `/users/{id}/drives`, `/groups/{id}/drives`, their `/drive` aliases, `/me/drives`, `/me/drive`, `/sites/{site}/drive` | Explicit imported directory-to-drive edges, same canonical records and authority | Directory aliases require UUID (UPN unsupported); singular alias requires exactly one drive; `/me` delegated only |
 | `/drives/{drive}/root`, `/items/{item}`, `/root:/{path}` | Canonical item IDs and case-insensitive root-relative path lookup | Item-relative paths unsupported; names cannot contain path separators |
-| `/drives/{drive}/items/{item}/children` | Versioned child enumeration | Folder only; public metadata writes unsupported |
+| `/drives/{drive}/items/{item}/children` | Versioned child enumeration | Folder only; native file creation uses the parent/name content PUT |
 | `/drives/{drive}/items/{item}/permissions[/{permission}]` | Imported permission evidence | Display evidence does not grant site access; sharing writes unsupported |
 | `/drives/{drive}/items/{item}/versions[/{version}]` | Imported version metadata | No version restore/delete |
-| `/drives/{drive}/items/{item}/content`, `/versions/{version}/content` | 302 to local opaque capability; exact stored bytes, ranges and ETag | Only imported file content; no remote URL fetch/upload APIs |
+| `/drives/{drive}/items/{item}/content`, `/versions/{version}/content` | 302 to local opaque capability; exact stored bytes, ranges and ETag | Imported and native file bytes; no remote URL fetch |
 | `/drives/{drive}/root/delta`, `/items/{root-id}/delta` | Initial hierarchy, changed rows, deleted facet, durable next/delta links, `token=latest` and `delta(token='...')` | Root only, metadata import is mutation source; no arbitrary-folder delta or `$expand` |
 | `/sites/{site}/permissions[/{permission}]` | GET authoritative application grants, POST create/upsert, DELETE revoke | Application identities only; no PATCH; imported permission display records are not returned here |
 

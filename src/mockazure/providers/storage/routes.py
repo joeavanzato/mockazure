@@ -10,6 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.responses import Response
 
+from mockazure.evidence.failures import capture_request_failure
 from mockazure.identity.keys import read_wrapping_key
 from mockazure.providers.arm.models import ArmResource
 from mockazure.providers.storage.errors import StorageError, headers, response
@@ -85,14 +86,22 @@ def properties_headers(item, service):
 async def handle(request, service):
     try:
         async with buffered_request(request) as buffered:
-            return await dispatch(buffered, service)
+            result = await dispatch(buffered, service)
+            # Table changesets can carry an inner failure in an HTTP 202 response.
+            # The dispatcher has closed its transaction before this capture.
+            if failure := getattr(request.state, "nested_failure", None):
+                await capture_request_failure(request, *failure)
+            return result
     except StorageError as error:
+        await capture_request_failure(request, error.status, error.code)
         return response(request, error, service)
     except SQLAlchemyError:
+        await capture_request_failure(request, 503, "ServerBusy")
         return response(
             request, StorageError(503, "ServerBusy", "Storage database is unavailable"), service
         )
     except (ValueError, TypeError, UnicodeError):
+        await capture_request_failure(request, 400, "InvalidQueryParameterValue")
         return response(
             request,
             StorageError(400, "InvalidQueryParameterValue", "Invalid Storage request"),
@@ -317,6 +326,7 @@ async def dispatch(request, service):
 
                 result = await list_share_snapshots(session, request, access, now)
                 if result is not None:
+                    await record(session, access, service, name, "ListShares", now)
                     return result
             maximum = int(args.get("maxresults", "5000"))
             if not 1 <= maximum <= 5000:
@@ -396,6 +406,14 @@ async def dispatch(request, service):
                 "The ETag precondition failed",
             )
         if action == "get_acl":
+            await record(
+                session,
+                access,
+                service,
+                name,
+                "GetContainerACL" if service == "blob" else "GetShareACL",
+                now,
+            )
             xml = Element("SignedIdentifiers")
             for policy in row.policies:
                 item = SubElement(xml, "SignedIdentifier")

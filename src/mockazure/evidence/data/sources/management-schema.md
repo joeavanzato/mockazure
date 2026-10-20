@@ -1,0 +1,3565 @@
+---
+ms.TocTitle: Office 365 Management Activity API schema
+title: Office 365 Management Activity API schema
+description: The Office 365 Management Activity API schema is provided as a data service in two layers - Common schema and service-specific schema.
+ms.ContentId: 1c2bf08c-4f3b-26c0-e1b2-90b190f641f5
+ms.topic: reference
+ms.date: 10/01/2026
+ms.localizationpriority: high
+---
+
+# Office 365 Management Activity API schema
+
+The Office 365 Management Activity API schema is provided as a data service in  two layers:
+
+- **Common schema**. The interface to access core Office 365 auditing concepts such as Record Type, Creation Time, User Type, and Action as well as to provide core dimensions (such as User ID), location specifics (such as Client IP address), and service-specific properties (such as Object ID). It establishes consistent and uniform views for users to extract all Office 365 audit data in a few top level views with the appropriate parameters, and provides a fixed schema for all the data sources, which significantly reduces the cost of learning. Common schema is sourced from product data that is owned by each product team, such as Exchange, SharePoint, Azure Active Directory, Viva Engage, and OneDrive. The Object ID field can be extended by Microsoft 365 product teams to add service-specific properties.
+
+- **Service-specific schema**. Built on top of the Common schema to provide a set of Microsoft 365 service-specific attributes; for example, SharePoint schema, OneDrive schema, and Exchange admin schema.
+
+## Office 365 Management API schemas
+
+This article provides details on the Common schema as well as service-specific schemas. The following table describes the available schemas.
+
+|Name of schema|Description|
+|---|---|
+|[Common schema](#common-schema)|The view to extract Record Type, User ID, Client IP, User type and Action along with core dimensions such as user properties (such as UserID), location properties (such as Client IP), and service-specific properties (such as Object Id).|
+|[Copilot schema](copilot-schema.md)|Events include how and when to interact with Copilot, in which Microsoft 365 service the activity took place, and references to the files stored in Microsoft 365 that were accessed during the interaction.|
+|[SharePoint Base schema](#sharepoint-base-schema)|Extends the Common schema with the properties specific to all SharePoint audit data.|
+|[SharePoint File Operations](#sharepoint-file-operations)|Extends the SharePoint Base schema with the properties specific to file access and manipulation in SharePoint.|
+|[SharePoint List Operations](#sharepoint-list-operations)|Extends the SharePoint Base schema with the properties specific to interactions with lists and list items in SharePoint.|
+|[SharePoint Sharing schema](#sharepoint-sharing-schema)|Extends the SharePoint Base schema with the properties specific to file sharing.|
+|[SharePoint schema](#sharepoint-schema)|Extends the SharePoint Base schema with the properties specific to SharePoint, but unrelated to file access and manipulation.|
+|[Project schema](#project-schema)|Extends the SharePoint Base schema with the properties specific to Project.|
+|[Exchange Admin schema](#exchange-admin-schema)|Extends the Common schema with the properties specific to all Exchange admin audit data.|
+|[Exchange Mailbox schema](#exchange-mailbox-schema)|Extends the Common schema with the properties specific to all Exchange mailbox audit data.|
+|[OWA Auth schema](#owa-auth-schema)|Extends the Common schema with the properties specific to OWA Auth data.|
+|[Microsoft Entra ID Base schema](#azure-active-directory-base-schema)|Extends the Common schema with the properties specific to all Microsoft Entra audit data.|
+|[Microsoft Entra account Logon schema](#azure-active-directory-account-logon-schema)|Extends the Microsoft Entra ID Base schema with the properties specific to all Microsoft Entra logon events.|
+|[Microsoft Entra ID Secure STS Logon schema](#azure-active-directory-secure-token-service-sts-logon-schema)|Extends the Microsoft Entra ID Base schema with the properties specific to all Microsoft Entra ID Secure Token Service (STS) logon events.|
+|[Microsoft Entra schema](#azure-active-directory-schema)|Extends the Common schema with the properties specific to all Microsoft Entra audit data.|
+|[DLP schema](#dlp-schema)|Extends the Common schema with the properties specific to Data Loss Prevention events.|
+|[Security and Compliance Center schema](#security-and-compliance-center-schema)|Extends the Common schema with the properties specific to all Security & Compliance Center events.|
+|[Security and Compliance Alerts schema](#security-and-compliance-alerts-schema)|Extends the Common schema with the properties specific to all Office 365 security and compliance alerts.|
+|[Viva Engage schema](#viva-engage-schema)|Extends the Common schema with the properties specific to all Viva Engage events.|
+|[Data Center Security Base schema](#data-center-security-base-schema)|Extends the Common schema with the properties specific to all data center security audit data.|
+|[Data Center Security Cmdlet schema](#data-center-security-cmdlet-schema)|Extends the Data Center Security Base schema with the properties specific to all data center security cmdlet audit data.|
+|[Microsoft Teams schema](#microsoft-teams-schema)|Extends the Common schema with the properties specific to all Microsoft Teams events.|
+|[Microsoft Defender case management schema](#microsoft-defender-case-management-schema)|Extends the Common schema with properties specific to case management events in the Microsoft Defender portal.|
+|[Microsoft Defender for Office 365 and Threat Investigation and Response schema](#microsoft-defender-for-office-365-and-threat-investigation-and-response-schema)|Extends the Common schema with the properties specific to Defender for Office 365 and threat investigation and response data.|
+|[Submission schema](#submission-schema)|Extends the Common schema with the properties specific to user and admin submissions in Microsoft Defender for Office 365.|
+|[Automated investigation and response events in Microsoft Defender for Office 365 Plan 2](#automated-investigation-and-response-events-in-microsoft-defender-for-office-365-plan-2)|Extends the Common schema with the properties specific to Office 365 automated investigation and response (AIR) events. To see an example, see [Tech Community blog: Improve the Effectiveness of your SOC with Microsoft Defender for Office 365 and the Office 365 Management API](https://techcommunity.microsoft.com/t5/microsoft-security-and/improve-the-effectiveness-of-your-soc-with-office-365-atp-and/ba-p/1525185).|
+|[Hygiene events schema](#hygiene-events-schema)|Extends the Common schema with the properties specific to events in [the built-in security features for all cloud mailboxes](/defender-office-365/eop-about) and Microsoft Defender for Office 365.|
+|[Power BI schema](#power-bi-schema)|Extends the Common schema with the properties specific to all Power BI events.|
+|[Dynamics 365 schema](#dynamics-365-schema)|Extends the Common schema with the properties specific to Dynamics 365 events.|
+|[Viva Insights schema](#viva-insights-schema)|Extends the Common schema with the properties specific to all Microsoft Viva Insights events.|
+|[Quarantine schema](#quarantine-schema)|Extends the Common schema with the properties specific to all quarantine events.|
+|[Microsoft Forms schema](#microsoft-forms-schema)|Extends the Common schema with the properties specific to all Microsoft Forms events.|
+|[MIP label schema](#mip-label-schema)|Extends the Common schema with the properties specific to sensitivity labels manually or automatically applied to email messages.|
+|[Encrypted message portal event schema](#encrypted-message-portal-events-schema)|Extends the Common schema with the properties specific to encrypted message portal accessed by external recipients.|
+|[Communication compliance Exchange schema](#communication-compliance-exchange-schema)|Extends the Common schema with the properties specific to the Communication compliance offensive language model.|
+|[Reports schema](#reports-schema)|Extends the Common schema with the properties specific to all reports events.|
+|[Compliance connector schema](#compliance-connector-schema)|Extends the Common schema with the properties specific to importing non-Microsoft data by using data connectors.|
+|[SystemSync schema](#systemsync-schema)|Extends the Common schema with the properties specific to data ingested via SystemSync.|
+|[Viva Goals schema](#viva-goals-schema)|Extends the Common schema with the properties specific to all Viva Goals events.|
+|[Microsoft Planner schema](#microsoft-planner-schema)|Extends the Common schema with the properties specific to Microsoft Planner events.|
+|[Microsoft Project for the web schema](#microsoft-project-for-the-web-schema)|Extends the Common schema with the properties specific to Microsoft Project for the web events.|
+|[Viva Pulse schema](#viva-pulse-schema)|Extends the Common schema with the properties specific to all Viva Pulse events.|
+|[Compliance Manager schema](#compliance-manager-schema)|Extends the Common schema with the properties specific to Compliance Manager events.|
+|[Backup Policy Schema](#backup-policy-schema)|Extends the Common schema with the properties specific to Microsoft 365 Backup Policies.|
+|[Restore Task schema](#restore-task-schema)|Extends the Common schema with the properties specific to Microsoft 365 Backup Restore Tasks.|
+|[Backup Item schema](#backup-item-schema)|Extends the Common schema with the properties specific to Microsoft 365 Backup artifacts.|
+|[Restore Item schema](#restore-item-schema)|Extends the common schema with the properties specific to Microsoft 365 Backup Restore Items.|
+|[Granular Browse Task schema](#granular-browse-task-schema)|Extends the Common schema with the properties specific to Microsoft 365 Backup Granular Browse Tasks.|
+|[Cloud Policy service schema](#cloud-policy-service-schema)|Extends the Common schema with the properties specific to all Cloud Policy service audit data.|
+|[Cloud Update profile configuration schema](#cloud-update-profile-configuration-schema)|Extends the Common schema with the properties specific to the Cloud Update profile configuration audit data.|
+|[Cloud Update tenant configuration schema](#cloud-update-tenant-configuration-schema)|Extends the Common schema with the properties specific to the Cloud Update tenant configuration audit data.|
+|[Cloud Update device configuration schema](#cloud-update-device-schema)|Extends the Common schema with the properties specific to the Cloud Update device configuration audit data.|
+|[Microsoft Entra Risk Detection schema](#microsoft-entra-risk-detection-schema)|Extends the Common schema with the properties specific to Microsoft Entra Risk Detection events.|
+|[Microsoft Edge WebContentFiltering schema](#microsoft-edge-webcontentfiltering-schema)|Extends the Common schema with the properties specific to Microsoft Edge WebContentFiltering events.|
+|[Microsoft 365 Copilot scheduled prompt schema](#microsoft-365-copilot-scheduled-prompt-schema)|Extends the Common schema with the properties specific to Microsoft 365 Copilot scheduled prompt audit data.|
+|[Microsoft Places Directory schema](#microsoft-places-directory-schema)|Extends the Common schema with the properties specific to Microsoft Places Directory audit data.|
+|[Teams Evaluation Data Hub schema](#teams-evaluation-data-hub-schema)|Extends the Common schema with the properties specific to Teams Evaluation Data Hub data-access and permission-change events.|
+|[Security and Compliance RBAC](#security-and-compliance-rbac-schema)|Extends the Common schema with the properties specific to Security and Compliance RBAC permission events.|
+|[Dragon Copilot Admin schema](#dragon-copilot-admin-schema)|Extends the Common schema with the properties specific to Dragon Copilot administrative audit data.|
+|[Microsoft Agent 365 schema](#microsoft-agent-365-schema)|Events generated by Microsoft Agent 365, including AI guardrail evaluations, decisions, findings, and policy enforcement actions.|
+
+## Common schema
+
+**EntityType Name**: AuditRecord
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Combination GUIDEdm.Guid|Yes|Unique identifier of an audit record.|
+|RecordType|Self.[AuditLogRecordType](#auditlogrecordtype)|Yes|The type of operation indicated by the record. See the [AuditLogRecordType](#auditlogrecordtype) table for details on the types of audit log records.|
+|CreationTime|Edm.Date|Yes|The date and time in Coordinated Universal Time (UTC) when the audit log record was generated.|
+|Operation|Edm.String|Yes|The name of the user or admin activity. For a description of the most common operations/activities, see [Search the audit log](/purview/audit-search). For Exchange admin activity, this property identifies the name of the cmdlet that was run. For Dlp events, this can be "DlpRuleMatch", "DlpRuleUndo" or "DlpInfo", which are described under "DLP schema" below.|
+|OrganizationId|Edm.Guid|Yes|The GUID for your organization's Office 365 tenant. This value is always the same for your organization, regardless of the Office 365 service in which it occurs.|
+|UserType|Self.[UserType](#user-type)|Yes|The type of user that performed the operation. See the [UserType](#user-type) table for details on the types of users.|
+|UserKey|Edm.String|Yes|An alternative ID for the user identified in the UserId property. This property is populated with the passport unique ID (PUID) for events performed by users in SharePoint, OneDrive, and Exchange.|
+|Workload|Edm.String|Yes|The Office 365 service where the activity occurred.|
+|ResultStatus|Edm.String|No|Indicates whether the action (specified in the Operation property) was successful or not. Possible values are **Succeeded**, **PartiallySucceeded**, or **Failed**. For Exchange admin activity, the value is either **True** or **False**. <br/><br/> **Important**: Different workloads might overwrite the value of the ResultStatus property. For example, for Microsoft Entra ID STS logon events, a value of **Succeeded** for ResultStatus indicates only that the HTTP operation was successful; it doesn't mean the logon was successful. To determine if the actual logon was successful or not, see the LogonError property in the [Microsoft Entra ID STS Logon schema](#azure-active-directory-secure-token-service-sts-logon-schema). If the logon failed, the value of this property contains the reason for the failed logon attempt.|
+|ObjectId|Edm.string|No|For SharePoint and OneDrive activity, the full path name of the file or folder accessed by the user. For Exchange admin audit logging, the name of the object that was modified by the cmdlet. For Cloud Policy service, the object ID of the policy configuration. For TrainableClassifier activity, the id of the model created, published, updated, or deleted by the user.|
+|UserId|Edm.string|Yes|The UPN (User Principal Name) of the user who performed the action (specified in the Operation property) that resulted in the record being logged; for example, ``my_name@my_domain_name``. **Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This value indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service.|
+|ClientIP|Edm.String|Yes|The IPv4 or IPv6 address of the device that was used when the activity was logged. <br/><br/> For some services, the value displayed in this property might be the IP address for a trusted application (for example, Office on the web apps) calling into the service on behalf of a user and not the IP address of the device used by person who performed the activity. <br/><br/> Also, for Microsoft Entra ID-related events, the IP address isn't logged and the value for the ClientIP property is `null`.|
+|Scope|Self.[AuditLogScope](#auditlogscope)|No|Event created by one of the following sources: <ul><li>**online**: A service in Microsoft 365.</li><li>**onprem**: A service in an on-premises organization. Currently, SharePoint is the only workload sending events from on-premises to Microsoft 365.</li></ul>|
+|AppAccessContext|CollectionSelf.[AppAccessContext](#complex-type-appaccesscontext)|No|The application context for the user or service principal that performed the action.|
+
+### AgentAdminActivity
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AgentID|Edm.String|Yes|Unique identifier of the Agent|
+|AgentName|Edm.String|Yes|The name of the Agent|
+|AgentType|Edm.Int32|Yes|The type of the Agent - Microsoft (1P), External (3P), Shared by users (Shared), Built by your org (External). |
+|UserAssignments|Collection (Edm.Guid)|No|Collection of GUID of Users and Groups associated with the agent activity.|
+|ForAllUsers|Edm.Boolean|Yes|Whether the activity associated with the agent was captured for the entire organization or not. True when it applies to all users in the organization. False when it applies to specific users/group.|
+
+### AgentSettingsAdminActivity
+
+| Parameters|Type|Mandatory?|Description|
+| -------- | -------- | -------- | -------- |
+|Property   |Edm.String|Yes|The tenant wide setting name that was updated by the admin.|
+|RemovedIdentities|Collection(Edm.Guid)|No|Collection of GUID of Users or Groups that were removed.|
+|AddedIdentities|Collection(Edm.Guid)|No|Collection of GUID of Users or Groups that were added. |
+|NewValue|Edm.String|Yes|The new value of the setting.|
+|ForAllUsers|Edm.Boolean|Yes|Boolean value indicating if the tenant wide setting impacted all users.|
+| OldValue |Edm.String|Yes  |The old value or the new setting.|
+
+### Enum: AuditLogRecordType - Type: Edm.Int32
+
+#### AuditLogRecordType
+
+|Value|Member name|Description|
+|---|---|---|
+|1|ExchangeAdmin|Events from the Exchange admin audit log.|
+|2|ExchangeItem|Events from an Exchange mailbox audit log for actions that are performed on a single item, such as creating or receiving an email message.|
+|3|ExchangeItemGroup|Events from an Exchange mailbox audit log for actions that can be performed on multiple items, such as moving or deleted one or more email messages.|
+|4|SharePoint|SharePoint events.|
+|6|SharePointFileOperation|SharePoint file operation events.|
+|7|OneDrive|OneDrive events.|
+|8|AzureActiveDirectory|Microsoft Entra ID events.|
+|9|AzureActiveDirectoryAccountLogon|Microsoft Entra ID OrgId logon events (deprecated).|
+|10|DataCenterSecurityCmdlet|Data Center security cmdlet events.|
+|11|ComplianceDLPSharePoint|Data loss protection (DLP) events in SharePoint and OneDrive.|
+|13|ComplianceDLPExchange|Data loss protection (DLP) events in Exchange, when configured via Unified DLP Policy. DLP events based on Exchange Transport Rules are not supported.|
+|14|SharePointSharingOperation|SharePoint sharing events.|
+|15|AzureActiveDirectoryStsLogon|Secure Token Service (STS) logon events in Microsoft Entra ID.|
+|16|SkypeForBusinessPSTNUsage|Public Switched Telephone Network (PSTN) events from Skype for Business.|
+|17|SkypeForBusinessUsersBlocked|Blocked user events from Skype for Business.|
+|18|SecurityComplianceCenterEOPCmdlet|Admin actions in [the built-in security features for all cloud mailboxes](/defender-office-365/eop-about) from the Microsoft Defender portal.|
+|19|ExchangeAggregatedOperation|Aggregated Exchange mailbox auditing events.|
+|20|PowerBIAudit|Power BI events.|
+|21|CRM|Dynamics 365 events.|
+|22|Viva Engage|Viva Engage events.|
+|23|SkypeForBusinessCmdlets|Skype for Business events.|
+|24|Discovery|Events for eDiscovery activities performed by running content searches and managing eDiscovery cases in the Microsoft Purview portal.|
+|25|MicrosoftTeams|Events from Microsoft Teams.|
+|28|ThreatIntelligence|Phishing and malware events from [the built-in security features for all cloud mailboxes](/defender-office-365/eop-about) and Microsoft Defender for Office 365.|
+|29|MailSubmission|Submission events from [the built-in security features for all cloud mailboxes](/defender-office-365/eop-about) and Microsoft Defender for Office 365.|
+|30|MicrosoftFlow|Microsoft Power Automate (formerly called Microsoft Flow) events.|
+|31|AeD|Advanced eDiscovery events.|
+|32|MicrosoftStream|Microsoft Stream events.|
+|33|ComplianceDLPSharePointClassification|Events related to DLP classification in SharePoint.|
+|34|ThreatFinder|Campaign-related events from Microsoft Defender for Office 365.|
+|35|Project|Microsoft Project events.|
+|36|SharePointListOperation|SharePoint List events.|
+|37|SharePointCommentOperation|SharePoint comment events.|
+|38|DataGovernance|Events related to retention policies and retention labels in the Microsoft Purview portal.|
+|39|Kaizala|Kaizala events.|
+|40|SecurityComplianceAlerts|Security and compliance alert signals.|
+|41|ThreatIntelligenceUrl|Safe links time-of-block and block override events from Microsoft Defender for Office 365.|
+|42|SecurityComplianceInsights|Events related to insights and reports in the Microsoft Defender portal.|
+|43|MIPLabel|Events related to the detection in the Transport pipeline of email messages that have been tagged (manually or automatically) with sensitivity labels.|
+|44|VivaInsights|Viva Insights events.|
+|45|PowerAppsApp|Power Apps events.|
+|46|PowerAppsPlan|Subscription plan events for Power Apps.|
+|47|ThreatIntelligenceAtpContent|Phishing and malware events for files in SharePoint, OneDrive, and Microsoft Teams from Microsoft Defender for Office 365.|
+|48|LabelContentExplorer|Events related to [data classification content explorer](/purview/data-classification-content-explorer).|
+|49|TeamsHealthcare|Events related to the [Patients app](/microsoftteams/manage-lists-app) in Microsoft Teams for Healthcare.|
+|50|ExchangeItemAggregated|Events related to the [MailItemsAccessed mailbox auditing action](/purview/audit-log-investigate-accounts).|
+|51|HygieneEvent|Events related to outbound spam protection.|
+|52|DataInsightsRestApiAudit|Data Insights REST API events.|
+|53|InformationBarrierPolicyApplication|Events related to the application of information barrier policies.|
+|54|SharePointListItemOperation|SharePoint list item events.|
+|55|SharePointContentTypeOperation|SharePoint list content type events.|
+|56|SharePointFieldOperation|SharePoint list field events.|
+|57|MicrosoftTeamsAdmin|Teams admin events.|
+|58|HRSignal|Events related to HR data signals that support the Insider risk management solution.|
+|59|MicrosoftTeamsDevice|Teams device events.|
+|60|MicrosoftTeamsAnalytics|Teams analytics events.|
+|61|InformationWorkerProtection|Events related to compromised user alerts.|
+|62|Campaign|Email campaign events from Microsoft Defender for Office 365.|
+|63|DLPEndpoint|Endpoint DLP events.|
+|64|AirInvestigation|Automated incident response (AIR) events.|
+|65|Quarantine|Quarantine events.|
+|66|MicrosoftForms|Microsoft Forms events.|
+|67|ApplicationAudit|Application audit events.|
+|68|ComplianceSupervisionExchange|Events tracked by the Communication compliance offensive language model.|
+|69|CustomerKeyServiceEncryption|Events related to the customer key encryption service.|
+|70|OfficeNative|Events related to sensitivity labels applied to Office documents.|
+|71|MipAutoLabelSharePointItem|Auto-labeling events in SharePoint.|
+|72|MipAutoLabelSharePointPolicyLocation|Auto-labeling policy events in SharePoint.|
+|73|MicrosoftTeamsShifts|Teams Shifts events.|
+|75|MipAutoLabelExchangeItem|Auto-labeling events in Exchange.|
+|76|CortanaBriefing|Briefing email events.|
+|78|WDATPAlerts|Events related to alerts generated by Windows Defender for Endpoint.|
+|79|PowerAppsResource|Events related to Microsoft Power Platform Connectors (Preview).|
+|82|SensitivityLabelPolicyMatch|Events generated when the file labeled with a sensitivity label is opened or renamed.|
+|83|SensitivityLabelAction|Event generated when sensitivity labels are applied, updated, or removed from a file.|
+|84|SensitivityLabeledFileAction|Events generated when a file labeled with a sensitivity label is opened or renamed.|
+|85|AttackSim|Events related to user activities in Attack Simulation & Training in Microsoft Defender for Office 365.|
+|86|AirManualInvestigation|Events related to manual investigations in Automated investigation and response (AIR).|
+|87|SecurityComplianceRBAC|Security and compliance RBAC events.|
+|88|UserTraining|Events related to user training in Attack Simulation & Training in Microsoft Defender for Office 365.|
+|89|AirAdminActionInvestigation|Events related to admin actions in  Automated investigation and response (AIR).|
+|90|MSTIC|Threat intelligence events in Microsoft Defender for Office 365.|
+|91|PhysicalBadgingSignal|Events related to physical badging signals that support the Insider risk management solution.|
+|92|TeamsEasyApprovals|Events related to Teams Easy Approvals|
+|[93](AipDiscover.md)|AipDiscover|AIP scanner events|
+|[94](AipSensitivityLabelAction.md)|AipSensitivityLabelAction|AIP sensitivity label events|
+|[95](AipProtectionAction.md)|AipProtectionAction|AIP protection events|
+|[96](AipFileDeleted.md)|AipFileDeleted|AIP file deletion events|
+|[97](AipHeartBeat.md)|AipHeartBeat|AIP heartbeat events|
+|98|MCASAlerts|Events corresponding to alerts triggered by Microsoft Cloud App Security.|
+|99|OnPremisesFileShareScannerDlp|Events related to scanning for sensitive data on file shares.|
+|100|OnPremisesSharePointScannerDlp|Events related to scanning for sensitive data in SharePoint.|
+|101|ExchangeSearch|Events related to using Outlook on the web (OWA) to search for mailbox items.|
+|102|SharePointSearch|Events related to searching an organization's SharePoint home site.|
+|103|PrivacyInsights|Privacy insight events.|
+|105|MyAnalyticsSettings|MyAnalytics events.|
+|106|SecurityComplianceUserChange|Events related to modifying or deleting a user.|
+|107|ComplianceDLPExchangeClassification|Exchange DLP classification events.|
+|109|MipExactDataMatch|Exact Data Match (EDM) classification events.|
+|113|MS365DCustomDetection|Events related to custom detection actions in Microsoft 365 Defender.|
+|147|CoreReportingSettings|Reports settings events.|
+|148|ComplianceConnector|Events related to importing non-Microsoft data using data connectors in the Microsoft Purview portal.|
+|[154](OMEPortal.md)|OMEPortal|Encrypted message portal event logs generated by external recipients.|
+|157|MipLabelAnalyticsAuditRecord|MIP Label Analytics events.|
+|164|ScorePlatformGenericAuditRecord|Generic Audit Record used for Data Connectors.|
+|174|DataShareOperation|Events related to sharing of data ingested via SystemSync.|
+|181|EduDataLakeDownloadOperation|Events related to the export of SystemSync ingested data from the lake.|
+|183|MicrosoftGraphDataConnectOperation|Events related to extractions done by Microsoft Graph Data Connect.|
+|186|PowerPagesSite|Activities related to Power Pages site.|
+|187|PowerPlatformAdminDlp|Events related to Microsoft Power Platform DLP (Preview).|
+|188|PlannerPlan|Microsoft Planner plan events.|
+|189|PlannerCopyPlan|Microsoft Planner copy plan events.|
+|190|PlannerTask|Microsoft Planner task events.|
+|191|PlannerRoster|Microsoft Planner roster and roster membership events.|
+|192|PlannerPlanList|Microsoft Planner plan list events.|
+|193|PlannerTaskList|Microsoft Planner task list events.|
+|194|PlannerTenantSettings|Microsoft Planner tenant settings events.|
+|195|ProjectForThewebProject|Microsoft Project for the web project events.|
+|196|ProjectForThewebTask|Microsoft Project for the web task events.|
+|197|ProjectForThewebRoadmap|Microsoft Project for the web  roadmap events.|
+|198|ProjectForThewebRoadmapItem|Microsoft Project for the web  roadmap item events.|
+|199|ProjectForThewebProjectSettings|Microsoft Project for the web  project tenant settings events.|
+|200|ProjectForThewebRoadmapSettings|Microsoft Project for the web  roadmap tenant settings events.|
+|202|MicrosoftTodoAudit|Microsoft To Do Audit events.|
+|206|MicrosoftTeamsSensitivityLabelAction|Microsoft Teams Sensitivity Label events.|
+|216|Viva Goals|Viva Goals events.|
+|217|MicrosoftGraphDataConnectConsent|Events for consent actions performed by tenant admins for Microsoft Graph Data Connect applications.|
+|218|AttackSimAdmin|Events related to admin activities in Attack Simulation & Training in Microsoft Defender for Office 365.|
+|230|TeamsUpdates|Teams Updates App Events.|
+|231|PlannerRosterSensitivityLabel|Microsoft Planner roster sensitivity label events.|
+|235|MicrosoftDefenderForIdentityAudit|Microsoft Defender for Identity audit events.|
+|237|DefenderExpertsforXDRAdmin|Microsoft Defender Experts Administrator action events.|
+|251|VfamCreatePolicy|Viva Access Management policy create events.|
+|252|VfamUpdatePolicy|Viva Access Management policy update events.|
+|253|VfamDeletePolicy|Viva Access Management policy delete events.|
+|256|PowerPlatformAdministratorActivity|Power Platform Administrator activity events.|
+|257|Windows365CustomerLockbox|Windows365 Customer Lockbox audit events.|
+|[261](copilot-schema.md)|CopilotInteraction|Copilot interaction events.|
+|265|VivaLearning|User activities in Viva Learning.|
+|266|VivaLearningAdmin|Admin activities in Viva Learning.|
+|269|PeopleAdminSettings|Audit events for People Admin settings.|
+|275|OWAAuth|Access Token for Resource issued successfully events.|
+|277|SharePointESignature|SharePoint eSignature audit events.|
+|278|Dynamics365BusinessCentral|Audit events for Dynamics 365 Business Central.|
+|279|MeshWorlds|Audit events for Mesh.|
+|280|VivaPulseResponse|Viva Pulse survey response events.|
+|281|VivaPulseOrganizer|Viva Pulse survey organizer events.|
+|282|VivaPulseAdmin|Viva Pulse admin events.|
+|283|VivaPulseReport|Viva Pulse report related events.|
+|[284](/purview/audit-copilot)|AIAppInteraction|Audit events for user interactions with [third-party (non-Microsoft and non-custom-built) AI applications](/purview/audit-copilot).|
+|285|ComplianceDLMExchange|ComplianceDLMExchange events.|
+|286|ComplianceDLMSharePoint|ComplianceDLMSharePoint events.|
+|287|ProjectForThewebAssignedToMeSettings|Microsoft Project for the web assigned to me tenant settings events.|
+|288|CloudPolicyService|Events from the Cloud Policy service.|
+|291|SensitiveInfoDiscovered|Events from Purview On-Demand classification for Endpoint devices.|
+|292|InsiderRiskScopedUserInsights|Events related to scoped user insights in Insider Risk Management.|
+|293|MicrosoftTeamsRetentionLabelAction|Audit events for retention labels in Microsoft Teams.|
+|294|AadRiskDetection|Audit events for Risk Detection in Microsoft Entra (previously called Azure Active Directory).|
+|295|AuditSearch|Audit events for an admin interacting with Search in Purview Audit.|
+|296|AuditRetentionPolicy|Audit events for an admin interacting with Retention Policies in Purview Audit.|
+|297|AuditConfig|Audit events for an admin interacting with configuration settings related to Purview Audit.|
+|298|BackupPolicy|Events related to Microsoft 365 Backup Policies.|
+|299|RestoreTask|Events related to Microsoft 365 Backup Restore Tasks.|
+|300|RestoreItem|Events related to artifacts backed up with Microsoft 365 Backup.|
+|301|BackupItem|Events related to items being restored using Microsoft 365 Backup.|
+|302|URBACAssignment|Events related to Unified RBAC assignments.|
+|303|URBACRole|Events related to Unified RBAC roles.|
+|304|URBACEnableState|Events related to Unified RBAC state enablement.|
+|306|PurviewInsiderRiskCases|Events related to Purview Insider Risk cases.|
+|307|PurviewInsiderRiskAlerts|Events related to Purview Insider Risk alerts.|
+|308|InsiderRiskScopedUsers|Events related to Purview Insider Risk scoped users.|
+|310|CreateCopilotPlugin|Audit events for Copilot plugin creation.|
+|311|UpdateCopilotPlugin|Audit events for updating a Copilot plugin.|
+|312|DeleteCopilotPlugin|Audit events for deleting a Copilot plugin.|
+|313|EnableCopilotPlugin|Audit events for enabling a Copilot plugin.|
+|314|DisableCopilotPlugin|Audit events for disabling a Copilot plugin.|
+|315|CreateCopilotWorkspace|Audit events for creating a Copilot workspace.|
+|316|UpdateCopilotWorkspace|Audit events for updating a Copilot workspace.|
+|317|DeleteCopilotWorkspace|Audit events for deleting a Copilot workspace.|
+|318|EnableCopilotWorkspace|Audit events for enabling a Copilot workspace.|
+|319|DisableCopilotWorkspace|Audit events for disabling a Copilot workspace.|
+|320|CreateCopilotPromptBook|Audit events for creating a Copilot promptbook.|
+|321|UpdateCopilotPromptBook|Audit events for updating a Copilot promptbook.|
+|322|DeleteCopilotPromptBook|Audit events for deleting a Copilot promptbook.|
+|323|EnableCopilotPromptBook|Audit events for enabling a Copilot promptbook.|
+|324|DisableCopilotPromptBook|Audit events for disabling a Copilot promptbook.|
+|325|UpdateCopilotSettings|Audit event for updating user or tenant settings related to Copilot.|
+|328|ConnectedAIAppInteraction|Audit events related to user interactions with third-party (non-Microsoft developed) AI applications which are deployed within the organization's Microsoft tenant.|
+|329|PrivaPrivacyConsentOperation|Audit events related to Consent in Microsoft Priva.|
+|330|PrivaPrivacyAssessmentOperation|Audit events related to Assessments in Microsoft Priva.|
+|331|DataCatalogAccessRequests|Audit events related to Data Catalog access requests.|
+|332|ComplianceSettingsChange|Microsoft Purview Compliance settings change events.|
+|333|DataSecurityInvestigation|Events from Data Security Investigations in Microsoft Purview.|
+|334|TeamCopilotInteraction|Audit events for user interactions with Facilitator and activities performed by Facilitator in Microsoft Teams.|
+|335|IRMActivityAuditTrail|Events from Purview Insider Risk Management.|
+|336|SharePointContentSecurityPolicy|Events from Content Security Policy in SharePoint.|
+|337|CloudUpdateProfileConfig|Events from the Cloud Update's profile configuration.|
+|338|CloudUpdateTenantConfig|Events from the Cloud Update's tenant configuration.|
+|339|CloudUpdateDeviceConfig|Events from Cloud Update's managed devices configuration.|
+|341|DeviceDiscoverySettingsExclusion|Events related to Exclusions in Device Discovery settings.|
+|342|DeviceDiscoverySettingsAuthenticatedScans|Events related to Authenticated Scans in Device Discovery settings.|
+|344|DeviceDiscoverySettings|Events related to settings in Device Discovery.|
+|345|USXWorkspaceOnboarding|Events related to workspace onboarding in Microsoft Defender USX.|
+|346|VivaGlintAdvancedConfiguration|Events related to Advanced Configuration in Viva Glint.|
+|347|VivaGlintPulseProgram|Events related to Pulse Program in Viva Glint.|
+|348|VivaGlintPulseProgramRespondentRate|Events related to Pulse Program Respondent Rate in Viva Glint.|
+|349|VivaGlintQuestion|Events related to Questions in Viva Glint.|
+|350|VivaGlintRole|Events related to Roles in Viva Glint.|
+|351|VivaGlintRubicon|Events related to Rubicon in Viva Glint.|
+|352|VivaGlintSupportAccess|Events related to Support Access in Viva Glint.|
+|353|VivaGlintSystem|Events related to system activities in Viva Glint.|
+|354|VivaGlintUser|Events related to user activities in Viva Glint.|
+|355|VivaGlintUserGroup|Events related to user group activities in Viva Glint.|
+|356|VivaGlintFeedbackProgram|Events related to Feedback Programs in Viva Glint.|
+|357|FabricAudit|Events related to Microsoft Fabric.|
+|358|TrainableClassifier|Events from Purview Data Classification.|
+|359|WebContentFiltering|Events from Microsoft Edge WebContentFiltering.|
+|360|NoisyAlertPolicy|Events related to Noisy Alert Policies in Microsoft Defender.|
+|361|DataScanClassification|Events from Purview On-Demand classification for SharePoint and OneDrive.|
+|362|AIInteractionsExport|Events related to export of AI interactions.|
+|363|Microsoft365CopilotScheduledPrompt|Events from Microsoft 365 Copilot scheduled prompt.|
+|364|PlacesDirectory|Events from Microsoft Places Directory.|
+|365|SentinelNotebookOnLake|Events from notebook execution on Sentinel data lake.|
+|366|SentinelJob|Events from operations on jobs in Sentinel data lake.|
+|367|SentinelKQLOnLake|Events from running KQL on Sentinel data lake.|
+|368|SentinelLakeOnboarding|Events from onboarding to Sentinel data lake.|
+|369|SentinelLakeDataOnboarding|Data loading events into Sentinel data lake.|
+|370|SentinelAITool|Events from operations on AI tool in Microsoft Sentinel|
+|371|SentinelGraph|Events related to Graph in Microsoft Sentinel.|
+|372|CrossTenantAccessPolicy|Events from Cross Tenant Access Policies.|
+|373|OutlookCopilotAutomation|Events related to back-end automation (without an explicit user interaction) in Microsoft Outlook driven by Agents, Copilot, or other AI scenarios.|
+|374|VivaEngageNetworkAssociation|Events related to Network Association in Viva Engage.|
+|375|AppAdminActivity|Events related to app admin activity.|
+|376|AppSettingsAdminActivity|Events related to app settings admin activity.|
+|377|UniversalPrintPrintJob|Audit events related to Print Jobs in Microsoft Universal Print.|
+|378|VivaAmplifyOutlookSensitivityLabel|Events related to Outlook Sensitivity Labels in Viva Amplify.|
+|379|AIInteractionsSubscription|Events related to AI interaction subscriptions.|
+|380|AIInteractionsChangeNotification|Events related to AI interaction change notifications.|
+|381|FilteringMailMetadataExtended|Events related to filtering mail metadata.|
+|382|OfficeRestrictedModeAction|Audit events related to activities performed in Office Restricted Mode.|
+|383|CopilotForSecurityTrigger|Events related to triggers for Security Copilot agents.|
+|384|CopilotAgentManagement|Events related to admin activities for Microsoft Copilot agents.|
+|385|P4AIAssessmentFabricScannerRecord|Events related to Purview for AI Assessment Fabric Scanner.|
+|386|PlannerGoal|Microsoft Planner goal events.|
+|387|PlannerGoalList|Microsoft Planner goal list events.|
+|401|PlannerChatMessage|Microsoft Planner chat message events.|
+|402|PlannerChatMessageList|Microsoft Planner chat message list events.|
+|414|VivaEngageSegment|Viva Engage segmentation events.|
+|422|DefenderCaseManagement|Events related to case management in the Microsoft Defender portal.|
+|424|VivaEngageEvents|Events related to Viva Engage hosted events.|
+|427|UniversalPrintManagement| Audit events related to Management events in Microsoft Universal Print.|
+|430|PurviewPostureAgent|Data Security Posture Agent events.|
+|431|GranularBrowseTask|Events related to browsing backed up site's restore point using Microsoft 365 Backup.|
+|444|TeamsEvalDataHubDataAccess|Teams Evaluation Data Hub data access events.|
+|445|TeamsEvalDataHubPermissionChange|Teams Evaluation Data Hub permission change events.|
+|454|DragonCopilotAdmin|Events from Dragon Copilot administrative operations.|
+|462|MicrosoftTeamsUserConcern|Events related to user security concern in Microsoft Teams.|
+|463|VivaGlintAgenticCampaign|Events related to agentic campaigns in Viva Glint.|
+|479|VivaGlintVivaInsightsIntegration|Events related to the Viva Insights to Viva Glint integration.|
+|480|PeopleSkillsAdmin|People Skills (Viva) events for tenant administrator and application (service-to-service) operations.|
+|481|PeopleSkillsUser|People Skills (Viva) events for user and system operations on user skills.|
+|489|AIGuardrail|Events generated when an AI guardrail evaluates content and applies a guardrail decision.|
+
+### Enum: User Type - Type: Edm.Int32
+
+#### User Type
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Regular|A regular user without admin permissions.|
+|1|Reserved|A reserved value, not for use.|
+|2|Admin|An administrator in your Microsoft 365 organization.|
+|3|DCAdmin|A Microsoft datacenter administrator or datacenter system account.|
+|4|System|An audit event triggered by server-side logic. For example, Windows services or background processes.|
+|5|Application|An audit event triggered by a Microsoft Entra application.|
+|6|ServicePrincipal|A service principal.|
+|7|CustomPolicy|A customer created or managed policy.|
+|8|SystemPolicy|A Microsoft-managed or system policy.|
+|9|PartnerTechnician|A partner tenant's user working on behalf of the customer tenant (in [GDAP](/partner-center/gdap-introduction)scenarios).|
+|10|Guest|A guest or anonymous user.|
+
+> [!NOTE]
+> ** For Microsoft Entra related events, the value for an administrator isn't used in an audit record. Audit records for activities performed by administrators indicate that a regular user (for example, **UserType: 0**) performed the activity. The **UserID** property identifies the person (regular user or administrator) who performed this activity.
+
+### Enum: AuditLogScope - Type: Edm.Int32
+
+#### AuditLogScope
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Online|This event was created by a Microsoft 365 service.|
+|1|Onprem|This event was created by an on-premises server.|
+
+### Complex Type AppAccessContext
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AADSessionId|Edm.String|No|The Microsoft Entra SessionId of the Entra sign-in that was performed by the app on behalf of the user.|
+|APIId|Edm.String|No|The Id for the API pathway that is used to access the resource; for example access via the Microsoft Graph API.|
+|ClientAppId|Edm.String|No|The Id of the Microsoft Entra app that performed the access on behalf of the user.|
+|ClientAppName|Edm.String|No|The name of the Microsoft Entra app that performed the access on behalf of the user.|
+|CorrelationId|Edm.String|No|An identifier that can be used to correlate a specific user's actions across Microsoft 365 services.|
+|UniqueTokenId|Edm.String|No|UniqueTokenId gets set if the Microsoft Entra token is available for the request. It's a unique, per-token identifier that is case-sensitive.|
+|IssuedAtTime|Edm.Date|No|"Issued At" gets set if the Microsoft Entra token is available for the request and it indicates when the authentication for this Microsoft Entra token occurred.|
+
+## SharePoint Base schema
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|Site|Edm.Guid|No|The GUID of the site where the file or folder accessed by the user is located.|
+|ItemType|Edm.String String="Microsoft.Office.Audit.Schema.SharePoint.[ItemType](#itemtype)"|No|The type of object that was accessed or modified. See the [ItemType](#itemtype) table for details on the types of objects.|
+|EventSource|Edm.String String="Microsoft.Office.Audit.Schema.SharePoint.[EventSource](#eventsource)"|No|Identifies that an event occurred in SharePoint. Possible values are **SharePoint** or **ObjectModel**.|
+|SourceName|Edm.String|No|The entity that triggered the audited operation. Possible values are SharePoint or **ObjectModel**.|
+|UserAgent|Edm.String|No|Information about the user's client or browser. This information is provided by the client or browser.|
+|MachineDomainInfo|Edm.String Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|Information about device sync operations. This information is reported only if it's present in the request.|
+|MachineId|Edm.String Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|Information about device sync operations. This information is reported only if it's present in the request.|
+|ListItemUniqueId|Edm.Guid|No|The Guid of uniquely an identifiable item of list. This information is present only if it is applicable.|
+|ListId|Edm.Guid|No|The Guid of the list. This information is present only if it is applicable.|
+|ApplicationId|Edm.String|No|The ID of the application performing the operation.|
+|ApplicationDisplayName|Edm.String|No|The display name of the application performing the operation.|
+|IsWorkflow|Edm.Boolean|No|This is set to `True` if SharePoint Workflows triggered the audited event.|
+
+### Enum: ItemType - Type: Edm.Int32
+
+#### ItemType
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Invalid|The item is none of the other item types (that are listed in this table).|
+|1|File|The item is a file.|
+|5|Folder|The item is a folder.|
+|6|web|The item is a web.|
+|7|Site|The item is a site.|
+|8|Tenant|The item is a tenant.|
+|9|DocumentLibrary|The item is a document library.|
+|11|Page|The item is a Page.|
+
+### Enum: EventSource - Type: Edm.Int32
+
+#### EventSource
+
+|Value|Member name|Description|
+|---|---|---|
+|0|SharePoint|The event source is SharePoint.|
+|1|ObjectModel|The event source is ObjectModel.|
+
+### Enum: SharePointAuditOperation - Type: Edm.Int32
+
+|Member name|Description|
+|---|---|
+|AccessInvitationAccepted|The recipient of an invitation to view or edit a shared file (or folder) has accessed the shared file by clicking on the link in the invitation.|
+|AccessInvitationCreated|User sends an invitation to another person (inside or outside their organization) to view or edit a shared file or folder on a SharePoint or OneDrive site. The details of the event entry identifies the name of the file that was shared, the user the invitation was sent to, and the type of the sharing permission selected by the person who sent the invitation.|
+|AccessInvitationExpired|An invitation sent to an external user expires. By default, an invitation sent to a user outside of your organization expires after 7 days if the invitation isn't accepted.|
+|AccessInvitationRevoked|The site administrator or owner of a site or document in SharePoint or OneDrive withdraws an invitation that was sent to a user outside your organization. An invitation can be withdrawn only before it's accepted.|
+|AccessInvitationUpdated|The user who created and sent an invitation to another person to view or edit a shared file or folder on a SharePoint or OneDrive site resent the invitation.|
+|AccessRequestApproved|The site administrator or owner of a site or document in SharePoint or OneDrive approves a user request to access the site or document.|
+|AccessRequestCreated|User requests access to a site or document in SharePoint or OneDrive that they don't have permission to access.|
+|AccessRequestRejected|The site administrator or owner of a site or document in SharePoint declines a user request to access the site or document.|
+|ActivationEnabled|Users can browser-enable form templates that don't contain form code, require full trust, enable rendering on a mobile device, or use a data connection managed by a server administrator.|
+|AdministratorAddedToTermStore|Term store administrator added.|
+|AdministratorDeletedFromTermStore|Term store administrator deleted.|
+|AllowGroupCreationSet|Site administrator or owner adds a permission level to a SharePoint or OneDrive site that allows a user assigned that permission to create a group for that site.|
+|AppCatalogCreated|App catalog created to make custom business apps available for your SharePoint Environment.|
+|AuditPolicyRemoved|Document LifeCycle Policy has been removed for a site collection.|
+|AuditPolicyUpdate|Document LifeCycle Policy has been updated for a site collection.|
+|AzureStreamingEnabledSet|A video portal owner has allowed video streaming from Azure.|
+|CollaborationTypeModified|The type of collaboration allowed on sites (for example, intranet, extranet, or public) has been modified.|
+|ConnectedSiteSettingModified|User has either created, modified or deleted the link between a project and a project site or the user modifies the synchronization setting on the link in Project web app.|
+|ContainerTypeCreated|A SharePoint Embedded container type was created.|
+|ContainerTypeDeleted|A SharePoint Embedded container type was deleted.|
+|ContainerTypeOwnersUpdated|The owners of a SharePoint Embedded container type were updated.|
+|ContainerTypeUpdated|A SharePoint Embedded container type was updated.|
+|CreateSSOApplication|Target application created in Secure store service.|
+|CustomFieldOrLookupTableCreated|User created a custom field or lookup table/item in Project web app.|
+|CustomFieldOrLookupTableDeleted|User deleted a custom field or lookup table/item in Project web app.|
+|CustomFieldOrLookupTableModified|User modified a custom field or lookup table/item in Project web app.|
+|CustomizeExemptUsers|Global administrator customized the list of exempt user agents in SharePoint admin center. You can specify which user agents to exempt from receiving an entire web page to index. This configuration means when an exempt user agent encounters an InfoPath form, the form is returned as an XML file instead of an entire web page. This result makes indexing InfoPath forms faster.|
+|DefaultLanguageChangedInTermStore*|Language setting changed in the terminology store.|
+|DelegateModified|User created or modified a security delegate in Project web app.|
+|DelegateRemoved|User deleted a security delegate in Project web app.|
+|DeleteSSOApplication|An SSO application was deleted.|
+|eDiscoveryHoldApplied|An In-Place Hold was placed on a content source. In-Place Holds are managed by using an eDiscovery site collection (such as the eDiscovery Center) in SharePoint.|
+|eDiscoveryHoldRemoved|An In-Place Hold was removed from a content source. In-Place Holds are managed by using an eDiscovery site collection (such as the eDiscovery Center) in SharePoint.|
+|eDiscoverySearchPerformed|An eDiscovery search was performed using an eDiscovery site collection in SharePoint.|
+|EngagementAccepted|User accepts a resource engagement in Project web app.|
+|EngagementModified|User modifies a resource engagement in Project web app.|
+|EngagementRejected|User rejects a resource engagement in Project web app.|
+|EnterpriseCalendarModified|User copies, modifies or delete an enterprise calendar in Project web app.|
+|EntityDeleted|User deletes a timesheet in Project web app.|
+|EntityForceCheckedIn|User forces a check-in on a calendar, custom field or lookup table in Project web app.|
+|ExemptUserAgentSet|Global administrator adds a user agent to the list of exempt user agents in the SharePoint admin center.|
+|FeatureActivated|Site admin activates a site collection feature.|
+|FeatureDeactivated|Site admin deactivates a site collection feature.|
+|FileAccessed|User or system account accesses a file on a SharePoint or OneDrive site. System accounts can also generate FileAccessed events.|
+|FileCheckOutDiscarded|User discards a checked out file. That means any changes they made to the file when it was checked out are discarded, and not saved to the version of the document in the document library.|
+|FileCheckedIn|User checks in a document that they checked out from a SharePoint or OneDrive document library.|
+|FileCheckedOut|User checks out a document located in a SharePoint or OneDrive document library. Users can check out and make changes to documents that have been shared with them.|
+|FileCopied|User copies a document from a SharePoint or OneDrive site. The copied file can be saved to another folder on the site.|
+|FileDeleted|User deletes a document from a SharePoint or OneDrive site.|
+|FileDeletedFirstStageRecycleBin|User deletes a file from the recycle bin on a SharePoint or OneDrive site.|
+|FileDeletedSecondStageRecycleBin|User deletes a file from the second-stage recycle bin on a SharePoint or OneDrive site.|
+|FileDownloaded|User downloads a document from a SharePoint or OneDrive site.|
+|FileFetched|This event has been replaced by the FileAccessed event, and has been deprecated.|
+|FileModified|User or system account modifies the content or the properties of a document located on a SharePoint or OneDrive site.|
+|FileMoved|User moves a document from its current location on a SharePoint or OneDrive site to a new location.|
+|FilePreviewed|User previews a document on a SharePoint or OneDrive site.|
+|FileRecycled|User moves a document into the SharePoint or OneDrive Recycle Bin.|
+|FileRenamed|User renames a document on a SharePoint or OneDrive site.|
+|FileRestored|User restores a document from the recycle bin of a SharePoint or OneDrive site.|
+|FileSyncDownloadedFull|User downloads a file to their computer from a SharePoint document library or OneDrive using OneDrive sync app (OneDrive.exe).|
+|FileSyncDownloadedPartial|This event has been deprecated along with the old OneDrive sync app (Groove.exe).|
+|FileSyncUploadedFull|User uploads a new file or changes to a file in SharePoint document library or OneDrive using OneDrive sync app (OneDrive.exe).|
+|FileSyncUploadedPartial|This event has been deprecated along with the old OneDrive sync app (Groove.exe).|
+|FileUploaded|User uploads a document to a folder on a SharePoint or OneDrive site.|
+|FileViewed|This event has been replaced by the FileAccessed event, and has been deprecated.|
+|FolderCopied|User copies a folder from a SharePoint or OneDrive site to another location in SharePoint or OneDrive.|
+|FolderCreated|User creates a folder on a SharePoint or OneDrive site.|
+|FolderDeleted|User deletes a folder from a SharePoint or OneDrive site.|
+|FolderDeletedFirstStageRecycleBin|User deletes a folder from the recycle bin on a SharePoint or OneDrive site .|
+|FolderDeletedSecondStageRecycleBin|User deletes a folder from the second-stage recycle bin on a SharePoint or OneDrive site.|
+|FolderModified|User modifies a folder on a SharePoint or OneDrive site. This event includes folder metadata changes, such as tags and properties.|
+|FolderMoved|User moves a folder from a SharePoint or OneDrive site.|
+|FolderRecycled|User moves a folder into the SharePoint or OneDrive Recycle Bin.|
+|FolderRenamed|User renames a folder on a SharePoint or OneDrive site.|
+|FolderRestored|User restores a folder from the Recycle Bin on a SharePoint or OneDrive site.|
+|GroupAdded|Site administrator or owner creates a group for a SharePoint or OneDrive site, or performs a task that results in a group being created. For example, the first time a user creates a link to share a file, a system group is added to the user's OneDrive site. This event can also be a result of a user creating a link with edit permissions to a shared file.|
+|GroupRemoved|User deletes a group from a SharePoint or OneDrive site.|
+|GroupUpdated|Site administrator or owner changes the settings of a group for a SharePoint or OneDrive site. This can include changing the group's name, who can view or edit the group membership, and how membership requests are handled.|
+|LanguageAddedToTermStore|Language added to the terminology store.|
+|LanguageRemovedFromTermStore|Language removed from the terminology store.|
+|LegacyWorkflowEnabledSet|Site administrator or owner adds the SharePoint Workflow Task content type to the site. Global administrators can also enable work flows for the entire organization in the SharePoint admin center.|
+|LookAndFeelModified|User modifies a quick launch, Gantt chart formats, or group formats. Or the user creates, modifies, or deletes a view in Project web app.|
+|ManagedSyncClientAllowed|User successfully establishes a sync relationship with a SharePoint or OneDrive site. The sync relationship is successful because the user's computer is a member of a domain that's been added to the list of domains (called the safe recipients list) that can access document libraries in your organization. For more information, see [Get started with SharePoint Online Management Shell](/powershell/sharepoint/sharepoint-online/connect-sharepoint-online) to enable OneDrive sync for domains that are on the safe recipients list.|
+|MaxQuotaModified|The maximum quota for a site has been modified.|
+|MaxResourceUsageModified|The maximum allowable resource usage for a site has been modified.|
+|MySitePublicEnabledSet|The flag enabling users to have public MySites has been set by the SharePoint administrator.|
+|NewsFeedEnabledSet|Site administrator or owner enables RSS feeds for a SharePoint or OneDrive site. Global administrators can enable RSS feeds for the entire organization in the SharePoint admin center.|
+|ODBNextUXSettings|New UI for OneDrive has been enabled.|
+|OfficeOnDemandSet|Site administrator enables Office on Demand, which lets users access the latest version of Office desktop applications. Office on Demand is enabled in the SharePoint admin center and requires an Office 365 subscription that includes full, installed Office applications.|
+|PageViewed|User views a page on a SharePoint site or OneDrive site. This does not include viewing document library files from a SharePoint site or One Drive for Business site on a browser.|
+|PeopleResultsScopeSet|Site administrator creates or changes the result source for People Searches for a SharePoint site.|
+|PermissionSyncSettingModified|User modifies the project permission sync settings in Project web app.|
+|PermissionTemplateModified|User creates, modifies or deletes a permissions template in Project web app.|
+|PortfolioDataAccessed|User accesses portfolio content (driver library, driver prioritization, portfolio analyses) in Project web app.|
+|PortfolioDataModified|User creates, modifies, or deletes portfolio data (driver library, driver prioritization, portfolio analyses) in Project web app.|
+|PreviewModeEnabledSet|Site administrator enables document preview for a SharePoint site.|
+|ProjectAccessed|User accesses project content in Project web app.|
+|ProjectCheckedIn|User checks in a project that they checked out from a Project web app.|
+|ProjectCheckedOut|User checks out a project located in a Project web app. Users can check out and make changes to projects that they have permission to open.|
+|ProjectCreated|User creates a project in Project web app.|
+|ProjectDeleted|User deletes a project in Project web app.|
+|ProjectForceCheckedIn|User forces a check in on a project in Project web app.|
+|ProjectModified|User modifies a project in Project web app.|
+|ProjectPublished|User publishes a project in Project web app.|
+|ProjectWorkflowRestarted|User restarts a workflow in Project web app.|
+|PWASettingsAccessed|User access the Project web app settings via CSOM.|
+|PWASettingsModified|User modifies the a Project web app configuration.|
+|QueueJobStateModified|User cancels or restarts a queue job in Project web app.|
+|QuotaWarningEnabledModified|Storage quota warning modified.|
+|RenderingEnabled|Browser-enabled form templates are rendered by InfoPath forms services.|
+|ReportingAccessed|User accessed the reporting endpoint in Project web app.|
+|ReportingSettingModified|User modifies the reporting configuration in Project web app.|
+|ResourceAccessed|User accesses an enterprise resource content in Project web app.|
+|ResourceCheckedIn|User checks in an enterprise resource that they checked out from Project web app.|
+|ResourceCheckedOut|User checks out an enterprise resource located in Project web app.|
+|ResourceCreated|User creates an enterprise resource in Project web app.|
+|ResourceDeleted|User deletes an enterprise resource in Project web app.|
+|ResourceForceCheckedIn|User forces a check in of an enterprise resource in Project web app.|
+|ResourceModified|User modifies an enterprise resource in Project web app.|
+|ResourcePlanCheckedInOrOut|User checks in or out a resource plan in Project web app.|
+|ResourcePlanModified|User modifies a resource plan in Project web app.|
+|ResourcePlanPublished|User publishes a resource plan in Project web app.|
+|ResourceRedacted|User redacts an enterprise resource removing all personal information in Project web app.|
+|ResourceWarningEnabledModified|Resource quota warning modified.|
+|SSOGroupCredentialsSet|Group credentials set in Secure store service.|
+|SSOUserCredentialsSet|User credentials set in Secure store service.|
+|SearchCenterUrlSet|Search center URL set.|
+|SecondaryMySiteOwnerSet|A user has added a secondary owner to their MySite.|
+|SecurityCategoryModified|User creates, modifies or deletes a security category in Project web app.|
+|SecurityGroupModified|User creates, modifies or deletes a security group in Project web app.|
+|SendToConnectionAdded|Global administrator creates a new Send To connection on the Records management page in the SharePoint admin center. A Send To connection specifies settings for a document repository or a records center. When you create a Send To connection, a Content Organizer can submit documents to the specified location.|
+|SendToConnectionRemoved|Global administrator deletes a Send To connection on the Records management page in the SharePoint admin center.|
+|SharedLinkCreated|User creates a link to a shared file in SharePoint or OneDrive. This link can be sent to other people to give them access to the file. A user can create two types of links: a link that allows a user to view and edit the shared file, or a link that allows the user to just view the file.|
+|SharedLinkDisabled|User disables (permanently) a link that was created to share a file.|
+|SharingInvitationAccepted*|User accepts an invitation to share a file or folder. This event is logged when a user shares a file with other users.|
+|SharingRevoked|User unshared a file or folder that was previously shared with other users. This event is logged when a user stops sharing a file with other users.|
+|SharingSet|User shares a file or folder located in SharePoint or OneDrive with another user inside their organization.|
+|SiteAdminChangeRequest|User requests to be added as a site collection administrator for a SharePoint site collection. Site collection administrators have full control permissions for the site collection and all subsites.|
+|SiteCollectionAdminAdded*|Site collection administrator or owner adds a person as a site collection administrator for a SharePoint or OneDrive site. Site collection administrators have full control permissions for the site collection and all subsites.|
+|SiteCollectionCreated|Global administrator creates a new site collection in your SharePoint organization.|
+|SitePermanentlyDeleted|A SharePoint or global administrator permanently deletes a site from SharePoint Admin Center Deleted Sites.|
+|SiteRenamed|Site administrator or owner renames a SharePoint or OneDrive site|
+|SiteRestored|A SharePoint or global administrator restores a site from SharePoint Admin Center Deleted Sites.|
+|StatusReportModified|User creates, modifies or deletes a status report in Project web app.|
+|SyncGetChanges|User clicks **Sync** in the action tray on in SharePoint or OneDrive to synchronize any changes to file in a document library to their computer.|
+|SyntexBillingSubscriptionSettingsChanged|The Syntex Billing subscription settings have changed. This event is triggered when a Syntex trial expires.|
+|TaskStatusAccessed|User accesses the status of one or more tasks in Project web app.|
+|TaskStatusApproved|User approves a status update of one or more tasks in Project web app.|
+|TaskStatusRejected|User rejects a status update of one or more tasks in Project web app.|
+|TaskStatusSaved|User saves a status update of one or more tasks in Project web app.|
+|TaskStatusSubmitted|User submits a status update of one or more tasks in Project web app.|
+|TenantWideThemeCreated|A SharePoint administrator, global administrator, or brand manager creates a custom theme that applies across all SharePoint sites in your organization.|
+|TenantWideThemeDeleted|A SharePoint administrator, global administrator, or brand manager deletes a custom theme that applies across all SharePoint sites in your organization.|
+|TenantWideThemeUpdated|A SharePoint administrator, global administrator, or brand manager updates a custom theme that applies across all SharePoint sites in your organization.|
+|TimesheetAccessed|User accesses a timesheet in Project web app.|
+|TimesheetApproved|User approves timesheet in Project web app.|
+|TimesheetRejected|User rejects a timesheet in Project web app.|
+|TimesheetSaved|User saves a timesheet in Project web app.|
+|TimesheetSubmitted|User submits a status timesheet in Project web app.|
+|UnmanagedSyncClientBlocked|User tries to establish a sync relationship with a SharePoint or OneDrive site from a computer that isn't a member of your organization's domain or is a member of a domain that hasn't been added to the list of domains (called the safe recipients list) that can access document libraries in your organization. The sync relationship is not allowed, and the user's computer is blocked from syncing, downloading, or uploading files on a document library.|
+|UpdateDisableSiteBranding|A SharePoint or global administrator enables or disables site branding.|
+|UpdateSSOApplication|Target application updated in Secure store service.|
+|UserAddedToGroup|Site administrator or owner adds a person to a group on a SharePoint or OneDrive site. Adding a person to a group grants the user the permissions that were assigned to the group.|
+|UserRemovedFromGroup|Site administrator or owner removes a person from a group on a SharePoint or OneDrive site. After the person is removed, they no longer are granted the permissions that were assigned to the group.|
+|WebThemeApplied|A SharePoint or global administrator, or a site owner applies a web theme.|
+|WorkflowModified|User creates, modifies, or deletes an Enterprise Project Type or Workflow phases or stages in Project web app.|
+
+## SharePoint file operations
+
+[File and page events](/purview/audit-log-activities#file-and-page-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|SiteUrl|Edm.String|Yes|The URL of the site where the file or folder accessed by the user is located.|
+|SourceRelativeUrl|Edm.String|No|The URL of the folder that contains the file accessed by the user. The combination of the values for the  _SiteURL_,  _SourceRelativeURL_, and  _SourceFileName_ parameters is the same as the value for the **ObjectID** property, which is the full path name for the file accessed by the user.|
+|SourceFileName|Edm.String|Yes|The name of the file or folder accessed by the user.|
+|SourceFileExtension|Edm.String|No|The file extension of the file that was accessed by the user. This property is blank if the object that was accessed is a folder.|
+|DestinationRelativeUrl|Edm.String|No|The URL of the destination folder where a file is copied or moved. The combination of the values for  _SiteURL_,  _DestinationRelativeURL_, and  _DestinationFileName_ parameters is the same as the value for the **ObjectID** property, which is the full path name for the file that was copied. This property is displayed only for FileCopied and FileMoved events.|
+|DestinationFileName|Edm.String|No|The name of the file that is copied or moved. This property is displayed only for FileCopied and FileMoved events.|
+|DestinationFileExtension|Edm.String|No|The file extension of a file that is copied or moved. This property is displayed only for FileCopied and FileMoved events.|
+|UserSharedWith|Edm.String|No|The user that a resource was shared with.|
+|SharingType|Edm.String|No|The type of sharing permissions that were assigned to the user that the resource was shared with. This user is identified by the  _UserSharedWith_ parameter.|
+|SourceLabel|Edm.String|No|The original label of the file before it's changed by a user action.|
+|DestinationLabel|Edm.String|No|The final label of the file after it's changed by a user action.|
+|SensitivityLabelOwnerEmail|Edm.String|No|The email address of the owner of the sensitivity label.|
+|SensitivityLabelId|Edm.String|No|The current sensitivity label ID of the file.|
+
+## SharePoint list operations
+
+[SharePoint list events](/purview/audit-log-activities#sharepoint-list-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|ListTitle|Edm.String|No|The title of the SharePoint list.|
+|ListName|Edm.String|No|The name of the SharePoint list.|
+|ListUrl|Edm.String|No|The URL of the list relative to the containing website.|
+|ListBaseType|Edm.String|No|Specifies the base type for a list.|
+|ListBaseTemplateType|Edm.String|No|The list definition type on which the list is based.|
+|IsHiddenList|Edm.Boolean|No|This value is set to `True` if the SharePoint list is hidden.|
+|IsDocLib|Edm.Boolean|No|This value is set to `True` if the SharePoint list is of the type Document Library.|
+
+## SharePoint Sharing schema
+
+[Sharing and access request events](/purview/audit-log-activities#sharing-and-access-request-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+The file share-related SharePoint events. They are different from file- and folder-related events in that a user is taking an action that has some effect on another user. For information about the SharePoint Sharing schema, see [Use sharing auditing in the audit log](/purview/audit-log-sharing).
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|TargetUserOrGroupName|Edm.String|No|Stores the UPN or name of the target user or group that a resource was shared with.|
+|TargetUserOrGroupType|Edm.String|No|Identifies whether the target user or group is a Member, Guest, Group, or Partner.|
+|EventData|XML code|No|Conveys follow-up information about the sharing action that has occurred, such as adding a user to a group or granting edit permissions.|
+|SiteUrl|Edm.String|No|The URL of the site where the file or folder accessed by the user is located.|
+|SourceRelativeUrl|Edm.String|No|The URL of the folder that contains the file accessed by the user. The combination of the values for the  _SiteURL_,  _SourceRelativeURL_, and  _SourceFileName_ parameters is the same as the value for the **ObjectID** property, which is the full path name for the file accessed by the user.|
+|SourceFileName|Edm.String|No|The name of the file or folder accessed by the user.|
+|SourceFileExtension|Edm.String|No|The file extension of the file that was accessed by the user. This property is blank if the object that was accessed is a folder.|
+|UniqueSharingId|Edm.String|No|The unique sharing ID associated with the sharing operation.|
+
+## SharePoint schema
+
+SharePoint events (excluding the file and folder events) returned in [audit log searches](/purview/audit-search) use this schema.
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|CustomEvent|Edm.String|No|Optional string for custom events.|
+|EventData|Edm.String|No|Optional payload for custom events.|
+|ModifiedProperties|Collection(ModifiedProperty)|No|The property is included for admin events, such as adding a user as a member of a site or a site collection admin group. The property includes the name of the property that was modified (for example, the Site Admin group), the new value of the modified property (such the user who was added as a site admin), and the previous value of the modified object.|
+
+## Project schema
+
+[Microsoft Project for the web events](/purview/audit-log-activities#microsoft-project-for-the-web-activities) returned in [audit log searches](/purview/audit-search) use these schemas.
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|Entity|Edm.String|Yes|[ProjectEntity](#project-entity) the audit was for.|
+|Action|Edm.String|Yes|[ProjectAction](#project-action) that was taken.|
+|OnBehalfOfResId|Edm.Guid|No|The resource Id the action was taken on behalf of.|
+
+### Enum: Project Action - Type: Edm.Int32
+
+#### Project action
+
+|Member name|Description|
+|---|---|
+|Accepted|The user accepted an event or workflow.|
+|Accessed|The user accessed an entity.|
+|Activated|The user activated an entity, event or workflow.|
+|Cancelled|The user cancelled an event or workflow.|
+|CheckedIn|The user check in an entity.|
+|CheckedOut|The user checkout an entity.|
+|Copied|The user copied an entity.|
+|Created|The user created an entity.|
+|Deactivated|The user deactivated an entity.|
+|Deleted|The user deleted an entity.|
+|Exported|The user exported an entity.|
+|ForceCheckedIn|The user caused an entity to be force checked in.|
+|Modified|The user modified an entity.|
+|Published|The user published an entity.|
+|Redacted|The user redacted an entity.|
+|Rejected|The user rejected an entity.|
+|Restarted|The user restarted an event or workflow.|
+|Saved|The user saved an entity.|
+|Sent|The user sent an entity.|
+|Submitted|The user submitted an entity for review or workflow.|
+
+### Enum: Project Entity - Type: Edm.Int32
+
+#### Project entity
+
+|Member name|Description|
+|---|---|
+|CustomField|Represents an enterprise custom field.|
+|Driver|Represents a portfolio driver.|
+|DriverPrioritization|Represents a portfolio prioritization.|
+|Engagement|Represents a resource engagement.|
+|EnterpriseCalendar|Represents a enterprise  resource calendar.|
+|EnterpriseProjectType|Represents an enterprise project type.|
+|FiscalPeriod|Represents a fiscal period.|
+|GanttChartFormat|Represents a Gantt chart format.|
+|GroupingFormat|Represents a view grouping format.|
+|LineClassification|Represents a timesheet line classification.|
+|LookupTable|Represents a enterprise lookup table.|
+|PermissionTemplate|Represents a security permission template.|
+|PortfolioAnalysis|Represents a portfolio analysis.|
+|Project|Represents a project.|
+|QueueJob|Represents a queue job.|
+|QuickLaunch|Represents a quick launch item.|
+|Reporting|Represents the reporting endpoint.|
+|Resource|Represents an enterprise resource.|
+|ResourcePlan|Represents a resource plan associated with A project.|
+|SecurityCategory|Represents a security category.|
+|SecurityGroup|Represents a security group.|
+|Setting|Represents a Project web app setting.|
+|Statusing|Represents a task status update.|
+|StatusReport|Represents a status report.|
+|TimeReportingPeriod|Represents a period of time for a timesheet.|
+|Timesheet|Represents a timesheet entity.|
+|TimesheetAuditLog|Represents a timesheet audit log.|
+|TimesheetManager|Represents the manager of a timesheet.|
+|UserDelegate|Represents a user delegation for another user.|
+|View|Represents a view definition.|
+|WorkflowPhase|Represents a phase in a workflow.|
+|WorkflowStage|Represents a stage in a workflow.|
+
+## Exchange Admin schema
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|ModifiedObjectResolvedName|Edm.String|No|This is the user friendly name of the object that was modified by the cmdlet. This is logged only if the cmdlet modifies the object.|
+|Parameters|Collection(Common.NameValuePair)|No|The name and value for all parameters that were used with the cmdlet that is identified in the Operations property.|
+|ModifiedProperties|Collection(Common.ModifiedProperty)|No|The property is included for admin events. The property includes the name of the property that was modified, the new value of the modified property, and the previous value of the modified object.|
+|ExternalAccess|Edm.Boolean|Yes|Specifies whether the cmdlet was run by a user in your organization, by Microsoft datacenter personnel or a datacenter service account, or by a delegated administrator. The value **False** indicates that the cmdlet was run by someone in your organization. The value **True** indicates that the cmdlet was run by datacenter personnel, a datacenter service account, or a delegated administrator.|
+|OriginatingServer|Edm.String|No|The name of the server from which the cmdlet was executed.|
+|OrganizationName|Edm.String|No|The name of the tenant.|
+|DeviceId|Edm.String|No|Available only for registered/domain joined device.|
+|TokenObjectId|Edm.String|Yes|oid claim of the Microsoft Entra tokens.|
+|TokenTenantId|Edm.String|Yes|tid claim of the Microsoft Entra tokens.|
+
+## Exchange Mailbox schema
+
+[Exchange mailbox events](/purview/audit-log-activities#exchange-mailbox-activities) returned in [audit log searches](/purview/audit-search) use these schemas.
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|LogonType|Self.[LogonType](#logontype)|Yes|Indicates the type of user who accessed the mailbox and performed the operation that was logged.|
+|InternalLogonType|Self.[LogonType](#logontype)|Yes|Reserved for internal use.|
+|MailboxGuid|Edm.String|No|The Exchange GUID of the mailbox that was accessed.|
+|MailboxOwnerUPN|Edm.String|No|The email address of the person who owns the mailbox that was accessed.|
+|MailboxOwnerSid|Edm.String|No|The SID of the mailbox owner.|
+|MailboxOwnerMasterAccountSid|Edm.String|No|Mailbox owner account's master account SID.|
+|LogonUserSid|Edm.String|No|The SID of the user who performed the operation.|
+|LogonUserDisplayName|Edm.String|No|The user-friendly name of the user who performed the operation.|
+|ExternalAccess|Edm.Boolean|Yes|This is true if the logon user's domain is different from the mailbox owner's domain.|
+|OriginatingServer|Edm.String|No|This is from where the operation originated.|
+|OrganizationName|Edm.String|No|The name of the tenant.|
+|ClientInfoString|Edm.String|No|Information about the email client that was used to perform the operation, such as a browser version, Outlook version, and mobile device information.|
+|ClientIPAddress|Edm.String|No|The IP address of the device that was used when the operation was logged. The IP address is displayed in either an IPv4 or IPv6 address format.|
+|ClientMachineName|Edm.String|No|The machine name that hosts the Outlook client.|
+|ClientProcessName|Edm.String|No|The email client that was used to access the mailbox.|
+|ClientVersion|Edm.String|No|The version of the email client.|
+|SessionId|Edm.String|No|Unique identifier for the session. It helps to differentiate attacker actions vs day-to-day user activities on the same account (useful for compromised accounts)|
+|AppId|Edm.String|No|Application Identifier|
+|ClientAppId|Edm.String|No|Original caller(service/protocol) identifier of the request.|
+|HostAppId|Edm.String|No|The executing service/protocol identifier.|
+|OperationProperties|Collection(Common.NameValuePair)|No|Collection of operation-specific properties.|
+|ClientRequestId|Edm.String|No|Identifier for the client request.|
+|ExternalUserTenantId|Edm.String|No|Tenant identifier for external users.|
+|ActorIP|Edm.String|No|IP address of the actor performing the operation.|
+|ActorInfoString|Edm.String|No|Name of the cloud instance (e.g., Public, GCC, GCC-H)|
+|DeviceId|Edm.String|No|Available only for registered/domain joined device.|
+|CloudInstanceName|Edm.String|No|Name of the cloud instance (e.g., Public, GCC, GCC-H)|
+|TokenObjectId|Edm.String|No|oid claim of the Microsoft Entra tokens.|
+|TokenTenantId|Edm.String|No|tid claim of the Microsoft Entra tokens.|
+|AuthType|Edm.String|No|Specifies the authentication scheme used by the client to access the service.|
+|TokenType|Edm.String|No|Indicates the type of token presented during authentication, providing context on the token’s role and scope.|
+|recipientCount|Edm.Int64|No|Represents the total number of recipients, to whom email was sent.|
+|recipientList|Collection(Self.[EmailAddress](#emailaddress-complex-type))|No|Captures the list of mailbox recipients, maximum 1000.|
+
+
+### Enum: LogonType - Type: Edm.Int32
+
+#### LogonType
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Owner|The mailbox owner.|
+|1|Admin|A person with administrative privileges for someone's mailbox.|
+|2|Delegated|A person with the delegate privileges for someone's mailbox.|
+|3|Transport|A transport service in the Microsoft datacenter.|
+|4|SystemService|A service account in the Microsoft datacenter|
+|5|BestAccess|Reserved for internal use.|
+|6|DelegatedAdmin|A delegated administrator.|
+
+### ExchangeMailboxAuditGroupRecord schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Folder|Self.[ExchangeFolder](#exchangefolder-complex-type)|No|The folder where a group of items is located.|
+|CrossMailboxOperations|Edm.Boolean|No|Indicates if the operation involved more than one mailbox.|
+|DestMailboxId|Edm.Guid|No|Set only if the CrossMailboxOperations parameter is **True**. Specifies the target mailbox GUID.|
+|DestMailboxOwnerUPN|Edm.String|No|Set only if the CrossMailboxOperations parameter is **True**. Specifies the UPN of the owner of the target mailbox.|
+|DestMailboxOwnerSid|Edm.String|No|Set only if the CrossMailboxOperations parameter is **True**. Specifies the SID of the target mailbox.|
+|DestMailboxOwnerMasterAccountSid|Edm.String|No|Set only if the CrossMailboxOperations parameter is **True**. Specifies the SID for the master account SID of the target mailbox owner.|
+|DestFolder|Self.[ExchangeFolder](#exchangefolder-complex-type)|No|The destination folder, for operations such as Move.|
+|Folders|Collection(Self.[ExchangeFolder](#exchangefolder-complex-type))|No|Information about the source folders involved in an operation; for example, if folders are selected and then deleted.|
+|AffectedItems|Collection(Self.[ExchangeItem](#exchangeitem-complex-type))|No|Information about each item in the group.|
+|Teams|Self.TeamsData|No|Microsoft Teams-related data for group operations.|
+
+### ExchangeMailboxAuditRecord schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Item|Self.[ExchangeItem](#exchangeitem-complex-type)|No|Represents the item upon which the operation was performed|
+|ModifiedProperties|Collection(Edm.String)|No|Properties that are modified.|
+|MbxLoginLocalQueueADLookupInfo|Self.[LocalQueueADLookupInfo](#localqueueadlookupinfo-complex-type)|No|Contains Active Directory lookup details for the mailbox login context.|
+|SendAsUserSmtp|Edm.String|No|SMTP address of the user who is being impersonated.|
+|SendAsUserMailboxGuid|Edm.Guid|No|The Exchange GUID of the mailbox that was accessed to send email as.|
+|SendOnBehalfOfUserSmtp|Edm.String|No|SMTP address of the user on whose behalf the email is sent.|
+|SendOnBehalfOfUserMailboxGuid|Edm.Guid|No|The Exchange GUID of the mailbox that was accessed to send mail on behalf of.|
+|ContactEmail1EmailAddress|Edm.String|No|First email address for contact information.|
+|ContactEmail1DisplayName|Edm.String|No|Display name for first contact email.|
+|ContactEmail2EmailAddress|Edm.String|No|Second email address for contact information.|
+|ContactEmail2DisplayName|Edm.String|No|Display name for second contact email.|
+|ContactEmail3EmailAddress|Edm.String|No|Third email address for contact information.|
+|ContactEmail3DisplayName|Edm.String|No|Display name for third contact email.|
+|AttachmentId|Edm.String|No|Identifier for email attachment.|
+|AttachmentSizeInBytes|Edm.Int64|No|Size of attachment in bytes.|
+|SaveToSentItems|Edm.Boolean|No|Flag indicating whether item should be saved to sent items folder.|
+|Teams|Self.TeamsData|No|Microsoft Teams-related data.|
+
+### ExchangeAggregatedMailboxAuditRecord schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|OperationCount|Edm.Int32|No|The total number of operations performed on the aggregated set of items.|
+|Folders|Collection(Self.[ExchangeAggregatedFolder](#exchangeaggregatedfolder-complex-type))|No|A collection of aggregated folder objects involved in the operation.|
+|Messages|Collection(Self.[ExchangeAggregatedMessage](#exchangeaggregatedmessage-complex-type))|No|A collection of aggregated message objects involved in the operation.|
+
+### ExchangeAggregatedOperationRecord schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|OperationCount|Edm.Int32|No|The total number of operations included aggregated in this record.|
+|AggregateDurationInSeconds|Edm.Int32|No|Combined duration of all aggregated operations in seconds.|
+
+### ExchangeItem complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|Yes|The store ID.|
+|Subject|Edm.String|No|The subject line of the message that was accessed.|
+|ParentFolder|Self.[ExchangeFolder](#exchangefolder-complex-type)|No|The name of the folder where the item is located.|
+|ParentMessage|Self.[ExchangeMessage](#exchangemessage-complex-type)|No|Parent message if this item is nested.|
+|Attachments|Edm.String|No|A list of the names and file size of all items that are attached to the message.|
+|ImmutableId|Edm.String|No|A permanent, unchanging identifier for the item.|
+|InternetMessageId|Edm.String|No|Internet message identifier.|
+|ComplianceLabel|Edm.String|No|Compliance label applied to the item.|
+|IsRecord|Edm.Boolean|No|Flag indicating if the item is a record.|
+|IsPriorityCleanup|Edm.Boolean|No|Flag for priority cleanup processing |
+|SizeInBytes|Edm.Int64|No|Size of the Exchange item in bytes.|
+|Sensitivity|Edm.String|No|Indicates the sensitivity level of the item (e.g., Normal, Personal, Private, Confidential).|
+
+### LocalQueueADLookupInfo complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Puid|Edm.String|No|Passport unique identifier (Puid) for a Microsoft account or user object.|
+|OrgIdPuid|Edm.String|No|Organization identifier PUID.|
+|Smtp|Edm.String|No|SMTP address for AD lookup.|
+|SearchScope|Edm.String|No|Active Directory search scope|
+|ConsumerMailbox|Edm.String|No|Flag indicating if this is a consumer mailbox.|
+
+### EmailAddress complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Address|Edm.String|No|Email address associated with user.|
+|Name|Edm.String|No|Display name for email address.|
+
+### ExchangeFolder complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|Yes|The store ID of the folder object.|
+|Path|Edm.String|No|The name of the mailbox folder where the message that was accessed is located.|
+|Name|Edm.String|No|Folder Name|
+|MemberSid|Edm.String|No|Member security identifier|
+|MemberRights|Edm.String|No|Access Rights on the folder|
+|MemberUpn|Edm.String|No|Member user principal name|
+
+### ExchangeMessage complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|Yes|Unique identifier for the Message.|
+|Path|Edm.String|No|The path where the message is located|
+
+### ExchangeFolderItem complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|No|A guid that identifies the folder item within Exchange.|
+|ImmutableId|Edm.String|No|Immutable identifier for each Exchange folder item.|
+|InternetMessageId|Edm.String|No|Internet message identifier for each folder item.|
+|CreationTime|Edm.Date|No|Time when Record/item was created.|
+|Subject|Edm.String|No|Subject of the record/item.|
+|SizeInBytes|Edm.Int64|No|Size of the record/item in bytes.|
+|Sensitivity|Edm.String|No|Sensitivity labels of the record/item.|
+|ClientRequestId|Edm.String|No|A unique identifier for the client request that triggered the operation.|
+|Teams|Self.TeamsData|No|Microsoft Teams-related data |
+
+### ExchangeMessageItem complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|No|A guid that identifies the Exchange Message Item.|
+|SizeInBytes|Edm.Int64|No|The size of the message in bytes, including any attachments.|
+
+### ExchangeAggregatedFolder complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|Yes|The guid of the aggregated folder.|
+|Path|Edm.String|No|The path of the aggregated folder.|
+|FolderItems|Collection(Self.[ExchangeFolderItem](#exchangefolderitem-complex-type))|No|The collection of Exchange folder items.|
+
+### ExchangeAggregatedMessage complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|Yes|The guid of the aggregated message container.|
+|Path|Edm.String|No|The path of the aggregated message.|
+|MessageItems|Collection(Self.[ExchangeMessageItem](#exchangemessageitem-complex-type))|No|The collection of exchange message items.|
+
+### OWA Auth schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|UniqueTokenIdentifier|Edm.String|No|A unique identifier for the resource.|
+|ResourceURL|Edm.String|No|The resource URL.|
+
+## Azure Active Directory Base schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AzureActiveDirectoryEventType|Self.[AzureActiveDirectoryEventType](#azureactivedirectoryeventtype)|Yes|The type of Microsoft Entra event.|
+|ExtendedProperties|Collection(Common.NameValuePair)|No|The extended properties of the Microsoft Entra event.|
+|ModifiedProperties|Collection(Common.ModifiedProperty)|No|This property is included for admin events. The property includes the name of the property that was modified, the new value of the modified property, and the previous value of the modified property.|
+
+### Enum: AzureActiveDirectoryEventType - Type -Edm.Int32
+
+#### AzureActiveDirectoryEventType
+
+|Member name|Description|
+|---|---|
+|AccountLogon|The account login event.|
+|AzureApplicationAuditEvent|The Azure application security event.|
+
+## Azure Active Directory Account Logon schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Application|Edm.String|No|The application that triggers the account login event, such as Office 15.|
+|Client|Edm.String|No|Details about the client device, device OS, and device browser that was used for the of the account login event.|
+|LoginStatus|Edm.Int32|Yes|This property is from OrgIdLogon.LoginStatus directly. The mapping of various interesting logon failures could be done by alerting algorithms.|
+|UserDomain|Edm.String|Yes|The Tenant Identity Information (TII).|
+
+### Enum: CredentialType - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|-1|Other|Other authentication.|
+|0|Password|User credential is username and password.|
+|1|MobilePhone|User credential is mobile phone.|
+|2|SecretQuestion|User credential is secret question.|
+|3|SecurePin|User credential is secure PIN.|
+|4|SecurePinReset|User credential is secure PIN reset.|
+|11|EasyID|User credential is EasyID.|
+|14|PasswordIndexCredentialType|User credential is PasswordIndexCredentialType.|
+|16|Device|User credential is a device.|
+|17|ForeignRealmIndex|User credential is ForeignRealmIndex.|
+
+### Enum: LoginType - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|-1|Other|Other i type.|
+|1|InitialAuth|Login with initial authentication|
+|2|CookieCopy|Login with cookie.|
+|3|SilentReAuth|Login with silent re-authentication.|
+
+### Enum: AuthenticationMethod - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Min|The authentication method is a Min|
+|1|Password|The authentication method is a password.|
+|2|Digest|The authentication method is a digest.|
+|3|ProxyAuth|The authentication method is a ProxyAuth.|
+|4|InfoCard|The authentication method is an InfoCard|
+|5|DAToken|The authentication method is a DAToken.|
+|6|Sha1RememberMyPassword|The authentication method is a Sha1RememberMyPassword.|
+|7|LMPasswordHash|The authentication method is an LMPasswordHash.|
+|8|ADFSFederatedToken|The authentication method is an ADFSFederatedToken.|
+|9|EID|The authentication method is an EID.|
+|10|DeviceID|The authentication method is a DeviceID.|
+|11|MD5|The authentication method is MD5.|
+|12|EncProxyPasswordHash|The authentication method is a EncProxyPasswordHash.|
+|13|LWAFederation|The authentication method is a LWAFederation.|
+|14|Sha1HashedPassword|The authentication method is a Sha1HashedPassword.|
+|15|SecurePin|The authentication method is a secure Pin.|
+|16|SecurePinReset|The authentication method is a secure PIN reset.|
+|17|SAML20PostSimpleSign|The authentication method is a SAML20PostSimpleSign.|
+|18|SAML20Post|The authentication method is a SAML20Post.|
+|19|OneTimeCode|The authentication method is a one-time code.|
+
+## Azure Active Directory schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Actor|Collection(Self.[IdentityTypeValuePair](#complex-type-identitytypevaluepair))|No|The user or service principal that performed the action.|
+|ActorContextId|Edm.String|No|The GUID of the organization that the actor belongs to.|
+|ActorIpAddress|Edm.String|No|The actor's IP address in IPV4 or IPV6 address format.|
+|InterSystemsId|Edm.String|No|The GUID that track the actions across components within the Office 365 service.|
+|IntraSystemsId|Edm.String|No|The GUID that's generated by Azure Active Directory to track the action.|
+|SupportTicketId|Edm.String|No|The customer support ticket ID for the action in "act-on-behalf-of" situations.|
+|Target|Collection(Self.[IdentityTypeValuePair](#complex-type-identitytypevaluepair))|No|The user that the action (identified by the Operation property) was performed on.|
+|TargetContextId|Edm.String|No|The GUID of the organization that the targeted user belongs to.|
+
+### Complex Type IdentityTypeValuePair
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ID|Edm.String|Yes|The value of the identity given the type.|
+|Type|Self.IdentityType|Yes|The type of the identity.|
+
+### Enum: IdentityType - Type: Edm.Int32
+
+#### IdentityType
+
+|Member name|Description|
+|---|---|
+|Claim|The identity is a claim for authorization purpose.|
+|Name|The audit action actor or target identity display name.|
+|Other|The identity of the actor is other type, such as the ObjectId in GUID generated by the Office 365 service.|
+|PUID|The audit action actor or the target passport unique ID (PUID).|
+|SPN|The identity of a service principal if the action is performed by the Office 365 service.|
+|UPN|The user principal name.|
+
+## Azure Active Directory Secure Token Service (STS) Logon schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ApplicationId|Edm.String|No|The GUID that represents the application that is requesting the login. The display name can be looked up via the Azure Active Directory Graph API.|
+|Client|Edm.String|No|Client device information, provided by the browser performing the login.|
+|DeviceProperties|Collection(Common.NameValuePair)|No|This property includes various device details, including Id, Display name, OS, Browser, IsCompliant, IsCompliantAndManaged, SessionId, and DeviceTrustType. The DeviceTrustType property can have the following values: <br/><br/> **0** - Microsoft Entra registered <br/> **1** - Microsoft Entra joined <br/> **2** - Hybrid Microsoft Entra joined|
+|ErrorCode|Edm.String|No|For failed logins (where the value for the Operation property is UserLoginFailed), this property contains the Azure Active Directory STS (AADSTS) error code. For descriptions of these error codes, see [Authentication and authorization error codes](/azure/active-directory/develop/reference-aadsts-error-codes#aadsts-error-codes). A value of `0` indicates a successful login.|
+|LogonError|Edm.String|No|For failed logins, this property contains a user-readable description of the reason for the failed login.|
+
+## DLP schema
+
+[Data loss prevention (DLP) events in Microsoft Purview](/purview/dlp-learn-about-dlp) are available for Exchange Online, Endpoint(devices), and SharePoint and OneDrive.
+
+DLP events always have `UserKey="DlpAgent"` in the common schema. There are three types of DlpEvents that are stored as the value of the Operation property of the common schema:
+
+- **DlpRuleMatch**: Indicates a rule was matched. These events exist in all Exchange, Endpoint(devices) and SharePoint and OneDrive. For Exchange it includes false positive and override information. For SharePoint and OneDrive, false positive and overrides generate separate events.
+- **DlpRuleUndo**: SharePoint and OneDrive only. Indicates a previously applied policy action has been "undone" due to:
+  - AFalse positive/override designation by user.
+  - The document is no longer subject to policy (either due to policy change or change to content in doc).
+- **DlpInfo**: SharePoint and OneDrive only. Indicates a false positive designation but no action was "undone."
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|SharePointMetaData|Self.[SharePointMetadata](#sharepointmetadata-complex-type)|No|Describes metadata about the document in SharePoint or OneDrive that contained the sensitive information.|
+|ExchangeMetaData|Self.[ExchangeMetadata](#exchangemetadata-complex-type)|No|Describes metadata about the email message that contained the sensitive information.|
+|EndpointMetaData|Self.[EndpointMetadata](#endpointmetadata-complex-type)|No|Describes metadata about the document in endpoint that contained the sensitive information|
+|ExceptionInfo|Edm.String|No|Identifies reasons why a policy no longer applies and/or any information about false positive and/or override noted by the end user.|
+|PolicyDetails|Collection(Self.[PolicyDetails](#policydetails-complex-type))|Yes|Information about 1 or more policies that triggered the DLP event.|
+|SensitiveInfoDetectionIsIncluded|Boolean|Yes|Indicates whether the event contains the value of the sensitive data type and surrounding context from the source content. Accessing sensitive data requires the "Read DLP policy events including sensitive details" permission in Azure Active Directory.|
+
+### eDiscovery schema
+
+The eDiscovery audit schema is designed to capture and log activities related to eDiscovery processes within the organization.
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|CaseId|Edm.Guid|No|The identity (GUID) of the eDiscovery case.|
+|CaseName|Edm.String|No|The name of the eDiscovery case.|
+|Object1Id|Edm.String|No|The ID of the object (for example, a search, hold, or review set) that was created, accessed, or changed.|
+|Object1Name|Edm.String|No|The name of the object (for example, a search, hold or review set) that was created, accessed, or changed.|
+|Object1Type|Edm.String|No|The type of the eDiscovery object that the user created, deleted, or modified.|
+|Object2Id|Edm.String|No|The ID of the object (for example, a search, hold, or review set) that was created, accessed, or changed.|
+|Object2Name|Edm.String|No|The name of the object (for example, a search, hold or review set) that was created, accessed, or changed.|
+|Object2Type|Edm.String|No|The type of the eDiscovery object that the user created, deleted, or modified.|
+|StartTime|Edm.Date|No|The date and time in Coordinated Universal Time (UTC) when the eDiscovery activity was started.|
+|EndTime|Edm.Date|No|The date and time in Coordinated Universal Time (UTC) when the eDiscovery activity was ended.|
+|UserCancelled|Edm.Boolean|No|Whether the specific activity was cancelled by the user.|
+|ItemIds|Collection(Edm.String)|No|Item IDs associated with the activity.|
+|ItemNames|Collection(Edm.String)|No|Item names associated with the activity.|
+|DataSources|Collection(Edm.String)|No|A list of source IDs, source names and locations associated to the activity.|
+|QueryId|Edm.String|No|The ID of the query associated with the activity.|
+|QueryText|Edm.String|No|The query text associated with the activity, such as a search statistic process or add to review process.|
+|QueryFiles|Collection(Edm.String)|No|Input file names used to generate the query. This is specific to the search by file gesture.|
+|Settings|Collection(Common.NameValuePair)|No|Settings applied to the eDiscovery activity.|
+|ExtendedProperties|Collection(Common.NameValuePair)|No|Additional properties related to the eDiscovery activity.|
+|ExportName|Edm.String|No|Name of the eDiscovery export.|
+|JobId|Edm.String|No|The GUID of the eDiscovery process.|
+|RecordNumber|Edm.String|No|Used when an audit record is divided into multiple parts due to size. It indicates the sequence of each part within the total splits.|
+
+### SharePointMetadata complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|From|Edm.String|Yes|The user who triggered the event. Values are the FileOwner, LastModifier, or LastSharer.|
+|itemCreationTime|Edm.Date|Yes|Date/time stamp in UTC of when event logged.|
+|SiteCollectionGuid|Edm.Guid|Yes|The GUID of the site collection.|
+|SiteCollectionUrl|Edm.String|Yes|Name of the SharePoint site.|
+|FileName|Edm.String|Yes|Name of the path.|
+|FileOwner|Edm.String|Yes|The document owner.|
+|FilePathUrl|Edm.String|Yes|The URL of the document|
+|DocumentLastModifier|Edm.String|Yes|The user who last modified the document.|
+|DocumentSharer|Edm.String|Yes|The user who last modified sharing of the document.|
+|UniqueId|Edm.String|Yes|A guid that identifies the file.|
+|LastModifiedTime|Edm.DateTime|Yes|Timestamp in UTC for when doc was last modified.|
+|IsViewableByExternalUsers|Edm.Boolean|Yes|Determines if the file is accessible to any external user.|
+
+### ExchangeMetadata complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|MessageID|Edm.String|Yes|The message ID of the email that triggered the event.|
+|From|Edm.String|Yes|The user who sent the email.|
+|To|Collection(Edm.String)|No|A collection of email addresses that were on the To line of the message.|
+|CC|Collection(Edm.String)|No|A collection of email addresses that were on the CC line of the message.|
+|BCC|Collection(Edm.String)|No|A collection of email addresses that were on the BCC line of the message.|
+|Subject|Edm.String|Yes|Subject of the email message.|
+|Sent|Edm.DateTime|Yes|The time in UTC of when the email was sent.|
+|RecipientCount|Edm.Int32|Yes|The total number of all recipients on the TO, CC, and BCC lines of the message.|
+
+### EndpointMetadata complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|SensitiveInformation|Collection(Self.[SensitiveInformation](#sensitiveinformation-complex-type))|No|Information about the type of sensitive information detected.|
+|EnforcementMode|Edm.String|Yes|Indicate whether the DLP Rule set to 1/2/3/4/5 depicting audit/warn(block with override)/warn and bypass/block/allow(audit without alerts) respectively.|
+|FileExtension|Edm.String|No|The file extension of the document that contained the sensitive information.|
+|FileType|Edm.String|No|The file type of the document that contained the sensitive information.|
+|DeviceName|Edm.String|No|The name of the device on which DLP rule match was detected.|
+
+### PolicyDetails complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|PolicyId|Edm.Guid|Yes|The guid of the DLP policy for this event.|
+|PolicyName|Edm.String|Yes|The friendly name of the DLP policy for this event.|
+|Rules|Collection(Self.[Rules](#rules-complex-type))|Yes|Information about the rules within the policy that were matched for this event.|
+
+### Rules complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|RuleId|Edm.Guid|Yes|The guid of the DLP rule for this event.|
+|RuleName|Edm.String|Yes|The friendly name of the DLP rule for this event.|
+|Actions|Collection(Edm.String)|No|A list of actions taken as a result of a DLP RuleMatch event.|
+|OverriddenActions|Collection(Edm.String)|No|A list of actions previously taken that were now undone as a result of a DLPRuleUndo event.|
+|Severity|Edm.String|No|The severity (Low, Medium and High) of the rule match.|
+|RuleMode|Edm.String|Yes|Indicate whether the DLP Rule was set to Enforce, Audit with Notify, or Audit only.|
+|ConditionsMatched|Self.[ConditionsMatched](#conditionsmatched-complex-type)|No|Details about what conditions of the rule were matched for this event.|
+
+### ConditionsMatched complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|SensitiveInformation|Collection(Self.[SensitiveInformation](#sensitiveinformation-complex-type))|No|Information about the type of sensitive information detected.|
+|DocumentProperties|Collection(NameValuePair)|No|Information about document properties that triggered a rule match.|
+|OtherConditions|Collection(NameValuePair)|No|A list of key value pairs describing any other conditions that were matched.|
+
+### SensitiveInformation complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Confidence|Edm.Int|Yes|The aggregated confidence of all pattern matches for the Sensitive Information Type.|
+|Count|Edm.Int|Yes|The total number of sensitive instances detected.|
+|Location|Edm.String|No||
+|SensitiveType|Edm.Guid|Yes|A guid that identifies the type of sensitive data detected.|
+|SensitiveInformationDetections|Self.SensitiveInformationDetections|No|An array of objects that contain sensitive information data with the following details: matched value and context of matched value.|
+|SensitiveInformationDetailed<br/>ClassificationAttributes|Collection(SensitiveInformationDetailed<br/>ConfidenceLevelResult)|Yes|Information about the count of sensitive information type detected for each of the three confidence levels (High, Medium and Low) and wether it matches the DLP rule or not.|
+|SensitiveInformationTypeName|Edm.String|No|The name of the sensitive information type.|
+|UniqueCount|Edm.Int32|Yes|The unique count of sensitive instances detected.|
+
+### SensitiveInformationDetailedClassificationAttributes complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Confidence|Edm.int32|Yes|The confidence level of the pattern that was detected.|
+|Count|Edm.Int32|Yes|The number of sensitive instances detected for a particular confidence level.|
+|IsMatch|Edm.Boolean|Yes|Indicates if the given count and confidence level of the sensitive type detected results in a DLP rule match.|
+
+### SensitiveInformationDetections complex type
+
+DLP sensitive data is only available in the activity feed API to users that have been granted "Read DLP sensitive data" permissions.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|DetectedValues|Collection(Common.NameValuePair)|Yes|An array of sensitive information that was detected. Information contains key value pairs with Value = matched value (eg. Value of credit card) and Context = an excerpt from source content that contains the matched value.|
+|ResultsTruncated|Edm.Boolean|Yes|Indicates if the logs were truncated due to large number of results.|
+
+### ExceptionInfo complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Reason|Edm.String|No|For a DLPRuleUndo event, this indicates why the rule no longer applies, which can be one of 3 reasons: Override, Document Change, or Policy Change|
+|FalsePositive|Edm.Boolean|No|Indicates whether the user designated this event as a false positive.|
+|Justification|Edm.String|No|If the user chose to override policy, any user-specified justification is captured here.|
+|Rules|Collection(Edm.Guid)|No|A collection of GUIDs for each rule that was designated as a false positive or override, or for which an action was undone.|
+
+## Security and Compliance Center schema
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|StartTime|Edm.Date|No|The date and time when the cmdlet was run.|
+|ClientRequestId|Edm.String|No|A GUID that can be used to correlate this cmdlet with portal operations. This information is used only by Microsoft support.|
+|CmdletVersion|Edm.String|No|The build version of the cmdlet when it was run.|
+|EffectiveOrganization|Edm.String|No|The GUID for the organization impacted by the cmdlet. (Deprecated: This parameter will eventually stop appearing.)|
+|UserServicePlan|Edm.String|No|The service plan assigned to the user who ran the cmdlet.|
+|ClientApplication|Edm.String|No|If the cmdlet was run by an application, as opposed to remote PowerShell, this field contains the application name.|
+|Parameters|Edm.String|No|The name and value for parameters that were used with the cmdlet that do not include personal data.|
+|NonPiiParameters|Edm.String|No|The name and value for parameters that were used with the cmdlet that include personal data. (Deprecated: This field will eventually stop appearing and its content will be merged with the Parameters field.)|
+
+## Security and Compliance Alerts schema
+
+Alert signals include:
+
+- All alerts generated by [Alert policies in the Microsoft Defender portal](/defender-office-365/alert-policies-defender-portal).
+- Microsoft 365 related alerts generated in [Microsoft Defender for Cloud Apps](/defender-cloud-apps/what-is-defender-for-cloud-apps).
+
+The UserId and UserKey of these events are always SecurityComplianceAlerts. There are three types of alert events that are stored as the value of the Operation property of the common schema:
+
+- **AlertTriggered**: A new alert is generated due to a policy match.
+- **AlertEntityGenerated**: A new entity is added to an alert. This event is only applicable to alerts generated based on [Alert policies in the Microsoft Defender portal](/defender-office-365/alert-policies-defender-portal). Each generated alert can be associated with one or multiple of these events. For example, an alert policy is defined to trigger an alert if any user deletes more than 100 files in 5 minutes. If two users exceed the threshold around the same time, there are two AlertEntityGenerated events, but only one AlertTriggered event.
+- **AlertUpdated**: An update was made to the metadata of an alert. This event is logged when the status of an alert is changed (for example, from **Active** to **Resolved**) and when someone adds a comment to the alert.
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|AlertId|Edm.Guid|Yes|The Guid of the alert.|
+|AlertType|Self.String|Yes|Type of the alert. Alert types include: <ul><li>System</li><li>Custom</li></ul>|
+|Name|Edm.String|Yes|Name of the alert.|
+|PolicyId|Edm.Guid|No|The Guid of the policy that triggered the alert.|
+|Status|Edm.String|No|Status of the alert. Statuses include: <ul><li><p>Active</li><li>Investigating</li><li>Resolved</li><li>Dismissed</li></ul>|
+|Severity|Edm.String|No|Severity of the alert. Severity levels include: <ul><li>Low</li><li>Medium</li><li>High</li></ul>|
+|Category|Edm.String|No|Category of the alert. Categories include: <ul><li>AccessGovernance</li><li>DataGovernance</li><li>DataLossPrevention</li><li>InsiderRiskManagement</li><li>MailFlow</li><li>ThreatManagement</li><li>Other</li></ul>|
+|Source|Edm.String|No|Source of the alert. Sources include: <ul><li>Office 365 Security & Compliance</li><li>Cloud App Security</li></ul>|
+|Comments|Edm.String|No|Comments left by the users who have viewed the alert. By default, it's "New alert".|
+|Data|Edm.String|No|The detailed data blob of the alert or alert entity.|
+|AlertEntityId|Edm.String|No|The identifier for the alert entity. This parameter is only applicable to AlertEntityGenerated events.|
+|EntityType|Edm.String|No|Type of the alert or alert entity. Entity types include: <ul><li>User</li><li>Recipients</li><li>Sender</li><li>MalwareFamily</li></ul> <br/> This parameter applies only to AlertEntityGenerated events.|
+
+## Viva Engage schema
+
+[Viva Engage events](/purview/audit-log-activities#viva-engage-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|ActorUserId|Edm.String|No|Email of user that performed the operation.|
+|ActorYammerUserId|Edm.Int64|No|ID of user that performed the operation.|
+|DataExportType|Edm.String|No|Returns "data" if data export includes messages, notes, files, topics, users and groups; returns "user" if data export includes users only.|
+|FileId|Edm.Int64|No|ID of the file in the operation.|
+|FileName|Edm.String|No|Name of the file in the operation. Appears blank if not relevant to the operation.|
+|GroupName|Edm.String|No|Name of the group in the operation. Appears blank if not relevant to the operation.|
+|IsSoftDelete|Edm.Boolean|No|Returns "true" if the network's data retention policy is set to Soft Delete; returns "false" if the network's data retention policy is set to Hard Delete.|
+|MeetingId|Edm.String|No|The ID of the event/teams meeting in the operation.|
+|MessageId|Edm.Int64|No|ID of the message in the operation.|
+|ModifiedProperties|Collection(ModifiedProperty)|No|Includes the name of the property that was modified, the new value of the modified object and the previous value of the modified object.|
+|YammerNetworkId|Edm.Int64|No|Network ID of the user that performed the operation.|
+|TargetObjectId|Edm.String|No|Entra Id of the target user in the operation.|
+|TargetUserId|Edm.String|No|Email of target user in the operation. Appears blank if not relevant to the operation.|
+|TargetYammerUserId|Edm.Int64|No|ID of target user in the operation.|
+|ThreadId|Edm.Int64|No|ID of the Message thread in the operation.|
+|VersionId|Edm.Int64|No|Version ID of the file in the operation.|
+
+## Data Center Security Base schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|DataCenterSecurityEventType|Self.[DataCenterSecurityEventType](#datacentersecurityeventtype)|Yes|The type of cmdlet event in lock box.|
+
+### Enum: DataCenterSecurityEventType - Type: Edm.Int32
+
+#### DataCenterSecurityEventType
+
+|Member name|Description|
+|---|---|
+|DataCenterSecurityCmdletAuditEvent|This is the enum value for cmdlet audit type event.|
+
+## Data Center Security Cmdlet schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|StartTime|Edm.Date|Yes|The start time of the cmdlet execution.|
+|EffectiveOrganization|Edm.String|Yes|The name of the tenant that the elevation/cmdlet was targeted at.|
+|ElevationTime|Edm.Date|Yes|The start time of the elevation.|
+|ElevationApprover|Edm.String|Yes|The name of a Microsoft manager.|
+|ElevationApprovedTime|Edm.Date|No|The timestamp for when the elevation was approved.|
+|ElevationRequestId|Edm.Guid|Yes|A unique identifier for the elevation request.|
+|ElevationRole|Edm.String|No|The role the elevation was requested for.|
+|ElevationDuration|Edm.Int32|Yes|The duration for which the elevation was active.|
+|GenericInfo|Edm.String|No|Used for comments and other generic information.|
+
+## Microsoft Teams schema
+
+[Microsoft Teams events](/purview/audit-log-activities#microsoft-teams-activities) returned in [audit log searches](/purview/audit-search) use these schemas.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Action|Edm.String|No|For shared channel events, the action taken by the invitee or the channel owner for a share with team invite.|
+|AddOnGuid|Edm.Guid|No|A unique identifier for the add-on that generated the event.|
+|AddOnName|Edm.String|No|The name of the add-on that generated the event.|
+|AddOnType|Self.[AddOnType](#addontype)|No|The type of add-on that generated this event.|
+|ChannelGuid|Edm.Guid|No|A unique identifier for the channel being audited.|
+|ChannelName|Edm.String|No|The name of the channel being audited.|
+|ChannelType|Edm.String|No|The type of channel being audited (Standard/Private).|
+|ExtraProperties|Collection(Self.[KeyValuePair](#keyvaluepair-complex-type))|No|A list of extra properties.|
+|HostedContents|Collection(Self.[HostedContent](#hostedcontent-complex-type))|No|A collection of chat or channel message hosted contents.|
+|Invitee|Edm.String|No|For shared channel events, the UPN of the invitee team owner who accepts or declines the invite for a share with team invite.|
+|Members|Collection(Self.[MicrosoftTeamsMember](#microsoftteamsmember-complex-type))|No|A list of users within a Team.|
+|MessageId|Edm.String|No|An identifier for a chat or channel message.|
+|MessageURLs|Edm.String|No|Present for any URL sent in Teams messages.|
+|Messages|Collection(Self.[Message](#message-complex-type))|No|A collection of chat or channel messages.|
+|MessageSizeInBytes|Edm.Int64|No|The size of a chat or channel message in bytes with UTF-16 encoding.|
+|Name|Edm.String|No|Only present for settings events. Name of the setting that changed.|
+|NewValue|Edm.String|No|Only present for settings events. New value of the setting.|
+|OldValue|Edm.String|No|Only present for settings events. Old value of the setting.|
+|SubscriptionId|Edm.String|No|A unique identifier of a Microsoft Graph change notification subscription.|
+|TabType|Edm.String|No|Only present for tab events. The type of tab that generated the event.|
+|TeamGuid|Edm.Guid|No|A unique identifier for the team being audited.|
+|TeamName|Edm.String|No|The name of the team being audited.|
+
+### MicrosoftTeamsMember complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|UPN|Edm.String|No|The user principal name of the user.|
+|Role|Self.[MemberRoleType](#memberroletype)|No|The role of the user within the team.|
+|DisplayName|Edm.String|No|The display name of the user.|
+
+### Enum: MemberRoleType - Type: Edm.Int32
+
+#### MemberRoleType
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Member|A user who is a member of the team.|
+|1|Owner|A user who is the owner of the team.|
+|2|Guest|A user who is not a member of the team.|
+
+### KeyValuePair complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Key|Edm.String|No|The key of the key-value pair.|
+|Value|Edm.String|No|The value of the key-value pair.|
+
+### Enum: AddOnType - Type: Edm.Int32
+
+#### AddOnType
+
+|Value|Member name|Description|
+|---|---|---|
+|1|Bot|A Microsoft Teams bot.|
+|2|Connector|A Microsoft Teams connector.|
+|3|Tab|A Microsoft Teams tab.|
+
+### HostedContent complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Id|Edm.String|Yes|A unique identifier of the message hosted content.|
+|SizeInBytes|Edm.Int64|No|The message hosted content size in bytes.|
+
+### Message complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AADGroupId|Edm.String|No|A unique identifier of the group in Azure Active Directory that the message belongs to.|
+|Id|Edm.String|Yes|A unique identifier of the chat or channel message.|
+|ChannelGuid|Edm.String|No|A unique identifier of  the channel the message belongs to.|
+|ChannelName|Edm.String|No|The name of the channel the message belongs to.|
+|ChannelType|Edm.String|No|The type of the channel the message belongs to.|
+|ChatName|Edm.String|No|The name of the chat the message belongs to.|
+|ChatThreadId|Edm.String|No|A unique identifier of the chat the message belongs to.|
+|ParentMessageId|Edm.String|No|A unique identifier of the parent chat or channel message.|
+|SizeInBytes|Edm.Int64|No|The size of the message in bytes with UTF-16 encoding.|
+|TeamGuid|Edm.String|No|A unique identifier of the team the message belongs to.|
+|TeamName|Edm.String|No|The name of the team the message belongs to.|
+|Version|Edm.String|No|The version of the chat or channel message.|
+
+## Microsoft Teams user concern schema
+
+[Microsoft Teams user concern events](/purview/audit-log-activities#teams-user-concern-activities) returned in [audit log searches](/purview/audit-search) use this schema. These events have `RecordType` set to `MicrosoftTeamsUserConcern`(462), and apply to the following operations: `MessageReported`, `CallReported`, and `UserReported`.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|SubmissionId|Edm.String|Yes|A unique identifier of the user concern report submission.|
+|ReportMetadata|Edm.String|Yes|A JSON-encoded string containing metadata about the report, including the report reason and details about the reported entity (message, call, or user).|
+
+## Microsoft Defender case management schema
+
+[Microsoft Defender case management events](/purview/audit-log-activities#microsoft-defender-xdr-case-management-activities) returned in [audit log searches](/purview/audit-search) use this schema. These events have `RecordType` set to `DefenderCaseManagement` (422). For more information, see [Manage security operations cases natively in the Microsoft Defender portal](/unified-secops/cases-overview).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|CaseId|Edm.Int64|Yes|A unique identifier of the case that the record refers to.|
+|CaseName|Edm.String|No|The name of the case.|
+|CaseType|Edm.String|No|The type of case.|
+|ClosingNotes|Edm.String|No|The closing notes of the case.|
+|TemplateName|Edm.String|No|The name of the template used by the case.|
+|CasePriority|Edm.String|No|The priority of the case.|
+|Description|Edm.String|No|The description of the case.|
+|AssignedTo|Edm.String|No|The user or team assigned to the case.|
+|CaseStatusName|Edm.String|No|The current status of the case.|
+|CustomFields|Collection(Self.CustomField)|No|The custom field values on the case.|
+|LinkedObject|Self.LinkedObject|No|Details of the object linked to or unlinked from the case.|
+|Comment|Edm.String|No|The comment body for comment operations.|
+|CommentId|Edm.String|No|The identifier of the comment that the operation refers to.|
+|Tags|Collection(Edm.String)|No|The tags added to or removed from the case.|
+|Classification|Edm.String|No|The classification of the case.|
+|Severity|Edm.String|No|The severity of the case.|
+
+### CustomField complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|FieldName|Edm.String|Yes|The name of the custom field.|
+|FieldType|Edm.String|Yes|The data type of the custom field.|
+|FieldValue|Edm.String|No|The value of the custom field.|
+
+### LinkedObject complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ObjectId|Edm.String|Yes|The identifier of the linked object.|
+|ObjectType|Edm.String|Yes|The type of linked object, such as an alert or entity.|
+|LinkType|Edm.String|No|The type of link between the object and the case.|
+|LinkNote|Edm.String|No|An optional note that describes the link.|
+
+## Microsoft Defender for Office 365 and Threat Investigation and Response schema
+
+[Microsoft Defender for Office 365](/defender-office-365/mdo-about) events are available for Microsoft 365 customers who have Defender for Office 365, either included or as an add-on subscription. For example, Microsoft 365 Business Premium includes Defender for Office 365 Plan 1, and Microsoft 365 A5/E5/G5 includes Defender for Office 365 Plan 2.
+
+[Threat Investigation and Response](/defender-office-365/office-365-ti) events are available only to customers with Defender for Office 365 Plan 2.
+
+Each event in the Defender for Office 365 feed corresponds to the following features:
+
+- Delivered email messages detected and acted on by [zero-hour auto purge (ZAP)](/defender-office-365/zero-hour-auto-purge).
+- URLs detected at time-of-click by [Safe Links](/defender-office-365/safe-links-about).
+- Files detected by [Safe Attachments for SharePoint, OneDrive, and Microsoft Teams](/defender-office-365/safe-attachments-for-spo-odfb-teams-about).
+- Alerts that triggered [automated investigations](/defender-office-365/air-about) (Defender for Office 365 Plan 2 only).
+- [Attack simulation training](/defender-office-365/attack-simulation-training-get-started) events (Defender for Office 365 Plan 2 only).
+
+### Email message events
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AttachmentData|Collection(Self.[AttachmentData](#attachmentdata))|No|Data about attachments in the email message that triggered the event.|
+|DetectionType|Edm.String|Yes|The type of detection. For example <ul><li>**Inline**</li><li>Detected at delivery.</li><li>**Delayed**: Detected after delivery</li><li>**ZAP**: Removed after delivery by [zero-hour auto purge (ZAP)](/defender-office-365/zero-hour-auto-purge).</li></ul> <br/> Events with ZAP detection type are typically preceded by a message with a **Delayed** detection type.|
+|DetectionMethod|Edm.String|Yes|The detection method or technology used by Defender for Office 365.|
+|InternetMessageId|Edm.String|Yes|The Internet Message Id.|
+|NetworkMessageId|Edm.String|Yes|The Exchange Online Network Message Id.|
+|P1Sender|Edm.String|Yes|The MAIL FROM address used in SMTP transmission of the email message between email servers (also known as the `5321.MailFrom` address, P1 sender, or envelope sender).|
+|P2Sender|Edm.String|Yes|The From address (also known as the `5322.From` address or P2 sender) that's shown in email clients.|
+|Policy|Self.[Policy](#policy-type-and-action-type)|Yes|The type of threat policy (for example, **Anti-spam** or **Anti-phish**) and related action type (for example, **High Confidence Spam**, **Spam**, or **Phish**) relevant to the email message.|
+|Policy|Self.[PolicyAction](#policy-action)|Yes|The action configured in the threat policy (for example, **Move to Junk Mail folder** or **Quarantine**) relevant to the email message.|
+|Recipients|Collection(Edm.String)|Yes|An array of recipients of the email message.|
+|SenderIp|Edm.String|Yes|The IPv4 or IPv6 address that submitted the message.|
+|Subject|Edm.String|Yes|The subject line of the message.|
+|Verdict|Edm.String|Yes|The message verdict.|
+|MessageTime|Edm.Date|Yes|Date and time in Coordinated Universal Time (UTC) the email message was received or sent.|
+|EventDeepLink|Edm.String|Yes|Deep-link to the email event in [Threat Explorer or Real-time detections](/defender-office-365/threat-explorer-real-time-detections-about).|
+|Delivery Action|Edm.String|Yes|The original delivery action on the email message.|
+|Original Delivery location|Edm.String|Yes|The original delivery location of the email message.|
+|Latest Delivery location|Edm.String|Yes|The latest delivery location of the email message at the time of the event.|
+|Directionality|Edm.String|Yes|Identifies whether an email message was inbound, outbound, or an intra-org message.|
+|ThreatsAndDetectionTech|Edm.String|Yes|The threats and the corresponding detection technologies. This field exposes all the threats on an email message, including the latest addition on spam verdict. For example, `["Phish: [Spoof DMARC]","Spam: [URL malicious reputation]"]`. The different detection threat and detection technologies are described in [Detection technologies](#detection-technologies).|
+|AdditionalActionsAndResults|Collection(Edm.String)|No|The additional actions that were taken on the email, such as ZAP or Manual Remediation. Also includes the corresponding results.|
+|Connectors|Edm.String|No|The names and GUIDs of the connectors associated with the email.|
+|AuthDetails|Collection(Self.[AuthDetails](#authdetails))|No|The authentication checks that are done for the email. Also includes the values for SPF, DKIM, DMARC, and CompAuth.|
+|SystemOverrides|Collection(Self.[SystemOverrides](#systemoverrides))|No|Overrides that are applicable to the email. These can be system or user overrides.|
+|Phish Confidence Level|Edm.String|No|Indicates the confidence level associated with Phish verdict. It can be Normal or High.|
+
+> [!NOTE]
+> We recommend that you use the new ThreatsAndDetectionTech field because it shows multiple verdicts and the updated detection technologies. This field also aligns with the values you see within other experiences like [Threat Explorer](/defender-office-365/threat-explorer-real-time-detections-about) and [Advanced Hunting](/defender-xdr/advanced-hunting-overview).
+
+### Detection technologies
+
+|Name|Description|
+|---|---|
+|Advanced filter|Machine learning models to detect phishing and spam.|
+|Antimalware protection|Detection from signature-based anti-malware.|
+|Bulk|Detection for advertising/marketing and similar message types with their relative bulk complaint levels (BCL).|
+|Campaign|Messages identified and grouped as part of a malware or phishing campaign.|
+|Domain reputation|The message was sent from a domain that was identified as spam or phishing domain, based on internal or external signals.|
+|File detonation|Safe Attachments detected a malicious attachment during detonation within a sandbox.|
+|File detonation reputation|File attachments previously detected by Safe Attachments during detonation.|
+|File reputation|The message contains a file that was previously identified as malicious by other sources.|
+|Fingerprint matching|The message resembles a previously detected malicious or spam message.|
+|General filter|Phishing or spam signals based on analyst heuristics.|
+|Impersonation brand|Sender impersonation of well-known brands.|
+|Impersonation domain|Impersonation of sender domains that you own or specified for protection in anti-phishing policies.|
+|Impersonation user|Impersonation of protected senders that you specified in anti-phishing policies.|
+|IP reputation|The message was sent from an IP that was identified as potentially malicious.|
+|LLM content analysis|Analysis by Microsoft's purpose-built large language models to detect harmful email.|
+|Mail bombing|A distributed denial of service (DDoS) attack that typically subscribes recipients to a large number of legitimate newsletters and services. The resulting volume of incoming email within minutes intends to overwhelm the recipient's mailbox and email security systems, and acts as a precursor to malware, ransomware, or data exfiltration.|
+|Mailbox intelligence impersonation|Sender detected as impersonating an address in the user's personal sender map.|
+|Mixed analysis detection|Multiple filters contributed to the verdict for this message.|
+|Spoof DMARC|The message failed DMARC authentication.|
+|Spoof external domain|Spoof intelligence detected email spoofing of a domain that is external to your organization.|
+|Spoof intra-org|Spoof intelligence detected email spoofing of a user or domain that is internal to your organization.|
+|URL detonation|Safe Links detected a malicious URL in the message during detonation within a sandbox.|
+|URL detonation reputation|URLs previously detected by Safe Links during detonation.|
+|URL malicious reputation|The message contains a URL that was previously identified as malicious or spam by other sources.|
+
+### AttachmentData complex type
+
+#### AttachmentData
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|FileName|Edm.String|Yes|The file name of the attachment.|
+|FileType|Edm.String|Yes|The file type of the attachment.|
+|FileVerdict|Self.[FileVerdict](#fileverdict)|Yes|The file malware verdict.|
+|MalwareFamily|Edm.String|No|The file malware family.|
+|SHA256|Edm.String|Yes|The file SHA256 hash.|
+
+> [!NOTE]
+> Within the Malware family, you see the exact MalwareFamily name (for example, HTML/Phish.VS!MSR) or Malicious Payload as a static string. A Malicious Payload should still be treated as malicious email when a specific name isn't identified.
+
+### SystemOverrides complex type
+
+#### SystemOverrides
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Details|Edm.String|No|The details about the specific override (such as ETR or Safe Sender) that was applied.|
+|FinalOverride|Edm.String|No|Indicates the override that impacted the delivery in the case of multiple overrides.|
+|Result|Edm.String|No|Indicates whether the email was set to allowed or blocked based on the override.|
+|Source|Edm.String|No|Indicates whether the override was user-configured or tenant-configured.|
+
+### AuthDetails complex type
+
+#### AuthDetails
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Name|Edm.String|No|The name of the specific auth check, such as DKIM or DMARC.|
+|Value|Edm.String|No|The value associated with the specific auth check, such as True or False.|
+
+### Enum: FileVerdict - Type: Edm.Int32
+
+#### FileVerdict
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Good|No threats detected.|
+|1|Bad|Malware found in attachment.|
+|-1|Error|Scan / analysis error.|
+|-2|Timeout|Scan / analysis timeout.|
+|-3|Pending|Scan / analysis not complete.|
+
+### Enum: Policy - Type: Edm.Int32
+
+#### Policy type and action type
+
+|Value|Member name|Description|
+|---|---|---|
+|1|Anti-spam, HSPM|High Confidence Spam (HSPM) action in the anti-spam policy.|
+|2|Anti-spam, SPM|Spam (SPM) action in the anti-spam policy.|
+|3|Anti-spam, Bulk|Bulk action in the anti-spam policy.|
+|4|Anti-spam, PHSH|Phish (PHSH) action in the anti-spam policy.|
+|5|Anti-phish, DIMP|Domain Impersonation (DIMP) action in the anti-phishing policy.|
+|6|Anti-phish, UIMP|User Impersonation (UIMP) action in the anti-phishing policy.|
+|7|Anti-phish, SPOOF|Spoof action in the anti-phishing policy.|
+|8|Anti-phish, GIMP|Mailbox intelligence action in the anti-phishing policy.|
+|9|Anti-malware, AMP|Malware policy action in the anti-malware policy.|
+|10|Safe attachment, SAP|Policy action in the Safe Attachments policy.|
+|11|Exchange transport rule, ETR|Policy action in the Exchange mail flow rule (also known as transport rule).|
+|12|Anti-malware, ZAPM|Malware policy action in the anti-malware policy applied to zero-hour auto purge (ZAP).|
+|13|Anti-phish, ZAPP|Phishing policy action in the anti-phishing policy applied to ZAP.|
+|14|Anti-phish, ZAPS|Spam policy action in the anti-spam policy applied to ZAP.|
+|15|Anti-spam, High confidence phish email (HPHISH)|High confidence Phish policy action in anti-spam policy.|
+|17|Anti-spam, Outbound spam policy (OSPM)|Policy action in the outbound spam policy.|
+
+### Enum: PolicyAction - Type: Edm.Int32
+
+#### Policy action
+
+|Value|Member name|Description|
+|---|---|---|
+|0|MoveToJMF|Policy action is to move the message to the Junk Email folder.|
+|1|AddXHeader|Policy action is to add an X-header to the email message.|
+|2|ModifySubject|Policy action is to modify subject in the email message with information specified by the threat policy.|
+|3|Redirect|Policy action is to redirect email message to email address specified by the threat policy.|
+|4|Delete|Policy action is to delete (drop) the email message.|
+|5|Quarantine|Policy action is to quarantine the email message.|
+|6|NoAction|Policy is configured to take no action on the email message.|
+|7|BccMessage|Policy action is to Bcc the email message to email address specified by the threat policy.|
+|8|ReplaceAttachment|Policy action is to replace the attachment in the email message as specified by the threat policy.|
+
+### URL time-of-click events
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|UserId|Edm.String|Yes|Identifier (for example, email address) of the user who clicked on the URL.|
+|AppName|Edm.String|Yes|Office 365 service from which the URL was clicked (for example, Mail).|
+|URLClickAction|Self.[URLClickAction](#urlclickaction)|Yes|Click action for the URL based on the organization's policies for [Safe Links](/defender-office-365/safe-links-about).|
+|SourceId|Edm.String|Yes|Identifier for the Office 365 service from which the URL was clicked (for example, for email, this value is the Exchange Online Network Message Id).|
+|TimeOfClick|Edm.Date|Yes|The date and time in Coordinated Universal Time (UTC) when the user clicked the URL.|
+|URL|Edm.String|Yes|URL clicked by the user.|
+|UserIp|Edm.String|Yes|The IPv4 or IPv6 address of the user who clicked the URL.|
+
+### Enum: URLClickAction - Type: Edm.Int32
+
+#### URLClickAction
+
+|Value|Member name|Description|
+|---|---|---|
+|2|Blockpage|User blocked from navigating to the URL by [Safe Links](/defender-office-365/safe-links-about).|
+|3|PendingDetonationPage|User presented with the detonation pending page by [Safe Links](/defender-office-365/safe-links-about).|
+|4|BlockPageOverride|User blocked from navigating to the URL by [Safe Links](/defender-office-365/safe-links-about), but the user overrode the block to navigate to the URL.|
+|5|PendingDetonationPageOverride|User presented with the detonation page by [Safe Links](/defender-office-365/safe-links-about), but the user overrode the page to navigate to the URL.|
+
+### File events
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|FileData|Self.[FileData](#filedata)|Yes|Data about the file that triggered the event.|
+|SourceWorkload|Self.[SourceWorkload](#sourceworkload)|Yes|Workload or service where the file was found (for example, SharePoint, OneDrive, or Microsoft Teams)|
+|DetectionMethod|Edm.String|Yes|The method or technology used by Microsoft Defender for Office 365 for the detection.|
+|LastModifiedDate|Edm.Date|Yes|The date and time in Coordinated Universal Time (UTC) when the file was created or last modified.|
+|LastModifiedBy|Edm.String|Yes|Identifier (for example, an email address) for the user who created or last modified the file.|
+|EventDeepLink|Edm.String|Yes|Deep-link to the file event in [Threat Explorer or Real-time detections](/defender-office-365/threat-explorer-real-time-detections-about).|
+
+### FileData complex type
+
+#### FileData
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|DocumentId|Edm.String|Yes|Unique identifier for the file in SharePoint, OneDrive, or Microsoft Teams.|
+|FileName|Edm.String|Yes|Name of the file that triggered the event.|
+|FilePath|Edm.String|Yes|Path (location) for the file in SharePoint, OneDrive, or Microsoft Teams.|
+|FileVerdict|Self.[FileVerdict](#fileverdict)|Yes|The file malware verdict.|
+|MalwareFamily|Edm.String|No|The file malware family.|
+|SHA256|Edm.String|Yes|The file SHA256 hash.|
+|FileSize|Edm.String|Yes|Size for the file in bytes.|
+
+### Enum: SourceWorkload - Type: Edm.Int32
+
+#### SourceWorkload
+
+|Value|Member name|
+|---|---|
+|0|SharePoint|
+|1|OneDrive|
+|2|Microsoft Teams|
+
+<a name='attack-sim-schema'></a>
+
+## Attack Sim schema in Microsoft Defender for Office 365 Plan 2
+
+[Attack simulation training](/defender-office-365/attack-simulation-training-get-started) events are available for Microsoft 365 customers who have Defender for Office 365 Plan 2, either included or as an add-on subscription. For example Microsoft 365 A5/E5/G5 includes Defender for Office 365 Plan 2.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Batch ID|Edm.String|Yes|A unique identifier for a group of records that are processed together.|
+|Campaign ID|Edm.String|Yes|A unique identifier for the attack simulation training campaign.|
+|UserDisplayName|Edm.String|No|The display name of the user involved in the attack simulation training campaign.|
+|AttackTechnique|Edm.String|No|The attack technique used in the simulation.|
+|CampaignType|Edm.String|No|The type of attack simulation campaign. The different types are simulation campaign, training campaign, simulation automation.|
+|TimeData|Edm.Date|No|Campaign launch time.|
+|EndTimeData|Edm.Date|No|Campaign end time.|
+|AttackSimEvent|Self.AttackSimEventType|Yes|Type of event (user activity or message delivery state).|
+|ExtendedProperties|Collection(Common.NameValuePair)|Yes|Additional properties associated with the audit record.|
+
+### Enum: AttackSimEventType - Type: Edm.Int32
+
+|Value|Member Name|Description|
+|---|---|---|
+|1|MessageDelivered|Message delivered to recipient successfully.|
+|2|MessageFailed|Message delivery failed.|
+|6|CredentialEntered|User entered credentials in the phish simulation for techniques such as Credential Harvesting, Link in attachment.|
+|7|PermissionGranted|User granted permission in the phish simulation for technique such as Oauth consent grant.|
+|8|LinkClicked|User clicked on phish simulation URL.|
+|10|AttachmentOpened|Attachment opened by user for techniques such as Malware attachment, Link in attachment.|
+|12|MessageRead|Message opened and read by recipient.|
+|13|MessageReplied|Recipient replied to the message.|
+|14|MessageForwarded|Message forwarded to another user.|
+|15|MessageReported|Message reported as phish by recipient.|
+|16|MessageDeleted|Message deleted by recipient.|
+|17|OutOfOffice|Automatic replies in Outlook enabled for recipient.|
+|18|PositiveReinforcementMessageDelivered|Positive reinforcement message delivered successfully to recipient.|
+
+<a name='attack-sim-admin-schema'></a>
+
+## Attack Sim Admin schema in Microsoft Defender for Office 365 Plan 2
+
+[Attack simulation training](/defender-office-365/attack-simulation-training-get-started) admin events are available for Microsoft 365 customers who have Defender for Office 365 Plan 2, either included or as an add-on subscription. For example Microsoft 365 A5/E5/G5 includes Defender for Office 365 Plan 2.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Batch ID|Edm.String|Yes|A unique identifier for a group of records that are processed together.|
+|Campaign ID|Edm.String|Yes|A unique identifier for an attack simulation training campaign.|
+|AttackTechnique|Edm.String|No|The attack technique used in a simulation.|
+|CampaignType|Edm.String|No|The type of attack simulation campaign. The different types are simulation campaign, training campaign, simulation automation.|
+|TimeData|Edm.Date|Yes|Campaign launch time.|
+|EndTimeData|Edm.Date|Yes|Campaign end time.|
+|AttackSimAdminEvent|Self.AttackSimAdminEventType|Yes|The type of attack sim admin event.|
+|ExtendedProperties|Collection(Common.NameValuePair)|Yes|Additional properties associated with the audit record.|
+
+### Enum: AttackSimAdminEventType - Type: Edm.Int32
+
+|Value|Member Name|Description|
+|---|---|---|
+|0|CampaignLaunched|When an attack simulation training campaign was launched. The different types of campaigns are simulation, training campaign.|
+|1|CampaignCompleted|When an attack simulation training campaign was completed.|
+|2|CampaignReportDownloaded|Admin downloaded a campaign report.|
+|3|CampaignReportViewed|Admin viewed a campaign report.|
+|4|CampaignCancelled|When an attack simulation training campaign was cancelled.|
+|5|CampaignScheduled|When an attack simulation training campaign was scheduled.|
+|6|CampaignDeleted|When an attack simulation training campaign was deleted.|
+|7|SimulationExcluded|When a simulation was excluded from reporting.|
+|8|AutomationSubmitted|When an automation was submitted, includes simulation and payload automation.|
+|9|AutomationTurnOn|When an automation was turned on, includes simulation and payload automation.|
+|10|AutomationTurnOff|When an automation was turned off, includes simulation and payload automation.|
+|11|AutomationCompleted|When a simulation automation was completed.|
+|12|AutomationDeleted|When an automation was deleted, includes simulation and payload automation.|
+
+## User Training schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Batch ID|Edm.String|Yes|A unique identifier for a group of records that are processed together.|
+|Campaign ID|Edm.String|Yes|A unique identifier for an attack simulation training campaign.|
+|Course ID|Edm.String|Yes|A unique identifier for a training course.|
+|UserDisplayName|Edm.String|No|The display name of the user involved in the attack simulation.|
+|CampaignType|Edm.String|Yes|The type of attack simulation campaign. The different types are simulation campaign, training campaign, simulation automation.|
+|TimeData|Edm.Date|Yes|Campaign launch time.|
+|EndTimeData|Edm.Date|Yes|Campaign end time.|
+|UserTrainingEvent|Self.UserTrainingEventType|Yes|The type of user training event.|
+|ExtendedProperties|Collection(Common.NameValuePair)|Yes|Additional properties associated with the audit record.|
+
+### Enum: UserTrainingEventType - Type: Edm.Int32
+
+|Value|Member Name|Description|
+|---|---|---|
+|1|TrainingAssigned|Training assigned to user.|
+|2|TrainingUpdated|Training updated for user.|
+|3|TrainingCompleted|User completed training.|
+|4|TrainingPreviouslyAssigned|Previously assigned training to user.|
+|5|TrainingNotCompleted|User did not complete assigned training.|
+
+## Submission schema
+
+Events for submitting false positives or false negatives to Microsoft for analysis are available in all organizations with mailboxes in Exchange Online. Each event in the submission feed corresponds to false positives or false negatives that were submitted by:
+
+- [Admins](/defender-office-365/submissions-admin): Messages, files, or URLs submitted to Microsoft for analysis.
+- [Users](/defender-office-365/submissions-outlook-report-messages): Messages reported by users to admins or Microsoft for review.
+
+### Submission events
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AdminSubmissionRegistered|Edm.String|No|Admin submission is registered and is pending for processing.|
+|AdminSubmissionDeliveryCheck|Edm.String|No|Admin submission system checked the email's policy.|
+|AdminSubmissionSubmitting|Edm.String|No|Admin submission system is submitting the email.|
+|AdminSubmissionSubmitted|Edm.String|No|Admin submission system submitted the email.|
+|AdminSubmissionTriage|Edm.String|No|Admin submission triaged by grader.|
+|AdminSubmissionTimeout|Edm.String|No|Admin submission timed out with no result.|
+|UserSubmission|Edm.String|No|Submission was first reported by an end user.|
+|UserSubmissionTriage|Edm.String|No|User submission is triaged by grader.|
+|CustomSubmission|Edm.String|No|Message reported by a user was sent to the organization's custom mailbox as set in the user reported messages settings.|
+|AttackSimUserSubmission|Edm.String|No|The user-reported message was actually a phish simulation training message.|
+|AdminSubmissionTablAllow|Edm.String|No|An allow entry in the [Tenant Allow/Block List](/defender-office-365/tenant-allow-block-list-about) was created at time of submission to immediately take action on similar messages while it is being rescanned.|
+|SubmissionNotification|Edm.String|No|Admin feedback is sent to end user.|
+
+<a name='automated-investigation-and-response-events-in-office-365'></a>
+
+## Automated investigation and response events in Microsoft Defender for Office 365 Plan 2
+
+[Automated investigation and response (AIR)](/defender-office-365/air-about) events are available for Microsoft 365 customers who have Defender for Office 365 Plan 2, either included or as an add-on subscription. For example Microsoft 365 A5/E5/G5 includes Defender for Office 365 Plan 2.
+
+Investigation events are logged based on a change in investigation status. For example, when an admin takes an action that changes the status of an investigation from Pending Actions to Completed, an event is logged.
+
+Currently, only automated investigation are logged. The following status values are logged:
+
+- Investigation Started
+- No threats found
+- Terminated by System
+- Pending Action
+- Threats Found
+- Remediated
+- Failed
+- Terminated by throttling
+- Terminated By User
+- Running
+
+### Main investigation schema
+
+|Name|Type|Description|
+|---|---|---|
+|InvestigationId|Edm.String|Investigation ID/GUID.|
+|InvestigationName|Edm.String|Name of the investigation.|
+|InvestigationType|Edm.String|Type of the investigation. Can take one of the following values: <ul><li>User-Reported Messages</li><li>Zapped Malware</li><li>Zapped Phish</li><li>Url Verdict Change</li></ul> <br/> (Currently, manual investigations aren't available.)|
+|LastUpdateTimeUtc|Edm.Date|UTC time of the last update for an investigation.|
+|StartTimeUtc|Edm.Date|Start time for an investigation.|
+|Status|Edm.String|State of investigation, Running, Pending Actions, etc.|
+|DeeplinkURL|Edm.String|Deep link URL to an investigation in the Microsoft Defender portal.|
+|Actions|Collection (Edm.String)|Collection of actions recommended by an investigation.|
+|Data|Edm.String|Data string which contains more details about investigation entities, and information about alerts related to the investigation. Entities are available in a separate node within the data blob.|
+
+### Actions
+
+|Field|Type|Description|
+|---|---|---|
+|ID|Edm.String|Action ID|
+|ActionType|Edm.String|The type of the action, such as email remediation.|
+|ActionStatus|Edm.String|Values include: <ul><li>Pending</li><li>Running</li><li>Waiting on resource</li><li>Completed</li><li>Failed</li></ul>|
+|ApprovedBy|Edm.String|Null if auto approved; otherwise, the username/id (this is coming soon)|
+|TimestampUtc|Edm.DateTime|The timestamp of the action status change.|
+|ActionId|Edm.String|Unique identifier for action.|
+|InvestigationId|Edm.String|Unique identifier for investigation.|
+|RelatedAlertIds|Collection(Edm.String)|Alerts related to an investigation.|
+|StartTimeUtc|Edm.DateTime|Timestamp of action creation.|
+|EndTimeUtc|Edm.DateTime|Action final status update timestamp.|
+|Resource Identifiers|Edm.String|Consists of the Azure Active Directory tenant ID.|
+|Entities|Collection(Edm.String)|List of one or more affected entities by action.|
+|Related Alert IDs|Edm.String|Alert related to an investigation.|
+
+### Entities
+
+#### MailMessage (email)
+
+|Field|Type|Description|
+|---|---|---|
+|Type|Edm.String|"mail-message"|
+|Files|Collection (Self.File)|Details about the files of this message's attachments.|
+|Recipient|Edm.String|The recipient of this mail message.|
+|Urls|Collection(Self.URL)|The Urls contained in this mail message.|
+|Sender|Edm.String|The sender's email address.|
+|SenderIP|Edm.String|The sender's IP address.|
+|ReceivedDate|Edm.DateTime|The received date of this message.|
+|NetworkMessageId|Edm.Guid|The network message id of this mail message.|
+|InternetMessageId|Edm.String|The internet message id of this mail message.|
+|Subject|Edm.String|The subject of this mail message.|
+
+#### IP
+
+|Field|Type|Description|
+|---|---|---|
+|Type|Edm.String|"ip"|
+|Address|Edm.String|The IP address as a string, such as `127.0.0.1`.|
+
+#### URL
+
+|Field|Type|Description|
+|---|---|---|
+|Type|Edm.String|"url"|
+|Url|Edm.String|The full URL to which an entity points.|
+
+#### Mailbox (also equivalent to the user)
+
+|Field|Type|Description|
+|---|---|---|
+|Type|Edm.String|"mailbox"|
+|MailboxPrimaryAddress|Edm.String|The mailbox's primary address.|
+|DisplayName|Edm.String|The mailbox's display name.|
+|Upn|Edm.String|The mailbox's UPN.|
+
+#### File
+
+|Field|Type|Description|
+|---|---|---|
+|Type|Edm.String|"file"|
+|Name|Edm.String|The file name without path.|
+|FileHashes|Collection (Edm.String)|The file hashes associated with the file.|
+
+#### FileHash
+
+|Field|Type|Description|
+|---|---|---|
+|Type|Edm.String|"filehash"|
+|Algorithm|Edm.String|The hash algorithm type, which can be one of these values: <ul><li>Unknown</li><li>MD5</li><li>SHA1</li><li>SHA256</li><li>SHA256AC</li></ul>|
+|Value|Edm.String|The hash value.|
+
+#### MailCluster
+
+|Field|Type|Description|
+|---|---|---|
+|Type|Edm.String|"MailCluster" <br/> Determines the type of entity being discussed.|
+|NetworkMessageIds|Collection (Edm.String)|List of the mail message IDs that are part of the mail cluster.|
+|CountByDeliveryStatus|Collections (Edm.String)|Count of mail messages by DeliveryStatus string representation.|
+|CountByThreatType|Collections (Edm.String)|Count of mail messages by ThreatType string representation.|
+|Threats|Collections (Edm.String)|The threats of mail messages that are part of the mail cluster. Threats include values like Phish and Malware.|
+|Query|Edm.String|The query that was used to identify the messages of the mail cluster.|
+|QueryTime|Edm.DateTime|The query time.|
+|MailCount|Edm.int|The number of mail messages that are part of the mail cluster.|
+|Source|String|The source of the mail cluster; the value of the cluster source.|
+
+## Hygiene events schema
+
+Hygiene events are related to outbound spam protection. These events are related to users who are restricted from sending email. For more information, see the following articles:
+
+- [Outbound spam protection](/defender-office-365/outbound-spam-protection-about)
+- [Remove blocked users from the Restricted entities page](/defender-office-365/outbound-spam-restore-restricted-users)
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Audit|Edm.String|No|System information related to the hygiene event.|
+|Event|Edm.String|No|The type of hygiene event. The values for this parameter are **Listed** or **Delisted**.|
+|EventId|Edm.Int64|No|The ID of the hygiene event type.|
+|EventValue|Edm.String|No|The user who was impacted.|
+|Reason|Edm.String|No|Details about the hygiene event.|
+
+## Power BI schema
+
+The Power BI events listed in [Search the audit log](/purview/audit-search) use this schema.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AppName|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The name of the app where the event occurred.|
+|DashboardName|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The name of the dashboard where the event occurred.|
+|DataClassification|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The [data classification](/power-bi/service-data-classification), if any, for the dashboard where the event occurred.|
+|DatasetName|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The name of the dataset where the event occurred.|
+|ActivityStatus|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The status of the Gen1 dataflow migration audit event. Possible values include `Started`, `Succeeded`, and `Failed`.|
+|MigrationTriggerType|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The source that triggered the Gen1 dataflow migration, such as the Upgrade Wizard or another migration entry point.|
+|MembershipInformation|Collection([MembershipInformationType](#membershipinformationtype-complex-type))   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|Membership information about the group.|
+|OrgAppPermission|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|Permissions list for an organizational app (entire organization, specific users, or specific groups).|
+|ReportName|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The name of the report where the event occurred.|
+|SharingInformation|Collection([SharingInformationType](#sharinginformationtype-complex-type))   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|Information about the person to whom a sharing invitation is sent.|
+|SwitchState|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|Information about the state of various tenant level switches.|
+|WorkSpaceName|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The name of the workspace where the event occurred.|
+
+### MembershipInformationType complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|MemberEmail|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The email address of the group.|
+|Status|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|Not currently populated.|
+
+### SharingInformationType complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|RecipientEmail|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The email address of the recipient of a sharing invitation.|
+|RecipientName|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The name of the recipient of a sharing invitation.|
+|ResharePermission|Edm.String   Term="Microsoft.Office.Audit.Schema.PIIFlag" Bool="true"|No|The permission being granted to the recipient.|
+
+## Dynamics 365 schema
+
+The audit records for events related to model-driven apps in Dynamics 365 events use both a base and an entity operation schema. For more information, see [Enable and use Activity Logging](/power-platform/admin/enable-use-comprehensive-auditing#model-driven-apps-in-dynamics-365-schema).
+
+### Dynamics 365 base schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|CrmOrganizationUniqueName|Edm.String|Yes|The unique name of the organization.|
+|InstanceUrl|Edm.String|Yes|The URL to the instance.|
+|ItemUrl|Edm.String|No|The URL to the record emitting the log.|
+|ItemType|Edm.String|No|The name of the entity.|
+|UserAgent|Edm.String|No|The unique identifier of the user GUID in the organization.|
+|Fields|Collection(Common.NameValuePair)|No|A JSON object that contains the property key-value pairs that were created or updated.|
+
+### Dynamics 365 entity operation schema
+
+Entity events from model-driven apps in Dynamics 365 use this schema to build on the Dynamics 365 base schema. This schema includes information about the entity operation that triggered the audited event.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|EntityId|Edm.Guid|No|The unique identifier of the entity.|
+|EntityName|Edm.String|Yes|The name of the entity in the organization. Example of entities include `contact` or `authentication`.|
+|Message|Edm.String|Yes|This parameter contains the operation that was performed in related to the entity. For example, if a new contact was created, the value of the Message property is  `Create` and the corresponding value of the EntityName property is `contact`.|
+|Query|Edm.String|No|The parameters of the filter query that was used while executing the FetchXML operation.|
+|PrimaryFieldValue|Edm.String|No|Indicates the value for the attribute that is the primary field for the entity.|
+
+## eSignature schema
+
+This schema includes [eSignature for Microsoft 365](/microsoft-365/documentprocessing/esignature-overview) events returned in audit log searches.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|AgreementId|Edm.Guid|Yes|ID of the electronic signature request.|
+|AgreementSender|Edm.String|Yes|Sender of the electronic signature request.|
+|AgreementCreationDateTime|Edm.Date|Yes|Date & time request was sent.|
+|AgreementStatus|Self.AgreementStatusType|Yes|Status of the request.|
+|AgreementRecipients|Collection(Self.AgreementRecipient)|Yes|Recipients of the request.|
+
+## Viva Insights schema
+
+[Viva Insights events](/purview/audit-log-activities#microsoft-viva-insights-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|WpaUserRole|Edm.String|No|The Viva Insights role of the user who performed the action.|
+|ModifiedProperties|Collection (Common.ModifiedProperty)|No|This property includes the name of the property that was modified, the new value of the modified property, and the previous value of the modified property.|
+|OperationDetails|Collection (Common.NameValuePair)|No|A list of extended properties for the setting that was changed. Each property has a **Name** and **Value**.|
+
+## Quarantine schema
+
+[Quarantine events](/purview/audit-log-activities#quarantine-activities) returned in [audit log searches](/purview/audit-search) use this schema. For more information about quarantine, see [Quarantined email messages in cloud organizations](/defender-office-365/quarantine-about).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|RequestType|Self.[RequestType](#enum-requesttype---type-edmint32)|No|The type of quarantine request performed by a user.|
+|RequestSource|Self.[RequestSource](#enum-requestsource---type-edmint32)|No|Quarantine request come from the Microsoft Defender portal, a cmdlet, or a URLlink.|
+|NetworkMessageId|Edm.String|No|The network message id of quarantined email message.|
+|ReleaseTo|Edm.String|No|The recipient of the email message.|
+
+### Enum: RequestType - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Preview|User request to preview an email message identified as harmful.|
+|1|Delete|User request to delete an email message identified as harmful.|
+|2|Release|User request to release an email message identified as harmful.|
+|3|Export|User request to export an email message identified as harmful.|
+|4|ViewHeader|User request to view the header of an email message identified as harmful.|
+|5|Release request|User request to release an email message identified as harmful.|
+
+### Enum: RequestSource - Type: Edm.Int32
+
+The source of a user request to preview, delete, release, export, or view the header of a potentially harmful email message.
+
+|Value|Member name|Description|
+|---|---|---|
+|0|SCC|The Microsoft Defender portal.|
+|1|Cmdlet|A cmdlet.|
+|2|URLlink|A link.|
+
+## Microsoft Forms schema
+
+[Microsoft Forms events](/purview/audit-log-activities#microsoft-forms-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|FormsUserTypes|Collection(Self.[FormsUserTypes](#formsusertypes))|Yes|The role of the user who performed the action.  The values for this parameter are Admin, Owner, Responder, or Coauthor.|
+|SourceApp|Edm.String|Yes|Indicates if the action is from Forms website or from another App.|
+|FormName|Edm.String|No|The name of the current form.|
+|FormId|Edm.String|No|The Id of the target form.|
+|FormTypes|Collection(Self.[FormTypes](#formtypes))|No|Indicates whether this is a Form, Quiz, or Survey.|
+|ActivityParameters|Edm.String|No|JSON string containing activity parameters. For more information, see [Microsoft Forms activities](/purview/audit-log-activities#microsoft-forms-activities).|
+
+### Enum: FormsUserTypes - Type: Edm.Int32
+
+#### FormsUserTypes
+
+|Value|Form User Type|Description|
+|---|---|---|
+|0|Admin|An administrator who has access to the form.|
+|1|Owner|A user who is the owner of the form.|
+|2|Responder|A user who has submitted a response to a form.|
+|3|Coauthor|A user who has used a collaboration link provided by the form owner to login and edit a form.|
+
+### Enum: FormTypes - Type: Edm.Int32
+
+#### FormTypes
+
+|Value|Form Types|Description|
+|---|---|---|
+|0|Form|Forms that are created with the New Form option.|
+|1|Quiz|Quizzes that are created with the New Quiz option. A quiz is a special type of form that includes additional features such as point values, auto and manual grading, and commenting.|
+|2|Survey|Surveys that are created with the New Survey option. A survey is a special type of form that includes additional features such as CMS integration and support for Flow rules.|
+
+## MIP label schema
+
+Events in the Microsoft Purview Information Protection label schema are triggered when Microsoft 365 detects an email message processed by agents in the Transport pipeline that has a sensitivity label applied to it. The sensitivity label might have been applied manually or automatically, and it might have been applied within or outside of the Transport pipeline. Sensitivity labels can be automatically applied to email messages by auto-apply label policies.
+
+The intent of this audit schema is to represent the sum of all email activity that involves sensitivity labels. In other words, there should be an recorded audit activity for each email message that is sent to or from users in the organization that has a sensitivity label applied to it, regardless of when or how the sensitivity label was applied. For more information about sensitivity labels, see:
+
+- [Learn about sensitivity labels](/purview/sensitivity-labels)
+- [Apply a sensitivity label to content automatically](/purview/apply-sensitivity-label-automatically)
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Sender|Edm.String|No|The email address in the From field of the email message.|
+|Receivers|Collection(Edm.String)|No|All email addresses in the To, CC, and Bcc fields of the email message.|
+|ItemName|Edm.String|No|The string in the Subject field of the email message.|
+|LabelId|Edm.Guid|No|The GUID of the sensitivity label applied to the email message.|
+|LabelName|Edm.String|No|The name of the sensitivity label applied to the email message.|
+|LabelAction|Edm.String|No|The actions specified by the sensitivity label that were applied to the email message before the message entered the mail transport pipeline.|
+|LabelAppliedDateTime|Edm.Date|No|The date the sensitivity label was applied to the email message.|
+|ApplicationMode|Edm.String|No|Specifies how the sensitivity label was applied to the email message. The **Privileged** value indicates the label was manually applied by a user. The **Standard** value indicates the label was auto-applied by a client-side or service-side labeling process.|
+
+## Encrypted message portal events schema
+
+Events for encrypted message portal schema are triggered when when Purview Message Encryption detects an encrypted email message is accessed through the portal by an external recipient. The mail might have been encrypted manually with a sensitivity label or an RMS template, or automatically by a transport rule, a Data Loss Prevention policy, or an auto-labeling policy.
+
+The intent of this audit schema is to represent the sum of all portal activity that involves accessing the encrypted mail by external recipients. In other words, there should be a recorded audit activity for a recipient that attempts to sign in to the portal and any activities related to accessing the encrypted mail. This includes mail sent to or from users in the organization when the mail has encryption applied to it, regardless of when or how the encryption was applied. For more information, see, [Learn about encrypted message portal logs](/purview/audit-log-encrypted-messages).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|MessageId|Edm.String|No|The Id of the message.|
+|Recipient|Edm.String|No|Recipient email address.|
+|Sender|Edm.String|No|Email address of sender.|
+|AuthenticationMethod|Self.AuthenticationMethod|No|Authentication method when accessing the message, i.e. OTP, Yahoo, Gmail, Microsoft.|
+|AuthenticationStatus|Self.AuthenticationStatus|No|0: Success, 1: Failure.|
+|OperationStatus|Self.OperationStatus|No|0: Success, 1: Failure.|
+|AttachmentName|Edm.String|No|Name of the attachment.|
+|OperationProperties|Collection(Common.NameValuePair)|No|Extra properties, i.e. number of OTP passcode sent, email subject, etc.|
+
+## Communication compliance Exchange schema
+
+The communication compliance events listed in the Office 365 audit log use this schema. This includes audit records for the **SupervisoryReviewOLAudit** operation that's generated when email message content contains offensive language identified by anti-spam models with a match accuracy of \>= 99.5%.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ExchangeDetails|[ExchangeDetails](#exchangedetails)|No|Properties of the email message that triggered the SupervisoryReviewOLAudit event.|
+
+### Enum: ExchangeDetails - Type: ExchangeDetails
+
+#### ExchangeDetails
+
+|Member name|Type|Description|
+|---|---|---|
+|NetworkMessageId|Edm.Guid|The network message ID of the email message.|
+|InternetMessageId|Edm.String|The internet message ID of the email message.|
+|AttachmentData|Collection([AttachmentDetails](#attachmentdetails))|Information about files attached to the email message.|
+|Recipients|Collection(Edm.String)|The email addresses in the To, Cc, and Bcc fields of the email message.|
+|Subject|Edm.String|The text in the Subject field of the email message.|
+|MessageTime|Edm.Date|The date and time the email message was sent.|
+|From|Edm.String|The email address in the From field of the email message.|
+|Directionality|Edm.String|The origination status of the email message.|
+
+### Enum: AttachmentDetails - Type: Edm.Int32
+
+#### AttachmentDetails
+
+|Member name|Type|Description|
+|---|---|---|
+|FileName|Edm.String|The name of the file attached to the email message.|
+|FileType|Edm.String|The file extension of the file attached to the email message.|
+|SHA256|Edm.String|The SHA-256 hash of the file attached to the email message.|
+
+## Reports schema
+
+[Report events](/purview/audit-log-activities#report-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ModifiedProperties|Collection (Common.ModifiedProperty)|No|This property includes the name of the property that was modified, the new value of the modified property, and the previous value of the modified property.|
+
+## Compliance connector schema
+
+Events in the compliance connector schema are triggered when items that are imported by a data connector are skipped or failed to be import to user mailboxes. For more information about data connectors, see [Learn about connectors for third-party data](/purview/archive-third-party-data).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|JobId|Edm.String|No|This is a unique identifier of the data connector.|
+|TaskId|Edm.String|No|Unique identifier of the periodic data connector instance. Data connectors import data in periodic intervals.|
+|JobType|Edm.String|No|The name of the data connector.|
+|ItemId|Edm.String|No|Unique identifier of the item (for example, an email message) being imported.|
+|ItemSize|Edm.Int64|No|The size of the item being imported.|
+|SourceUserId|Edm.String|No|The unique identifier of the user from the third-party data source. For example, for a Slack data connector, this property specifies the user Id in Slack workspace.|
+|FailureType|Self.[FailureType](#enum-failuretype---type-edmint32)|No|Indicates the type of data import failure. For example, the value **incorrectusermapping** indicates the item wasn't imported because no user mapping between the third-party data source and Microsoft 365 could be found.|
+|ResultMessage|Edm.String|No|Indicates the type of failure, such as **Duplicate message**.|
+|IsRetry|Edm.Boolean|No|Indicates whether the data connector retried to import the item.|
+|Attachments|Collection.[Attachment](#attachment-complex-type)|No|A list of attachments received from the third-party data source.|
+
+### Enum: FailureType - Type: Edm.Int32
+
+|Value|Member name|
+|---|---|
+|0|Default|
+|1|MailboxWrite|
+
+### Attachment complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|FileName|Edm.String|No|The name of the attachment.|
+|Details|Edm.String|No|Other details about the attachment.|
+
+## SystemSync schema
+
+Events in the SystemSync schema are triggered when the SystemSync ingested data is either exported via Data Lake or shared via other services.
+
+### DataLakeExportOperationAuditRecord
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|DataStoreType|DataStoreType|Yes|Indicates which data store the data was downloaded from. Refer DataStoreType for all possible values.|
+|UserAction|DataLakeUserAction|Yes|Indicates what action user had performed on the data store. Refer DataLakeUserAction for all possible values.|
+|ExportTriggeredAt|Edm.DateTimeOffset|Yes|Indicates when the data export was triggered.|
+|NameOfDownloadedZipFile|Edm.String|No|The name of the compressed file the admin had downloaded from the Data Lake.|
+
+### DataShareOperationAuditRecord
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Invitation|DataShareInvitationType|No|Details of the invite sent to the recipient of the Data Share.|
+
+#### DataShareInvitationType complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ShareId|Edm.Guid|Yes|System assigned identifier for the Data Share.|
+|Invitees|Collection(Edm.Guid)|Yes|List of admin users the invite was sent to.|
+|InviteeTenantId|Edm.Guid|Yes|The target tenant whom the invite is intended to.|
+|ShareName|Edm.String|Yes|System assigned name for the Data Share.|
+|SyncFrequency|Self.SyncFrequency|Yes|Frequency at which the data is synced to the destination storage account once share is established. See SyncFrequency for possible values.|
+|SyncStartTime|Edm.DateTimeOffset|Yes|Date and time of first sync.|
+
+**Enum: SyncFrequency - Type: Edm.Int32**:
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Hourly|Indicates the data is synced every hour.|
+|1|Daily|Indicates the data is synced once a day.|
+
+**Enum: DataStoreType - Type: Edm.Int32**:
+
+|Value|Member name|Description|
+|---|---|---|
+|0|CanonicalStore|Indicates data is downloaded from Canonical store.|
+|1|StagingStore|Indicates data is downloaded from Staging store.|
+
+**Enum: DataLakeUserAction - Type: Edm.Int32**:
+
+|Value|Member name|Description|
+|---|---|---|
+|0|TriggerExport|The admin user triggered export from Data Lake.|
+|1|DownloadZipFile|The admin user downloaded the exported data.|
+
+#### MicrosoftGraphDataConnectOperation complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ApplicationId|Edm.Guid|Yes|The application identification.|
+|ApplicationName|Edm.String|Yes|The application name.|
+|PipelineName|Edm.String|Yes|The pipeline name.|
+|PipelineRunId|Edm.Guid|No|The identification of this pipeline run.|
+|CopyActivityRunId|Edm.Guid|No|The identification of the ADF copy activity.|
+|RunStartTime|Edm.Date|Yes|Date and time of the extraction.|
+|RunEndTime|Edm.Date|Yes|Date and time of the extraction.|
+|DatasetName|Edm.String|Yes|The dataset name being extracted.|
+|DatasetColumns|Edm.String|Yes|The set of selected columns being extracted.|
+|ScopeList|Edm.String|Yes|The scope of the extraction.|
+|ScopeCountRequested|Edm.Int64|No|The requested scope count for this extraction.|
+|ScopeCountDelivered|Edm.Int64|No|The delivered scope count for this extraction.|
+|UndeliveredScope|Edm.String|No|The undelivered scope of the extraction.|
+|RowCount|Edm.Int64|No|The number of rows extracted.|
+|Status|Edm.String|Yes|The extraction status.|
+|Reason|Edm.String|No|The error message in case of failure.|
+
+## AipDiscover
+
+The following table contains information related to Azure Information Protection (AIP) scanner events.
+
+|Event|Description|
+|---|---|
+|ApplicationId|The ID of the application performing the operation.|
+|ApplicationName|Friendly name of the application performing the operation. Outlook (for email), OWA (for email), Word (for file), Excel (for file), PowerPoint (for file).|
+|ClientIP|The IP address of the device that was used when the activity was logged. The IP address is displayed in either an IPv4 or IPv6 address format. For some services, the value displayed in this property might be the IP address for a trusted application (for example, Office on the web apps) calling into the service on behalf of a user and not the IP address of the device used by person who performed the activity. Also, for Azure Active Directory-related events, the IP address isn't logged and the value for the ClientIP property is null. The IP address is displayed in either an IPv4 or IPv6 address format.|
+|CreationTime|The date and time in Coordinated Universal Time (UTC) in ISO8601 format when the audit log record was generated.|
+|DataState|Describes the state of the data.|
+|DeviceName|The device on which the activity happened.|
+|Id|GUID of the current record.|
+|IsProtected|Whether protected: True/False|
+|Location|The location of the document with respect to the user's device. The possible values are **unknown**, **localMedia**, **removableMedia**, **fileshare**, and **cloud**.|
+|ObjectId|File full path (URL). For SharePoint and OneDrive activity, the full path name of the file or folder accessed by the user.|
+|Operation|Describes type of access.|
+|OrganizationId|The GUID for your organization's Office 365 tenant. This value is always the same for your organization, regardless of the Office 365 service in which it occurs.|
+|Platform|Device platform (Win, OSX, Android, iOS)|
+|ProcessName|The relevant process name. For example, `Outlook`, `msip.app`, or `WinWord`.|
+|ProductVersion|Version of the AIP client.|
+|ProtectionOwner|Rights Management owner in UPN format.|
+|ProtectionType|Protection type can be template or ad-hoc.|
+|RecordType|The type of operation indicated by the record. See the AuditLogRecordType table for details on the types of audit log records. For a complete updated list and full description of the Log RecordType, see the [Microsoft 365 Compliance audit log activities via Office 365 Management API blog post](https://techcommunity.microsoft.com/blog/microsoft-security-blog/microsoft-365-compliance-audit-log-activities-via-o365-management-api---part-1/2957171). Here we only list the relevant MIP Record types.|
+|Scope|Event created by one of the following sources: <ul><li>**online**: A service in Microsoft 365.</li><li>**onprem**: A service in an on-premises organization. Currently, SharePoint is the only workload sending events from on-premises to Microsoft 365.</li></ul>|
+|SensitiveInfoTypeData|Stores the datatype of the Sensitive Info type data.|
+|SensitivityLabelId|The current MIP sensitivity label GUID. Use the **Get-Label** to get the full values of the GUID.|
+|TemplateId|TemplateID parameter to get a specific template. The Get-AipServiceTemplate cmdlet gets all existing or selected protection templates from Azure Information Protection.|
+|UserId|The UPN (User Principal Name) of the user who performed the action (specified in the Operation property) that resulted in the record being logged; for example, `my_name@my_domain_name`. **Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This value indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service.|
+|UserKey|An alternative ID for the user identified in the UserId property. This property is populated with the passport unique ID (PUID) for events performed by users in SharePoint, OneDrive, and Exchange.|
+|UserType|The type of user that performed the operation. See the UserType table for details on the types of users.</br>0 = Regular</br>1 = Reserved</br>2 = Admin </br>3 = DcAdmin</br>4 = System</br>5 = Application</br>6 = ServicePrincipal</br>7 = CustomPolicy</br>8 = SystemPolicy|
+|Version|Version ID of the file in the operation.|
+|Workload|Stores the Office 365 service where the activity occurred.|
+
+## AipSensitivityLabelAction
+
+The following table contains information related to AIP sensitivity label events.
+
+|Event|Description|
+|---|---|
+|ApplicationId|Corresponds to the Microsoft Entra Application ID.|
+|ApplicationName|Application friendly name of the application performing the operation.|
+|CreationDate|The date and time in Coordinated Universal Time (UTC) in ISO8601 format when the user performed the activity.|
+|DataState|Specifies the state of the data.|
+|DeviceName|The name of the user's device.|
+|Identity|The identity of the user or service to be authenticated.|
+|IsProtected|Whether protected: True/False|
+|IsProtectedBefore|Whether the content was protected before change: True/False|
+|IsValid|Boolean|
+|Location|The location of the document with respect to the user's device. The possible values are unknown, localMedia, removableMedia, fileshare, and cloud.|
+|ObjectState|Specifies the state of the object.|
+|Operation|The operation type for the audit log.The name of the user or admin activity. For a description of the most common operations/activities:</br>SensitivityLabelApplied</br>SensitivityLabelUpdated</br>SensitivityLabelRemoved</br>SensitivityLabelPolicyMatched</br>SensitivityLabeledFileOpened.|
+|Identity|The identity of the user or service to be authenticated.|
+|PSComputerName|Computer Name|
+|PSShowComputerName|The value is False for documented edited in Office 365.|
+|Platform|Device platform (Win, OSX, Android, iOS).|
+|ProcessName|Process that hosts MIP SDK.|
+|ProductVersion|Version of the Azure Information Protection client that performed the audit action.|
+|ProtectionType|Protection type can be template or ad-hoc.|
+|RecordType|Shows the value of Label Action. The operation type indicated by the record. For more information, see the full list of record types.|
+|RunspaceId|The Runspace is a specific instance of PowerShell which contains modifiable collections of commands, providers, variables, functions, and language elements that are available to the command line user.|
+|SensitiveInfoTypeData|Stores the datatype of the Sensitive Info Type Data|
+|TemplateId|TemplateID parameter to get a specific template. The Get-AipServiceTemplate cmdlet gets all existing or selected protection templates from Azure Information Protection.|
+|UserId|The User Principal Name (UPN) of the user who performed the action (specified in the Operation property) that resulted in the record being logged; for example, `my_name@my_domain_name`. <br/><br/> **Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This value indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service.|
+
+## AipProtectionAction
+
+|Event|Description|
+|:--|:--|
+|PSComputerName|Computer name|
+|RunspaceId|The Runspace is a specific instance of PowerShell which contains modifiable collections of commands, providers, variables, functions, and language elements that are available to the command line user.|
+|PSShowComputerName|The value is false for a documented edited in Office 365.|
+|RecordType|Shows the value of Label Action. The operation type indicated by the record. Here we are only listing the relevant MIP Record types. For more information, see the [full list of record types](/office/office-365-management-api/office-365-management-activity-api-schema#auditlogrecordtype).|
+|CreationTime|The date and time in Coordinated Universal Time (UTC) in ISO8601 format when the audit log record was generated.|
+|UserId|The User Principal Name (UPN) of the user who performed the action (specified in the Operation property) that resulted in the record being logged. For example, `my_name@my_domain_name`. <br/><br/>**Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This value indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service.|
+|Operation|The operation type for the audit log. The name of the user or admin activity. For a description of the most common operations/activities.<br/> SensitivityLabelApplied<br/>SensitivityLabelUpdated<br/>SensitivityLabelRemoved<br/>SensitivityLabelPolicyMatched<br/>SensitivityLabeledFileOpened.|
+|Identity|The identity of the user or service to be authenticated.|
+|ObjectState|State of the Object after the current event.|
+|ApplicationId|The application where the activity happened and displayed in GUID.|
+|ApplicationName|Application friendly name of the application performing the operation.Outlook (for email), OWA (for email), Word (for file), Excel (for file), PowerPoint (for file).|
+|ProcessName|Process name of the Office application.|
+|Platform|The platform on which the activity happened. For example, Windows.|
+|DeviceName|Device the event was recorded on.|
+|ProductVersion|Version of the Azure Information Protection client that performed the audit action.|
+|UserId|The UPN of the user who performed the action (specified in the Operation property) that resulted in the record being logged; for example, `my_name@my_domain_name`. <br/><br/>**Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service.|
+|ClientIP|The IP address of the device that was used when the activity was logged. The IP address is displayed in either an IPv4 or IPv6 address format. For some services, the value displayed in this property might be the IP address for a trusted application (for example, Office on the web apps) calling into the service on behalf of a user and not the IP address of the device used by person who performed the activity. Also, for Azure Active Directory-related events, the IP address isn't logged and the value for the ClientIP property is null. The IP address is displayed in either an IPv4 or IPv6 address format.|
+|Id|GUID of the current record.|
+|RecordType|Shows the value of Label Action. The operation type indicated by the record. Here we are only listing the relevant MIP Record types.|
+|CreationTime|The date and time in Coordinated Universal Time (UTC) in ISO8601 format when the audit log record was generated.|
+|Operation|The name of the user or admin activity. For a description of the most common operations/activities, see [Search the audit log](/purview/audit-search).|
+|OrganizationId|The GUID for your organization's Office 365 tenant. This value is always the same for your organization, regardless of the Office 365 service in which it occurs.|
+|UserType|The type of user that performed the operation. See the UserType table for details on the types of users.</br>0 = Regular</br>1 = Reserved</br>2 = Admin </br>3 = DcAdmin</br>4 = System</br>5 = Application</br>6 = ServicePrincipal</br>7 = CustomPolicy</br>8 = SystemPolicy|
+|UserKey|An alternative ID for the user identified in the UserId property. This property is populated with the passport unique ID (PUID) for events performed by users in SharePoint, OneDrive, and Exchange.|
+|Workload|Stores the Office 365 service where the activity occurred.|
+|Version|Version of the Azure Information Protection client that performed the audit action|
+|Scope|Specifies scope.|
+
+## AipFileDeleted
+
+|Event|Description|
+|:--|:--|
+|PSComputerName|Computer name|
+|RunspaceId|The Runspace is a specific instance of PowerShell which contains modifiable collections of commands, providers, variables, functions, and language elements that are available to the command line user.|
+|PSShowComputerName|The value is false for a documented edited in Office 365.|
+|RecordType|Shows the value of Label Action. The operation type indicated by the record. Here we are only listing the relevant MIP Record types. For more information, see the [full list of record types](/office/office-365-management-api/office-365-management-activity-api-schema#auditlogrecordtype).|
+|CreationTime|The date and time in Coordinated Universal Time (UTC) in ISO8601 format when the audit log record was generated.|
+|UserId|The User Principal Name (UPN) of the user who performed the action (specified in the Operation property) that resulted in the record being logged. For example, `my_name@my_domain_name`. <br/><br/>**Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This value indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service.|
+|Operation|The operation type for the audit log. The name of the user or admin activity. For a description of the most common operations/activities.<br/> SensitivityLabelApplied<br/>SensitivityLabelUpdated<br/>SensitivityLabelRemoved<br/>SensitivityLabelPolicyMatched<br/>SensitivityLabeledFileOpened.|
+|Identity|The identity of the user or service to be authenticated.|
+|ObjectState|State of the Object after the current event.|
+|ApplicationId|The application where the activity happened and displayed in GUID.|
+|ApplicationName|Application friendly name of the application performing the operation.Outlook (for email), OWA (for email), Word (for file), Excel (for file), PowerPoint (for file).|
+|ProcessName|Process name of the Office application.|
+|Platform|The platform on which the activity happened. For example, Windows.|
+|DeviceName|Device the event was recorded on.|
+|ProductVersion|Version of the Azure Information Protection client that performed the audit action.|
+|UserId|The UPN of the user who performed the action (specified in the Operation property) that resulted in the record being logged; for example, `my_name@my_domain_name`. <br/><br/>**Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This value indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service..|
+|ClientIP|The IP address of the device that was used when the activity was logged. The IP address is displayed in either an IPv4 or IPv6 address format. For some services, the value displayed in this property might be the IP address for a trusted application (for example, Office on the web apps) calling into the service on behalf of a user and not the IP address of the device used by person who performed the activity. Also, for Azure Active Directory-related events, the IP address isn't logged and the value for the ClientIP property is null. The IP address is displayed in either an IPv4 or IPv6 address format.|
+|Id|GUID of the current record.|
+|RecordType|Shows the value of Label Action. The operation type indicated by the record. Here we are only listing the relevant MIP Record types.|
+|CreationTime|The date and time in Coordinated Universal Time (UTC) in ISO8601 format when the audit log record was generated.|
+|Operation|The name of the user or admin activity. For a description of the most common operations/activities, see [Search the audit log](/purview/audit-search).|
+|OrganizationId|The GUID for your organization's Office 365 tenant. This value is always the same for your organization, regardless of the Office 365 service in which it occurs.|
+|UserType|The type of user that performed the operation. See the UserType table for details on the types of users.</br>0 = Regular</br>1 = Reserved</br>2 = Admin </br>3 = DcAdmin</br>4 = System</br>5 = Application</br>6 = ServicePrincipal</br>7 = CustomPolicy</br>8 = SystemPolicy|
+|UserKey|An alternative ID for the user identified in the UserId property. This property is populated with the passport unique ID (PUID) for events performed by users in SharePoint, OneDrive, and Exchange.|
+|Workload|Stores the Office 365 service where the activity occurred.|
+|Version|Version of the Azure Information Protection client that performed the audit action|
+|Scope|Specifies scope.|
+
+## AipHeartBeat
+
+The following table contain information related to AIP heartbeat events.
+
+|Event|Description|
+|:--|:--|
+|ApplicationId|Corresponds to the Microsoft Entra Application ID.|
+|ApplicationName|Application friendly name of the application performing the operation.|
+|CreationDate|The date and time in Coordinated Universal Time (UTC) in ISO8601 format when the user performed the activity.|
+|DataState|Specifies the state of the data.|
+|DeviceName|The name of the user's device.|
+|Identity|The identity of the user or service to be authenticated.|
+|IsProtected|Whether protected: True/False|
+|IsProtectedBefore|Whether the content was protected before change: True/False|
+|IsValid|Boolean|
+|Location|The location of the document with respect to the user's device. The possible values are unknown, localMedia, removableMedia, fileshare, and cloud.|
+|ObjectState|Specifies the state of the object.|
+|Operation|The operation type for the audit log. The name of the user or admin activity.|
+|PSComputerName|Computer Name|
+|PSShowComputerName|The value is False for documented edited in Office 365.|
+|Platform|Device platform (Win, OSX, Android, iOS).|
+|ProcessName|Process that hosts MIP SDK.|
+|ProductVersion|Version of the Azure Information Protection client that performed the audit action.|
+|ProtectionType|Protection type can be template or ad-hoc.|
+|RecordType|Shows the value of Label Action. The operation type indicated by the record. For more information, see the full list of record types.|
+|RunspaceId|The Runspace is a specific instance of PowerShell which contains modifiable collections of commands, providers, variables, functions, and language elements that are available to the command line user.|
+|SensitiveInfoTypeData|Stores the datatype of the Sensitive Info Type Data.|
+|TemplateId|TemplateID parameter to get a specific template. The Get-AipServiceTemplate cmdlet gets all existing or selected protection templates from Azure Information Protection.|
+|UserId|The UPN of the user who performed the action (specified in the Operation property) that resulted in the record being logged; for example, `my_name@my_domain_name`. **Note**: Records for activity performed by system accounts (such as SHAREPOINT\system or NT AUTHORITY\SYSTEM) are also included. In SharePoint, another value display in the UserId property is `app@sharepoint`. This value indicates the "user" who performed the activity was an application that has the necessary permissions in SharePoint to perform organization-wide actions (such as search a SharePoint site or OneDrive account) on behalf of a user, admin, or service.|
+|UserType|The type of user that performed the operation. See the UserType table for details on the types of users.</br>0 = Regular</br>1 = Reserved</br>2 = Admin </br>3 = DcAdmin</br>4 = System</br>5 = Application</br>6 = ServicePrincipal</br>7 = CustomPolicy</br>8 = SystemPolicy|
+|UserKey|An alternative ID for the user identified in the UserId property. This property is populated with the passport unique ID (PUID) for events performed by users in SharePoint, OneDrive, and Exchange.|
+
+### MicrosoftGraphDataConnectConsent complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ApplicationId|Edm.Guid|Yes|The application identification.|
+|ApplicationVersion|Edm.String|Yes|The application version.|
+|AppRegistrationTenantId|Edm.Guid|Yes|The application registration tenant id.|
+|Approver|Edm.String|Yes|The approver's user principal name.|
+|ApprovalUpdatedDateInUTC|Edm.Date|Yes|The update date time in UTC.|
+|ApprovalExpiryDateInUTC|Edm.Date|Yes|The expiry date time in UTC.|
+|ApprovalValidDays|Edm.Int32|Yes|The number of days from update for which the approval is valid.|
+|DestinationSinks|Edm.String|Yes|The destination sinks.|
+|DestinationTenantId|Edm.Guid|Yes|The destination tenant id.|
+|Reason|Edm.String|No|The reason provided by the admin who performed the operation.|
+|State|Edm.String|Yes|The consent state.|
+|Datasets|CollectionSelf.[MGDCDataset](#complex-type-mgdcdataset)|Yes|Details on the datasets which were consented to as part of this operation.|
+
+#### Complex Type MGDCDataset
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|DatasetName|Edm.String|Yes|The name of the dataset in the consent operation.|
+|DatasetColumns|Edm.String|Yes|The list of columns for the dataset in the consent operation.|
+|DenyGroups|Edm.String|No|The deny groups list for the dataset in the consent operation.|
+|Scope|Edm.String|Yes|The scope types for the dataset in the consent operation. Possible values are **All**, **List**, and **FilterUri**.|
+|ScopeFiltersUris|Edm.String|No|The scope filter URI for the dataset in the consent operation.|
+|ScopeList|Edm.String|No|The scope group list for the dataset in the consent operation.|
+|PrivacyPolicyType|Edm.String|Yes|The privacy policy types for the dataset in the consent operation. Possible values are None and DenyList.|
+
+## Viva Glint schema
+
+[Viva Glint events](/purview/audit-log-activities#viva-glint-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ClientUUID|Edm.String|Y|The Client UUID of the Viva Glint instance.|
+|CampaignUUID|Edm.String|N|The stable internal identifier of the agentic campaign.|
+|DataSubjectUUID|Edm.String|N|The stable internal identifier of the data subject affected by a data subject rights deletion.|
+|ExportFormat|Edm.String|N|The format of the exported agentic campaign data.|
+|ModifiedProperties|Edm.String|N|The properties that were changed by the operation.|
+|PolicyUUID|Edm.String|N|The stable internal identifier of the agentic policy.|
+|ReportUUID|Edm.String|N|The stable internal identifier of the agentic campaign report.|
+|RetentionCutoff|Edm.Date|N|The retention cutoff date used when agentic campaign data is deleted by the retention process.|
+|SharedWith|Edm.String|N|The recipients or scope with which an agentic campaign report was shared.|
+|ImportType|Edm.String|N|The data import source type.|
+|DataDSRControl|Edm.String|N|This in-platform control determines whether survey data is deleted when a user is removed from the Viva Glint platform.|
+|DiscardEmployeeIds|Edm.String|N|This in-platform control specifies whether the Employee IDs of previously deleted employees are disregarded or retained in the Viva Glint platform.|
+|JobName|Edm.String|N|The name of a Glint data app job that was run.|
+|ExtendedCompletionDate|Edm.Date|N|The new date to which a closed survey cycle has been extended.|
+|FeedBackComponentName|Edm.String|N|The name of a specific component within the 360 feedback program.|
+|ExportApiClientAppId|Edm.String|N|The application ID which made the data export request using APIs.|
+
+## Viva Goals schema
+
+[Viva Goals events](/purview/audit-log-activities#viva-goals-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Detail|Edm.String|No|A description of the event or the activity that occurred in Viva Goals.|
+|Username|Edm.String </br>Term="Microsoft.Office.Audit.Schema.PIIFlag"</br>Bool="true"</br>|No|The name of the user who triggered the event.|
+|UserRole|Edm.String|No|The role of the user who triggered this event in Viva Goals. This value mentions if the user is an organization admin or an owner.|
+|OrganizationName|Edm.String </br>Term="Microsoft.Office.Audit.Schema.PIIFlag" </br>Bool="true"|No|The name of the organization in Viva Goals where the event was triggered.|
+|OrganizationOwner|Edm.String </br>Term="Microsoft.Office.Audit.Schema.PIIFlag" </br>Bool="true"|No|The owner of the organization in Viva Goals where the event occurred.|
+|OrganizationAdmins|Collection(Edm.String) </br>Term="Microsoft.Office.Audit.Schema.PIIFlag" </br>Bool="true"|No|The admin(s) of the organization in Viva Goals where the event occurred. There can be one or more admins in the organization.|
+|UserAgent|Edm.String </br>Term="Microsoft.Office.Audit.Schema.PIIFlag" </br>Bool="true"|No|The user agent (browser details) of the user who triggered the event. UserAgent might not be present in case of a system generated event.|
+|ModifiedFields|Collection(Common.NameValuePair)|No|A list of attributes that were modified along with its new and old values output as a JSON.|
+|ItemDetails|Collection(Common.NameValuePair)|No|Additional properties about the object that was modified.|
+
+## Microsoft Planner schema
+
+[Microsoft Planner events](/purview/audit-log-activities#microsoft-planner-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+Microsoft Planner overwrites the definition of ObjectId and ResultStatus in the [Common schema](#common-schema). Microsoft Planner's ObjectId definition is bound to each Microsoft Planner's record type and is illustrated individually.
+
+Microsoft Planner's ResultStatus is defined as the following.
+
+### Enum: ResultStatus - Type: Edm.Int32
+
+#### ResultStatus
+
+|Value|Member name|Description|
+|---|---|---|
+|1|Success|The user request succeeded.|
+|2|Failure|The user request failed due to reasons other than authorization.|
+|3|AuthorizationFailure|The user requested failed due to failed authorization.|
+
+Microsoft Planner extends the [Common schema](#common-schema) with the following record types.
+
+### PlannerGoal record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Id of the goal requested.|
+|PlanId|Edm.String|Id of the plan containing the goal.|
+
+### PlannerPlan record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Id of the plan requested.|
+|ContainerType|Self.[ContainerType](#containertype)|Type of the container associated with the plan.|
+|ContainerId|Edm.String|Id of the container associated with the plan.|
+|SharedWithContainerId|Edm.String|Id of the container with shared access to the plan.|
+|SharedWithContainerType|Self.[ContainerType](#containertype)|Type of the container with shared access to the plan.|
+|SharedWithContainerAccessLevel|Self.[PlanAccessLevel](#planaccesslevel)|Level of access given to container with shared access to the plan.|
+
+### Enum: ContainerType - Type Edm.Int32
+
+#### ContainerType
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Invalid|Used when the requested plan is not found.|
+|2|Group|The plan is associated with a Microsoft 3365 Group.|
+|3|TeamsConversation|The plan is associated with a Teams conversation.|
+|4|OfficeDocument|The plan is associated with an Office document.|
+|5|Roster|The plan is associated with a roster group.|
+|6|Project|The plan originates from Microsoft Project.|
+|7|User|The plan is associated with a user.|
+|8|TeamsChannel|The plan is associated with a Teams channel.|
+|10|PlannerTask|The plan is associated with a Planner task.|
+
+### Enum: PlanAccessLevel - Type Edm.Int32
+
+#### PlanAccessLevel
+
+|Value|Member name|Description|
+|---|---|---|
+|1|ReadAccess|Access to read Plan.|
+|2|ReadWriteAccess|Access to read and write to Plan.|
+|3|FullAccess|Access to read, write and configure Plan.|
+
+### PlannerCopyPlan record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Id of the plan being copied.|
+|OriginalPlanId|Edm.String|Id of the plan being copied. Same as ObjectId.|
+|OriginalContainerType|Self.[ContainerType](#containertype)|Type of the container associated with the original plan.|
+|OriginalContainerId|Edm.String|Id of the container associated with the original plan.|
+|NewPlanId|Edm.String|Id of the new plan. Null when the operation failed.|
+|NewContainerType|Self.[ContainerType](#containertype)|Type of the container associated with the new plan.|
+|NewContainerId|Edm.String|Id of the container associated with the new plan.|
+
+### PlannerTask record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Id of the task requested.|
+|PlanId|Edm.String|Id of the plan containing the task.|
+
+### PlannerRoster record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Id of the roster requested.|
+|MemberIds|Edm.String|A comma-separated string of member ids changed to the roster.|
+
+### PlannerGoalList record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|A representation of the view query for a list of goals.|
+|GoalList|Edm.String|A comma-separated string of goal ids queried.|
+
+### PlannerPlanList record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|A representation of the view query for a list of plans.|
+|PlanList|Edm.String|A comma-separated string of plan ids queried.|
+
+### PlannerTaskList record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|A representation of the view query for a list of tasks.|
+|TaskList|Edm.String|A comma-separated string of task ids queried.|
+
+### PlannerTenantSettings record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Original tenant settings in JSON.|
+|TenantSettings|Edm.String|New tenant settings in JSON.|
+
+### PlannerRosterSensitivityLabel record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Id of the sensitivity label. Null when the sensitivity label is removed.|
+|Roster|Edm.String|Id of the roster to which the sensitivity label is changed.|
+|AssignmentMethod|Self.[SensitivityLabelAssignmentMethod](#sensitivitylabelassignmentmethod)|The assignment method of the sensitivity label.|
+
+### Enum: SensitivityLabelAssignmentMethod - Type Edm.Int32
+
+#### SensitivityLabelAssignmentMethod
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Standard|The sensitivity label is automatically applied but not allowed to override a privileged label assignment.|
+|1|Privileged|The sensitivity label is applied manually by a user or by an admin.|
+|2|Auto|The sensitivity label is automatically applied and is allowed to override a privileged label assignment.|
+
+### PlannerChatMessage record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|Id of the chat message|
+|ThreadType|Self.[ThreadType](#threadtype)|The type of chat. Only option is Task, for a chat scoped to a single Task.|
+|ParentEntityId|Edm.String|Id of the element containing the chat, the Task id.|
+
+### Enum: ThreadType - Type Edm.Int32
+
+#### ThreadType
+
+|Value|Member name|Description|
+|---|---|---|
+|0|Task|Chat is contained inside of a Task.|
+
+### PlannerChatMessageList record type
+
+|Properties|Type|Description|
+|---|---|---|
+|ObjectId|Edm.String|A representation of the view query for a list of chat messages.|
+|MessageList|Edm.String|A comma-separated string of chat message ids queried.|
+
+## Microsoft Project for the web schema
+
+Microsoft Project For The web extends the [Common schema](#common-schema) with the following record types.
+
+### ProjectForThewebProject record type
+
+|Properties|Type|Mandatory?|Description|
+|---|---|---|---|
+|ProjectId|Edm.Guid|No|Id of the Project being audited.|
+|AdditionalInfo|CollectionSelf.[AdditionalInfo](#complex-type-additionalinfo)|No|Additional information.|
+
+### ProjectForThewebTask record type
+
+|Properties|Type|Mandatory?|Description|
+|---|---|---|---|
+|ProjectId|Edm.Guid|Yes|Id of the Project being audited.|
+|TaskId|Edm.Guid|Yes|Id of the Task being audited.|
+|AdditionalInfo|CollectionSelf.[AdditionalInfo](#complex-type-additionalinfo)|No|Additional information.|
+
+### ProjectForThewebRoadmap record type
+
+|Properties|Type|Mandatory?|Description|
+|---|---|---|---|
+|RoadmapId|Edm.Guid|Yes|Id of the Roadmap being audited.|
+|AdditionalInfo|CollectionSelf.[AdditionalInfo](#complex-type-additionalinfo)|No|Additional information.|
+
+### ProjectForThewebRoadmapItem record type
+
+|Properties|Type|Mandatory?|Description|
+|---|---|---|---|
+|RoadmapItemId|Edm.Guid|Yes|Id of the Roadmap Item being audited.|
+|AdditionalInfo|CollectionSelf.[AdditionalInfo](#complex-type-additionalinfo)|No|Additional information.|
+
+### Complex Type AdditionalInfo
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|EnvironmentName|Edm.String|No|Id of the environment where action was performed.|
+
+### ProjectForThewebProjectSetting record type
+
+|Properties|Type|Mandatory?|Description|
+|---|---|---|---|
+|ProjectEnabled|Edm.Boolean|Yes|The value that was set for Project for the web (1= enabled, 0 disabled).|
+
+### ProjectForThewebRoadmapSetting record type
+
+|Properties|Type|Mandatory?|Description|
+|---|---|---|---|
+|RoadmapEnabled|Edm.Boolean|Yes|The value that was set for Roadmap (1= enabled, 0 disabled).|
+
+### ProjectForThewebAssignedToMeSetting record type
+
+|Properties|Type|Mandatory?|Description|
+|---|---|---|---|
+|AssignedToMeEnabled|Edm.Boolean|Yes|The value that was set for AssignedToMe (1= enabled, 0 disabled).|
+
+## Viva Pulse schema
+
+[Viva pulse events](/purview/audit-log-activities#viva-pulse-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|EventName|Edm.String|No|A description of the event or the activity that occurred in Viva Pulse.|
+|PulseId|Edm.String|No|Id of the pulse survey.|
+|EventDetails|Collection(Common.NameValuePair)|No|Additional properties about the event.|
+
+Some of the VivaPulse events record different properties in EventDetails. Each property recorded in EventDetail are described in the table.
+
+|EventName|PropertName|Description|
+|---|---|---|
+|PulseReportShare|Recipients|List of recipient ids with whom the pulse survey is shared.|
+|PulseCreate|Recipients|List of user ids who are participants of the specified pulse survey.|
+|PulseInvite|Recipients|List of user IDs who are additionally invited to the pulse.|
+|PulseTenantSettingsUpdate|TenantSettingName|Changed settings name.|
+|PulseSubmit|Not Applicable|This event does not record any property into EventDetails.|
+|PulseExtendDeadline|Not Applicable|This event does not record any property into EventDetails.|
+|PulseCancel|Not Applicable|This event does not record any property into EventDetails.|
+|PulseCreateDraft|Not Applicable|This event does not record any property into EventDetails.|
+|PulseDeleteDraft|Not Applicable|This event does not record any property into EventDetails.|
+|PulseDeleteUserData|Not Applicable|This event does not record any property into EventDetails.|
+|PulseQuestionDeleted|Not Applicable|This event does not record any property into EventDetails.|
+|PulseDataExport|ExportType,ExportCompletedDate|ExportType indicates whether the data export is an Admin-level or Author-level export, ExportCompletedDate specifies when the data export was finalized.|
+|PulseConfidentialConversationStarted|Not Applicable|This event does not record any property into EventDetails.|
+|PulseConfidentialConversationResponded|Not Applicable|This event does not record any property into EventDetails.|
+|PulseConfidentialConversationMessageDeleted|Not Applicable|This event does not record any property into EventDetails.|
+
+## Compliance Manager schema
+
+[Compliance Manager events](/purview/audit-log-activities#compliance-manager-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Details|Collection(SettingsChange)|No|A description of the event that occurred for a Microsoft Purview Compliance Manager.|
+
+Values taken by SettingsChange properties in Details for different operations are described in the table below.
+
+|Operation|PropertyName|Description|
+|---|---|---|
+|All Operations|Name|Name of setting involved in the Compliance Manager operation.|
+|All Operations|NewValue|New value for the new settings.|
+|All Operations|OriginalValue|Original value for new setting.|
+
+> [!NOTE]
+>
+> - For role changes the name is the role type.
+> - The audit record reflects the change in event, such as user is assigned a role or revoked role.
+> - The original and new value have the emails of the user for which the role has changed.
+> - In case there is no change in the role, that role type isn't present in the audit record.
+
+## Backup Policy schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|PolicyID|Edm.String|Yes|The ID of the policy.|
+|EditMethodology|Edm.String|No|How the policy was created / edited.|
+|CountOfArtifactsBeingAdded|Edm.Int32|No|Number of artifacts being added.|
+|CountOfArtifactsBeingRemoved|Edm.Int32|No|Number of artifacts being removed.|
+|ServiceType|Edm.String|No|Whether it is a SharePoint, Exchange, or OneDriveForBusiness policy.|
+|BillingPolicyId|Edm.String|No|The ID of the associated Billing Policy.|
+
+## Granular Browse Task schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|SessionId|Edm.String|Yes|The ID of the Browse Task.|
+|RestoreTime|Edm.Date|No|Restore Point dateTime on which browse session was created.|
+|BackupItemId |Edm.String|No|Artifact Id for which browse session was created.|
+|ServiceType|Edm.String|Yes|Whether it is a SharePoint, Exchange, or OneDriveForBusiness policy.|
+
+
+## Restore Task schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|TaskID|Edm.String|Yes|The ID of the Restore Task.|
+|CreationMethodology|Edm.String|No|How the Restore Task was created / edited.|
+|CountOfArtifactsBeingAdded|Edm.Int32|No|Number of artifacts being added.|
+|CountOfArtifactsBeingRemoved|Edm.Int32|No|Number of artifacts being removed.|
+|ServiceType|Edm.String|No|Whether it is a SharePoint, Exchange, or OneDriveForBusiness policy.|
+
+## Restore Item schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|RestoreTime|Edm.DateTime|Yes|Time which the item is being restored to.|
+|RestoreLocationType|Edm.String|Yes|Location type that the item is being restored to.|
+|RestoreLocation|Edm.String|No|Location that the item is being restored to.|
+|TaskID|Edm.String|Yes|The ID of the Restore task.|
+|BackupItemID|Edm.String|Yes|ID of the Backup Item being restored.|
+|ProtectionUnitID|Edm.String|Yes|Protection Unit ID of the item being restored.|
+|SuccessStatus|Edm.String|No|Whether the restore operation was successful.|
+|BackupItemType|Edm.String|Yes|Whether the Backup Item is a Site / Account / Mailbox.|
+|ServiceType|Edm.String|No|Whether it is a SharePoint, Exchange, or OneDriveForBusiness policy.|
+
+## Backup Item schema
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|PolicyID|Edm.String|Yes|Policy ID of the Policy the item is getting added to.|
+|ItemID|Edm.String|Yes|ID of the Backup Item.|
+|ProtectionUnitID|Edm.String|Yes|Protection Unit ID of the item being backed up.|
+|ResultStatus|Edm.String|No|Whether the restore operation was successful.|
+|BackupItemType|Edm.String|Yes|Whether the Backup Item is a Site / Account / Mailbox.|
+|EditMethodology|Edm.String|No|How the backup item is to be added.|
+|ServiceType|Edm.String|No|Whether it is a SharePoint, Exchange, or OneDriveForBusiness policy.|
+
+## Cloud Policy service schema
+
+The audit records for events related to the [Cloud Policy service](/microsoft-365-apps/admin-center/overview-cloud-policy) extend the [Common schema](#common-schema) as follows:
+
+### PolicyConfigChangeAuditRecord
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ConfigId|Edm.String|No|ID of the policy configuration|
+|ConfigName|Edm.String|No|Given name of policy configuration|
+|Description|Edm.String|No|Description provided for policy configuration|
+|ConfigScope|Self.[CPSScope](#enum-cpsscope---type-edmint32)|No|Scope of policy configuration|
+|Groups|Collection(Common.NameValuePair)|No|List of configured groups|
+|Priority|Edm.Int32|No|Priority value of policy configuration|
+|Policies|Collection(Self.[Policy](#complex-type-policy))|No|List of configured policy settings|
+|Priorities|Collection(Self.[PrioritySetting](#complex-type-prioritysetting))|No|List of policy configurations and their priority values|
+
+### Enum: CPSScope - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|1|Tenant|The policy configuration is scoped to all users in the tenant.|
+|2|Anonymous|The policy configuration is scoped to anonymous users.|
+|3|User|The policy configuration is scoped to users in configured Microsoft Entra group(s).|
+
+### Complex Type Policy
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|PolicyId|Edm.String|No|ID of the policy setting|
+|PolicyName|Edm.String|No|Name of policy setting|
+|Value|Edm.String|No|Configured value of policy setting|
+|Settings|Collection(Self.[Setting](#complex-type-setting))|No|Configured setting|
+
+### Complex Type Setting
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|SettingId|Edm.String|No|ID of the setting|
+|SettingName|Edm.String|No|Name of setting|
+|Value|Edm.String|No|Configured value of setting|
+
+### Complex Type PrioritySetting
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ConfigId|Edm.String|No|ID of the policy configuration|
+|ConfigName|Edm.String|No|Given name of policy configuration|
+|Value|Edm.String|No|Configured priority of policy configuration|
+
+## Cloud update profile configuration schema
+
+The [Cloud Update](/microsoft-365-apps/admin-center/cloud-update) profile configuration related events extend the Common schema with the following record types.
+
+### CloudUpdateProfileConfigAuditRecord
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ProfileName|Edm.String|Yes|Name of profile|
+|ProfileState|Self.[ProfileState](#enum-profilestate---type-edmint32)|No|State of profile|
+|Deadline|Edm.Int32|No|Configured deadline|
+|UpdateValidationState|Self.[UpdateValidationState](#enum-updatevalidationstate---type-edmint32)|No|State of [Update Validation](/microsoft-365-apps/admin-center/update-validation)|
+|Waves|Collection(Self.[Wave](#complex-type-wave))|No|Collection containing configured waves|
+|WaveDelay|Edm.Int32|No|Set delay between waves|
+
+### Enum: ProfileState - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|1|Enabled|The profile is enabled and active.|
+|2|Disabled|The profile is disabled.|
+|3|Paused|The profile is enabled, but in paused state.|
+
+### Enum: UpdateValidationState - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|1|Enabled|Update Validation is enabled.|
+|2|Disabled|Update Validation is disabled.|
+
+### Complex Type Wave
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Name|Edm.String|No|Name of wave|
+|Type|Self.[WaveType](#enum-wavetype---type-edmint32)|No|Wave specified by administrator or automatic catch-all wave|
+|Groups|Collection(Common.NameValuePair)|No|Collection of groups configured for this wave|
+
+### Enum: WaveType - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|1|Groups|Wave was configured by administrator using groups.|
+|2|RemainingDevices|Automatically created wave which includes all devices in profile's scope which are not covered by previous waves.|
+
+## Cloud Update tenant configuration schema
+
+The [Cloud Update](/microsoft-365-apps/admin-center/cloud-update) tenant configuration related events extend the Common schema with the following record types.
+
+### CloudUpdateTenantConfigAuditRecord
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ProfileExclusionWindows|Collection(Self.[ExclusionWindow](#complex-type-exclusionwindow))|No|Collection of configured exclusion windows|
+|ExclusionList|Collection(Common.NameValuePair)|No|Collection of configured exclusions|
+|TAK|Edm.String|No|Tenant Association Key|
+
+### Complex Type ExclusionWindow
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Name|Edm.String|No|Given name of exclusion window|
+|StartDate|Edm.Date|No|Start date of exclusion windows|
+|EndDate|Edm.Date|No|End date of exclusion windows|
+|Groups|Collection(Common.NameValuePair)|No|Collection of groups the exclusion window is scoped to|
+
+## Cloud Update device schema
+
+The [Cloud Update](/microsoft-365-apps/admin-center/cloud-update) device related events extend the Common schema with the following record types.
+
+### CloudUpdateDeviceConfigAuditRecord
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|RollbackDevices|Self.[Rollback](#complex-type-rollback)|No|Rollbacks triggered|
+|ChannelChangeDevices|Self.[ChannelChange](#complex-type-channelchange)|No|Channel changes triggered|
+
+### Complex Type Rollback
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|RollbackType|Self.[RollbackType](#enum-rollbacktype---type-edmint32)|No|Type of rollback|
+|RollbackBuildNumber|Edm.String|No|Targeted build number to roll back to|
+|Devices|Collection(Edm.String)|No|Collection of devices targeted by rollback|
+
+### Enum: RollbackType - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|1|SpecificDevices|Rollback was targeted at a specific subset of devices.|
+|2|AllDevices|Rollback was targeted at all devices within the profile's scope.|
+
+### Complex Type ChannelChange
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ChannelChange|Self.[Channel](#enum-channel---type-edmint32)|No|Targeted update channel|
+|Devices|Collection(Edm.String)|No|Collection of targeted devices|
+|Groups|Collection(Common.NameValuePair)|No|Collection of targeted groups|
+
+### Enum: Channel - Type: Edm.Int32
+
+|Value|Member name|Description|
+|---|---|---|
+|1|MonthlyEnterpriseChannel|Monthly Enterprise Channel|
+|2|CurrentChannel|Current Channel|
+
+<a name='aad-risk-detection-schema'></a>
+
+## Microsoft Entra Risk Detection schema
+
+[Microsoft Entra risk detection events](/purview/audit-log-activities#microsoft-entra-risk-detection-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Activity|Edm.String|No|The activity type for which risk was detected.|
+|ActivityDateTime|Edm.Date|No|The date and time in Coordinated Universal Time (UTC) when the risky activity occurred.|
+|AdditionalInfo|Edm.String|No|Additional Information in JSON format for the detected risk.|
+|CorrelationId|Edm.String|No|An identifier that can used to correlate sign-in activities associated with a risk detection.|
+|DetectedDateTime|Edm.Date|No|The date and time in Coordinated Universal Time (UTC) when the risk was detected.|
+|DetectionTimingType|Edm.String|No|Indicates the timing type of the detected risk. Possible values are real-time/offline.|
+|LastUpdatedDateTime|Edm.Date|No|The date and time in Coordinated Universal Time (UTC) when the risk detection was last updated.|
+|Location|Self.[LocationType](#locationtype-complex-type)|No|Information about the location from which the sign-in activity was detected.|
+|RequestId|Edm.String|No|Indicates the Request Id of the sign-in activity for which risk was detected. If risk detection is not associated with sign-in then this property is null.|
+|RiskDetail|Edm.String|No|The details of the detected risk.|
+|RiskEventType|Edm.String|No|The type of event for which risk was detected.|
+|RiskId|Edm.String|No|An unique identifier for the risk detection.|
+|RiskLevel|Edm.String|No|The level of the risk detected.|
+|RiskState|Edm.String|No|The risk state of a risky user or a sign-in linked to the risk detection.|
+|Source|Edm.String|No|The source of the detected risk.|
+|TokenIssuerType|Edm.String|No|The type of token issuer for the sign-in linked to the risk detection.|
+|UserDisplayName|Edm.String|No|The user principal name (UPN) of the user for whom the risk was detected.|
+
+### LocationType complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|City|Edm.String|No|The city where the sign-in was performed.|
+|CountryOrRegion|Edm.String|No|The country or region where the sign-in was performed.|
+|GeoCoordinates|Self.[GeoCoordinatesType](#geocoordinatestype-complex-type)|No|The geo co-ordinates of the location where the sign-in was performed.|
+|State|Edm.String|No|The state where the sign-in was performed.|
+
+### GeoCoordinatesType complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Altitude|Edm.String|No|The altitude of the location where the sign-in was performed.|
+|Latitude|Edm.String|No|The latitude of the location where the sign-in was performed.|
+|Longitude|Edm.String|No|The longitude of the location where the sign-in was performed.|
+
+<a name='webcontentfiltering-schema'></a>
+
+## Microsoft Edge WebContentFiltering schema
+
+[Microsoft Edge WebContentFiltering events](/purview/audit-log-activities#microsoft-edge-webcontentfiltering-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|URLPath|Edm.String|Yes|The URL that was browsed.|
+|DomainURL|Edm.String|Yes|The domain URL that was browsed.|
+|Category|Edm.String|Yes|Category of browsed URL.|
+
+## Microsoft 365 Copilot scheduled prompt schema
+
+[Microsoft 365 Copilot scheduled prompt events](/purview/audit-log-activities#microsoft-365-copilot-scheduled-prompts-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+Copilot scheduled prompts allow users to automate Copilot prompts, so they run on a defined schedule in Microsoft 365 Copilot Chat.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ScenarioType|Edm.String|Yes|The name of automation.|
+|PromptText|Edm.String|No|The Copilot prompt that's run by the LLM.|
+|AutomationId|Edm.String|Yes|A unique identifier that correlates all activities related to each run of the Copilot prompt.|
+|TriggerMode|Edm.String|No|The schedule for when the Copilot prompt runs, shown in cron format.|
+
+## Microsoft Places Directory schema
+
+[Microsoft Places Directory events](/purview/audit-log-activities#microsoft-places-directory-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|PlaceType|Edm.String|No|The type for the place item that is created/updated/deleted by the request. For example, "Building", "Room", "Desk", and so on.|
+|Parameters|Collection(Common.NameValuePair)|No|The name and value for all parameters that were used with the cmdlet that is identified in the Operations property.|
+|ModifiedProperties|Collection(Common.ModifiedProperty)|No|The property includes the name of the property that was modified, the new value of the modified property, and the previous value of the modified object.|
+
+## Teams Evaluation Data Hub schema
+
+[Teams Evaluation Data Hub events](/purview/audit-log-activities#teams-evaluation-data-hub-activities) returned in [audit log searches](/purview/audit-search) use the [Common schema](#common-schema). Teams Evaluation Data Hub doesn't introduce additional service-specific properties beyond the Common schema. For these events, the following Common schema properties have service-specific meanings.
+
+|Parameters|Type|Mandatory?|Description |
+| --- | --- | --- | --- |
+|Workload |Edm.String |Yes |The Office 365 service where the activity occurred. Always `TeamsEvalDataHub`. |
+|RecordType |Self.AuditLogRecordType |Yes |The type of operation indicated by the record. `TeamsEvalDataHubDataAccess` (444) for `DataRead` and `DataWrite` operations; `TeamsEvalDataHubPermissionChange` (445) for `PermissionGranted` and `PermissionRevoked` operations. |
+|Operation |Edm.String |Yes |The name of the user or service activity. One of `DataRead`, `DataWrite`, `PermissionGranted`, or `PermissionRevoked`. |
+|ObjectId |Edm.String |No |Identifies the data set or access-control object that the operation targets. |
+
+## Microsoft Sentinel data lake and graph schema
+
+The following Microsoft Sentinel events returned in [audit log searches](/purview/audit-search) use these schemas (and also the [Common schema](#common-schema)).
+
+### SentinelNotebookOnLake
+
+For audit log activities, see [Microsoft Sentinel data lake notebook activities](/purview/audit-log-activities#microsoft-sentinel-data-lake-notebook-activities).
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---:|---|
+|EventTime|Edm.Date|Yes|Timestamp when the Spark Notebook execution was submitted/started.|
+|Compute|Edm.String|No|Compute selected.|
+|DatabaseName|Edm.String|No|The workspace the command ran on.|
+|TableName|Edm.String|No|Name of the table.|
+|SessionDurationInSecs|Edm.String|Yes|Total duration of the session.|
+|SessionStartTime|Edm.Date|No|Start time for the session.|
+|SessionEndTime|Edm.Date|No|End time for the session.|
+|KernalId|Edm.Guid|Yes|Jupyter KernelId, uniquely identifies the Notebook session.|
+|SessionId|Edm.Guid|No|Correlation ID for the various code blocks executed with a Spark session.|
+|Interface|Edm.String|Yes|Interface from where the notebook was run.|
+
+### SentinelJob
+
+For audit log activities, see [Microsoft Sentinel data lake job activities](/purview/audit-log-activities#microsoft-sentinel-data-lake-job-activities).
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---:|---|
+|EventTime|Edm.Date|Yes|Timestamp when the operation on job was initiated.|
+|Operation|Edm.String|Yes|Job Operation name.|
+|Job Type|Edm.String|Yes|Type of Job like Notebook, KQL.|
+|Job ID|Edm.Guid|Yes|Unique identifier of a job.|
+|Job Name|Edm.String|Yes|Name of the job.|
+|Compute|Edm.String|No|Compute configuration of the job.|
+|Schedule|Edm.String|No|Schedule details, if configured for the job.|
+|Run ID|Edm.Guid|No|ID of a specific job run instance.|
+|JobRunStatus|Edm.String|No|Status of the job execution.|
+|Logs|Edm.String|No|Logs from the notebook run.|
+|JobExecutionDurationInSecs|Edm.Int64|No|Time taken for job execution.|
+|JobTotalDurationInSecs|Edm.Int64|No|Total Duration of the job operation including session.|
+|JobStartTime|Edm.Date|No|Start time of the job.|
+|JobEndTime|Edm.Date|No|End time of the job.|
+|Interface|Edm.String|Yes|Interface from where the job operation was done.|
+|DatabasesRead|Collection(Edm.String)|No|The list of workspaces read by the job.|
+|DatabasesWrite|Collection(Edm.String)|No|The list of workspaces written to by the job|
+|TablesRead|Collection(Edm.String)|No|The list of tables read by the job.|
+|TablesWrite|Collection(Edm.String)|No|The list of tables written to by the job.|
+|Query|Edm.String|No|KQL query or notebook executed in the job.|
+
+### SentinelKQLOnLake
+
+For audit log activities, see [Microsoft Sentinel data lake KQL activities](/purview/audit-log-activities#microsoft-sentinel-data-lake-kql-activities).
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---:|---|
+|EventTime|Edm.Date|Yes|Timestamp of KQL query execution.|
+|DatabaseName|Collection(Edm.String)|Yes|The workspaces the KQL query ran on.|
+|ResultTableCount|Edm.Int64|No|Output Table Count.|
+|QueryResponse|Edm.String|Yes|Response from executing the KQL query.|
+|TotalRows|Collection(Edm.Int64)|Yes|Total Rows returned from query execution. List of values if multiple queries executed at once.|
+|ComponentFault|Edm.String|No|The entity that caused the query to fail. For example, if the query result is too large, the ComponentFault is 'Client'. If an internal error occurred, the ComponentFault is 'Server'.|
+|FailureReason|Edm.String|No|If KQL query failed, the reason for failure.|
+|ExecutionDuration|Edm.Int64|Yes|Time taken for query execution, in milliseconds.|
+|TotalCPU|Edm.Int64|Yes|Total CPU Duration of the run.|
+|MemoryPeak|Edm.Int64|Yes|Memory Peak of the KQL query execution.|
+|Interface|Edm.String|Yes|Interface from where the KQL query was executed.|
+|TablesRead|Collection(Edm.String)|Yes|The list of tables read in the KQL query.|
+|QueryText|Edm.String|Yes|The KQL query executed in scrubbed form.|
+
+### SentinelLakeOnboarding
+
+For audit log activities, see [Microsoft Sentinel data lake onboarding activities](/purview/audit-log-activities#microsoft-sentinel-data-lake-onboarding-activities).
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|BillingAzureSubscriptionId|Edm.String|No|Azure subscription chosen for Sentinel data lake billing.|
+|BillingAzureResourceGroupName|Edm.String|No|Azure resource group chosen for Sentinel data lake billing.|
+|TenantId|Edm.String|No|Tenant ID associated with the lake setup or update.|
+|ProvisioningStatus|Edm.String|No|Status of provisioning the lake.|
+
+### SentinelLakeDataOnboarding
+
+|Property Name|Type|Mandatory?|Description|
+|---|---|---|---|
+|DataOnboardingAtSetup|Edm.String|No|Data sets ingested during Sentinel data lake onboarding.|
+|Tables|Collection(Edm.String)|No|List of table names ingested during Sentinel data lake onboarding.|
+|SubscriptionsEnabled|Collection(Edm.String)|No|List of subscriptions enabled for ARG ingestion.|
+|DataOnboardingStatus|Edm.String|No|Status of operation.|
+
+### SentinelAITool
+
+For audit log activities, see [Microsoft Sentinel AI tool activities](/purview/audit-log-activities#microsoft-sentinel-data-lake-notebook-activities).
+
+|Parameter|Type|Mandatory?|Description|
+|---|---|---|---|
+|EventOccurenceTime|Edm.Date|Yes|Timestamp of the operation.|
+|ToolID|Edm.Guid|Yes|Identifier of the AI Tool.|
+|ToolName|Edm.String|Yes|Name of the AI Tool.|
+|Interface|Edm.String|Yes|Interface from where the AI Tool was run.|
+|InputParameters|Edm.String|No|Parameters given to the tool.|
+|DatabasesRead|Collection(Edm.String)|No|The list of databases read from in the run.|
+|TablesRead|Collection(Edm.String)|No|The list of tables read from in the run.|
+|APIsCalled|Collection(Edm.String)|No|APIs called by the AI Tool.|
+|FailureReason|Edm.String|No|If the run failed, the reason for failure.|
+|TotalRows|Collection(Edm.Int64)|No|Total Rows returned.|
+|DataScanned|Edm.Int64|No|Total GBs Scanned.|
+|ExecutionDuration|Edm.Int64|No|Time taken for query execution, in milliseconds.|
+|TotalCpuHours|Edm.Int64|No|Total CPU Duration of the run.|
+|TotalSCUHours|Edm.Int64|No|Total SCUs used in the run.|
+
+### SentinelGraph
+
+For audit log activities, see [Microsoft Sentinel graph activities](/purview/audit-log-activities#microsoft-sentinel-graph-activities).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|EventTime|Edm.Date|Yes|Timestamp of the operation.|
+|GraphName|Edm.String|Yes|Name of the graph instance.|
+|Operation|Edm.string|Yes|Action taken on graph.|
+|OperationInput|Edm.string|No|Parameters of graph action.|
+|GraphQuery Stats|Edm.string|No|Collection of response metadata.|
+|GraphQuery Status|Edm.String|No|Response of the query or action on graph.|
+|Interface|Edm.String|Yes|Interface from where the graph action was taken.|
+
+## Purview On-demand classification schema
+
+[Microsoft Purview on-demand classification events](/purview/audit-log-activities#microsoft-purview-on-demand-classification-activities) returned in [audit log searches](/purview/audit-search) use this schema.
+
+### DataScanClassification schema
+
+The DataScanClassification audit schema is designed to capture and log activities when a file was evaluated for sensitive content as part of an On-demand classification scan for SharePoint or OneDrive.
+
+|Parameters|Type|Mandatory|Description|
+|---|---|---|---|
+|ClassificationInfo|Collection(Self.[SensitiveInformation](#sensitiveinformation-complex-type))|No|Details about sensitive information found in the file after the scan.|
+|PolicyId|Edm.Guid|Yes|The guid of the On-demand classification scan.|
+|ClassificationMode|Edm.Int32|Yes|Whether scan was executed for specific classifiers or all.|
+|ClassificationPosture|Edm.Int32|Yes|Comparison of sensitive info discovered before and after the scan.|
+|ClassificationResult|Edm.Int32|Yes|File classification status.|
+|DocumentMetaData|Self.[DocumentMetadata](#documentmetadata-complex-type)|No|Describes metadata about the document in SharePoint or OneDrive that contained the sensitive information.|
+|PreviousClassificationInfo|Collection(Self.[SensitiveInformation](#sensitiveinformation-complex-type))|No|Details about sensitive information found in the file after the scan.|
+
+#### DocumentMetaData complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|itemCreationTime|Edm.Date|Yes|Datetimestamp in UTC of when event logged.|
+|SiteCollectionGuid|Edm.Guid|Yes|The GUID of the site collection.|
+|SiteCollectionUrl|Edm.String|Yes|Name of the SharePoint site.|
+|FileName|Edm.String|Yes|Name of the path.|
+|FileOwner|Edm.String|Yes|The document owner.|
+|FileOwnerEmail|Edm.String|Yes|Email address of document owner.|
+|FilePathUrl|Edm.String|Yes|The URL of the document|
+|DocumentLastModifier|Edm.String|Yes|The user who last modified the document.|
+|UniqueId|Edm.String|Yes|A guid that identifies the file.|
+|LastModifiedTime|Edm.DateTime|Yes|Timestamp in UTC for when doc was last modified.|
+
+#### Enum: ClassificationMode - Type: Edm.Int32
+
+|Value|Description|
+|---|---|
+|1|File evaluated for all classifiers configured in tenant.|
+|2|File evaluated only for selected classifiers specified in scan.|
+
+#### Enum: ClassificationPosture - Type: Edm.Int32
+
+|Value|Description|
+|---|---|
+|1|File did not match any classifiers both before and after the scan.|
+|2|No new classifier found after the scan.|
+|3|File did not match any classifier before the scan. One or more classifiers found in file after the scan.|
+|4|File matched some classifiers before the scan. One or more classifiers no longer match|
+|5|File matched some classifiers before the scan. New classifier or change in existing classifier count or confidence level after the scan.|
+
+#### Enum: ClassificationResult - Type: Edm.Int32
+
+|Value|Description|
+|---|---|
+|1|File classification completed successfully.|
+|2|File classification completed with error. One or more classifier evaluation failed.|
+|3|File classification failed.|
+
+## Security and Compliance RBAC schema
+
+The Securityand Compliance RBAC audit schema is designed to capture and log activities when role and role groups management and assignments occur in the Microsoft Purview portal and Microsoft Defender portal.
+Some of the fields and values specific to the common audit schema are listed below.
+
+| Parameters | Type | Mandatory | Description |
+| --- | --- | --- | --- |
+| `Operation` | `Edm.String` | Yes | Name of the SecurityComplianceRBAC operation. |
+| `RecordType` | `Self.AuditLogRecordType` | Yes | Audit record type. SecurityComplianceRBAC record value is 87. |
+| `ResultStatus` | `Edm.String` | Yes | Result of the operation. Values emitted by this workload are `Success` and `Failed`. |
+| `PreExecutionMessage` | `Edm.String` | No | Operation-specific input details. See the applicable operation schema. |
+| `PostExecutionMessage` | `Edm.String` | No | Operation-specific result details. See the applicable operation schema. |
+| `AssociatedAdminUnits` | `Collection(Edm.Guid)` | No | Administrative units associated with the record. |
+
+### CreateRBACRoleGroupDefinition Operation
+
+Creates an RBAC role-group definition.
+
+| Parameters | Type | Mandatory | Description |
+| --- | --- | --- | --- |
+| `PreExecutionMessage` | `Edm.String` | Yes | Custom role group object information. |
+| `PreExecutionMessage.RoleGroupId` | `Edm.Guid` | Yes | Identifier of the role group. |
+| `PreExecutionMessage.RoleGroupName` | `Edm.String` | Yes | Internal name of the role group. |
+| `PreExecutionMessage.RoleGroupDisplayName` | `Edm.String` | No | User-facing display name of the role group. |
+| `PreExecutionMessage.RoleGroupDescription` | `Edm.String` | No | Description of the role group. |
+| `PreExecutionMessage.RolesDetail` | `Collection(RoleDetail)` | No | Roles included in the role group. |
+| `PreExecutionMessage.RolesDetail[].RoleId` | `Edm.Guid` | No | Identifier of an included role. |
+| `PreExecutionMessage.RolesDetail[].RoleName` | `Edm.String` | No | Name of an included role. |
+| `PostExecutionMessage` | `Edm.String` | No | New custom role group object information. |
+| `PostExecutionMessage.RoleGroupId` | `Edm.Guid` | No | Identifier of the created role group. |
+| `PostExecutionMessage.RoleGroupName` | `Edm.String` | No | Internal name of the created role group. |
+| `PostExecutionMessage.RoleGroupDisplayName` | `Edm.String` | No | Display name of the created role group. |
+| `PostExecutionMessage.RoleGroupDescription` | `Edm.String` | No | Description of the created role group. |
+| `PostExecutionMessage.RolesDetail` | `Collection(RoleDetail)` | No | Roles included in the created role group. |
+| `PostExecutionMessage.RolesDetail[].RoleId` | `Edm.Guid` | No | Identifier of an included role. |
+| `PostExecutionMessage.RolesDetail[].RoleName` | `Edm.String` | No | Name of an included role. |
+
+### UpdateRBACRoleGroupDefinition Operation
+
+Updates an existing RBAC role-group definition.
+
+| Parameters | Type | Mandatory | Description |
+| --- | --- | --- | --- |
+| `PreExecutionMessage` | `Edm.String` | Yes | Custom role group object information. |
+| `PreExecutionMessage.RoleGroupId` | `Edm.Guid` | Yes | Identifier of the role group. |
+| `PreExecutionMessage.RoleGroupName` | `Edm.String` | Yes | Internal name of the role group. |
+| `PreExecutionMessage.RoleGroupDisplayName` | `Edm.String` | No | Updated display name of the role group. |
+| `PreExecutionMessage.RoleGroupDescription` | `Edm.String` | No | Updated description of the role group. |
+| `PreExecutionMessage.RolesDetail` | `Collection(RoleDetail)` | No | Updated collection of roles included in the role group. |
+| `PreExecutionMessage.RolesDetail[].RoleId` | `Edm.Guid` | No | Identifier of an included role. |
+| `PreExecutionMessage.RolesDetail[].RoleName` | `Edm.String` | No | Name of an included role. |
+| `PostExecutionMessage` | `Edm.String` | No | Empty field. |
+
+### DeleteRBACRoleGroupDefinition Operation
+
+Deletes an RBAC role-group definition.
+
+| Parameters | Type | Mandatory | Description |
+| --- | --- | --- | --- |
+| `PreExecutionMessage` | `Edm.String` | Yes | Custom role group object information. |
+| `PreExecutionMessage.RoleGroupId` | `Edm.Guid` | Yes | Identifier of the role group being deleted. |
+| `PreExecutionMessage.RoleGroupName` | `Edm.String` | Yes | Internal name of the role group being deleted. |
+| `PreExecutionMessage.RoleGroupDisplayName` | `Edm.String` | No | Display name of the role group being deleted. |
+| `PreExecutionMessage.RoleGroupDescription` | `Edm.String` | No | Description of the role group being deleted. |
+| `PreExecutionMessage.RolesDetail` | `Collection(RoleDetail)` | No | Roles included in the role group being deleted. |
+| `PreExecutionMessage.RolesDetail[].RoleId` | `Edm.Guid` | No | Identifier of an included role. |
+| `PreExecutionMessage.RolesDetail[].RoleName` | `Edm.String` | No | Name of an included role. |
+| `PostExecutionMessage` | `Edm.String` | No | Empty field. |
+
+### DeletePermissionAsync Operation
+
+Remove assigned members from a role-group.
+
+| Parameters | Type | Mandatory | Description |
+| --- | --- | --- | --- |
+| `PreExecutionMessage` | `Edm.String` | Yes | Input container. |
+| `PreExecutionMessage.MemberDetail` | `MemberDetail` | No | Member assigned to role group. |
+| `PreExecutionMessage.MemberDetail.MemberId` | `Edm.Guid` | No | Identifier of the assigned member. |
+| `PreExecutionMessage.MemberDetail.MemberType` | `Edm.String` | No | Member category, such as `User`, `SecurityGroup`, `ServicePrincipal`, `Application`. |
+| `PreExecutionMessage.MemberDetail.MemberName` | `Edm.String` | No | Name of the assigned member. |
+| `PreExecutionMessage.MemberDetail.MemberDisplayName` | `Edm.String` | No | Display name of the assigned member. |
+| `PreExecutionMessage.RoleGroupDetail` | `RoleGroupDetail` | No | Role group being removed from the member. |
+| `PreExecutionMessage.RoleGroupDetail.RoleGroupId` | `Edm.Guid` | No | Identifier of the role group. |
+| `PreExecutionMessage.RoleGroupDetail.RoleGroupName` | `Edm.String` | No | Name of the role group. |
+| `PreExecutionMessage.ScopeDetail` | `ScopeDetail` | No | Scope of the role assignment. Null for global scope. |
+| `PreExecutionMessage.ScopeDetail.ScopeId` | `Edm.Guid` | No | Identifier of the assigned scope. |
+| `PreExecutionMessage.ScopeDetail.ScopeType` | `Edm.String` | No | Resource type of the assigned scope. |
+| `PreExecutionMessage.ScopeDetail.ScopeFeature` | `Edm.String` | No | Feature associated with the assigned scope. |
+| `PreExecutionMessage.ScopeDetail.ScopePathById` | `Edm.String` | No | Resource path identifying the assigned scope. |
+| `PreExecutionMessage.ExceptionMessage` | `Edm.String` | No | Reserved field, currently `null`. |
+| `PreExecutionMessage.ExpiresAt` | `Edm.String` | No | Expiration of the role assignment. |
+| `PostExecutionMessage` | `Edm.String` | No | Empty. |
+
+### GrantPermissionsAsync Operation
+
+Assigns members to a role-group.
+
+| Parameters | Type | Mandatory | Description |
+| --- | --- | --- | --- |
+| `PreExecutionMessage` | `Edm.String` | Yes | Input container. |
+| `PreExecutionMessage.MemberDetail` | `MemberDetail` | No | Member assigned to role group. |
+| `PreExecutionMessage.MemberDetail.MemberId` | `Edm.Guid` | No | Identifier of the assigned member. |
+| `PreExecutionMessage.MemberDetail.MemberType` | `Edm.String` | No | Member category, such as `User`, `SecurityGroup`, `ServicePrincipal`, `Application`. |
+| `PreExecutionMessage.MemberDetail.MemberName` | `Edm.String` | No | Name of the assigned member. |
+| `PreExecutionMessage.MemberDetail.MemberDisplayName` | `Edm.String` | No | Display name of the assigned member. |
+| `PreExecutionMessage.RoleGroupDetail` | `RoleGroupDetail` | No | Role group being assigned. |
+| `PreExecutionMessage.RoleGroupDetail.RoleGroupId` | `Edm.Guid` | No | Identifier of the assigned role group. |
+| `PreExecutionMessage.RoleGroupDetail.RoleGroupName` | `Edm.String` | No | Name of the assigned role group. |
+| `PreExecutionMessage.ScopeDetail` | `ScopeDetail` | No | Scope of the role assignment. Null for global scope. |
+| `PreExecutionMessage.ScopeDetail.ScopeId` | `Edm.Guid` | No | Identifier of the assigned scope. |
+| `PreExecutionMessage.ScopeDetail.ScopeType` | `Edm.String` | No | Resource type of the assigned scope, such as `Case`. |
+| `PreExecutionMessage.ScopeDetail.ScopeFeature` | `Edm.String` | No | Feature associated with the assigned scope, such as `InsiderRiskManagement` |
+| `PreExecutionMessage.ScopeDetail.ScopePathById` | `Edm.String` | No | Resource path identifying the assigned scope. |
+| `PreExecutionMessage.ExceptionMessage` | `Edm.String` | No | Reserved field, currently `null`. |
+| `PreExecutionMessage.ExpiresAt` | `Edm.String` | No | Expiration of the assignment. The value is `Permanent` or an ISO 8601 UTC timestamp. |
+| `PostExecutionMessage` | `Edm.String` | No | Result role assignment output container. Empty when the operation fails before returning a result. |
+| `PostExecutionMessage.MemberDetail` | `MemberDetail` | No | Member contained in the resulting assignment. Uses the same `MemberDetail` schema as the input. |
+| `PostExecutionMessage.RoleGroupDetail` | `RoleGroupDetail` | No | Role group contained in the resulting assignment. Uses the same `RoleGroupDetail` schema as the input. |
+| `PostExecutionMessage.ScopeDetail` | `ScopeDetail` | No | Scope contained in the resulting permission. Uses the same `ScopeDetail` schema as the input. |
+| `PostExecutionMessage.ExceptionMessage` | `Edm.String` | No | Reserved field, currently `null`. |
+| `PostExecutionMessage.ExpiresAt` | `Edm.String` | No | Expiration of the resulting assignment. The value is `Permanent` or an ISO 8601 UTC timestamp. |
+
+## UpdatePermission Operation
+
+Updates role assignment expiration in a role-group.
+
+| Parameters | Type | Mandatory | Description |
+| --- | --- | --- | --- |
+| `PreExecutionMessage` | `Edm.String` | Yes | Input container. |
+| `PreExecutionMessage.MemberDetail` | `MemberDetail` | No | Member assigned to role group. |
+| `PreExecutionMessage.MemberDetail.MemberId` | `Edm.Guid` | No | Identifier of the assigned member. |
+| `PreExecutionMessage.MemberDetail.MemberType` | `Edm.String` | No | Member category, such as `User`, `SecurityGroup`, `ServicePrincipal`, `Application`. |
+| `PreExecutionMessage.MemberDetail.MemberName` | `Edm.String` | No | Name of the assigned member. |
+| `PreExecutionMessage.MemberDetail.MemberDisplayName` | `Edm.String` | No | Display name of the assigned member. |
+| `PreExecutionMessage.RoleGroupDetail` | `RoleGroupDetail` | No | Role group being assigned. |
+| `PreExecutionMessage.RoleGroupDetail.RoleGroupId` | `Edm.Guid` | No | Identifier of the assigned role group. |
+| `PreExecutionMessage.RoleGroupDetail.RoleGroupName` | `Edm.String` | No | Name of the assigned role group. |
+| `PreExecutionMessage.ScopeDetail.ScopeId` | `Edm.Guid` | No | Identifier of the assigned scope. |
+| `PreExecutionMessage.ScopeDetail.ScopeType` | `Edm.String` | No | Resource type of the assigned scope, such as `Case`. |
+| `PreExecutionMessage.ScopeDetail.ScopeFeature` | `Edm.String` | No | Feature associated with the assigned scope, such as `InsiderRiskManagement` |
+| `PreExecutionMessage.ScopeDetail.ScopePathById` | `Edm.String` | No | Resource path identifying the assigned scope. |
+| `PreExecutionMessage.ExceptionMessage` | `Edm.String` | No | Reserved field, currently `null`. |
+| `PreExecutionMessage.ExpiresAt` | `Edm.String` | No | Updated role assignment expiration. The value is `Permanent` or an ISO 8601 UTC timestamp. |
+| `PostExecutionMessage` | `Edm.String` | No | Result role assignment output container. |
+| `PostExecutionMessage.MemberDetail` | `MemberDetail` | No | Member contained in the resulting assignment. Uses the same `MemberDetail` schema as the input. |
+| `PostExecutionMessage.RoleGroupDetail` | `RoleGroupDetail` | No | Role group contained in the resulting assignment. Uses the same `RoleGroupDetail` schema as the input. |
+| `PostExecutionMessage.ScopeDetail` | `ScopeDetail` | No | Scope contained in the resulting permission. Uses the same `ScopeDetail` schema as the input. |
+| `PostExecutionMessage.ExceptionMessage` | `Edm.String` | No | Reserved field, currently `null`. |
+| `PostExecutionMessage.ExpiresAt` | `Edm.String` | No | Expiration of the resulting assignment. The value is `Permanent` or an ISO 8601 UTC timestamp. |
+
+## PurviewPostureAgent schema
+
+Data Security Posture Agent events, returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)).
+
+### PurviewPostureAgent schema
+
+The PurviewPostureAgent audit schema is designed to capture and log activities related to the Data Security Posture Agent.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|DiscoveryId|Edm.String|No|Unique identifier for the exploration event.|
+|Scope|Collection(Self.[PostureAgentSearchLocation](#postureagentsearchlocation-complex-type))|No|Collection of search location information for the posture agent.|
+|OldLabel|Edm.String|No|The previous label value before the change.|
+|NewLabel|Edm.String|No|The new label value after the change.|
+|FileName|Edm.String|No|The name of the file associated with the posture agent event.|
+
+#### PostureAgentSearchLocation complex type
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|Type|Edm.String|Yes|The type of the search location.|
+|Id|Edm.String|Yes|The identifier of the search location.|
+
+## Dragon Copilot Admin schema
+
+[Dragon Copilot admin events](/purview/audit-log-activities#dragon-copilot-admin-activities) returned in [audit log searches](/purview/audit-search) use this schema (and also the [Common schema](#common-schema)). These events have `RecordType` set to `DragonCopilotAdmin` (454).
+
+For more information about Dragon Copilot, see the [Dragon Copilot documentation](/industry/healthcare/dragon-copilot/).
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|EnvironmentId|Edm.String|No|The Dragon Copilot environment GUID. Enables customers to scope or filter audit logs by organizational unit. Only present for environment-scoped operations.|
+|ProductType|Edm.String|No|The Dragon Copilot product the operation is scoped to. Possible values: `Physician`, `Nursing`, `Radiology`. Only present when the operation is product-scoped (for example, `ProvisionedProduct`, `DeprovisionedProduct`).|
+|ModifiedProperties|Collection(Common.ModifiedProperty)|No|This property is included for certain admin events. The property includes the name of the property that was modified, the new value of the modified property, and the previous value of the modified property.|
+
+## Microsoft Agent 365 schema
+
+Microsoft Agent 365 events returned in [audit log searches](/purview/audit-search) use the [Common schema](#common-schema) and the applicable event-specific schema described in this section.
+
+### AI Guardrail schema
+
+AI guardrail events use this schema and the [Common schema](#common-schema). These events have `RecordType` set to `AIGuardrail` (489) and `Operation` set to `AIGuardrailApplied`.
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|ContentInputId|Edm.String|No|The identifier of the content submitted to the guardrail for evaluation.|
+|ContentModified|Edm.Boolean|No|Indicates whether the guardrail modified the evaluated content.|
+|ContentOutputId|Edm.String|No|The identifier of the content produced after the guardrail evaluation.|
+|ConversationId|Edm.String|No|The identifier of the conversation associated with the guardrail evaluation.|
+|DecisionCode|Edm.String|No|The provider-specific code associated with the guardrail decision.|
+|DecisionReason|Edm.String|No|The reason for the guardrail decision.|
+|DecisionType|Self.[DecisionType](#decisiontype)|Yes|The action selected by the guardrail after evaluating the content.|
+|ExternalEventId|Edm.String|No|The identifier assigned to the event by the originating system or provider.|
+|Findings|Collection(Self.[AIGuardrailFinding](#complex-type-aiguardrailfinding))|No|The risks or policy findings identified during the guardrail evaluation.|
+|GuardianId|Edm.String|Yes|The unique identifier of the guardrail that evaluated the content.|
+|GuardianName|Edm.String|Yes|The name of the guardrail that evaluated the content.|
+|GuardianVersion|Edm.String|No|The version of the guardrail that evaluated the content.|
+|ParentSpanId|Edm.String|Yes|The identifier of the parent span in the distributed trace.|
+|PlatformType|Edm.String|Yes|The platform on which the guardrail evaluation occurred.|
+|PolicyId|Edm.String|No|The identifier of the policy applied during the evaluation.|
+|PolicyName|Edm.String|No|The name of the policy applied during the evaluation.|
+|PolicyVersion|Edm.String|No|The version of the policy applied during the evaluation.|
+|ProviderName|Edm.String|Yes|The name of the provider that performed the guardrail evaluation.|
+|SpanId|Edm.String|Yes|The identifier of the span representing the guardrail evaluation.|
+|TargetId|Edm.String|No|The identifier of the resource or target evaluated by the guardrail.|
+|TargetType|Edm.String|Yes|The type of resource or target evaluated by the guardrail.|
+|TraceId|Edm.String|Yes|The identifier used to correlate the evaluation with other spans in the same distributed trace.|
+|ContentId|Edm.String|No|A reference to the content associated with the guardrail event.|
+
+#### Complex Type AIGuardrailFinding
+
+|Parameters|Type|Mandatory?|Description|
+|---|---|---|---|
+|RiskCategory|Edm.String|Yes|The category of the risk identified by the guardrail.|
+|RiskSeverity|Self.[RiskSeverity](#riskseverity)|Yes|The severity assigned to the identified risk.|
+|RiskScore|Edm.Double|No|The numeric score assigned to the identified risk.|
+|RiskMetadata|Collection(Edm.String)|No|Additional metadata associated with the finding.|
+|DecisionType|Self.[DecisionType](#decisiontype)|Yes|The guardrail decision associated with the finding.|
+|PolicyId|Edm.String|No|The identifier of the policy that generated the finding.|
+|PolicyName|Edm.String|No|The name of the policy that generated the finding.|
+|PolicyVersion|Edm.String|No|The version of the policy that generated the finding.|
+
+#### Enum: DecisionType - Type: Edm.Int32
+
+##### DecisionType
+
+|Value|Member name|Description|
+|---|---|---|
+|0|block|The content or operation was blocked.|
+|1|audit|The evaluation was recorded without blocking the content or operation.|
+|2|allow|The content or operation was allowed.|
+|3|warn|A warning was generated for the content or operation.|
+|4|modify|The content was modified before it was allowed to continue.|
+
+#### Enum: RiskSeverity - Type: Edm.Int32
+
+##### RiskSeverity
+
+|Value|Member name|Description|
+|---|---|---|
+|0|low|The finding has low severity.|
+|1|medium|The finding has medium severity.|
+|2|high|The finding has high severity.|
+|3|critical|The finding has critical severity.|
+|4|none|No risk severity was assigned.
+
+## People Skills schema
+
+Extends the Common schema with the properties specific to People Skills (Viva) audit data. These properties apply to both the `PeopleSkillsAdmin` (476) and `PeopleSkillsUser` (477) record types. For more information about this feature, see [People Skills documentation](/microsoft-365/copilot/people-skills-overview).
+
+| Parameters | Type | Mandatory? | Description |
+| --- | --- | --- | --- |
+| APIEndpoint | Edm.String | Yes | The originating API route or processor name for the operation. |
+| RequestId | Edm.String | Yes | The per-request correlation id, present on every record. |
+| SkillId | Edm.String | No | The identifier of the affected skill. Emitted for skill-scoped operations. |
+| OperationCount | Edm.Int32 | No | The count of affected items for the operation. |
+| SourceApp | Edm.String | No | The originating client app or source of the operation. |
+| ResponseTimeMs | Edm.Double | No | The server-side response time, in milliseconds. |

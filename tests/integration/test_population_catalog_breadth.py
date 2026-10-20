@@ -11,6 +11,7 @@ async def test_remaining_service_families_have_bounded_safe_browsers(database, s
         "directory.servicePrincipals",
         "identity.grants",
         "identity.directoryRoles",
+        "identity.guestInvitations",
         "security.conditionalAccessPolicies",
         "security.namedLocations",
         "security.authenticationMethods",
@@ -29,7 +30,11 @@ async def test_remaining_service_families_have_bounded_safe_browsers(database, s
         page = await adapter.browse(ctx, ResourceQuery(limit=1))
         assert len(page.items) <= 1
         assert adapter.describe().limitations
-        assert not adapter.describe().operations
+        operations = adapter.describe().operations
+        if family == "directory.devices":
+            assert [(op.key, op.mode) for op in operations] == [("import-owned", "fixture")]
+        else:
+            assert not operations
 
 
 async def test_authentication_browser_never_exposes_secret_properties(database, settings):

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "name": "living-small-business",
+  "kind": "template",
+  "tenantProfile": "small-business",
+  "dataProfiles": [
+    "business-mail-calendar",
+    "business-sharepoint-teams",
+    "business-device-estate",
+    "storage-content",
+    "keyvault-secrets",
+    "logs-and-diagnostics",
+    "business-azure-operations",
+    "business-security-telemetry"
+  ],
+  "parameters": {
+    "shared.users": 20,
+    "shared.days": 7
+  }
+}

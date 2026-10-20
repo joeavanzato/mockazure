@@ -673,6 +673,7 @@ async def test_vault_policy_mode_changes_need_role_assignment_authority(database
 
 async def test_cloud_resource_migration_preserves_storage_keys(database, settings):
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import create_engine, text
 
     from mockazure.db.migrations import configuration, migrate
@@ -702,7 +703,10 @@ async def test_cloud_resource_migration_preserves_storage_keys(database, setting
                 assert connection.scalar(text("SELECT to_regclass('cloud_resources')")) is None
             migrate(settings.database_url.get_secret_value())
             with engine.connect() as connection:
-                assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "076"
+                assert (
+                    connection.scalar(text("SELECT version_num FROM alembic_version"))
+                    == ScriptDirectory.from_config(configuration()).get_current_head()
+                )
         finally:
             engine.dispose()
         assert (await client.post(path + "/listKeys", params=ARGS, headers=headers)).json() == keys

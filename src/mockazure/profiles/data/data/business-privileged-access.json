@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "name": "business-privileged-access",
+  "kind": "data",
+  "extends": "organization-projects",
+  "steps": {
+    "privileged-client": {
+      "family": "identity.clients",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "lifecycle.client",
+        "count": 1,
+        "subject": "privileged"
+      },
+      "dependsOn": [],
+      "target": "privileged-client"
+    },
+    "privileged-subject": {
+      "family": "identity.lifecycle",
+      "operation": "joiner",
+      "mode": "service",
+      "parameters": {
+        "generator": "lifecycle.joiner",
+        "count": 1,
+        "subject": "privileged"
+      },
+      "dependsOn": [
+        "privileged-client"
+      ],
+      "target": "privileged-user"
+    },
+    "privileged-eligibility": {
+      "family": "identity.lifecycle",
+      "operation": "eligibility",
+      "mode": "service",
+      "parameters": {
+        "generator": "lifecycle.eligibility",
+        "count": 1,
+        "subject": "privileged"
+      },
+      "dependsOn": [
+        "privileged-subject",
+        "entra-license"
+      ]
+    }
+  },
+  "resources": {
+    "privileged-client": {
+      "family": "identity.clients"
+    },
+    "privileged-user": {
+      "family": "identity.lifecycle"
+    }
+  }
+}

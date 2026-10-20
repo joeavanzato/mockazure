@@ -3,6 +3,7 @@
 from sqlalchemy import String, cast, func
 
 from mockazure.activity.models import Subscription
+from mockazure.identity.invitation_models import GuestInvitation
 from mockazure.identity.models import Application, DirectoryRole, Grant, ServicePrincipal
 from mockazure.mail.collection_models import (
     ExchangeConfiguration,
@@ -48,6 +49,24 @@ def adapters():
             )
         )
 
+    r = GuestInvitation
+    add(
+        "identity.guestInvitations",
+        "Entra",
+        "/v1.0/invitations",
+        r,
+        r.id,
+        {
+            "id": r.id,
+            "userId": r.user_id,
+            "email": r.email,
+            "status": r.status,
+            "redirectUrl": r.redirect_url,
+            "deliveryMode": r.delivery["mode"].as_string(),
+            "delivery": r.delivery,
+            "createdAt": r.created_at,
+        },
+    )
     r = Application
     add(
         "directory.applications",

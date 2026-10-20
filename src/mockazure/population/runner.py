@@ -8,10 +8,12 @@ from uuid import UUID
 from mockazure.admin.errors import AdminError
 from mockazure.jobs.repository import lock_claim
 from mockazure.jobs.schemas import JobResult
+from mockazure.population.bindings import EntityBinding, bind
 from mockazure.population.catalog import get_adapter
-from mockazure.population.generators import VERSION
+from mockazure.population.generators import VERSION, inventory
 from mockazure.population.models import (
     OperationReceipt,
+    OrganizationNamespace,
     PopulationRun,
     PopulationStep,
     ResourceBinding,
@@ -30,11 +32,11 @@ async def checkpoint(database, claim, now, change):
         run = await session.get(PopulationRun, UUID(claim.payload["run_id"]), with_for_update=True)
         if run is None or run.tenant_id != claim.tenant_id or run.job_id != job.id:
             raise ValueError("Population job binding mismatch")
-        await change(session, job, run)
+        delay_ms = await change(session, job, run)
         job.lease_owner = job.lease_until = None
         job.attempts = 0
         job.updated_at = now
-        job.available_at = now + timedelta(milliseconds=50)
+        job.available_at = now + timedelta(milliseconds=50 if delay_ms is None else delay_ms)
         run.updated_at = now
         await session.flush()
         return True
@@ -84,6 +86,13 @@ async def process_population(database, claim, wall_now):
         return await stop(
             "needs-attention", "Generator version changed; use a compatible installation"
         )
+    from mockazure.population.activity import VERSION as ACTIVITY_VERSION
+    from mockazure.population.activity import is_activity_step
+
+    if snapshot["request"].get("activity") and snapshot.get("activity_version") != ACTIVITY_VERSION:
+        return await stop(
+            "needs-attention", "Activity version changed; use a compatible installation"
+        )
     if step_row is None:
         return await stop("succeeded")
     step = snapshot["resolved"]["steps"][step_key]
@@ -92,13 +101,31 @@ async def process_population(database, claim, wall_now):
     ctx = AdapterContext(database, database.settings, claim.tenant_id)
     limit = 1 if descriptor.mode == "service" or step["family"] == "content.objects" else 100
     try:
+        generator = step["parameters"]["generator"]
+        version = inventory()[generator]["version"]
+        expected_version = snapshot.get("generator_versions", {}).get(generator, VERSION)
+        if version != expected_version:
+            return await stop(
+                "needs-attention", "Generator version changed; use a compatible installation"
+            )
+        if generator.startswith("business."):
+            async with database.sessions() as session:
+                organization = await session.get(
+                    OrganizationNamespace, (claim.tenant_id, namespace)
+                )
+                if organization is None or str(organization.generation) != snapshot.get(
+                    "organization_generation"
+                ):
+                    raise AdminError(
+                        409, "NamespaceGenerationChanged", "Namespace generation changed"
+                    )
         mutations = mutations_for(snapshot, step, refs, offset, limit)
         for mutation in mutations:
             adapter.validate(mutation)
         digest = fingerprint(
             {
                 "family": step["family"],
-                "version": VERSION,
+                "version": version,
                 "mutations": [
                     m.model_dump(mode="json", exclude={"expected_version"}) for m in mutations
                 ],
@@ -180,6 +207,44 @@ async def process_population(database, claim, wall_now):
                 current.state, job.state, cursor.state = "verifying", "pending", "verifying"
                 return
             receipt.state = "verified"
+            if generator.startswith("business."):
+                by_identity = {(item.parent, item.id): item for item in result.items}
+                for mutation in mutations:
+                    if descriptor.mode == "service":
+                        if len(mutations) != 1 or len(result.items) != 1:
+                            raise ValueError("Business service actions require one recorded result")
+                        item = result.items[0]
+                        service = item.properties["service"]
+                    else:
+                        base = getattr(adapter, "base", adapter)
+                        payload = base.normalize(mutation)
+                        identifier = str(payload[base.identity_field])
+                        item = by_identity.get((mutation.parent, identifier))
+                        service = (
+                            "arm"
+                            if step["family"] == "arm.inventory"
+                            else "lab-identity"
+                            if step["family"] == "identity.clients"
+                            else "graph"
+                        )
+                    if item is None:
+                        raise ValueError("Business result did not preserve the declared identity")
+                    await bind(
+                        session,
+                        EntityBinding(
+                            tenant_id=claim.tenant_id,
+                            namespace=namespace,
+                            logical_key=mutation.logical_key,
+                            service=service,
+                            actual_id=item.id,
+                            parent_id=(
+                                mutation.parent
+                                if mutation.parent not in {item.id, "deviceManagement"}
+                                else None
+                            ),
+                            generation=UUID(snapshot["organization_generation"]),
+                        ),
+                    )
             effects = (
                 {"created": 0, "updated": 0, "unchanged": len(result.items)}
                 if replay
@@ -212,6 +277,8 @@ async def process_population(database, claim, wall_now):
             else:
                 cursor.state = "running"
             current.state, job.state = "running", "pending"
+            if is_activity_step(snapshot, step) and not replay and cursor.offset < cursor.count:
+                return snapshot["request"]["activity"]["pacing_ms"]
 
         changed = await checkpoint(database, claim, now(), complete)
         return JobResult("pending" if changed else "stale", None, None)

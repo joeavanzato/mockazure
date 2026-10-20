@@ -132,6 +132,10 @@ def test_source_export_uses_git_objects_excluding_untracked_and_runtime(tmp_path
         "examples/populate.py": b"example\n",
         "docs/getting-started.md": b"guide\n",
         "docs/profiles.md": b"profiles\n",
+        "docs/living-tenant-profiles.md": b"living\n",
+        "docs/finite-activity.md": b"activity\n",
+        "docs/hunting-data.md": b"hunting\n",
+        "docs/hunting-cookbook.md": b"cookbook\n",
     }.items():
         path = repo / name
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -264,5 +268,11 @@ def test_candidate_probe_uses_current_capability_request_contract():
     result = subprocess.run([sys.executable, "-c", PROBE], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     value = json.loads(result.stdout)
-    assert value["migration_head"] == "076"
+    from alembic.script import ScriptDirectory
+
+    from mockazure.db.migrations import configuration
+
+    assert (
+        value["migration_head"] == ScriptDirectory.from_config(configuration()).get_current_head()
+    )
     assert value["capabilities"]["authentication_policy_profile"]["new_tenants_enforced"] is True

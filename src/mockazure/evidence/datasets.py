@@ -139,6 +139,15 @@ def validate_public_payload(version, family, payload):
             "oAuth2PermissionGrant": "oAuth2PermissionGrant",
             "appRoleAssignment": "appRoleAssignment",
             "unifiedRoleAssignment": "unifiedRoleAssignment",
+            "unifiedRoleEligibilityScheduleRequest": "unifiedRoleEligibilityScheduleRequest",
+            "unifiedRoleAssignmentScheduleRequest": "unifiedRoleAssignmentScheduleRequest",
+            "unifiedRoleManagementPolicyExpirationRule": (
+                "unifiedRoleManagementPolicyExpirationRule"
+            ),
+            "unifiedRoleManagementPolicyEnablementRule": (
+                "unifiedRoleManagementPolicyEnablementRule"
+            ),
+            "unifiedRoleManagementPolicyApprovalRule": "unifiedRoleManagementPolicyApprovalRule",
             "conditionalAccessPolicy": "conditionalAccessPolicy",
             "ipNamedLocation": "ipNamedLocation",
         }.get(target.get("type"))
@@ -180,6 +189,12 @@ def validate_public_payload(version, family, payload):
             continue
         for change in target.get("modifiedProperties") or []:
             name = change["displayName"]
+            if target.get("type") == "User" and name == "manager":
+                for side in ("oldValue", "newValue"):
+                    value = json.loads(change[side]) if change.get(side) else None
+                    if value is not None:
+                        UUID(value)
+                continue
             if target.get("type") == "User" and name == "passwordProfile":
                 for side in ("oldValue", "newValue"):
                     value = json.loads(change[side]) if change.get(side) else None

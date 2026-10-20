@@ -235,7 +235,7 @@ async def import_mail_content(
     }
     if insert_only and (
         current
-        or batch.attachments
+        or any(attachment.message_id not in imported for attachment in batch.attachments)
         or batch.tombstones
         or batch.mailbox_settings is not None
         or any(folder.id in folders for folder in batch.folders)

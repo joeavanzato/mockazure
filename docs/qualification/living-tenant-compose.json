@@ -1,0 +1,1733 @@
+{
+  "phase": "all",
+  "passed": true,
+  "phases": {
+    "content": {
+      "schema_version": 1,
+      "phase": "content",
+      "scale": "small",
+      "distribution": "docker",
+      "source_sha": "bab9eb9571ae901c4206b828c6807c929f450842",
+      "source_dirty": false,
+      "source_fingerprint": "2555ae29c579e47dccc250b8d7d5a32fe0baa7288f55c85b519e87923a9bf92b",
+      "passed": true,
+      "started_at": "2026-10-20T20:54:24.640996+00:00",
+      "cases": {
+        "population": {
+          "state": "passed",
+          "progress": {
+            "created": 853,
+            "updated": 0,
+            "verified": 853,
+            "unchanged": 0
+          },
+          "seconds": 67.672
+        },
+        "graph": {
+          "state": "passed",
+          "client": "msgraph-sdk",
+          "version": "1.64.0",
+          "users": 20,
+          "drive_id": "54f764f2-a9cd-5d8b-8e67-e100fc20b276",
+          "document_id": "6ad27b02-1d60-5054-aadb-b09df0189337"
+        },
+        "storage": {
+          "state": "passed",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "bytes": 2228,
+          "sha256": "ee758691c8ebf060a39184bde51329fa1092cd56b9d77d2f6dfd53ec01f33b46"
+        },
+        "file": {
+          "state": "passed",
+          "client": "azure-storage-file-share",
+          "version": "12.23.0",
+          "bytes": 2228,
+          "sha256": "ee758691c8ebf060a39184bde51329fa1092cd56b9d77d2f6dfd53ec01f33b46"
+        },
+        "queue": {
+          "state": "passed",
+          "client": "azure-storage-queue",
+          "version": "12.15.0"
+        },
+        "table": {
+          "state": "passed",
+          "client": "azure-data-tables",
+          "version": "12.7.0"
+        },
+        "exchange": {
+          "state": "passed",
+          "client": "ExchangeOnlineManagement",
+          "version": "3.11.0",
+          "commands": [
+            "Get-Mailbox",
+            "Get-EXOMailbox -Identity"
+          ],
+          "mailboxes": 20,
+          "runtime": "isolated-linux-client"
+        },
+        "replay": {
+          "state": "passed",
+          "created": 0
+        }
+      },
+      "tenant_id": "f47768ae-b19b-4477-94f7-a30ac8220b3e",
+      "run_id": "800efe31-443e-4a89-84e0-321ca800a450",
+      "completed_at": "2026-10-20T20:56:46.058500+00:00"
+    },
+    "evidence": {
+      "schema_version": 1,
+      "phase": "evidence",
+      "scale": "small",
+      "distribution": "docker",
+      "source_sha": "bab9eb9571ae901c4206b828c6807c929f450842",
+      "source_dirty": false,
+      "source_fingerprint": "2555ae29c579e47dccc250b8d7d5a32fe0baa7288f55c85b519e87923a9bf92b",
+      "passed": true,
+      "started_at": "2026-10-20T20:56:46.691002+00:00",
+      "cases": [
+        {
+          "source_kind": "arm",
+          "operation_key": "Microsoft.Insights/diagnosticSettings/write; Microsoft.KeyVault/register/action; Microsoft.KeyVault/vaults/write; Microsoft.OperationalInsights/register/action; Microsoft.OperationalInsights/workspaces/write; Microsoft.Storage/register/action; Microsoft.Storage/storageAccounts/write",
+          "source_ids": [
+            "0b8d1dc3-6d04-422b-b334-7a054efb75d1",
+            "1e18cebc-ebeb-4fe1-9d96-852a416f5759",
+            "36fb8633-24f2-4e60-81da-15d15a7c0c7b",
+            "8ae33783-e79d-4d34-818d-af63dc7252da",
+            "a8edd889-780e-44c4-96b0-591435032ef5",
+            "c2791ee3-7d79-43c3-867c-36b9c2ae0c14",
+            "ca120be7-22ba-464f-9308-29f62924004e",
+            "d4583a64-59a7-407a-8b96-8bcf75013868",
+            "d7435cc8-485b-428a-83e8-13d3c31ef297",
+            "f428ba56-4dec-4851-8f38-042f9824932c",
+            "fb83dd4e-3693-4139-b3df-76dadbe32875"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "2a772288-f8d2-5cef-91bc-674da6514d87",
+            "380539c1-4dce-5cc1-af20-d2b95bc067b3",
+            "607e819a-8c62-5c1c-9217-0099c445e13b",
+            "6ebf32ec-8fff-56be-a0ac-6fbe609771d9",
+            "9658e3fc-b1d0-5d7f-aa16-94d2fe3a4697",
+            "9f4b7d4c-c493-500b-955f-d25e0bc24fd1",
+            "a6c74260-b893-577c-9d1d-3a26c5475307",
+            "ba3580c4-a8e0-54eb-af78-c181099924e8",
+            "c4f9f21a-e5c0-591b-bf17-f46a670f9fc9",
+            "e1538aa9-d48a-5336-8264-92d358512d32",
+            "e64cd2b7-8b78-5d2e-8411-9aea9b58d88e"
+          ],
+          "observed_ids": [
+            "2a772288-f8d2-5cef-91bc-674da6514d87",
+            "380539c1-4dce-5cc1-af20-d2b95bc067b3",
+            "607e819a-8c62-5c1c-9217-0099c445e13b",
+            "6ebf32ec-8fff-56be-a0ac-6fbe609771d9",
+            "9658e3fc-b1d0-5d7f-aa16-94d2fe3a4697",
+            "9f4b7d4c-c493-500b-955f-d25e0bc24fd1",
+            "a6c74260-b893-577c-9d1d-3a26c5475307",
+            "ba3580c4-a8e0-54eb-af78-c181099924e8",
+            "c4f9f21a-e5c0-591b-bf17-f46a670f9fc9",
+            "e1538aa9-d48a-5336-8264-92d358512d32",
+            "e64cd2b7-8b78-5d2e-8411-9aea9b58d88e"
+          ],
+          "expected_count": 11,
+          "observed_count": 11,
+          "collector": "arm-rest",
+          "destination": "activityLog",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "authentication",
+          "operation_key": "authentication",
+          "source_ids": [
+            "00e0f27b-6d3a-4001-9233-f7c5158d26b3",
+            "0135c08e-881f-4c48-ba00-65146ad8c86d",
+            "05061995-e0f5-41e0-a750-63f247d1bde1",
+            "076c0eb8-9dfe-4044-965c-ce61d66741e1",
+            "089592bb-0288-4a93-9754-bbb8dea13a1e",
+            "09375e0b-d908-4cd0-aa89-796aef30227f",
+            "0a956630-2578-46c8-a331-f7a50cc8a42a",
+            "0cbd36ba-1299-4685-8b92-6c44992dc37d",
+            "143ec98d-da36-4278-b1da-52695feec9af",
+            "177ee52d-35ce-4d84-b201-c2f66472dd9d",
+            "19095a40-84e7-4c7f-9b98-8e6309e3e809",
+            "192e843f-54c9-4e53-a51d-80f9c4ed8051",
+            "2159cc98-e13d-4b42-b891-e992d36629e3",
+            "22b7883b-1f86-4d2e-981c-fbae41216b96",
+            "29be6782-1141-48d3-ba34-e66579a94f46",
+            "2ae6074f-8f15-49e2-a588-b1617112817c",
+            "2d73e9bf-6c6b-4f89-8e31-04a24394da72",
+            "3a348160-7c3b-4499-ad9c-9678aeb6872a",
+            "4d465c3d-e3f7-43c6-ad82-f3ff49c7b951",
+            "53efc18b-b620-456b-b11f-f5874c31df63",
+            "54c2df30-d990-410f-af9d-0bddeed8f2af",
+            "56d23db7-2e02-41c1-8461-18efdab147d2",
+            "5b537dab-2fc9-4162-8f79-f52ef8a8f427",
+            "61aca6bd-b6a9-41c9-8632-3162159e4721",
+            "61da149a-0497-40fc-ad5c-c75a0d88e161",
+            "64343a17-4715-4b37-9501-dd8e23ee7b32",
+            "646edc8f-8c3c-41b4-abc0-ddd858294a08",
+            "65a10595-f1d9-4ea4-9733-a0ab69a959bd",
+            "667b3c43-72ee-4d0d-8428-1d9233f687c0",
+            "6ad7eea2-b03a-4f3f-a70c-8b97c924a16a",
+            "73cd426a-48fe-4c37-93cb-d9320741f02c",
+            "746b833b-031e-465f-a8ad-0a52f25554c8",
+            "759f8d49-abf7-4ff6-8c00-043128a971c0",
+            "75eba350-435b-458c-aa85-158d04547dff",
+            "780f2df1-9e9f-45d7-81d1-b9a990f6138f",
+            "7b575bc3-236b-417f-9e8e-0fee58a3be99",
+            "7f97be4c-3691-4abb-98fd-d301e4f387bb",
+            "80f69c3f-58f6-4c05-8289-17f3abce0fcb",
+            "816e02cf-e186-431f-8622-0cf336c6b850",
+            "81bd7d5c-2f13-430b-af6c-bec37add52c8",
+            "81bdc50b-e581-4000-9cd2-9e6d8fcdb190",
+            "8333b965-7371-4ab5-81b1-b0f6c28c3edd",
+            "851b2da3-7d25-480a-9f2c-f7e3a4774b02",
+            "8f46bfcb-b11a-487a-a0b9-1460527bdea3",
+            "90be8b96-1d82-42cd-ae9a-ecc297050f33",
+            "939f1cd3-2bc1-4289-9ba9-f9e18a7c321f",
+            "98567950-4a8d-418d-b1a8-ec135c4b4977",
+            "9e3d34f1-c125-484c-846e-59f51a24395b",
+            "a140ae26-2847-420b-9127-36dccbf31852",
+            "a330129c-839e-459a-9826-e9b120dea7b4",
+            "aa349b0f-fef6-45c9-999a-d524cceeaba4",
+            "afeb13be-2f16-433f-9473-981f485234fa",
+            "b166a25f-8c02-4fd3-8eda-f8bc9afe9f1c",
+            "b472dc93-c0dd-484a-9b7c-9388c6ad33f7",
+            "b50ab9b3-2117-4cda-aca5-a0a219a3a99f",
+            "b7ed9134-0b2a-4fa1-96f8-cb755f4c4197",
+            "cd399517-8084-4b14-9580-bed0f85b60d9",
+            "cd686829-4eae-44c1-84a2-809448b9c1fc",
+            "cee6352c-bb11-4d57-a856-be6d528cf4db",
+            "cfcde4f1-e620-43bf-b770-a809f0233b26",
+            "cfef1242-cce1-4af3-bc7a-2cdbf4e52c04",
+            "d1006797-a396-4e77-b549-7f349f98f53a",
+            "d1e0dc9a-c069-49ce-a81e-0936491f3779",
+            "d7d25d3a-054e-4216-80ef-edc2d9f0475d",
+            "d8b84d4e-fb83-4a4c-9a45-f437967cc4c6",
+            "d9e1cd54-15fc-4524-bcc4-eda0962e1692",
+            "df55c718-5a24-496f-a869-1f1fc3490eae",
+            "ec52dfe4-5b21-4312-94a8-b7e4677f93ec",
+            "ee815114-03a4-4607-a75c-53cf53d5e986",
+            "f1ef9213-5c9d-4fab-9ca8-987057c2093e",
+            "f541db17-0a55-4eb5-af1d-d1719eeb5fd1",
+            "f5e841e1-30aa-4d8d-8e75-b1426bc2e0d4",
+            "fcec25e7-5759-4e28-b93a-78d14a30052a"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "056e1e37-8052-5ba0-a7ae-1642bfe36960",
+            "0650fa89-b966-51b3-a902-d56fd04d31d2",
+            "09cd40d0-8076-504f-8fd2-00f4fd00a0eb",
+            "0a63d62d-b413-53d5-baa5-638d78b0eff8",
+            "0e2f9d95-b0b3-5305-90a4-6a5e1af53036",
+            "0e7014f7-12d5-5121-8569-613c98cff1e2",
+            "0ea8bc72-7173-5b24-aede-b98684ad2a7a",
+            "149ef7b6-13a2-5375-9eed-218e45832cc0",
+            "17052fc6-b1fb-5869-bb6d-2e8d0e00d5ca",
+            "1959dae8-4bd6-5eb7-81e4-af3cc7fe324f",
+            "1bcc1dbd-847a-5dc2-a75d-babbb771694e",
+            "1d3ad76d-acd5-5426-9dc1-3f9bcf7537ca",
+            "1fee204c-f7d2-5053-ba3e-1f3fef726533",
+            "2079187c-7184-5220-b414-3c17619ed062",
+            "23dc41e0-2990-5b7a-b24f-108aeb72f151",
+            "284b9f14-aee3-5d66-8626-0d20511c309a",
+            "307bfc87-f557-5b42-a236-e70e4bb7d279",
+            "314f4483-5d23-5bcb-b11a-6a0eccca3c45",
+            "34b6b5a0-4ba4-54fa-840b-d682d4f0cd60",
+            "350a9c29-7cd3-54b3-9956-7ce145edc797",
+            "3988ad98-f72f-5a60-8aff-b49e53667b08",
+            "3b0c515c-6b29-53c0-9b91-3e71db99bf95",
+            "4064268c-7da2-5dd0-88f9-357a65615554",
+            "41a5fc7e-aa70-50da-8add-408e57df2d6f",
+            "43468509-190e-5116-a01a-f1e2abe8fa49",
+            "44a52ab4-dde8-5184-ba7f-e39e18cd96d0",
+            "4506e406-146e-5baf-a164-ff8ac82c8647",
+            "454a113b-a23a-5144-ad2e-e6b6c8e3ddbb",
+            "485acc3a-c2ac-5bdb-b1ce-7daa502056f9",
+            "4cf5c0a2-1d42-5182-b5d4-5374717c6770",
+            "4d15fd22-f20c-5c19-9b3e-2be4d52518e8",
+            "553368a3-9963-5521-b63b-6dac2ef2992d",
+            "55699200-7f66-525a-81d4-68247264000e",
+            "55e4f473-08a6-52b5-b819-bcd9fef29865",
+            "575c1c84-ce7e-5bd4-a3fa-5bddc25801d0",
+            "57f0cf9f-7267-5ad7-90e6-4d88bbcc19fd",
+            "58db9a03-8116-5f03-83eb-bf7baaa1d3cc",
+            "5b43c7dc-cf60-5523-8f1b-af8e4e6682bb",
+            "5d2086e3-df1b-54dc-aa9f-e385d7bcde36",
+            "602f3418-b479-5a7b-ac5a-8f9c195f6148",
+            "6329df07-1108-5744-aa56-8920519f0f45",
+            "69d4c54e-274a-579e-9b85-2aadcb877434",
+            "6d6caddf-fe38-5cc5-a311-a12aa9c774ea",
+            "6e1403e4-3b9d-5b4d-9629-787b150c90d2",
+            "7310a9d8-92c1-5d99-a721-a43b70408a66",
+            "7be6d487-0434-5aed-9ced-99041788c760",
+            "7de69264-2ff3-520e-b004-c96c95eebb0a",
+            "803e9a59-d3b4-5dcd-98ed-5c79bc607549",
+            "86fdff80-e38e-5f55-9207-d01b71656fd9",
+            "8ffb5e96-9559-5789-94d5-bce55ace1985",
+            "90429fe7-c5ac-5367-9537-87101c53e109",
+            "910a7ea0-6acc-5d4b-bf9c-d3e4cc3873cb",
+            "927f8796-b341-59f0-b03f-5b7ab0fb1cc5",
+            "92b66736-a626-54c1-b073-14950fd2d68e",
+            "99d6753c-c19e-5026-a394-e1b739d15012",
+            "9f0e4852-a9d9-5ceb-be01-2b6892ca2260",
+            "a660bdae-bde1-53e4-afa7-edde1cd0e800",
+            "a897fe94-7290-5e35-b822-86ad08acab54",
+            "ab63abe5-3dc6-596f-b776-49363836de23",
+            "adc99018-f0e0-524c-bb68-db6d5e09db94",
+            "b321e499-e641-53b3-ac85-a44babcc32d4",
+            "b6a6fe5b-b8a3-5957-bb8a-a7baf5b8514e",
+            "ba3624db-cdc2-56c2-a654-49c5458430d2",
+            "bb226e51-f68f-51fe-ba88-a1a0694515f4",
+            "c17b4733-314c-58e3-810f-48ebb6bf67b8",
+            "cbe51832-0121-5ff8-8a6e-85e3d4451da4",
+            "cd5c4b72-3e87-5484-a8e6-ba8bb2f2ccc0",
+            "dfda0089-caff-5646-8d76-1b5a317e5b0d",
+            "e1ab5493-f8ef-541c-b043-8fd55a3f9f94",
+            "e277eb12-dbf6-534b-a9c9-f3e9aef90ba0",
+            "ea058c77-570a-5a71-bd8b-24f0e3718f17",
+            "ed71bcf8-9c52-5f84-8264-f851d24db52e",
+            "f84c564d-fdfe-5317-a9d4-9000e7fda41c"
+          ],
+          "observed_ids": [
+            "056e1e37-8052-5ba0-a7ae-1642bfe36960",
+            "0650fa89-b966-51b3-a902-d56fd04d31d2",
+            "09cd40d0-8076-504f-8fd2-00f4fd00a0eb",
+            "0a63d62d-b413-53d5-baa5-638d78b0eff8",
+            "0e2f9d95-b0b3-5305-90a4-6a5e1af53036",
+            "0e7014f7-12d5-5121-8569-613c98cff1e2",
+            "0ea8bc72-7173-5b24-aede-b98684ad2a7a",
+            "149ef7b6-13a2-5375-9eed-218e45832cc0",
+            "17052fc6-b1fb-5869-bb6d-2e8d0e00d5ca",
+            "1959dae8-4bd6-5eb7-81e4-af3cc7fe324f",
+            "1bcc1dbd-847a-5dc2-a75d-babbb771694e",
+            "1d3ad76d-acd5-5426-9dc1-3f9bcf7537ca",
+            "1fee204c-f7d2-5053-ba3e-1f3fef726533",
+            "2079187c-7184-5220-b414-3c17619ed062",
+            "23dc41e0-2990-5b7a-b24f-108aeb72f151",
+            "284b9f14-aee3-5d66-8626-0d20511c309a",
+            "307bfc87-f557-5b42-a236-e70e4bb7d279",
+            "314f4483-5d23-5bcb-b11a-6a0eccca3c45",
+            "34b6b5a0-4ba4-54fa-840b-d682d4f0cd60",
+            "350a9c29-7cd3-54b3-9956-7ce145edc797",
+            "3988ad98-f72f-5a60-8aff-b49e53667b08",
+            "3b0c515c-6b29-53c0-9b91-3e71db99bf95",
+            "4064268c-7da2-5dd0-88f9-357a65615554",
+            "41a5fc7e-aa70-50da-8add-408e57df2d6f",
+            "43468509-190e-5116-a01a-f1e2abe8fa49",
+            "44a52ab4-dde8-5184-ba7f-e39e18cd96d0",
+            "4506e406-146e-5baf-a164-ff8ac82c8647",
+            "454a113b-a23a-5144-ad2e-e6b6c8e3ddbb",
+            "485acc3a-c2ac-5bdb-b1ce-7daa502056f9",
+            "4cf5c0a2-1d42-5182-b5d4-5374717c6770",
+            "4d15fd22-f20c-5c19-9b3e-2be4d52518e8",
+            "553368a3-9963-5521-b63b-6dac2ef2992d",
+            "55699200-7f66-525a-81d4-68247264000e",
+            "55e4f473-08a6-52b5-b819-bcd9fef29865",
+            "575c1c84-ce7e-5bd4-a3fa-5bddc25801d0",
+            "57f0cf9f-7267-5ad7-90e6-4d88bbcc19fd",
+            "58db9a03-8116-5f03-83eb-bf7baaa1d3cc",
+            "5b43c7dc-cf60-5523-8f1b-af8e4e6682bb",
+            "5d2086e3-df1b-54dc-aa9f-e385d7bcde36",
+            "602f3418-b479-5a7b-ac5a-8f9c195f6148",
+            "6329df07-1108-5744-aa56-8920519f0f45",
+            "69d4c54e-274a-579e-9b85-2aadcb877434",
+            "6d6caddf-fe38-5cc5-a311-a12aa9c774ea",
+            "6e1403e4-3b9d-5b4d-9629-787b150c90d2",
+            "7310a9d8-92c1-5d99-a721-a43b70408a66",
+            "7be6d487-0434-5aed-9ced-99041788c760",
+            "7de69264-2ff3-520e-b004-c96c95eebb0a",
+            "803e9a59-d3b4-5dcd-98ed-5c79bc607549",
+            "86fdff80-e38e-5f55-9207-d01b71656fd9",
+            "8ffb5e96-9559-5789-94d5-bce55ace1985",
+            "90429fe7-c5ac-5367-9537-87101c53e109",
+            "910a7ea0-6acc-5d4b-bf9c-d3e4cc3873cb",
+            "927f8796-b341-59f0-b03f-5b7ab0fb1cc5",
+            "92b66736-a626-54c1-b073-14950fd2d68e",
+            "99d6753c-c19e-5026-a394-e1b739d15012",
+            "9f0e4852-a9d9-5ceb-be01-2b6892ca2260",
+            "a660bdae-bde1-53e4-afa7-edde1cd0e800",
+            "a897fe94-7290-5e35-b822-86ad08acab54",
+            "ab63abe5-3dc6-596f-b776-49363836de23",
+            "adc99018-f0e0-524c-bb68-db6d5e09db94",
+            "b321e499-e641-53b3-ac85-a44babcc32d4",
+            "b6a6fe5b-b8a3-5957-bb8a-a7baf5b8514e",
+            "ba3624db-cdc2-56c2-a654-49c5458430d2",
+            "bb226e51-f68f-51fe-ba88-a1a0694515f4",
+            "bd485e80-cb91-524c-b97b-6b4d3821dbd2",
+            "c17b4733-314c-58e3-810f-48ebb6bf67b8",
+            "cbe51832-0121-5ff8-8a6e-85e3d4451da4",
+            "cd5c4b72-3e87-5484-a8e6-ba8bb2f2ccc0",
+            "dfda0089-caff-5646-8d76-1b5a317e5b0d",
+            "e1ab5493-f8ef-541c-b043-8fd55a3f9f94",
+            "e277eb12-dbf6-534b-a9c9-f3e9aef90ba0",
+            "ea058c77-570a-5a71-bd8b-24f0e3718f17",
+            "ed71bcf8-9c52-5f84-8264-f851d24db52e",
+            "f84c564d-fdfe-5317-a9d4-9000e7fda41c"
+          ],
+          "expected_count": 73,
+          "observed_count": 74,
+          "collector": "graph-rest",
+          "destination": "signIn",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": "App-only sign-ins use the documented beta event-type filter; v1.0 sign-ins expose interactive user events."
+        },
+        {
+          "source_kind": "directory",
+          "operation_key": "update",
+          "source_ids": [
+            "cab14840-4b47-4d5d-9efa-7aa55d7fe44c"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "eada2020-321e-5264-8f08-a7e63308cfec"
+          ],
+          "observed_ids": [
+            "5dd50792-e3a5-5a6f-ae7e-be40165b5750",
+            "b717f985-2eda-55a4-a4c6-999564faf552",
+            "eada2020-321e-5264-8f08-a7e63308cfec",
+            "fca8c78c-fb7c-5a8d-b1c1-0f90fbc31944"
+          ],
+          "expected_count": 1,
+          "observed_count": 4,
+          "collector": "graph-sdk",
+          "destination": "directoryAudit",
+          "client": "msgraph-sdk",
+          "version": "1.64.0",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "mail",
+          "operation_key": "New-InboxRule",
+          "source_ids": [
+            "cae9051a-bc09-427a-ac5d-c6ffb8e57bc0"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6"
+          ],
+          "observed_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6",
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "expected_count": 1,
+          "observed_count": 2,
+          "collector": "graph-rest",
+          "destination": "auditLogRecord",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "mail",
+          "operation_key": "New-InboxRule",
+          "source_ids": [
+            "cae9051a-bc09-427a-ac5d-c6ffb8e57bc0"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6"
+          ],
+          "observed_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6",
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "expected_count": 1,
+          "observed_count": 2,
+          "collector": "activity-feed",
+          "destination": "auditLogRecord",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "mail",
+          "operation_key": "New-InboxRule",
+          "source_ids": [
+            "cae9051a-bc09-427a-ac5d-c6ffb8e57bc0"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6"
+          ],
+          "observed_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6",
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "expected_count": 1,
+          "observed_count": 2,
+          "collector": "exchange-module",
+          "destination": "auditLogRecord",
+          "client": "ExchangeOnlineManagement",
+          "version": "3.11.0",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": "Original module runs in an isolated Linux client on Windows."
+        },
+        {
+          "source_kind": "security",
+          "operation_key": "Add application; Add password to application; Remove password from application",
+          "source_ids": [
+            "a930b55b-ed01-404c-b079-966a4b2ddbb5",
+            "b004ce71-b8de-40c0-9e99-1a86291cb60c",
+            "e8a6bbbf-d2fa-48ef-86a6-cd096529872d"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "5dd50792-e3a5-5a6f-ae7e-be40165b5750",
+            "b717f985-2eda-55a4-a4c6-999564faf552",
+            "fca8c78c-fb7c-5a8d-b1c1-0f90fbc31944"
+          ],
+          "observed_ids": [
+            "5dd50792-e3a5-5a6f-ae7e-be40165b5750",
+            "b717f985-2eda-55a4-a4c6-999564faf552",
+            "eada2020-321e-5264-8f08-a7e63308cfec",
+            "fca8c78c-fb7c-5a8d-b1c1-0f90fbc31944"
+          ],
+          "expected_count": 3,
+          "observed_count": 4,
+          "collector": "graph-sdk",
+          "destination": "directoryAudit",
+          "client": "msgraph-sdk",
+          "version": "1.64.0",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "workload",
+          "operation_key": "drive.update",
+          "source_ids": [
+            "4a30e047-ef3a-41c7-a604-eaaf59f7f62c"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "observed_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6",
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "expected_count": 1,
+          "observed_count": 2,
+          "collector": "graph-rest",
+          "destination": "auditLogRecord",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "workload",
+          "operation_key": "drive.update",
+          "source_ids": [
+            "4a30e047-ef3a-41c7-a604-eaaf59f7f62c"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "observed_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6",
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "expected_count": 1,
+          "observed_count": 2,
+          "collector": "activity-feed",
+          "destination": "auditLogRecord",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "workload",
+          "operation_key": "drive.update",
+          "source_ids": [
+            "4a30e047-ef3a-41c7-a604-eaaf59f7f62c"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "observed_ids": [
+            "0f28ddb6-ea64-5a73-8b55-d51cfabbe5c6",
+            "ab24af15-3184-5a3f-b79e-cfb523219f3e"
+          ],
+          "expected_count": 1,
+          "observed_count": 2,
+          "collector": "exchange-module",
+          "destination": "auditLogRecord",
+          "client": "ExchangeOnlineManagement",
+          "version": "3.11.0",
+          "outcome": "success",
+          "service": "",
+          "state": "passed",
+          "limitation": "Original module runs in an isolated Linux client on Windows."
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "GetBlob; PutBlob",
+          "source_ids": [
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8"
+          ],
+          "observed_ids": [
+            "",
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "2e9a386a-9947-449f-8083-00e92c40f880",
+            "3e0f0b98-2dce-4f0e-ae4c-04371de5a363",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "905f2173-bdd6-49fa-aa9a-3936c50443e0",
+            "94461702-24c0-4a6a-8be7-8101dc293a81",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a0c991c0-9162-4ba7-94b1-2cbb0ad769fd",
+            "a2bbe6b9-ce85-4677-bb7e-01c6b297f6b0",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "bef8bfd9-003c-4fb6-8a2c-fdfd19b34e3b",
+            "c96419fa-b2ba-4c15-9c07-fcdd318fd124",
+            "e21db544-39f3-4d7f-91da-3096255a022d"
+          ],
+          "expected_count": 2,
+          "observed_count": 15,
+          "collector": "logs-rest",
+          "destination": "StorageBlobLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "blob",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "GetBlob; PutBlob",
+          "source_ids": [
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "success",
+          "service": "blob",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "GetBlob; GetBlobProperties",
+          "source_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "5419cdaf-4173-5198-9f7b-68103a968f08"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "5419cdaf-4173-5198-9f7b-68103a968f08"
+          ],
+          "observed_ids": [
+            "",
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "2e9a386a-9947-449f-8083-00e92c40f880",
+            "3e0f0b98-2dce-4f0e-ae4c-04371de5a363",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "905f2173-bdd6-49fa-aa9a-3936c50443e0",
+            "94461702-24c0-4a6a-8be7-8101dc293a81",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a0c991c0-9162-4ba7-94b1-2cbb0ad769fd",
+            "a2bbe6b9-ce85-4677-bb7e-01c6b297f6b0",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "bef8bfd9-003c-4fb6-8a2c-fdfd19b34e3b",
+            "c96419fa-b2ba-4c15-9c07-fcdd318fd124",
+            "e21db544-39f3-4d7f-91da-3096255a022d"
+          ],
+          "expected_count": 2,
+          "observed_count": 15,
+          "collector": "logs-rest",
+          "destination": "StorageBlobLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "failure",
+          "service": "blob",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "GetBlob; GetBlobProperties",
+          "source_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "5419cdaf-4173-5198-9f7b-68103a968f08"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "5419cdaf-4173-5198-9f7b-68103a968f08"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "failure",
+          "service": "blob",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "CreateFile; GetFile; PutRange",
+          "source_ids": [
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35"
+          ],
+          "observed_ids": [
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35"
+          ],
+          "expected_count": 3,
+          "observed_count": 5,
+          "collector": "logs-rest",
+          "destination": "StorageFileLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "file",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "CreateFile; GetFile; PutRange",
+          "source_ids": [
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 3,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "success",
+          "service": "file",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "GetFile; GetFileProperties",
+          "source_ids": [
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7"
+          ],
+          "observed_ids": [
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35"
+          ],
+          "expected_count": 2,
+          "observed_count": 5,
+          "collector": "logs-rest",
+          "destination": "StorageFileLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "failure",
+          "service": "file",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "GetFile; GetFileProperties",
+          "source_ids": [
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "failure",
+          "service": "file",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "SecretGet; SecretSet",
+          "source_ids": [
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "de37ddca-4539-4216-b890-01cf95bfaa80"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "de37ddca-4539-4216-b890-01cf95bfaa80"
+          ],
+          "observed_ids": [
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 4,
+          "collector": "logs-rest",
+          "destination": "AZKVAuditLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "keyvault",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "SecretGet; SecretSet",
+          "source_ids": [
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "de37ddca-4539-4216-b890-01cf95bfaa80"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "de37ddca-4539-4216-b890-01cf95bfaa80"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "success",
+          "service": "keyvault",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "SecretGet",
+          "source_ids": [
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "observed_ids": [
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 4,
+          "collector": "logs-rest",
+          "destination": "AZKVAuditLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "failure",
+          "service": "keyvault",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "SecretGet",
+          "source_ids": [
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "failure",
+          "service": "keyvault",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "PeekMessages; PutMessage",
+          "source_ids": [
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999"
+          ],
+          "observed_ids": [
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41"
+          ],
+          "expected_count": 2,
+          "observed_count": 3,
+          "collector": "logs-rest",
+          "destination": "StorageQueueLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "queue",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "PeekMessages; PutMessage",
+          "source_ids": [
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "success",
+          "service": "queue",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "PeekMessages",
+          "source_ids": [
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41"
+          ],
+          "observed_ids": [
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41"
+          ],
+          "expected_count": 1,
+          "observed_count": 3,
+          "collector": "logs-rest",
+          "destination": "StorageQueueLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "failure",
+          "service": "queue",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "PeekMessages",
+          "source_ids": [
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 1,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "failure",
+          "service": "queue",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "InsertEntity; QueryEntities",
+          "source_ids": [
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278"
+          ],
+          "observed_ids": [
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278"
+          ],
+          "expected_count": 2,
+          "observed_count": 3,
+          "collector": "logs-rest",
+          "destination": "StorageTableLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "success",
+          "service": "table",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "InsertEntity; QueryEntities",
+          "source_ids": [
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 2,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "success",
+          "service": "table",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "QueryEntities",
+          "source_ids": [
+            "12170584-921c-580b-a1b3-28376e712d89"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "12170584-921c-580b-a1b3-28376e712d89"
+          ],
+          "observed_ids": [
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278"
+          ],
+          "expected_count": 1,
+          "observed_count": 3,
+          "collector": "logs-rest",
+          "destination": "StorageTableLogs",
+          "client": "httpx",
+          "version": "0.28.1",
+          "outcome": "failure",
+          "service": "table",
+          "state": "passed",
+          "limitation": ""
+        },
+        {
+          "source_kind": "service",
+          "operation_key": "QueryEntities",
+          "source_ids": [
+            "12170584-921c-580b-a1b3-28376e712d89"
+          ],
+          "source_ref": "evidence/data/operation_mappings.json@business-evidence-v1",
+          "expected_ids": [
+            "12170584-921c-580b-a1b3-28376e712d89"
+          ],
+          "observed_ids": [
+            "0cb82295-60fd-57ca-b81c-e3a9a1edb21a",
+            "12170584-921c-580b-a1b3-28376e712d89",
+            "1a9e7fd2-cc97-48ad-ad08-0d39b98f9532",
+            "5419cdaf-4173-5198-9f7b-68103a968f08",
+            "5e5909c5-5a39-4ade-82dc-b29223a5b081",
+            "687e1492-90e7-5cc8-aa72-48e62854ad11",
+            "69f46f14-163c-40d5-825c-31dc0e1175fb",
+            "6b1585a3-1980-4cd7-91eb-0713538772c2",
+            "791207c4-03e5-588b-a397-0fb75980a495",
+            "84762be8-26a7-513c-80d0-69e8c5eb3ed7",
+            "84d03e43-6a3e-4e9d-85cd-e6e84e17a82c",
+            "8c0f2572-57da-469c-9eba-a1d1d70a89c9",
+            "9cff6d9e-490e-4a35-9a06-dca3cb7d9967",
+            "a4841d72-e134-44e0-a022-2a1f7ebcb9c8",
+            "a98bd939-6116-40c1-a980-51c4fcd4de35",
+            "a9f00a50-44c3-43cc-90b3-87711b6fb999",
+            "bc1def4b-cd61-4a33-a119-5c2c8b416278",
+            "cdb0d2a6-e244-55c4-8f70-362f6ee61a41",
+            "de37ddca-4539-4216-b890-01cf95bfaa80",
+            "e62f88dd-05d5-5cdf-a476-69ca158d9818"
+          ],
+          "expected_count": 1,
+          "observed_count": 20,
+          "collector": "blob-sdk",
+          "destination": "diagnostic archive",
+          "client": "azure-storage-blob",
+          "version": "12.27.0",
+          "outcome": "failure",
+          "service": "table",
+          "state": "passed",
+          "limitation": ""
+        }
+      ],
+      "tenant_id": "872021e3-42df-4c09-8051-126f8eec81dc",
+      "run_id": "0ef0a342-cc0e-49a7-a0ad-d35490bcd1d0",
+      "missing_expected_ids": [],
+      "import_check": {
+        "stored": true,
+        "resource_id": "5a78adbb-90c5-5519-aedb-6524e44ec4e7",
+        "native_sources": [],
+        "native_deliveries": [],
+        "provenance": "Administrative workload history import; public Graph readback."
+      },
+      "clock_check": {
+        "advanced_seconds": 172800,
+        "access_token_expiry_before": 1792533521,
+        "access_token_expiry_after": 1792533521,
+        "valid_token_status": 200,
+        "expired_token_status": 401,
+        "method": "Public HTTPS requests with an issued token and a locally signed expired control token."
+      },
+      "completed_at": "2026-10-20T20:58:41.965996+00:00"
+    },
+    "identity": {
+      "schema_version": 1,
+      "phase": "identity",
+      "scale": "small",
+      "distribution": "docker",
+      "source_sha": "bab9eb9571ae901c4206b828c6807c929f450842",
+      "source_dirty": false,
+      "source_fingerprint": "2555ae29c579e47dccc250b8d7d5a32fe0baa7288f55c85b519e87923a9bf92b",
+      "passed": true,
+      "started_at": "2026-10-20T20:58:42.507002+00:00",
+      "cases": {
+        "joiner_mover_leaver": {
+          "state": "passed",
+          "client": "msgraph-sdk",
+          "statuses": [
+            200,
+            403
+          ],
+          "user_id": "9d88e1e4-261b-4325-a9e7-86caeea07394",
+          "local_pkce": true
+        },
+        "delete_restore_collect": {
+          "state": "passed",
+          "user_id": "9d88e1e4-261b-4325-a9e7-86caeea07394",
+          "restored_id": "9d88e1e4-261b-4325-a9e7-86caeea07394",
+          "old_session_status": 403,
+          "restored_enabled": false
+        },
+        "guest_invite_accept_collect": {
+          "state": "passed",
+          "user_id": "94c56f9c-dd00-4cdc-8183-e02dec2edc1b",
+          "states": [
+            "PendingAcceptance",
+            "Accepted"
+          ],
+          "delivery": "local-only"
+        },
+        "credential_rotation": {
+          "state": "passed",
+          "application_id": "a5aa6609-7d4b-4321-a8f0-c56ac0d89743",
+          "old_credential_status": 401,
+          "new_credential_status": 200,
+          "client": "msgraph-sdk",
+          "credentials_in_report": false
+        },
+        "azure_rbac_removal": {
+          "state": "passed",
+          "statuses": [
+            200,
+            403
+          ],
+          "assignment_id": "d7646f86-d14f-58a0-a7f9-a61790433280",
+          "same_token": true,
+          "clients": [
+            "azure-mgmt-authorization",
+            "azure-storage-blob"
+          ]
+        },
+        "pim_api_access": {
+          "state": "passed",
+          "client": "Microsoft.Graph.Identity.Governance",
+          "version": "2.35.1",
+          "steps": [
+            "denied",
+            "eligible-denied",
+            "activated-allowed",
+            "deactivated-denied"
+          ],
+          "request_ids": [
+            "769ef6ac-06ec-4ff2-9c65-676e436920d8",
+            "63d96ff1-303a-4cfd-a97b-8c638d2703e0",
+            "0e4ad64e-eade-48e0-89ad-571674af8777"
+          ],
+          "tenant_id": "8f199f36-8e63-4b4f-a409-a614d7cf74f7",
+          "user_id": "d3990f52-153f-4b82-a22a-e41906a92466",
+          "local_pkce_mfa": true,
+          "api_runtime": "native",
+          "client_runtime": "isolated-linux"
+        }
+      },
+      "tenant_id": "58067a58-2819-48f8-ac88-3ed5d2bf4d1d",
+      "run_id": "d0e2a1a7-933f-4b9f-aae7-31ee84cf0538",
+      "subject_ids": [
+        "6e6c658b-31d6-4c9d-add3-e50098dc8e63",
+        "744b76e0-43d8-449f-b466-447c7c05b615",
+        "94c56f9c-dd00-4cdc-8183-e02dec2edc1b",
+        "9d88e1e4-261b-4325-a9e7-86caeea07394"
+      ],
+      "audit_target_ids": [
+        "58144aaa-30e1-4678-9692-8d7ca9af7758",
+        "6e6c658b-31d6-4c9d-add3-e50098dc8e63",
+        "744b76e0-43d8-449f-b466-447c7c05b615",
+        "94c56f9c-dd00-4cdc-8183-e02dec2edc1b",
+        "9d88e1e4-261b-4325-a9e7-86caeea07394",
+        "a5aa6609-7d4b-4321-a8f0-c56ac0d89743"
+      ],
+      "audit_ids": [
+        "e9a50c03-4bfe-5c20-a285-903c117b2ba7",
+        "46c3fabc-4d64-5e00-8538-538ad660260f",
+        "b41a5aaf-41b4-54ad-bd8f-10152e1a8130",
+        "c2dd7723-87cb-5249-b911-e2eca372ea5c",
+        "6a253030-51f3-555d-907f-c7d7c6bc2594",
+        "aea33be9-2799-5595-a4f2-efc116d47148",
+        "d8269408-7665-5906-9fb6-1cf77020b8af",
+        "f139c2f3-cf58-50d4-b582-c7efcb89f3fd",
+        "d5543f01-6803-5dc4-affe-9eabff58dfb8",
+        "dfc9c359-29df-57fb-b1e4-091ca22d966d",
+        "74884263-be5e-5f66-b581-3dbfe0ec8417",
+        "0bda08ee-5256-55a3-8593-0c3ffd2d166e",
+        "6e8b65a0-a35d-5fd6-a7cc-e4a07ef3138a",
+        "d7774df2-535b-583b-8873-d3b819242458",
+        "3576142b-fea8-5444-9677-88687b1627e5",
+        "120775b0-1f20-58c4-b077-919c4fef57cd"
+      ],
+      "failed_cases": [],
+      "unexpected_authorizations": [],
+      "clients": {
+        "msgraph-sdk": "1.64.0",
+        "msal": "1.39.0",
+        "azure-storage-blob": "12.27.0",
+        "azure-mgmt-authorization": "4.0.0"
+      },
+      "completed_at": "2026-10-20T21:00:59.220496+00:00"
+    },
+    "hunting": {
+      "schema_version": 1,
+      "phase": "hunting",
+      "scale": "small",
+      "distribution": "docker",
+      "source_sha": "bab9eb9571ae901c4206b828c6807c929f450842",
+      "source_dirty": false,
+      "source_fingerprint": "2555ae29c579e47dccc250b8d7d5a32fe0baa7288f55c85b519e87923a9bf92b",
+      "passed": true,
+      "started_at": "2026-10-20T21:00:59.898996+00:00",
+      "cases": {
+        "population": {
+          "state": "passed",
+          "progress": {
+            "created": 853,
+            "updated": 0,
+            "verified": 853,
+            "unchanged": 0
+          },
+          "seconds": 69.765
+        },
+        "cookbook": {
+          "state": "passed",
+          "queries": [
+            {
+              "id": "IdentityInfo",
+              "rows": 20,
+              "seconds": 0.313,
+              "response_bytes": 2229
+            },
+            {
+              "id": "IdentityLogonEvents",
+              "rows": 20,
+              "seconds": 0.046,
+              "response_bytes": 2229
+            },
+            {
+              "id": "IdentityDirectoryEvents",
+              "rows": 20,
+              "seconds": 0.016,
+              "response_bytes": 2229
+            },
+            {
+              "id": "IdentityQueryEvents",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2229
+            },
+            {
+              "id": "EmailEvents",
+              "rows": 20,
+              "seconds": 0.032,
+              "response_bytes": 1886
+            },
+            {
+              "id": "EmailAttachmentInfo",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2250
+            },
+            {
+              "id": "EmailUrlInfo",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2250
+            },
+            {
+              "id": "EmailPostDeliveryEvents",
+              "rows": 20,
+              "seconds": 0.016,
+              "response_bytes": 2250
+            },
+            {
+              "id": "UrlClickEvents",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2250
+            },
+            {
+              "id": "DeviceInfo",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2002
+            },
+            {
+              "id": "DeviceNetworkInfo",
+              "rows": 20,
+              "seconds": 0.047,
+              "response_bytes": 2002
+            },
+            {
+              "id": "DeviceLogonEvents",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2002
+            },
+            {
+              "id": "DeviceProcessEvents",
+              "rows": 20,
+              "seconds": 0.047,
+              "response_bytes": 2229
+            },
+            {
+              "id": "DeviceNetworkEvents",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2002
+            },
+            {
+              "id": "DeviceFileEvents",
+              "rows": 20,
+              "seconds": 0.047,
+              "response_bytes": 2002
+            },
+            {
+              "id": "DeviceRegistryEvents",
+              "rows": 20,
+              "seconds": 0.032,
+              "response_bytes": 2002
+            },
+            {
+              "id": "DeviceEvents",
+              "rows": 1,
+              "seconds": 0.078,
+              "response_bytes": 264
+            },
+            {
+              "id": "CloudAppEvents",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 2446
+            },
+            {
+              "id": "AlertInfo",
+              "rows": 20,
+              "seconds": 0.047,
+              "response_bytes": 2061
+            },
+            {
+              "id": "AlertEvidence",
+              "rows": 20,
+              "seconds": 0.109,
+              "response_bytes": 2229
+            },
+            {
+              "id": "join-identity-device",
+              "rows": 20,
+              "seconds": 0.047,
+              "response_bytes": 3604
+            },
+            {
+              "id": "join-email-attachment",
+              "rows": 16,
+              "seconds": 0.047,
+              "response_bytes": 2912
+            },
+            {
+              "id": "join-alert-entity",
+              "rows": 20,
+              "seconds": 0.047,
+              "response_bytes": 3148
+            },
+            {
+              "id": "join-user-cloud",
+              "rows": 20,
+              "seconds": 0.031,
+              "response_bytes": 3246
+            }
+          ]
+        },
+        "python": {
+          "state": "passed",
+          "client": "msgraph-sdk",
+          "version": "1.64.0"
+        },
+        "powershell": {
+          "state": "passed",
+          "client": "Microsoft.Graph.Security",
+          "version": "2.35.1",
+          "cmdlet": "Start-MgSecurityHuntingQuery",
+          "schema": [
+            {
+              "name": "DeviceId",
+              "type": "String"
+            },
+            {
+              "name": "DeviceName",
+              "type": "String"
+            }
+          ],
+          "device_id": "a9f79766279e5318abeffeca7dc00f59"
+        },
+        "isolation": {
+          "state": "passed",
+          "other_tenant_id": "0318cf04-f930-42c0-8c82-c6d7eeade149",
+          "foreign_rows": 0,
+          "overlapping_device_name": "BUS-7552f1ed67-00000",
+          "incident_patch_status": 405
+        },
+        "scale": {
+          "state": "passed",
+          "users": 20,
+          "table_counts": {
+            "AlertEvidence": 20,
+            "AlertInfo": 20,
+            "CloudAppEvents": 20,
+            "DeviceEvents": 20,
+            "DeviceFileEvents": 20,
+            "DeviceInfo": 20,
+            "DeviceLogonEvents": 20,
+            "DeviceNetworkEvents": 20,
+            "DeviceNetworkInfo": 20,
+            "DeviceProcessEvents": 20,
+            "DeviceRegistryEvents": 20,
+            "EmailAttachmentInfo": 20,
+            "EmailEvents": 20,
+            "EmailPostDeliveryEvents": 20,
+            "EmailUrlInfo": 20,
+            "IdentityDirectoryEvents": 20,
+            "IdentityInfo": 20,
+            "IdentityLogonEvents": 20,
+            "IdentityQueryEvents": 20,
+            "UrlClickEvents": 20
+          },
+          "total_rows": 400,
+          "payload_bytes": 208382,
+          "qualification_peak_memory_bytes": 361226240,
+          "memory_scope": "client qualification process peak resident/working set; excludes API and PostgreSQL"
+        },
+        "replay": {
+          "state": "passed",
+          "created": 0
+        }
+      },
+      "tenant_id": "9545fbd1-84da-4e87-967b-514ffd8e0dca",
+      "run_id": "9d8cdb0b-0a3e-42b4-ac1e-e1719ae3f000",
+      "failed_cases": [],
+      "completed_at": "2026-10-20T21:03:13.253997+00:00"
+    }
+  }
+}

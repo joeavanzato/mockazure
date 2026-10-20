@@ -7,7 +7,8 @@ from uuid import UUID, uuid4, uuid5
 from sqlalchemy import func, select
 
 from mockazure.authorization.evaluator import OperationRequirement
-from mockazure.identity.models import DirectoryRole, User
+from mockazure.authorization.roles import effective_roles
+from mockazure.identity.models import User
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import permitted
 from mockazure.providers.graph.schema_reference import validate_payload
@@ -135,14 +136,7 @@ async def require_method_read(session, actor, user, collection):
     )
     if actor.token_kind != "delegated" or self_read:
         return False
-    roles = set(
-        await session.scalars(
-            select(DirectoryRole.role).where(
-                DirectoryRole.tenant_id == actor.tenant_id,
-                DirectoryRole.user_id == actor.subject_id,
-            )
-        )
-    )
+    roles = set(await effective_roles(session, actor.tenant_id, actor.subject_id))
     return "Authentication Administrator" in roles and not roles & {
         "Global Administrator",
         "Privileged Authentication Administrator",

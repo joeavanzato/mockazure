@@ -42,6 +42,7 @@ class DirectoryFacts(StrictModel):
     target_ids: list[UUID] = Field(default_factory=list, max_length=10000)
     relationships: list[dict] = Field(default_factory=list, max_length=10000)
     modified_properties: dict = Field(default_factory=dict)
+    deletion_semantics: Literal["recoverable-v1"] | None = None
 
 
 def validate_directory_facts(facts):
@@ -174,6 +175,9 @@ async def capture_directory_facts(
     facts = DirectoryFacts(
         schema_version=2,
         operation=command.action,
+        deletion_semantics="recoverable-v1"
+        if obj.kind == "user" and command.action == "delete"
+        else None,
         object_kind=obj.kind,
         provenance="graph" if provider else actor.provenance,
         correlation_id=correlation_id,

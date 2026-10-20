@@ -11,6 +11,7 @@ from pydantic import ValidationError
 from sqlalchemy import or_, select, update
 from sqlalchemy.dialects.postgresql import insert
 
+from mockazure.authorization.roles import effective_roles, protected_roles
 from mockazure.db.models import Tenant
 from mockazure.directory.history import record_change, record_object_version, reserve_revision
 from mockazure.directory.models import (
@@ -23,7 +24,7 @@ from mockazure.directory.models import (
 from mockazure.directory.repository import public_object
 from mockazure.directory.types import DirectoryChange, DirectoryKind, DirectoryObject
 from mockazure.identity.credentials import hash_secret
-from mockazure.identity.models import DirectoryRole, ServicePrincipal, User
+from mockazure.identity.models import ServicePrincipal, User
 from mockazure.identity.repository import IdentityError
 from mockazure.identity.types import PrincipalContext, UserCreate
 from mockazure.providers.graph.body import invalid
@@ -281,11 +282,7 @@ async def mutate_directory(
             static_group(row)
         elif provider and row.profile.get("userType", "Member") != "Member":
             invalid("Writes to non-Member user targets are outside this profile")
-        elif provider and await session.scalar(
-            select(DirectoryRole.role)
-            .where(DirectoryRole.tenant_id == tenant_id, DirectoryRole.user_id == row.id)
-            .limit(1)
-        ):
+        elif provider and await protected_roles(session, tenant_id, row.id):
             invalid("Writes to role-bearing user targets are outside this profile")
     if command.action == "create":
         if command.kind == "user":
@@ -334,14 +331,7 @@ async def mutate_directory(
             if sum(map(len, bindings.values())) > 20:
                 invalid("At most 20 combined initial owners and members are supported")
             if provider and actor.token_kind == "delegated":
-                roles = set(
-                    await session.scalars(
-                        select(DirectoryRole.role).where(
-                            DirectoryRole.tenant_id == tenant_id,
-                            DirectoryRole.user_id == actor.subject_id,
-                        )
-                    )
-                )
+                roles = set(await effective_roles(session, tenant_id, actor.subject_id))
                 if "owners@odata.bind" not in values and not roles & GROUP_ADMIN:
                     bindings["owner"] = [actor.subject_id]
                 elif actor.subject_id in bindings["owner"]:
@@ -400,6 +390,7 @@ async def mutate_directory(
                     select(User.id).where(
                         User.tenant_id == tenant_id,
                         User.upn == name,
+                        User.deleted_at.is_(None),
                         User.id != row.id,
                     )
                 )
@@ -432,14 +423,7 @@ async def mutate_directory(
             and provider
             and actor.token_kind == "delegated"
         ):
-            roles = set(
-                await session.scalars(
-                    select(DirectoryRole.role).where(
-                        DirectoryRole.tenant_id == tenant_id,
-                        DirectoryRole.user_id == actor.subject_id,
-                    )
-                )
-            )
+            roles = set(await effective_roles(session, tenant_id, actor.subject_id))
             owned = await session.get(
                 DirectoryRelation, (tenant_id, row.id, actor.subject_id, "owner")
             )
@@ -492,6 +476,11 @@ async def mutate_directory(
         changed.add(relation + "s")
     elif command.action == "delete":
         from mockazure.directory.organization import remove_collection_references
+
+        if command.kind == "user":
+            from mockazure.identity.deleted import capture_deletion
+
+            await capture_deletion(session, tenant_id, "user", row, before.properties, now)
 
         await remove_collection_references(session, tenant_id, [row.id])
         row.deleted_at = now

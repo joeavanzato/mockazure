@@ -224,10 +224,27 @@ async def test_storage_diagnostic_fact_once(database, settings):
                 await session.scalar(
                     select(func.count())
                     .select_from(CloudEvent)
-                    .where(CloudEvent.tenant_id == tenant, CloudEvent.operation == "PutBlob")
+                    .where(
+                        CloudEvent.tenant_id == tenant,
+                        CloudEvent.operation == "PutBlob",
+                        CloudEvent.payload["outcome"].astext == "Succeeded",
+                    )
                 )
                 == 1
             )
+            failed = list(
+                await session.scalars(
+                    select(CloudEvent).where(
+                        CloudEvent.tenant_id == tenant,
+                        CloudEvent.operation == "PutBlob",
+                        CloudEvent.payload["outcome"].astext == "Failed",
+                    )
+                )
+            )
+            assert len(failed) == 1
+            assert failed[0].payload["statusCode"] == 412
+            assert key not in json.dumps(failed[0].payload)
+        assert (await call(client, "GET", url + "/evidence", key)).content == b"bytes"
 
 
 async def test_storage_original_powershell_blob_version(database, settings):

@@ -123,6 +123,7 @@ def table_row(event, mode):
     table = "AzureDiagnostics" if mode != "Dedicated" and service != "arm" else TABLES[service]
     scope = parse_scope(event["resource_id"])
     operation = event["operation"]
+    failed = event["payload"].get("outcome") == "Failed"
     values = {
         "TimeGenerated": event["occurred_at"],
         "OperationName": operation,
@@ -135,9 +136,13 @@ def table_row(event, mode):
         "SubscriptionId": str(scope.subscription_id),
         "CorrelationId": event["id"],
         "SourceSystem": "Azure",
-        "ResultType": "Success",
-        "ActivityStatusValue": "Succeeded",
-        "ActivityStatus": "Succeeded",
+        "ResultType": "Failure" if failed else "Success",
+        "ResultSignature": str(event["payload"].get("statusCode", "")),
+        "ResultDescription": event["payload"].get("errorCode", ""),
+        "StatusCode": str(event["payload"].get("statusCode", "")),
+        "StatusText": event["payload"].get("errorCode", "") if failed else "Success",
+        "ActivityStatusValue": "Failed" if failed else "Succeeded",
+        "ActivityStatus": "Failed" if failed else "Succeeded",
         "AuthenticationType": event["payload"].get("authenticationType", ""),
         "AdditionalFields": event["payload"],
     }
@@ -148,16 +153,21 @@ def table_row(event, mode):
 
 
 def archive_record(event):
-    return {
+    failed = event["payload"].get("outcome") == "Failed"
+    result = {
         "time": event["occurred_at"],
         "resourceId": event["resource_id"].upper(),
         "category": event["category"],
         "operationName": event["operation"],
-        "resultType": "Succeeded",
+        "resultType": "Failed" if failed else "Succeeded",
         "correlationId": event["id"],
-        "level": "Informational",
+        "level": "Error" if failed else "Informational",
         "properties": event["payload"],
     }
+    if failed:
+        result["resultSignature"] = str(event["payload"]["statusCode"])
+        result["resultDescription"] = event["payload"]["errorCode"]
+    return result
 
 
 async def deliver_blob(session, tenant, destination, event, now):

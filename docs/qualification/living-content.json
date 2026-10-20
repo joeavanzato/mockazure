@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "phase": "content",
+  "scale": "small",
+  "distribution": "native",
+  "source_sha": "3e594528894bd67b55173eb6350bac90a1bf6c13",
+  "source_fingerprint": "a49327a881665befbd4f14b43050ed8d6bd2c614e7328e5509fedc4cf07e04ac",
+  "passed": true,
+  "started_at": "2026-10-20T15:58:57.703496+00:00",
+  "cases": {
+    "population": {
+      "state": "passed",
+      "progress": {
+        "created": 427,
+        "updated": 0,
+        "verified": 427,
+        "unchanged": 0
+      }
+    },
+    "graph": {
+      "state": "passed",
+      "client": "msgraph-sdk",
+      "version": "1.64.0",
+      "users": 20,
+      "drive_id": "e0ed55e6-f265-53de-a651-637ce096e0e2",
+      "document_id": "94763b6e-be7c-509e-9dbc-0c18e3953d36"
+    },
+    "storage": {
+      "state": "passed",
+      "client": "azure-storage-blob",
+      "version": "12.27.0",
+      "bytes": 2228,
+      "sha256": "5bfdfbcd7c6268ab24a40a9dd8764bbc7e66473b146d93e9b32f4bd38e50300c"
+    },
+    "file": {
+      "state": "passed",
+      "client": "azure-storage-file-share",
+      "version": "12.23.0",
+      "bytes": 2228,
+      "sha256": "5bfdfbcd7c6268ab24a40a9dd8764bbc7e66473b146d93e9b32f4bd38e50300c"
+    },
+    "queue": {
+      "state": "passed",
+      "client": "azure-storage-queue",
+      "version": "12.15.0"
+    },
+    "table": {
+      "state": "passed",
+      "client": "azure-data-tables",
+      "version": "12.7.0"
+    },
+    "exchange": {
+      "state": "passed",
+      "client": "ExchangeOnlineManagement",
+      "version": "3.11.0",
+      "commands": [
+        "Get-Mailbox",
+        "Get-EXOMailbox -Identity"
+      ],
+      "mailboxes": 20,
+      "runtime": "isolated-linux-client"
+    },
+    "replay": {
+      "state": "passed",
+      "created": 0
+    }
+  },
+  "tenant_id": "e0bd2b13-1600-4f9e-a663-e3d04c10263d",
+  "run_id": "783eb9c3-2e98-4886-9775-0a5539a12ddc",
+  "completed_at": "2026-10-20T16:01:13.559494+00:00",
+  "source_dirty": true
+}

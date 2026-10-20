@@ -78,6 +78,9 @@ def preview(
     create_tenant: Path | None = typer.Option(None),
     bundle: Path | None = typer.Option(None),
     parameters: Path | None = typer.Option(None),
+    activity_step: str | None = typer.Option(None),
+    action_count: int = typer.Option(1, min=1, max=100000),
+    pacing_ms: int = typer.Option(0, min=0, max=60000),
     output: Path = typer.Option(...),
     config: Path = typer.Option(DEFAULT_CONFIG),
 ):
@@ -110,6 +113,13 @@ def preview(
                 if tenant_id
                 else {"create_tenant": read_object(create_tenant)},
                 "parameters": read_object(parameters) if parameters else {},
+                "activity": {
+                    "recipe_step": activity_step,
+                    "action_count": action_count,
+                    "pacing_ms": pacing_ms,
+                }
+                if activity_step
+                else None,
             },
         )
 

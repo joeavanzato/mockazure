@@ -5,8 +5,9 @@ from ipaddress import ip_address, ip_network
 
 from sqlalchemy import select
 
+from mockazure.authorization.roles import effective_roles
 from mockazure.directory.models import Group
-from mockazure.identity.models import Application, DirectoryRole
+from mockazure.identity.models import Application
 from mockazure.licensing.service import entitlements
 from mockazure.oauth.errors import OAuthError
 from mockazure.providers.graph.relationships import relation_ids
@@ -125,11 +126,7 @@ async def evaluate_policies(session, tenant, user, resource, context, now) -> Po
     compliant = observation is not None and observation.compliant is True
     roles = {
         role_ids()[name]
-        for name in await session.scalars(
-            select(DirectoryRole.role).where(
-                DirectoryRole.tenant_id == tenant, DirectoryRole.user_id == user.id
-            )
-        )
+        for name in await effective_roles(session, tenant, user.id)
         if name in role_ids()
     }
     blocked, requires_mfa, active = False, False, False

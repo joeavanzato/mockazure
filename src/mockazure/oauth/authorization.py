@@ -12,7 +12,7 @@ from sqlalchemy import select
 
 from mockazure.authorization.catalog import permission
 from mockazure.identity.credentials import verify_secret
-from mockazure.identity.models import Application, DirectoryRole, Grant, ServicePrincipal, User
+from mockazure.identity.models import Application, Grant, ServicePrincipal, User
 from mockazure.oauth import pages
 from mockazure.oauth.client_auth import authenticate_client
 from mockazure.oauth.discovery import resolve_tenant
@@ -165,7 +165,7 @@ async def login(request: Request):
         username = fields.get("username", "").strip().lower()
         if not username or len(username) > 320:
             raise OAuthError("invalid_request", "Username exceeds the supported bounds")
-        query = select(User).where(User.upn == username)
+        query = select(User).where(User.upn == username, User.deleted_at.is_(None))
         if not row.common:
             query = query.where(User.tenant_id == row.tenant_id)
         user = await session.scalar(query)
@@ -178,6 +178,7 @@ async def login(request: Request):
             not user
             or not user.enabled
             or user.deleted_at is not None
+            or user.profile.get("externalUserState") == "PendingAcceptance"
             or not await asyncio.to_thread(verify_secret, fields.get("password", ""), user.verifier)
         ):
             from mockazure.evidence.authentication import annotate_failure
@@ -240,7 +241,9 @@ async def consent_to_scopes(row, session):
     await lock_security(session, row.tenant_id)
     granted = await granted_scopes(session, row.tenant_id, row.client_id, row.user_id, row.resource)
     needed = set(row.scopes) - OIDC - granted
-    admin = await session.get(DirectoryRole, (row.tenant_id, row.user_id, "Global Administrator"))
+    from mockazure.authorization.roles import effective_roles
+
+    admin = "Global Administrator" in await effective_roles(session, row.tenant_id, row.user_id)
     if (
         any(permission(row.resource, "delegated", p).admin_consent_required for p in needed)
         and not admin
@@ -280,13 +283,24 @@ async def current_user(row, session, *, request=None, flow="authorization_code",
 
     await lock_security(session, row.tenant_id)
     user = await session.get(User, row.user_id, populate_existing=True)
+    app = await session.get(Application, row.client_id, populate_existing=True)
     if (
         not user
         or not user.enabled
         or user.deleted_at is not None
         or user.tenant_id != row.tenant_id
         or user.password_change_required
+        or user.profile.get("externalUserState") == "PendingAcceptance"
         or user.credential_version != getattr(row, "credential_version", 0)
+        or (
+            app is not None
+            and app.authority_valid_from is not None
+            and (row.authenticated_at is None or row.authenticated_at <= app.authority_valid_from)
+        )
+        or (
+            user.sessions_valid_from is not None
+            and (row.authenticated_at is None or row.authenticated_at <= user.sessions_valid_from)
+        )
     ):
         error = invalid_grant()
         if (

@@ -158,6 +158,10 @@ async def refresh_session(fields, tenant, request, session, now):
     handle = await session.get(RefreshHandle, digest(fields.get("refresh_token", "")))
     if not handle or handle.expires_at <= now:
         raise invalid_grant()
+    from mockazure.security.repository import lock_security
+
+    # Revocation takes security state before sessions; refresh uses the same order.
+    await lock_security(session, handle.tenant_id)
     row = await session.scalar(
         select(LoginSession).where(LoginSession.id == handle.session_id).with_for_update()
     )

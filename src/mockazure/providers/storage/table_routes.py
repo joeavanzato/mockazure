@@ -474,6 +474,17 @@ async def dispatch_table(request):
                 if error.status == 403:
                     raise
                 response = batch_response(request, [], operations, error)
+                index = getattr(error, "batch_index", None)
+                context = getattr(request.state, "failure_context", None)
+                if context and index is not None and 0 <= index < len(operations):
+                    from mockazure.evidence.failures import storage_operation
+
+                    request.state.failure_context = context | {
+                        "operation_key": storage_operation(
+                            request, "table", operations[index]["action"]
+                        )
+                    }
+                    request.state.nested_failure = (error.status, error.code)
         else:
             access = await authorize_storage(
                 session,

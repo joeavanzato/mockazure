@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "phase": "identity",
+  "scale": "small",
+  "distribution": "native",
+  "source_sha": "514cc6a2b4c9872fa795532d2b81d63eb7b049c2",
+  "source_dirty": true,
+  "source_fingerprint": "af0c9b1fe7dc2ebccbefbeac2df262753df8119be0f7e75d6d21d783013a237d",
+  "passed": true,
+  "started_at": "2026-10-20T18:54:24.912996+00:00",
+  "cases": {
+    "joiner_mover_leaver": {
+      "state": "passed",
+      "client": "msgraph-sdk",
+      "statuses": [
+        200,
+        403
+      ],
+      "user_id": "4a597d2e-7012-4be9-a03f-e43ebf8cd627",
+      "local_pkce": true
+    },
+    "delete_restore_collect": {
+      "state": "passed",
+      "user_id": "4a597d2e-7012-4be9-a03f-e43ebf8cd627",
+      "restored_id": "4a597d2e-7012-4be9-a03f-e43ebf8cd627",
+      "old_session_status": 403,
+      "restored_enabled": false
+    },
+    "guest_invite_accept_collect": {
+      "state": "passed",
+      "user_id": "9d01ac55-af79-48d6-825c-e86a7bda840d",
+      "states": [
+        "PendingAcceptance",
+        "Accepted"
+      ],
+      "delivery": "local-only"
+    },
+    "credential_rotation": {
+      "state": "passed",
+      "application_id": "d6e2679a-edf7-4efa-83e7-45e909759076",
+      "old_credential_status": 401,
+      "new_credential_status": 200,
+      "client": "msgraph-sdk",
+      "credentials_in_report": false
+    },
+    "azure_rbac_removal": {
+      "state": "passed",
+      "statuses": [
+        200,
+        403
+      ],
+      "assignment_id": "707ceb46-3109-5632-b2d1-8b8a9e55b060",
+      "same_token": true,
+      "clients": [
+        "azure-mgmt-authorization",
+        "azure-storage-blob"
+      ]
+    },
+    "pim_api_access": {
+      "state": "passed",
+      "client": "Microsoft.Graph.Identity.Governance",
+      "version": "2.35.1",
+      "steps": [
+        "denied",
+        "eligible-denied",
+        "activated-allowed",
+        "deactivated-denied"
+      ],
+      "request_ids": [
+        "dff389c8-9d1b-476b-b383-8371d4b032b8",
+        "aa4b7893-e24f-4a28-abdc-0f6bfed72f02",
+        "5b331212-4409-4b0a-b935-8c7d0846fdff"
+      ],
+      "tenant_id": "318a6986-74d4-41a8-8dc1-89dd03f0ddb0",
+      "user_id": "4ecf4ec3-898e-4a3f-b146-99236aed3fe9",
+      "local_pkce_mfa": true,
+      "api_runtime": "native",
+      "client_runtime": "isolated-linux"
+    }
+  },
+  "tenant_id": "ee94665f-33c6-455a-a6f0-02d4521c9831",
+  "run_id": "d9394a25-8c92-4858-8984-49b95a175b4f",
+  "subject_ids": [
+    "4a597d2e-7012-4be9-a03f-e43ebf8cd627",
+    "5578b415-b2db-4c46-b2d0-8c58be493568",
+    "9d01ac55-af79-48d6-825c-e86a7bda840d",
+    "a9d96345-58c5-4e11-9d02-b00f216fe41a"
+  ],
+  "audit_target_ids": [
+    "4a597d2e-7012-4be9-a03f-e43ebf8cd627",
+    "5578b415-b2db-4c46-b2d0-8c58be493568",
+    "670bdda1-f983-4c7b-b022-8ffc14febea7",
+    "9d01ac55-af79-48d6-825c-e86a7bda840d",
+    "a9d96345-58c5-4e11-9d02-b00f216fe41a",
+    "d6e2679a-edf7-4efa-83e7-45e909759076",
+    "e5e93f18-698e-4df4-ac65-749253699b60"
+  ],
+  "audit_ids": [
+    "89d90883-21a2-50f6-b22b-bc49c50ae702",
+    "1b4e192a-f85e-58a6-beeb-6df7b96f2b97",
+    "ea9f2c47-199d-5e75-b34a-ff3c781eebcf",
+    "44808358-435c-5880-93a1-b4d958bae71d",
+    "260659e9-b804-550f-8bc2-1e3f49a1b772",
+    "10077a2a-dd1d-5588-ab99-d1feee1865ef",
+    "c1a8857c-55e6-5b9d-9ee8-40c129bbf9c5",
+    "48a6c17b-8317-59f5-8b12-0de8d8d4cca5",
+    "49aa4464-b8b1-5e36-85b9-103f6f5027c8",
+    "36392ce0-10ba-5127-a33c-aa72388bbf38",
+    "51ac3b59-7de0-58b8-9bbc-74bbeb6c6ba6",
+    "b8d278c5-9338-523d-92be-936a35bbe977",
+    "1b4f6331-3052-5b90-8e06-e662a1b143dd",
+    "78b78576-fd4d-52ac-957c-582f11b68128",
+    "5949fd66-c710-5495-8433-e257ee1b7a87",
+    "06530778-aab9-5c87-b35b-9424081e8ed1"
+  ],
+  "failed_cases": [],
+  "unexpected_authorizations": [],
+  "clients": {
+    "msgraph-sdk": "1.64.0",
+    "msal": "1.39.0",
+    "azure-storage-blob": "12.27.0",
+    "azure-mgmt-authorization": "4.0.0"
+  },
+  "completed_at": "2026-10-20T18:59:29.256497+00:00",
+  "qualification_resume": true
+}

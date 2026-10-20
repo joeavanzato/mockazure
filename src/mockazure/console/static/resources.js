@@ -26,7 +26,7 @@ export async function resources(root,ctx) {
     continuation=page.continuation;
     const data=page.items.map(item=>({id:item.id,...item.properties,_resource:item}));
     const columns=[...new Set(["id",...f.display_fields])].slice(0,6);
-    rows.replaceChildren(page.items.length?table(columns,data,row=>detail(f,ctx,row._resource,load)):el("div",{class:"empty"},el("strong",{},"No records in this view"),"Try another scope or populate this service using a profile."));
+    rows.replaceChildren(page.items.length?table(columns,data,row=>detail(f,ctx,row._resource,load,catalog)):el("div",{class:"empty"},el("strong",{},"No records in this view"),"Try another scope or populate this service using a profile."));
     paging.replaceChildren(el("span",{},`${page.items.length} records on this page · bounded to 50`),el("div",{class:"actions"},button("First page",()=>load()),button("Next page",()=>load(true))));
     paging.lastChild.lastChild.disabled=!continuation;
   }
@@ -37,7 +37,7 @@ export async function resources(root,ctx) {
   return ()=>{disposed=true;};
 }
 
-async function detail(f,ctx,item,refresh) {
+async function detail(f,ctx,item,refresh,catalog) {
   const page=await api(`/_mock/tenants/${ctx.tenant().id}/resources/${f.key}?`+query({identifier:item.id,parent:item.parent}));
   if(!page.items.length)throw new Error("This resource no longer exists. Refresh the page.");
   const full=page.items[0];
@@ -45,6 +45,12 @@ async function detail(f,ctx,item,refresh) {
   if(!f.operations.length)children[2].firstChild.disabled=true;
   if(f.key==="content.objects") children.push(el("a",{href:`/_mock/tenants/${ctx.tenant().id}/content/objects/${encodeURIComponent(full.id)}/$value`,download:`${full.id}.bin`},"Download content"));
   if(f.relationships.length)children.push(el("p",{class:"hint"},"Relationships: "+f.relationships.join(", ")));
+  const links=await api(`/_mock/tenants/${ctx.tenant().id}/resources/${f.key}/related?`+query({identifier:full.id,parent:full.parent}));
+  if(links.items.length)children.push(el("h3",{},"Related resources"),table(["relation","direction","family","id"],links.items,row=>{
+    const target=catalog.find(entry=>entry.key===row.family);
+    return detail(target,ctx,row,refresh,catalog);
+  }));
+  if(links.truncated)children.push(el("p",{class:"hint"},"Showing the first 50 relationships. Use the service API to collect larger relationships."));
   dialog(f.key,children);
 }
 

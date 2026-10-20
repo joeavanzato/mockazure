@@ -142,7 +142,16 @@ async def ground_truth(
                 "family": row.family,
                 "operation_key": row.key,
                 "records": [
-                    {"id": item["id"], "parent": item.get("parent")}
+                    {
+                        "id": item["id"],
+                        "parent": item.get("parent"),
+                        **(
+                            {"provenance": item["properties"]["provenance"]}
+                            if row.family.startswith("hunting.")
+                            and item.get("properties", {}).get("provenance")
+                            else {}
+                        ),
+                    }
                     for item in unseal(database, row.encrypted_result)["items"]
                 ],
             }

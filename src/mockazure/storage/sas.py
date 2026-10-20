@@ -51,7 +51,9 @@ def check_constraints(args, request, now):
         denied()
 
 
-def authorize_account_sas(keys, account, request, service, action, resource, now):
+def authorize_account_sas(
+    keys, account, request, service, action, resource, now, *, on_authenticated=None
+):
     pairs = request.query_params.multi_items()
     args = dict(pairs)
     if (
@@ -85,6 +87,8 @@ def authorize_account_sas(keys, account, request, service, action, resource, now
     if not matches(keys, args.get("sig"), value.encode()):
         denied()
     check_constraints(args, request, now)
+    if on_authenticated:
+        on_authenticated()
     if service[0] not in args.get("ss", ""):
         denied("AuthorizationServiceMismatch")
     # Query Tables is explicitly a container operation in the account-SAS
@@ -139,11 +143,17 @@ DATA_PERMISSIONS = {
 }
 
 
-async def authorize_service_sas(session, keys, account, request, service, action, resource, now):
+async def authorize_service_sas(
+    session, keys, account, request, service, action, resource, now, *, on_authenticated=None
+):
     if service == "queue":
-        return authorize_queue_sas(keys, account, request, action, resource, now), False
+        return authorize_queue_sas(
+            keys, account, request, action, resource, now, on_authenticated=on_authenticated
+        ), False
     if service == "table":
-        return authorize_table_sas(keys, account, request, action, resource, now), False
+        return authorize_table_sas(
+            keys, account, request, action, resource, now, on_authenticated=on_authenticated
+        ), False
     args = dict(request.query_params.multi_items())
     if (
         len(args) != len(request.query_params.multi_items())
@@ -234,6 +244,8 @@ async def authorize_service_sas(session, keys, account, request, service, action
                 denied()
             effective[query] = args.get(query) or policy.get(key, "")
     check_constraints(effective, request, now)
+    if on_authenticated:
+        on_authenticated()
     if not set(needed) & set(effective.get("sp", "")):
         denied("AuthorizationPermissionMismatch")
     if delegation:
@@ -245,7 +257,7 @@ async def authorize_service_sas(session, keys, account, request, service, action
     return frozenset(effective["sp"]), bool(delegation)
 
 
-def authorize_table_sas(keys, account, request, action, resource, now):
+def authorize_table_sas(keys, account, request, action, resource, now, *, on_authenticated=None):
     args = dict(request.query_params.multi_items())
     name = resource.split("/")[0].lower()
     if (
@@ -267,6 +279,8 @@ def authorize_table_sas(keys, account, request, action, resource, now):
     if not matches(keys, args.get("sig"), value.encode()):
         denied()
     check_constraints(args, request, now)
+    if on_authenticated:
+        on_authenticated()
     needed = DATA_PERMISSIONS.get(action)
     if (
         not needed
@@ -283,7 +297,7 @@ def authorize_table_sas(keys, account, request, action, resource, now):
     return frozenset(args["sp"])
 
 
-def authorize_queue_sas(keys, account, request, action, resource, now):
+def authorize_queue_sas(keys, account, request, action, resource, now, *, on_authenticated=None):
     args = dict(request.query_params.multi_items())
     if (
         args.get("sv") not in {"2026-02-06", "2026-04-06", "2025-01-05"}
@@ -299,8 +313,6 @@ def authorize_queue_sas(keys, account, request, action, resource, now):
         "delete_message": "p",
         "read": "r",
     }.get(action)
-    if not needed or needed not in args.get("sp", ""):
-        denied("AuthorizationPermissionMismatch")
     if "".join(c for c in "raup" if c in args.get("sp", "")) != args.get("sp", ""):
         denied()
     fields = (
@@ -311,4 +323,8 @@ def authorize_queue_sas(keys, account, request, action, resource, now):
     if not matches(keys, args.get("sig"), "\n".join(fields).encode()):
         denied()
     check_constraints(args, request, now)
+    if on_authenticated:
+        on_authenticated()
+    if not needed or needed not in args.get("sp", ""):
+        denied("AuthorizationPermissionMismatch")
     return frozenset(args["sp"])

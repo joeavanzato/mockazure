@@ -10,6 +10,43 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "ThreatHunting.Read.All", "application", True),
+    PermissionDefinition("graph", "ThreatHunting.Read.All", "delegated", True),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Read.Directory", "application", True),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Read.Directory", "delegated", True),
+    PermissionDefinition(
+        "graph", "RoleAssignmentSchedule.ReadWrite.Directory", "application", True
+    ),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.ReadWrite.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Remove.Directory", "application", True),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Remove.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Read.Directory", "application", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Read.Directory", "delegated", True),
+    PermissionDefinition(
+        "graph", "RoleEligibilitySchedule.ReadWrite.Directory", "application", True
+    ),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.ReadWrite.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Remove.Directory", "application", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Remove.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.Read.Directory", "application", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.Read.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.ReadWrite.Directory", "application", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.ReadWrite.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleManagement.Read.All", "application", True),
+    PermissionDefinition("graph", "RoleManagement.Read.All", "delegated", True),
+    PermissionDefinition("graph", "User.Invite.All", "application", True),
+    PermissionDefinition("graph", "User.Invite.All", "delegated", True),
+    PermissionDefinition("graph", "User.DeleteRestore.All", "application", True),
+    PermissionDefinition("graph", "User.DeleteRestore.All", "delegated", True),
+    PermissionDefinition("graph", "User.RevokeSessions.All", "application", True),
+    PermissionDefinition("graph", "User.RevokeSessions.All", "delegated", True),
+    PermissionDefinition("graph", "Chat.Create", "application", True),
+    PermissionDefinition("graph", "Chat.Create", "delegated", False),
+    PermissionDefinition("graph", "ChatMessage.Send", "delegated", False),
+    PermissionDefinition("graph", "ChannelMessage.Send", "delegated", False),
+    PermissionDefinition("graph", "ChannelMessage.ReadWrite", "delegated", True),
+    PermissionDefinition("graph", "TeamMember.ReadWriteNonOwnerRole.All", "application", True),
+    PermissionDefinition("graph", "TeamMember.ReadWriteNonOwnerRole.All", "delegated", True),
     *(
         PermissionDefinition("graph", name, kind, kind == "application")
         for name in ("Calendars.Read", "Calendars.ReadWrite")

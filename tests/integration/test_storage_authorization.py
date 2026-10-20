@@ -236,13 +236,18 @@ async def test_namespace_migration_refuses_lossy_downgrade(database, settings):
         ).status_code == 201
     engine = create_engine(settings.database_url.get_secret_value(), hide_parameters=True)
     try:
+        with engine.connect() as connection:
+            original_revision = connection.scalar(text("SELECT version_num FROM alembic_version"))
         with pytest.raises(DBAPIError, match="Cannot discard Storage namespace state"):
             with engine.begin() as connection:
                 config = configuration()
                 config.attributes["connection"] = connection
                 command.downgrade(config, "060")
         with engine.connect() as connection:
-            assert connection.scalar(text("SELECT version_num FROM alembic_version")) == "076"
+            assert (
+                connection.scalar(text("SELECT version_num FROM alembic_version"))
+                == original_revision
+            )
             assert connection.scalar(text("SELECT name FROM storage_namespaces")) == "preserved"
     finally:
         engine.dispose()

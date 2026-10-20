@@ -8,9 +8,16 @@ from sqlalchemy import String, cast, func, select
 
 from mockazure.admin.errors import AdminError
 from mockazure.db.models import Tenant
+from mockazure.population.activity_models import ActivityBatch
 from mockazure.population.catalog import get_adapter, list_families
 from mockazure.population.generators import VERSION, generate, inventory
-from mockazure.population.models import PopulationPreview, PopulationRun, ResourceBinding
+from mockazure.population.models import (
+    EntityBindingRow,
+    OrganizationNamespace,
+    PopulationPreview,
+    PopulationRun,
+    ResourceBinding,
+)
 from mockazure.population.protection import redact, seal, unseal
 from mockazure.population.tokens import fingerprint
 from mockazure.population.types import Input
@@ -36,6 +43,7 @@ class RunRequest(Input):
     dataset_namespace: str = Field(min_length=1, max_length=128, pattern=r"^[A-Za-z0-9._-]+$")
     parameters: dict[str, JsonValue] = Field(default_factory=dict, max_length=256)
     identity_refs: dict[str, str] = Field(default_factory=dict, max_length=64)
+    activity: ActivityBatch | None = None
 
 
 class Preview(Input):
@@ -88,6 +96,26 @@ async def state_digest(session, tenant_id):
             )
         ).one()
         values[family.key] = list(row)
+    for model, columns in (
+        (OrganizationNamespace, ["namespace", "generation"]),
+        (
+            EntityBindingRow,
+            ["namespace", "logical_key", "service", "actual_id", "parent_id", "generation"],
+        ),
+    ):
+        # JSON preserves field boundaries and nulls; SQL aggregation stays bounded.
+        row_hash = func.hashtextextended(
+            cast(func.jsonb_build_array(*(getattr(model, name) for name in columns)), String), 0
+        )
+        values[model.__tablename__] = list(
+            (
+                await session.execute(
+                    select(func.count(), func.bit_xor(row_hash))
+                    .select_from(model)
+                    .where(model.tenant_id == tenant_id)
+                )
+            ).one()
+        )
     return fingerprint(values)
 
 
@@ -129,6 +157,11 @@ def resolve_refs(value, refs):
 
 
 def mutations_for(snapshot, step, refs, offset, limit):
+    from mockazure.population.activity import action_at, is_activity_step
+
+    if is_activity_step(snapshot, step):
+        total = snapshot["request"]["activity"]["action_count"]
+        return [action_at(snapshot, i, refs) for i in range(offset, min(total, offset + limit))]
     params = resolve_refs(parameters_for(snapshot, step), refs)
     values = generate(params["generator"], params, refs, offset=offset, limit=limit)
     target = step.get("target")
@@ -174,6 +207,9 @@ async def preview(database, request: RunRequest, now: datetime):
             raise AdminError(404, "TenantNotFound", "Target tenant does not exist")
         domain = tenant.domain if tenant else request.target.create_tenant.domain
         state = await state_digest(session, tenant_id)
+        organization = await session.get(
+            OrganizationNamespace, (tenant_id, request.dataset_namespace)
+        )
         refs = {
             "domain": domain,
             **await bindings(session, tenant_id, request.dataset_namespace),
@@ -186,7 +222,24 @@ async def preview(database, request: RunRequest, now: datetime):
         "domain": domain,
         "bundle_revision": revision,
         "generator_version": VERSION,
+        "generator_versions": {
+            step.parameters.get("generator"): inventory()
+            .get(step.parameters.get("generator"), {})
+            .get("version")
+            for step in resolved.steps.values()
+        },
+        "organization_generation": str(organization.generation if organization else uuid4())
+        if any(
+            step.parameters.get("generator", "").startswith("business.")
+            for step in resolved.steps.values()
+        )
+        else None,
     }
+    from mockazure.population.activity import VERSION as ACTIVITY_VERSION
+    from mockazure.population.activity import step_count, validate_recipe
+
+    snapshot["activity_version"] = ACTIVITY_VERSION if request.activity else None
+    validate_recipe(snapshot)
     counts, samples = {}, {}
     for key, step in snapshot["resolved"]["steps"].items():
         generator = step["parameters"].get("generator")
@@ -196,7 +249,7 @@ async def preview(database, request: RunRequest, now: datetime):
         operation = next((o for o in descriptor.operations if o.key == step["operation"]), None)
         if operation is None or operation.mode != step["mode"]:
             raise ValueError("Step operation is not supported by the family")
-        count = step["parameters"].get("count", 1)
+        count = step_count(snapshot, key, step)
         if type(count) is not int or not 0 <= count <= 1000000:
             raise ValueError("Invalid generator count")
         counts[step["family"]] = counts.get(step["family"], 0) + count

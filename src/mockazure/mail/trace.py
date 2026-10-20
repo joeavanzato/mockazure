@@ -8,7 +8,7 @@ from sqlalchemy import and_, or_, select, text
 from sqlalchemy.exc import IntegrityError
 
 from mockazure.admin.errors import AdminError
-from mockazure.identity.models import DirectoryRole, ServicePrincipalRole
+from mockazure.authorization.roles import actor_roles, effective_roles
 from mockazure.mail.authorization import require_exchange_command
 from mockazure.mail.models import ExchangeCommandGrant, Mailbox, MailSettings
 from mockazure.mail.trace_models import MailTrace, MailTraceDetail
@@ -95,20 +95,10 @@ async def import_trace(session, tenant, value):
 async def recipient_scope(session, actor, command):
     await require_exchange_command(session, actor, command)
     if actor.token_kind == "application":
-        roles = await session.scalars(
-            select(ServicePrincipalRole.role).where(
-                ServicePrincipalRole.tenant_id == actor.tenant_id,
-                ServicePrincipalRole.client_id == actor.client_id,
-            )
-        )
+        roles = await actor_roles(session, actor)
         principal = ExchangeCommandGrant.client_id == actor.client_id
     else:
-        roles = await session.scalars(
-            select(DirectoryRole.role).where(
-                DirectoryRole.tenant_id == actor.tenant_id,
-                DirectoryRole.user_id == actor.subject_id,
-            )
-        )
+        roles = await effective_roles(session, actor.tenant_id, actor.subject_id)
         principal = ExchangeCommandGrant.user_id == actor.subject_id
     if set(roles) & {"Global Administrator", "Exchange Administrator"}:
         return None

@@ -1,5 +1,9 @@
 from uuid import uuid4
 
+import pytest
+
+from mockazure.admin.errors import AdminError
+from mockazure.population.adapters import relationships
 from mockazure.population.catalog import get_adapter
 from mockazure.population.types import Mutation, ResourceQuery
 from tests.integration.intune_support import INTUNE_PLAN, INTUNE_SKU
@@ -82,3 +86,67 @@ async def test_workload_relationship_append_is_replayable_and_preserves_other_ed
         assert (await adapter.apply(ctx, [mutation])).effects["created"] == 1
         assert (await adapter.apply(ctx, [mutation])).effects["unchanged"] == 1
     assert len((await adapter.browse(ctx, ResourceQuery(parent=site))).items) == 2
+
+
+async def test_relationship_batch_validates_scope_once_and_rolls_back_invalid_edge(
+    database, settings, monkeypatch
+):
+    ctx = await context(database, settings)
+    scope = "lab.test," + str(uuid4()) + "," + str(uuid4())
+    await get_adapter("sharepoint.site").apply(
+        ctx,
+        [
+            Mutation(
+                operation="import",
+                logical_key="site",
+                parent=scope,
+                payload={**TIMES, "id": scope, "displayName": "Batch site"},
+            )
+        ],
+    )
+    drives = [str(uuid4()) for _ in range(102)]
+    await get_adapter("sharepoint.drive").apply(
+        ctx,
+        [
+            Mutation(
+                operation="import",
+                logical_key=f"drive-{i}",
+                parent=scope,
+                payload={**TIMES, "id": drive, "name": f"Docs {i}"},
+            )
+            for i, drive in enumerate(drives)
+        ],
+    )
+
+    def link(drive):
+        return Mutation(
+            operation="link",
+            logical_key=drive,
+            parent=scope,
+            payload={
+                "source": {"kind": "site", "id": scope},
+                "relation": "drives",
+                "target": {"kind": "drive", "id": drive},
+            },
+        )
+
+    adapter = get_adapter("sharepoint.relationships")
+    await adapter.apply(ctx, [link(drives[0])])
+    calls = []
+    original = relationships.bounded_import_workload
+
+    async def tracked(session, tenant, workload, batch):
+        calls.append((batch.scope, len(batch.edges)))
+        return await original(session, tenant, workload, batch)
+
+    monkeypatch.setattr(relationships, "bounded_import_workload", tracked)
+    batch = [link(drive) for drive in drives[1:101]]
+    result = await adapter.apply(ctx, batch)
+    assert result.effects["created"] == 100
+    assert calls == [(scope, 100)]
+    assert (await adapter.verify(ctx, result)).status == "succeeded"
+    assert (await adapter.apply(ctx, batch)).effects["unchanged"] == 100
+    with pytest.raises(AdminError, match="Edge key and public ID"):
+        await adapter.apply(ctx, [link(drives[-1]), link(str(uuid4()))])
+    rows = await adapter.browse(ctx, ResourceQuery(parent=scope, limit=200))
+    assert len(rows.items) == 101

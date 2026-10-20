@@ -6,10 +6,11 @@ from hashlib import md5
 from pathlib import Path
 from uuid import UUID, uuid5
 
-from sqlalchemy import String, Uuid, cast, column, func, literal, select, union_all
+from sqlalchemy import String, Uuid, cast, column, func, literal, or_, select, union_all
 from sqlalchemy.dialects.postgresql import JSONB, insert
 
 from mockazure.authorization.evaluator import OperationRequirement
+from mockazure.authorization.roles import effective_role_rows, security_now
 from mockazure.identity.models import (
     Application,
     DirectoryRole,
@@ -22,6 +23,7 @@ from mockazure.providers.graph.probes import permitted
 from mockazure.security.audit import record_security_audit
 from mockazure.security.models import RoleActivation
 from mockazure.security.mutations import invalid, uuid_value
+from mockazure.security.pim.models import PimSchedule
 from mockazure.security.repository import document, lock_security, missing
 
 
@@ -78,9 +80,11 @@ async def activate_role(session, tenant, name):
 
 async def sync_activation(session, tenant):
     # Also covers migrated/bootstrap callers without inventing Graph-originated activity.
+    effective = effective_role_rows(tenant)
     assigned = union_all(
         select(DirectoryRole.role).where(DirectoryRole.tenant_id == tenant),
         select(ServicePrincipalRole.role).where(ServicePrincipalRole.tenant_id == tenant),
+        select(effective.c.role),
     ).subquery()
     await session.execute(
         insert(RoleActivation)
@@ -150,8 +154,17 @@ def role_assignments_source(tenant, actor=None):
             ServicePrincipal,
             ServicePrincipalRole.client_id,
         ),
+        ("user", PimSchedule, User, PimSchedule.principal_id),
+        ("servicePrincipal", PimSchedule, ServicePrincipal, PimSchedule.principal_id),
     ):
-        principal_key = User.id if kind == "user" else ServicePrincipal.client_id
+        scheduled = role_model is PimSchedule
+        principal_key = (
+            User.id
+            if kind == "user"
+            else ServicePrincipal.id
+            if scheduled
+            else ServicePrincipal.client_id
+        )
         principal_id = principal_model.id
         identifier = cast(
             func.md5(
@@ -166,6 +179,8 @@ def role_assignments_source(tenant, actor=None):
             ),
             Uuid,
         )
+        if scheduled:
+            identifier = PimSchedule.id
         payload = document(
             id=cast(identifier, String),
             principalId=cast(principal_id, String),
@@ -216,6 +231,22 @@ def role_assignments_source(tenant, actor=None):
             statement = statement.join(
                 Application, Application.client_id == ServicePrincipal.client_id
             ).where(Application.deleted_at.is_(None))
+        if scheduled:
+            now = security_now()
+            statement = statement.where(
+                PimSchedule.kind == "assignment",
+                PimSchedule.revoked_at.is_(None),
+                PimSchedule.starts_at <= now,
+                or_(PimSchedule.ends_at.is_(None), PimSchedule.ends_at > now),
+                principal_model.enabled.is_(True),
+            )
+            if kind == "servicePrincipal":
+                statement = statement.where(Application.enabled.is_(True))
+            else:
+                statement = statement.where(
+                    func.coalesce(User.profile["externalUserState"].as_string(), "")
+                    != "PendingAcceptance"
+                )
         statements.append(statement)
     return union_all(*statements).subquery()
 
@@ -267,6 +298,8 @@ async def mutate_role_assignment(session, actor, identifier, body, now):
     await require_role_access(session, actor, write=True)
     before = None
     if identifier is not None:
+        if await session.get(PimSchedule, (actor.tenant_id, uuid_value(identifier))):
+            invalid("Manage a PIM assignment through roleAssignmentScheduleRequests")
         view = await assignment_view(session, actor.tenant_id, identifier)
         before = view["payload"]
         name, subject_kind, principal_id = (

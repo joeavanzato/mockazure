@@ -99,7 +99,9 @@ async def remove_password(session, tenant, client_id, owner, body, now, *, appli
     await session.flush()
 
 
-async def replace_certificates(session, tenant, client_id, owner, values, now, *, application):
+async def replace_certificates(
+    session, tenant, client_id, owner, values, now, *, application, append=False
+):
     if not isinstance(values, list) or len(values) > 100:
         invalid()
     existing = list(
@@ -113,6 +115,8 @@ async def replace_certificates(session, tenant, client_id, owner, values, now, *
             )
         )
     )
+    if append and len(existing) + len(values) > 100:
+        invalid("Certificate count exceeds the supported bound")
     prepared = []
     identifiers = set()
     for value in values:
@@ -154,6 +158,8 @@ async def replace_certificates(session, tenant, client_id, owner, values, now, *
         except (ValueError, TypeError, KeyError):
             invalid("A public RSA certificate and valid lifetime are required")
         row = next((x for x in existing if x.id == identifier), None)
+        if append and row is not None:
+            invalid("Credential identifier is already in use")
         if row is None:
             if await session.get(Credential, identifier):
                 invalid("Credential identifier is already in use")
@@ -170,7 +176,8 @@ async def replace_certificates(session, tenant, client_id, owner, values, now, *
         row.display_name = value.get("displayName")
         prepared.append(row)
     for row in existing:
-        if row.id not in identifiers:
+        if not append and row.id not in identifiers:
             row.revoked_at = now
     session.add_all(prepared)
     await session.flush()
+    return prepared

@@ -6,8 +6,8 @@ from uuid import UUID, uuid5
 from sqlalchemy import select
 
 from mockazure.authorization.evaluator import OperationRequirement
+from mockazure.authorization.roles import effective_roles, protected_roles
 from mockazure.directory.models import DirectoryRelation, Group
-from mockazure.identity.models import DirectoryRole
 from mockazure.oauth.models import LoginSession
 from mockazure.providers.graph.body import typed_body
 from mockazure.providers.graph.errors import GraphError
@@ -80,13 +80,7 @@ TARGET_ROLES = {
 
 
 async def roles_for(session, tenant, user):
-    return set(
-        await session.scalars(
-            select(DirectoryRole.role).where(
-                DirectoryRole.tenant_id == tenant, DirectoryRole.user_id == user
-            )
-        )
-    )
+    return set(await effective_roles(session, tenant, user))
 
 
 async def require_target_authority(session, actor, target, *, reset=False):
@@ -101,7 +95,7 @@ async def require_target_authority(session, actor, target, *, reset=False):
         else set()
     )
     candidates = roles & supported
-    target_roles = await roles_for(session, actor.tenant_id, target.id)
+    target_roles = await protected_roles(session, actor.tenant_id, target.id)
     protected_group = await session.scalar(
         select(Group.id)
         .join(

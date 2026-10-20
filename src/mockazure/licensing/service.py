@@ -9,6 +9,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 
 from mockazure.admin.errors import AdminError
+from mockazure.authorization.roles import protected_roles
 from mockazure.db.models import Tenant
 from mockazure.directory.history import record_change, reserve_revision
 from mockazure.directory.models import DirectoryState
@@ -16,7 +17,7 @@ from mockazure.directory.mutations import AdminActor, DirectoryCommand
 from mockazure.directory.repository import public_object
 from mockazure.directory.types import DirectoryChange
 from mockazure.evidence.directory_facts import capture_directory_facts
-from mockazure.identity.models import DirectoryRole, User
+from mockazure.identity.models import User
 from mockazure.licensing.catalog import COUNTRIES, P1_PLAN, P2_PLAN
 from mockazure.licensing.models import SubscribedSku, UserLicense
 from mockazure.licensing.schemas import Entitlements, SkuInput, SkuView
@@ -202,10 +203,8 @@ async def assign_licences(session, actor, user_id, command, now, correlation_id)
         from mockazure.providers.graph.directory import not_found
 
         not_found()
-    if user.profile.get("userType", "Member") != "Member" or await session.scalar(
-        select(DirectoryRole.role)
-        .where(DirectoryRole.tenant_id == tenant_id, DirectoryRole.user_id == user_id)
-        .limit(1)
+    if user.profile.get("userType", "Member") != "Member" or next(
+        iter(await protected_roles(session, tenant_id, user_id)), None
     ):
         invalid("Assignments to privileged or non-Member targets are outside this profile")
     desired = {item.skuId: item for item in command.addLicenses}

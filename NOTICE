@@ -27,3 +27,14 @@ src/mockazure/cloud/data/exchange/operations.json; LICENSE.docs preserves the
 license. MockAzure's operation catalog describes its bounded implementation.
 
 Calendar Windows/IANA mapping derives from Unicode CLDR48.1, revision225136a3bd3eff573f3d64c8fa25d6f9afa974ad, under Unicode-3.0. Its complete license is distributed at src/mockazure/cloud/data/graph-workflows/sources/CLDR-LICENSE.txt. Time-zone transitions use pinned tzdata2026.5 on all platforms.
+
+The living-tenant operation inventory includes Microsoft Graph REST documentation
+(CC BY 4.0) and Microsoft Graph metadata (MIT), Copyright Microsoft Corporation.
+Exact immutable revisions, source URLs and SHA256 hashes are preserved in
+src/mockazure/living_tenant/data/operations.json, with the respective licenses
+in its sources directory. Existing cloud catalogs are referenced by hash.
+
+Deterministic business PDFs embed subsets of Noto Sans Regular, Copyright
+the Noto Project Authors, under the SIL Open Font License 1.1. The unmodified
+font, license and pinned source/hash attribution are distributed in
+src/mockazure/population/corpus/data/.

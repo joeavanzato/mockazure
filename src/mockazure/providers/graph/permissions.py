@@ -6,9 +6,10 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from mockazure.authorization.roles import effective_roles
 from mockazure.directory.models import DirectoryRelation
 from mockazure.directory.types import GROUP_FIELDS, USER_FIELDS
-from mockazure.identity.models import DirectoryRole, User
+from mockazure.identity.models import User
 from mockazure.identity.types import PrincipalContext
 from mockazure.providers.graph.errors import GraphError
 
@@ -104,14 +105,7 @@ async def authorize_directory(
         )
         if user is None:
             deny()
-        roles = set(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == context.tenant_id,
-                    DirectoryRole.user_id == context.subject_id,
-                )
-            )
-        )
+        roles = set(await effective_roles(session, context.tenant_id, context.subject_id))
         if user.profile.get("userType", "Member") != "Member" and target_id != context.subject_id:
             deny()
     resource, method, permissions = operation.resource, operation.method, context.permissions

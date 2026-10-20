@@ -9,6 +9,12 @@ from mockazure.console import models as console_models  # noqa: F401
 from mockazure.content import models as content_models  # noqa: F401
 from mockazure.db.models import Base
 from mockazure.evidence import models as evidence_models  # noqa: F401
+from mockazure.hunting import access_models as hunting_access_models  # noqa: F401
+from mockazure.hunting import models as hunting_models  # noqa: F401
+from mockazure.identity import (
+    deleted_models,  # noqa: F401
+    invitation_models,  # noqa: F401
+)
 from mockazure.keyvault import models as vault_models  # noqa: F401
 from mockazure.keyvault import secret_models  # noqa: F401
 from mockazure.licensing import models as licensing_models  # noqa: F401
@@ -36,6 +42,7 @@ from mockazure.security import (
     reset_model,  # noqa: F401
 )
 from mockazure.security import models as security_models  # noqa: F401
+from mockazure.security.pim import models as pim_models  # noqa: F401
 from mockazure.storage import (
     blob_models,  # noqa: F401
     file_models,  # noqa: F401

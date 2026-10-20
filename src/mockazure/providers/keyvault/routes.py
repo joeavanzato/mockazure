@@ -8,6 +8,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from starlette.responses import JSONResponse, Response
 
 from mockazure.cloud.lifecycle import lock_lifecycle
+from mockazure.evidence.failures import attribute, capture_request_failure, principal_id
 from mockazure.identity.keys import read_wrapping_key
 from mockazure.identity.tokens import validate_access_token
 from mockazure.keyvault.backups import backup_secret, restore_secret
@@ -61,14 +62,17 @@ async def handle(request):
             else JSONResponse(body, headers=headers)
         )
     except VaultError as error:
+        await capture_request_failure(request, error.status, error.code)
         return JSONResponse(error.body(), status_code=error.status, headers=headers | error.headers)
     except StorageError as error:
+        await capture_request_failure(request, error.status, "BadParameter")
         return JSONResponse(
             {"error": {"code": "BadParameter", "message": "Request body exceeds local limit"}},
             status_code=error.status,
             headers=headers,
         )
     except SQLAlchemyError:
+        await capture_request_failure(request, 503, "ServiceUnavailable")
         return JSONResponse(
             {
                 "error": {
@@ -130,6 +134,36 @@ async def dispatch(request):
             ) from None
         if actor.tenant_id != vault.tenant_id:
             raise VaultError(403, "Forbidden", "The token belongs to another tenant")
+        operation = (
+            "SecretListVersions"
+            if listing and name
+            else "SecretList"
+            if listing
+            else "SecretRestore"
+            if restoring
+            else "SecretRecover"
+            if deleted and version == "recover" and request.method == "POST"
+            else "SecretBackup"
+            if version == "backup" and request.method == "POST"
+            else "SecretPurge"
+            if deleted and request.method == "DELETE"
+            else {
+                "GET": "SecretGet",
+                "PUT": "SecretSet",
+                "PATCH": "SecretUpdate",
+                "DELETE": "SecretDelete",
+            }.get(request.method)
+        )
+        attribute(
+            request,
+            vault.tenant_id,
+            vault.scope_key,
+            "keyvault",
+            operation,
+            now,
+            await principal_id(session, actor),
+            actor.token_kind,
+        )
         body = {}
         if request.method in {"PUT", "PATCH"} or restoring:
             if not request.headers.get("content-type", "").lower().startswith("application/json"):

@@ -5,10 +5,10 @@ import json
 from dataclasses import dataclass
 from uuid import UUID
 
-from sqlalchemy import select, text
+from sqlalchemy import text
 
 from mockazure.authorization.evaluator import AuthorizationDenied, require_current_identity
-from mockazure.identity.models import DirectoryRole
+from mockazure.authorization.roles import effective_roles
 from mockazure.licensing.service import entitlements
 from mockazure.providers.graph.errors import GraphError
 
@@ -70,14 +70,7 @@ async def authorize_evidence(session, context, operation):
     if operation.resource not in ROLES or operation.version not in {"v1.0", "beta"}:
         denied()
     roles = (
-        set(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == context.tenant_id,
-                    DirectoryRole.user_id == context.subject_id,
-                )
-            )
-        )
+        set(await effective_roles(session, context.tenant_id, context.subject_id))
         if context.token_kind == "delegated"
         else set()
     )

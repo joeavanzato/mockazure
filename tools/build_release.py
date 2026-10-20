@@ -22,6 +22,10 @@ SOURCE_ROOTS = frozenset(
         "examples/populate.py",
         "docs/getting-started.md",
         "docs/profiles.md",
+        "docs/living-tenant-profiles.md",
+        "docs/finite-activity.md",
+        "docs/hunting-data.md",
+        "docs/hunting-cookbook.md",
     }
 )
 SDIST_ROOTS = SOURCE_ROOTS - {"uv.lock", "Dockerfile"}

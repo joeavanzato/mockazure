@@ -9,8 +9,9 @@ export async function runs(root,ctx){
     const value=await api(`/_mock/population/runs/${selected}`),steps=await api(`/_mock/population/runs/${selected}/steps?limit=100`);
     if(disposed)return;
     const active=["pending","running","verifying"].includes(value.state);
-    detail.replaceChildren(el("div",{class:"heading"},el("div",{},el("p",{class:"eyebrow"},"RUN / "+value.id),el("h2",{},value.state==="succeeded"?"Population complete":value.state==="needs-attention"?"Reconciliation needed":"Population progress")),el("span",{class:"badge "+value.state},value.state)),
+    detail.replaceChildren(...[el("div",{class:"heading"},el("div",{},el("p",{class:"eyebrow"},"RUN / "+value.id),el("h2",{},value.state==="succeeded"?"Population complete":value.state==="needs-attention"?"Reconciliation needed":"Population progress")),el("span",{class:"badge "+value.state},value.state)),
       el("p",{class:"hint"},`Tenant ${value.tenant_id} · ${value.steps.completed} / ${value.steps.total} steps complete`),
+      value.activity?el("p",{class:"activity-progress"},`Activity ${value.activity.recipe_step}: ${value.activity.completed} / ${value.activity.total} actions verified · ${value.activity.pacing_ms} ms pacing · Data reference ${value.activity.reference_time}`):null,
       el("div",{class:"statline"},["created","unchanged","verified"].map(key=>el("div",{},el("span",{class:"metric"},value.progress[key]||0),el("small",{},key)))),
       ...value.errors.map(error=>el("p",{class:"error"},error)),
       el("div",{class:"actions"},button(active?"Cancel run":"Resume and recheck",async()=>{await api(`/_mock/population/runs/${selected}/${active?"cancel":"resume"}`,{method:"POST"});await poll();}),button("Download manifest",async()=>download(`run-${selected}.json`,await api(`/_mock/population/runs/${selected}/manifest`))),
@@ -20,8 +21,9 @@ export async function runs(root,ctx){
           download(`ground-truth-${selected}.jsonl`,lines.join(""),"application/x-ndjson");
         })),
       el("h3",{style:"margin-top:25px"},"Steps"),table(["ordinal","key","family","count","offset","state"],steps.items),
-      steps.next_after!==null?el("p",{class:"hint"},"Showing the first 100 steps. The steps API supports explicit pagination."):null);
+      steps.next_after!==null?el("p",{class:"hint"},"Showing the first 100 steps. The steps API supports explicit pagination."):null].filter(node=>node!==null));
     if(active)timer=setTimeout(()=>poll().catch(ctx.error),1500);
+    else await list();
   }
   async function list(){const page=await api("/_mock/population/runs?limit=50"+(ctx.tenant()?`&tenant_id=${ctx.tenant().id}`:""));if(disposed)return;listing.replaceChildren(page.items.length?table(["id","state","tenant_id"],page.items,row=>show(row.id)):el("div",{class:"empty"},el("strong",{},"No population runs yet"),"Preview a template in Profiles to get started."));}
   root.replaceChildren(heading("Population runs","Follow durable progress, inspect outcomes and resume safely after interruption.",[button("Refresh",async()=>{await list();await poll();})]),detail,listing);

@@ -17,6 +17,42 @@ class StrictModel(BaseModel):
     )
 
 
+class OperationEvidenceContract(StrictModel):
+    operation_key: str = Field(min_length=1, max_length=200)
+    source_kind: Literal[
+        "none", "authentication", "directory", "security", "mail", "workload", "arm", "service"
+    ]
+    outcome: Literal["success", "success_or_failure", "none"]
+    destinations: tuple[
+        Literal[
+            "signIn",
+            "directoryAudit",
+            "auditLogRecord",
+            "activityLog",
+            "StorageBlobLogs",
+            "StorageFileLogs",
+            "StorageTableLogs",
+            "StorageQueueLogs",
+            "AZKVAuditLogs",
+            "hunting.CloudAppEvents",
+        ],
+        ...,
+    ]
+    schema_refs: tuple[str, ...] = Field(min_length=1)
+    native: bool
+    limitations: tuple[str, ...]
+
+    @model_validator(mode="after")
+    def disposition(self):
+        if not self.destinations and not self.limitations:
+            raise ValueError("No-evidence dispositions require an explicit reason")
+        if self.destinations and (not self.native or self.source_kind == "none"):
+            raise ValueError("Destinations require a native source")
+        if len(set(self.destinations)) != len(self.destinations):
+            raise ValueError("Duplicate evidence destination")
+        return self
+
+
 class SourceRef(StrictModel):
     tenant_id: UUID
     kind: str = Field(min_length=1, max_length=40, pattern=r"^[a-z][a-z0-9_.]*$")

@@ -1,6 +1,7 @@
 """Append validated relationships without replacing an existing source's edges."""
 
 import json
+from collections import defaultdict
 
 from sqlalchemy import String, cast, func
 
@@ -32,21 +33,22 @@ def adapters():
             }
 
         async def write(session, ctx, pending, workload=workload):
+            grouped = defaultdict(list)
             for mutation, payload in pending:
                 if not mutation.parent:
                     raise ValueError("Workload scope is required")
-                state = await scope_row(
-                    session, ctx.tenant_id, workload, mutation.parent, lock=True
-                )
+                grouped[mutation.parent].append({k: v for k, v in payload.items() if k != "id"})
+            for scope, edges in grouped.items():
+                state = await scope_row(session, ctx.tenant_id, workload, scope, lock=True)
                 await bounded_import_workload(
                     session,
                     ctx.tenant_id,
                     workload,
                     WorkloadImport.model_validate(
                         {
-                            "scope": mutation.parent,
+                            "scope": scope,
                             "expected_revision": state.revision,
-                            "edges": [{k: v for k, v in payload.items() if k != "id"}],
+                            "edges": edges,
                         }
                     ),
                 )
