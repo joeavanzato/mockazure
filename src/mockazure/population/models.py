@@ -147,3 +147,4 @@ class RunView(Input):
     steps: dict[str, int]
     errors: list[str] = Field(default_factory=list)
     manifest_digest: str
+    activity: dict | None = None

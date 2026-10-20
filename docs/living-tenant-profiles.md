@@ -1,5 +1,8 @@
 # Connected business profiles
 
+See [finite activity](finite-activity.md) for count-limited public API operations,
+console controls and client qualification.
+
 The `living-small-business`, `living-department` and `living-enterprise` templates
 stack the same reusable layers. Their defaults are 20, 250 and 2,500 users with
 7, 14 and 30 days of historical content. These are dataset presets, not measured

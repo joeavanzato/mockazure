@@ -74,10 +74,11 @@ def test_channel_files_folder_resolves_canonical_drive_item():
 
 def test_all_business_generators_are_bounded_chunk_independent_and_schema_valid():
     from mockazure.population.catalog import get_adapter
+    from mockazure.population.generators.business import FAMILIES
 
     assert "business.messages" in inventory()
     for name, entry in inventory().items():
-        if not name.startswith("business."):
+        if name not in {"business." + family for family in FAMILIES}:
             continue
         count = 2
         whole = values(name.removeprefix("business."), count)

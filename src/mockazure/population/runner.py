@@ -32,11 +32,11 @@ async def checkpoint(database, claim, now, change):
         run = await session.get(PopulationRun, UUID(claim.payload["run_id"]), with_for_update=True)
         if run is None or run.tenant_id != claim.tenant_id or run.job_id != job.id:
             raise ValueError("Population job binding mismatch")
-        await change(session, job, run)
+        delay_ms = await change(session, job, run)
         job.lease_owner = job.lease_until = None
         job.attempts = 0
         job.updated_at = now
-        job.available_at = now + timedelta(milliseconds=50)
+        job.available_at = now + timedelta(milliseconds=50 if delay_ms is None else delay_ms)
         run.updated_at = now
         await session.flush()
         return True
@@ -85,6 +85,13 @@ async def process_population(database, claim, wall_now):
     if snapshot["generator_version"] != VERSION:
         return await stop(
             "needs-attention", "Generator version changed; use a compatible installation"
+        )
+    from mockazure.population.activity import VERSION as ACTIVITY_VERSION
+    from mockazure.population.activity import is_activity_step
+
+    if snapshot["request"].get("activity") and snapshot.get("activity_version") != ACTIVITY_VERSION:
+        return await stop(
+            "needs-attention", "Activity version changed; use a compatible installation"
         )
     if step_row is None:
         return await stop("succeeded")
@@ -270,6 +277,8 @@ async def process_population(database, claim, wall_now):
             else:
                 cursor.state = "running"
             current.state, job.state = "running", "pending"
+            if is_activity_step(snapshot, step) and not replay and cursor.offset < cursor.count:
+                return snapshot["request"]["activity"]["pacing_ms"]
 
         changed = await checkpoint(database, claim, now(), complete)
         return JobResult("pending" if changed else "stale", None, None)

@@ -152,3 +152,9 @@ Large imported or historical service datasets may need the existing bulk/import
 interfaces rather than the console editor. The inspector remains a curated view,
 not a general database administration tool. Shared-lab users have equivalent
 management access; the console is not a multi-role administration product.
+
+## Connected content and finite activity
+
+The [living-tenant presets](living-tenant-profiles.md) add connected directory,
+mail, collaboration, device and Azure data. [Finite activity](finite-activity.md)
+adds fixed-count public actions with pacing, cancellation and safe resume.

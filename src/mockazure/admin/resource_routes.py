@@ -55,6 +55,20 @@ async def resources(
         raise AdminError(422, "InvalidResourceQuery", "Resource query is invalid") from None
 
 
+@router.get("/tenants/{tenant_id}/resources/{family}/related")
+async def related_resources(
+    tenant_id: UUID,
+    family: str,
+    request: Request,
+    identifier: str = Query(..., min_length=1, max_length=2048),
+    parent: str | None = Query(None, max_length=2048),
+):
+    from mockazure.population.navigation import related
+
+    adapter_for(family)
+    return await related(context(request, tenant_id), family, identifier, parent)
+
+
 @router.post("/tenants/{tenant_id}/resources/{family}/preview")
 async def preview(tenant_id: UUID, family: str, request: Request):
     adapter, ctx = adapter_for(family), context(request, tenant_id)

@@ -8,6 +8,7 @@ from sqlalchemy import func, select, update
 from mockazure.admin.errors import AdminError
 from mockazure.db.job_model import Job
 from mockazure.db.models import Tenant
+from mockazure.population.activity import step_count
 from mockazure.population.models import (
     ACTIVE,
     BundleHead,
@@ -87,7 +88,7 @@ async def submit_run(database, preview_id, digest, now):
         if p is None or p.digest != digest:
             raise AdminError(409, "PreviewConflict", "Preview identity or digest does not match")
         if p.run_id:
-            return await view_session(session, p.run_id)
+            return await view_session(session, p.run_id, database)
         if p.expires_at <= now:
             raise AdminError(409, "PreviewExpired", "Create a fresh preview")
         # Tenant row lock serializes competing submit/resume operations without spanning HTTP.
@@ -155,14 +156,14 @@ async def submit_run(database, preview_id, digest, now):
                     ordinal=ordinal,
                     key=key,
                     family=step["family"],
-                    count=step["parameters"].get("count", 1),
+                    count=step_count(snapshot, key, step),
                     offset=0,
                     state="pending",
                 )
             )
         p.run_id = identifier
         await session.flush()
-        return await view_session(session, identifier)
+        return await view_session(session, identifier, database)
 
 
 async def ensure_slot(session, tenant, excluding=None):
@@ -175,13 +176,30 @@ async def ensure_slot(session, tenant, excluding=None):
         raise AdminError(409, "TenantBusy", "Another population run is active for this tenant")
 
 
-async def view_session(session, run_id):
+async def view_session(session, run_id, database):
     row = await session.get(PopulationRun, run_id)
     if row is None:
         raise AdminError(404, "RunNotFound", "Population run does not exist")
     total = await session.scalar(
         select(func.count()).select_from(PopulationStep).where(PopulationStep.run_id == run_id)
     )
+    snapshot = unseal(database, row.encrypted)
+    batch = snapshot["request"].get("activity")
+    activity = None
+    if batch:
+        step = await session.scalar(
+            select(PopulationStep).where(
+                PopulationStep.run_id == run_id,
+                PopulationStep.key == batch["recipe_step"],
+            )
+        )
+        activity = {
+            "recipe_step": batch["recipe_step"],
+            "completed": step.offset,
+            "total": batch["action_count"],
+            "pacing_ms": batch["pacing_ms"],
+            "reference_time": snapshot["resolved"]["referenceTime"],
+        }
     return RunView(
         id=row.id,
         tenant_id=row.tenant_id,
@@ -190,12 +208,13 @@ async def view_session(session, run_id):
         steps={"completed": row.cursor, "total": total},
         errors=row.errors,
         manifest_digest=row.resolved_digest,
+        activity=activity,
     )
 
 
 async def run_view(database, run_id):
     async with database.sessions() as session:
-        return await view_session(session, run_id)
+        return await view_session(session, run_id, database)
 
 
 async def cancel_run(database, run_id):
@@ -211,7 +230,7 @@ async def cancel_run(database, run_id):
             if job.state != "running":
                 row.state, job.state = "cancelled", "succeeded"
         await session.flush()
-        return await view_session(session, run_id)
+        return await view_session(session, run_id, database)
 
 
 async def resume_run(database, run_id):
@@ -223,7 +242,7 @@ async def resume_run(database, run_id):
         job = await session.get(Job, row.job_id, with_for_update=True)
         row = await session.get(PopulationRun, run_id, with_for_update=True, populate_existing=True)
         if row.state in ACTIVE:
-            return await view_session(session, run_id)
+            return await view_session(session, run_id, database)
         await ensure_slot(session, row.tenant_id, row.id)
         if job.state == "running" and job.lease_until and job.lease_until > datetime.now(UTC):
             raise AdminError(
@@ -240,12 +259,12 @@ async def resume_run(database, run_id):
         job.claim_epoch += 1
         job.lease_owner = job.lease_until = None
         await session.flush()
-        return await view_session(session, run_id)
+        return await view_session(session, run_id, database)
 
 
 async def export_manifest(database, run_id):
     async with database.sessions() as session:
-        view = await view_session(session, run_id)
+        view = await view_session(session, run_id, database)
         row = await session.get(PopulationRun, run_id)
         snapshot = unseal(database, row.encrypted)
         resolved = snapshot["resolved"]
@@ -257,6 +276,7 @@ async def export_manifest(database, run_id):
             "namespace": row.namespace,
             "generator_version": snapshot["generator_version"],
             "reference_time": resolved["referenceTime"],
+            "activity": view.activity,
             "seed": resolved["seed"],
             "steps": [
                 {
@@ -264,7 +284,7 @@ async def export_manifest(database, run_id):
                     "family": step["family"],
                     "operation": step["operation"],
                     "mode": step["mode"],
-                    "count": step["parameters"].get("count", 1),
+                    "count": step_count(snapshot, key, step),
                 }
                 for key, step in resolved["steps"].items()
             ],
