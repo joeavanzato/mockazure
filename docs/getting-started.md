@@ -11,6 +11,13 @@ own local OAuth permissions, licences and supported service roles.
 
 ## Deploy with Docker on Windows
 
+For one-command startup, double-click `start-mockazure.bat` in the repository
+root. It runs the full sequence below, prompts for the initial shared password, and
+opens the UI. Existing instances retain their saved ports. For a new instance,
+`start-mockazure.bat -Port 28443` selects another API port; six following ports are
+reserved for data services. Pass `-TrustCa` only when you want to install this lab's
+CA in your Windows CurrentUser Root store. The manual sequence remains available:
+
 Use Docker Desktop with Linux containers and PowerShell, from the repository root.
 The image contains the application, built-in profiles and console; it needs no Node
 server or Internet connection at runtime. Initial image building needs dependencies.
