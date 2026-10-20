@@ -55,6 +55,14 @@ def main():
         f"Verified {result['operations']} operations, {result['sources']} source files "
         f"and {result['catalogs']} existing catalogs."
     )
+    if args.area in {None, "hunting"}:
+        from mockazure.hunting.contracts import verify_sources
+
+        if not args.verify_only:
+            from tools.acquire_hunting_contracts import acquire as acquire_hunting
+
+            acquire_hunting()
+        print(f"Verified {verify_sources()['tables']} pinned hunting table schemas.")
 
 
 if __name__ == "__main__":

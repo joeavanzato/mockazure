@@ -5,6 +5,7 @@ src/mockazure/providers/arm/data/role-sources/** -text -whitespace
 src/mockazure/cloud/data/**/*.md -text -whitespace
 src/mockazure/cloud/data/**/LICENSE.* -text -whitespace
 src/mockazure/cloud/data/**/*.html -text -whitespace
+src/mockazure/hunting/data/sources/*.html -text -whitespace
 src/mockazure/cloud/data/arm-providers/schemas/** -text -whitespace
 src/mockazure/cloud/data/queries/references/** -text -whitespace
 src/mockazure/evidence/data/sources/** -text -whitespace

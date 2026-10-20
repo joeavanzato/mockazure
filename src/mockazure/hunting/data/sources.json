@@ -1,0 +1,182 @@
+{
+  "IdentityInfo": {
+    "path": "sources/IdentityInfo.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-identityinfo-table",
+    "revision": "c581fda7aa2f5e2c94fcf74ea886e041711d4504",
+    "sha256": "b3e59adfcb939b4298cbd1098c978e08d809d849054455306970006c9774bd14",
+    "retrieved_at": "2026-10-20T18:57:21.632995+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "IdentityLogonEvents": {
+    "path": "sources/IdentityLogonEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-identitylogonevents-table",
+    "revision": "a4b3e2d5ce8bd8396aff288e85c468563bcbbc49",
+    "sha256": "f73aef816f1b8b279cc8140be0247a36711c7aeda952cf8ff55bd1d972f02d3c",
+    "retrieved_at": "2026-10-20T18:57:21.637494+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "IdentityDirectoryEvents": {
+    "path": "sources/IdentityDirectoryEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-identitydirectoryevents-table",
+    "revision": "a4b3e2d5ce8bd8396aff288e85c468563bcbbc49",
+    "sha256": "3fd449d42e0e3c205e3a8ad6a3b7ab9310bd6b43e9bc4c10ff2db53f74c58175",
+    "retrieved_at": "2026-10-20T18:57:21.700995+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "IdentityQueryEvents": {
+    "path": "sources/IdentityQueryEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-identityqueryevents-table",
+    "revision": "e5e024df2189c2f05c8a7a66f60fff59a0c0bfd8",
+    "sha256": "58d4b96451546461f09b94cb2e4eee464b7325c184f0ee318c9e5cd8fe77366d",
+    "retrieved_at": "2026-10-20T18:57:21.841496+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "EmailEvents": {
+    "path": "sources/EmailEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-emailevents-table",
+    "revision": "7b81a36fe4c8de71739108f2d0609600b1d4a948",
+    "sha256": "3e08c0f9c027897663306174aa4706292d94c325f063b623d103d8daed3d023d",
+    "retrieved_at": "2026-10-20T18:57:21.836995+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "EmailAttachmentInfo": {
+    "path": "sources/EmailAttachmentInfo.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-emailattachmentinfo-table",
+    "revision": "85edd43c7c9a2cd616d1398e24ece96d73d92070",
+    "sha256": "2aae4f417015ad6fc4235c309fabf6e3beda2102c23ef9f04123c460e9eca4a3",
+    "retrieved_at": "2026-10-20T18:57:21.963995+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "EmailUrlInfo": {
+    "path": "sources/EmailUrlInfo.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-emailurlinfo-table",
+    "revision": "85edd43c7c9a2cd616d1398e24ece96d73d92070",
+    "sha256": "cfc82fbba834eba2947cbbaad00e1d122ec40966713728d39ae743ce517811a9",
+    "retrieved_at": "2026-10-20T18:57:22.116495+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "EmailPostDeliveryEvents": {
+    "path": "sources/EmailPostDeliveryEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-emailpostdeliveryevents-table",
+    "revision": "2bbcd089e7b09cbccc9bf4e54b9348c5e03086b5",
+    "sha256": "bbfff4ddae67ebdebab9810656c9a7c551a3c88e3b667d7cedf011657d049271",
+    "retrieved_at": "2026-10-20T18:57:22.179996+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "UrlClickEvents": {
+    "path": "sources/UrlClickEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-urlclickevents-table",
+    "revision": "28b4ed8c18fa33979b73cad650bea2a1ece0651a",
+    "sha256": "5a74b5d7e455dcf6dced429ffbe4805355ee377eb0af1705f95375a3ac54764b",
+    "retrieved_at": "2026-10-20T18:57:22.444497+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceInfo": {
+    "path": "sources/DeviceInfo.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceinfo-table",
+    "revision": "d76991d7491897e9337acf1c2179360dea04f365",
+    "sha256": "18e42e53f550ffd6d9f40354e938e182a489c1108e693e05235ca53a957b49e2",
+    "retrieved_at": "2026-10-20T18:57:22.200996+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceNetworkInfo": {
+    "path": "sources/DeviceNetworkInfo.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicenetworkinfo-table",
+    "revision": "0fdad2971c4f8acbaebefc5e52a5a2f7302a670c",
+    "sha256": "06c5e96dc9d6dfdeffdc11dc82624e601ddaf4a30e391f3a2a0c4064c5255b29",
+    "retrieved_at": "2026-10-20T18:57:22.410995+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceLogonEvents": {
+    "path": "sources/DeviceLogonEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicelogonevents-table",
+    "revision": "2de8e41d2b7cc92b3055cce01b4712225f9b1932",
+    "sha256": "ee605c1ce852b04ba4975fcdfe4bab1649abf5762d35813c0909100985a4a551",
+    "retrieved_at": "2026-10-20T18:57:22.563495+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceProcessEvents": {
+    "path": "sources/DeviceProcessEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table",
+    "revision": "20450c13d2fe9862d9d19fe5703edd98700ff40a",
+    "sha256": "fabbb05c11bcf297e67aa09453fb5feadd34b4a51ee45e5d1794264517f7efc5",
+    "retrieved_at": "2026-10-20T18:57:22.422996+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceNetworkEvents": {
+    "path": "sources/DeviceNetworkEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicenetworkevents-table",
+    "revision": "0fdad2971c4f8acbaebefc5e52a5a2f7302a670c",
+    "sha256": "80a9e2d4ad367c280895a3c9830242579134431962326b8531151f2d300c6539",
+    "retrieved_at": "2026-10-20T18:57:22.836497+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceFileEvents": {
+    "path": "sources/DeviceFileEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicefileevents-table",
+    "revision": "0fdad2971c4f8acbaebefc5e52a5a2f7302a670c",
+    "sha256": "1e36503c30d84132daee3b14bc7c7243842ca13e5ee9c9deb43545282739c23c",
+    "retrieved_at": "2026-10-20T18:57:22.760995+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceRegistryEvents": {
+    "path": "sources/DeviceRegistryEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table",
+    "revision": "975963bfa72bc3eea3f0126638f483f6d054614f",
+    "sha256": "c3b0d6381526ea408013bd0be3bff2af142cbb8742babcd6a352f7a7808f2e83",
+    "retrieved_at": "2026-10-20T18:57:22.742497+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "DeviceEvents": {
+    "path": "sources/DeviceEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceevents-table",
+    "revision": "0fdad2971c4f8acbaebefc5e52a5a2f7302a670c",
+    "sha256": "440a883d73fa76244d6b3bdc7a4e645a3ebe2c564b02aec2161e7a50b742792b",
+    "retrieved_at": "2026-10-20T18:57:22.852995+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "CloudAppEvents": {
+    "path": "sources/CloudAppEvents.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-cloudappevents-table",
+    "revision": "e5e024df2189c2f05c8a7a66f60fff59a0c0bfd8",
+    "sha256": "1bf69490455a7cf82cf744144beb6cdb596f1f55ebad0068ef30e29db18c11da",
+    "retrieved_at": "2026-10-20T18:57:22.955999+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "AlertInfo": {
+    "path": "sources/AlertInfo.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-alertinfo-table",
+    "revision": "acb4e288f585b987bafd55b4cdf3bb7599934b9b",
+    "sha256": "aae14104df9a32a1c0c47eed4794fe9f91192ab4b73f5da57b58d8ddd889a2a1",
+    "retrieved_at": "2026-10-20T18:57:22.962495+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  },
+  "AlertEvidence": {
+    "path": "sources/AlertEvidence.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-alertevidence-table",
+    "revision": "acb4e288f585b987bafd55b4cdf3bb7599934b9b",
+    "sha256": "8f8e178321755c4f205a26c025802e639e88c1041a0775dbe207333524008e4c",
+    "retrieved_at": "2026-10-20T18:57:23.147495+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+    "source_kind": "published-html"
+  }
+}

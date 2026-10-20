@@ -11,6 +11,7 @@ from mockazure.population.adapters import (
     device_estate,
     directory,
     evidence,
+    hunting,
     identity_lifecycle,
     keyvault,
     licensing,
@@ -49,6 +50,7 @@ def registry():
         *site_access.adapters(),
         *workloads.adapters(),
         *evidence.adapters(),
+        *hunting.adapters(),
         *activity.adapters(),
         *arm.adapters(),
     ]

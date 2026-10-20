@@ -1038,3 +1038,11 @@ cover Graph SDK create/update/delete/restore and invitations, real credential
 rollover, existing-token denial after disablement, original PowerShell PIM, and
 Azure SDK role removal followed by Blob access denial. New soft-deletions publish
 `Delete user`; historical hard-delete facts retain their original labels.
+# Hunting data management
+
+All 20 approved hunting tables now have source-pinned column/type contracts,
+PostgreSQL storage, fixture import and service-browser inspection. Authenticated
+`/_mock/tenants/{tenant}/hunting` controls provide table metadata, paged export,
+explicit retention and tenant-scoped reset. This is management-plane data support;
+the public hunting query route is qualified separately. See
+[limits and provenance](docs/hunting-data.md).
