@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "phase": "hunting",
+  "scale": "large",
+  "distribution": "native",
+  "source_sha": "bab9eb9571ae901c4206b828c6807c929f450842",
+  "source_dirty": false,
+  "source_fingerprint": "2555ae29c579e47dccc250b8d7d5a32fe0baa7288f55c85b519e87923a9bf92b",
+  "passed": true,
+  "started_at": "2026-10-20T20:19:56.689497+00:00",
+  "cases": {
+    "population": {
+      "state": "passed",
+      "progress": {
+        "created": 110063,
+        "updated": 0,
+        "verified": 127733,
+        "unchanged": 17670
+      },
+      "seconds": 3564.559
+    },
+    "cookbook": {
+      "state": "passed",
+      "queries": [
+        {
+          "id": "IdentityInfo",
+          "rows": 20,
+          "seconds": 1.203,
+          "response_bytes": 2229
+        },
+        {
+          "id": "IdentityLogonEvents",
+          "rows": 20,
+          "seconds": 0.765,
+          "response_bytes": 2229
+        },
+        {
+          "id": "IdentityDirectoryEvents",
+          "rows": 20,
+          "seconds": 0.86,
+          "response_bytes": 2229
+        },
+        {
+          "id": "IdentityQueryEvents",
+          "rows": 20,
+          "seconds": 0.953,
+          "response_bytes": 2229
+        },
+        {
+          "id": "EmailEvents",
+          "rows": 20,
+          "seconds": 0.781,
+          "response_bytes": 1886
+        },
+        {
+          "id": "EmailAttachmentInfo",
+          "rows": 20,
+          "seconds": 0.688,
+          "response_bytes": 2250
+        },
+        {
+          "id": "EmailUrlInfo",
+          "rows": 20,
+          "seconds": 0.64,
+          "response_bytes": 2250
+        },
+        {
+          "id": "EmailPostDeliveryEvents",
+          "rows": 20,
+          "seconds": 0.735,
+          "response_bytes": 2250
+        },
+        {
+          "id": "UrlClickEvents",
+          "rows": 20,
+          "seconds": 0.812,
+          "response_bytes": 2250
+        },
+        {
+          "id": "DeviceInfo",
+          "rows": 20,
+          "seconds": 1.063,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceNetworkInfo",
+          "rows": 20,
+          "seconds": 0.765,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceLogonEvents",
+          "rows": 20,
+          "seconds": 1.032,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceProcessEvents",
+          "rows": 20,
+          "seconds": 1.234,
+          "response_bytes": 2229
+        },
+        {
+          "id": "DeviceNetworkEvents",
+          "rows": 20,
+          "seconds": 1.062,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceFileEvents",
+          "rows": 20,
+          "seconds": 1.266,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceRegistryEvents",
+          "rows": 20,
+          "seconds": 1.328,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceEvents",
+          "rows": 1,
+          "seconds": 1.594,
+          "response_bytes": 266
+        },
+        {
+          "id": "CloudAppEvents",
+          "rows": 20,
+          "seconds": 1.078,
+          "response_bytes": 2446
+        },
+        {
+          "id": "AlertInfo",
+          "rows": 20,
+          "seconds": 0.828,
+          "response_bytes": 2061
+        },
+        {
+          "id": "AlertEvidence",
+          "rows": 20,
+          "seconds": 1.047,
+          "response_bytes": 2229
+        },
+        {
+          "id": "join-identity-device",
+          "rows": 20,
+          "seconds": 1.938,
+          "response_bytes": 3604
+        },
+        {
+          "id": "join-email-attachment",
+          "rows": 16,
+          "seconds": 1.765,
+          "response_bytes": 2912
+        },
+        {
+          "id": "join-alert-entity",
+          "rows": 20,
+          "seconds": 1.5,
+          "response_bytes": 3148
+        },
+        {
+          "id": "join-user-cloud",
+          "rows": 20,
+          "seconds": 1.641,
+          "response_bytes": 3246
+        }
+      ]
+    },
+    "python": {
+      "state": "passed",
+      "client": "msgraph-sdk",
+      "version": "1.64.0"
+    },
+    "powershell": {
+      "state": "passed",
+      "client": "Microsoft.Graph.Security",
+      "version": "2.35.1",
+      "cmdlet": "Start-MgSecurityHuntingQuery",
+      "schema": [
+        {
+          "name": "DeviceId",
+          "type": "String"
+        },
+        {
+          "name": "DeviceName",
+          "type": "String"
+        }
+      ],
+      "device_id": "3a16be2e4ffe56f2832f77eeb7f1e348"
+    },
+    "isolation": {
+      "state": "passed",
+      "other_tenant_id": "3076e4ba-4ec6-480d-9708-8fe5eec9b597",
+      "foreign_rows": 0,
+      "overlapping_device_name": "BUS-4b6c53d294-00000",
+      "incident_patch_status": 405
+    },
+    "scale": {
+      "state": "passed",
+      "users": 2500,
+      "table_counts": {
+        "AlertEvidence": 5000,
+        "AlertInfo": 5000,
+        "CloudAppEvents": 5000,
+        "DeviceEvents": 5000,
+        "DeviceFileEvents": 5000,
+        "DeviceInfo": 5000,
+        "DeviceLogonEvents": 5000,
+        "DeviceNetworkEvents": 5000,
+        "DeviceNetworkInfo": 5000,
+        "DeviceProcessEvents": 5000,
+        "DeviceRegistryEvents": 5000,
+        "EmailAttachmentInfo": 5000,
+        "EmailEvents": 5000,
+        "EmailPostDeliveryEvents": 5000,
+        "EmailUrlInfo": 5000,
+        "IdentityDirectoryEvents": 5000,
+        "IdentityInfo": 5000,
+        "IdentityLogonEvents": 5000,
+        "IdentityQueryEvents": 5000,
+        "UrlClickEvents": 5000
+      },
+      "total_rows": 100000,
+      "payload_bytes": 52309018,
+      "qualification_peak_memory_bytes": 204529664,
+      "memory_scope": "client qualification process peak resident/working set; excludes API and PostgreSQL"
+    },
+    "replay": {
+      "state": "passed",
+      "created": 0
+    }
+  },
+  "population_recovery": {
+    "initial_candidate": "5172826991cc92ece8d8c211fc5ed372c301e8a2",
+    "final_candidate": "bab9eb9571ae901c4206b828c6807c929f450842",
+    "attempts": [
+      {
+        "reason": "PostgreSQL serialization conflict",
+        "sqlstate": "40001",
+        "action": "resume original frozen run"
+      },
+      {
+        "reason": "100 repeated scope validations exceeded 18-second operation timeout",
+        "action": "install tested batched adapter; resume original frozen run",
+        "progress": {
+          "created": 4606,
+          "updated": 0,
+          "verified": 17670,
+          "unchanged": 13064
+        }
+      }
+    ]
+  },
+  "failed_cases": [],
+  "tenant_id": "edf7547d-254c-4f36-902f-49d0de0029b3",
+  "run_id": "985b3527-9b39-4cd2-aa82-d8f9815765e1",
+  "qualification_resume": true,
+  "completed_at": "2026-10-20T21:37:13.737496+00:00"
+}

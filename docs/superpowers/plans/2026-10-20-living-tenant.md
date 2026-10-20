@@ -10,7 +10,10 @@
 
 **Spec:** [Approved design](../specs/2026-10-20-living-tenant-design.md), approved 2026-10-20.
 
-**Status:** Approved by the user on 2026-10-20. Native implementation in progress.
+**Status:** A1–A6, B1–B3, C1–C6 and D1–D4 are implemented and locally qualified
+as of 2026-10-20. Runtime candidate: `bab9eb9571ae901c4206b828c6807c929f450842`.
+See the [final results, decisions and remaining limitations](../../qualification/living-tenant-results.md).
+Hosted CI is blocked before execution by GitHub's billing/spending restriction.
 
 ## Global constraints
 

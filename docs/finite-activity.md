@@ -63,8 +63,10 @@ The content gate populates an isolated tenant, compares IDs through the original
 Graph SDK, downloads matching document bytes through the original Blob and File
 SDKs, reads Table and Queue data, collects mailbox links through the original
 Exchange module, and verifies namespace replay creates no duplicates. It writes
-an incomplete report if any required check fails. Other phase choices are rejected
-until their gates are implemented.
+an incomplete report if any required check fails. The verifier supports
+`--phase content|evidence|identity|hunting|all`; `all` runs each gate against its
+own populated tenant. See the [combined qualification results](qualification/living-tenant-results.md)
+for Native, Compose, installed-package, browser and large-preset evidence.
 
 Python client dependencies come from the locked `clients` group. Exchange
 qualification requires the unchanged, checksum-verified ExchangeOnlineManagement
@@ -85,4 +87,4 @@ from its base commit; `source_dirty` means it tested the pending feature changes
 The accompanying acceptance run passed 896 unit/integration checks and the native
 browser test exercised count/pacing, cancellation/resume, preset defaults and
 related-resource navigation. Larger scale and the remaining program phases have
-separate qualification gates.
+separate qualification gates, now recorded in the combined results linked above.

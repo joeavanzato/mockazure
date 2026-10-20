@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "phase": "hunting",
+  "scale": "small",
+  "distribution": "native",
+  "source_sha": "bab9eb9571ae901c4206b828c6807c929f450842",
+  "source_dirty": false,
+  "source_fingerprint": "2555ae29c579e47dccc250b8d7d5a32fe0baa7288f55c85b519e87923a9bf92b",
+  "passed": true,
+  "started_at": "2026-10-20T20:54:46.759496+00:00",
+  "cases": {
+    "population": {
+      "state": "passed",
+      "progress": {
+        "created": 853,
+        "updated": 0,
+        "verified": 853,
+        "unchanged": 0
+      },
+      "seconds": 101.0
+    },
+    "cookbook": {
+      "state": "passed",
+      "queries": [
+        {
+          "id": "IdentityInfo",
+          "rows": 20,
+          "seconds": 0.453,
+          "response_bytes": 2229
+        },
+        {
+          "id": "IdentityLogonEvents",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2229
+        },
+        {
+          "id": "IdentityDirectoryEvents",
+          "rows": 20,
+          "seconds": 0.032,
+          "response_bytes": 2229
+        },
+        {
+          "id": "IdentityQueryEvents",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2229
+        },
+        {
+          "id": "EmailEvents",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 1886
+        },
+        {
+          "id": "EmailAttachmentInfo",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2250
+        },
+        {
+          "id": "EmailUrlInfo",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2250
+        },
+        {
+          "id": "EmailPostDeliveryEvents",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2250
+        },
+        {
+          "id": "UrlClickEvents",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2250
+        },
+        {
+          "id": "DeviceInfo",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceNetworkInfo",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceLogonEvents",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceProcessEvents",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2229
+        },
+        {
+          "id": "DeviceNetworkEvents",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceFileEvents",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceRegistryEvents",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2002
+        },
+        {
+          "id": "DeviceEvents",
+          "rows": 1,
+          "seconds": 0.047,
+          "response_bytes": 264
+        },
+        {
+          "id": "CloudAppEvents",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2446
+        },
+        {
+          "id": "AlertInfo",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 2061
+        },
+        {
+          "id": "AlertEvidence",
+          "rows": 20,
+          "seconds": 0.031,
+          "response_bytes": 2229
+        },
+        {
+          "id": "join-identity-device",
+          "rows": 20,
+          "seconds": 0.047,
+          "response_bytes": 3604
+        },
+        {
+          "id": "join-email-attachment",
+          "rows": 16,
+          "seconds": 0.032,
+          "response_bytes": 2912
+        },
+        {
+          "id": "join-alert-entity",
+          "rows": 20,
+          "seconds": 0.046,
+          "response_bytes": 3148
+        },
+        {
+          "id": "join-user-cloud",
+          "rows": 20,
+          "seconds": 0.032,
+          "response_bytes": 3246
+        }
+      ]
+    },
+    "python": {
+      "state": "passed",
+      "client": "msgraph-sdk",
+      "version": "1.64.0"
+    },
+    "powershell": {
+      "state": "passed",
+      "client": "Microsoft.Graph.Security",
+      "version": "2.35.1",
+      "cmdlet": "Start-MgSecurityHuntingQuery",
+      "schema": [
+        {
+          "type": "String",
+          "name": "DeviceId"
+        },
+        {
+          "type": "String",
+          "name": "DeviceName"
+        }
+      ],
+      "device_id": "8ca31d4f7ecf55f896be3e86598ea995"
+    },
+    "isolation": {
+      "state": "passed",
+      "other_tenant_id": "52d3cf27-7eeb-4536-8e84-14cf0d7eee6b",
+      "foreign_rows": 0,
+      "overlapping_device_name": "BUS-4a5b667b9d-00000",
+      "incident_patch_status": 405
+    },
+    "scale": {
+      "state": "passed",
+      "users": 20,
+      "table_counts": {
+        "AlertEvidence": 20,
+        "AlertInfo": 20,
+        "CloudAppEvents": 20,
+        "DeviceEvents": 20,
+        "DeviceFileEvents": 20,
+        "DeviceInfo": 20,
+        "DeviceLogonEvents": 20,
+        "DeviceNetworkEvents": 20,
+        "DeviceNetworkInfo": 20,
+        "DeviceProcessEvents": 20,
+        "DeviceRegistryEvents": 20,
+        "EmailAttachmentInfo": 20,
+        "EmailEvents": 20,
+        "EmailPostDeliveryEvents": 20,
+        "EmailUrlInfo": 20,
+        "IdentityDirectoryEvents": 20,
+        "IdentityInfo": 20,
+        "IdentityLogonEvents": 20,
+        "IdentityQueryEvents": 20,
+        "UrlClickEvents": 20
+      },
+      "total_rows": 400,
+      "payload_bytes": 208382,
+      "qualification_peak_memory_bytes": 204468224,
+      "memory_scope": "client qualification process peak resident/working set; excludes API and PostgreSQL"
+    },
+    "replay": {
+      "state": "passed",
+      "created": 0
+    }
+  },
+  "tenant_id": "73cb6ce6-2b1e-4747-b9ae-808a91a2dc67",
+  "run_id": "3acc763a-37f9-49e0-a1e9-49e1e9653535",
+  "failed_cases": [],
+  "completed_at": "2026-10-20T20:57:45.479496+00:00"
+}
