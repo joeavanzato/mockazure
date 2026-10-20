@@ -178,6 +178,7 @@ async def login(request: Request):
             not user
             or not user.enabled
             or user.deleted_at is not None
+            or user.profile.get("externalUserState") == "PendingAcceptance"
             or not await asyncio.to_thread(verify_secret, fields.get("password", ""), user.verifier)
         ):
             from mockazure.evidence.authentication import annotate_failure
@@ -287,6 +288,7 @@ async def current_user(row, session, *, request=None, flow="authorization_code",
         or user.deleted_at is not None
         or user.tenant_id != row.tenant_id
         or user.password_change_required
+        or user.profile.get("externalUserState") == "PendingAcceptance"
         or user.credential_version != getattr(row, "credential_version", 0)
         or (
             app is not None

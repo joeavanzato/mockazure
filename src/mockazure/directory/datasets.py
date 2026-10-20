@@ -38,6 +38,8 @@ class PublicUser(IdentityInput):
     mailNickname: str = Field(min_length=1, max_length=64)
     accountEnabled: StrictBool = True
     userType: Literal["Member", "Guest"] = "Member"
+    externalUserState: Literal["PendingAcceptance", "Accepted"] | None = None
+    externalUserStateChangeDateTime: AwareDatetime | None = None
     createdDateTime: AwareDatetime = Field(default_factory=lambda: datetime.now(UTC))
     givenName: str | None = Field(default=None, max_length=200)
     surname: str | None = Field(default=None, max_length=200)
@@ -53,6 +55,12 @@ class PublicUser(IdentityInput):
     @classmethod
     def upn(cls, value):
         return UserCreate.upn_valid(value)
+
+    @model_validator(mode="after")
+    def external_state(self):
+        if self.userType != "Guest" and self.externalUserState is not None:
+            raise ValueError("External acceptance state belongs only to guests")
+        return self
 
     @field_validator("businessPhones")
     @classmethod

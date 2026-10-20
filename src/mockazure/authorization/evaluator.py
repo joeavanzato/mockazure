@@ -55,7 +55,11 @@ async def require_current_identity(context: PrincipalContext, session) -> None:
                 User.deleted_at.is_(None),
             )
         )
-        if user is None or user.password_change_required:
+        if (
+            user is None
+            or user.password_change_required
+            or user.profile.get("externalUserState") == "PendingAcceptance"
+        ):
             raise AuthorizationDenied("Signed-in user cannot access this resource")
         if context.session_id is not None:
             from datetime import UTC, datetime

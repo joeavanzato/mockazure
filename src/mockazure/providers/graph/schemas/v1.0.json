@@ -5667,6 +5667,73 @@
       },
       "required": []
     },
+    "invitation": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "invitedUserDisplayName": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "invitedUserEmailAddress": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "invitedUserMessageInfo": {
+          "type": "graph.invitedUserMessageInfo",
+          "nullable": true
+        },
+        "invitedUserType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "inviteRedeemUrl": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "inviteRedirectUrl": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "resetRedemption": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "sendInvitationMessage": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "invitedUserEmailAddress",
+        "inviteRedirectUrl"
+      ],
+      "base": "entity"
+    },
+    "invitedUserMessageInfo": {
+      "properties": {
+        "ccRecipients": {
+          "type": "Collection(graph.recipient)",
+          "nullable": true
+        },
+        "customizedMessageBody": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "messageLanguage": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "iosCompliancePolicy": {
       "properties": {
         "id": {

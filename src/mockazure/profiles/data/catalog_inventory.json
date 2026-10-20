@@ -27,6 +27,7 @@
     "identity.clients",
     "identity.directoryRoles",
     "identity.grants",
+    "identity.guestInvitations",
     "identity.skus",
     "intune.detectedApp",
     "intune.deviceComplianceDeviceStatus",

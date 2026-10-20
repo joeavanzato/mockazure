@@ -113,6 +113,10 @@ Directory mutations publish sanitized audit facts, not merely changes to static 
 See [identity lifecycle behavior](docs/identity-lifecycle.md) for token boundaries
 and the distinction between account disablement, grant removal and revocation.
 
+| Microsoft Graph guest URI | MockAzure support | Notes / unsupported parts | Official reference |
+| --- | --- | --- | --- |
+| `/v1.0/invitations` | Partial: POST | Canonical Guest creation, PendingAcceptance/Accepted state, stable-ID reinvitation, explicit resetRedemption, per-operation permissions and bounded local invitation policy. Configured local redirects only; local operator redemption and locally recorded delivery. No external email/identity exchange, Member invitations or sponsors. | [Create invitation](https://learn.microsoft.com/en-us/graph/api/invitation-post?view=graph-rest-1.0), [invitation resource](https://learn.microsoft.com/en-us/graph/api/resources/invitation?view=graph-rest-1.0) |
+
 | Microsoft Graph deleted-object URI | MockAzure support | Notes / unsupported parts | Official reference |
 | --- | --- | --- | --- |
 | `/v1.0/directory/deletedItems/microsoft.graph.{type}` | Partial: GET | `user`, `application`, `servicePrincipal`; type cast required. `$select`, `$top` (1–999), caller-bound paging with current retention checks. No advanced filters/expansions/order/search/count. | [List deleted items](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-list?view=graph-rest-1.0) |

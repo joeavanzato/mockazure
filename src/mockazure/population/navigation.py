@@ -15,6 +15,19 @@ async def related(ctx, family, identifier, parent):
     )
     if not page.items:
         raise AdminError(404, "ResourceNotFound", "The selected resource does not exist")
+    if family == "identity.guestInvitations":
+        return {
+            "items": [
+                {
+                    "family": "directory.users",
+                    "id": str(page.items[0].properties["userId"]),
+                    "parent": None,
+                    "relation": "invitedUser",
+                    "direction": "outgoing",
+                }
+            ],
+            "truncated": False,
+        }
     parts = family.split(".", 1)
     workload = parts[0] if parts[0] in {"sharepoint", "teams", "intune"} else None
     if workload is None or parts[1] == "relationships":

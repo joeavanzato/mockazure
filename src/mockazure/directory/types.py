@@ -18,6 +18,8 @@ USER_FIELDS = frozenset(
         "assignedLicenses",
         "assignedPlans",
         "userType",
+        "externalUserState",
+        "externalUserStateChangeDateTime",
         "createdDateTime",
         "signInSessionsValidFromDateTime",
         "jobTitle",

@@ -27,7 +27,8 @@ def adapters():
             key=f"directory.{family}",
             service="Entra",
             api_path=f"/v1.0/{family}",
-            display_fields=["id", "displayName", "mailNickname"],
+            display_fields=["id", "displayName", "mailNickname"]
+            + (["userType", "externalUserState"] if family == "users" else []),
             operations=[
                 OperationDescriptor(
                     key="import",

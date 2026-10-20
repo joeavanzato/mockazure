@@ -218,6 +218,8 @@ def main():
         "types": extract(
             args.input,
             (
+                "invitation",
+                "invitedUserMessageInfo",
                 "site",
                 "list",
                 "listItem",

@@ -235,19 +235,23 @@
     },
     {
       "operation_key": "identity.guest.invite",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "invitation-post",
         "graph-csdl",
         "docs-license",
         "permission-invitation-post-permissions",
-        "metadata-license"
+        "metadata-license",
+        "resource-invitation",
+        "resource-invitedusermessageinfo"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Invitation emits a sanitized Invite external user audit; separately authenticated local acceptance emits Update user with explicit local-guest-redemption provenance. No external login is asserted."
       ]
     },
     {

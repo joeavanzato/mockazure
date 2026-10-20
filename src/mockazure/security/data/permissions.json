@@ -1018,6 +1018,18 @@
       "adminConsentRequired": true
     },
     {
+      "name": "User.Invite.All",
+      "kind": "application",
+      "id": "09850681-111b-4a89-9bed-3f2cae46d706",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "User.Invite.All",
+      "kind": "delegated",
+      "id": "63dd7cd9-b489-4adf-a28c-ac38b9a0f962",
+      "adminConsentRequired": true
+    },
+    {
       "name": "User.Read",
       "kind": "delegated",
       "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",

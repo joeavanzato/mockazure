@@ -10,6 +10,8 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "User.Invite.All", "application", True),
+    PermissionDefinition("graph", "User.Invite.All", "delegated", True),
     PermissionDefinition("graph", "User.DeleteRestore.All", "application", True),
     PermissionDefinition("graph", "User.DeleteRestore.All", "delegated", True),
     PermissionDefinition("graph", "User.RevokeSessions.All", "application", True),

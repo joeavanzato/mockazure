@@ -98,3 +98,50 @@ Upgrade recovery for already-deleted identities uses only retained public state:
 missing ownership, memberships, consent and credentials are not reconstructed.
 These legacy objects restore disabled and require explicit enablement. Sanitized
 restore/purge audit events preserve actor and target references.
+
+## Local guest invitations
+
+`POST /v1.0/invitations` accepts the sourced invitation fields:
+`invitedUserEmailAddress`, local `inviteRedirectUrl`, optional
+`invitedUserDisplayName`, `invitedUserType: "Guest"`, `sendInvitationMessage`,
+`invitedUserMessageInfo`, and the explicit `resetRedemption`/`invitedUser.id` variant.
+Member invitations and sponsors are outside this profile. Email validation uses
+the bounded ASCII character profile in Microsoft's invitation reference.
+
+The API creates a canonical guest with `externalUserState: "PendingAcceptance"`.
+Pending guests cannot authenticate or use protected resources. Ordinary
+reinvitation preserves the guest ID and existing acceptance. Resetting redemption
+requires `User.ReadWrite.All` or `Directory.ReadWrite.All`, retains membership and
+assignments, invalidates local sessions, and supersedes old redemption links.
+An email belonging to another active guest cannot be retargeted.
+
+The returned `inviteRedeemUrl` points to the **authenticated local POST**
+`/_mock/tenants/{tenant}/guests/{invitation}/redeem`, not an external identity
+provider. Call it with the normal lab management token or authenticated console
+session/CSRF headers. It changes the local guest to `Accepted`, returns the
+configured redirect URL as data, and grants no consent, roles or memberships.
+Repeating redemption is safe; superseded links return 409. No external sign-in,
+home-tenant session revocation, email delivery or redirect fetch is performed.
+
+Inviting requires `User.Invite.All` or a supported higher user/directory write
+permission. The local policy endpoint
+`GET/PUT /_mock/tenants/{tenant}/guests/policy` exposes `enabled` and
+`allow_member_invites` Booleans (both default true). Disabling invitations blocks
+app-only callers too. Restricting member invitations requires a supported Guest
+Inviter, Directory Writers, User Administrator or Global Administrator delegated
+role. Delegated redemption reset requires Helpdesk Administrator, User
+Administrator or Global Administrator.
+
+Only configured browser origins are accepted for redirect destinations.
+`sendInvitationMessage: true` stores a local plain-text delivery record, including
+at most one CC recipient. Browse `identity.guestInvitations` in the service console
+to see its delivery mode, message, status and related guest. No SMTP transport is
+used. The users browser also displays user type and external acceptance state.
+
+For testing guest API access, explicitly provision an `identity.clients` named
+delegated fixture for the accepted credentialless guest. The existing local
+password/PKCE/consent flow then issues tokens; ordinary group/site/Teams checks
+still decide access. Invitation creation emits an `Invite external user` audit.
+Local acceptance emits an `Update user` audit with `local-guest-redemption`
+provenance; it does not assert that an external identity provider authenticated
+the guest.

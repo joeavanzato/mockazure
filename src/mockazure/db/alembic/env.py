@@ -9,7 +9,10 @@ from mockazure.console import models as console_models  # noqa: F401
 from mockazure.content import models as content_models  # noqa: F401
 from mockazure.db.models import Base
 from mockazure.evidence import models as evidence_models  # noqa: F401
-from mockazure.identity import deleted_models  # noqa: F401
+from mockazure.identity import (
+    deleted_models,  # noqa: F401
+    invitation_models,  # noqa: F401
+)
 from mockazure.keyvault import models as vault_models  # noqa: F401
 from mockazure.keyvault import secret_models  # noqa: F401
 from mockazure.licensing import models as licensing_models  # noqa: F401
