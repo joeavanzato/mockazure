@@ -29,6 +29,11 @@ def public_object(row: User | Group) -> DirectoryObject:
             assignedLicenses=row.profile.get("assignedLicenses", []),
             assignedPlans=row.profile.get("assignedPlans", []),
             createdDateTime=row.created_at.isoformat().replace("+00:00", "Z"),
+            signInSessionsValidFromDateTime=(
+                row.sessions_valid_from.isoformat().replace("+00:00", "Z")
+                if row.sessions_valid_from
+                else None
+            ),
         )
         kind = "user"
     else:

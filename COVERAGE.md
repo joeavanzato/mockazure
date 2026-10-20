@@ -102,6 +102,17 @@ contains the precise authorization/property allowlists.
 Delta accepts `delta()`, `microsoft.graph.delta` and `microsoft.graph.delta()` aliases.
 Directory mutations publish sanitized audit facts, not merely changes to static fixtures.
 
+### User lifecycle and managers (v1.0)
+
+| Microsoft Graph URI | MockAzure support | Notes / unsupported parts | Official reference |
+| --- | --- | --- | --- |
+| `/v1.0/users/{id-or-UPN}/revokeSignInSessions`, `/v1.0/me/revokeSignInSessions` | Partial: POST | Real local refresh/browser/code revocation and wall-time `signInSessionsValidFromDateTime`. `/me` delegated-only; application needs `User.RevokeSessions.All`; delegated cross-user privileged-target checks. External guest home authority is not revoked. Local session-bound access tokens fail immediately; this is not a universal issued-token revocation promise. | [Revoke sessions](https://learn.microsoft.com/en-us/graph/api/user-revokesigninsessions?view=graph-rest-1.0) |
+| `/v1.0/users/{id-or-UPN}/manager/$ref` | Partial: PUT / DELETE | Local user managers, permission and delegated-role checks, atomic cycle/tenant checks and directory audit. No organizational-contact managers. | [Assign manager](https://learn.microsoft.com/en-us/graph/api/user-post-manager?view=graph-rest-1.0), [remove manager](https://learn.microsoft.com/en-us/graph/api/user-delete-manager?view=graph-rest-1.0) |
+| `/v1.0/users/{id-or-UPN}/manager`, `/v1.0/me/manager` | Partial: GET | Delegated-only under the pinned Microsoft v1.0 permission contract; `$select`; no expanded manager chains. | [Read manager](https://learn.microsoft.com/en-us/graph/api/user-list-manager?view=graph-rest-1.0) |
+
+See [identity lifecycle behavior](docs/identity-lifecycle.md) for token boundaries
+and the distinction between account disablement, grant removal and revocation.
+
 
 ### Directory collection expansion (v1.0)
 

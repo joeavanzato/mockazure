@@ -140,7 +140,7 @@
     },
     {
       "operation_key": "identity.manager.set",
-      "source_kind": "directory",
+      "source_kind": "security",
       "outcome": "success",
       "destinations": [
         "directoryAudit"
@@ -154,12 +154,12 @@
       ],
       "native": true,
       "limitations": [
-        "No-op changes are suppressed; credentials are excluded from changed properties."
+        "No manager audit for no-op changes; external guest revocation produces no local revocation fact. Tokens and credentials excluded."
       ]
     },
     {
       "operation_key": "identity.manager.remove",
-      "source_kind": "directory",
+      "source_kind": "security",
       "outcome": "success",
       "destinations": [
         "directoryAudit"
@@ -173,7 +173,7 @@
       ],
       "native": true,
       "limitations": [
-        "No-op changes are suppressed; credentials are excluded from changed properties."
+        "No manager audit for no-op changes; external guest revocation produces no local revocation fact. Tokens and credentials excluded."
       ]
     },
     {
@@ -197,9 +197,11 @@
     },
     {
       "operation_key": "identity.sessions.revoke",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "user-revokesigninsessions",
         "graph-csdl",
@@ -207,16 +209,18 @@
         "permission-user-revokesigninsessions-permissions",
         "metadata-license"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "No manager audit for no-op changes; external guest revocation produces no local revocation fact. Tokens and credentials excluded."
       ]
     },
     {
       "operation_key": "identity.sessions.revoke-me",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "user-revokesigninsessions",
         "graph-csdl",
@@ -224,9 +228,9 @@
         "permission-user-revokesigninsessions-permissions",
         "metadata-license"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "No manager audit for no-op changes; external guest revocation produces no local revocation fact. Tokens and credentials excluded."
       ]
     },
     {
@@ -6307,6 +6311,40 @@
       "native": true,
       "limitations": [
         "Only locally resolved known identities are attributable; authentication flow retains existing eligibility and redaction rules."
+      ]
+    },
+    {
+      "operation_key": "identity.manager.read",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "user-list-manager",
+        "permission-user-list-manager-permissions",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "Read-only navigation does not emit a mutation audit."
+      ]
+    },
+    {
+      "operation_key": "identity.manager.read-me",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "user-list-manager",
+        "permission-user-list-manager-permissions",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "Read-only navigation does not emit a mutation audit."
       ]
     }
   ]

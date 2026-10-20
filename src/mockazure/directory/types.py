@@ -19,6 +19,7 @@ USER_FIELDS = frozenset(
         "assignedPlans",
         "userType",
         "createdDateTime",
+        "signInSessionsValidFromDateTime",
         "jobTitle",
         "department",
         "officeLocation",

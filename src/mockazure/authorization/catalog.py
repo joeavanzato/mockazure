@@ -10,6 +10,8 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "User.RevokeSessions.All", "application", True),
+    PermissionDefinition("graph", "User.RevokeSessions.All", "delegated", True),
     PermissionDefinition("graph", "Chat.Create", "application", True),
     PermissionDefinition("graph", "Chat.Create", "delegated", False),
     PermissionDefinition("graph", "ChatMessage.Send", "delegated", False),

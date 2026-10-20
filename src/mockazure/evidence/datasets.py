@@ -180,6 +180,12 @@ def validate_public_payload(version, family, payload):
             continue
         for change in target.get("modifiedProperties") or []:
             name = change["displayName"]
+            if target.get("type") == "User" and name == "manager":
+                for side in ("oldValue", "newValue"):
+                    value = json.loads(change[side]) if change.get(side) else None
+                    if value is not None:
+                        UUID(value)
+                continue
             if target.get("type") == "User" and name == "passwordProfile":
                 for side in ("oldValue", "newValue"):
                     value = json.loads(change[side]) if change.get(side) else None

@@ -1066,6 +1066,18 @@
       "adminConsentRequired": true
     },
     {
+      "name": "User.RevokeSessions.All",
+      "kind": "application",
+      "id": "77f3a031-c388-4f99-b373-dc68676a979e",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "User.RevokeSessions.All",
+      "kind": "delegated",
+      "id": "fc30e98b-8810-4501-81f5-c20a3196387b",
+      "adminConsentRequired": true
+    },
+    {
       "name": "UserAuthMethod-Email.Read",
       "kind": "delegated",
       "id": "12b23cea-90c1-4873-9094-f45c5f290f86",

@@ -899,6 +899,18 @@
       "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/driveitem-createlink-permissions.md",
       "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
       "sha256": "2031857f7ad14b67ed272ccc85185af73cb30b58ff4b2262b93d84524986958d"
+    },
+    "user-list-manager": {
+      "path": "sources/api-reference__v1.0__api__user-list-manager.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-list-manager.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9abb534043f75c57366ff0cac08d8b528f014ee1ce69e2da70b240ce9ba48793"
+    },
+    "permission-user-list-manager-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-list-manager-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-list-manager-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "71f77fbfe4768e52cd9580b8ea922448a09de80d1234bffe214631b3a4f96f48"
     }
   },
   "operations": [
@@ -1073,8 +1085,13 @@
       "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
+      "permissions": [
+        "User.ReadWrite.All",
+        "Directory.ReadWrite.All"
+      ],
+      "role_constraints": [
+        "Delegated: User Administrator or Global Administrator"
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "user-post-manager",
@@ -1085,7 +1102,7 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Existing bounded profile; see COVERAGE.md for implemented fields."
+        "Tenant-local user managers only; no organizational contacts. Cycles rejected; maximum hierarchy depth 1000."
       ]
     },
     {
@@ -1096,8 +1113,13 @@
       "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
+      "permissions": [
+        "User.ReadWrite.All",
+        "Directory.ReadWrite.All"
+      ],
+      "role_constraints": [
+        "Delegated: User Administrator or Global Administrator"
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "user-delete-manager",
@@ -1108,7 +1130,7 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Existing bounded profile; see COVERAGE.md for implemented fields."
+        "Tenant-local user managers only; no organizational contacts. Cycles rejected; maximum hierarchy depth 1000."
       ]
     },
     {
@@ -1139,13 +1161,17 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/users/{user}/revokeSignInSessions",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [
-        "User.RevokeSessions.All"
+        "User.RevokeSessions.All",
+        "Delegated only: User.ReadWrite.All",
+        "Delegated only: Directory.ReadWrite.All"
       ],
-      "role_constraints": [],
+      "role_constraints": [
+        "Cross-user delegated calls enforce privileged-target hierarchy."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "user-revokesigninsessions",
@@ -1156,7 +1182,7 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "External guest home sessions are not revoked. Local session-bound access tokens and refresh/browser authority are invalidated; standalone issued bearer tokens are not retroactively rewritten."
       ]
     },
     {
@@ -1164,13 +1190,17 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/me/revokeSignInSessions",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [
-        "User.RevokeSessions.All"
+        "User.RevokeSessions.All",
+        "Delegated only: User.ReadWrite.All",
+        "Delegated only: Directory.ReadWrite.All"
       ],
-      "role_constraints": [],
+      "role_constraints": [
+        "Cross-user delegated calls enforce privileged-target hierarchy."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "user-revokesigninsessions",
@@ -1181,7 +1211,7 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "External guest home sessions are not revoked. Local session-bound access tokens and refresh/browser authority are invalidated; standalone issued bearer tokens are not retroactively rewritten."
       ]
     },
     {
@@ -2991,6 +3021,48 @@
       ],
       "role_constraints": [
         "Current delegated user or selected app must have a write-level site grant."
+      ]
+    },
+    {
+      "key": "identity.manager.read",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/users/{id}/manager",
+      "status": "existing",
+      "response_type": "directoryObject",
+      "permissions": [
+        "Delegated: User.Read.All, User.ReadWrite.All, Directory.Read.All, Directory.ReadWrite.All"
+      ],
+      "source_refs": [
+        "user-list-manager",
+        "permission-user-list-manager-permissions",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "limitations": [
+        "Delegated-only. Local user managers; $select supported, chain $expand unsupported."
+      ]
+    },
+    {
+      "key": "identity.manager.read-me",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/me/manager",
+      "status": "existing",
+      "response_type": "directoryObject",
+      "permissions": [
+        "Delegated: User.Read.All, User.ReadWrite.All, Directory.Read.All, Directory.ReadWrite.All"
+      ],
+      "source_refs": [
+        "user-list-manager",
+        "permission-user-list-manager-permissions",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "limitations": [
+        "Delegated-only. Local user managers; $select supported, chain $expand unsupported."
       ]
     }
   ],

@@ -287,6 +287,10 @@ async def current_user(row, session, *, request=None, flow="authorization_code",
         or user.tenant_id != row.tenant_id
         or user.password_change_required
         or user.credential_version != getattr(row, "credential_version", 0)
+        or (
+            user.sessions_valid_from is not None
+            and (row.authenticated_at is None or row.authenticated_at <= user.sessions_valid_from)
+        )
     ):
         error = invalid_grant()
         if (

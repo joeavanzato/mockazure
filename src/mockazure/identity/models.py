@@ -20,7 +20,15 @@ class User(Base):
     password_change_required: Mapped[bool] = mapped_column(default=False, server_default="false")
     credential_version: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0")
     __tablename__ = "identity_users"
-    __table_args__ = (UniqueConstraint("tenant_id", "id"), UniqueConstraint("tenant_id", "upn"))
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "id"),
+        UniqueConstraint("tenant_id", "upn"),
+        ForeignKeyConstraint(
+            ["tenant_id", "manager_id"],
+            ["identity_users.tenant_id", "identity_users.id"],
+            name="fk_identity_user_manager",
+        ),
+    )
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     tenant_id: Mapped[UUID] = mapped_column(ForeignKey("tenants.id"), index=True)
     upn: Mapped[str] = mapped_column(String(320))
@@ -30,6 +38,8 @@ class User(Base):
     profile: Mapped[dict] = mapped_column(JSONB, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    sessions_valid_from: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    manager_id: Mapped[UUID | None]
 
 
 class Application(Base):
