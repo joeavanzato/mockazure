@@ -1,0 +1,6191 @@
+{
+  "version": "business-evidence-v1",
+  "sources": {
+    "purview-activities": {
+      "path": "sources/purview-audit.html",
+      "url": "https://learn.microsoft.com/en-us/purview/audit-log-activities",
+      "sha256": "15acf12d5cef3d27cd97b0183f69e4801038dcba727a1018ac69541ab1fc032d"
+    },
+    "management-activity-schema": {
+      "path": "sources/management-schema.md",
+      "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-365-management-api/f22300eab36df54f1efb07be8b23e229d1ff0537/office-365-management-api/office-365-management-activity-api-schema.md",
+      "sha256": "94968478423c3af5624b34c062631377f90eec90871f6a5a50b17d9275381e19"
+    }
+  },
+  "operations": [
+    {
+      "operation_key": "directory.user.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "user-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "directory.group.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "group-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-group-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "directory.application.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "application-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "directory.servicePrincipal.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "serviceprincipal-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "identity.user.create",
+      "source_kind": "directory",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "user-post-users",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-post-users-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.user.update",
+      "source_kind": "directory",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "user-update",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-update-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.user.delete",
+      "source_kind": "directory",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "user-delete",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-delete-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.manager.set",
+      "source_kind": "directory",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "user-post-manager",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-post-manager-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.manager.remove",
+      "source_kind": "directory",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "user-delete-manager",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-delete-manager-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.license.assign",
+      "source_kind": "directory",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "user-assignlicense",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-assignlicense-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.sessions.revoke",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "user-revokesigninsessions",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-revokesigninsessions-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.sessions.revoke-me",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "user-revokesigninsessions",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-revokesigninsessions-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.guest.invite",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "invitation-post",
+        "graph-csdl",
+        "docs-license",
+        "permission-invitation-post-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.deleted.get.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "directory-deleteditems-list",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.deleted.get.{id}",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "directory-deleteditems-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.deleted.post.restore",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "directory-deleteditems-restore",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.deleted.delete.{id}",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "directory-deleteditems-delete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.application.addKey",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "application-addkey",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-addkey-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.application.removeKey",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "application-removekey",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-removekey-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.application.addPassword",
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "application-addpassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-addpassword-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.application.removePassword",
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "application-removepassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-removepassword-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.serviceprincipal.addKey",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "serviceprincipal-addkey",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-addkey-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.serviceprincipal.removeKey",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "serviceprincipal-removekey",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-removekey-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.serviceprincipal.addPassword",
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "serviceprincipal-addpassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-addpassword-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.serviceprincipal.removePassword",
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
+      "schema_refs": [
+        "serviceprincipal-removepassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-removepassword-permissions",
+        "metadata-license"
+      ],
+      "native": true,
+      "limitations": [
+        "No-op changes are suppressed; credentials are excluded from changed properties."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.eligibility.request.get.rbacapplication-list-roleeligibilityschedulerequests",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-list-roleeligibilityschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleeligibilityschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.eligibility.request.post.rbacapplication-post-roleeligibilityschedulerequests",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-post-roleeligibilityschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-post-roleeligibilityschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.eligibility.request.get.unifiedroleeligibilityschedulerequest-get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleeligibilityschedulerequest-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedulerequest-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.eligibility.request.post.unifiedroleeligibilityschedulerequest-cancel",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleeligibilityschedulerequest-cancel",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedulerequest-cancel-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.eligibility.request.get.unifiedroleeligibilityschedulerequest-filterbycurrentuser",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleeligibilityschedulerequest-filterbycurrentuser",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedulerequest-filterbycurrentuser-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleEligibilitySchedules.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-list-roleeligibilityschedules",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleeligibilityschedules-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleEligibilitySchedules.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleeligibilityschedule-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedule-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleEligibilityScheduleInstances.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-list-roleeligibilityscheduleinstances",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleeligibilityscheduleinstances-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleEligibilityScheduleInstances.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleeligibilityscheduleinstance-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityscheduleinstance-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.assignment.request.get.rbacapplication-list-roleassignmentschedulerequests",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-list-roleassignmentschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleassignmentschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.assignment.request.post.rbacapplication-post-roleassignmentschedulerequests",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-post-roleassignmentschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-post-roleassignmentschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.assignment.request.get.unifiedroleassignmentschedulerequest-get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleassignmentschedulerequest-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedulerequest-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.assignment.request.post.unifiedroleassignmentschedulerequest-cancel",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleassignmentschedulerequest-cancel",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedulerequest-cancel-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.assignment.request.get.unifiedroleassignmentschedulerequest-filterbycurrentuser",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleassignmentschedulerequest-filterbycurrentuser",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedulerequest-filterbycurrentuser-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleAssignmentSchedules.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-list-roleassignmentschedules",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleassignmentschedules-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleAssignmentSchedules.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleassignmentschedule-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedule-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleAssignmentScheduleInstances.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "rbacapplication-list-roleassignmentscheduleinstances",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleassignmentscheduleinstances-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.roleAssignmentScheduleInstances.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedroleassignmentscheduleinstance-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentscheduleinstance-get-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.policy.policyroot-list-rolemanagementpolicies",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "policyroot-list-rolemanagementpolicies",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.policy.unifiedrolemanagementpolicy-get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedrolemanagementpolicy-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.policy.unifiedrolemanagementpolicy-list-rules",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedrolemanagementpolicy-list-rules",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.policy.unifiedrolemanagementpolicyrule-get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedrolemanagementpolicyrule-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.policy.policyroot-list-rolemanagementpolicyassignments",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "policyroot-list-rolemanagementpolicyassignments",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.policy.unifiedrolemanagementpolicyassignment-get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedrolemanagementpolicyassignment-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "identity.pim.policy.rule.update",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "unifiedrolemanagementpolicyrule-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.create",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chat-post",
+        "graph-csdl",
+        "docs-license",
+        "permission-chat-post-permissions",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.team.member.add",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "team-post-members",
+        "graph-csdl",
+        "docs-license",
+        "permission-team-post-members-permissions",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.team.member.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "team-get-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-team-get-members-permissions"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "teams.team.member.update",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "team-update-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-team-update-members-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.team.member.delete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "team-delete-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-team-delete-members-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.member.add",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "channel-post-members",
+        "graph-csdl",
+        "docs-license",
+        "permission-channel-post-members-permissions",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.member.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "channel-get-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-channel-get-members-permissions"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.member.update",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "channel-update-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-channel-update-members-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "MemberRoleChanged is documented for team roles, not independent channel roles. Native fact retained."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.member.delete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "channel-delete-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-channel-delete-members-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.member.add",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chat-post-members",
+        "graph-csdl",
+        "docs-license",
+        "permission-chat-post-members-permissions",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.member.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "chat-get-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-chat-get-members-permissions"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.member.update",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "chat-post-members",
+        "chat-get-members",
+        "chat-delete-members",
+        "docs-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is unsupported; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.member.delete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chat-delete-members",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-chat-delete-members-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.message.send",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "channel-post-messages",
+        "graph-csdl",
+        "docs-license",
+        "permission-channel-post-messages-permissions",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "MessageSent has external-participant, preview and audit entitlement constraints. Local internal-only sends retain native facts but do not assert this Purview event."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.message.update",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chatmessage-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.message.softdelete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "chatmessage-softdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "MessageDeleted requires Audit Premium; per-user audit entitlement enforcement is not implemented. Native facts retained without fabricating entitlement."
+      ]
+    },
+    {
+      "operation_key": "teams.channel.message.undosoftdelete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chatmessage-undosoftdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.reply.message.send",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "channel-post-messagereply",
+        "graph-csdl",
+        "docs-license",
+        "permission-channel-post-messagereply-permissions",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "MessageSent has external-participant, preview and audit entitlement constraints. Local internal-only sends retain native facts but do not assert this Purview event."
+      ]
+    },
+    {
+      "operation_key": "teams.reply.message.update",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chatmessage-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.reply.message.softdelete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "chatmessage-softdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "MessageDeleted requires Audit Premium; per-user audit entitlement enforcement is not implemented. Native facts retained without fabricating entitlement."
+      ]
+    },
+    {
+      "operation_key": "teams.reply.message.undosoftdelete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chatmessage-undosoftdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.message.send",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "chat-post-messages",
+        "graph-csdl",
+        "docs-license",
+        "permission-chat-post-messages-permissions",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "MessageSent has external-participant, preview and audit entitlement constraints. Local internal-only sends retain native facts but do not assert this Purview event."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.message.update",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chatmessage-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.message.softdelete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "chatmessage-softdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "MessageDeleted requires Audit Premium; per-user audit entitlement enforcement is not implemented. Native facts retained without fabricating entitlement."
+      ]
+    },
+    {
+      "operation_key": "teams.chat.message.undosoftdelete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "chatmessage-undosoftdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+      ]
+    },
+    {
+      "operation_key": "evidence.signins",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "signin-list",
+        "graph-csdl",
+        "docs-license",
+        "permission-signin-list-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "evidence.directory-audits",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "directoryaudit-list",
+        "graph-csdl",
+        "docs-license",
+        "permission-directoryaudit-list-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "evidence.alerts",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "security-list-alerts_v2",
+        "graph-csdl",
+        "docs-license",
+        "permission-security-list-alerts_v2-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "evidence.incidents",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "security-list-incidents",
+        "graph-csdl",
+        "docs-license",
+        "permission-security-list-incidents-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "hunting.query",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "security-security-runhuntingquery",
+        "graph-csdl",
+        "docs-license",
+        "permission-security-security-runhuntingquery-permissions",
+        "metadata-license"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "drive.upload",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "driveitem-put-content",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-put-content-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+      ]
+    },
+    {
+      "operation_key": "drive.upload-new",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "driveitem-put-content",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-put-content-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+      ]
+    },
+    {
+      "operation_key": "drive.update",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "driveitem-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-update-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+      ]
+    },
+    {
+      "operation_key": "drive.move",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "driveitem-move",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-move-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+      ]
+    },
+    {
+      "operation_key": "drive.copy",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "driveitem-copy",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-copy-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+      ]
+    },
+    {
+      "operation_key": "drive.delete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "driveitem-delete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-delete-permissions",
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+      ]
+    },
+    {
+      "operation_key": "drive.create-link",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "driveitem-createlink",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-createlink-permissions"
+      ],
+      "native": false,
+      "limitations": [
+        "API operation is unsupported; no native evidence is emitted until the implementation and its mapping are qualified."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Providers_Unregister",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Providers_Register",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Providers_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Providers_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_CheckNameAvailability",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_ListByResourceGroup",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_GetProperties",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_Create",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_Update",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.BlobServices_GetServiceProperties",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.BlobServices_SetServiceProperties",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.FileServices_GetServiceProperties",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.FileServices_SetServiceProperties",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_ListKeys",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.QueueServices_GetServiceProperties",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.QueueServices_SetServiceProperties",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.StorageAccounts_RegenerateKey",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.TableServices_GetServiceProperties",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.TableServices_SetServiceProperties",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_ListBySubscription",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_ListByResourceGroup",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_Update",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Workspaces_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Workspaces_ListByResourceGroup",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Workspaces_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Workspaces_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Workspaces_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Workspaces_Update",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_ListAll",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_Update",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachineExtensions_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachineExtensions_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachineExtensions_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachineExtensions_Update",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachineExtensions_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Disks_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Disks_ListByResourceGroup",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Disks_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Disks_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Disks_Update",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Disks_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualNetworks_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualNetworks_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualNetworks_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualNetworks_UpdateTags",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualNetworks_ListAll",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualNetworks_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Subnets_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Subnets_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Subnets_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Subnets_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkSecurityGroups_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkSecurityGroups_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkSecurityGroups_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkSecurityGroups_UpdateTags",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkSecurityGroups_ListAll",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkSecurityGroups_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.SecurityRules_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.SecurityRules_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.SecurityRules_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.SecurityRules_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkInterfaces_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkInterfaces_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkInterfaces_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkInterfaces_UpdateTags",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkInterfaces_ListAll",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.NetworkInterfaces_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.PublicIPAddresses_Delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.PublicIPAddresses_Get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.PublicIPAddresses_CreateOrUpdate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.PublicIPAddresses_UpdateTags",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.PublicIPAddresses_ListAll",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.PublicIPAddresses_List",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_Deallocate",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_InstanceView",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_PowerOff",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_Restart",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.VirtualMachines_Start",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_ListDeleted",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_GetDeleted",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.arm-providers.Vaults_PurgeDeleted",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:arm-providers"
+      ],
+      "native": true,
+      "limitations": [
+        "Administrative control-plane event; read/list actions and no-op changes do not imply writes. Async operations publish their actual terminal outcome."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Search-UnifiedAuditLog",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-Recipient",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-EXORecipient",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-EXOMailboxPermission",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-EXORecipientPermission",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Add-MailboxPermission",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-MailboxPermission",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Add-RecipientPermission",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-RecipientPermission",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-Mailbox",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-RemoteDomain",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.New-RemoteDomain",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-RemoteDomain",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-RemoteDomain",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-InboundConnector",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.New-InboundConnector",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-InboundConnector",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-InboundConnector",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-OutboundConnector",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.New-OutboundConnector",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-OutboundConnector",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-OutboundConnector",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-AuthenticationPolicy",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.New-AuthenticationPolicy",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-AuthenticationPolicy",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-AuthenticationPolicy",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-OrganizationRelationship",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.New-OrganizationRelationship",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-OrganizationRelationship",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-OrganizationRelationship",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-SharingPolicy",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.New-SharingPolicy",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-SharingPolicy",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-SharingPolicy",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-AdminAuditLogConfig",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Set-AdminAuditLogConfig",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-RoleGroup",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-RoleGroupMember",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Add-RoleGroupMember",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-RoleGroupMember",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Get-ManagementRoleAssignment",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.New-ManagementRoleAssignment",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.exchange.Remove-ManagementRoleAssignment",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:exchange"
+      ],
+      "native": true,
+      "limitations": [
+        "Exchange admin auditing setting applies; unchanged state is suppressed."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.user.sendMail",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.create",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.update",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.send",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.reply",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.replyAll",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.forward",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.createReply",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.createReplyAll",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.createForward",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.addAttachment",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.deleteAttachment",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.message.createUploadSession",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.attachmentUpload.put",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.attachmentUpload.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.attachmentUpload.delete",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendarGroup.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendarGroup.create",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendarGroup.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendarGroup.update",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendarGroup.delete",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendar.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendar.create",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendar.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendar.update",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendar.delete",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.create",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.update",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.delete",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.accept",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.tentativelyAccept",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.decline",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.cancel",
+      "source_kind": "mail",
+      "outcome": "success",
+      "destinations": [
+        "auditLogRecord"
+      ],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": true,
+      "limitations": [
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendar.calendarView",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.instances",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.event.delta",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.calendar.getSchedule",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.subscription.create",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.subscription.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.subscription.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.subscription.update",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.subscription.delete",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.graph-workflows.subscription.reauthorize",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:graph-workflows"
+      ],
+      "native": false,
+      "limitations": [
+        "No native Purview projection for this read, subscription, container or attachment staging operation. A completed mailbox item operation can emit its own separate fact."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.GetDeletedSecrets",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.GetDeletedSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.PurgeDeletedSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.RecoverDeletedSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.GetSecrets",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.SetSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.DeleteSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.GetSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.UpdateSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.BackupSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.GetSecretVersions",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.RestoreSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.GetDeletedSecrets",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.GetDeletedSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.PurgeDeletedSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.RecoverDeletedSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.GetSecrets",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.SetSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.DeleteSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.GetSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.UpdateSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.BackupSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.GetSecretVersions",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.keyvault.v7.RestoreSecret",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "AZKVAuditLogs"
+      ],
+      "schema_refs": [
+        "catalog:keyvault"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires AuditEvent diagnostic settings. Values, backup bytes and tokens excluded; native Secret* operation names."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.resourcegraph.resources",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.loganalytics.query.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.loganalytics.query.post",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.loganalytics.metadata",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.loganalytics.batch",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.categories.list.2017-05-01-preview",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.categories.get.2017-05-01-preview",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.categories.list.2021-05-01-preview",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.categories.get.2021-05-01-preview",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.settings.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.settings.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.settings.put",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": true,
+      "limitations": [
+        "Diagnostic configuration is an ARM Administrative change; it does not replay past data-plane events."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.diagnostics.settings.delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": true,
+      "limitations": [
+        "Diagnostic configuration is an ARM Administrative change; it does not replay past data-plane events."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.subscriptionDiagnostics.settings.list",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.subscriptionDiagnostics.settings.get",
+      "source_kind": "none",
+      "outcome": "none",
+      "destinations": [],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": false,
+      "limitations": [
+        "This operation reads or queries state; no native audit projection is implemented. Its API contract is not a promise that Microsoft emits no audit event."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.subscriptionDiagnostics.settings.put",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": true,
+      "limitations": [
+        "Diagnostic configuration is an ARM Administrative change; it does not replay past data-plane events."
+      ]
+    },
+    {
+      "operation_key": "cloud.queries.subscriptionDiagnostics.settings.delete",
+      "source_kind": "arm",
+      "outcome": "success",
+      "destinations": [
+        "activityLog"
+      ],
+      "schema_refs": [
+        "catalog:queries"
+      ],
+      "native": true,
+      "limitations": [
+        "Diagnostic configuration is an ARM Administrative change; it does not replay past data-plane events."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Service_ListContainersSegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Service_GetUserDelegationKey",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_GetAccessPolicy",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_SetAccessPolicy",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Service_ListSharesSegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Share_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Share_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Share_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Share_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Share_GetAccessPolicy",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Share_SetAccessPolicy",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_ListBlobFlatSegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Container_ListBlobHierarchySegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_Download",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.BlockBlob_Upload",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_Undelete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_SetHTTPHeaders",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_AcquireLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_ReleaseLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_RenewLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_ChangeLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_BreakLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.Blob_CreateSnapshot",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.BlockBlob_StageBlock",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.BlockBlob_CommitBlockList",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.blob.BlockBlob_GetBlockList",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageBlobLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Share_CreateSnapshot",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Directory_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Directory_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Directory_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Directory_SetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Directory_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.Directory_ListFilesAndDirectoriesSegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_Download",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_SetHTTPHeaders",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_AcquireLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_ReleaseLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_ChangeLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_BreakLease",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_UploadRange",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.file.File_GetRangeList",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageFileLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_QueryEntities",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_QueryEntityWithPartitionAndRowKey",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_UpdateEntity",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_MergeEntity",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_DeleteEntity",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_InsertEntity",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_Query",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Table_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table.Batch",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Service_ListQueuesSegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Queue_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Queue_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Queue_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Queue_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Messages_Dequeue",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Messages_Clear",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Messages_Enqueue",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.Messages_Peek",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.MessageId_Update",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue.MessageId_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Service_ListQueuesSegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Queue_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Queue_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Queue_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Queue_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Messages_Dequeue",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Messages_Clear",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Messages_Enqueue",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.Messages_Peek",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.MessageId_Update",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20260406.MessageId_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table20170729.Table_Query",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table20170729.Table_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.table20170729.Table_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageTableLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Service_ListQueuesSegment",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Queue_Create",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Queue_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Queue_GetProperties",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Queue_SetMetadata",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Messages_Dequeue",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Messages_Clear",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Messages_Enqueue",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.Messages_Peek",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.MessageId_Update",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "cloud.storage.queue20250105.MessageId_Delete",
+      "source_kind": "service",
+      "outcome": "success",
+      "destinations": [
+        "StorageQueueLogs"
+      ],
+      "schema_refs": [
+        "catalog:storage"
+      ],
+      "native": true,
+      "limitations": [
+        "Requires an enabled matching diagnostic category and live destination. Table batches emit child operation facts, not a synthetic Batch audit operation."
+      ]
+    },
+    {
+      "operation_key": "site.permission.create",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "No verified Purview operation for Graph selected-application site grants; native fact is retained, no sharing event is invented."
+      ]
+    },
+    {
+      "operation_key": "site.permission.delete",
+      "source_kind": "workload",
+      "outcome": "success",
+      "destinations": [],
+      "schema_refs": [
+        "purview-activities",
+        "management-activity-schema"
+      ],
+      "native": true,
+      "limitations": [
+        "No verified Purview operation for Graph selected-application site grants; native fact is retained, no sharing event is invented."
+      ]
+    },
+    {
+      "operation_key": "authentication.token",
+      "source_kind": "authentication",
+      "outcome": "success_or_failure",
+      "destinations": [
+        "signIn"
+      ],
+      "schema_refs": [
+        "user-revokesigninsessions"
+      ],
+      "native": true,
+      "limitations": [
+        "Only locally resolved known identities are attributable; authentication flow retains existing eligibility and redaction rules."
+      ]
+    }
+  ]
+}

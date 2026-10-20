@@ -161,7 +161,19 @@ async def change(session, actor, ctx, operation, body, now, *, if_match=None):
         invalid("Unsupported file action property")
     if operation == "update" and not body:
         invalid("Specify name or parentReference")
-    parent = await parent_for(session, actor, ctx, body.get("parentReference"))
+    # Imported records may express their parent only through authoritative edges.
+    # Snapshot that parent before changing edges so audit replay never mistakes
+    # response normalization for a move.
+    original_parent = await parent_for(session, actor, ctx)
+    before["parentReference"] = {
+        "id": original_parent.payload["id"],
+        "driveId": ctx["drive"].payload["id"],
+    }
+    parent = (
+        await parent_for(session, actor, ctx, body["parentReference"])
+        if body.get("parentReference") is not None
+        else original_parent
+    )
     name = name_input(body.get("name", before["name"]))
     old = await sibling(session, state, parent, name)
     if operation != "delete" and old is not None and (operation == "copy" or old.id != item.id):

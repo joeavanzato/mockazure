@@ -1,6 +1,10 @@
 """Administrative worker operations stay tenant-scoped and use the normal fenced dispatcher."""
 
+import hashlib
+import json
 from datetime import UTC, datetime
+from functools import lru_cache
+from pathlib import Path
 from uuid import uuid4
 
 from sqlalchemy import func, select
@@ -8,8 +12,51 @@ from sqlalchemy import func, select
 from mockazure.admin.errors import AdminError
 from mockazure.db.job_model import Job
 from mockazure.evidence.repository import lock_state
+from mockazure.evidence.schemas import OperationEvidenceContract
 from mockazure.jobs.dispatch import dispatch_job
 from mockazure.jobs.repository import claim_job
+
+MAPPING_VERSION = "business-evidence-v1"
+DATA = Path(__file__).parent / "data"
+
+
+@lru_cache(maxsize=1)
+def _mappings():
+    from mockazure.living_tenant.contracts import list_operations, read_manifest
+
+    value = json.loads((DATA / "operation_mappings.json").read_text("utf-8"))
+    if set(value) != {"version", "sources", "operations"} or value["version"] != MAPPING_VERSION:
+        raise ValueError("Unsupported evidence mapping version")
+    for source in value["sources"].values():
+        path = (DATA / source["path"]).resolve()
+        if not path.is_relative_to(DATA.resolve()) or (
+            hashlib.sha256(path.read_bytes()).hexdigest() != source["sha256"]
+        ):
+            raise ValueError("Evidence source hash mismatch")
+    manifest = read_manifest()
+    refs = (
+        set(value["sources"])
+        | set(manifest["sources"])
+        | {f"catalog:{key}" for key in manifest.get("catalogs", {})}
+    )
+    rows = [OperationEvidenceContract.model_validate(row) for row in value["operations"]]
+    result = {row.operation_key: row for row in rows}
+    if len(result) != len(rows) or any(not set(row.schema_refs) <= refs for row in rows):
+        raise ValueError("Duplicate mapping or missing evidence source reference")
+    if not {row.key for row in list_operations()} <= result.keys():
+        raise ValueError("Operation manifest lacks explicit evidence dispositions")
+    return result
+
+
+def mapping(operation_key: str) -> OperationEvidenceContract:
+    if operation_key not in _mappings():
+        raise ValueError("Unknown evidence operation")
+    return _mappings()[operation_key]
+
+
+def verify_operation_mappings() -> int:
+    _mappings.cache_clear()
+    return len(_mappings())
 
 
 def job_view(row):

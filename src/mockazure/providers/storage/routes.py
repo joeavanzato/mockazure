@@ -317,6 +317,7 @@ async def dispatch(request, service):
 
                 result = await list_share_snapshots(session, request, access, now)
                 if result is not None:
+                    await record(session, access, service, name, "ListShares", now)
                     return result
             maximum = int(args.get("maxresults", "5000"))
             if not 1 <= maximum <= 5000:
@@ -396,6 +397,14 @@ async def dispatch(request, service):
                 "The ETag precondition failed",
             )
         if action == "get_acl":
+            await record(
+                session,
+                access,
+                service,
+                name,
+                "GetContainerACL" if service == "blob" else "GetShareACL",
+                now,
+            )
             xml = Element("SignedIdentifiers")
             for policy in row.policies:
                 item = SubElement(xml, "SignedIdentifier")
