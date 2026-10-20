@@ -8,7 +8,13 @@ work
 dist
 reference
 tests
-docs
+docs/**
+!docs/getting-started.md
+!docs/profiles.md
+!docs/living-tenant-profiles.md
+!docs/finite-activity.md
+!docs/hunting-data.md
+!docs/hunting-cookbook.md
 __pycache__
 *.env
 *.pem

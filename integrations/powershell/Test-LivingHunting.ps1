@@ -40,8 +40,8 @@ Add-MgEnvironment -Name LivingHunting -GraphEndpoint $p.endpoint -AzureADEndpoin
 Connect-MgGraph -AccessToken (ConvertTo-SecureString $p.token -AsPlainText -Force) `
     -Environment LivingHunting -NoWelcome
 $result = Start-MgSecurityHuntingQuery -BodyParameter @{
-    Query = 'DeviceInfo | project DeviceId, DeviceName'
-    Timespan = 'P1D'
+    Query = $(if ($p.query) { $p.query } else { 'DeviceInfo | project DeviceId, DeviceName' })
+    Timespan = 'P30D'
 }
 if ($result.Schema.Count -ne 2 -or $result.Schema[0].Name -ne 'DeviceId' `
     -or $result.Schema[0].Type -ne 'String' -or $result.Results.Count -ne 1) {

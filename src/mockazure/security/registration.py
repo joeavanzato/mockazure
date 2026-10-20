@@ -87,9 +87,9 @@ def registration_source(tenant):
         )
     ).correlate(User)
     roles = protected_role_rows(tenant)
-    admin = exists(
-        select(roles.c.principal_id).where(roles.c.principal_id == User.id)
-    ).correlate(User)
+    admin = exists(select(roles.c.principal_id).where(roles.c.principal_id == User.id)).correlate(
+        User
+    )
     fields = {
         "@odata.type": "#microsoft.graph.userRegistrationDetails",
         "id": cast(User.id, String),

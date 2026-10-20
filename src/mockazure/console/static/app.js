@@ -3,8 +3,9 @@ import {resources} from "./resources.js";
 import {profiles} from "./profiles.js";
 import {runs} from "./runs.js";
 import {inspector} from "./inspector.js";
+import {hunting} from "./hunting.js";
 
-const views={resources,profiles,runs,inspector},root=document.querySelector("#workspace"),tenantSelect=document.querySelector("#tenant");
+const views={resources,profiles,runs,inspector,hunting},root=document.querySelector("#workspace"),tenantSelect=document.querySelector("#tenant");
 let tenants=[],after=null,current="resources",cleanup=null,runId=null,generation=0;
 function notice(message,error=false){const box=document.querySelector("#notice");box.textContent=message;box.className=error?"error":"";box.hidden=false;}
 const ctx={tenant:()=>tenants.find(t=>t.id===tenantSelect.value),notice,error:error=>notice(error.message||String(error),true),refreshTenants:()=>loadTenants(),runId:()=>runId,openRun:id=>{runId=id;show("runs");}};

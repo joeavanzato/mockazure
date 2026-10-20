@@ -12,12 +12,15 @@ GRAPH_TYPES = {
     "guid": "Guid",
     "dynamic": "Object",
     "timespan": "TimeSpan",
+    "null": "Object",
 }
 
 
 def hunting_response(result):
     if result.truncated:
         raise QueryError("Partial hunting results are unsupported", "QueryLimitExceeded")
+    if any(kind not in GRAPH_TYPES for _, kind in result.columns):
+        raise QueryError("Unsupported hunting result type")
     return {
         "schema": [{"name": name, "type": GRAPH_TYPES[kind]} for name, kind in result.columns],
         "results": [

@@ -14,6 +14,12 @@ from mockazure.monitor.tables import instant
 from mockazure.population.types import ResourceItem, ResourcePage
 
 
+def record_digest(payload, provenance):
+    return hashlib.sha256(
+        json.dumps([payload, provenance], sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
 async def ingest_rows(
     session,
     tenant_id,
@@ -50,8 +56,10 @@ async def ingest_rows(
     for offset in range(0, len(values), 500):
         existing = {
             r.source_id: r
-            for r in await session.scalars(
-                select(HuntingRecord).where(
+            for r in await session.execute(
+                select(
+                    HuntingRecord.source_id, HuntingRecord.digest, HuntingRecord.available_at
+                ).where(
                     HuntingRecord.tenant_id == tenant_id,
                     HuntingRecord.table_name == table,
                     HuntingRecord.source_id.in_(source_ids[offset : offset + 500]),
@@ -63,10 +71,8 @@ async def ingest_rows(
         ):
             if source_id in existing:
                 prior = existing[source_id]
-                if (
-                    prior.payload != payload
-                    or prior.provenance != provenance
-                    or prior.available_at != (available_at or instant(payload["Timestamp"]))
+                if prior.digest != record_digest(payload, provenance) or prior.available_at != (
+                    available_at or instant(payload["Timestamp"])
                 ):
                     raise ValueError("Hunting source identity already has different content")
                 continue
@@ -81,13 +87,7 @@ async def ingest_rows(
                     "device_id": payload.get("DeviceId"),
                     "payload": payload,
                     "provenance": provenance,
-                    "digest": hashlib.sha256(
-                        json.dumps(
-                            [payload, provenance],
-                            sort_keys=True,
-                            separators=(",", ":"),
-                        ).encode()
-                    ).hexdigest(),
+                    "digest": record_digest(payload, provenance),
                 }
             )
     # Validate the complete batch/replay before the first insert. The savepoint also

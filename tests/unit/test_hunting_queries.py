@@ -58,6 +58,20 @@ def test_hunting_budget_never_returns_a_silent_partial_result():
         )
 
 
+def test_hunting_null_columns_have_a_valid_graph_type():
+    from mockazure.hunting.wire import hunting_response
+
+    result = evaluate_query(
+        parse_query("DeviceInfo | project Missing=null", "hunting"),
+        {"DeviceInfo": QueryResult([("DeviceId", "string")], [["a"]])},
+        NOW,
+    )
+    assert hunting_response(result) == {
+        "schema": [{"name": "Missing", "type": "Object"}],
+        "results": [{"Missing": None}],
+    }
+
+
 async def test_hunting_execution_limits_are_clamped_and_do_not_leak(monkeypatch):
     from types import SimpleNamespace
     from uuid import uuid4

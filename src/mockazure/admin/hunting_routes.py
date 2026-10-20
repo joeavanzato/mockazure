@@ -15,11 +15,62 @@ from mockazure.hunting.contracts import catalog, table_contract
 from mockazure.hunting.models import HuntingRecord
 from mockazure.hunting.repository import browse_rows, ingest_rows, prune_rows
 from mockazure.hunting.schemas import HuntingProvenance
+from mockazure.hunting.service import HuntingRequest
 from mockazure.identity.models import User
-from mockazure.population.types import Input, ResourceQuery
+from mockazure.population.identity import resolve_identity
+from mockazure.population.transport import LocalTransport
+from mockazure.population.types import AdapterContext, Input, ResourceQuery
 from mockazure.providers.graph.body import read_json
 
 router = APIRouter(prefix="/_mock/tenants/{tenant_id}/hunting", route_class=ProfileRoute)
+
+
+class ConsoleQuery(Input):
+    identity_ref: str = Field(min_length=1, max_length=128, strict=True)
+    request: HuntingRequest
+
+
+@router.post("/query")
+async def console_query(tenant_id: UUID, request: Request):
+    value = ConsoleQuery.model_validate(await read_json(request, limit=256 * 1024))
+    ctx = AdapterContext(request.app.state.database, request.app.state.settings, tenant_id)
+    transport = LocalTransport(ctx, await resolve_identity(ctx, value.identity_ref))
+    try:
+        result = await transport.request(
+            "graph",
+            "POST",
+            "/v1.0/security/runHuntingQuery",
+            json=value.request.model_dump(mode="json", exclude_none=True),
+        )
+    except AdminError as error:
+        if error.status == 401:
+            raise AdminError(
+                403,
+                "HuntingIdentityRejected",
+                "Selected local test identity could not authenticate",
+            ) from None
+        raise
+    if result.status_code != 200:
+        message = result.json().get("error", {}).get("message", "Local Graph hunting failed")
+        raise AdminError(
+            403 if result.status_code == 401 else result.status_code,
+            "HuntingQueryRejected",
+            message,
+        )
+    return {
+        "graph": result.json(),
+        "identity_ref": value.identity_ref,
+        "reference_time": result.headers.get("x-mockazure-reference-time"),
+    }
+
+
+@router.get("/cookbook")
+async def cookbook(tenant_id: UUID, request: Request):
+    from mockazure.hunting.cookbook import cases
+
+    async with request.app.state.database.sessions() as session:
+        await require_tenant(session, tenant_id)
+    return {"cases": cases()}
 
 
 class SettingsInput(Input):

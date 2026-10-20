@@ -1,0 +1,227 @@
+[
+  {
+    "id": "IdentityInfo",
+    "title": "IdentityInfo \u2014 recent observations",
+    "query": "IdentityInfo | where Timestamp >= ago(30d) | project Timestamp, AccountObjectId | order by Timestamp desc | take 20",
+    "required_values": [
+      "AccountObjectId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "IdentityLogonEvents",
+    "title": "IdentityLogonEvents \u2014 recent observations",
+    "query": "IdentityLogonEvents | where Timestamp >= ago(30d) | project Timestamp, AccountObjectId | order by Timestamp desc | take 20",
+    "required_values": [
+      "AccountObjectId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "IdentityDirectoryEvents",
+    "title": "IdentityDirectoryEvents \u2014 recent observations",
+    "query": "IdentityDirectoryEvents | where Timestamp >= ago(30d) | project Timestamp, AccountObjectId | order by Timestamp desc | take 20",
+    "required_values": [
+      "AccountObjectId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "IdentityQueryEvents",
+    "title": "IdentityQueryEvents \u2014 recent observations",
+    "query": "IdentityQueryEvents | where Timestamp >= ago(30d) | project Timestamp, AccountObjectId | order by Timestamp desc | take 20",
+    "required_values": [
+      "AccountObjectId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "EmailEvents",
+    "title": "EmailEvents \u2014 sender with null fallback",
+    "query": "EmailEvents | project NetworkMessageId, Sender=coalesce(SenderDisplayName, 'unknown') | take 20",
+    "required_values": [
+      "NetworkMessageId",
+      "Sender"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "EmailAttachmentInfo",
+    "title": "EmailAttachmentInfo \u2014 recent observations",
+    "query": "EmailAttachmentInfo | where Timestamp >= ago(30d) | project Timestamp, NetworkMessageId | order by Timestamp desc | take 20",
+    "required_values": [
+      "NetworkMessageId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "EmailUrlInfo",
+    "title": "EmailUrlInfo \u2014 recent observations",
+    "query": "EmailUrlInfo | where Timestamp >= ago(30d) | project Timestamp, NetworkMessageId | order by Timestamp desc | take 20",
+    "required_values": [
+      "NetworkMessageId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "EmailPostDeliveryEvents",
+    "title": "EmailPostDeliveryEvents \u2014 recent observations",
+    "query": "EmailPostDeliveryEvents | where Timestamp >= ago(30d) | project Timestamp, NetworkMessageId | order by Timestamp desc | take 20",
+    "required_values": [
+      "NetworkMessageId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "UrlClickEvents",
+    "title": "UrlClickEvents \u2014 recent observations",
+    "query": "UrlClickEvents | where Timestamp >= ago(30d) | project Timestamp, NetworkMessageId | order by Timestamp desc | take 20",
+    "required_values": [
+      "NetworkMessageId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceInfo",
+    "title": "DeviceInfo \u2014 recent observations",
+    "query": "DeviceInfo | where Timestamp >= ago(30d) | project Timestamp, DeviceId | order by Timestamp desc | take 20",
+    "required_values": [
+      "DeviceId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceNetworkInfo",
+    "title": "DeviceNetworkInfo \u2014 recent observations",
+    "query": "DeviceNetworkInfo | where Timestamp >= ago(30d) | project Timestamp, DeviceId | order by Timestamp desc | take 20",
+    "required_values": [
+      "DeviceId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceLogonEvents",
+    "title": "DeviceLogonEvents \u2014 recent observations",
+    "query": "DeviceLogonEvents | where Timestamp >= ago(30d) | project Timestamp, DeviceId | order by Timestamp desc | take 20",
+    "required_values": [
+      "DeviceId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceProcessEvents",
+    "title": "DeviceProcessEvents \u2014 recent observations",
+    "query": "DeviceProcessEvents | where Timestamp >= ago(30d) | project Timestamp, AccountObjectId | order by Timestamp desc | take 20",
+    "required_values": [
+      "AccountObjectId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceNetworkEvents",
+    "title": "DeviceNetworkEvents \u2014 recent observations",
+    "query": "DeviceNetworkEvents | where Timestamp >= ago(30d) | project Timestamp, DeviceId | order by Timestamp desc | take 20",
+    "required_values": [
+      "DeviceId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceFileEvents",
+    "title": "DeviceFileEvents \u2014 recent observations",
+    "query": "DeviceFileEvents | where Timestamp >= ago(30d) | project Timestamp, DeviceId | order by Timestamp desc | take 20",
+    "required_values": [
+      "DeviceId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceRegistryEvents",
+    "title": "DeviceRegistryEvents \u2014 recent observations",
+    "query": "DeviceRegistryEvents | where Timestamp >= ago(30d) | project Timestamp, DeviceId | order by Timestamp desc | take 20",
+    "required_values": [
+      "DeviceId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "DeviceEvents",
+    "title": "DeviceEvents \u2014 count by action",
+    "query": "DeviceEvents | summarize EventCount=count() by ActionType | order by EventCount desc | take 20",
+    "required_values": [
+      "ActionType"
+    ],
+    "positive_counts": [
+      "EventCount"
+    ]
+  },
+  {
+    "id": "CloudAppEvents",
+    "title": "CloudAppEvents \u2014 inspect dynamic fixture metadata",
+    "query": "CloudAppEvents | extend Simulation=tostring(AdditionalFields.simulation) | where Simulation == 'fixture' | project AccountObjectId, ActionType, Simulation | take 20",
+    "required_values": [
+      "AccountObjectId",
+      "ActionType",
+      "Simulation"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "AlertInfo",
+    "title": "AlertInfo \u2014 recent observations",
+    "query": "AlertInfo | where Timestamp >= ago(30d) | project Timestamp, AlertId | order by Timestamp desc | take 20",
+    "required_values": [
+      "AlertId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "AlertEvidence",
+    "title": "AlertEvidence \u2014 recent observations",
+    "query": "AlertEvidence | where Timestamp >= ago(30d) | project Timestamp, AccountObjectId | order by Timestamp desc | take 20",
+    "required_values": [
+      "AccountObjectId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "join-identity-device",
+    "title": "Join identity to device activity",
+    "query": "IdentityInfo | distinct AccountObjectId, AccountUpn | join kind=inner (DeviceProcessEvents | distinct AccountObjectId, DeviceId) on AccountObjectId | project AccountObjectId, AccountUpn, DeviceId | take 20",
+    "required_values": [
+      "AccountObjectId",
+      "DeviceId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "join-email-attachment",
+    "title": "Join messages to document hashes",
+    "query": "EmailEvents | distinct NetworkMessageId, Subject | join kind=inner (EmailAttachmentInfo | distinct NetworkMessageId, SHA256) on NetworkMessageId | project NetworkMessageId, Subject, SHA256 | take 20",
+    "required_values": [
+      "NetworkMessageId",
+      "SHA256"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "join-alert-entity",
+    "title": "Join read-only alerts to entities",
+    "query": "AlertInfo | distinct AlertId, Title | join kind=inner (AlertEvidence | distinct AlertId, AccountObjectId) on AlertId | project AlertId, Title, AccountObjectId | take 20",
+    "required_values": [
+      "AlertId",
+      "AccountObjectId"
+    ],
+    "positive_counts": []
+  },
+  {
+    "id": "join-user-cloud",
+    "title": "Join users to cloud activity",
+    "query": "IdentityInfo | distinct AccountObjectId, AccountUpn | join kind=inner (CloudAppEvents | distinct AccountObjectId, ActionType) on AccountObjectId | project AccountObjectId, AccountUpn, ActionType | take 20",
+    "required_values": [
+      "AccountObjectId",
+      "ActionType"
+    ],
+    "positive_counts": []
+  }
+]

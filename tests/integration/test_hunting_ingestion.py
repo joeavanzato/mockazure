@@ -96,3 +96,41 @@ async def test_hunting_management_import_export_reset_requires_local_auth(databa
             "removed"
         ] == 1
         assert (await client.get(path + "/export")).json()["items"] == []
+
+
+async def test_hunting_bulk_apply_and_verification_have_bounded_database_roundtrips(
+    database, settings
+):
+    from sqlalchemy import event
+
+    from mockazure.population.catalog import get_adapter
+    from mockazure.population.types import AdapterContext, Mutation
+    from tests.integration.evidence_support import tenant
+
+    async with database.sessions.begin() as session:
+        tid = await tenant(session)
+    statements = []
+
+    def count(*args):
+        statements.append(1)
+
+    event.listen(database.engine.sync_engine, "before_cursor_execute", count)
+    try:
+        adapter = get_adapter("hunting.DeviceInfo")
+        values = [
+            Mutation(
+                operation="import",
+                logical_key=str(i),
+                payload={
+                    "id": str(i),
+                    "record": {"Timestamp": "2026-10-07T00:00:00Z", "DeviceId": str(i)},
+                },
+            )
+            for i in range(100)
+        ]
+        ctx = AdapterContext(database, settings, tid)
+        result = await adapter.apply(ctx, values)
+        assert (await adapter.verify(ctx, result)).status == "succeeded"
+        assert len(statements) < 30
+    finally:
+        event.remove(database.engine.sync_engine, "before_cursor_execute", count)

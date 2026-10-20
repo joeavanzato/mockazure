@@ -84,7 +84,15 @@ async def input_tables(session, actor, requested_workspace, plan, now, *, limits
     return result
 
 
-async def run_hunting(session, actor, request, *, wall_now, limits: QueryLimits | None = None):
+async def run_hunting(
+    session,
+    actor,
+    request,
+    *,
+    wall_now,
+    limits: QueryLimits | None = None,
+    include_reference=False,
+):
     request = HuntingRequest.model_validate(request)
     now = await evidence_now(session, actor.tenant_id, wall_now)
     plan = replace(parse_query(request.Query, "hunting"), parameters={"timespan": request.Timespan})
@@ -106,7 +114,8 @@ async def run_hunting(session, actor, request, *, wall_now, limits: QueryLimits 
             plan,
             now,
         )
-        return hunting_response(result)
+        response = hunting_response(result)
+        return (response, now) if include_reference else response
     finally:
         if previous is None:
             session.info.pop("query_limits", None)

@@ -1,8 +1,10 @@
 """Qualify connected tenants through local HTTPS and original Microsoft clients."""
 
 import argparse
+import json
 import re
 import subprocess
+import time
 from datetime import UTC, datetime
 from pathlib import Path
 from uuid import UUID, uuid4
@@ -21,6 +23,20 @@ from tools.verify_lab_console import save, source_fingerprint, submit_preview, t
 
 
 def validate_report(report):
+    if report.get("phase") == "all":
+        assert report["passed"] and set(report["phases"]) == {
+            "content",
+            "evidence",
+            "identity",
+            "hunting",
+        }
+        for phase in report["phases"].values():
+            validate_report(phase)
+        return
+    if report.get("phase") == "hunting":
+        from tools.living_hunting import validate
+
+        return validate(report)
     if report.get("phase") == "identity":
         from tools.living_identity import validate
 
@@ -48,8 +64,19 @@ def validate_report(report):
 
 
 async def qualify(config, phase, output, scale="small", distribution="native"):
-    if phase not in {"content", "evidence", "identity"}:
-        raise ValueError("Hunting qualification is not yet implemented")
+    if phase == "all":
+        combined = {"phase": "all", "passed": False, "phases": {}}
+        for name in ("content", "evidence", "identity", "hunting"):
+            child = output.with_name(output.stem + "-" + name + ".json")
+            await qualify(config, name, child, scale, distribution)
+            combined["phases"][name] = json.loads(child.read_text())
+            save(output, combined)
+        combined["passed"] = True
+        validate_report(combined)
+        save(output, combined)
+        return
+    if phase not in {"content", "evidence", "identity", "hunting"}:
+        raise ValueError("Unknown living-tenant qualification phase")
     from tools.living_tenant_clients import collect
 
     settings = load_settings(config)
@@ -88,10 +115,16 @@ async def qualify(config, phase, output, scale="small", distribution="native"):
                         "licences": ["E5"],
                     }
                 },
-                "parameters": {"shared.referenceTime": "2026-10-07T00:00:00Z"},
+                "parameters": {
+                    "shared.referenceTime": datetime.now(UTC).isoformat()
+                    if phase == "hunting"
+                    else "2026-10-07T00:00:00Z",
+                },
             }
+            population_started = time.monotonic()
             _, submitted, _ = await submit_preview(admin, request)
             result = await terminal(admin, submitted["id"])
+            population_seconds = round(time.monotonic() - population_started, 3)
             assert result["state"] == "succeeded", result["errors"]
             tenant_id = UUID(result["tenant_id"])
             async with database.sessions() as session:
@@ -147,20 +180,37 @@ async def qualify(config, phase, output, scale="small", distribution="native"):
                 validate_report(report)
                 save(output, report)
                 return
-            report["cases"]["population"] = {"state": "passed", "progress": result["progress"]}
-            report["cases"].update(
-                await collect(
+            report["cases"]["population"] = {
+                "state": "passed",
+                "progress": result["progress"],
+                "seconds": population_seconds,
+            }
+            if phase == "hunting":
+                from tools.living_hunting import qualify_hunting
+
+                hunting = await qualify_hunting(
                     settings,
                     admin,
                     ctx,
-                    credential,
-                    transport,
                     refs,
-                    entities,
-                    request["target"]["create_tenant"]["domain"],
-                    20 if scale == "small" else 2500,
+                    request["parameters"]["shared.referenceTime"],
                 )
-            )
+                report["cases"].update(hunting["cases"])
+                report["failed_cases"] = hunting["failed_cases"]
+            else:
+                report["cases"].update(
+                    await collect(
+                        settings,
+                        admin,
+                        ctx,
+                        credential,
+                        transport,
+                        refs,
+                        entities,
+                        request["target"]["create_tenant"]["domain"],
+                        20 if scale == "small" else 2500,
+                    )
+                )
             request["target"] = {"existing_tenant_id": str(tenant_id)}
             _, repeated, _ = await submit_preview(admin, request)
             replay = await terminal(admin, repeated["id"])

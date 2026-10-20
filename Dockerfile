@@ -3,6 +3,8 @@ WORKDIR /build
 RUN pip install --no-cache-dir uv==0.12.1
 COPY pyproject.toml uv.lock build-requirements.txt README.md LICENSE NOTICE ./
 COPY src ./src
+COPY examples ./examples
+COPY docs/getting-started.md docs/profiles.md docs/living-tenant-profiles.md docs/finite-activity.md docs/hunting-data.md docs/hunting-cookbook.md ./docs/
 ARG SOURCE_DATE_EPOCH=315532800
 ENV SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH PYTHONHASHSEED=0
 RUN uv export --quiet --frozen --no-dev --no-emit-project --format requirements-txt -o requirements.txt \

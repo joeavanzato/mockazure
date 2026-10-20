@@ -136,11 +136,46 @@ async def qualify(config, report, *, prepare_clients=False):
         )
         assert result.schema[0].name == "DeviceId" and result.schema[0].type == "String"
         assert len(result.results) == 1 and result.results[0].additional_data["DeviceId"] == device
+    powershell = await run_powershell(
+        settings,
+        token,
+        device,
+        credential_secret=credential["secret"],
+        vendor=vendor,
+    )
+    result = {
+        "state": "passed",
+        "tenant_id": tid,
+        "device_id": device,
+        "reference_time": now,
+        "api_runtime": "native",
+        "powershell_runtime": "isolated-linux" if os.name == "nt" else "native",
+        "python": {"client": "msgraph-sdk", "version": version("msgraph-sdk"), "state": "passed"},
+        "powershell": powershell,
+    }
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps(result))
+    return result
+
+
+async def run_powershell(settings, token, device, *, credential_secret, vendor=None, query=None):
+    vendor = vendor or Path("work/hunting-clients").resolve()
+    manifest = json.loads(Path("integrations/manifest.json").read_text())
+    manifest["artifacts"] = [
+        a
+        for a in manifest["artifacts"]
+        if a["name"] in {"Microsoft.Graph.Authentication", "Microsoft.Graph.Security"}
+    ]
+    pin = Path("work/hunting-clients-manifest.json")
+    pin.write_text(json.dumps(manifest))
+    prepare(pin, vendor, verify_only=True)
     project = Path.cwd().resolve()
     profile = {
         "endpoint": settings.endpoints.graph,
         "token": token,
         "device_id": device,
+        "query": query,
         "ca_file": str(settings.ca_file),
         "vendor": str(vendor),
         "relay": False,
@@ -178,26 +213,10 @@ async def qualify(config, report, *, prepare_clients=False):
         env=dict(os.environ, SSL_CERT_FILE=str(settings.ca_file)),
     )
     if outcome.returncode:
-        error = outcome.stderr.replace(token, "[redacted]").replace(
-            credential["secret"], "[redacted]"
-        )
+        error = outcome.stderr.replace(token, "[redacted]").replace(credential_secret, "[redacted]")
         (settings.data_dir / "hunting-qualification-error.log").write_text(error, encoding="utf-8")
         raise RuntimeError("Original hunting cmdlet failed; inspect the redacted local log")
-    powershell = json.loads(outcome.stdout[outcome.stdout.index('{"state"') :].strip())
-    result = {
-        "state": "passed",
-        "tenant_id": tid,
-        "device_id": device,
-        "reference_time": now,
-        "api_runtime": "native",
-        "powershell_runtime": "isolated-linux" if os.name == "nt" else "native",
-        "python": {"client": "msgraph-sdk", "version": version("msgraph-sdk"), "state": "passed"},
-        "powershell": powershell,
-    }
-    report.parent.mkdir(parents=True, exist_ok=True)
-    report.write_text(json.dumps(result, indent=2) + "\n")
-    print(json.dumps(result))
-    return result
+    return json.loads(outcome.stdout[outcome.stdout.index('{"state"') :].strip())
 
 
 if __name__ == "__main__":

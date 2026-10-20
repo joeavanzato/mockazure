@@ -49,8 +49,10 @@ class ConnectedMessage(Input):
             raise ValueError("Connected MIME is generated, not supplied by content ID")
         for header in payload.get("internetMessageHeaders") or []:
             name, value = header.get("name"), header.get("value")
-            if not isinstance(name, str) or not isinstance(value, str) or any(
-                ord(c) < 32 for c in name + value
+            if (
+                not isinstance(name, str)
+                or not isinstance(value, str)
+                or any(ord(c) < 32 for c in name + value)
             ):
                 raise ValueError("Connected mail headers must be single-line text")
         render(self.document)

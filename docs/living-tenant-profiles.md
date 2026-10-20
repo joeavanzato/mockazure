@@ -16,6 +16,7 @@ and individual layer counts in the existing population preview workflow.
 | `business-sharepoint-teams` | Sites, libraries, documents, versions, teams, channels and chats |
 | `business-device-estate` | Owned directory devices, matching Intune devices, software and observed configuration/compliance status |
 | `business-azure-operations` | Owned applications, linked compute/network inventory and business documents in Blob and File storage |
+| `business-security-telemetry` | All 20 typed hunting tables, correlated users/devices/mail/document hashes and read-only alerts; named hunting reader |
 | `storage-content`, `keyvault-secrets`, `logs-and-diagnostics` | Operational account, four storage data planes, synthetic secrets, workspace and diagnostics setup |
 
 Use a fresh dataset namespace for an independent estate. Reusing the same namespace
@@ -45,3 +46,22 @@ access; manifests and version-list responses contain no secret values.
 Content volumes remain separate from user counts. For example, project and document
 counts can stay small while directory and device counts grow. All templates use the
 same base layers, so changing a shared layer does not require copying template data.
+
+The hunting layer defaults to 20 rows per table (400 total); `living-enterprise`
+sets 5,000 per table (100,000 total). Override
+`business-security-telemetry.rowsPerTable` independently of user/content volumes.
+Use the console's **Hunting** view, choose its named hunting identity, and start
+with the [query cookbook](hunting-cookbook.md). Administrative console access
+does not grant Graph permissions. Table metadata and imported/native provenance
+remain available in the service-oriented resource browser.
+
+Optional `hunting-*` overlay layers are described in [hunting data](hunting-data.md).
+Their suspicious history is an explicit fixture, and is not included in ordinary
+business defaults. No incident updates or response automation are added.
+
+For qualification, `python -m tools.verify_living_tenant --config PATH --phase all
+--report work/living-tenant-all.json` runs content, evidence, identity and hunting
+phases on separate newly populated local tenants. Use `--phase hunting --scale large`
+for the 2,500-user/100,000-row hunting preset. Reports record actual population and
+query times, payload bytes, table counts, original client versions, isolation checks,
+and the qualification process's measured peak memory (not the API/database RSS).

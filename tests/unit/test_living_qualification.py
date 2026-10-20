@@ -52,3 +52,12 @@ def test_failed_or_incorrect_collection_cannot_be_a_success():
         report["cases"][family][key] = value
         with pytest.raises(ValueError):
             validate_report(report)
+
+
+def test_combined_report_rejects_missing_phase_and_hunting_gate():
+    from tools.living_hunting import validate
+
+    with pytest.raises(ValueError):
+        validate({"phase": "hunting", "passed": True, "cases": {}, "failed_cases": []})
+    with pytest.raises((ValueError, AssertionError)):
+        validate_report({"phase": "all", "passed": True, "phases": {"content": complete()}})

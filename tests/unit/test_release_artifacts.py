@@ -132,6 +132,10 @@ def test_source_export_uses_git_objects_excluding_untracked_and_runtime(tmp_path
         "examples/populate.py": b"example\n",
         "docs/getting-started.md": b"guide\n",
         "docs/profiles.md": b"profiles\n",
+        "docs/living-tenant-profiles.md": b"living\n",
+        "docs/finite-activity.md": b"activity\n",
+        "docs/hunting-data.md": b"hunting\n",
+        "docs/hunting-cookbook.md": b"cookbook\n",
     }.items():
         path = repo / name
         path.parent.mkdir(parents=True, exist_ok=True)

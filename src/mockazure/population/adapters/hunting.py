@@ -1,17 +1,26 @@
 """Fixture-only imports and tenant-scoped hunting table browsing."""
 
 from pydantic import Field
-from sqlalchemy import String, cast
+from sqlalchemy import String, cast, select
 
+from mockazure.admin.errors import AdminError
+from mockazure.db.models import Tenant
 from mockazure.hunting.access_models import HuntingSettings
 from mockazure.hunting.authorization import ENTITLEMENTS
 from mockazure.hunting.contracts import catalog
 from mockazure.hunting.models import HuntingRecord
-from mockazure.hunting.repository import ingest_rows
+from mockazure.hunting.repository import ingest_rows, record_digest
 from mockazure.hunting.schemas import HuntingProvenance, validate_row
 from mockazure.population.adapters.arm import json_object
 from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
-from mockazure.population.types import FamilyDescriptor, Input, OperationDescriptor
+from mockazure.population.types import (
+    BatchResult,
+    FamilyDescriptor,
+    Input,
+    OperationDescriptor,
+    ResourceItem,
+    VerificationResult,
+)
 
 
 class HuntingInput(Input):
@@ -70,6 +79,97 @@ def settings_adapter():
 
 
 class HuntingAdapter(PayloadAdapter):
+    async def apply(self, ctx, mutations):
+        if not 1 <= len(mutations) <= 1000 or any(m.parent is not None for m in mutations):
+            raise ValueError("Hunting imports require 1..1000 rows without a parent")
+        prepared = [(m, self.normalize(m)) for m in mutations]
+        ids = [value["id"] for _, value in prepared]
+        if len(set(ids)) != len(ids):
+            raise ValueError("Duplicate hunting source identity")
+        table = self.descriptor.key.removeprefix("hunting.")
+        provenance = HuntingProvenance(
+            kind="fixture", source_ref="management", generator_version="import-v1"
+        )
+        async with ctx.database.sessions.begin() as session:
+            if (
+                await session.scalar(
+                    select(Tenant.id).where(Tenant.id == ctx.tenant_id).with_for_update()
+                )
+                is None
+            ):
+                raise ValueError("Hunting tenant not found")
+            existing = dict(
+                (
+                    await session.execute(
+                        select(HuntingRecord.source_id, HuntingRecord.digest).where(
+                            HuntingRecord.tenant_id == ctx.tenant_id,
+                            HuntingRecord.table_name == table,
+                            HuntingRecord.source_id.in_(ids),
+                        )
+                    )
+                ).all()
+            )
+            for mutation, value in prepared:
+                if mutation.expected_version and mutation.expected_version != existing.get(
+                    value["id"], "absent"
+                ):
+                    raise AdminError(
+                        409, "ResourceConflict", "Hunting source changed; preview again"
+                    )
+            try:
+                created = await ingest_rows(
+                    session,
+                    ctx.tenant_id,
+                    table,
+                    [v["record"] for _, v in prepared],
+                    ids,
+                    provenance,
+                )
+            except ValueError as error:
+                if "different content" in str(error):
+                    raise AdminError(
+                        409, "ResourceConflict", "Hunting source cannot be overwritten"
+                    ) from None
+                raise
+        items = [
+            ResourceItem(
+                id=value["id"],
+                version=record_digest(value["record"], provenance.model_dump()),
+                properties={
+                    "id": value["id"],
+                    "Timestamp": value["record"]["Timestamp"],
+                    "record": value["record"],
+                    "provenance": provenance.model_dump(),
+                },
+            )
+            for _, value in prepared
+        ]
+        return BatchResult(
+            items=items,
+            effects={"created": created, "updated": 0, "unchanged": len(items) - created},
+        )
+
+    async def verify(self, ctx, result):
+        async with ctx.database.sessions() as session:
+            rows = dict(
+                (
+                    await session.execute(
+                        select(HuntingRecord.source_id, HuntingRecord.digest).where(
+                            HuntingRecord.tenant_id == ctx.tenant_id,
+                            HuntingRecord.table_name
+                            == self.descriptor.key.removeprefix("hunting."),
+                            HuntingRecord.source_id.in_([i.id for i in result.items]),
+                        )
+                    )
+                ).all()
+            )
+        actual = sum(rows.get(item.id) == item.version for item in result.items)
+        return VerificationResult(
+            status="succeeded" if actual == len(result.items) else "failed",
+            expected=len(result.items),
+            actual=actual,
+        )
+
     def matches(self, existing, desired):
         return (
             existing["id"] == desired["id"]
