@@ -167,3 +167,70 @@ async def test_ueba_columns_require_explicit_entitlement_even_on_empty_table(dat
         result = await client.post(PATH, headers=headers, json=query)
         assert result.status_code == 200, result.text
         assert result.json()["results"] == []
+
+
+async def test_visibility_grant_cannot_race_deletion_and_survive_restore(
+    database, settings, monkeypatch
+):
+    import asyncio
+
+    from sqlalchemy.ext.asyncio import AsyncSession
+    from sqlalchemy.sql.dml import Delete
+
+    from mockazure.hunting.access_models import HuntingVisibility
+
+    cleanup_done, finish_delete = asyncio.Event(), asyncio.Event()
+    execute = AsyncSession.execute
+
+    async def pause_after_cleanup(session, statement, *args, **kwargs):
+        result = await execute(session, statement, *args, **kwargs)
+        if isinstance(statement, Delete) and statement.table.name == "hunting_visibility":
+            cleanup_done.set()
+            await finish_delete.wait()
+        return result
+
+    async with hunting_client(database, settings) as (client, tid, app, user, headers):
+        writer = await headers_for(
+            database,
+            settings,
+            tid,
+            app,
+            None,
+            {"User.ReadWrite.All", "User.EnableDisableAccount.All", "User.Read.All"},
+        )
+        monkeypatch.setattr(AsyncSession, "execute", pause_after_cleanup)
+        deletion = asyncio.create_task(client.delete(f"/v1.0/users/{user}", headers=writer))
+        await asyncio.wait_for(cleanup_done.wait(), 10)
+        grant = asyncio.create_task(
+            client.put(
+                f"/_mock/tenants/{tid}/hunting/visibility/{user}",
+                json={"view_data": True, "tables": ["DeviceInfo"], "device_ids": None},
+            )
+        )
+        try:
+            # The faulty implementation commits here while the deleting transaction
+            # still exposes a live user. The corrected route waits for that transaction.
+            await asyncio.wait_for(asyncio.shield(grant), 1)
+        except TimeoutError:
+            pass
+        finally:
+            finish_delete.set()
+        removed, granted = await asyncio.wait_for(asyncio.gather(deletion, grant), 10)
+        assert removed.status_code == 204, removed.text
+        assert (
+            await client.post(
+                f"/v1.0/directory/deletedItems/{user}/restore", headers=writer, json={}
+            )
+        ).status_code == 200
+        assert (
+            await client.patch(f"/v1.0/users/{user}", headers=writer, json={"accountEnabled": True})
+        ).status_code == 204
+        async with database.sessions() as session:
+            assert await session.get(HuntingVisibility, (tid, user)) is None
+        assert granted.status_code == 422
+        delegated = await headers_for(
+            database, settings, tid, app, user, {"ThreatHunting.Read.All"}, "delegated"
+        )
+        assert (
+            await client.post(PATH, headers=delegated, json={"Query": "DeviceInfo"})
+        ).status_code == 403

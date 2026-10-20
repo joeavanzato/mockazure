@@ -21,6 +21,7 @@ from mockazure.population.identity import resolve_identity
 from mockazure.population.transport import LocalTransport
 from mockazure.population.types import AdapterContext, Input, ResourceQuery
 from mockazure.providers.graph.body import read_json
+from mockazure.security.repository import lock_security
 
 router = APIRouter(prefix="/_mock/tenants/{tenant_id}/hunting", route_class=ProfileRoute)
 
@@ -126,6 +127,9 @@ async def visibility(tenant_id: UUID, user_id: UUID, value: VisibilityInput, req
     ):
         raise ValueError("Invalid local hunting visibility")
     async with request.app.state.database.sessions.begin() as session:
+        # Deletion clears explicit grants under this lock. Validate the live user
+        # after acquiring it so a concurrent grant cannot survive that cleanup.
+        await lock_security(session, tenant_id)
         await require_tenant(session, tenant_id, lock=True)
         user = await session.scalar(
             select(User.id).where(
