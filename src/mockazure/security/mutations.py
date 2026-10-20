@@ -208,7 +208,23 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
             session, actor.tenant_id, body.get("appId"), by_appid=True
         )
         authorization_target = backing.object_id
-    await authorize_mutation(session, actor, kind, operation, authorization_target, body=body)
+    own_key_action = (
+        operation in {"add_key", "remove_key"}
+        and kind == "application"
+        and actor.token_kind == "application"
+        and row is not None
+        and row.client_id == actor.client_id
+    )
+    if own_key_action:
+        from mockazure.authorization.evaluator import AuthorizationDenied, require_current_identity
+        from mockazure.security.permissions import forbidden
+
+        try:
+            await require_current_identity(actor, session)
+        except AuthorizationDenied:
+            forbidden()
+    else:
+        await authorize_mutation(session, actor, kind, operation, authorization_target, body=body)
     if row is not None and kind in {"application", "servicePrincipal"}:
         managed = await session.scalar(
             select(ManagedIdentity.id).where(
@@ -217,7 +233,7 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
             )
         )
         if managed is not None and (
-            operation in {"add_password", "remove_password"}
+            operation in {"add_password", "remove_password", "add_key", "remove_key"}
             or operation == "update"
             and set(body) & {"web", "publicClient", "spa", "keyCredentials"}
         ):
@@ -333,6 +349,18 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
                 now,
                 application=kind == "application",
             )
+    elif operation in {"add_key", "remove_key"}:
+        from mockazure.security.key_actions import key_action
+
+        result = await key_action(
+            session,
+            actor,
+            row,
+            body,
+            now,
+            application=kind == "application",
+            remove=operation == "remove_key",
+        )
     elif operation in {"add_password", "remove_password"}:
         if kind not in {"application", "servicePrincipal"}:
             invalid()
@@ -428,6 +456,8 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
         "delete": "Delete",
         "add_password": "Add password to",
         "remove_password": "Remove password from",
+        "add_key": "Update",
+        "remove_key": "Update",
         "add_owner": "Add owner to",
         "remove_owner": "Remove owner from",
     }[operation]

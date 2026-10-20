@@ -328,36 +328,44 @@
     },
     {
       "operation_key": "identity.application.addKey",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "application-addkey",
         "graph-csdl",
         "docs-license",
         "permission-application-addkey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful key mutations emit sanitized metadata differences; proofs, key material and secrets are excluded."
       ]
     },
     {
       "operation_key": "identity.application.removeKey",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "application-removekey",
         "graph-csdl",
         "docs-license",
         "permission-application-removekey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful key mutations emit sanitized metadata differences; proofs, key material and secrets are excluded."
       ]
     },
     {
@@ -400,36 +408,44 @@
     },
     {
       "operation_key": "identity.serviceprincipal.addKey",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "serviceprincipal-addkey",
         "graph-csdl",
         "docs-license",
         "permission-serviceprincipal-addkey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful key mutations emit sanitized metadata differences; proofs, key material and secrets are excluded."
       ]
     },
     {
       "operation_key": "identity.serviceprincipal.removeKey",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "serviceprincipal-removekey",
         "graph-csdl",
         "docs-license",
         "permission-serviceprincipal-removekey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful key mutations emit sanitized metadata differences; proofs, key material and secrets are excluded."
       ]
     },
     {

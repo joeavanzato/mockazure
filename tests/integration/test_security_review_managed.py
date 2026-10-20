@@ -33,6 +33,10 @@ async def test_managed_identity_cannot_become_a_secret_client(database, settings
                 path + "/" + action, headers=headers, json={"passwordCredential": {}}
             )
             assert response.status_code == 400, response.text
+        for action in ("addKey", "removeKey", "microsoft.graph.addKey"):
+            response = await client.post(path + "/" + action, headers=headers, json={})
+            assert response.status_code == 400, response.text
+            assert "host-controlled" in response.text
         response = await client.post(
             f"/{tenant}/oauth2/v2.0/token",
             data={

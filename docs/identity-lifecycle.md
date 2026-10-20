@@ -145,3 +145,80 @@ still decide access. Invitation creation emits an `Invite external user` audit.
 Local acceptance emits an `Update user` audit with `local-guest-redemption`
 provenance; it does not assert that an external identity provider authenticated
 the guest.
+## Certificate rollover
+
+`POST /v1.0/applications/{id}/addKey` and `removeKey`, and the corresponding
+`servicePrincipals` actions, operate on the same credentials used by OAuth.
+Both object-ID paths and `applications(appId='{client-id}')` /
+`servicePrincipals(appId='{client-id}')` paths work, including the
+`microsoft.graph.` action aliases. Initial bootstrap remains an explicit
+permission-checked `PATCH` of `keyCredentials`.
+
+The supported certificate profile is public RSA (2048 bits or larger),
+`AsymmetricX509Cert` / `Verify`. Importing private certificates with
+`X509CertAndPassword` / `Sign` is unsupported. Keep client private keys outside
+data templates, exports and the repository.
+
+Every action verifies an RS256 JWT signed with a currently valid certificate
+already belonging to that object. Its issuer is the **object ID**, its audience
+is `00000002-0000-0000-c000-000000000000`, and its `nbf`/`exp` window must be
+at most ten minutes and contain the current security wall time. A new certificate
+cannot sign its own addition. Missing, expired, future, revoked, wrong-object
+or invalid proofs fail without changing credentials.
+
+For calls managing another application or service principal, use
+`Application.ReadWrite.OwnedBy` (application token and owned object),
+`Application.ReadWrite.All`, or `Directory.ReadWrite.All`. Delegated callers
+additionally need ownership or a supported application-administrator role.
+An application can roll **its own application object's** keys without an extra
+Graph permission, but still needs a valid access token, live identity and proof.
+Service-principal actions use their documented permission table.
+Managed identity credentials remain host-controlled.
+
+This recipe uses an already-authenticated local `httpx.Client` named `graph`,
+with its base URL set to MockAzure and its CA trusted. `object_id` is the
+application or service-principal object ID; `old_private_key` and `new_certificate`
+are local cryptography objects. Do not print the access token, proof or private key.
+
+```python
+import base64
+import time
+import jwt
+from cryptography.hazmat.primitives.serialization import Encoding
+
+def rollover_proof(private_key, object_id):
+    now = int(time.time())
+    return jwt.encode(
+        {"aud": "00000002-0000-0000-c000-000000000000",
+         "iss": str(object_id), "nbf": now, "exp": now + 600},
+        private_key, algorithm="RS256",
+    )
+
+path = f"/v1.0/applications/{object_id}"  # or servicePrincipals
+added = graph.post(path + "/addKey", json={
+    "keyCredential": {
+        "type": "AsymmetricX509Cert", "usage": "Verify",
+        "displayName": "Replacement certificate",
+        "key": base64.b64encode(new_certificate.public_bytes(Encoding.DER)).decode(),
+    },
+    "passwordCredential": None,
+    "proof": rollover_proof(old_private_key, object_id),
+})
+added.raise_for_status()
+new_key_id = added.json()["keyId"]
+# Acquire a fresh local OAuth token with the new private key before removing the old key.
+# Sign removal with either currently valid key, normally the verified replacement.
+removed = graph.post(path + "/removeKey", json={
+    "keyId": old_key_id,
+    "proof": rollover_proof(new_private_key, object_id),
+})
+removed.raise_for_status()
+```
+
+For password rotation, call `addPassword`, retain its one-time `secretText` in
+local client credential storage, acquire a fresh token with it, then call
+`removePassword` with the old `keyId`. Normal reads and native directory audits
+never disclose `secretText`. Removal prevents subsequent token acquisition;
+already issued access tokens retain their ordinary lifetime and authorization
+checks. Certificate audit records contain only sanitized metadata differences.
+

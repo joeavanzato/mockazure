@@ -929,6 +929,18 @@
       "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/resources/invitedusermessageinfo.md",
       "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
       "sha256": "509c27721a6beb853340742e91fe2e8592abbac626834d18348ae89790e8b1e6"
+    },
+    "key-rollover-proof": {
+      "path": "sources/concepts__application-rollkey-prooftoken.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/concepts/application-rollkey-prooftoken.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d778bd3395ad4123ed18dd1b8a694089987a5acc5754375a8b94fe871584e00b"
+    },
+    "key-rollover-rbac": {
+      "path": "sources/api-reference__v1.0__includes__rbac-for-apis__rbac-apps-serviceprincipal-creds-apis.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/rbac-for-apis/rbac-apps-serviceprincipal-creds-apis.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "0d2bb2f0135b8bd7bc05226729aa244c8fabdb9cbf131729da49be783dfd97f1"
     }
   },
   "operations": [
@@ -1385,22 +1397,37 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/applications/{id}/addKey",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
+      "permissions": [
+        "Application.ReadWrite.OwnedBy",
+        "Application.ReadWrite.All",
+        "Directory.ReadWrite.All"
+      ],
+      "role_constraints": [
+        "Delegated: application owner, Application Administrator, Cloud Application Administrator, or Global Administrator"
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "application-addkey",
         "graph-csdl",
         "docs-license",
         "permission-application-addkey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "object ID",
+        "appId alternate key",
+        "microsoft.graph action alias"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "RSA >=2048 public AsymmetricX509Cert/Verify only; private certificate import is unsupported.",
+        "RS256 proof signed by an existing currently valid owner certificate; audience 00000002-0000-0000-c000-000000000000; object-ID issuer; nbf/exp maximum 10 minutes.",
+        "Application self-rollover needs no Graph permission; all other calls require applicable permissions and ownership/role. Managed identity keys remain host-controlled.",
+        "Initial certificate bootstrap uses explicit permission-checked PATCH. Removing a key prevents new token acquisition, not use of already issued access tokens."
       ]
     },
     {
@@ -1408,22 +1435,37 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/applications/{id}/removeKey",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
+      "permissions": [
+        "Application.ReadWrite.OwnedBy",
+        "Application.ReadWrite.All",
+        "Directory.ReadWrite.All"
+      ],
+      "role_constraints": [
+        "Delegated: application owner, Application Administrator, Cloud Application Administrator, or Global Administrator"
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "application-removekey",
         "graph-csdl",
         "docs-license",
         "permission-application-removekey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "object ID",
+        "appId alternate key",
+        "microsoft.graph action alias"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "RSA >=2048 public AsymmetricX509Cert/Verify only; private certificate import is unsupported.",
+        "RS256 proof signed by an existing currently valid owner certificate; audience 00000002-0000-0000-c000-000000000000; object-ID issuer; nbf/exp maximum 10 minutes.",
+        "Application self-rollover needs no Graph permission; all other calls require applicable permissions and ownership/role. Managed identity keys remain host-controlled.",
+        "Initial certificate bootstrap uses explicit permission-checked PATCH. Removing a key prevents new token acquisition, not use of already issued access tokens."
       ]
     },
     {
@@ -1477,22 +1519,37 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/servicePrincipals/{id}/addKey",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
+      "permissions": [
+        "Application.ReadWrite.OwnedBy",
+        "Application.ReadWrite.All",
+        "Directory.ReadWrite.All"
+      ],
+      "role_constraints": [
+        "Delegated: application owner, Application Administrator, Cloud Application Administrator, or Global Administrator"
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "serviceprincipal-addkey",
         "graph-csdl",
         "docs-license",
         "permission-serviceprincipal-addkey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "object ID",
+        "appId alternate key",
+        "microsoft.graph action alias"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "RSA >=2048 public AsymmetricX509Cert/Verify only; private certificate import is unsupported.",
+        "RS256 proof signed by an existing currently valid owner certificate; audience 00000002-0000-0000-c000-000000000000; object-ID issuer; nbf/exp maximum 10 minutes.",
+        "Application self-rollover needs no Graph permission; all other calls require applicable permissions and ownership/role. Managed identity keys remain host-controlled.",
+        "Initial certificate bootstrap uses explicit permission-checked PATCH. Removing a key prevents new token acquisition, not use of already issued access tokens."
       ]
     },
     {
@@ -1500,22 +1557,37 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/servicePrincipals/{id}/removeKey",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
+      "permissions": [
+        "Application.ReadWrite.OwnedBy",
+        "Application.ReadWrite.All",
+        "Directory.ReadWrite.All"
+      ],
+      "role_constraints": [
+        "Delegated: application owner, Application Administrator, Cloud Application Administrator, or Global Administrator"
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "serviceprincipal-removekey",
         "graph-csdl",
         "docs-license",
         "permission-serviceprincipal-removekey-permissions",
-        "metadata-license"
+        "metadata-license",
+        "key-rollover-proof",
+        "key-rollover-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "object ID",
+        "appId alternate key",
+        "microsoft.graph action alias"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "RSA >=2048 public AsymmetricX509Cert/Verify only; private certificate import is unsupported.",
+        "RS256 proof signed by an existing currently valid owner certificate; audience 00000002-0000-0000-c000-000000000000; object-ID issuer; nbf/exp maximum 10 minutes.",
+        "Application self-rollover needs no Graph permission; all other calls require applicable permissions and ownership/role. Managed identity keys remain host-controlled.",
+        "Initial certificate bootstrap uses explicit permission-checked PATCH. Removing a key prevents new token acquisition, not use of already issued access tokens."
       ]
     },
     {
