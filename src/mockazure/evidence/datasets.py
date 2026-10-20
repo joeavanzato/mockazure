@@ -139,6 +139,15 @@ def validate_public_payload(version, family, payload):
             "oAuth2PermissionGrant": "oAuth2PermissionGrant",
             "appRoleAssignment": "appRoleAssignment",
             "unifiedRoleAssignment": "unifiedRoleAssignment",
+            "unifiedRoleEligibilityScheduleRequest": "unifiedRoleEligibilityScheduleRequest",
+            "unifiedRoleAssignmentScheduleRequest": "unifiedRoleAssignmentScheduleRequest",
+            "unifiedRoleManagementPolicyExpirationRule": (
+                "unifiedRoleManagementPolicyExpirationRule"
+            ),
+            "unifiedRoleManagementPolicyEnablementRule": (
+                "unifiedRoleManagementPolicyEnablementRule"
+            ),
+            "unifiedRoleManagementPolicyApprovalRule": "unifiedRoleManagementPolicyApprovalRule",
             "conditionalAccessPolicy": "conditionalAccessPolicy",
             "ipNamedLocation": "ipNamedLocation",
         }.get(target.get("type"))

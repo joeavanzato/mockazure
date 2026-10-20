@@ -7,7 +7,8 @@ from fastapi import APIRouter, Request
 from pydantic import ValidationError
 from sqlalchemy import select
 
-from mockazure.identity.models import DirectoryRole, User
+from mockazure.authorization.roles import effective_roles
+from mockazure.identity.models import User
 from mockazure.licensing.schemas import LicenceAssignment
 from mockazure.licensing.service import assign_licences, assignment_rows, inventory
 from mockazure.providers.graph.body import invalid, read_json
@@ -77,14 +78,7 @@ async def authorize_licensing(session, context, operation, target_id=None):
     if not context.permissions & allowed:
         deny()
     if context.token_kind == "delegated":
-        roles = set(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == context.tenant_id,
-                    DirectoryRole.user_id == context.subject_id,
-                )
-            )
-        )
+        roles = set(await effective_roles(session, context.tenant_id, context.subject_id))
         if (
             not roles
             & {"skus": SKU_ROLES, "details": DETAIL_ROLES, "assign": ASSIGN_ROLES}[operation]

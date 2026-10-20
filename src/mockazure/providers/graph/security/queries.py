@@ -139,6 +139,36 @@ FIELDS = {
 
 
 def contract_for(kind, version):
+    if kind.startswith("unifiedRole") and ("Schedule" in kind or "ManagementPolicy" in kind):
+        from mockazure.providers.graph.schema_reference import schema
+
+        fields = {
+            name: FieldContract(
+                name,
+                "string",
+                frozenset({"eq"})
+                if name
+                in {
+                    "id",
+                    "principalId",
+                    "roleDefinitionId",
+                    "directoryScopeId",
+                    "appScopeId",
+                    "status",
+                    "action",
+                    "assignmentType",
+                    "scopeId",
+                    "scopeType",
+                    "policyId",
+                }
+                else frozenset(),
+            )
+            for name in schema("v1.0")["types"][kind]["properties"]
+        }
+        # Policy/rule IDs are strings; schedule and request IDs use UUID storage.
+        if "Schedule" in kind:
+            fields["id"] = FieldContract("id", "uuid", frozenset({"eq"}))
+        return QueryContract(version, kind, kind, fields, frozenset({"id"}))
     if kind == "userActivity":
         from mockazure.providers.graph.query.contracts import contract_for as directory_contract
 
@@ -205,6 +235,8 @@ def parse_security_query(request, kind):
         else request.headers.get("consistencylevel"),
     )
     if expand is not None:
+        if kind.startswith("unifiedRole") and ("Schedule" in kind or "ManagementPolicy" in kind):
+            unsupported("PIM relationship expansion is outside this profile")
         if kind in {"conditionalAccessPolicy", "ipNamedLocation"}:
             unsupported("Policy relationship expansion is unsupported")
         if kind == "unifiedRoleAssignment":

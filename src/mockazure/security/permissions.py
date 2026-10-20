@@ -1,7 +1,8 @@
 from sqlalchemy import select
 
 from mockazure.authorization.evaluator import OperationRequirement
-from mockazure.identity.models import DirectoryRole, ServicePrincipal
+from mockazure.authorization.roles import effective_roles
+from mockazure.identity.models import ServicePrincipal
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import permitted
 from mockazure.security.models import SecurityOwner
@@ -54,14 +55,7 @@ async def authorize_mutation(session, actor, kind, operation, identifier=None, *
             session,
         )
         if actor.token_kind == "delegated" and operation == "update":
-            assigned = set(
-                await session.scalars(
-                    select(DirectoryRole.role).where(
-                        DirectoryRole.tenant_id == actor.tenant_id,
-                        DirectoryRole.user_id == actor.subject_id,
-                    )
-                )
-            )
+            assigned = set(await effective_roles(session, actor.tenant_id, actor.subject_id))
             if not assigned & {"Global Administrator", "Intune Administrator"}:
                 allowed = set()
                 if "Cloud Device Administrator" in assigned:
@@ -90,14 +84,7 @@ async def authorize_mutation(session, actor, kind, operation, identifier=None, *
     if actor.token_kind == "application" and actor.permissions & full:
         return
     roles = (
-        set(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == actor.tenant_id,
-                    DirectoryRole.user_id == actor.subject_id,
-                )
-            )
-        )
+        set(await effective_roles(session, actor.tenant_id, actor.subject_id))
         if actor.subject_id
         else set()
     )

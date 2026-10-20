@@ -1208,6 +1208,31 @@
         "reportOnlyInterrupted"
       ]
     },
+    "approvalSettings": {
+      "properties": {
+        "approvalMode": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "approvalStages": {
+          "type": "Collection(graph.unifiedApprovalStage)",
+          "nullable": true
+        },
+        "isApprovalRequired": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isApprovalRequiredForExtension": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isRequestorJustificationRequired": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "assignedLabel": {
       "properties": {
         "displayName": {
@@ -4884,6 +4909,31 @@
       },
       "required": [],
       "base": "groupAssignmentTarget"
+    },
+    "expirationPattern": {
+      "properties": {
+        "duration": {
+          "type": "Edm.Duration",
+          "nullable": true
+        },
+        "endDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "type": {
+          "type": "graph.expirationPatternType",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "expirationPatternType": {
+      "enum": [
+        "notSpecified",
+        "noExpiration",
+        "afterDateTime",
+        "afterDuration"
+      ]
     },
     "externalAudienceScope": {
       "enum": [
@@ -10043,6 +10093,60 @@
         },
         "webUrl": {
           "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "request": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "approvalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "completedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "customData": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "status"
+      ],
+      "base": "entity"
+    },
+    "requestSchedule": {
+      "properties": {
+        "expiration": {
+          "type": "graph.expirationPattern",
+          "nullable": true
+        },
+        "recurrence": {
+          "type": "graph.patternedRecurrence",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "Edm.DateTimeOffset",
           "nullable": true
         }
       },
@@ -16215,6 +16319,10 @@
       },
       "required": []
     },
+    "subjectSet": {
+      "properties": {},
+      "required": []
+    },
     "subscribedSku": {
       "properties": {
         "id": {
@@ -16683,6 +16791,19 @@
         "emailUser"
       ]
     },
+    "ticketInfo": {
+      "properties": {
+        "ticketNumber": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ticketSystem": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
     "timeSlot": {
       "properties": {
         "end": {
@@ -16717,6 +16838,35 @@
         "ADFederationServicesMFAAdapter",
         "NPSExtension"
       ]
+    },
+    "unifiedApprovalStage": {
+      "properties": {
+        "approvalStageTimeOutInDays": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "escalationApprovers": {
+          "type": "Collection(graph.subjectSet)",
+          "nullable": true
+        },
+        "escalationTimeInMinutes": {
+          "type": "Edm.Int32",
+          "nullable": true
+        },
+        "isApproverJustificationRequired": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "isEscalationEnabled": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "primaryApprovers": {
+          "type": "Collection(graph.subjectSet)",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "unifiedRoleAssignment": {
       "properties": {
@@ -16753,6 +16903,191 @@
         "id"
       ],
       "base": "entity"
+    },
+    "unifiedRoleAssignmentSchedule": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdUsing": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "modifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "assignmentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "memberType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "scheduleInfo": {
+          "type": "graph.requestSchedule",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "unifiedRoleScheduleBase"
+    },
+    "unifiedRoleAssignmentScheduleInstance": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "assignmentType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "endDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "memberType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleAssignmentOriginId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleAssignmentScheduleId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "unifiedRoleScheduleInstanceBase"
+    },
+    "unifiedRoleAssignmentScheduleRequest": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "approvalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "completedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "customData": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "action": {
+          "type": "graph.unifiedRoleScheduleRequestActions",
+          "nullable": true
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isValidationOnly": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "justification": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "scheduleInfo": {
+          "type": "graph.requestSchedule",
+          "nullable": true
+        },
+        "targetScheduleId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ticketInfo": {
+          "type": "graph.ticketInfo",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "status"
+      ],
+      "base": "request"
     },
     "unifiedRoleDefinition": {
       "properties": {
@@ -16800,6 +17135,372 @@
       ],
       "base": "entity"
     },
+    "unifiedRoleEligibilitySchedule": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdUsing": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "modifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "memberType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "scheduleInfo": {
+          "type": "graph.requestSchedule",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "unifiedRoleScheduleBase"
+    },
+    "unifiedRoleEligibilityScheduleInstance": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "endDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "memberType": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleEligibilityScheduleId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "startDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "unifiedRoleScheduleInstanceBase"
+    },
+    "unifiedRoleEligibilityScheduleRequest": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "approvalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "completedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdBy": {
+          "type": "graph.identitySet",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "customData": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "action": {
+          "type": "graph.unifiedRoleScheduleRequestActions",
+          "nullable": true
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "isValidationOnly": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "justification": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "scheduleInfo": {
+          "type": "graph.requestSchedule",
+          "nullable": true
+        },
+        "targetScheduleId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "ticketInfo": {
+          "type": "graph.ticketInfo",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id",
+        "status"
+      ],
+      "base": "request"
+    },
+    "unifiedRoleManagementPolicy": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "description": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "displayName": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "isOrganizationDefault": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "lastModifiedBy": {
+          "type": "graph.identity",
+          "nullable": true
+        },
+        "lastModifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "scopeId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "scopeType": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "displayName",
+        "scopeId",
+        "scopeType"
+      ],
+      "base": "entity"
+    },
+    "unifiedRoleManagementPolicyApprovalRule": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "target": {
+          "type": "graph.unifiedRoleManagementPolicyRuleTarget",
+          "nullable": true
+        },
+        "setting": {
+          "type": "graph.approvalSettings",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "unifiedRoleManagementPolicyRule"
+    },
+    "unifiedRoleManagementPolicyAssignment": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "policyId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "scopeId": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "scopeType": {
+          "type": "Edm.String",
+          "nullable": false
+        }
+      },
+      "required": [
+        "id",
+        "policyId",
+        "scopeId",
+        "scopeType"
+      ],
+      "base": "entity"
+    },
+    "unifiedRoleManagementPolicyEnablementRule": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "target": {
+          "type": "graph.unifiedRoleManagementPolicyRuleTarget",
+          "nullable": true
+        },
+        "enabledRules": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "unifiedRoleManagementPolicyRule"
+    },
+    "unifiedRoleManagementPolicyExpirationRule": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "target": {
+          "type": "graph.unifiedRoleManagementPolicyRuleTarget",
+          "nullable": true
+        },
+        "isExpirationRequired": {
+          "type": "Edm.Boolean",
+          "nullable": true
+        },
+        "maximumDuration": {
+          "type": "Edm.Duration",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "unifiedRoleManagementPolicyRule"
+    },
+    "unifiedRoleManagementPolicyRule": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "target": {
+          "type": "graph.unifiedRoleManagementPolicyRuleTarget",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "unifiedRoleManagementPolicyRuleTarget": {
+      "properties": {
+        "caller": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "enforcedSettings": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "inheritableSettings": {
+          "type": "Collection(Edm.String)",
+          "nullable": true
+        },
+        "level": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "operations": {
+          "type": "Collection(graph.unifiedRoleManagementPolicyRuleTargetOperations)",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "unifiedRoleManagementPolicyRuleTargetOperations": {
+      "enum": [
+        "all",
+        "activate",
+        "deactivate",
+        "assign",
+        "update",
+        "remove",
+        "extend",
+        "renew",
+        "unknownFutureValue"
+      ]
+    },
     "unifiedRolePermission": {
       "properties": {
         "allowedResourceActions": {
@@ -16817,6 +17518,92 @@
       },
       "required": [
         "allowedResourceActions"
+      ]
+    },
+    "unifiedRoleScheduleBase": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "createdDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "createdUsing": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "modifiedDateTime": {
+          "type": "Edm.DateTimeOffset",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "status": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "unifiedRoleScheduleInstanceBase": {
+      "properties": {
+        "id": {
+          "type": "Edm.String",
+          "nullable": false
+        },
+        "appScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "directoryScopeId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "principalId": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "roleDefinitionId": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "base": "entity"
+    },
+    "unifiedRoleScheduleRequestActions": {
+      "enum": [
+        "adminAssign",
+        "adminUpdate",
+        "adminRemove",
+        "selfActivate",
+        "selfDeactivate",
+        "adminExtend",
+        "adminRenew",
+        "selfExtend",
+        "selfRenew",
+        "unknownFutureValue"
       ]
     },
     "uploadSession": {

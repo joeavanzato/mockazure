@@ -6,7 +6,8 @@ from sqlalchemy import String, case, cast, exists, func, literal, select
 from sqlalchemy.dialects.postgresql import JSONB, aggregate_order_by
 
 from mockazure.authorization.evaluator import AuthorizationDenied, require_current_identity
-from mockazure.identity.models import DirectoryRole, User
+from mockazure.authorization.roles import effective_roles, protected_role_rows
+from mockazure.identity.models import User
 from mockazure.licensing.service import entitlements
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.query.ast import Boolean, Compare, StartsWith
@@ -28,14 +29,7 @@ async def require_report_read(session, actor):
     except AuthorizationDenied:
         raise GraphError(403, "Authorization_RequestDenied", "Current identity required") from None
     roles = (
-        set(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == actor.tenant_id,
-                    DirectoryRole.user_id == actor.subject_id,
-                )
-            )
-        )
+        set(await effective_roles(session, actor.tenant_id, actor.subject_id))
         if actor.token_kind == "delegated"
         else set()
     )
@@ -92,11 +86,9 @@ def registration_source(tenant):
             ),
         )
     ).correlate(User)
+    roles = protected_role_rows(tenant)
     admin = exists(
-        select(DirectoryRole.user_id).where(
-            DirectoryRole.tenant_id == tenant,
-            DirectoryRole.user_id == User.id,
-        )
+        select(roles.c.principal_id).where(roles.c.principal_id == User.id)
     ).correlate(User)
     fields = {
         "@odata.type": "#microsoft.graph.userRegistrationDetails",

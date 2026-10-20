@@ -12,7 +12,7 @@ from sqlalchemy import select
 
 from mockazure.authorization.catalog import permission
 from mockazure.identity.credentials import verify_secret
-from mockazure.identity.models import Application, DirectoryRole, Grant, ServicePrincipal, User
+from mockazure.identity.models import Application, Grant, ServicePrincipal, User
 from mockazure.oauth import pages
 from mockazure.oauth.client_auth import authenticate_client
 from mockazure.oauth.discovery import resolve_tenant
@@ -241,7 +241,9 @@ async def consent_to_scopes(row, session):
     await lock_security(session, row.tenant_id)
     granted = await granted_scopes(session, row.tenant_id, row.client_id, row.user_id, row.resource)
     needed = set(row.scopes) - OIDC - granted
-    admin = await session.get(DirectoryRole, (row.tenant_id, row.user_id, "Global Administrator"))
+    from mockazure.authorization.roles import effective_roles
+
+    admin = "Global Administrator" in await effective_roles(session, row.tenant_id, row.user_id)
     if (
         any(permission(row.resource, "delegated", p).admin_consent_required for p in needed)
         and not admin

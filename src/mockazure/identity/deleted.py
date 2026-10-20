@@ -7,6 +7,7 @@ from sqlalchemy import delete, select, update
 from sqlalchemy.dialects.postgresql import insert
 
 from mockazure.authorization.evaluator import OperationRequirement
+from mockazure.authorization.roles import protected_roles
 from mockazure.db.models import Tenant
 from mockazure.directory.history import record_object_version, reserve_revision
 from mockazure.directory.models import DirectoryRelation, Group
@@ -47,6 +48,8 @@ async def capture_deletion(session, tenant, kind, row, payload, now):
     """Called before canonical deletion and relationship cleanup, in its transaction."""
     await lock_security(session, tenant)
     identifier = row.object_id if kind == "application" else row.id
+    from mockazure.security.pim.models import PimSchedule
+
     owners = list(
         await session.scalars(
             select(SecurityOwner.owner_id).where(
@@ -62,13 +65,7 @@ async def capture_deletion(session, tenant, kind, row, payload, now):
     }
     if kind == "user":
         snapshot["manager"] = str(row.manager_id) if row.manager_id else None
-        snapshot["roles"] = list(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == tenant, DirectoryRole.user_id == identifier
-                )
-            )
-        )
+        snapshot["roles"] = list(await protected_roles(session, tenant, identifier))
         snapshot["groups"] = [
             {"id": str(edge.group_id), "relation": edge.relation}
             for edge in await session.scalars(
@@ -144,6 +141,15 @@ async def capture_deletion(session, tenant, kind, row, payload, now):
             )
             .values(revoked_at=now)
         )
+    await session.execute(
+        update(PimSchedule)
+        .where(
+            PimSchedule.tenant_id == tenant,
+            PimSchedule.principal_id == identifier,
+            PimSchedule.revoked_at.is_(None),
+        )
+        .values(revoked_at=now)
+    )
     # No passwords, secrets or key material are copied into recovery metadata.
     for field in ("passwordCredentials", "keyCredentials"):
         snapshot["public"].pop(field, None)

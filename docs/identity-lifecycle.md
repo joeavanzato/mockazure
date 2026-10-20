@@ -222,3 +222,82 @@ never disclose `secretText`. Removal prevents subsequent token acquisition;
 already issued access tokens retain their ordinary lifetime and authorization
 checks. Certificate audit records contain only sanitized metadata differences.
 
+## Privileged access
+
+The v1.0 PIM profile separates eligible assignments, requests, schedules and
+instances. Eligibility alone grants no access. Active schedules contribute to
+the same role checks used by Graph evidence, licensing, authentication methods,
+Conditional Access, consent, directory writes and Exchange authorization.
+Each check uses current security wall time and live principal state. A stopped
+worker cannot extend a role. Deactivation and account disablement take effect
+on subsequent requests with the same token; independent permanent grants remain.
+Deleting an identity revokes its schedules, so restoring it does not restore PIM
+authority. Disabled administrators retain privileged-target protections even
+though they cannot exercise their roles.
+
+Use a tenant with the local Entra P2 inventory entitlement. This profile does not
+model separate Entra ID Governance licensing or per-user PIM license compliance.
+Only the built-in role definitions and tenant directory scope `/` are supported:
+
+- Eligibility requests: user `adminAssign` and `adminRemove`.
+- Assignment requests: administrative user/service-principal `adminAssign` and
+  `adminRemove`; delegated eligible-user `selfActivate` and `selfDeactivate`.
+- Requests, schedules and instances: collection/item reads. Request collections
+  also support delegated `filterByCurrentUser(on='principal')`.
+- Policies and policy assignments: collection/item reads; policy rule collection
+  and item reads, and bounded rule PATCH.
+
+Administrative requests require the appropriate `RoleEligibilitySchedule.*` or
+`RoleAssignmentSchedule.*` permission, or `RoleManagement.ReadWrite.Directory`.
+Delegated administrators additionally need Privileged Role Administrator or
+Global Administrator. Self actions require the matching signed-in principal
+and current eligibility covering the complete activation window. The ordinary
+read-role checks apply to broad reads; own-request filtering does not expose
+other users' requests.
+
+Default local role policies require justification and expiration. Activation
+defaults to at most eight hours and a completed local MFA session; administrators
+can configure expiration (at most 24 hours for activation, 366 days for bounded
+administrative schedules), justification, ticket requirements and MFA through
+the corresponding expiration/enablement rules. MFA requires an actual local
+authorization-code session and, when method enforcement is enabled, a currently
+registered eligible method outcome. A request field or fabricated MFA header
+cannot satisfy it.
+
+Approval requirements can be represented, but approval-required activation
+returns `501` and creates no grant. Approval stages, approval execution,
+authentication-context rules, notifications, custom extensions, group eligibility,
+custom roles/scopes, recurring schedules, validation-only requests, update,
+renewal and extension actions remain unsupported.
+
+Immediate requests become `Provisioned`. Future administrative grants are
+`Granted` until their start time and cannot authorize early. Only a future
+`Granted` request can be canceled; an active assignment must be deactivated or
+administratively removed. Canceled requests become unavailable after 30 days; collection access cleans up
+the expired request records. Immutable audit facts remain available.
+Overlapping schedules of the same kind/principal/role return `409`.
+
+Collections support bounded equality filters, `$select` and caller-bound paging
+(default 100, cap 999), without `$expand`. Mixed policy-rule collections have no
+query options. Pagination snapshots describe inventory at collection time;
+authorization always reevaluates current state. `/roleAssignments` includes
+active schedules as distinct grants, while legacy role membership deduplicates
+their principals. Delete PIM grants through schedule requests, not through the
+permanent assignment DELETE API.
+
+For a local original-client check, download and verify the two pinned Microsoft
+Graph PowerShell modules and run:
+
+```powershell
+python -m tools.verify_living_pim --config .runtime/living-native/native.json --report work/living-pim.json --prepare-clients
+```
+
+The verifier creates disposable local identities, performs local PKCE and
+registered simulated MFA, and runs the unchanged Microsoft Graph
+Identity.Governance 2.35.1 cmdlets through eligibility → activation → allowed
+audit read → deactivation → denied audit read. On Windows, its original client
+runs in an isolated Linux container against the native HTTPS API; PostgreSQL
+and the API retain their normal native configuration.
+Omit `--prepare-clients` on subsequent runs to verify the local archives without
+downloading them.
+

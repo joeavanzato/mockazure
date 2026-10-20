@@ -941,6 +941,18 @@
       "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/rbac-for-apis/rbac-apps-serviceprincipal-creds-apis.md",
       "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
       "sha256": "0d2bb2f0135b8bd7bc05226729aa244c8fabdb9cbf131729da49be783dfd97f1"
+    },
+    "pim-rbac": {
+      "path": "sources/api-reference__v1.0__includes__rbac-for-apis__rbac-pim-entra-roles-apis.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/rbac-for-apis/rbac-pim-entra-roles-apis.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "19feb7f0083b487173ab29c9a5319e916222608e0f39df82ed0c4da555e212f8"
+    },
+    "pim-rules": {
+      "path": "sources/concepts__identity-governance-pim-rules-overview.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/concepts/identity-governance-pim-rules-overview.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "b45cac85b60f4027128130e27b98d6e5f17714acb81aee338eaff5535b6e0a18"
     }
   },
   "operations": [
@@ -1641,22 +1653,34 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-list-roleeligibilityschedulerequests",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleeligibilityschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1664,22 +1688,34 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-post-roleeligibilityschedulerequests",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-post-roleeligibilityschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1687,22 +1723,34 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleeligibilityschedulerequest-get",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedulerequest-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1710,22 +1758,34 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests/{id}/cancel",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleeligibilityschedulerequest-cancel",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedulerequest-cancel-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1733,22 +1793,34 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests/filterByCurrentUser(on='principal')",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleeligibilityschedulerequest-filterbycurrentuser",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedulerequest-filterbycurrentuser-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1756,22 +1828,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleEligibilitySchedules",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.Read.Directory",
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-list-roleeligibilityschedules",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleeligibilityschedules-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1779,22 +1866,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleEligibilitySchedules/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.Read.Directory",
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleeligibilityschedule-get",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedule-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1802,22 +1904,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleInstances",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.Read.Directory",
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-list-roleeligibilityscheduleinstances",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleeligibilityscheduleinstances-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1825,22 +1942,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleInstances/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleEligibilitySchedule.Read.Directory",
+        "RoleEligibilitySchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleeligibilityscheduleinstance-get",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityscheduleinstance-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1848,22 +1980,34 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-list-roleassignmentschedulerequests",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleassignmentschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1871,22 +2015,36 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleAssignmentSchedule.Remove.Directory",
+        "RoleEligibilitySchedule.Remove.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-post-roleassignmentschedulerequests",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-post-roleassignmentschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1894,22 +2052,34 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleassignmentschedulerequest-get",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedulerequest-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1917,22 +2087,34 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests/{id}/cancel",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleassignmentschedulerequest-cancel",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedulerequest-cancel-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1940,22 +2122,34 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests/filterByCurrentUser(on='principal')",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleassignmentschedulerequest-filterbycurrentuser",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedulerequest-filterbycurrentuser-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1963,22 +2157,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleAssignmentSchedules",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.Read.Directory",
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-list-roleassignmentschedules",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleassignmentschedules-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -1986,22 +2195,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleAssignmentSchedules/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.Read.Directory",
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleassignmentschedule-get",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedule-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2009,22 +2233,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleInstances",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.Read.Directory",
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "rbacapplication-list-roleassignmentscheduleinstances",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleassignmentscheduleinstances-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2032,22 +2271,37 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleInstances/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleAssignmentSchedule.Read.Directory",
+        "RoleAssignmentSchedule.ReadWrite.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedroleassignmentscheduleinstance-get",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentscheduleinstance-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2055,21 +2309,36 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/policies/roleManagementPolicies",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleManagementPolicy.Read.Directory",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagementPolicy.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "policyroot-list-rolemanagementpolicies",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2077,21 +2346,36 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/policies/roleManagementPolicies/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleManagementPolicy.Read.Directory",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagementPolicy.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedrolemanagementpolicy-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2099,21 +2383,36 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/policies/roleManagementPolicies/{id}/rules",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleManagementPolicy.Read.Directory",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagementPolicy.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedrolemanagementpolicy-list-rules",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2121,21 +2420,36 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/policies/roleManagementPolicies/{id}/rules/{rule}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleManagementPolicy.Read.Directory",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagementPolicy.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedrolemanagementpolicyrule-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2143,21 +2457,36 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/policies/roleManagementPolicyAssignments",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleManagementPolicy.Read.Directory",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagementPolicy.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "policyroot-list-rolemanagementpolicyassignments",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2165,21 +2494,36 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/policies/roleManagementPolicyAssignments/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleManagementPolicy.Read.Directory",
+        "RoleManagement.Read.Directory",
+        "RoleManagement.Read.All",
+        "RoleManagementPolicy.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedrolemanagementpolicyassignment-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {
@@ -2187,21 +2531,33 @@
       "area": "identity",
       "method": "PATCH",
       "path": "/v1.0/policies/roleManagementPolicies/{id}/rules/{rule}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "permissions": [
+        "RoleManagementPolicy.ReadWrite.Directory",
+        "RoleManagement.ReadWrite.Directory"
+      ],
+      "role_constraints": [
+        "Delegated administration requires Privileged Role Administrator or Global Administrator; own activation and current-user request reads are separately scoped."
+      ],
+      "entitlement_constraints": [
+        "Local tenant Entra P2 inventory"
+      ],
       "source_refs": [
         "unifiedrolemanagementpolicyrule-update",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Built-in roles at directoryScopeId /. User eligibility and selfActivate/selfDeactivate; adminAssign/adminRemove active user/service-principal schedules. No groups, custom scopes, recurring schedules, renew/extend/update or approval workflows.",
+        "Expiration, justification, ticket and registered local MFA rules enforced. Approval-required activation returns 501 without a grant. Effective authority is checked on security wall time independently of workers.",
+        "Read collections support bounded eq filters, $select and HMAC caller-bound paging; no $expand. filterByCurrentUser supports delegated principal only. Mixed rule collection reads have no query options.",
+        "Only future Granted requests can be canceled. Canceled requests are removed after 30 days on access; native audit facts are retained."
       ]
     },
     {

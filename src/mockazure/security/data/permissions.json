@@ -766,6 +766,90 @@
       "adminConsentRequired": true
     },
     {
+      "name": "RoleAssignmentSchedule.Read.Directory",
+      "kind": "application",
+      "id": "d5fe8ce8-684c-4c83-a52c-46e882ce4be1",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleAssignmentSchedule.Read.Directory",
+      "kind": "delegated",
+      "id": "344a729c-0285-42c6-9014-f12b9b8d6129",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleAssignmentSchedule.ReadWrite.Directory",
+      "kind": "application",
+      "id": "dd199f4a-f148-40a4-a2ec-f0069cc799ec",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleAssignmentSchedule.ReadWrite.Directory",
+      "kind": "delegated",
+      "id": "8c026be3-8e26-4774-9372-8d5d6f21daff",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleAssignmentSchedule.Remove.Directory",
+      "kind": "application",
+      "id": "d3495511-98b7-4df3-b317-4e35c19f6129",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleAssignmentSchedule.Remove.Directory",
+      "kind": "delegated",
+      "id": "f71cd05c-3fdb-4568-aef2-e1cf62ee20d4",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleEligibilitySchedule.Read.Directory",
+      "kind": "application",
+      "id": "ff278e11-4a33-4d0c-83d2-d01dc58929a5",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleEligibilitySchedule.Read.Directory",
+      "kind": "delegated",
+      "id": "eb0788c2-6d4e-4658-8c9e-c0fb8053f03d",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleEligibilitySchedule.ReadWrite.Directory",
+      "kind": "application",
+      "id": "fee28b28-e1f3-4841-818e-2704dc62245f",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleEligibilitySchedule.ReadWrite.Directory",
+      "kind": "delegated",
+      "id": "62ade113-f8e0-4bf9-a6ba-5acb31db32fd",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleEligibilitySchedule.Remove.Directory",
+      "kind": "application",
+      "id": "79c7e69c-0d9f-4eff-97a8-49170a5a08ba",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleEligibilitySchedule.Remove.Directory",
+      "kind": "delegated",
+      "id": "58ac4fa2-b484-4d6e-ba97-beee2a574220",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleManagement.Read.All",
+      "kind": "application",
+      "id": "c7fbd983-d9aa-4fa7-84b8-17382c103bc4",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleManagement.Read.All",
+      "kind": "delegated",
+      "id": "48fec646-b2ba-4019-8681-8eb31435aded",
+      "adminConsentRequired": true
+    },
+    {
       "name": "RoleManagement.Read.Directory",
       "kind": "application",
       "id": "483bed4a-2ad3-4361-a73b-c83ccdbdc53c",
@@ -787,6 +871,30 @@
       "name": "RoleManagement.ReadWrite.Directory",
       "kind": "delegated",
       "id": "d01b97e9-cbc0-49fe-810a-750afd5527a3",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleManagementPolicy.Read.Directory",
+      "kind": "application",
+      "id": "fdc4c997-9942-4479-bfcb-75a36d1138df",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleManagementPolicy.Read.Directory",
+      "kind": "delegated",
+      "id": "3de2cdbe-0ff5-47d5-bdee-7f45b4749ead",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleManagementPolicy.ReadWrite.Directory",
+      "kind": "application",
+      "id": "31e08e0a-d3f7-4ca2-ac39-7343fb83e8ad",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "RoleManagementPolicy.ReadWrite.Directory",
+      "kind": "delegated",
+      "id": "1ff1be21-34eb-448c-9ac9-ce1f506b2a68",
       "adminConsentRequired": true
     },
     {

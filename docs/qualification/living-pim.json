@@ -1,0 +1,21 @@
+{
+  "state": "passed",
+  "client": "Microsoft.Graph.Identity.Governance",
+  "version": "2.35.1",
+  "steps": [
+    "denied",
+    "eligible-denied",
+    "activated-allowed",
+    "deactivated-denied"
+  ],
+  "request_ids": [
+    "b7ca6487-c66b-48ca-9a21-26e3b0fdd178",
+    "affd3c9e-cedc-4630-bc49-23e2e3618971",
+    "b46a1505-f0e3-4473-9882-f6e13a505f02"
+  ],
+  "tenant_id": "d0b4f9ce-9ba4-419f-9d1b-ed82be0a0e75",
+  "user_id": "e959ee6a-f42a-44ca-ae9f-f7c53d531da3",
+  "local_pkce_mfa": true,
+  "api_runtime": "native",
+  "client_runtime": "isolated-linux"
+}

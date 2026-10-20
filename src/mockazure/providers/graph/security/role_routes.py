@@ -58,6 +58,7 @@ def router_for(version):
                             assignments.c.principal_payload.label("payload"),
                         )
                         .where(assignments.c.role_name == role["displayName"])
+                        .distinct()
                         .subquery()
                     )
                 query_kind = "directoryRoleMember" if members else kind

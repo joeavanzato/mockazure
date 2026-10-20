@@ -394,6 +394,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(policy_router_for("v1.0"))
     app.include_router(policy_router_for("beta"))
     app.include_router(role_router_for("v1.0"))
+    from mockazure.providers.graph.security.pim_routes import router as pim_router
+
+    app.include_router(pim_router)
     app.include_router(role_router_for("beta"))
     app.include_router(grant_router_for("v1.0"))
     app.include_router(grant_router_for("beta"))

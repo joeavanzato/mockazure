@@ -11,11 +11,11 @@ from urllib.parse import urlencode
 from sqlalchemy import and_, func, or_, select, update
 from sqlalchemy.dialects.postgresql import insert
 
+from mockazure.authorization.roles import effective_roles
 from mockazure.collections.contracts import properties, requirement, validate_records
 from mockazure.collections.models import CollectionCursor, CollectionState
 from mockazure.collections.models import CollectionRecord as R
 from mockazure.collections.query import compiled, contract, order_field, ordering
-from mockazure.identity.models import DirectoryRole
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import permitted
 from mockazure.providers.graph.query.parser import FilterParser, selection
@@ -79,14 +79,7 @@ def visible(tenant, family, revision):
 async def binding(session, context, family, origin):
     roles = []
     if context.token_kind == "delegated":
-        roles = sorted(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == context.tenant_id,
-                    DirectoryRole.user_id == context.subject_id,
-                )
-            )
-        )
+        roles = sorted(await effective_roles(session, context.tenant_id, context.subject_id))
     return dict(
         tenant=str(context.tenant_id),
         client=str(context.client_id),

@@ -2,11 +2,10 @@ from dataclasses import dataclass
 
 from sqlalchemy import select
 
+from mockazure.authorization.roles import actor_roles, effective_roles
 from mockazure.identity.models import (
     Application,
-    DirectoryRole,
     ServicePrincipal,
-    ServicePrincipalRole,
     User,
 )
 from mockazure.identity.types import PrincipalContext
@@ -85,14 +84,7 @@ async def authorize(context: PrincipalContext, operation: OperationRequirement, 
         if not context.permissions & operation.application_permissions:
             raise AuthorizationDenied("Application permission is required")
         if operation.application_roles:
-            roles = set(
-                await session.scalars(
-                    select(ServicePrincipalRole.role).where(
-                        ServicePrincipalRole.tenant_id == context.tenant_id,
-                        ServicePrincipalRole.client_id == context.client_id,
-                    )
-                )
-            )
+            roles = set(await actor_roles(session, context))
             if not roles & operation.application_roles:
                 raise AuthorizationDenied("Service principal operational role is required")
         return
@@ -114,12 +106,6 @@ async def authorize(context: PrincipalContext, operation: OperationRequirement, 
         operation.access_rule == "organization" and "User.Read" in context.permissions
     )
     if operation.user_roles and not basic_organization:
-        roles = set(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == context.tenant_id, DirectoryRole.user_id == user.id
-                )
-            )
-        )
+        roles = set(await effective_roles(session, context.tenant_id, user.id))
         if not roles & operation.user_roles:
             raise AuthorizationDenied("Directory role is required")

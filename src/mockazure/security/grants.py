@@ -20,7 +20,8 @@ from sqlalchemy.dialects.postgresql import JSONB
 
 from mockazure.authorization.catalog import permission
 from mockazure.authorization.evaluator import OperationRequirement
-from mockazure.identity.models import Application, DirectoryRole, Grant, ServicePrincipal, User
+from mockazure.authorization.roles import effective_roles
+from mockazure.identity.models import Application, Grant, ServicePrincipal, User
 from mockazure.providers.graph.errors import GraphError
 from mockazure.providers.graph.probes import permitted
 from mockazure.providers.graph.schema_reference import validate_payload
@@ -243,14 +244,7 @@ async def authorize_grant(session, actor, kind, operation, resource, body, clien
             forbidden()
     if actor.token_kind == "application":
         return
-    roles = set(
-        await session.scalars(
-            select(DirectoryRole.role).where(
-                DirectoryRole.tenant_id == actor.tenant_id,
-                DirectoryRole.user_id == actor.subject_id,
-            )
-        )
-    )
+    roles = set(await effective_roles(session, actor.tenant_id, actor.subject_id))
     allowed = (
         {"Global Administrator", "Privileged Role Administrator"}
         if kind == "appRoleAssignment" and resource == "graph"

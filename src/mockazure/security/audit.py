@@ -84,7 +84,7 @@ async def record_security_audit(session, actor, operation, target, before, after
             "microsoftAuthenticatorAuthenticationMethodConfiguration",
         }
         else "RoleManagement"
-        if target["type"] == "unifiedRoleAssignment"
+        if target["type"].startswith("unifiedRole")
         else "ApplicationManagement"
         if target["type"] != "Device"
         else "Device",

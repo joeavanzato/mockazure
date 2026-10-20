@@ -7,8 +7,9 @@ from mockazure.authorization.evaluator import (
     OperationRequirement,
     authorize,
 )
+from mockazure.authorization.roles import actor_roles, effective_roles
 from mockazure.endpoints import RESOURCES
-from mockazure.identity.models import DirectoryRole, ServicePrincipalRole, User
+from mockazure.identity.models import User
 from mockazure.mail.contracts import operation_requirement
 from mockazure.mail.models import ExchangeCommandGrant, MailSettings
 from mockazure.mail.role_management_contracts import PARAMETERS as ROLE_PARAMETERS
@@ -119,24 +120,10 @@ async def require_exchange_command(
         session,
     )
     if actor.token_kind == "application":
-        roles = set(
-            await session.scalars(
-                select(ServicePrincipalRole.role).where(
-                    ServicePrincipalRole.tenant_id == actor.tenant_id,
-                    ServicePrincipalRole.client_id == actor.client_id,
-                )
-            )
-        )
+        roles = set(await actor_roles(session, actor))
         principal = ExchangeCommandGrant.client_id == actor.client_id
     else:
-        roles = set(
-            await session.scalars(
-                select(DirectoryRole.role).where(
-                    DirectoryRole.tenant_id == actor.tenant_id,
-                    DirectoryRole.user_id == actor.subject_id,
-                )
-            )
-        )
+        roles = set(await effective_roles(session, actor.tenant_id, actor.subject_id))
         principal = ExchangeCommandGrant.user_id == actor.subject_id
     if roles & {"Global Administrator", "Exchange Administrator"}:
         return

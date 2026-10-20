@@ -113,6 +113,12 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
                 r"(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]", value
             ):
                 raise ValueError("Graph time of day requires HH:mm:ss")
+        elif kind == "Edm.Duration":
+            if not isinstance(value, str) or len(value) > 128 or not re.fullmatch(
+                r"-?P(?=\d|T\d)(?:\d+D)?(?:T(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:\.\d+)?S)?)?",
+                value,
+            ):
+                raise ValueError("Graph duration requires an ISO 8601 day/time duration")
         elif kind == "Edm.Guid":
             if not isinstance(value, str):
                 raise ValueError("Graph GUID required")

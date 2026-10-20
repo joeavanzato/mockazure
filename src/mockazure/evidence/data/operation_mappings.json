@@ -496,28 +496,34 @@
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleeligibilityschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
       "operation_key": "identity.pim.eligibility.request.post.rbacapplication-post-roleeligibilityschedulerequests",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "rbacapplication-post-roleeligibilityschedulerequests",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-post-roleeligibilityschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -530,28 +536,34 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedulerequest-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
       "operation_key": "identity.pim.eligibility.request.post.unifiedroleeligibilityschedulerequest-cancel",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "unifiedroleeligibilityschedulerequest-cancel",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedulerequest-cancel-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -564,11 +576,13 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedulerequest-filterbycurrentuser-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -581,11 +595,13 @@
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleeligibilityschedules-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -598,11 +614,13 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityschedule-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -615,11 +633,13 @@
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleeligibilityscheduleinstances-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -632,11 +652,13 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleeligibilityscheduleinstance-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -649,28 +671,34 @@
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleassignmentschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
       "operation_key": "identity.pim.assignment.request.post.rbacapplication-post-roleassignmentschedulerequests",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "rbacapplication-post-roleassignmentschedulerequests",
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-post-roleassignmentschedulerequests-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -683,28 +711,34 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedulerequest-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
       "operation_key": "identity.pim.assignment.request.post.unifiedroleassignmentschedulerequest-cancel",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "unifiedroleassignmentschedulerequest-cancel",
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedulerequest-cancel-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -717,11 +751,13 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedulerequest-filterbycurrentuser-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -734,11 +770,13 @@
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleassignmentschedules-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -751,11 +789,13 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentschedule-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -768,11 +808,13 @@
         "graph-csdl",
         "docs-license",
         "permission-rbacapplication-list-roleassignmentscheduleinstances-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -785,11 +827,13 @@
         "graph-csdl",
         "docs-license",
         "permission-unifiedroleassignmentscheduleinstance-get-permissions",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -801,11 +845,13 @@
         "policyroot-list-rolemanagementpolicies",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -817,11 +863,13 @@
         "unifiedrolemanagementpolicy-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -833,11 +881,13 @@
         "unifiedrolemanagementpolicy-list-rules",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -849,11 +899,13 @@
         "unifiedrolemanagementpolicyrule-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -865,11 +917,13 @@
         "policyroot-list-rolemanagementpolicyassignments",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
@@ -881,27 +935,33 @@
         "unifiedrolemanagementpolicyassignment-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {
       "operation_key": "identity.pim.policy.rule.update",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "unifiedrolemanagementpolicyrule-update",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "pim-rbac",
+        "pim-rules"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Successful PIM request/rule transitions emit schema-validated native audit differences with local operation labels; reads and rejected actions emit no success audit."
       ]
     },
     {

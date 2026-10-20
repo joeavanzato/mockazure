@@ -10,6 +10,28 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Read.Directory", "application", True),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Read.Directory", "delegated", True),
+    PermissionDefinition(
+        "graph", "RoleAssignmentSchedule.ReadWrite.Directory", "application", True
+    ),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.ReadWrite.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Remove.Directory", "application", True),
+    PermissionDefinition("graph", "RoleAssignmentSchedule.Remove.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Read.Directory", "application", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Read.Directory", "delegated", True),
+    PermissionDefinition(
+        "graph", "RoleEligibilitySchedule.ReadWrite.Directory", "application", True
+    ),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.ReadWrite.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Remove.Directory", "application", True),
+    PermissionDefinition("graph", "RoleEligibilitySchedule.Remove.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.Read.Directory", "application", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.Read.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.ReadWrite.Directory", "application", True),
+    PermissionDefinition("graph", "RoleManagementPolicy.ReadWrite.Directory", "delegated", True),
+    PermissionDefinition("graph", "RoleManagement.Read.All", "application", True),
+    PermissionDefinition("graph", "RoleManagement.Read.All", "delegated", True),
     PermissionDefinition("graph", "User.Invite.All", "application", True),
     PermissionDefinition("graph", "User.Invite.All", "delegated", True),
     PermissionDefinition("graph", "User.DeleteRestore.All", "application", True),

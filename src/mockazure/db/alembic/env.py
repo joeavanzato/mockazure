@@ -40,6 +40,7 @@ from mockazure.security import (
     reset_model,  # noqa: F401
 )
 from mockazure.security import models as security_models  # noqa: F401
+from mockazure.security.pim import models as pim_models  # noqa: F401
 from mockazure.storage import (
     blob_models,  # noqa: F401
     file_models,  # noqa: F401
