@@ -164,6 +164,7 @@
     "recipe.account",
     "recipe.blob",
     "recipe.business-content",
+    "recipe.business-diagnostics",
     "recipe.calendar",
     "recipe.client",
     "recipe.container",

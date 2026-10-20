@@ -21,6 +21,10 @@ from tools.verify_lab_console import save, source_fingerprint, submit_preview, t
 
 
 def validate_report(report):
+    if report.get("phase") == "evidence":
+        from tools.living_evidence import validate
+
+        return validate(report)
     required = {"population", "graph", "storage", "file", "queue", "table", "exchange", "replay"}
     try:
         assert report["phase"] == "content" and report["passed"] is True
@@ -40,8 +44,8 @@ def validate_report(report):
 
 
 async def qualify(config, phase, output, scale="small", distribution="native"):
-    if phase != "content":
-        raise ValueError("Only content qualification is implemented at this stage")
+    if phase not in {"content", "evidence"}:
+        raise ValueError("Only content and evidence qualification are implemented at this stage")
     from tools.living_tenant_clients import collect
 
     settings = load_settings(config)
@@ -107,6 +111,26 @@ async def qualify(config, phase, output, scale="small", distribution="native"):
             credential = await resolve_identity(ctx, refs["client"])
             transport = LocalTransport(ctx, credential)
             report.update(tenant_id=str(tenant_id), run_id=submitted["id"])
+            if phase == "evidence":
+                from tools.living_evidence import qualify_evidence
+
+                report.update(
+                    await qualify_evidence(
+                        settings,
+                        admin,
+                        ctx,
+                        credential,
+                        transport,
+                        refs,
+                        entities,
+                        request["target"]["create_tenant"]["domain"],
+                    )
+                )
+                report["passed"] = True
+                report["completed_at"] = datetime.now(UTC).isoformat()
+                validate_report(report)
+                save(output, report)
+                return
             report["cases"]["population"] = {"state": "passed", "progress": result["progress"]}
             report["cases"].update(
                 await collect(

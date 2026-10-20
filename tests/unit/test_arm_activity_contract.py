@@ -118,6 +118,51 @@ def test_activity_rejects_identity_time_scope_and_secret_conflicts():
         validate_activity_payload(payload, occurred_at=datetime(2026, 10, 2, tzinfo=UTC))
 
 
+def test_provider_registration_activity_keeps_provider_target_and_subscription_authority():
+    from mockazure.providers.arm.activity import activity_dimensions, project_arm
+    from mockazure.providers.arm.scopes import parse_scope
+
+    scope = f"/subscriptions/{SUB}"
+    target = scope + "/providers/Microsoft.Storage"
+    now = datetime(2026, 10, 20, tzinfo=UTC)
+    source = SourceEnvelope(
+        ref=SourceRef(tenant_id=TENANT, kind="arm", id=uuid4()),
+        occurred_at=now,
+        available_at=now,
+        source_revision=1,
+        generation=uuid4(),
+        facts={
+            "operation": "Microsoft.Storage/register/action",
+            "scope": scope,
+            "actor": {"app": {"appId": str(uuid4())}},
+            "before": {},
+            "after": {"id": target, "registrationState": "Registered"},
+            "correlation_id": str(uuid4()),
+            "provenance": "native",
+            "status": "Succeeded",
+        },
+    )
+    payload = project_arm(source).items[0].payload
+    assert payload["resourceId"] == target
+    assert payload["resourceType"]["value"] == "Microsoft.Resources/providers"
+    assert payload["resourceProviderName"]["value"] == "Microsoft.Storage"
+    assert activity_dimensions(payload)["arm_scope_key"] == target.lower()
+    assert payload["authorization"]["scope"] == scope
+    # Evidence parsing must not broaden normal ARM resource/authorization inputs.
+    with pytest.raises(ValueError):
+        parse_scope(target, allow_subscription_resource=True)
+    bad = source.model_copy(
+        update={
+            "facts": {
+                **source.facts,
+                "after": {"id": f"/subscriptions/{uuid4()}/providers/Microsoft.Storage"},
+            }
+        }
+    )
+    with pytest.raises(ValueError, match="escaped"):
+        project_arm(bad)
+
+
 def test_activity_historical_envelope_uses_event_data_id():
     from mockazure.evidence.datasets import EvidenceRecord
 

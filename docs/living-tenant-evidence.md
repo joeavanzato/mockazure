@@ -78,3 +78,53 @@ Failure rows expose `StatusCode`/`StatusText` in Storage tables and
 Failed`, the status signature and `level: Error`. Successful historical events
 are not rewritten. Native lease events use `LeaseBlob`/`LeaseFile`; FileREST range
 reads use the documented [List Ranges operation](https://learn.microsoft.com/rest/api/storageservices/list-ranges).
+
+## Collect a connected tenant
+
+The `living-small-business` and `living-enterprise` templates stack
+`business-azure-operations` over the existing tenant and content profiles. That
+layer enables all log categories for Blob, File, Table, Queue and Key Vault,
+with both the generated workspace and storage account as destinations, before
+the corresponding content writes. Existing simpler templates retain their
+original single-service diagnostic recipe.
+
+Run the native qualification after starting the API, worker and PostgreSQL:
+
+```powershell
+python -m tools.verify_living_tenant --config PATH_TO_NATIVE_CONFIG --phase evidence --report work/living-evidence.json
+python -m pytest tests/acceptance/test_living_evidence_workflows.py -q
+```
+
+The verifier creates a fresh small tenant, performs permission-checked public
+actions, waits for the existing projection jobs and availability timestamps,
+and compares collected public IDs with a snapshot of committed native sources.
+It does not replace absent records with imported evidence.
+
+| Evidence | Collector used | Query boundary |
+|---|---|---|
+| Application sign-ins | Local Graph REST | `/beta/auditLogs/signIns` with the `servicePrincipal` event-type filter; v1.0's interactive-user view is not relabeled as app-only support |
+| Directory and application credential changes | Original Microsoft Graph Python SDK | `/v1.0/auditLogs/directoryAudits`, including continuation pages |
+| Inbox rules and file renames | Graph REST async UAL query | `/v1.0/security/auditLog/queries` and its records |
+| The same Purview records | Original ExchangeOnlineManagement module | `Search-UnifiedAuditLog`, bounded session paging |
+| The same subscribed records | Management Activity REST | Start subscriptions before actions, then list and retrieve content |
+| ARM resource and provider registration changes | ARM REST | Subscription Activity Logs, preserving event IDs and provider targets |
+| Successes and authenticated denials for all five data planes | Logs REST and original Azure Blob SDK | Dedicated tables and actual downloaded diagnostic archive bytes |
+
+The JSON report includes source IDs, expected and observed record IDs/counts,
+collector versions and explicit limitations. Credential material stays in the
+owned runtime and process memory. The original Exchange module runs in the
+existing pinned Linux client container on Windows; the server and worker stay
+native. The client trusts the lab CA only inside its process.
+
+Two additional checks update an imported file through the administrative fixture
+API and advance only the evidence clock. The file remains readable without
+creating a new native source or feed delivery. A normally issued token remains
+valid, and a correctly signed, already expired local control token remains
+rejected by the real HTTPS authentication boundary. The test does not alter the
+host clock or token lifetime.
+
+Provider registration projection accepts the subscription's provider identity
+described by [Providers Register](https://learn.microsoft.com/rest/api/resources/providers/register?view=rest-resources-2021-04-01)
+and emits the existing [Activity Log schema](https://learn.microsoft.com/azure/azure-monitor/platform/activity-log-schema).
+This evidence-only parsing does not broaden normal ARM authorization scopes.
+See the [qualification record](qualification/living-evidence.md) for the tested run.

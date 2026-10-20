@@ -239,6 +239,14 @@ async def collect(
         "vendor": str(Path("work/living-clients").resolve()),
         "logs": str(settings.data_dir / "exo-qualification"),
     }
+    result["exchange"] = await exchange_collect(settings, profile)
+    return result
+
+
+async def exchange_collect(settings, profile):
+    """Run the pinned, unchanged Exchange module with a private stdin profile."""
+    profile = dict(profile)
+    exchange_token = profile["token"]
     command = [
         shutil.which("pwsh") or "pwsh",
         "-NoProfile",
@@ -294,6 +302,6 @@ async def collect(
         raise RuntimeError(
             "Original Exchange client qualification failed; no token output retained"
         )
-    result["exchange"] = json.loads(process.stdout[process.stdout.index('{"state"') :].strip())
-    result["exchange"]["runtime"] = runtime
+    result = json.loads(process.stdout[process.stdout.index('{"state"') :].strip())
+    result["runtime"] = runtime
     return result

@@ -18,7 +18,9 @@ class ArmScope:
         return self.key == other.key or self.key in other.parent_keys
 
 
-def parse_scope(value: str, *, allow_subscription_resource=False) -> ArmScope:
+def parse_scope(
+    value: str, *, allow_subscription_resource=False, allow_provider_registration=False
+) -> ArmScope:
     if (
         not isinstance(value, str)
         or not 1 <= len(value.encode("utf-8")) <= 2048
@@ -49,6 +51,24 @@ def parse_scope(value: str, *, allow_subscription_resource=False) -> ArmScope:
     elif len(parts) > 2 and not allow_subscription_resource:
         raise ValueError("Resource group scope is required")
     if len(parts) > provider_start:
+        if (
+            allow_subscription_resource
+            and allow_provider_registration
+            and group is None
+            and len(parts) == 4
+            and parts[2].lower() == "providers"
+            and re.fullmatch(r"[A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)+", parts[3])
+        ):
+            parts[2] = "providers"
+            display = "/" + "/".join(parts)
+            return ArmScope(
+                display.lower(),
+                subscription,
+                None,
+                tuple(parts[2:]),
+                display,
+                ("/" + "/".join(parts[:2]).lower(),),
+            )
         if len(parts) < provider_start + 4 or parts[provider_start].lower() != "providers":
             raise ValueError("Resource provider scope is required")
         parts[provider_start] = "providers"

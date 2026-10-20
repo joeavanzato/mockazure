@@ -7057,7 +7057,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [],
@@ -7066,9 +7067,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "34d80f18bcf3e0ca7a002b4a4cbc0932dbc902fd20228899bf0b4a601b5142b5"
+      "contractSha256": "bc226be3c9acf211a9206fce2558d80c58d2883d5359bc57d8640673ca83f0a7"
     },
     {
       "service": "queries",
@@ -7076,7 +7077,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [
@@ -7087,9 +7089,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "4a731dcc64b0ffb18e19d80d7c626869dde087faed2de5a1e734062201b5abd0"
+      "contractSha256": "c59b5bbed30b469aff2a872389c35edcfb0a05da1d74b5b40f19511cf2109e6f"
     },
     {
       "service": "queries",
@@ -7097,7 +7099,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [
@@ -7108,9 +7111,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "de52ea5393b98e89a143e4e7a135ff9dbeb421ecc0799a6c350aa7291a8a48e6"
+      "contractSha256": "b7bb513a5475ed1dccc5c7db4c8ed836dd918ace4f54d92975ec486346e5517e"
     },
     {
       "service": "queries",
@@ -7118,7 +7121,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [],
@@ -7127,9 +7131,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "04b55dd792bf041370dc677b3851c467590e0df82f2354f89d7d2ea5c5a0a009"
+      "contractSha256": "e33645e688d18899cbc7fa6ec8f365a91481ec3ebb11615bb9c3029dbf2fd286"
     },
     {
       "service": "queries",
@@ -7137,7 +7141,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [],
@@ -7146,9 +7151,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "3ca493b50fbd602928aa6ee3b5490591758b550751d256b59b0f187ba208f58a"
+      "contractSha256": "e9cd521482b49b431cf2f5a0d1921433dee5d77bb183ae3995b9d6164b1afcf3"
     },
     {
       "service": "queries",
@@ -7156,7 +7161,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [],
@@ -7165,9 +7171,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "bf3643afe76e2af324b19ac871613f44b2b841c91214aa86c9d71a7ea317d9fb"
+      "contractSha256": "41bdea3daa5c721d5b9fa15248f9d3df61d3fe2a09e8335a87c65632be1495a1"
     },
     {
       "service": "queries",
@@ -7175,7 +7181,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [],
@@ -7184,9 +7191,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "53b3d0be766946da867ffe210331c532f68d5d860c90d37657cb82d5c4a24448"
+      "contractSha256": "08f2ae8e10c0118f8ed39c5e45026f53d180a3fdca02057654413891727af838"
     },
     {
       "service": "queries",
@@ -7194,7 +7201,8 @@
       "status": "implemented",
       "handler": "src/mockazure/providers/resourcegraph/routes.py",
       "tests": [
-        "tests/integration/test_diagnostic_delivery.py"
+        "tests/integration/test_diagnostic_delivery.py",
+        "tests/integration/test_failed_data_plane_diagnostics.py"
       ],
       "qualification": [],
       "workflowMapping": [],
@@ -7203,9 +7211,9 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
-      "contractSha256": "1f2cc002067a7090aaeeedd486105b8299fa4be8016863913726c17e242be04f"
+      "contractSha256": "92f9460636a4b2825309b7151e8c9225f600fdad175b4a62a831e5d392ae3f90"
     }
   ]
 }

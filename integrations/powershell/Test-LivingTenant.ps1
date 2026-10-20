@@ -44,6 +44,19 @@ $env:PSModulePath = (Join-Path $profile.vendor 'modules') + [IO.Path]::PathSepar
 Import-Module ExchangeOnlineManagement -RequiredVersion 3.11.0
 Connect-ExchangeOnline -AccessToken $profile.token -ConnectionUri $profile.endpoint -AzureADAuthorizationEndpointUri "$($profile.login)/organizations" -AppId $profile.client_id -Organization $profile.domain -ShowBanner:$false -SkipLoadingFormatData -SkipLoadingCmdletHelp -DisableWAM -EnableErrorReporting:$false -LogDirectoryPath $profile.logs
 try {
+    if ($profile.audit) {
+        $records = @()
+        $session = [guid]::NewGuid().ToString()
+        for ($page = 0; $page -lt 100; $page++) {
+            $batch = @(Search-UnifiedAuditLog -StartDate ([datetime]$profile.start) -EndDate ([datetime]$profile.end) -SessionId $session -SessionCommand ReturnLargeSet -ResultSize 5000)
+            $records += $batch
+            if ($batch.Count -eq 0) { break }
+        }
+        if ($page -eq 100) { throw 'Audit collection exceeded bounded paging limit.' }
+        $ids = @($records | ForEach-Object { [string](($_.AuditData | ConvertFrom-Json).Id) } | Sort-Object -Unique)
+        [ordered]@{state='passed';client='ExchangeOnlineManagement';version='3.11.0';commands=@('Search-UnifiedAuditLog');ids=$ids} | ConvertTo-Json -Compress
+        return
+    }
     $mailboxes = @(Get-Mailbox -ResultSize Unlimited)
     if ($mailboxes.Count -ne $profile.expected_mailboxes) { throw 'Mailbox collection count differs from populated users.' }
     if (@($mailboxes | Where-Object { -not $_.ExternalDirectoryObjectId }).Count) { throw 'Mailbox directory link missing.' }

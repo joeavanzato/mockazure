@@ -37,6 +37,13 @@ async def test_provider_discovery_and_version(database, settings):
             client, database, settings, tenant, app
         )
         await assign(client, base, principal, f"/subscriptions/{sub}", "Contributor")
+        evidence = f"/_mock/tenants/{tenant}/evidence"
+        assert (
+            await client.patch(
+                evidence + "/settings",
+                json={"delay_seconds": 0},
+            )
+        ).status_code == 200
         path = f"/subscriptions/{sub}/providers"
         args = {"api-version": "2021-04-01"}
         response = await client.get(path, params=args, headers=headers)
@@ -82,6 +89,26 @@ async def test_provider_discovery_and_version(database, settings):
         assert resolve_operation("GET", path, "2021-04-01")["operationId"] == "Providers_List"
         with pytest.raises(ArmError):
             resolve_operation("PUT", group + "/providers/Microsoft.Unknown/things/x", "2021-04-01")
+        drained = await client.post(evidence + "/drain", json={"max_jobs": 100})
+        assert drained.status_code == 200 and drained.json()["failed"] == 0
+        events = await client.get(
+            f"/subscriptions/{sub}/providers/Microsoft.Insights/eventtypes/management/values",
+            params={
+                "api-version": "2015-04-01",
+                "$filter": "eventTimestamp ge '2026-01-01T00:00:00Z'",
+            },
+            headers=headers,
+        )
+        assert events.status_code == 200, events.text
+        registration = [
+            r
+            for r in events.json()["value"]
+            if r["resourceId"].lower() == (path + "/Microsoft.Storage").lower()
+        ]
+        assert {r["operationName"]["value"] for r in registration} == {
+            "Microsoft.Storage/register/action",
+            "Microsoft.Storage/unregister/action",
+        }
 
 
 async def test_actions_are_not_data_actions(database, settings):

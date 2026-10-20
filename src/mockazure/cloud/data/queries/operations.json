@@ -3904,7 +3904,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
       "responseSchemas": {
         "200": {
@@ -4292,7 +4292,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
       "responseSchemas": {
         "200": {
@@ -4680,7 +4680,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
       "responseSchemas": {
         "200": {
@@ -5068,7 +5068,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ]
     },
     {
@@ -5450,7 +5450,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
       "responseSchemas": {
         "200": {
@@ -5838,7 +5838,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
       "responseSchemas": {
         "200": {
@@ -6226,7 +6226,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ],
       "responseSchemas": {
         "200": {
@@ -6614,7 +6614,7 @@
       "limitations": [
         "Blob and workspace destinations only; no Event Hubs, marketplace, metrics or diagnostic retention policy.",
         "Snapshot categories/destination modes; current destination identity and presence rechecked. Internal delivery has no reusable bearer token.",
-        "Supported committed successes and public reads; failed/denied Storage and Key Vault calls do not yet produce diagnostics."
+        "Supported committed successes, public reads and authenticated same-tenant Storage/Key Vault failures. Failed requests retain status and service error after rollback. Unknown/foreign resources and pre-authentication failures are not attributed."
       ]
     }
   ]

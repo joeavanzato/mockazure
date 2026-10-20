@@ -100,7 +100,65 @@
       },
       "dependsOn": [
         "share",
-        "content"
+        "content",
+        "diagnostics"
+      ],
+      "override": true
+    },
+    "diagnostics": {
+      "family": "monitor.diagnostics",
+      "operation": "create",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.business-diagnostics",
+        "count": 5
+      },
+      "dependsOn": [
+        "account",
+        "workspace",
+        "vault"
+      ],
+      "override": true
+    },
+    "entity": {
+      "family": "storage.entities",
+      "operation": "insert",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.entity",
+        "count": 1
+      },
+      "dependsOn": [
+        "table",
+        "diagnostics"
+      ],
+      "override": true
+    },
+    "queue-message": {
+      "family": "storage.messages",
+      "operation": "enqueue",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.queue-message",
+        "count": 1
+      },
+      "dependsOn": [
+        "queue",
+        "diagnostics"
+      ],
+      "override": true
+    },
+    "secret": {
+      "family": "keyvault.secrets",
+      "operation": "set",
+      "mode": "service",
+      "parameters": {
+        "generator": "recipe.secret",
+        "count": 1
+      },
+      "dependsOn": [
+        "vault",
+        "diagnostics"
       ],
       "override": true
     }
