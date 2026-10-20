@@ -3,6 +3,7 @@
 from mockazure.population.generators import (
     business,
     business_estate,
+    business_hunting,
     business_identity,
     cloud,
     directory,
@@ -53,6 +54,12 @@ GENERATORS.update(
     {
         "lifecycle." + name: (business_identity, family)
         for name, family in business_identity.FAMILIES.items()
+    }
+)
+GENERATORS.update(
+    {
+        "hunting." + name: (business_hunting, family)
+        for name, family in business_hunting.FAMILIES.items()
     }
 )
 

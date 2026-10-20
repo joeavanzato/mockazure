@@ -1046,3 +1046,11 @@ PostgreSQL storage, fixture import and service-browser inspection. Authenticated
 explicit retention and tenant-scoped reset. This is management-plane data support;
 the public hunting query route is qualified separately. See
 [limits and provenance](docs/hunting-data.md).
+
+The living templates now include correlated fixture telemetry in every table,
+plus a named hunting reader. Small/enterprise presets contain 400/100,000 hunting
+fixture rows respectively, with independently bounded collaboration content.
+Supported native Exchange and SharePoint/Teams audit outcomes additionally publish
+CloudAppEvents through the existing delayed, receipt-fenced evidence worker.
+Host processes, clicks, identity-sensor observations and detector/alert outcomes are
+explicit fixtures; no native detection engine or incident mutation is implied.

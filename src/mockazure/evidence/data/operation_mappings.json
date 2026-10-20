@@ -10,6 +10,15 @@
       "path": "sources/management-schema.md",
       "url": "https://raw.githubusercontent.com/MicrosoftDocs/office-365-management-api/f22300eab36df54f1efb07be8b23e229d1ff0537/office-365-management-api/office-365-management-activity-api-schema.md",
       "sha256": "94968478423c3af5624b34c062631377f90eec90871f6a5a50b17d9275381e19"
+    },
+    "hunting-cloudappevents": {
+      "path": "sources/hunting-cloudappevents.html",
+      "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-cloudappevents-table",
+      "revision": "e5e024df2189c2f05c8a7a66f60fff59a0c0bfd8",
+      "sha256": "1bf69490455a7cf82cf744144beb6cdb596f1f55ebad0068ef30e29db18c11da",
+      "retrieved_at": "2026-10-20T18:57:22.955999+00:00",
+      "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse",
+      "source_kind": "published-html"
     }
   },
   "operations": [
@@ -969,7 +978,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chat-post",
@@ -978,11 +988,13 @@
         "permission-chat-post-permissions",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -990,7 +1002,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "team-post-members",
@@ -999,11 +1012,13 @@
         "permission-team-post-members-permissions",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1028,7 +1043,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "team-update-members",
@@ -1037,11 +1053,13 @@
         "metadata-license",
         "permission-team-update-members-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1049,7 +1067,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "team-delete-members",
@@ -1058,11 +1077,13 @@
         "metadata-license",
         "permission-team-delete-members-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1070,7 +1091,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "channel-post-members",
@@ -1079,11 +1101,13 @@
         "permission-channel-post-members-permissions",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1127,7 +1151,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "channel-delete-members",
@@ -1136,11 +1161,13 @@
         "metadata-license",
         "permission-channel-delete-members-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1148,7 +1175,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chat-post-members",
@@ -1157,11 +1185,13 @@
         "permission-chat-post-members-permissions",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1202,7 +1232,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chat-delete-members",
@@ -1211,11 +1242,13 @@
         "metadata-license",
         "permission-chat-delete-members-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1242,7 +1275,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chatmessage-update",
@@ -1250,11 +1284,13 @@
         "docs-license",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1280,7 +1316,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chatmessage-undosoftdelete",
@@ -1288,11 +1325,13 @@
         "docs-license",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1319,7 +1358,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chatmessage-update",
@@ -1327,11 +1367,13 @@
         "docs-license",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1357,7 +1399,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chatmessage-undosoftdelete",
@@ -1365,11 +1408,13 @@
         "docs-license",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1396,7 +1441,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chatmessage-update",
@@ -1404,11 +1450,13 @@
         "docs-license",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1434,7 +1482,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "chatmessage-undosoftdelete",
@@ -1442,11 +1491,13 @@
         "docs-license",
         "metadata-license",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred."
+        "Local roster/target identifiers; no federation, licensing upgrades or audit notification delivery inferred.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1539,7 +1590,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "driveitem-put-content",
@@ -1548,11 +1600,13 @@
         "metadata-license",
         "permission-driveitem-put-content-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1560,7 +1614,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "driveitem-put-content",
@@ -1569,11 +1624,13 @@
         "metadata-license",
         "permission-driveitem-put-content-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1581,7 +1638,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "driveitem-update",
@@ -1590,11 +1648,13 @@
         "metadata-license",
         "permission-driveitem-update-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1602,7 +1662,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "driveitem-move",
@@ -1611,11 +1672,13 @@
         "metadata-license",
         "permission-driveitem-move-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1623,7 +1686,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "driveitem-copy",
@@ -1632,11 +1696,13 @@
         "metadata-license",
         "permission-driveitem-copy-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -1644,7 +1710,8 @@
       "source_kind": "workload",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
         "driveitem-delete",
@@ -1653,11 +1720,13 @@
         "metadata-license",
         "permission-driveitem-delete-permissions",
         "purview-activities",
-        "management-activity-schema"
+        "management-activity-schema",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change."
+        "Files only; canonical object ID when no webUrl exists. No five-minute FileModified aggregation; one event per committed change.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3013,14 +3082,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3028,14 +3100,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3043,14 +3118,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3058,14 +3136,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3073,14 +3154,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3101,14 +3185,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3116,14 +3203,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3131,14 +3221,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3159,14 +3252,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3174,14 +3270,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3189,14 +3288,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3217,14 +3319,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3232,14 +3337,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3247,14 +3355,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3275,14 +3386,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3290,14 +3404,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3305,14 +3422,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3333,14 +3453,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3348,14 +3471,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3363,14 +3489,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3391,14 +3520,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3406,14 +3538,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3421,14 +3556,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3449,14 +3587,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3490,14 +3631,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3505,14 +3649,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3533,14 +3680,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3548,14 +3698,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:exchange"
+        "catalog:exchange",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Exchange admin auditing setting applies; unchanged state is suppressed."
+        "Exchange admin auditing setting applies; unchanged state is suppressed.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3563,14 +3716,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3578,14 +3734,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3593,14 +3752,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3608,14 +3770,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3623,14 +3788,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3638,14 +3806,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3653,14 +3824,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3668,14 +3842,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3683,14 +3860,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3698,14 +3878,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3934,14 +4117,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3962,14 +4148,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3977,14 +4166,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -3992,14 +4184,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -4007,14 +4202,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -4022,14 +4220,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {
@@ -4037,14 +4238,17 @@
       "source_kind": "mail",
       "outcome": "success",
       "destinations": [
-        "auditLogRecord"
+        "auditLogRecord",
+        "hunting.CloudAppEvents"
       ],
       "schema_refs": [
-        "catalog:graph-workflows"
+        "catalog:graph-workflows",
+        "hunting-cloudappevents"
       ],
       "native": true,
       "limitations": [
-        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker."
+        "Mailbox item audit semantics (Create, Update, SoftDelete or Send); queued sends emit only when committed by the worker.",
+        "CloudAppEvents mirrors the captured cloud audit only; no sensor observations or detector verdicts."
       ]
     },
     {

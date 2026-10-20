@@ -290,7 +290,21 @@
       "identity"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountDisplayName",
+      "AccountDomain",
+      "AccountName",
+      "AccountObjectId",
+      "AccountUpn",
+      "ChangeSource",
+      "Department",
+      "EmailAddress",
+      "IsAccountEnabled",
+      "ReportId",
+      "TenantId",
+      "Timestamp",
+      "Type"
+    ]
   },
   "IdentityLogonEvents": {
     "name": "IdentityLogonEvents",
@@ -463,7 +477,22 @@
       "identity"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountDisplayName",
+      "AccountDomain",
+      "AccountName",
+      "AccountObjectId",
+      "AccountUpn",
+      "ActionType",
+      "AdditionalFields",
+      "Application",
+      "DeviceName",
+      "IPAddress",
+      "LogonType",
+      "Protocol",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "IdentityDirectoryEvents": {
     "name": "IdentityDirectoryEvents",
@@ -618,7 +647,22 @@
       "identity"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountDisplayName",
+      "AccountDomain",
+      "AccountName",
+      "AccountObjectId",
+      "AccountUpn",
+      "ActionType",
+      "AdditionalFields",
+      "Application",
+      "DeviceName",
+      "IPAddress",
+      "ReportId",
+      "TargetAccountDisplayName",
+      "TargetAccountUpn",
+      "Timestamp"
+    ]
   },
   "IdentityQueryEvents": {
     "name": "IdentityQueryEvents",
@@ -785,7 +829,24 @@
       "identity"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountDisplayName",
+      "AccountDomain",
+      "AccountName",
+      "AccountObjectId",
+      "AccountUpn",
+      "ActionType",
+      "AdditionalFields",
+      "Application",
+      "DeviceName",
+      "IPAddress",
+      "Protocol",
+      "Query",
+      "QueryTarget",
+      "QueryType",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "EmailEvents": {
     "name": "EmailEvents",
@@ -1120,7 +1181,24 @@
       "email"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AttachmentCount",
+      "DeliveryAction",
+      "DeliveryLocation",
+      "EmailDirection",
+      "InternetMessageId",
+      "NetworkMessageId",
+      "RecipientEmailAddress",
+      "RecipientObjectId",
+      "ReportId",
+      "SenderDisplayName",
+      "SenderFromAddress",
+      "SenderFromDomain",
+      "SenderObjectId",
+      "Subject",
+      "Timestamp",
+      "UrlCount"
+    ]
   },
   "EmailAttachmentInfo": {
     "name": "EmailAttachmentInfo",
@@ -1239,7 +1317,21 @@
       "email"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "FileExtension",
+      "FileName",
+      "FileSize",
+      "FileType",
+      "NetworkMessageId",
+      "RecipientEmailAddress",
+      "RecipientObjectId",
+      "ReportId",
+      "SHA256",
+      "SenderDisplayName",
+      "SenderFromAddress",
+      "SenderObjectId",
+      "Timestamp"
+    ]
   },
   "EmailUrlInfo": {
     "name": "EmailUrlInfo",
@@ -1304,7 +1396,14 @@
       "email"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "NetworkMessageId",
+      "ReportId",
+      "Timestamp",
+      "Url",
+      "UrlDomain",
+      "UrlLocation"
+    ]
   },
   "EmailPostDeliveryEvents": {
     "name": "EmailPostDeliveryEvents",
@@ -1411,7 +1510,18 @@
       "email"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "Action",
+      "ActionResult",
+      "ActionTrigger",
+      "ActionType",
+      "DeliveryLocation",
+      "InternetMessageId",
+      "NetworkMessageId",
+      "RecipientEmailAddress",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "UrlClickEvents": {
     "name": "UrlClickEvents",
@@ -1542,7 +1652,17 @@
       "email"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountUpn",
+      "ActionType",
+      "IPAddress",
+      "IsClickedThrough",
+      "NetworkMessageId",
+      "ReportId",
+      "Timestamp",
+      "Url",
+      "Workload"
+    ]
   },
   "DeviceInfo": {
     "name": "DeviceInfo",
@@ -1865,7 +1985,21 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AadDeviceId",
+      "AdditionalFields",
+      "DeviceId",
+      "DeviceName",
+      "DeviceType",
+      "IsAzureADJoined",
+      "LoggedOnUsers",
+      "MachineGroup",
+      "OSBuild",
+      "OSPlatform",
+      "OSVersion",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "DeviceNetworkInfo": {
     "name": "DeviceNetworkInfo",
@@ -1990,7 +2124,17 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "DeviceId",
+      "DeviceName",
+      "DnsAddresses",
+      "IPAddresses",
+      "NetworkAdapterName",
+      "NetworkAdapterStatus",
+      "NetworkAdapterType",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "DeviceLogonEvents": {
     "name": "DeviceLogonEvents",
@@ -2301,7 +2445,21 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountDomain",
+      "AccountName",
+      "ActionType",
+      "DeviceId",
+      "DeviceName",
+      "InitiatingProcessAccountObjectId",
+      "InitiatingProcessAccountUpn",
+      "InitiatingProcessFileName",
+      "IsLocalAdmin",
+      "LogonId",
+      "LogonType",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "DeviceProcessEvents": {
     "name": "DeviceProcessEvents",
@@ -2732,7 +2890,21 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountObjectId",
+      "AccountUpn",
+      "ActionType",
+      "DeviceId",
+      "DeviceName",
+      "FileName",
+      "InitiatingProcessAccountObjectId",
+      "InitiatingProcessAccountUpn",
+      "InitiatingProcessFileName",
+      "ProcessCommandLine",
+      "ProcessId",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "DeviceNetworkEvents": {
     "name": "DeviceNetworkEvents",
@@ -3025,7 +3197,21 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "ActionType",
+      "DeviceId",
+      "DeviceName",
+      "InitiatingProcessAccountObjectId",
+      "InitiatingProcessAccountUpn",
+      "InitiatingProcessFileName",
+      "LocalIP",
+      "Protocol",
+      "RemoteIP",
+      "RemotePort",
+      "RemoteUrl",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "DeviceFileEvents": {
     "name": "DeviceFileEvents",
@@ -3396,7 +3582,20 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "ActionType",
+      "DeviceId",
+      "DeviceName",
+      "FileName",
+      "FileSize",
+      "FolderPath",
+      "InitiatingProcessAccountObjectId",
+      "InitiatingProcessAccountUpn",
+      "InitiatingProcessFileName",
+      "ReportId",
+      "SHA256",
+      "Timestamp"
+    ]
   },
   "DeviceRegistryEvents": {
     "name": "DeviceRegistryEvents",
@@ -3671,7 +3870,20 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "ActionType",
+      "DeviceId",
+      "DeviceName",
+      "InitiatingProcessAccountObjectId",
+      "InitiatingProcessAccountUpn",
+      "InitiatingProcessFileName",
+      "RegistryKey",
+      "RegistryValueData",
+      "RegistryValueName",
+      "RegistryValueType",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "DeviceEvents": {
     "name": "DeviceEvents",
@@ -4078,7 +4290,17 @@
       "endpoint"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "ActionType",
+      "AdditionalFields",
+      "DeviceId",
+      "DeviceName",
+      "InitiatingProcessAccountObjectId",
+      "InitiatingProcessAccountUpn",
+      "InitiatingProcessFileName",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "CloudAppEvents": {
     "name": "CloudAppEvents",
@@ -4306,12 +4528,26 @@
     "source_refs": [
       "CloudAppEvents"
     ],
-    "native_mappings": [],
+    "native_mappings": [
+      "mail:auditLogRecord",
+      "workload:auditLogRecord"
+    ],
     "entitlements": [
       "cloud-apps"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountDisplayName",
+      "AccountId",
+      "AccountObjectId",
+      "ActionType",
+      "AdditionalFields",
+      "Application",
+      "ObjectId",
+      "ObjectType",
+      "ReportId",
+      "Timestamp"
+    ]
   },
   "AlertInfo": {
     "name": "AlertInfo",
@@ -4376,7 +4612,14 @@
       "alerts"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AlertId",
+      "DetectionSource",
+      "ServiceSource",
+      "Severity",
+      "Timestamp",
+      "Title"
+    ]
   },
   "AlertEvidence": {
     "name": "AlertEvidence",
@@ -4645,6 +4888,19 @@
       "alerts"
     ],
     "nullable_omissions": true,
-    "generated_columns": []
+    "generated_columns": [
+      "AccountObjectId",
+      "AccountUpn",
+      "AlertId",
+      "DetectionSource",
+      "DeviceId",
+      "DeviceName",
+      "EntityType",
+      "EvidenceRole",
+      "ServiceSource",
+      "Severity",
+      "Timestamp",
+      "Title"
+    ]
   }
 }

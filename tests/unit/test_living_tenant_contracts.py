@@ -29,7 +29,8 @@ def test_declared_operation_inventory_contains_all_four_areas():
     assert hunting.method == "POST"
     assert hunting.path == "/v1.0/security/runHuntingQuery"
     assert "ThreatHunting.Read.All" in hunting.permissions
-    assert hunting.status == "planned"
+    assert hunting.status == "existing"
+    assert hunting.role_constraints and hunting.entitlement_constraints
     assert all(o.source_refs for o in operations)
     assert (
         load_operation("identity.sessions.revoke").path == "/v1.0/users/{user}/revokeSignInSessions"

@@ -12,7 +12,8 @@
     "logs-and-diagnostics",
     "business-azure-operations",
     "business-identity-lifecycle",
-    "business-privileged-access"
+    "business-privileged-access",
+    "business-security-telemetry"
   ],
   "parameters": {
     "shared.users": 20,

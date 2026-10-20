@@ -72,7 +72,7 @@ def test_finite_activity_and_related_navigation(tmp_path):
             page.get_by_label("Template", exact=True).select_option("living-department")
             expect(page.get_by_label("Users", exact=True)).to_have_value("250")
             expect(page.get_by_label("Days of activity")).to_have_value("14")
-            assert page.locator(".layer-list li").count() == 7
+            assert page.locator(".layer-list li").count() == 8
             page.get_by_text("Profile source, import & export", exact=True).click()
             editor = page.get_by_label("Bundle JSON", exact=True)
             source = json.loads(editor.input_value())

@@ -14,7 +14,17 @@ from mockazure.monitor.tables import instant
 from mockazure.population.types import ResourceItem, ResourcePage
 
 
-async def ingest_rows(session, tenant_id, table, rows, source_ids, provenance: HuntingProvenance):
+async def ingest_rows(
+    session,
+    tenant_id,
+    table,
+    rows,
+    source_ids,
+    provenance: HuntingProvenance,
+    *,
+    available_at=None,
+    serialize_tenant=True,
+):
     table_contract(table)
     provenance = HuntingProvenance.model_validate(provenance).model_dump()
     if not isinstance(rows, list) or len(rows) > 10000 or len(rows) != len(source_ids):
@@ -26,11 +36,16 @@ async def ingest_rows(session, tenant_id, table, rows, source_ids, provenance: H
     if len(json.dumps(rows, allow_nan=False, ensure_ascii=False).encode()) > 8 * 1024 * 1024:
         raise ValueError("Hunting batch exceeds eight MiB")
     values = [validate_row(table, row) for row in rows]
-    if (
-        await session.scalar(select(Tenant.id).where(Tenant.id == tenant_id).with_for_update())
-        is None
-    ):
-        raise ValueError("Hunting tenant not found")
+    if not serialize_tenant and provenance["kind"] != "native":
+        raise ValueError("Only receipt-fenced native publication can skip tenant serialization")
+    if available_at is not None and available_at.tzinfo is None:
+        raise ValueError("Hunting availability requires a timezone")
+    if serialize_tenant:
+        if (
+            await session.scalar(select(Tenant.id).where(Tenant.id == tenant_id).with_for_update())
+            is None
+        ):
+            raise ValueError("Hunting tenant not found")
     pending = []
     for offset in range(0, len(values), 500):
         existing = {
@@ -48,7 +63,11 @@ async def ingest_rows(session, tenant_id, table, rows, source_ids, provenance: H
         ):
             if source_id in existing:
                 prior = existing[source_id]
-                if prior.payload != payload or prior.provenance != provenance:
+                if (
+                    prior.payload != payload
+                    or prior.provenance != provenance
+                    or prior.available_at != (available_at or instant(payload["Timestamp"]))
+                ):
                     raise ValueError("Hunting source identity already has different content")
                 continue
             pending.append(
@@ -57,6 +76,7 @@ async def ingest_rows(session, tenant_id, table, rows, source_ids, provenance: H
                     "table_name": table,
                     "source_id": source_id,
                     "timestamp": instant(payload["Timestamp"]),
+                    "available_at": available_at or instant(payload["Timestamp"]),
                     "account_id": payload.get("AccountObjectId") or payload.get("AccountId"),
                     "device_id": payload.get("DeviceId"),
                     "payload": payload,
@@ -82,7 +102,7 @@ async def export_rows(session, tenant_id, table, *, limit=500, after=None):
     table_contract(table)
     if type(limit) is not int or not 1 <= limit <= 501:
         raise ValueError("Hunting export is paged with at most 500 records plus lookahead")
-    rows = await session.scalars(
+    rows = await session.stream_scalars(
         select(HuntingRecord)
         .where(
             HuntingRecord.tenant_id == tenant_id,
@@ -91,19 +111,21 @@ async def export_rows(session, tenant_id, table, *, limit=500, after=None):
         )
         .order_by(HuntingRecord.source_id)
         .limit(limit)
+        .execution_options(yield_per=8)
     )
-    result = [
-        {
+    result, size = [], 2
+    async for r in rows:
+        value = {
             "id": r.source_id,
             "table": table,
             "record": r.payload,
             "provenance": r.provenance,
             "version": r.digest,
         }
-        for r in rows
-    ]
-    if len(json.dumps(result, ensure_ascii=False).encode()) > 8 * 1024 * 1024:
-        raise ValueError("Hunting export page exceeds eight MiB; request a smaller limit")
+        size += len(json.dumps(value, ensure_ascii=False).encode()) + 2
+        if size > 8 * 1024 * 1024:
+            raise ValueError("Hunting export page exceeds eight MiB; request a smaller limit")
+        result.append(value)
     return result
 
 

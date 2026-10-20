@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "name": "hunting-suspicious-consent",
+  "kind": "data",
+  "extends": "business-security-telemetry",
+  "steps": {
+    "hunting-overlay-suspicious-consent": {
+      "family": "hunting.CloudAppEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.CloudAppEvents",
+        "overlay": "suspicious-consent",
+        "count": 3,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "hunting-CloudAppEvents"
+      ]
+    }
+  }
+}

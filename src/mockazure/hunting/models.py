@@ -19,6 +19,7 @@ class HuntingRecord(Base):
     table_name: Mapped[str] = mapped_column(String(64), primary_key=True)
     source_id: Mapped[str] = mapped_column(String(512), primary_key=True)
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    available_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     account_id: Mapped[str | None] = mapped_column(String(512))
     device_id: Mapped[str | None] = mapped_column(String(512))
     payload: Mapped[dict] = mapped_column(JSONB)

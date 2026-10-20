@@ -34,6 +34,7 @@ class OperationEvidenceContract(StrictModel):
             "StorageTableLogs",
             "StorageQueueLogs",
             "AZKVAuditLogs",
+            "hunting.CloudAppEvents",
         ],
         ...,
     ]

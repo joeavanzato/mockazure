@@ -52,6 +52,7 @@ async def input_tables(session, actor, requested_workspace, plan, now, *, limits
         HuntingRecord.table_name.in_(names),
         HuntingRecord.timestamp >= start,
         HuntingRecord.timestamp <= end,
+        HuntingRecord.available_at <= now,
     )
     if scope.device_ids is not None:
         statement = statement.where(
@@ -63,7 +64,7 @@ async def input_tables(session, actor, requested_workspace, plan, now, *, limits
             HuntingRecord.timestamp,
             HuntingRecord.table_name,
             HuntingRecord.source_id,
-        ).execution_options(yield_per=500)
+        ).execution_options(yield_per=16)
     )
     size, count = 0, 0
     async for row in rows:

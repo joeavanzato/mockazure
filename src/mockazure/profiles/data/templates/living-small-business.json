@@ -10,7 +10,8 @@
     "storage-content",
     "keyvault-secrets",
     "logs-and-diagnostics",
-    "business-azure-operations"
+    "business-azure-operations",
+    "business-security-telemetry"
   ],
   "parameters": {
     "shared.users": 20,

@@ -113,3 +113,48 @@ Pinned references: [Graph hunting action](https://learn.microsoft.com/en-us/grap
 [hunting access overview](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-overview).
 The legacy API reference is retained solely as a source for delegated data/device
 scope; its transport and token-permission names are not reused.
+
+## Connected telemetry profiles
+
+`business-security-telemetry` stacks over the business mail/device layers in the
+living templates. The small preset supplies 20 rows in every table; the enterprise
+preset supplies 5,000 in each (100,000 total hunting fixture rows). Set
+`business-security-telemetry.rowsPerTable` to change this independently of users
+and bounded collaboration content. The layer provisions a named `hunting-client`
+with Graph hunting/read-alert permissions and explicit local service entitlements.
+
+Identity account IDs resolve to the same business users. Defender device IDs are
+separate from Graph device and Intune IDs; `AadDeviceId` links the device inventory.
+Network message IDs are distinct from internet-message IDs. Repeated telemetry
+observations reference the retained mail corpus; attachment/file hashes are rendered
+from its exact deterministic document specifications. AlertInfo and AlertEvidence
+refer to imported, read-only Graph alerts and their user evidence.
+
+All process, logon, network, registry, click, remediation and detector history in
+these generators is fixture data. No process runs, network connection occurs or
+detector evaluates the documents. Identity/device inventory is also labeled as a
+fixture snapshot. Optional columns with no modeled observation are omitted.
+
+Optional `hunting-suspicious-consent`, `hunting-mailbox-forwarding`,
+`hunting-unusual-download`, `hunting-privilege-change` and
+`hunting-unusual-secret-access` layers add explicitly labeled fixture cloud events.
+They do not perform those operations or install permissions/forwarding rules.
+Account targets resolve to business identities; an application or secret target
+that was not observed stays omitted. Stack these layers onto a living template;
+ordinary business defaults do not include them.
+
+Native publication currently maps supported Exchange and SharePoint/Teams audit
+outcomes to CloudAppEvents. It copies the validated action, account/object IDs and
+sanitized raw audit from the same immutable source. It does not turn Graph reads,
+Entra sign-ins, mail sends or imports into host/identity sensor, click, malware,
+or alert records. See each table's `native_mappings` and each operation's evidence
+disposition for the exact boundary.
+
+Native rows share the existing generation, worker lease and atomic projection
+receipt. Their source availability delay applies to public queries independently
+of event time. Retrying a committed projection does not duplicate rows, including
+after hunting retention/reset. Previously published sources are not backfilled
+just because a newer native map exists. Importing exported rows creates fixture
+attribution and does not enqueue native evidence. Population ground-truth exports
+include hunting source IDs and provenance; public Graph rows contain no invented
+provenance columns.

@@ -1,7 +1,10 @@
 """Fixture-only imports and tenant-scoped hunting table browsing."""
 
 from pydantic import Field
+from sqlalchemy import String, cast
 
+from mockazure.hunting.access_models import HuntingSettings
+from mockazure.hunting.authorization import ENTITLEMENTS
 from mockazure.hunting.contracts import catalog
 from mockazure.hunting.models import HuntingRecord
 from mockazure.hunting.repository import ingest_rows
@@ -14,6 +17,56 @@ from mockazure.population.types import FamilyDescriptor, Input, OperationDescrip
 class HuntingInput(Input):
     id: str = Field(min_length=1, max_length=512)
     record: dict
+
+
+class HuntingSettingsInput(Input):
+    id: str
+    entitlements: list[str] = Field(max_length=6)
+
+
+def settings_adapter():
+    def normalize(payload):
+        value = HuntingSettingsInput.model_validate(payload)
+        if not set(value.entitlements) <= ENTITLEMENTS:
+            raise ValueError("Unknown local hunting entitlement")
+        return {"id": value.id, "entitlements": sorted(set(value.entitlements))}
+
+    async def write(session, ctx, pending):
+        for _, value in pending:
+            if value["id"] != str(ctx.tenant_id):
+                raise ValueError("Hunting settings must belong to the current tenant")
+            row = await session.get(HuntingSettings, ctx.tenant_id)
+            if row is None:
+                row = HuntingSettings(tenant_id=ctx.tenant_id)
+                session.add(row)
+            row.entitlements = value["entitlements"]
+
+    r = HuntingSettings
+    payload = json_object(id=r.tenant_id, entitlements=r.entitlements)
+    return PayloadAdapter(
+        FamilyDescriptor(
+            key="hunting.settings",
+            service="Advanced hunting",
+            api_path="/_mock/tenants/{tenant}/hunting/settings",
+            display_fields=["id", "entitlements"],
+            operations=[
+                OperationDescriptor(
+                    key="provision",
+                    mode="fixture",
+                    method="PUT",
+                    api_version="local-fixture-v1",
+                    path_template="/_mock/tenants/{tenant}/hunting/settings",
+                    input_schema=HuntingSettingsInput.model_json_schema(),
+                )
+            ],
+            contract_refs=["docs/hunting-data.md"],
+            limitations=["Local service availability, not full Microsoft licensing compliance."],
+        ),
+        ReadSpec(r, r.tenant_id, payload, cast(payload, String)),
+        normalize,
+        write,
+        replace_allowed=True,
+    )
 
 
 class HuntingAdapter(PayloadAdapter):
@@ -31,7 +84,7 @@ class HuntingAdapter(PayloadAdapter):
 
 
 def adapters():
-    result = []
+    result = [settings_adapter()]
     r = HuntingRecord
     for name, contract in catalog().items():
 

@@ -1,0 +1,539 @@
+{
+  "schemaVersion": 1,
+  "name": "business-security-telemetry",
+  "kind": "data",
+  "extends": "organization-projects",
+  "parameterDefinitions": {
+    "rowsPerTable": {
+      "type": "integer",
+      "default": 20,
+      "minimum": 1,
+      "maximum": 50000
+    }
+  },
+  "steps": {
+    "hunting-settings": {
+      "family": "hunting.settings",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.settings",
+        "count": 1
+      },
+      "dependsOn": []
+    },
+    "hunting-client": {
+      "family": "identity.clients",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.client",
+        "count": 1
+      },
+      "dependsOn": [],
+      "target": "hunting-client"
+    },
+    "hunting-alerts": {
+      "family": "security.alerts_v2",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.alerts",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users"
+      ]
+    },
+    "hunting-IdentityInfo": {
+      "family": "hunting.IdentityInfo",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.IdentityInfo",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-IdentityLogonEvents": {
+      "family": "hunting.IdentityLogonEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.IdentityLogonEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-IdentityDirectoryEvents": {
+      "family": "hunting.IdentityDirectoryEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.IdentityDirectoryEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-IdentityQueryEvents": {
+      "family": "hunting.IdentityQueryEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.IdentityQueryEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-EmailEvents": {
+      "family": "hunting.EmailEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.EmailEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-EmailAttachmentInfo": {
+      "family": "hunting.EmailAttachmentInfo",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.EmailAttachmentInfo",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-EmailUrlInfo": {
+      "family": "hunting.EmailUrlInfo",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.EmailUrlInfo",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-EmailPostDeliveryEvents": {
+      "family": "hunting.EmailPostDeliveryEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.EmailPostDeliveryEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-UrlClickEvents": {
+      "family": "hunting.UrlClickEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.UrlClickEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceInfo": {
+      "family": "hunting.DeviceInfo",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceInfo",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceNetworkInfo": {
+      "family": "hunting.DeviceNetworkInfo",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceNetworkInfo",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceLogonEvents": {
+      "family": "hunting.DeviceLogonEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceLogonEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceProcessEvents": {
+      "family": "hunting.DeviceProcessEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceProcessEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceNetworkEvents": {
+      "family": "hunting.DeviceNetworkEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceNetworkEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceFileEvents": {
+      "family": "hunting.DeviceFileEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceFileEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceRegistryEvents": {
+      "family": "hunting.DeviceRegistryEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceRegistryEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-DeviceEvents": {
+      "family": "hunting.DeviceEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.DeviceEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-CloudAppEvents": {
+      "family": "hunting.CloudAppEvents",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.CloudAppEvents",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-AlertInfo": {
+      "family": "hunting.AlertInfo",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.AlertInfo",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    },
+    "hunting-AlertEvidence": {
+      "family": "hunting.AlertEvidence",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "hunting.AlertEvidence",
+        "count": {
+          "$param": "business-security-telemetry.rowsPerTable"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "messageCopies": {
+          "$param": "business-mail-calendar.messageCopies"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-messages",
+        "business-managed-devices",
+        "hunting-alerts",
+        "hunting-settings"
+      ]
+    }
+  },
+  "resources": {
+    "hunting-client": {
+      "family": "identity.clients"
+    }
+  }
+}
