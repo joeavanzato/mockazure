@@ -6,7 +6,6 @@ from uuid import UUID
 from pydantic import Field
 from sqlalchemy import String, cast
 
-from mockazure.calendar.models import CalendarEvent
 from mockazure.mail.content_models import MailContentImport, MessageImport
 from mockazure.mail.mailboxes import provision_mailbox
 from mockazure.mail.message_models import MailboxContentState, MailMessage
@@ -15,7 +14,12 @@ from mockazure.mail.models import Mailbox, MailSettings
 from mockazure.mail.schemas import MailboxInput, MailSettingsInput
 from mockazure.population.adapters.arm import json_object
 from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
-from mockazure.population.adapters.browsing import browser
+from mockazure.population.adapters.calendar_history import adapter as calendar_history_adapter
+from mockazure.population.adapters.connected_mail import (
+    ConnectedMessage,
+    matches_document,
+    materialize,
+)
 from mockazure.population.types import FamilyDescriptor, Input, OperationDescriptor
 
 
@@ -48,6 +52,24 @@ def fixture(key, schema, fields, limitation):
 
 
 class MessageAdapter(PayloadAdapter):
+    def normalize(self, mutation):
+        if mutation.operation == "append-connected":
+            value = ConnectedMessage.model_validate(mutation.payload)
+            return value.message.model_dump(mode="json", exclude_unset=True)
+        return super().normalize(mutation)
+
+    async def matches_mutation(self, session, ctx, old, mutation, payload):
+        if not self.matches(old.properties, payload):
+            return False
+        if mutation.operation == "append-connected":
+            return await matches_document(
+                session,
+                ctx.tenant_id,
+                old.properties["attachments"],
+                ConnectedMessage.model_validate(mutation.payload),
+            )
+        return True
+
     def matches(self, existing, desired):
         return all(existing.get(k) == v for k, v in desired.items() if k != "payload") and all(
             existing.get("payload", {}).get(k) == v for k, v in desired["payload"].items()
@@ -64,6 +86,12 @@ def message_adapter():
                 raise ValueError("Mailbox parent is required")
             user = UUID(mutation.parent)
             state = await session.get(MailboxContentState, (ctx.tenant_id, user))
+            message, attachments = MessageImport.model_validate(payload), []
+            if mutation.operation == "append-connected":
+                message, attachment = await materialize(
+                    session, ctx, ConnectedMessage.model_validate(mutation.payload)
+                )
+                attachments = [attachment]
             await import_mail_content(
                 session,
                 ctx.tenant_id,
@@ -71,7 +99,8 @@ def message_adapter():
                     mailbox_user_id=user,
                     mode="content-backed",
                     expected_revision=state.revision if state else 0,
-                    messages=[MessageImport.model_validate(payload)],
+                    messages=[message],
+                    attachments=attachments,
                 ),
                 insert_only=True,
             )
@@ -85,6 +114,16 @@ def message_adapter():
         "remain active.",
     )
     descriptor.operations[0].key = "append"
+    descriptor.operations.append(
+        OperationDescriptor(
+            key="append-connected",
+            mode="fixture",
+            method="POST",
+            path_template="/_mock/tenants/{tenant}/resources/mail.messages/apply",
+            api_version="local-fixture-v1",
+            input_schema=ConnectedMessage.model_json_schema(),
+        )
+    )
     payload = json_object(
         id=m.id,
         folder_id=m.folder_id,
@@ -92,6 +131,7 @@ def message_adapter():
         payload=m.payload,
         mime_content_id=m.mime_content_id,
         size_bytes=m.size_bytes,
+        attachments=m.attachments,
         subject=m.payload["subject"],
     )
     return MessageAdapter(
@@ -100,7 +140,7 @@ def message_adapter():
 
 
 def adapters():
-    b, e = Mailbox, CalendarEvent
+    b = Mailbox
 
     def normalize_box(payload):
         value = BoxFixture.model_validate(payload)
@@ -182,16 +222,5 @@ def adapters():
             write_box,
         ),
         message_adapter(),
-        browser(
-            "mail.events",
-            "Exchange and mail",
-            "/v1.0/users/{user}/events",
-            e,
-            e.id,
-            e.revision,
-            {"subject": None, "start": None, "end": None},
-            parent=e.user_id,
-            payload=e.payload,
-            conditions=(e.deleted.is_(False),),
-        ),
+        calendar_history_adapter(),
     ]

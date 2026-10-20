@@ -19,6 +19,7 @@ from mockazure.population.adapters import (
     permissions,
     relationships,
     security,
+    site_access,
     storage,
     workloads,
 )
@@ -41,6 +42,7 @@ def registry():
         *log_records.adapters(),
         *mail.adapters(),
         *security.adapters(),
+        *site_access.adapters(),
         *workloads.adapters(),
         *evidence.adapters(),
         *activity.adapters(),

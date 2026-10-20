@@ -1,0 +1,527 @@
+{
+  "schemaVersion": 1,
+  "name": "business-sharepoint-teams",
+  "kind": "data",
+  "extends": "organization-projects",
+  "steps": {
+    "business-sites": {
+      "family": "sharepoint.site",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.sites",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users"
+      ]
+    },
+    "business-drives": {
+      "family": "sharepoint.drive",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.drives",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-sites"
+      ]
+    },
+    "business-roots": {
+      "family": "sharepoint.driveItem",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.roots",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-drives"
+      ]
+    },
+    "business-folders": {
+      "family": "sharepoint.driveItem",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.folders",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-roots"
+      ]
+    },
+    "business-documents": {
+      "family": "sharepoint.driveItem",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.documents",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-folders"
+      ]
+    },
+    "business-versions": {
+      "family": "sharepoint.driveItemVersion",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.versions",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-documents"
+      ]
+    },
+    "business-file-permissions": {
+      "family": "sharepoint.permission",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.file-permissions",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-documents"
+      ]
+    },
+    "business-site-access": {
+      "family": "sharepoint.access",
+      "operation": "grant",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.site-access",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-sites"
+      ]
+    },
+    "business-teams": {
+      "family": "teams.team",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.teams",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users"
+      ]
+    },
+    "business-chats": {
+      "family": "teams.chat",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.chats",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users"
+      ]
+    },
+    "business-channels-standard": {
+      "family": "teams.channel",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channels",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "standard"
+      },
+      "dependsOn": [
+        "business-teams"
+      ]
+    },
+    "business-channel-members-standard": {
+      "family": "teams.conversationMember",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channel-members",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "standard"
+      },
+      "dependsOn": [
+        "business-channels-standard"
+      ]
+    },
+    "business-files-folders-standard": {
+      "family": "teams.filesFolderReference",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.files-folders",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "standard"
+      },
+      "dependsOn": [
+        "business-channels-standard",
+        "business-folders"
+      ]
+    },
+    "business-channels-private": {
+      "family": "teams.channel",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channels",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "private"
+      },
+      "dependsOn": [
+        "business-teams"
+      ]
+    },
+    "business-channel-members-private": {
+      "family": "teams.conversationMember",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channel-members",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "private"
+      },
+      "dependsOn": [
+        "business-channels-private"
+      ]
+    },
+    "business-files-folders-private": {
+      "family": "teams.filesFolderReference",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.files-folders",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "private"
+      },
+      "dependsOn": [
+        "business-channels-private",
+        "business-folders"
+      ]
+    },
+    "business-channels-shared": {
+      "family": "teams.channel",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channels",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "shared"
+      },
+      "dependsOn": [
+        "business-teams"
+      ]
+    },
+    "business-channel-members-shared": {
+      "family": "teams.conversationMember",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channel-members",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "shared"
+      },
+      "dependsOn": [
+        "business-channels-shared"
+      ]
+    },
+    "business-files-folders-shared": {
+      "family": "teams.filesFolderReference",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.files-folders",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "channel_kind": "shared"
+      },
+      "dependsOn": [
+        "business-channels-shared",
+        "business-folders"
+      ]
+    },
+    "business-team-members-0": {
+      "family": "teams.conversationMember",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.team-members",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "member_slot": 0
+      },
+      "dependsOn": [
+        "business-teams"
+      ]
+    },
+    "business-chat-members-0": {
+      "family": "teams.conversationMember",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.chat-members",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "member_slot": 0
+      },
+      "dependsOn": [
+        "business-chats"
+      ]
+    },
+    "business-channel-messages-0": {
+      "family": "teams.chatMessage",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channel-messages",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "message_slot": 0
+      },
+      "dependsOn": [
+        "business-channels-standard",
+        "business-documents"
+      ]
+    },
+    "business-channel-replies-0": {
+      "family": "teams.chatMessage",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channel-replies",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "message_slot": 0
+      },
+      "dependsOn": [
+        "business-channel-messages-0"
+      ]
+    },
+    "business-chat-messages-0": {
+      "family": "teams.chatMessage",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.chat-messages",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "message_slot": 0
+      },
+      "dependsOn": [
+        "business-chats",
+        "business-documents"
+      ]
+    },
+    "business-team-members-1": {
+      "family": "teams.conversationMember",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.team-members",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "member_slot": 1
+      },
+      "dependsOn": [
+        "business-teams"
+      ]
+    },
+    "business-chat-members-1": {
+      "family": "teams.conversationMember",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.chat-members",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "member_slot": 1
+      },
+      "dependsOn": [
+        "business-chats"
+      ]
+    },
+    "business-channel-messages-1": {
+      "family": "teams.chatMessage",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channel-messages",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "message_slot": 1
+      },
+      "dependsOn": [
+        "business-channels-standard",
+        "business-documents"
+      ]
+    },
+    "business-channel-replies-1": {
+      "family": "teams.chatMessage",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.channel-replies",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "message_slot": 1
+      },
+      "dependsOn": [
+        "business-channel-messages-1"
+      ]
+    },
+    "business-chat-messages-1": {
+      "family": "teams.chatMessage",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.chat-messages",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "message_slot": 1
+      },
+      "dependsOn": [
+        "business-chats",
+        "business-documents"
+      ]
+    }
+  }
+}

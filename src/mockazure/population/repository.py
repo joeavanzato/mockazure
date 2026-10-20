@@ -12,6 +12,7 @@ from mockazure.population.models import (
     ACTIVE,
     BundleHead,
     BundleVersion,
+    OrganizationNamespace,
     PopulationPreview,
     PopulationRun,
     PopulationStep,
@@ -109,6 +110,18 @@ async def submit_run(database, preview_id, digest, now):
             session.add(tenant)
             await session.flush()
         await ensure_slot(session, p.tenant_id)
+        if snapshot.get("organization_generation"):
+            namespace = snapshot["request"]["dataset_namespace"]
+            organization = await session.get(OrganizationNamespace, (p.tenant_id, namespace))
+            generation = UUID(snapshot["organization_generation"])
+            if organization is None:
+                session.add(
+                    OrganizationNamespace(
+                        tenant_id=p.tenant_id, namespace=namespace, generation=generation
+                    )
+                )
+            elif organization.generation != generation:
+                raise AdminError(409, "NamespaceGenerationChanged", "Namespace generation changed")
         identifier, job_id = uuid4(), uuid4()
         session.add(
             Job(

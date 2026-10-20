@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "name": "business-mail-calendar",
+  "kind": "data",
+  "extends": "organization-projects",
+  "parameterDefinitions": {
+    "messageCopies": {
+      "type": "integer",
+      "default": 32,
+      "minimum": 4,
+      "maximum": 1000000
+    },
+    "eventCopies": {
+      "type": "integer",
+      "default": 8,
+      "minimum": 2,
+      "maximum": 1000000
+    }
+  },
+  "steps": {
+    "business-mail-settings": {
+      "family": "mail.settings",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.mail-settings",
+        "count": 1,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": []
+    },
+    "business-mailboxes": {
+      "family": "mail.mailboxes",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.mailboxes",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "business-mail-settings"
+      ]
+    },
+    "business-inbox": {
+      "family": "mail.folders",
+      "operation": "append",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.mail-folders",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "folder": "inbox"
+      },
+      "dependsOn": [
+        "business-mailboxes"
+      ]
+    },
+    "business-sentitems": {
+      "family": "mail.folders",
+      "operation": "append",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.mail-folders",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "folder": "sentitems"
+      },
+      "dependsOn": [
+        "business-mailboxes"
+      ]
+    },
+    "business-drafts": {
+      "family": "mail.folders",
+      "operation": "append",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.mail-folders",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        },
+        "folder": "drafts"
+      },
+      "dependsOn": [
+        "business-mailboxes"
+      ]
+    },
+    "business-messages": {
+      "family": "mail.messages",
+      "operation": "append-connected",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.messages",
+        "count": {
+          "$param": "business-mail-calendar.messageCopies"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-inbox",
+        "business-sentitems",
+        "business-drafts"
+      ]
+    },
+    "business-events": {
+      "family": "mail.events",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.events",
+        "count": {
+          "$param": "business-mail-calendar.eventCopies"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-mailboxes"
+      ]
+    }
+  }
+}

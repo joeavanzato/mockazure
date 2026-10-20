@@ -5,6 +5,9 @@ Profiles are bounded JSON or YAML data. The installed schema is
 the same parser, resolver, generator registry, service adapters and durable runner.
 No profile executes Python, shell, arbitrary HTTP, filesystem includes or SQL.
 
+For linked mail, calendar, project files and Teams history, see
+[Connected business history](connected-content.md).
+
 ## Three document kinds
 
 | Kind | Purpose | Fields beyond `schemaVersion`, `name`, `kind`, `extends` |

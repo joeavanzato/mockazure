@@ -1,6 +1,14 @@
 """Versioned curated generators: no dynamic imports or executable profile hooks."""
 
-from mockazure.population.generators import cloud, directory, evidence, mail, recipes, workloads
+from mockazure.population.generators import (
+    business,
+    cloud,
+    directory,
+    evidence,
+    mail,
+    recipes,
+    workloads,
+)
 
 VERSION = "lab-generators-v2"
 GENERATORS = {
@@ -28,12 +36,15 @@ GENERATORS.update(
         for name, (family, _, _) in recipes.RECIPE_FAMILIES.items()
     }
 )
+GENERATORS.update(
+    {"business." + name: (business, family) for name, family in business.FAMILIES.items()}
+)
 
 
 def inventory():
     return {
-        name: {"family": family, "version": VERSION, "max_batch": 1000}
-        for name, (_, family) in GENERATORS.items()
+        name: {"family": family, "version": getattr(module, "VERSION", VERSION), "max_batch": 1000}
+        for name, (module, family) in GENERATORS.items()
     }
 
 

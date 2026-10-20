@@ -200,6 +200,9 @@ async def preview(database, request: RunRequest, now: datetime):
             raise AdminError(404, "TenantNotFound", "Target tenant does not exist")
         domain = tenant.domain if tenant else request.target.create_tenant.domain
         state = await state_digest(session, tenant_id)
+        organization = await session.get(
+            OrganizationNamespace, (tenant_id, request.dataset_namespace)
+        )
         refs = {
             "domain": domain,
             **await bindings(session, tenant_id, request.dataset_namespace),
@@ -212,6 +215,18 @@ async def preview(database, request: RunRequest, now: datetime):
         "domain": domain,
         "bundle_revision": revision,
         "generator_version": VERSION,
+        "generator_versions": {
+            step.parameters.get("generator"): inventory()
+            .get(step.parameters.get("generator"), {})
+            .get("version")
+            for step in resolved.steps.values()
+        },
+        "organization_generation": str(organization.generation if organization else uuid4())
+        if any(
+            step.parameters.get("generator", "").startswith("business.")
+            for step in resolved.steps.values()
+        )
+        else None,
     }
     counts, samples = {}, {}
     for key, step in snapshot["resolved"]["steps"].items():

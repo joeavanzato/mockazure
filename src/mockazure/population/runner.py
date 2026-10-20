@@ -8,10 +8,12 @@ from uuid import UUID
 from mockazure.admin.errors import AdminError
 from mockazure.jobs.repository import lock_claim
 from mockazure.jobs.schemas import JobResult
+from mockazure.population.bindings import EntityBinding, bind
 from mockazure.population.catalog import get_adapter
-from mockazure.population.generators import VERSION
+from mockazure.population.generators import VERSION, inventory
 from mockazure.population.models import (
     OperationReceipt,
+    OrganizationNamespace,
     PopulationRun,
     PopulationStep,
     ResourceBinding,
@@ -92,13 +94,31 @@ async def process_population(database, claim, wall_now):
     ctx = AdapterContext(database, database.settings, claim.tenant_id)
     limit = 1 if descriptor.mode == "service" or step["family"] == "content.objects" else 100
     try:
+        generator = step["parameters"]["generator"]
+        version = inventory()[generator]["version"]
+        expected_version = snapshot.get("generator_versions", {}).get(generator, VERSION)
+        if version != expected_version:
+            return await stop(
+                "needs-attention", "Generator version changed; use a compatible installation"
+            )
+        if generator.startswith("business."):
+            async with database.sessions() as session:
+                organization = await session.get(
+                    OrganizationNamespace, (claim.tenant_id, namespace)
+                )
+                if organization is None or str(organization.generation) != snapshot.get(
+                    "organization_generation"
+                ):
+                    raise AdminError(
+                        409, "NamespaceGenerationChanged", "Namespace generation changed"
+                    )
         mutations = mutations_for(snapshot, step, refs, offset, limit)
         for mutation in mutations:
             adapter.validate(mutation)
         digest = fingerprint(
             {
                 "family": step["family"],
-                "version": VERSION,
+                "version": version,
                 "mutations": [
                     m.model_dump(mode="json", exclude={"expected_version"}) for m in mutations
                 ],
@@ -180,6 +200,26 @@ async def process_population(database, claim, wall_now):
                 current.state, job.state, cursor.state = "verifying", "pending", "verifying"
                 return
             receipt.state = "verified"
+            if generator.startswith("business."):
+                by_identity = {(item.parent, item.id): item for item in result.items}
+                for mutation in mutations:
+                    payload = mutation.payload.get("message", mutation.payload)
+                    identifier = payload.get("id", payload.get("payload", {}).get("id"))
+                    item = by_identity.get((mutation.parent, identifier))
+                    if item is None:
+                        raise ValueError("Business result did not preserve the declared identity")
+                    await bind(
+                        session,
+                        EntityBinding(
+                            tenant_id=claim.tenant_id,
+                            namespace=namespace,
+                            logical_key=mutation.logical_key,
+                            service="graph",
+                            actual_id=item.id,
+                            parent_id=mutation.parent if mutation.parent != item.id else None,
+                            generation=UUID(snapshot["organization_generation"]),
+                        ),
+                    )
             effects = (
                 {"created": 0, "updated": 0, "unchanged": len(result.items)}
                 if replay
