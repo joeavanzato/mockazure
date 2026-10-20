@@ -10,6 +10,13 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "Chat.Create", "application", True),
+    PermissionDefinition("graph", "Chat.Create", "delegated", False),
+    PermissionDefinition("graph", "ChatMessage.Send", "delegated", False),
+    PermissionDefinition("graph", "ChannelMessage.Send", "delegated", False),
+    PermissionDefinition("graph", "ChannelMessage.ReadWrite", "delegated", True),
+    PermissionDefinition("graph", "TeamMember.ReadWriteNonOwnerRole.All", "application", True),
+    PermissionDefinition("graph", "TeamMember.ReadWriteNonOwnerRole.All", "delegated", True),
     *(
         PermissionDefinition("graph", name, kind, kind == "application")
         for name in ("Calendars.Read", "Calendars.ReadWrite")

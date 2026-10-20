@@ -11,6 +11,21 @@ from mockazure.evidence.schemas import EvidenceSettings, ProjectionBatch, Source
 from mockazure.evidence.sources import enqueue_projection
 from mockazure.mail.audit_schemas import public_audit_data
 
+NATIVE_OPERATIONS = (
+    {"site.permission.create", "site.permission.delete", "teams.chat.create"}
+    | {
+        f"teams.{kind}.member.{action}"
+        for kind in ("team", "channel", "chat")
+        for action in ("add", "update", "delete")
+        if (kind, action) != ("chat", "update")
+    }
+    | {
+        f"teams.{kind}.message.{action}"
+        for kind in ("channel", "reply", "chat")
+        for action in ("send", "update", "softdelete", "undosoftdelete")
+    }
+)
+
 
 def validate_workload_facts(value):
     if not isinstance(value, dict) or set(value) != {
@@ -22,10 +37,7 @@ def validate_workload_facts(value):
         "provenance",
     }:
         raise ValueError("Invalid workload fact")
-    if (
-        value["operation"] not in {"site.permission.create", "site.permission.delete"}
-        or value["provenance"] != "native"
-    ):
+    if value["operation"] not in NATIVE_OPERATIONS or value["provenance"] != "native":
         raise ValueError("Unsupported native workload operation")
     if not isinstance(value["scope"], str) or not 1 <= len(value["scope"]) <= 512:
         raise ValueError("Invalid site scope")

@@ -82,6 +82,7 @@ from mockazure.providers.graph.security.role_routes import router_for as role_ro
 from mockazure.providers.graph.security.routes import router_for as security_router_for
 from mockazure.providers.graph.site_routes import router as site_router
 from mockazure.providers.graph.subscription_routes import router as subscription_router
+from mockazure.providers.graph.team_mutation_routes import router as team_mutation_router
 from mockazure.providers.graph.team_routes import router as team_router
 from mockazure.providers.graph.throttle import enforce_directory_budget
 from mockazure.tenants.repository import TenantConflict
@@ -399,6 +400,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(security_router_for("beta"))
     app.include_router(audit_query_router_for("v1.0"))
     app.include_router(audit_query_router_for("beta"))
+    app.include_router(team_mutation_router)
     app.include_router(team_router)
     app.include_router(site_router)
     app.include_router(drive_router)

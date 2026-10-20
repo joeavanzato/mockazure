@@ -12,7 +12,7 @@ class OperationContract(Input):
     area: Literal["content", "evidence", "identity", "hunting"]
     method: Literal["GET", "HEAD", "POST", "PATCH", "PUT", "DELETE"]
     path: str
-    status: Literal["existing", "planned", "fixture"]
+    status: Literal["existing", "planned", "fixture", "unsupported"]
     request_type: str | None = None
     response_type: str | None = None
     permissions: list[str] = Field(default_factory=list)

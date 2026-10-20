@@ -731,6 +731,102 @@
       "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/LICENSE",
       "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
       "sha256": "da696d247a18f637251566c3b43799d8ac8c1d3f9aa8e0dfef33ff017f9b5213"
+    },
+    "team-get-members": {
+      "path": "sources/api-reference__v1.0__api__team-get-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/team-get-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "8f486c2d13d6f3a707859838b66a8b2e5d8f03fc1c1df85fb433272f01264435"
+    },
+    "permission-team-get-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__team-get-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/team-get-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "85e09029b88b53fc746d1ea3e0c245ec352e06a0c6f2c6e9942ec36bb18c7866"
+    },
+    "team-delete-members": {
+      "path": "sources/api-reference__v1.0__api__team-delete-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/team-delete-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "a5f4f7c27d23d2bb2ebb8e3d0b0cac8bdbafd29e6fdcd107d7175d7c4797701d"
+    },
+    "permission-team-delete-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__team-delete-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/team-delete-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c28a2b15f4f8d32bf9eb59d82811a6b0e84e08d2301162116f5a9bd4b22f9cad"
+    },
+    "team-update-members": {
+      "path": "sources/api-reference__v1.0__api__team-update-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/team-update-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "43bfd9cae26ad1ab6a20317beeea98ca2d85032bb663e05fa8697649a1d24d80"
+    },
+    "permission-team-update-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__team-update-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/team-update-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c28a2b15f4f8d32bf9eb59d82811a6b0e84e08d2301162116f5a9bd4b22f9cad"
+    },
+    "channel-get-members": {
+      "path": "sources/api-reference__v1.0__api__channel-get-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/channel-get-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "501afc7fd73d4c2b9f9ef139e2244bedfb88f0b97b88950c1565cb0af716933d"
+    },
+    "permission-channel-get-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__channel-get-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/channel-get-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "e2872aa6c360a07d66624c0a30a8bfbe4f3b11eef56b73b5a21e717601953320"
+    },
+    "channel-delete-members": {
+      "path": "sources/api-reference__v1.0__api__channel-delete-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/channel-delete-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "336784d2254efdf55cebccebf3d015e9ac929be41742fa61b095fc6c6265e1f1"
+    },
+    "permission-channel-delete-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__channel-delete-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/channel-delete-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "7e47a525c079e9f0d9a1037b38c104995a067aa90da2c28236a148994fbf5c63"
+    },
+    "channel-update-members": {
+      "path": "sources/api-reference__v1.0__api__channel-update-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/channel-update-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "93f3ec5cedbdedba30846c1ec4932b945b6f591aa228c7b3aff98809b441c2c9"
+    },
+    "permission-channel-update-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__channel-update-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/channel-update-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9d8692721de7fd9d326e7d385129c7e97e0f54027d852de46fe5decfccb10fa8"
+    },
+    "chat-get-members": {
+      "path": "sources/api-reference__v1.0__api__chat-get-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chat-get-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "ea3de5c985d1227d91c96d5586e31fb66eb59acfdefe8c58c31de9e3c4f798d0"
+    },
+    "permission-chat-get-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__chat-get-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/chat-get-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "189be5f76dc550bdda8e81a59b9298b961e2827a26daa48837589f4387110161"
+    },
+    "chat-delete-members": {
+      "path": "sources/api-reference__v1.0__api__chat-delete-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chat-delete-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1727ae4bc10c77e7711320c546855434b0810359ca757f184b3c9f24cf302b19"
+    },
+    "permission-chat-delete-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__chat-delete-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/chat-delete-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "aadf7f21372e4144f590b3307a5cee85a89944003c61e7b0e3a333e71978bb4a"
     }
   },
   "operations": [
@@ -1886,7 +1982,7 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/chats",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
@@ -1901,7 +1997,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -1909,11 +2006,15 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/members",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "team-post-members",
@@ -1924,7 +2025,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -1932,21 +2034,23 @@
       "area": "content",
       "method": "GET",
       "path": "/v1.0/teams/{team}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-get",
+        "team-get-members",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "permission-team-get-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -1954,22 +2058,27 @@
       "area": "content",
       "method": "PATCH",
       "path": "/v1.0/teams/{team}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-update",
+        "team-update-members",
         "graph-csdl",
         "docs-license",
-        "permission-conversationmember-update-permissions",
-        "metadata-license"
+        "metadata-license",
+        "permission-team-update-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -1977,22 +2086,27 @@
       "area": "content",
       "method": "DELETE",
       "path": "/v1.0/teams/{team}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-delete",
+        "team-delete-members",
         "graph-csdl",
         "docs-license",
-        "permission-conversationmember-delete-permissions",
-        "metadata-license"
+        "metadata-license",
+        "permission-team-delete-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2000,11 +2114,15 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/channels/{channel}/members",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "channel-post-members",
@@ -2015,7 +2133,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2023,21 +2142,23 @@
       "area": "content",
       "method": "GET",
       "path": "/v1.0/teams/{team}/channels/{channel}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-get",
+        "channel-get-members",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "permission-channel-get-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2045,22 +2166,27 @@
       "area": "content",
       "method": "PATCH",
       "path": "/v1.0/teams/{team}/channels/{channel}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-update",
+        "channel-update-members",
         "graph-csdl",
         "docs-license",
-        "permission-conversationmember-update-permissions",
-        "metadata-license"
+        "metadata-license",
+        "permission-channel-update-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2068,22 +2194,27 @@
       "area": "content",
       "method": "DELETE",
       "path": "/v1.0/teams/{team}/channels/{channel}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-delete",
+        "channel-delete-members",
         "graph-csdl",
         "docs-license",
-        "permission-conversationmember-delete-permissions",
-        "metadata-license"
+        "metadata-license",
+        "permission-channel-delete-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2091,11 +2222,15 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/chats/{chat}/members",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chat-post-members",
@@ -2106,7 +2241,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2114,21 +2250,23 @@
       "area": "content",
       "method": "GET",
       "path": "/v1.0/chats/{chat}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-get",
+        "chat-get-members",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "permission-chat-get-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2136,22 +2274,21 @@
       "area": "content",
       "method": "PATCH",
       "path": "/v1.0/chats/{chat}/members/{member}",
-      "status": "planned",
+      "status": "unsupported",
       "request_type": null,
       "response_type": null,
       "permissions": [],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-update",
-        "graph-csdl",
-        "docs-license",
-        "permission-conversationmember-update-permissions",
-        "metadata-license"
+        "chat-post-members",
+        "chat-get-members",
+        "chat-delete-members",
+        "docs-license"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "No documented Graph v1.0 PATCH chat-member operation in the pinned API reference. Roles are assigned on create/add; no invented PATCH behavior."
       ]
     },
     {
@@ -2159,22 +2296,27 @@
       "area": "content",
       "method": "DELETE",
       "path": "/v1.0/chats/{chat}/members/{member}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated member management requires current owner authority (self-removal excepted).",
+        "Private channels require current team membership; last authoritative owner cannot be removed.",
+        "A team removal also removes private-channel roster and access; independent shared-channel membership remains."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
-        "conversationmember-delete",
+        "chat-delete-members",
         "graph-csdl",
         "docs-license",
-        "permission-conversationmember-delete-permissions",
-        "metadata-license"
+        "metadata-license",
+        "permission-chat-delete-members-permissions"
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2182,11 +2324,13 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "channel-post-messages",
@@ -2197,7 +2341,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2205,11 +2350,13 @@
       "area": "content",
       "method": "PATCH",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages/{item}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-update",
@@ -2219,7 +2366,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2227,11 +2375,13 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages/{item}/softDelete",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-softdelete",
@@ -2241,7 +2391,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2249,11 +2400,13 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages/{item}/undoSoftDelete",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-undosoftdelete",
@@ -2263,7 +2416,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2271,11 +2425,13 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "channel-post-messagereply",
@@ -2286,7 +2442,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2294,11 +2451,13 @@
       "area": "content",
       "method": "PATCH",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{item}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-update",
@@ -2308,7 +2467,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2316,11 +2476,13 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{item}/softDelete",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-softdelete",
@@ -2330,7 +2492,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2338,11 +2501,13 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{item}/undoSoftDelete",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-undosoftdelete",
@@ -2352,7 +2517,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2360,11 +2526,13 @@
       "area": "content",
       "method": "POST",
       "path": "/v1.0/chats/{chat}/messages",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chat-post-messages",
@@ -2375,7 +2543,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
@@ -2383,11 +2552,13 @@
       "area": "content",
       "method": "PATCH",
       "path": "/v1.0/chats/{chat}/messages/{item}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-update",
@@ -2397,19 +2568,22 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
       "key": "teams.chat.message.softdelete",
       "area": "content",
       "method": "POST",
-      "path": "/v1.0/chats/{chat}/messages/{item}/softDelete",
-      "status": "planned",
+      "path": "/v1.0/users/{user}/chats/{chat}/messages/{item}/softDelete",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-softdelete",
@@ -2419,19 +2593,22 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {
       "key": "teams.chat.message.undosoftdelete",
       "area": "content",
       "method": "POST",
-      "path": "/v1.0/chats/{chat}/messages/{item}/undoSoftDelete",
-      "status": "planned",
+      "path": "/v1.0/users/{user}/chats/{chat}/messages/{item}/undoSoftDelete",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
       "permissions": [],
-      "role_constraints": [],
+      "role_constraints": [
+        "Delegated current member; edit/delete/restore requires the original author."
+      ],
       "entitlement_constraints": [],
       "source_refs": [
         "chatmessage-undosoftdelete",
@@ -2441,7 +2618,8 @@
       ],
       "supported_variants": [],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Local active users only; fixture rosters do not grant operational membership.",
+        "No migration, federation, meeting chat, policyViolation updates, hosted-content creation, or visibleHistoryStartDateTime."
       ]
     },
     {

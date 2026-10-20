@@ -1,9 +1,12 @@
 # Teams and chat evidence contract
 
-This is a bounded Microsoft Graph **v1.0** read profile over PostgreSQL. The
+This is a bounded Microsoft Graph **v1.0** profile over PostgreSQL. The
 [operation manifest](teams.json) pins official REST sources, retrieval hashes and the
-CSDL revision. Beta, message sending/edit/delete APIs, calls/meetings, federation,
-app installation APIs, extra export APIs and Teams delta are unsupported.
+CSDL revision. Native member/message writes are described in the
+[native workflow contract](../../docs/teams-native-workflows.md), with variant-specific
+sources in the [living tenant manifest](../../src/mockazure/living_tenant/data/operations.json).
+Beta, calls/meetings, federation, app installation APIs, extra export APIs and
+Teams delta are unsupported.
 
 ## Local evidence and authority
 

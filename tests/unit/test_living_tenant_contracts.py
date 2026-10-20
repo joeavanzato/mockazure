@@ -11,6 +11,16 @@ from mockazure.living_tenant.contracts import (
 )
 
 
+def test_teams_variants_use_their_exact_v1_operation_references():
+    assert "team-update-members" in load_operation("teams.team.member.update").source_refs
+    assert "chat-get-members" in load_operation("teams.chat.member.get").source_refs
+    assert load_operation("teams.chat.member.update").status == "unsupported"
+    for action in ("softdelete", "undosoftdelete"):
+        assert load_operation(f"teams.chat.message.{action}").path.startswith(
+            "/v1.0/users/{user}/chats/"
+        )
+
+
 def test_declared_operation_inventory_contains_all_four_areas():
     operations = list_operations()
     assert {o.area for o in operations} == {"content", "evidence", "identity", "hunting"}
