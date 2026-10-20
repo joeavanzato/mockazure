@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "name": "business-device-estate",
+  "kind": "data",
+  "extends": "organization-projects",
+  "steps": {
+    "license": {
+      "family": "identity.skus",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "recipe.license",
+        "count": 1
+      },
+      "dependsOn": []
+    },
+    "business-directory-devices": {
+      "family": "directory.devices",
+      "operation": "import-owned",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.directory-devices",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users"
+      ]
+    },
+    "business-managed-devices": {
+      "family": "intune.managedDevice",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.managed-devices",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-directory-devices",
+        "license"
+      ]
+    },
+    "business-detected-apps": {
+      "family": "intune.detectedApp",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.detected-apps",
+        "count": 2,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-managed-devices"
+      ]
+    },
+    "business-device-configurations": {
+      "family": "intune.deviceConfiguration",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.device-configurations",
+        "count": 2,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "license"
+      ]
+    },
+    "business-compliance-policies": {
+      "family": "intune.deviceCompliancePolicy",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.compliance-policies",
+        "count": 2,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users",
+        "license"
+      ]
+    },
+    "business-software-links": {
+      "family": "intune.relationships",
+      "operation": "link",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.software-links",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-detected-apps"
+      ]
+    },
+    "business-configuration-statuses": {
+      "family": "intune.deviceConfigurationDeviceStatus",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.configuration-statuses",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-device-configurations",
+        "business-managed-devices"
+      ]
+    },
+    "business-compliance-statuses": {
+      "family": "intune.deviceComplianceDeviceStatus",
+      "operation": "import-linked",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.compliance-statuses",
+        "count": {
+          "$param": "shared.users"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "business-compliance-policies",
+        "business-managed-devices"
+      ]
+    }
+  }
+}

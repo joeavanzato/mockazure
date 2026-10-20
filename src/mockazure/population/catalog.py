@@ -8,6 +8,7 @@ from mockazure.population.adapters import (
     administration,
     arm,
     content,
+    device_estate,
     directory,
     evidence,
     keyvault,
@@ -29,7 +30,8 @@ from mockazure.population.adapters import (
 def registry():
     entries = [
         *directory.adapters(),
-        *administration.adapters(),
+        *(a for a in administration.adapters() if a.describe().key != "directory.devices"),
+        *device_estate.adapters(),
         *identity.adapters(),
         *content.adapters(),
         *licensing.adapters(),

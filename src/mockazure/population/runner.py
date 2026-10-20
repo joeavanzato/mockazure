@@ -203,9 +203,23 @@ async def process_population(database, claim, wall_now):
             if generator.startswith("business."):
                 by_identity = {(item.parent, item.id): item for item in result.items}
                 for mutation in mutations:
-                    payload = mutation.payload.get("message", mutation.payload)
-                    identifier = payload.get("id", payload.get("payload", {}).get("id"))
-                    item = by_identity.get((mutation.parent, identifier))
+                    if descriptor.mode == "service":
+                        if len(mutations) != 1 or len(result.items) != 1:
+                            raise ValueError("Business service actions require one recorded result")
+                        item = result.items[0]
+                        service = item.properties["service"]
+                    else:
+                        base = getattr(adapter, "base", adapter)
+                        payload = base.normalize(mutation)
+                        identifier = str(payload[base.identity_field])
+                        item = by_identity.get((mutation.parent, identifier))
+                        service = (
+                            "arm"
+                            if step["family"] == "arm.inventory"
+                            else "lab-identity"
+                            if step["family"] == "identity.clients"
+                            else "graph"
+                        )
                     if item is None:
                         raise ValueError("Business result did not preserve the declared identity")
                     await bind(
@@ -214,9 +228,13 @@ async def process_population(database, claim, wall_now):
                             tenant_id=claim.tenant_id,
                             namespace=namespace,
                             logical_key=mutation.logical_key,
-                            service="graph",
+                            service=service,
                             actual_id=item.id,
-                            parent_id=mutation.parent if mutation.parent != item.id else None,
+                            parent_id=(
+                                mutation.parent
+                                if mutation.parent not in {item.id, "deviceManagement"}
+                                else None
+                            ),
                             generation=UUID(snapshot["organization_generation"]),
                         ),
                     )

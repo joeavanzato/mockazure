@@ -28,6 +28,23 @@
       "dependsOn": [],
       "override": true,
       "target": "primary-user"
+    },
+    "groups": {
+      "family": "directory.groups",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.groups",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [],
+      "override": true,
+      "target": "directory-group"
     }
   }
 }

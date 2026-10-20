@@ -12,7 +12,7 @@ from sqlalchemy import select
 from mockazure.admin.errors import AdminError
 from mockazure.identity.credentials import hash_secret
 from mockazure.identity.keys import read_wrapping_key
-from mockazure.identity.models import User
+from mockazure.identity.models import ServicePrincipal, User
 from mockazure.identity.repository import IdentityRepository
 from mockazure.identity.types import (
     ApplicationCreate,
@@ -24,6 +24,7 @@ from mockazure.population.adapters.base import PayloadAdapter, ReadSpec
 from mockazure.population.identity_models import LabIdentity
 from mockazure.population.transport import ClientCredential
 from mockazure.population.types import FamilyDescriptor, Input, OperationDescriptor
+from mockazure.security.models import SecurityOwner
 
 
 class IdentityFixture(Input):
@@ -31,6 +32,7 @@ class IdentityFixture(Input):
     display_name: str = Field(min_length=1, max_length=200)
     permissions: list[RequiredPermission] = Field(default_factory=list, max_length=64)
     delegated_user_id: UUID | None = None
+    owner_user_id: UUID | None = None
 
 
 async def resolve_identity(ctx, name):
@@ -80,6 +82,14 @@ def adapters():
         repo = IdentityRepository(session)
         for _, payload in pending:
             value = IdentityFixture.model_validate(payload)
+            if value.owner_user_id:
+                owner = await session.get(User, value.owner_user_id)
+                if (
+                    owner is None
+                    or owner.tenant_id != ctx.tenant_id
+                    or owner.deleted_at is not None
+                ):
+                    raise AdminError(422, "MissingOwner", "Application owner must be a local user")
             password = None
             if value.delegated_user_id:
                 user = await session.scalar(
@@ -115,6 +125,21 @@ def adapters():
             credential = await repo.add_credential(
                 ctx.tenant_id, app.client_id, CredentialCreate(kind="secret")
             )
+            if value.owner_user_id:
+                principal = await session.scalar(
+                    select(ServicePrincipal).where(
+                        ServicePrincipal.tenant_id == ctx.tenant_id,
+                        ServicePrincipal.client_id == app.client_id,
+                    )
+                )
+                for identifier in (app.object_id, principal.id):
+                    session.add(
+                        SecurityOwner(
+                            tenant_id=ctx.tenant_id,
+                            object_id=identifier,
+                            owner_id=value.owner_user_id,
+                        )
+                    )
             for permission in value.permissions:
                 await repo.set_grant(
                     ctx.tenant_id,

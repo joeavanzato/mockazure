@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "name": "business-azure-operations",
+  "kind": "data",
+  "extends": "azure-inventory",
+  "parameterDefinitions": {
+    "inventoryResources": {
+      "type": "integer",
+      "default": 8,
+      "minimum": 1,
+      "maximum": 8000
+    }
+  },
+  "steps": {
+    "inventory": {
+      "family": "arm.inventory",
+      "operation": "import",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.azure-inventory",
+        "count": {
+          "$param": "business-azure-operations.inventoryResources"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "group",
+        "users"
+      ],
+      "override": true
+    },
+    "business-applications": {
+      "family": "identity.clients",
+      "operation": "provision",
+      "mode": "fixture",
+      "parameters": {
+        "generator": "business.business-applications",
+        "count": {
+          "$param": "shared.projects"
+        },
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "users"
+      ]
+    },
+    "content": {
+      "family": "content.objects",
+      "operation": "render",
+      "mode": "fixture",
+      "override": true,
+      "parameters": {
+        "generator": "recipe.business-content",
+        "count": 1,
+        "format": "docx",
+        "theme": "engineering",
+        "fields": {
+          "ownerObjectId": {
+            "$ref": "primary-user"
+          }
+        }
+      },
+      "dependsOn": [
+        "users"
+      ],
+      "target": "content"
+    },
+    "blob": {
+      "family": "storage.blobs",
+      "operation": "upload",
+      "mode": "service",
+      "parameters": {
+        "generator": "business.azure-blob",
+        "count": 1,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "container",
+        "content",
+        "diagnostics"
+      ],
+      "override": true
+    },
+    "file": {
+      "family": "storage.files",
+      "operation": "upload",
+      "mode": "service",
+      "parameters": {
+        "generator": "business.azure-file",
+        "count": 1,
+        "projects": {
+          "$param": "shared.projects"
+        }
+      },
+      "dependsOn": [
+        "share",
+        "content"
+      ],
+      "override": true
+    }
+  }
+}
