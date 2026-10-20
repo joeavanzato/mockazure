@@ -51,3 +51,50 @@ chains are not implemented. Cycles, foreign references and hierarchies deeper th
 
 Contracts and exact source hashes are in
 [the living-tenant inventory](../src/mockazure/living_tenant/data/operations.json).
+
+## Deleted objects and restoration
+
+Use `GET /v1.0/directory/deletedItems/microsoft.graph.user`,
+`.application` or `.servicePrincipal` to list deleted objects of that type.
+The type cast is required by Microsoft's v1.0 contract. Lists support `$select`,
+`$top` (1–999, default 100) and caller-bound `@odata.nextLink` paging. Other query
+options are rejected. Continuations exclude newly deleted objects and recheck
+current availability: restored, purged or expired items cannot reappear.
+Item GET supports `$select`.
+
+`POST /v1.0/directory/deletedItems/{id}/restore` restores the same ID.
+For users, `newUserPrincipalName` can resolve a name conflict, and
+`autoReconcileProxyConflict: true` removes stored proxy addresses that conflict with
+active local users. Names must use the local tenant domain. Conflicts roll back
+the entire restoration. `DELETE /v1.0/directory/deletedItems/{id}` permanently
+removes recovery availability while retaining inert identity IDs for historical
+references. All recovery endpoints enforce 30-day wall-time retention directly;
+a worker is not needed to prevent expired-object access.
+
+Reads require the relevant user/application read permission. User restore/purge
+requires `User.DeleteRestore.All` or a supported higher permission; application/SP
+restore/purge supports `Application.ReadWrite.All`, application
+`Application.ReadWrite.OwnedBy` with saved ownership, or `Directory.ReadWrite.All`.
+Delegated writes additionally check the published supported administrator roles.
+Privileged-user recovery requires additional scope and a higher supported role.
+
+| Object | Restored dependencies | Dependencies that do not return |
+| --- | --- | --- |
+| User | Saved ordinary static-group membership/ownership, application/device ownership and manager if the same tenant-local objects remain available and no cycle/conflict results | Sessions, authorization codes, consent, licenses, directory roles, role-assignable group edges or device registration observations |
+| Application | Saved ownership where the owner remains live | Associated service principal, revoked credentials, consent, roles or prior browser/session authority |
+| Service principal | Saved live ownership; backing application must already be restored | Revoked credentials, consent, roles or prior browser/session authority |
+
+Group recycle-bin operations and managed-identity recovery are outside this
+profile. Deleting an application also deletes its live local service principal;
+restore them explicitly in that order. Application deletion revokes its local
+credentials; provision a new credential and explicitly grant consent after
+restoration. A restored application cannot redeem an authorization code issued
+before deletion, even if the same consent is granted again.
+Standalone access tokens without a local login session retain the existing
+expiration/current-identity behavior; recovery does not claim to revoke every
+previously issued bearer.
+
+Upgrade recovery for already-deleted identities uses only retained public state:
+missing ownership, memberships, consent and credentials are not reconstructed.
+These legacy objects restore disabled and require explicit enablement. Sanitized
+restore/purge audit events preserve actor and target references.

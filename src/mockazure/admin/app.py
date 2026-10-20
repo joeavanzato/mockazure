@@ -425,6 +425,9 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     from mockazure.providers.graph.identity_lifecycle_routes import router as lifecycle_router
 
     app.include_router(lifecycle_router)
+    from mockazure.providers.graph.deleted_routes import router as deleted_router
+
+    app.include_router(deleted_router)
     app.include_router(router_for("v1.0"))
     app.include_router(router_for("beta"))
     app.include_router(exchange_router)

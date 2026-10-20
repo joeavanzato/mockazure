@@ -90,7 +90,7 @@ contains the precise authorization/property allowlists.
 | --- | --- | --- | --- | --- |
 | `/v1.0/organization` | Partial: GET | Identity fields only | Tenant ID, display name and verified domains; **v1.0 only** adds 16 typed optional contact/address/sync fields provisioned through `directory/collectionState`; `$select`. `User.Read` returns null for the additional fields. No item route or Graph writes; full organization schema remains partial. | [Organization](https://learn.microsoft.com/en-us/graph/api/organization-list?view=graph-rest-1.0) |
 | `/v1.0/me` | Implemented: GET | Yes | Delegated identity only; selected supported user fields. No PATCH on `/me`; use the supported user route. | [Get user](https://learn.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0) |
-| `/v1.0/users`<br>`/v1.0/users/{user}` | Partial: GET/POST collection; GET/PATCH/DELETE item | Yes | Stateful ordinary local users, selected profile fields, account enablement, local-domain UPN changes and licensing fields. Item reads/writes resolve ID or UPN. No full guest/hybrid lifecycle or restore. | [Users](https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0) |
+| `/v1.0/users`<br>`/v1.0/users/{user}` | Partial: GET/POST collection; GET/PATCH/DELETE item | Yes | Stateful ordinary local users, selected profile fields, account enablement, local-domain UPN changes and licensing fields. Item reads/writes resolve ID or UPN. v1.0 recovery is listed below; no full guest/hybrid lifecycle. | [Users](https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0) |
 | `/v1.0/groups`<br>`/v1.0/groups/{id}` | Partial: GET/POST collection; GET/PATCH/DELETE item | Yes | Static security-group writes. No dynamic membership, Microsoft 365 group provisioning or role-assignable group writes. Permanent local deletion. | [Groups](https://learn.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0) |
 | `/v1.0/users/$count`<br>`/v1.0/groups/$count` | Implemented: GET | Yes | Declared advanced-query headers required; no universal `/$count` handler. | [Advanced queries](https://learn.microsoft.com/en-us/graph/aad-advanced-queries) |
 | `/v1.0/groups/{id}/members`<br>`/v1.0/groups/{id}/transitiveMembers` | Implemented: GET | Yes | Stored membership traversal; hidden-membership and object-read permissions enforced. No arbitrary type-cast path variants. | [Members](https://learn.microsoft.com/en-us/graph/api/group-list-members?view=graph-rest-1.0), [transitive](https://learn.microsoft.com/en-us/graph/api/group-list-transitivemembers?view=graph-rest-1.0) |
@@ -112,6 +112,12 @@ Directory mutations publish sanitized audit facts, not merely changes to static 
 
 See [identity lifecycle behavior](docs/identity-lifecycle.md) for token boundaries
 and the distinction between account disablement, grant removal and revocation.
+
+| Microsoft Graph deleted-object URI | MockAzure support | Notes / unsupported parts | Official reference |
+| --- | --- | --- | --- |
+| `/v1.0/directory/deletedItems/microsoft.graph.{type}` | Partial: GET | `user`, `application`, `servicePrincipal`; type cast required. `$select`, `$top` (1–999), caller-bound paging with current retention checks. No advanced filters/expansions/order/search/count. | [List deleted items](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-list?view=graph-rest-1.0) |
+| `/v1.0/directory/deletedItems/{id}` | Partial: GET / DELETE | Same types; item `$select`; permanent removal of recovery availability, inert historical IDs retained. Type-specific permission checks. | [Get](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-get?view=graph-rest-1.0), [permanently delete](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-delete?view=graph-rest-1.0) |
+| `/v1.0/directory/deletedItems/{id}/restore` | Partial: POST | Same ID, 30-day wall-time retention, user name/proxy conflict options, atomic safe dependency restoration. Apps and SPs restored separately. No group/managed-identity restore, revived sessions/consent/roles/licenses or revoked credentials. Legacy recovery restores disabled. | [Restore](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-restore?view=graph-rest-1.0) |
 
 
 ### Directory collection expansion (v1.0)
@@ -368,7 +374,7 @@ must not be interpreted as support for these paths.
 
 | Microsoft REST URI / operation | Status | Behavior and remaining limits | Microsoft reference |
 | --- | --- | --- | --- |
-| `/v1.0/directory/deletedItems` | Unsupported | Generic deleted-item reads/restore remain absent. | [Deleted items](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-list?view=graph-rest-1.0) |
+| `/v1.0/directory/deletedItems` without a type cast | Unsupported | Microsoft v1.0 requires a type cast for lists. Supported user/application/servicePrincipal lists, item reads, restore and purge are described in the lifecycle table above. | [Deleted items](https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-list?view=graph-rest-1.0) |
 | `/v1.0/applications/{id}/addKey`, `/v1.0/applications/{id}/removeKey` (also servicePrincipals) | Unsupported | Proof-of-possession actions; supported credential PATCH/admin provisioning is separate. | [Add key](https://learn.microsoft.com/en-us/graph/api/application-addkey?view=graph-rest-1.0) |
 | `/v1.0/roleManagement/directory/roleEligibilityScheduleRequests`, `/v1.0/roleManagement/directory/roleAssignmentScheduleRequests` | Unsupported | PIM schedules/eligibility/activation; no custom/scoped role lifecycle. | [PIM](https://learn.microsoft.com/en-us/graph/api/resources/privilegedidentitymanagementv3-overview?view=graph-rest-1.0) |
 | `/v1.0/communications/calls`, `/v1.0/users/{user}/contacts` | Unsupported | Calling sessions and contacts. | [Teams](https://learn.microsoft.com/en-us/graph/api/resources/teams-api-overview?view=graph-rest-1.0), [calendars](https://learn.microsoft.com/en-us/graph/outlook-calendar-concept-overview) |

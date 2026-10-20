@@ -373,14 +373,24 @@ async def mutate_security(session, actor, kind, operation, identifier, body, now
     elif operation == "delete":
         deleted_ids = [identifier]
         if kind in {"application", "servicePrincipal"}:
+            from mockazure.identity.deleted import capture_deletion
+
+            await capture_deletion(session, actor.tenant_id, kind, row, before, now)
             row.deleted_at, row.enabled = now, False
             if kind == "application":
                 for sp in await session.scalars(
                     select(ServicePrincipal).where(
                         ServicePrincipal.tenant_id == actor.tenant_id,
                         ServicePrincipal.client_id == row.client_id,
+                        ServicePrincipal.deleted_at.is_(None),
                     )
                 ):
+                    payload = await public_security_object(
+                        session, actor.tenant_id, "servicePrincipal", sp.id
+                    )
+                    await capture_deletion(
+                        session, actor.tenant_id, "servicePrincipal", sp, payload, now
+                    )
                     sp.deleted_at, sp.enabled = now, False
                     deleted_ids.append(sp.id)
         else:

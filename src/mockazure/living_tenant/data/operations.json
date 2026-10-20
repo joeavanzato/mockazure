@@ -911,6 +911,12 @@
       "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-list-manager-permissions.md",
       "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
       "sha256": "71f77fbfe4768e52cd9580b8ea922448a09de80d1234bffe214631b3a4f96f48"
+    },
+    "deleted-items-rbac": {
+      "path": "sources/api-reference__v1.0__includes__rbac-for-apis__rbac-directory-deleted-items-apis.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/rbac-for-apis/rbac-directory-deleted-items-apis.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "b8148eb641795282957308773d4217a5e38edf6c033410d294ec80e9493b3d59"
     }
   },
   "operations": [
@@ -1243,22 +1249,30 @@
       "key": "identity.deleted.get.list",
       "area": "identity",
       "method": "GET",
-      "path": "/v1.0/directory/deletedItems",
-      "status": "planned",
+      "path": "/v1.0/directory/deletedItems/microsoft.graph.{type}",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
+      "permissions": [
+        "Type-specific User.Read.All/Application.Read.All for reads; User.DeleteRestore.All or Application.ReadWrite.All/OwnedBy for writes; supported higher permissions and delegated roles apply."
+      ],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
         "directory-deleteditems-list",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "user",
+        "application",
+        "servicePrincipal"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "30-day wall-time retention; static security-group restore unsupported. Only saved eligible ownership/group edges restored; no consent, sessions, roles, licenses or revoked credentials. Legacy recovery is disabled until explicitly enabled.",
+        "Type cast required; $select/$top and caller-bound current-availability continuations only."
       ]
     },
     {
@@ -1266,21 +1280,28 @@
       "area": "identity",
       "method": "GET",
       "path": "/v1.0/directory/deletedItems/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
+      "permissions": [
+        "Type-specific User.Read.All/Application.Read.All for reads; User.DeleteRestore.All or Application.ReadWrite.All/OwnedBy for writes; supported higher permissions and delegated roles apply."
+      ],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
         "directory-deleteditems-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "user",
+        "application",
+        "servicePrincipal"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "30-day wall-time retention; static security-group restore unsupported. Only saved eligible ownership/group edges restored; no consent, sessions, roles, licenses or revoked credentials. Legacy recovery is disabled until explicitly enabled."
       ]
     },
     {
@@ -1288,21 +1309,28 @@
       "area": "identity",
       "method": "POST",
       "path": "/v1.0/directory/deletedItems/{id}/restore",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
+      "permissions": [
+        "Type-specific User.Read.All/Application.Read.All for reads; User.DeleteRestore.All or Application.ReadWrite.All/OwnedBy for writes; supported higher permissions and delegated roles apply."
+      ],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
         "directory-deleteditems-restore",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "user",
+        "application",
+        "servicePrincipal"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "30-day wall-time retention; static security-group restore unsupported. Only saved eligible ownership/group edges restored; no consent, sessions, roles, licenses or revoked credentials. Legacy recovery is disabled until explicitly enabled."
       ]
     },
     {
@@ -1310,21 +1338,28 @@
       "area": "identity",
       "method": "DELETE",
       "path": "/v1.0/directory/deletedItems/{id}",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": null,
-      "permissions": [],
+      "permissions": [
+        "Type-specific User.Read.All/Application.Read.All for reads; User.DeleteRestore.All or Application.ReadWrite.All/OwnedBy for writes; supported higher permissions and delegated roles apply."
+      ],
       "role_constraints": [],
       "entitlement_constraints": [],
       "source_refs": [
         "directory-deleteditems-delete",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "user",
+        "application",
+        "servicePrincipal"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "30-day wall-time retention; static security-group restore unsupported. Only saved eligible ownership/group edges restored; no consent, sessions, roles, licenses or revoked credentials. Legacy recovery is disabled until explicitly enabled."
       ]
     },
     {

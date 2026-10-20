@@ -16,6 +16,7 @@ from mockazure.authorization.catalog import permission
         "Policy.ReadWrite.ConditionalAccess",
         "Device.Read.All",
         "User.RevokeSessions.All",
+        "User.DeleteRestore.All",
     ],
 )
 @pytest.mark.parametrize("kind", ["application", "delegated"])

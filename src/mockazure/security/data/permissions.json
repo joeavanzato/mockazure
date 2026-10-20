@@ -994,6 +994,18 @@
       "adminConsentRequired": true
     },
     {
+      "name": "User.DeleteRestore.All",
+      "kind": "application",
+      "id": "eccc023d-eccf-4e7b-9683-8813ab36cecc",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "User.DeleteRestore.All",
+      "kind": "delegated",
+      "id": "4bb440cd-2cf2-4f90-8004-aa2acd2537c5",
+      "adminConsentRequired": true
+    },
+    {
       "name": "User.EnableDisableAccount.All",
       "kind": "application",
       "id": "3011c876-62b7-4ada-afa2-506cbbecc68c",

@@ -165,7 +165,7 @@ async def login(request: Request):
         username = fields.get("username", "").strip().lower()
         if not username or len(username) > 320:
             raise OAuthError("invalid_request", "Username exceeds the supported bounds")
-        query = select(User).where(User.upn == username)
+        query = select(User).where(User.upn == username, User.deleted_at.is_(None))
         if not row.common:
             query = query.where(User.tenant_id == row.tenant_id)
         user = await session.scalar(query)
@@ -280,6 +280,7 @@ async def current_user(row, session, *, request=None, flow="authorization_code",
 
     await lock_security(session, row.tenant_id)
     user = await session.get(User, row.user_id, populate_existing=True)
+    app = await session.get(Application, row.client_id, populate_existing=True)
     if (
         not user
         or not user.enabled
@@ -287,6 +288,11 @@ async def current_user(row, session, *, request=None, flow="authorization_code",
         or user.tenant_id != row.tenant_id
         or user.password_change_required
         or user.credential_version != getattr(row, "credential_version", 0)
+        or (
+            app is not None
+            and app.authority_valid_from is not None
+            and (row.authenticated_at is None or row.authenticated_at <= app.authority_valid_from)
+        )
         or (
             user.sessions_valid_from is not None
             and (row.authenticated_at is None or row.authenticated_at <= user.sessions_valid_from)

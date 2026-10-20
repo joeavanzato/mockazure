@@ -400,6 +400,7 @@ async def mutate_directory(
                     select(User.id).where(
                         User.tenant_id == tenant_id,
                         User.upn == name,
+                        User.deleted_at.is_(None),
                         User.id != row.id,
                     )
                 )
@@ -492,6 +493,10 @@ async def mutate_directory(
         changed.add(relation + "s")
     elif command.action == "delete":
         from mockazure.directory.organization import remove_collection_references
+        if command.kind == "user":
+            from mockazure.identity.deleted import capture_deletion
+
+            await capture_deletion(session, tenant_id, "user", row, before.properties, now)
 
         await remove_collection_references(session, tenant_id, [row.id])
         row.deleted_at = now

@@ -259,11 +259,12 @@
         "directory-deleteditems-list",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Restoration and permanent deletion emit sanitized directory audits; reads emit no mutation event."
       ]
     },
     {
@@ -275,43 +276,50 @@
         "directory-deleteditems-get",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
       "native": false,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Restoration and permanent deletion emit sanitized directory audits; reads emit no mutation event."
       ]
     },
     {
       "operation_key": "identity.deleted.post.restore",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "directory-deleteditems-restore",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Restoration and permanent deletion emit sanitized directory audits; reads emit no mutation event."
       ]
     },
     {
       "operation_key": "identity.deleted.delete.{id}",
-      "source_kind": "none",
-      "outcome": "none",
-      "destinations": [],
+      "source_kind": "security",
+      "outcome": "success",
+      "destinations": [
+        "directoryAudit"
+      ],
       "schema_refs": [
         "directory-deleteditems-delete",
         "graph-csdl",
         "docs-license",
-        "metadata-license"
+        "metadata-license",
+        "deleted-items-rbac"
       ],
-      "native": false,
+      "native": true,
       "limitations": [
-        "API operation is planned; no native evidence is emitted until the implementation and its mapping are qualified."
+        "Restoration and permanent deletion emit sanitized directory audits; reads emit no mutation event."
       ]
     },
     {
