@@ -1,0 +1,2573 @@
+{
+  "sources": {
+    "user-get": {
+      "path": "sources/api-reference__v1.0__api__user-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "0d52a532c95acc9e75a245cd9b74f52d46d430ed3d73f0467ce0b58a9d09158c"
+    },
+    "group-get": {
+      "path": "sources/api-reference__v1.0__api__group-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/group-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "26f20152079406bfbd40bf76730055665df3e9c3e5598ebe2498bbe18111bf2c"
+    },
+    "application-get": {
+      "path": "sources/api-reference__v1.0__api__application-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/application-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "47fd9afa919ad8f2c6248256d2619d540b0f29656854748b6dda3a63d5a8d8b0"
+    },
+    "serviceprincipal-get": {
+      "path": "sources/api-reference__v1.0__api__serviceprincipal-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/serviceprincipal-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "f4a45dd2c7517d1b1e9bb326f93691ff00bfce590139a8fced2c0a98211d988c"
+    },
+    "user-post-users": {
+      "path": "sources/api-reference__v1.0__api__user-post-users.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-post-users.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "0900560cf0454ba5bfbc216a78e185e57eab7c4acae42d79aaa0617487c886c1"
+    },
+    "user-update": {
+      "path": "sources/api-reference__v1.0__api__user-update.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-update.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "f63b46f616b963d82339db1891c46975ea6da0e05461c65fe4a461d0c8cca2fa"
+    },
+    "user-delete": {
+      "path": "sources/api-reference__v1.0__api__user-delete.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-delete.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "76974a76b6531e588df4a4aeb0dee1e779d2cd3f21d1ba88256b012b57d85446"
+    },
+    "user-post-manager": {
+      "path": "sources/api-reference__v1.0__api__user-post-manager.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-post-manager.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "b2a1369b4cccd674bcd18c0e73466aacdfce11fb291f1c05f206d3c20e86fe9b"
+    },
+    "user-delete-manager": {
+      "path": "sources/api-reference__v1.0__api__user-delete-manager.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-delete-manager.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "cd99040d471d9290045678542a96d5a4fa64741d74b21ef7b5d07df676077897"
+    },
+    "user-assignlicense": {
+      "path": "sources/api-reference__v1.0__api__user-assignlicense.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-assignlicense.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c2cc336f480fd982327a711b75b3d85d9fc2a6c51ddc7a5b8cabbc61968928b5"
+    },
+    "user-revokesigninsessions": {
+      "path": "sources/api-reference__v1.0__api__user-revokesigninsessions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/user-revokesigninsessions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "5dd258d0ffb28ffe2b8dc1fcd3182c7464ed47e1fee90ec8bf8ea1d4cde87962"
+    },
+    "invitation-post": {
+      "path": "sources/api-reference__v1.0__api__invitation-post.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/invitation-post.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "973a314722b96f905f133d01cd2a486a7013caaa404d147304a12f48dd9ef19a"
+    },
+    "directory-deleteditems-list": {
+      "path": "sources/api-reference__v1.0__api__directory-deleteditems-list.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/directory-deleteditems-list.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "b79933be79ffa54cc57e61fbd59121e3f1639a23e2cbfa969543fc588ba250e4"
+    },
+    "directory-deleteditems-get": {
+      "path": "sources/api-reference__v1.0__api__directory-deleteditems-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/directory-deleteditems-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "e6f4d60b6ab82c9610949bdc14e05f57e00647c0441bf89a60520ee00e89cd1c"
+    },
+    "directory-deleteditems-restore": {
+      "path": "sources/api-reference__v1.0__api__directory-deleteditems-restore.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/directory-deleteditems-restore.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "fa92029336b5a8076121fc86d1966e241bfa8aa408501abecd700e9b2e4ac2bd"
+    },
+    "directory-deleteditems-delete": {
+      "path": "sources/api-reference__v1.0__api__directory-deleteditems-delete.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/directory-deleteditems-delete.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "a3f6c18dc91d8d912f614ba7446e36b4d24bca65b4eb55ee6669a81165a6c30f"
+    },
+    "application-addkey": {
+      "path": "sources/api-reference__v1.0__api__application-addkey.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/application-addkey.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "de052f353556461483f6778917222d05eb20a0327134096adbdd88eb71ce5e1e"
+    },
+    "application-removekey": {
+      "path": "sources/api-reference__v1.0__api__application-removekey.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/application-removekey.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "3cf211ba46bd3a35c6011ede122735fc49fdc7c6d41e5fa34079beff7892d8df"
+    },
+    "application-addpassword": {
+      "path": "sources/api-reference__v1.0__api__application-addpassword.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/application-addpassword.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "b4f0261fcef7d6bcb3d0aab167aa6815d1bc1f9e234cd4cb2f94797edf109fb6"
+    },
+    "application-removepassword": {
+      "path": "sources/api-reference__v1.0__api__application-removepassword.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/application-removepassword.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "09a36c2735ce03b4f03e642508ece8d12e2f7bf31eac1f2695dcde07c0de8be9"
+    },
+    "serviceprincipal-addkey": {
+      "path": "sources/api-reference__v1.0__api__serviceprincipal-addkey.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/serviceprincipal-addkey.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "756ee14c28648e0dbf92f9415e9f15f9def3c42306b7da66061ccb24ea175fa9"
+    },
+    "serviceprincipal-removekey": {
+      "path": "sources/api-reference__v1.0__api__serviceprincipal-removekey.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/serviceprincipal-removekey.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "6e7050f978264d76437dee752f18dfb68d44667d6747262d7a4a9e9391632ad2"
+    },
+    "serviceprincipal-addpassword": {
+      "path": "sources/api-reference__v1.0__api__serviceprincipal-addpassword.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/serviceprincipal-addpassword.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c235abebe1787f1e2f324a05b41bfdfa9cc74888d87ff3f80dd36e9c1a0ae221"
+    },
+    "serviceprincipal-removepassword": {
+      "path": "sources/api-reference__v1.0__api__serviceprincipal-removepassword.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/serviceprincipal-removepassword.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d69f9e4524b40aeb4d61096e0162f6a33df9b495676f458ed95ddc199e69e75d"
+    },
+    "rbacapplication-list-roleeligibilityschedulerequests": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-list-roleeligibilityschedulerequests.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-list-roleeligibilityschedulerequests.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "abe309ee8002ab0a48f19dbf9370838fc3123a5b1ccbda7318b44a4a6c74d7b4"
+    },
+    "rbacapplication-post-roleeligibilityschedulerequests": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-post-roleeligibilityschedulerequests.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-post-roleeligibilityschedulerequests.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "e583f48339c9015b9fb38ab3d12da6df05b1810eac719591f84cdb3c947f9115"
+    },
+    "unifiedroleeligibilityschedulerequest-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleeligibilityschedulerequest-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleeligibilityschedulerequest-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "3069f53e6f5d4db5900612ef560a03227022944132ecd8dfe766e4954168e02c"
+    },
+    "unifiedroleeligibilityschedulerequest-cancel": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleeligibilityschedulerequest-cancel.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleeligibilityschedulerequest-cancel.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c4dbe6b9ec3111eb8e3794fbc56c5997c0f7b3b7e9393ecdcdf200857d9ccf64"
+    },
+    "unifiedroleeligibilityschedulerequest-filterbycurrentuser": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleeligibilityschedulerequest-filterbycurrentuser.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleeligibilityschedulerequest-filterbycurrentuser.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "5f1251297bf588735b4f8db534fb7bc2bc655be3f06927cc06c921119a404f2c"
+    },
+    "rbacapplication-list-roleeligibilityschedules": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-list-roleeligibilityschedules.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-list-roleeligibilityschedules.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "a4de2244c322843236481719eb687a633bfc766c5a5b9ee89c37f3b68bad6995"
+    },
+    "unifiedroleeligibilityschedule-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleeligibilityschedule-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleeligibilityschedule-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d87bcbad2715fcee8f333621f09855f68e18f687e3c5bacc269b38265b9fe9e4"
+    },
+    "rbacapplication-list-roleeligibilityscheduleinstances": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-list-roleeligibilityscheduleinstances.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-list-roleeligibilityscheduleinstances.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "dd9ad200aa4100d26bd200ca2decd0ee9fe18d62087121042cbba38506223e01"
+    },
+    "unifiedroleeligibilityscheduleinstance-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleeligibilityscheduleinstance-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleeligibilityscheduleinstance-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c84f06dffbd161dd09103bd0647f540547a5e94bea4bb605bdfc5858591ddde1"
+    },
+    "rbacapplication-list-roleassignmentschedulerequests": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-list-roleassignmentschedulerequests.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-list-roleassignmentschedulerequests.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "366866c77a830d22306c2a684476a2871022ea7817aad98f627827e26cc3d222"
+    },
+    "rbacapplication-post-roleassignmentschedulerequests": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-post-roleassignmentschedulerequests.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-post-roleassignmentschedulerequests.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "96d3cac23876d03f66d42e39d168dea80502920af34355f5ba5e2c8fb413f4a5"
+    },
+    "unifiedroleassignmentschedulerequest-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleassignmentschedulerequest-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleassignmentschedulerequest-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "3de6d2d4a1495f27a777f1352238cef7bdce8ed0d5ef9fd7619dffb91fbcfee5"
+    },
+    "unifiedroleassignmentschedulerequest-cancel": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleassignmentschedulerequest-cancel.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleassignmentschedulerequest-cancel.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "625d3b3e6cc832ffe5803aa1fbd3382710c953f759541e4ba68494bf08e19c72"
+    },
+    "unifiedroleassignmentschedulerequest-filterbycurrentuser": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleassignmentschedulerequest-filterbycurrentuser.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleassignmentschedulerequest-filterbycurrentuser.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1a997aa16f0f7d57b0bde4b1f2e5c5ef6952f4b49ecfb552957159bf2b29d6bd"
+    },
+    "rbacapplication-list-roleassignmentschedules": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-list-roleassignmentschedules.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-list-roleassignmentschedules.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "448da4c68114c685e6c3e92448abc00febb010b86c606c973d7524bed12fd1c6"
+    },
+    "unifiedroleassignmentschedule-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleassignmentschedule-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleassignmentschedule-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "5af25a4973ac27b276e12c1755d7ebecae1abd86e1827fd5e4c8de8a9feae31b"
+    },
+    "rbacapplication-list-roleassignmentscheduleinstances": {
+      "path": "sources/api-reference__v1.0__api__rbacapplication-list-roleassignmentscheduleinstances.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/rbacapplication-list-roleassignmentscheduleinstances.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9b3af84076a0046bbc9628aa05429008153db32c0c83fa3a5f8aa18f1eb9058f"
+    },
+    "unifiedroleassignmentscheduleinstance-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedroleassignmentscheduleinstance-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedroleassignmentscheduleinstance-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "cf171df617927f26162bd84fd02f2dd01d21f281200c1a8732bf9de1b14196a0"
+    },
+    "policyroot-list-rolemanagementpolicies": {
+      "path": "sources/api-reference__v1.0__api__policyroot-list-rolemanagementpolicies.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/policyroot-list-rolemanagementpolicies.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "941e936c2253bddedb488f81c09d94b8877feb740adbecaf99d3a0b16e219ef0"
+    },
+    "unifiedrolemanagementpolicy-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedrolemanagementpolicy-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedrolemanagementpolicy-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "7b0c6e384b3ed184181f68cfe87a375aba80533d4934caebb9d87f0951662873"
+    },
+    "unifiedrolemanagementpolicy-list-rules": {
+      "path": "sources/api-reference__v1.0__api__unifiedrolemanagementpolicy-list-rules.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedrolemanagementpolicy-list-rules.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "49f07943e124699e999e93710490fbeeff3615cfac9b5ee89523be815737227c"
+    },
+    "unifiedrolemanagementpolicyrule-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedrolemanagementpolicyrule-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedrolemanagementpolicyrule-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "4595ab5890fc1d0804b72f0226a6ea578beb21b04fbbb0c76848752042174d12"
+    },
+    "policyroot-list-rolemanagementpolicyassignments": {
+      "path": "sources/api-reference__v1.0__api__policyroot-list-rolemanagementpolicyassignments.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/policyroot-list-rolemanagementpolicyassignments.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "59429a1c8fd1ee01d2fc0347351527dd4fb17324718cdc66a7dff56cc4741b1f"
+    },
+    "unifiedrolemanagementpolicyassignment-get": {
+      "path": "sources/api-reference__v1.0__api__unifiedrolemanagementpolicyassignment-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedrolemanagementpolicyassignment-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "3d0d2981e1a3e4837a8200985ab83412089c28eeca22af62ef9ddccdbc49dbfa"
+    },
+    "unifiedrolemanagementpolicyrule-update": {
+      "path": "sources/api-reference__v1.0__api__unifiedrolemanagementpolicyrule-update.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/unifiedrolemanagementpolicyrule-update.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9782468afaf825457257beedebfdd6b9c24e42cd86e6979f1a3bb2ba25d62440"
+    },
+    "chat-post": {
+      "path": "sources/api-reference__v1.0__api__chat-post.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chat-post.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c24cb4da5b929957ab2308930d7c3a35904ea68d4022ea5a73380d519ca06d94"
+    },
+    "team-post-members": {
+      "path": "sources/api-reference__v1.0__api__team-post-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/team-post-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9cc0c75459f50134ec7f52de8deeee9e9d867131ff4dc86cb7789b9d521916ee"
+    },
+    "conversationmember-get": {
+      "path": "sources/api-reference__v1.0__api__conversationmember-get.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/conversationmember-get.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "4ed2c864f6454e167670c565bf46c75faadb13ccbcc6b3157d1738ef03a77a11"
+    },
+    "conversationmember-update": {
+      "path": "sources/api-reference__v1.0__api__conversationmember-update.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/conversationmember-update.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "08402e2fa73890b58327bd135bf31da4a1a8b96e2250d5e430b41fe6d6d4cfdf"
+    },
+    "conversationmember-delete": {
+      "path": "sources/api-reference__v1.0__api__conversationmember-delete.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/conversationmember-delete.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "f41ec3ca0b952a0ec772719989c76c5b909f3eac0a22ed7863a5d28134739036"
+    },
+    "channel-post-members": {
+      "path": "sources/api-reference__v1.0__api__channel-post-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/channel-post-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "214eed09d246b93d8c02389cadecf3185e54ce4161044e5febe7608a46d11a2d"
+    },
+    "chat-post-members": {
+      "path": "sources/api-reference__v1.0__api__chat-post-members.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chat-post-members.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c8639231dfb9de696aad7d5a7d0935520424bf87d484a19d2da714ac9d05d223"
+    },
+    "channel-post-messages": {
+      "path": "sources/api-reference__v1.0__api__channel-post-messages.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/channel-post-messages.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "4e12f47b05e38a255a5892b01c2cbba82bcddd382f08350c177f521390f07ccf"
+    },
+    "chatmessage-update": {
+      "path": "sources/api-reference__v1.0__api__chatmessage-update.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chatmessage-update.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "67ce677983dd1ff45e3bb3d83382b2152facced1677257b514f45780ff41e53c"
+    },
+    "chatmessage-softdelete": {
+      "path": "sources/api-reference__v1.0__api__chatmessage-softdelete.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chatmessage-softdelete.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "0b184818c8d7c10c4a5f38aa67006511ad0bc940601ebb86c1ca94d1ea964772"
+    },
+    "chatmessage-undosoftdelete": {
+      "path": "sources/api-reference__v1.0__api__chatmessage-undosoftdelete.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chatmessage-undosoftdelete.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "164155d5d78c244503ed6297524c5294d32f8d32378ff51205d4f1459fbf5634"
+    },
+    "channel-post-messagereply": {
+      "path": "sources/api-reference__v1.0__api__channel-post-messagereply.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/channel-post-messagereply.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "dc674cb075de04f6c5cbc45aed29746525364748f54672fa407f342f910b887a"
+    },
+    "chat-post-messages": {
+      "path": "sources/api-reference__v1.0__api__chat-post-messages.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/chat-post-messages.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c4a956554a772fbcafc82184f0bc367a9c77b1b4b459396c7ea46fc444ccd0c1"
+    },
+    "signin-list": {
+      "path": "sources/api-reference__v1.0__api__signin-list.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/signin-list.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "6f218c4e80abc1de565322d9a6c39c5d692c4a4f98de2a2670b32023bb48a071"
+    },
+    "directoryaudit-list": {
+      "path": "sources/api-reference__v1.0__api__directoryaudit-list.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/directoryaudit-list.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "0229f473a514f6bf3bab8c0c681df8838d610a3e074106a528649443489824a1"
+    },
+    "security-list-alerts_v2": {
+      "path": "sources/api-reference__v1.0__api__security-list-alerts_v2.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/security-list-alerts_v2.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "37c43cfa247d69eebe625ede7725b70c1ce31b6fa02fac0a540337bc901dd2f6"
+    },
+    "security-list-incidents": {
+      "path": "sources/api-reference__v1.0__api__security-list-incidents.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/security-list-incidents.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "89a8d5f6036e9cd7dbde84acfe7070d511af86850bfb46cb5c9dadf63dfdc3c4"
+    },
+    "security-security-runhuntingquery": {
+      "path": "sources/api-reference__v1.0__api__security-security-runhuntingquery.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/security-security-runhuntingquery.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "57e76c2f69d989699d4c39ea41a3cdeda359de1ef74f2c7161a2a20ed6dac310"
+    },
+    "docs-license": {
+      "path": "sources/LICENSE",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/LICENSE",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "7183ef9749eb9b75e710a81a4c812a9405cc184f087500581a973e5929ac3f5e"
+    },
+    "permission-user-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "90780e39ca2f8f6f8e69bc596f79760edd395a868856019a4a44522cfef86f73"
+    },
+    "permission-group-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__group-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/group-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "70f1fe45bde94fba158f0acb35b99da048235c0352e5d95090ebdb2ce811bada"
+    },
+    "permission-application-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__application-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/application-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "f6dfc48dfae246b467835a648bf03b373a411b041df5167a7edb10d99112d6e5"
+    },
+    "permission-serviceprincipal-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__serviceprincipal-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/serviceprincipal-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "8a87348ce164e1ab7921aeb69af60f6bcd8427121931cf1388ab4a4adc520fcf"
+    },
+    "permission-user-post-users-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-post-users-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-post-users-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "bfc23c1b39535e333186d8807a0116e6a87d7385f34fe51739daf1eb72014bc5"
+    },
+    "permission-user-update-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-update-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-update-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "5b6a681c4f167ddcb5fb70ddcaccdb1fc5dc2669fca0d61f00086c70cb1f09e1"
+    },
+    "permission-user-delete-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-delete-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-delete-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "5ac7a81a952775ed9981e746d69078abae95ba4cc7b8b201b26830cd962329da"
+    },
+    "permission-user-post-manager-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-post-manager-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-post-manager-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "e90a22c1bc15620c3e13af48115a6ee6bb4e87332d5efcf4beadbbfb66de2192"
+    },
+    "permission-user-delete-manager-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-delete-manager-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-delete-manager-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "e90a22c1bc15620c3e13af48115a6ee6bb4e87332d5efcf4beadbbfb66de2192"
+    },
+    "permission-user-assignlicense-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-assignlicense-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-assignlicense-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9bf3d3060d60cacd6f2a1793d6a822a3ffadbb5b2118973a1271bdfcffca0698"
+    },
+    "permission-user-revokesigninsessions-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__user-revokesigninsessions-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/user-revokesigninsessions-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "ab69271544a40ff716eeae6cee31f56e1d5b6f54f0e854fb04cc1d68417577a4"
+    },
+    "permission-invitation-post-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__invitation-post-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/invitation-post-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "698bf297c8d80afe700f59da292e9e0309a2d6a1a4588f9a7e3ccef31431eee8"
+    },
+    "permission-application-addkey-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__application-addkey-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/application-addkey-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "981fc6f19327ffb5aa78c22acbb288a5565a441e48370e69b3136817c7dc0eb0"
+    },
+    "permission-application-removekey-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__application-removekey-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/application-removekey-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "981fc6f19327ffb5aa78c22acbb288a5565a441e48370e69b3136817c7dc0eb0"
+    },
+    "permission-application-addpassword-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__application-addpassword-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/application-addpassword-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d51738ec233afe2e01c8d4052d19b795a04277784cfbc456082c3038709d1047"
+    },
+    "permission-application-removepassword-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__application-removepassword-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/application-removepassword-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d51738ec233afe2e01c8d4052d19b795a04277784cfbc456082c3038709d1047"
+    },
+    "permission-serviceprincipal-addkey-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__serviceprincipal-addkey-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/serviceprincipal-addkey-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "981fc6f19327ffb5aa78c22acbb288a5565a441e48370e69b3136817c7dc0eb0"
+    },
+    "permission-serviceprincipal-removekey-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__serviceprincipal-removekey-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/serviceprincipal-removekey-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "981fc6f19327ffb5aa78c22acbb288a5565a441e48370e69b3136817c7dc0eb0"
+    },
+    "permission-serviceprincipal-addpassword-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__serviceprincipal-addpassword-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/serviceprincipal-addpassword-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "981fc6f19327ffb5aa78c22acbb288a5565a441e48370e69b3136817c7dc0eb0"
+    },
+    "permission-serviceprincipal-removepassword-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__serviceprincipal-removepassword-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/serviceprincipal-removepassword-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "981fc6f19327ffb5aa78c22acbb288a5565a441e48370e69b3136817c7dc0eb0"
+    },
+    "permission-rbacapplication-list-roleeligibilityschedulerequests-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-list-roleeligibilityschedulerequests-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-list-roleeligibilityschedulerequests-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1b89755ea44e30b7c5509aa77095dbbe64baaf9bd5dfa2829680feceee10040e"
+    },
+    "permission-rbacapplication-post-roleeligibilityschedulerequests-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-post-roleeligibilityschedulerequests-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-post-roleeligibilityschedulerequests-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1b89755ea44e30b7c5509aa77095dbbe64baaf9bd5dfa2829680feceee10040e"
+    },
+    "permission-unifiedroleeligibilityschedulerequest-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleeligibilityschedulerequest-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleeligibilityschedulerequest-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1b89755ea44e30b7c5509aa77095dbbe64baaf9bd5dfa2829680feceee10040e"
+    },
+    "permission-unifiedroleeligibilityschedulerequest-cancel-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleeligibilityschedulerequest-cancel-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleeligibilityschedulerequest-cancel-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1b89755ea44e30b7c5509aa77095dbbe64baaf9bd5dfa2829680feceee10040e"
+    },
+    "permission-unifiedroleeligibilityschedulerequest-filterbycurrentuser-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleeligibilityschedulerequest-filterbycurrentuser-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleeligibilityschedulerequest-filterbycurrentuser-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1b89755ea44e30b7c5509aa77095dbbe64baaf9bd5dfa2829680feceee10040e"
+    },
+    "permission-rbacapplication-list-roleeligibilityschedules-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-list-roleeligibilityschedules-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-list-roleeligibilityschedules-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "23521e80c71af3b5c505b0b527defd02e61940bca4117ee949e15d2ed9efce31"
+    },
+    "permission-unifiedroleeligibilityschedule-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleeligibilityschedule-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleeligibilityschedule-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "23521e80c71af3b5c505b0b527defd02e61940bca4117ee949e15d2ed9efce31"
+    },
+    "permission-rbacapplication-list-roleeligibilityscheduleinstances-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-list-roleeligibilityscheduleinstances-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-list-roleeligibilityscheduleinstances-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "23521e80c71af3b5c505b0b527defd02e61940bca4117ee949e15d2ed9efce31"
+    },
+    "permission-unifiedroleeligibilityscheduleinstance-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleeligibilityscheduleinstance-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleeligibilityscheduleinstance-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "23521e80c71af3b5c505b0b527defd02e61940bca4117ee949e15d2ed9efce31"
+    },
+    "permission-rbacapplication-list-roleassignmentschedulerequests-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-list-roleassignmentschedulerequests-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-list-roleassignmentschedulerequests-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2955272b68fac55cb96969d22da6b629bad05ddd17866481abfafa10917a69c6"
+    },
+    "permission-rbacapplication-post-roleassignmentschedulerequests-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-post-roleassignmentschedulerequests-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-post-roleassignmentschedulerequests-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9c300e3b08dc7b186dea67ff0a304423bff09b73b2341246d36e839a2b979571"
+    },
+    "permission-unifiedroleassignmentschedulerequest-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleassignmentschedulerequest-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleassignmentschedulerequest-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2955272b68fac55cb96969d22da6b629bad05ddd17866481abfafa10917a69c6"
+    },
+    "permission-unifiedroleassignmentschedulerequest-cancel-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleassignmentschedulerequest-cancel-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleassignmentschedulerequest-cancel-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2955272b68fac55cb96969d22da6b629bad05ddd17866481abfafa10917a69c6"
+    },
+    "permission-unifiedroleassignmentschedulerequest-filterbycurrentuser-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleassignmentschedulerequest-filterbycurrentuser-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleassignmentschedulerequest-filterbycurrentuser-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2955272b68fac55cb96969d22da6b629bad05ddd17866481abfafa10917a69c6"
+    },
+    "permission-rbacapplication-list-roleassignmentschedules-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-list-roleassignmentschedules-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-list-roleassignmentschedules-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "4b6f602bcd1ef75bc5ca52dcdc3179bfca9cec9ac6b3c716653f01939165441b"
+    },
+    "permission-unifiedroleassignmentschedule-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleassignmentschedule-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleassignmentschedule-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "4b6f602bcd1ef75bc5ca52dcdc3179bfca9cec9ac6b3c716653f01939165441b"
+    },
+    "permission-rbacapplication-list-roleassignmentscheduleinstances-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__rbacapplication-list-roleassignmentscheduleinstances-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/rbacapplication-list-roleassignmentscheduleinstances-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "4b6f602bcd1ef75bc5ca52dcdc3179bfca9cec9ac6b3c716653f01939165441b"
+    },
+    "permission-unifiedroleassignmentscheduleinstance-get-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__unifiedroleassignmentscheduleinstance-get-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/unifiedroleassignmentscheduleinstance-get-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "4b6f602bcd1ef75bc5ca52dcdc3179bfca9cec9ac6b3c716653f01939165441b"
+    },
+    "permission-chat-post-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__chat-post-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/chat-post-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "85835dbf8d709e46ebf0a533b002855d6e1a58aa895d725874f3bf218ae7a831"
+    },
+    "permission-team-post-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__team-post-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/team-post-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c28a2b15f4f8d32bf9eb59d82811a6b0e84e08d2301162116f5a9bd4b22f9cad"
+    },
+    "permission-conversationmember-update-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__conversationmember-update-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/conversationmember-update-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "9d8692721de7fd9d326e7d385129c7e97e0f54027d852de46fe5decfccb10fa8"
+    },
+    "permission-conversationmember-delete-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__conversationmember-delete-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/conversationmember-delete-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "7e47a525c079e9f0d9a1037b38c104995a067aa90da2c28236a148994fbf5c63"
+    },
+    "permission-channel-post-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__channel-post-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/channel-post-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "7e47a525c079e9f0d9a1037b38c104995a067aa90da2c28236a148994fbf5c63"
+    },
+    "permission-chat-post-members-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__chat-post-members-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/chat-post-members-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d1b5f471a6294ab8fa1c5a0a8f1a9eaf4cdff116915ab38c6b06804307ea1959"
+    },
+    "permission-channel-post-messages-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__channel-post-messages-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/channel-post-messages-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "8599eccfbb29e34545164f41684d70d7e7fa8d9e534749db51a70f9034584042"
+    },
+    "permission-channel-post-messagereply-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__channel-post-messagereply-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/channel-post-messagereply-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "8599eccfbb29e34545164f41684d70d7e7fa8d9e534749db51a70f9034584042"
+    },
+    "permission-chat-post-messages-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__chat-post-messages-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/chat-post-messages-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d15dc22be64e12eb8756a06b836131ba2f8c12d01624ad0c71b45a7b89194053"
+    },
+    "permission-signin-list-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__signin-list-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/signin-list-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "c881e0302d4940af9a5f780b2aa8a849e9f98f4ed1d418b08e5d8cd815660ddf"
+    },
+    "permission-directoryaudit-list-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__directoryaudit-list-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/directoryaudit-list-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "e1bf56b0bd5e108dc71f8a08716e67b4213b1b7ecbd1210754b4c08a23ba4b17"
+    },
+    "permission-security-list-alerts_v2-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__security-list-alerts_v2-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/security-list-alerts_v2-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "d97c8f70db89948638f3f6185e77a197bb48009cc0e3eabcec12a9eec426dd64"
+    },
+    "permission-security-list-incidents-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__security-list-incidents-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/security-list-incidents-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "abe601f58ba922051103c399a1ab83ea83c252d766e71af991f7e0c5308b6822"
+    },
+    "permission-security-security-runhuntingquery-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__security-security-runhuntingquery-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/security-security-runhuntingquery-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "1149894c1573c036cc8d53d484bbf3825c57a13c1140c88b0f6921c02b5fd8ac"
+    },
+    "graph-csdl": {
+      "path": "sources/v1.0-Prod.csdl",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/schemas/v1.0-Prod.csdl",
+      "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+      "sha256": "286cdc5d812b88bba9870b452d63d37aed925e6180541f20e034c949cd1816f0"
+    },
+    "metadata-license": {
+      "path": "sources/LICENSE.metadata",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/msgraph-metadata/34b8e9c29032c82352a6fd7138be0a864a842bb2/LICENSE",
+      "revision": "34b8e9c29032c82352a6fd7138be0a864a842bb2",
+      "sha256": "da696d247a18f637251566c3b43799d8ac8c1d3f9aa8e0dfef33ff017f9b5213"
+    }
+  },
+  "operations": [
+    {
+      "key": "directory.user.get",
+      "area": "content",
+      "method": "GET",
+      "path": "/v1.0/users/{id}",
+      "status": "existing",
+      "request_type": null,
+      "response_type": "user",
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "directory.group.get",
+      "area": "content",
+      "method": "GET",
+      "path": "/v1.0/groups/{id}",
+      "status": "existing",
+      "request_type": null,
+      "response_type": "group",
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "group-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-group-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "directory.application.get",
+      "area": "content",
+      "method": "GET",
+      "path": "/v1.0/applications/{id}",
+      "status": "existing",
+      "request_type": null,
+      "response_type": "application",
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "application-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "directory.servicePrincipal.get",
+      "area": "content",
+      "method": "GET",
+      "path": "/v1.0/servicePrincipals/{id}",
+      "status": "existing",
+      "request_type": null,
+      "response_type": "servicePrincipal",
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "serviceprincipal-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.user.create",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/users",
+      "status": "existing",
+      "request_type": null,
+      "response_type": "user",
+      "permissions": [
+        "User.ReadWrite.All"
+      ],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-post-users",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-post-users-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.user.update",
+      "area": "identity",
+      "method": "PATCH",
+      "path": "/v1.0/users/{id}",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-update",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-update-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.user.delete",
+      "area": "identity",
+      "method": "DELETE",
+      "path": "/v1.0/users/{id}",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-delete",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-delete-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.manager.set",
+      "area": "identity",
+      "method": "PUT",
+      "path": "/v1.0/users/{id}/manager/$ref",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-post-manager",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-post-manager-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.manager.remove",
+      "area": "identity",
+      "method": "DELETE",
+      "path": "/v1.0/users/{id}/manager/$ref",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-delete-manager",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-delete-manager-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.license.assign",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/users/{id}/assignLicense",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-assignlicense",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-assignlicense-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.sessions.revoke",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/users/{user}/revokeSignInSessions",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [
+        "User.RevokeSessions.All"
+      ],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-revokesigninsessions",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-revokesigninsessions-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.sessions.revoke-me",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/me/revokeSignInSessions",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [
+        "User.RevokeSessions.All"
+      ],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "user-revokesigninsessions",
+        "graph-csdl",
+        "docs-license",
+        "permission-user-revokesigninsessions-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.guest.invite",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/invitations",
+      "status": "planned",
+      "request_type": null,
+      "response_type": "invitation",
+      "permissions": [
+        "User.Invite.All"
+      ],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "invitation-post",
+        "graph-csdl",
+        "docs-license",
+        "permission-invitation-post-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.deleted.get.list",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/directory/deletedItems",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "directory-deleteditems-list",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.deleted.get.{id}",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/directory/deletedItems/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "directory-deleteditems-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.deleted.post.restore",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/directory/deletedItems/{id}/restore",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "directory-deleteditems-restore",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.deleted.delete.{id}",
+      "area": "identity",
+      "method": "DELETE",
+      "path": "/v1.0/directory/deletedItems/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "directory-deleteditems-delete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.application.addKey",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/applications/{id}/addKey",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "application-addkey",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-addkey-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.application.removeKey",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/applications/{id}/removeKey",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "application-removekey",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-removekey-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.application.addPassword",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/applications/{id}/addPassword",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "application-addpassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-addpassword-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.application.removePassword",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/applications/{id}/removePassword",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "application-removepassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-application-removepassword-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.serviceprincipal.addKey",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/servicePrincipals/{id}/addKey",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "serviceprincipal-addkey",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-addkey-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.serviceprincipal.removeKey",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/servicePrincipals/{id}/removeKey",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "serviceprincipal-removekey",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-removekey-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.serviceprincipal.addPassword",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/servicePrincipals/{id}/addPassword",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "serviceprincipal-addpassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-addpassword-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.serviceprincipal.removePassword",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/servicePrincipals/{id}/removePassword",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "serviceprincipal-removepassword",
+        "graph-csdl",
+        "docs-license",
+        "permission-serviceprincipal-removepassword-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "identity.pim.eligibility.request.get.rbacapplication-list-roleeligibilityschedulerequests",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-list-roleeligibilityschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleeligibilityschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.eligibility.request.post.rbacapplication-post-roleeligibilityschedulerequests",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-post-roleeligibilityschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-post-roleeligibilityschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.eligibility.request.get.unifiedroleeligibilityschedulerequest-get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleeligibilityschedulerequest-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedulerequest-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.eligibility.request.post.unifiedroleeligibilityschedulerequest-cancel",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests/{id}/cancel",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleeligibilityschedulerequest-cancel",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedulerequest-cancel-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.eligibility.request.get.unifiedroleeligibilityschedulerequest-filterbycurrentuser",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleRequests/filterByCurrentUser(on='principal')",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleeligibilityschedulerequest-filterbycurrentuser",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedulerequest-filterbycurrentuser-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleEligibilitySchedules.list",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleEligibilitySchedules",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-list-roleeligibilityschedules",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleeligibilityschedules-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleEligibilitySchedules.get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleEligibilitySchedules/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleeligibilityschedule-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityschedule-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleEligibilityScheduleInstances.list",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleInstances",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-list-roleeligibilityscheduleinstances",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleeligibilityscheduleinstances-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleEligibilityScheduleInstances.get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleEligibilityScheduleInstances/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleeligibilityscheduleinstance-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleeligibilityscheduleinstance-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.assignment.request.get.rbacapplication-list-roleassignmentschedulerequests",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-list-roleassignmentschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleassignmentschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.assignment.request.post.rbacapplication-post-roleassignmentschedulerequests",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-post-roleassignmentschedulerequests",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-post-roleassignmentschedulerequests-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.assignment.request.get.unifiedroleassignmentschedulerequest-get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleassignmentschedulerequest-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedulerequest-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.assignment.request.post.unifiedroleassignmentschedulerequest-cancel",
+      "area": "identity",
+      "method": "POST",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests/{id}/cancel",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleassignmentschedulerequest-cancel",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedulerequest-cancel-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.assignment.request.get.unifiedroleassignmentschedulerequest-filterbycurrentuser",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleRequests/filterByCurrentUser(on='principal')",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleassignmentschedulerequest-filterbycurrentuser",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedulerequest-filterbycurrentuser-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleAssignmentSchedules.list",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentSchedules",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-list-roleassignmentschedules",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleassignmentschedules-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleAssignmentSchedules.get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentSchedules/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleassignmentschedule-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentschedule-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleAssignmentScheduleInstances.list",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleInstances",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "rbacapplication-list-roleassignmentscheduleinstances",
+        "graph-csdl",
+        "docs-license",
+        "permission-rbacapplication-list-roleassignmentscheduleinstances-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.roleAssignmentScheduleInstances.get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/roleManagement/directory/roleAssignmentScheduleInstances/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedroleassignmentscheduleinstance-get",
+        "graph-csdl",
+        "docs-license",
+        "permission-unifiedroleassignmentscheduleinstance-get-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.policy.policyroot-list-rolemanagementpolicies",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/policies/roleManagementPolicies",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "policyroot-list-rolemanagementpolicies",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.policy.unifiedrolemanagementpolicy-get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/policies/roleManagementPolicies/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedrolemanagementpolicy-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.policy.unifiedrolemanagementpolicy-list-rules",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/policies/roleManagementPolicies/{id}/rules",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedrolemanagementpolicy-list-rules",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.policy.unifiedrolemanagementpolicyrule-get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/policies/roleManagementPolicies/{id}/rules/{rule}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedrolemanagementpolicyrule-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.policy.policyroot-list-rolemanagementpolicyassignments",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/policies/roleManagementPolicyAssignments",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "policyroot-list-rolemanagementpolicyassignments",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.policy.unifiedrolemanagementpolicyassignment-get",
+      "area": "identity",
+      "method": "GET",
+      "path": "/v1.0/policies/roleManagementPolicyAssignments/{id}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedrolemanagementpolicyassignment-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "identity.pim.policy.rule.update",
+      "area": "identity",
+      "method": "PATCH",
+      "path": "/v1.0/policies/roleManagementPolicies/{id}/rules/{rule}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "unifiedrolemanagementpolicyrule-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.create",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/chats",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chat-post",
+        "graph-csdl",
+        "docs-license",
+        "permission-chat-post-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.team.member.add",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/members",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "team-post-members",
+        "graph-csdl",
+        "docs-license",
+        "permission-team-post-members-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.team.member.get",
+      "area": "content",
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.team.member.update",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/teams/{team}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-update",
+        "graph-csdl",
+        "docs-license",
+        "permission-conversationmember-update-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.team.member.delete",
+      "area": "content",
+      "method": "DELETE",
+      "path": "/v1.0/teams/{team}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-delete",
+        "graph-csdl",
+        "docs-license",
+        "permission-conversationmember-delete-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.member.add",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/channels/{channel}/members",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "channel-post-members",
+        "graph-csdl",
+        "docs-license",
+        "permission-channel-post-members-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.member.get",
+      "area": "content",
+      "method": "GET",
+      "path": "/v1.0/teams/{team}/channels/{channel}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.member.update",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/teams/{team}/channels/{channel}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-update",
+        "graph-csdl",
+        "docs-license",
+        "permission-conversationmember-update-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.member.delete",
+      "area": "content",
+      "method": "DELETE",
+      "path": "/v1.0/teams/{team}/channels/{channel}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-delete",
+        "graph-csdl",
+        "docs-license",
+        "permission-conversationmember-delete-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.member.add",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/chats/{chat}/members",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chat-post-members",
+        "graph-csdl",
+        "docs-license",
+        "permission-chat-post-members-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.member.get",
+      "area": "content",
+      "method": "GET",
+      "path": "/v1.0/chats/{chat}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-get",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.member.update",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/chats/{chat}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-update",
+        "graph-csdl",
+        "docs-license",
+        "permission-conversationmember-update-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.member.delete",
+      "area": "content",
+      "method": "DELETE",
+      "path": "/v1.0/chats/{chat}/members/{member}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "conversationmember-delete",
+        "graph-csdl",
+        "docs-license",
+        "permission-conversationmember-delete-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.message.send",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "channel-post-messages",
+        "graph-csdl",
+        "docs-license",
+        "permission-channel-post-messages-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.message.update",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{item}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.message.softdelete",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{item}/softDelete",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-softdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.channel.message.undosoftdelete",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{item}/undoSoftDelete",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-undosoftdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.reply.message.send",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "channel-post-messagereply",
+        "graph-csdl",
+        "docs-license",
+        "permission-channel-post-messagereply-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.reply.message.update",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{item}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.reply.message.softdelete",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{item}/softDelete",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-softdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.reply.message.undosoftdelete",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/teams/{team}/channels/{channel}/messages/{message}/replies/{item}/undoSoftDelete",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-undosoftdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.message.send",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/chats/{chat}/messages",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chat-post-messages",
+        "graph-csdl",
+        "docs-license",
+        "permission-chat-post-messages-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.message.update",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/chats/{chat}/messages/{item}",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.message.softdelete",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/chats/{chat}/messages/{item}/softDelete",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-softdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "teams.chat.message.undosoftdelete",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/chats/{chat}/messages/{item}/undoSoftDelete",
+      "status": "planned",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "chatmessage-undosoftdelete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "evidence.signins",
+      "area": "evidence",
+      "method": "GET",
+      "path": "/v1.0/auditLogs/signIns",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "signin-list",
+        "graph-csdl",
+        "docs-license",
+        "permission-signin-list-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "evidence.directory-audits",
+      "area": "evidence",
+      "method": "GET",
+      "path": "/v1.0/auditLogs/directoryAudits",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "directoryaudit-list",
+        "graph-csdl",
+        "docs-license",
+        "permission-directoryaudit-list-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "evidence.alerts",
+      "area": "evidence",
+      "method": "GET",
+      "path": "/v1.0/security/alerts_v2",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "security-list-alerts_v2",
+        "graph-csdl",
+        "docs-license",
+        "permission-security-list-alerts_v2-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "evidence.incidents",
+      "area": "evidence",
+      "method": "GET",
+      "path": "/v1.0/security/incidents",
+      "status": "existing",
+      "request_type": null,
+      "response_type": null,
+      "permissions": [],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "security-list-incidents",
+        "graph-csdl",
+        "docs-license",
+        "permission-security-list-incidents-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Existing bounded profile; see COVERAGE.md for implemented fields."
+      ]
+    },
+    {
+      "key": "hunting.query",
+      "area": "hunting",
+      "method": "POST",
+      "path": "/v1.0/security/runHuntingQuery",
+      "status": "planned",
+      "request_type": null,
+      "response_type": "microsoft.graph.security.huntingQueryResults",
+      "permissions": [
+        "ThreatHunting.Read.All"
+      ],
+      "role_constraints": [],
+      "entitlement_constraints": [],
+      "source_refs": [
+        "security-security-runhuntingquery",
+        "graph-csdl",
+        "docs-license",
+        "permission-security-security-runhuntingquery-permissions",
+        "metadata-license"
+      ],
+      "supported_variants": [],
+      "limitations": [
+        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    }
+  ],
+  "catalogs": {
+    "arm-providers": "9da69b30d66bab98ef0784b10aa372119d6102942cdd05564f3f4799653605fa",
+    "exchange": "b6064c0ca2b1b203ca7fa7e514026c11d89dcf1a826645ba24b80298050c0037",
+    "graph-workflows": "dd495c99f12b468d421ee2687e9f9a624d46fbd04bd9badac94c14ebf27fdf36",
+    "keyvault": "66815678fd42f410e9da4269db23f1ab8380909701c00849c2d9e70fe8a16d78",
+    "queries": "ac2d14a8e498d37434f38e7bcc835a34fb380d7942ba7e5ed7a291c441709a51",
+    "storage": "0db67eec00ec5cbe542b1cfac617e3cd9c2761c642004df4547bac8c4c08a667"
+  }
+}

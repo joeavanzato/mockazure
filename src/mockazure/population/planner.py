@@ -10,7 +10,13 @@ from mockazure.admin.errors import AdminError
 from mockazure.db.models import Tenant
 from mockazure.population.catalog import get_adapter, list_families
 from mockazure.population.generators import VERSION, generate, inventory
-from mockazure.population.models import PopulationPreview, PopulationRun, ResourceBinding
+from mockazure.population.models import (
+    EntityBindingRow,
+    OrganizationNamespace,
+    PopulationPreview,
+    PopulationRun,
+    ResourceBinding,
+)
 from mockazure.population.protection import redact, seal, unseal
 from mockazure.population.tokens import fingerprint
 from mockazure.population.types import Input
@@ -88,6 +94,26 @@ async def state_digest(session, tenant_id):
             )
         ).one()
         values[family.key] = list(row)
+    for model, columns in (
+        (OrganizationNamespace, ["namespace", "generation"]),
+        (
+            EntityBindingRow,
+            ["namespace", "logical_key", "service", "actual_id", "parent_id", "generation"],
+        ),
+    ):
+        # JSON preserves field boundaries and nulls; SQL aggregation stays bounded.
+        row_hash = func.hashtextextended(
+            cast(func.jsonb_build_array(*(getattr(model, name) for name in columns)), String), 0
+        )
+        values[model.__tablename__] = list(
+            (
+                await session.execute(
+                    select(func.count(), func.bit_xor(row_hash))
+                    .select_from(model)
+                    .where(model.tenant_id == tenant_id)
+                )
+            ).one()
+        )
     return fingerprint(values)
 
 

@@ -5,7 +5,7 @@ from typing import Literal
 from uuid import UUID, uuid4
 
 from pydantic import Field
-from sqlalchemy import DateTime, ForeignKey, Index, String, Text, text
+from sqlalchemy import DateTime, ForeignKey, ForeignKeyConstraint, Index, String, Text, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -86,6 +86,40 @@ class ResourceBinding(Base):
     namespace: Mapped[str] = mapped_column(String(128), primary_key=True)
     key: Mapped[str] = mapped_column(String(128), primary_key=True)
     actual_id: Mapped[str] = mapped_column(Text)
+
+
+class OrganizationNamespace(Base):
+    __tablename__ = "organization_namespaces"
+    tenant_id: Mapped[UUID] = mapped_column(
+        ForeignKey("tenants.id", ondelete="CASCADE"), primary_key=True
+    )
+    namespace: Mapped[str] = mapped_column(String(128), primary_key=True)
+    generation: Mapped[UUID]
+
+
+class EntityBindingRow(Base):
+    __tablename__ = "organization_bindings"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["tenant_id", "namespace"],
+            ["organization_namespaces.tenant_id", "organization_namespaces.namespace"],
+            ondelete="CASCADE",
+        ),
+        Index(
+            "ix_organization_binding_parent",
+            "tenant_id",
+            "namespace",
+            "service",
+            text("md5(actual_id)"),
+        ),
+    )
+    tenant_id: Mapped[UUID] = mapped_column(primary_key=True)
+    namespace: Mapped[str] = mapped_column(String(128), primary_key=True)
+    logical_key: Mapped[str] = mapped_column(String(128), primary_key=True)
+    service: Mapped[str] = mapped_column(String(64), primary_key=True)
+    actual_id: Mapped[str] = mapped_column(String(2048))
+    parent_id: Mapped[str | None] = mapped_column(String(2048))
+    generation: Mapped[UUID]
 
 
 class OperationReceipt(Base):

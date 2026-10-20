@@ -10,7 +10,7 @@
 
 **Spec:** [Approved design](../specs/2026-10-20-living-tenant-design.md), approved 2026-10-20.
 
-**Status:** Written implementation plan awaiting user review. No product implementation is authorized by this document's existence alone.
+**Status:** Approved by the user on 2026-10-20. Native implementation in progress.
 
 ## Global constraints
 
