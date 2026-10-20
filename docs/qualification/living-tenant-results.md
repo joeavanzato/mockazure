@@ -253,4 +253,3 @@ and regression/scale checks are completed by the evidence above.
 One combined PR carries the cohesive program because its shared binding, evidence,
 identity and hunting interfaces are qualified together. The earlier launcher PR
 #34 is already merged. No automatic merge or root-checkout update was performed.
-
