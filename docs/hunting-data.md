@@ -52,6 +52,64 @@ POST `{"confirm_tenant_id":"<same tenant UUID>"}` to the `hunting/reset` endpoin
 removes all of its hunting rows. These authenticated destructive controls preserve
 other service evidence and other tenants. They do not run automatically.
 
-Table storage and import support do not by themselves imply support for a query
-transport. Public query execution, permissions and language limits are listed in
-COVERAGE.md as they are qualified.
+## Graph queries
+
+POST `/v1.0/security/runHuntingQuery` with a Graph-audience token carrying
+`ThreatHunting.Read.All`. Both application and delegated tokens are supported.
+The generated SDK's `query`/`timespan` and the REST documentation's
+`Query`/`Timespan` spelling are accepted; duplicate spellings and other properties
+are rejected. The namespaced Graph action alias is also supported.
+
+```json
+{"Query":"DeviceInfo | project Timestamp, DeviceId, DeviceName | take 20","Timespan":"P7D"}
+```
+
+The response has Graph `schema` and `results`, with documented column names and
+typed values. It has no Logs `tables` envelope, statistics, silent truncation, or
+invented continuation link. The legacy Defender hunting transport is unsupported.
+
+Before loading any table, the server checks the current identity, token permissions
+and every input table's local service entitlement, including both sides of a join.
+Configure those entitlements explicitly:
+
+```http
+PUT /_mock/tenants/{tenant}/hunting/settings
+{"entitlements":["identity","email","endpoint","cloud-apps","alerts"]}
+```
+
+These switches represent local service availability, not comprehensive Microsoft
+license compliance. Delegated users need an effective Global Administrator, Global
+Reader, Security Administrator or Security Reader role, or an explicit local
+View Data profile. PIM expiry and disabled/deleted identities apply at security
+wall time independently of the lab evidence clock.
+
+`PUT /_mock/tenants/{tenant}/hunting/visibility/{user}` sets
+`{"view_data":true,"tables":["DeviceInfo","DeviceEvents"],"device_ids":["device-id"]}`.
+An explicit profile overrides the role default. Every requested table must be
+allowed; device IDs constrain all `Device*` input rows before evaluation.
+`device_ids:null` permits all devices; `[]` permits none. Application tokens use
+tenant-wide table visibility. This bounded profile is not full Defender unified
+RBAC. User deletion removes this grant; restoration never restores it.
+
+Only a tenant-local primary hunting workspace exists. A foreign or unknown
+`workspaceId` falls back to that local primary; it never opens another tenant,
+an arbitrary Log Analytics workspace, or ARM data. Settings GET reports the
+synthetic primary workspace ID.
+
+Queries use a single captured lab evidence time for `now()` and default intervals.
+`Timespan` accepts the shared duration/ISO interval subset and intersects query
+filters. Default native retention is 30 days. The explicit `sentinel-ueba`
+entitlement permits a bounded 366-day window and the conditional IdentityInfo
+UEBA columns; it does not add tables or implement a Sentinel workspace. Hidden
+columns and unknown columns fail validation even when a table is empty.
+
+The shared bounded KQL subset supports where/project/extend, summarize/count,
+order/take, distinct, let, union, equality joins and mv-expand. Unsupported
+operators/functions fail explicitly. Limits are 30 seconds, 100,000 output rows,
+64 MiB accounted values and 1,000,000 intermediate/input rows. Exhaustion returns
+an explicit query error. This is an emulator language profile, not complete KQL.
+
+Pinned references: [Graph hunting action](https://learn.microsoft.com/en-us/graph/api/security-security-runhuntingquery?view=graph-rest-1.0),
+[hunting access overview](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-overview).
+The legacy API reference is retained solely as a source for delegated data/device
+scope; its transport and token-permission names are not reused.

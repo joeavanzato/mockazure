@@ -1,0 +1,30 @@
+{
+  "state": "passed",
+  "tenant_id": "6a8ec53b-7b57-4fe5-93fe-83d71067a4fa",
+  "device_id": "hunting-1c211843d79443259b213d30e9ebc30a",
+  "reference_time": "2026-10-20T19:25:40.325996+00:00",
+  "api_runtime": "native",
+  "powershell_runtime": "isolated-linux",
+  "python": {
+    "client": "msgraph-sdk",
+    "version": "1.64.0",
+    "state": "passed"
+  },
+  "powershell": {
+    "state": "passed",
+    "client": "Microsoft.Graph.Security",
+    "version": "2.35.1",
+    "cmdlet": "Start-MgSecurityHuntingQuery",
+    "schema": [
+      {
+        "name": "DeviceId",
+        "type": "String"
+      },
+      {
+        "name": "DeviceName",
+        "type": "String"
+      }
+    ],
+    "device_id": "hunting-1c211843d79443259b213d30e9ebc30a"
+  }
+}

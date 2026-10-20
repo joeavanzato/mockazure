@@ -114,9 +114,13 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
             ):
                 raise ValueError("Graph time of day requires HH:mm:ss")
         elif kind == "Edm.Duration":
-            if not isinstance(value, str) or len(value) > 128 or not re.fullmatch(
-                r"-?P(?=\d|T\d)(?:\d+D)?(?:T(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:\.\d+)?S)?)?",
-                value,
+            if (
+                not isinstance(value, str)
+                or len(value) > 128
+                or not re.fullmatch(
+                    r"-?P(?=\d|T\d)(?:\d+D)?(?:T(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:\.\d+)?S)?)?",
+                    value,
+                )
             ):
                 raise ValueError("Graph duration requires an ISO 8601 day/time duration")
         elif kind == "Edm.Guid":
@@ -152,7 +156,11 @@ def validate_payload(version: str, resource: str, payload: dict, *, partial: boo
             fields = contract["properties"]
             extra = value.keys() - fields.keys() - {"@odata.type"}
             if extra:
-                if name not in {"security.auditRecordTypeDictionary", "security.defaultAuditData"}:
+                if name not in {
+                    "security.auditRecordTypeDictionary",
+                    "security.defaultAuditData",
+                    "security.huntingRowResult",
+                }:
                     raise ValueError("Undeclared Graph property")
                 dynamic({key: value[key] for key in extra}, depth + 1)
             if "@odata.type" in value and value["@odata.type"] != f"#microsoft.graph.{name}":

@@ -1424,6 +1424,18 @@
       "kind": "delegated",
       "id": "b7887744-6746-4312-813d-72daeaee7e2d",
       "adminConsentRequired": true
+    },
+    {
+      "name": "ThreatHunting.Read.All",
+      "kind": "application",
+      "id": "dd98c7f5-2d42-42d3-a0e4-633161547251",
+      "adminConsentRequired": true
+    },
+    {
+      "name": "ThreatHunting.Read.All",
+      "kind": "delegated",
+      "id": "b152eca8-ea73-4a48-8c98-1a6742673d99",
+      "adminConsentRequired": true
     }
   ]
 }

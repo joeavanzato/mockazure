@@ -2,7 +2,7 @@
 
 from .types import QueryError
 
-PROFILES = {"resourcegraph", "loganalytics"}
+PROFILES = {"resourcegraph", "loganalytics", "hunting"}
 OPERATORS = {
     "where",
     "project",

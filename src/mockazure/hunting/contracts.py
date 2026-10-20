@@ -61,4 +61,18 @@ def verify_sources():
     for name, contract in catalog().items():
         if name != contract.name or any(ref not in sources() for ref in contract.source_refs):
             raise ValueError("Invalid hunting source reference")
+    policy_path = DATA / "policy_sources.json"
+    if policy_path.is_file():
+        policies = json.loads(policy_path.read_text("utf-8"))
+        if set(policies) != {"advanced-hunting-overview", "api-advanced-hunting"}:
+            raise ValueError("Invalid hunting policy source catalog")
+        for name, source in policies.items():
+            if (
+                source["path"] != "sources/" + name + ".html"
+                or source["url"] != "https://learn.microsoft.com/en-us/defender-xdr/" + name
+                or not re.fullmatch("[0-9a-f]{40}", source["revision"])
+                or hashlib.sha256((DATA / source["path"]).read_bytes()).hexdigest()
+                != source["sha256"]
+            ):
+                raise ValueError("Hunting policy source integrity failure")
     return {"tables": len(catalog()), "sources": len(sources())}

@@ -13288,6 +13288,24 @@
       ],
       "base": "security.alertEvidence"
     },
+    "security.huntingQueryResults": {
+      "properties": {
+        "results": {
+          "type": "Collection(microsoft.graph.security.huntingRowResult)",
+          "nullable": true
+        },
+        "schema": {
+          "type": "Collection(microsoft.graph.security.singlePropertySchema)",
+          "nullable": true
+        }
+      },
+      "required": []
+    },
+    "security.huntingRowResult": {
+      "properties": {},
+      "required": [],
+      "open": true
+    },
     "security.incident": {
       "properties": {
         "id": {
@@ -14964,6 +14982,19 @@
         "microsoftThreatIntelligence",
         "microsoftSecurityForAI"
       ]
+    },
+    "security.singlePropertySchema": {
+      "properties": {
+        "name": {
+          "type": "Edm.String",
+          "nullable": true
+        },
+        "type": {
+          "type": "Edm.String",
+          "nullable": true
+        }
+      },
+      "required": []
     },
     "security.stream": {
       "properties": {

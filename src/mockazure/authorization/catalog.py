@@ -10,6 +10,8 @@ class PermissionDefinition:
 
 
 CATALOG = (
+    PermissionDefinition("graph", "ThreatHunting.Read.All", "application", True),
+    PermissionDefinition("graph", "ThreatHunting.Read.All", "delegated", True),
     PermissionDefinition("graph", "RoleAssignmentSchedule.Read.Directory", "application", True),
     PermissionDefinition("graph", "RoleAssignmentSchedule.Read.Directory", "delegated", True),
     PermissionDefinition(

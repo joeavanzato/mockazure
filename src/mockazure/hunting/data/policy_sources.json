@@ -1,0 +1,18 @@
+{
+  "advanced-hunting-overview": {
+    "path": "sources/advanced-hunting-overview.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-overview",
+    "revision": "bcb6aaeef1580fe3bd410eb73b0045981b0f8706",
+    "sha256": "b49a871154b3e1772cbad653ddc9e72b19b6ebb5882e613d0b6fd54d0a6c1193",
+    "retrieved_at": "2026-10-20T19:18:18.193495+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse"
+  },
+  "api-advanced-hunting": {
+    "path": "sources/api-advanced-hunting.html",
+    "url": "https://learn.microsoft.com/en-us/defender-xdr/api-advanced-hunting",
+    "revision": "9a429057cc06c482293eefe093d5518cad0ea239",
+    "sha256": "f68ecedc444fce8bf794b55fa6562c8cc6a99ea18cfd93d98c86942137ad3e01",
+    "retrieved_at": "2026-10-20T19:18:18.462495+00:00",
+    "license": "Microsoft Learn terms: https://learn.microsoft.com/legal/termsofuse"
+  }
+}

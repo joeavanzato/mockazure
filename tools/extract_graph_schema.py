@@ -253,6 +253,7 @@ def main():
                 "unifiedRoleManagementPolicyExpirationRule",
                 "unifiedRoleManagementPolicyEnablementRule",
                 "unifiedRoleManagementPolicyApprovalRule",
+                "security.huntingQueryResults",
                 "subscription",
                 "changeNotification",
                 "resourceData",

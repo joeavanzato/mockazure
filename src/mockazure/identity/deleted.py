@@ -64,6 +64,14 @@ async def capture_deletion(session, tenant, kind, row, payload, now):
         "legacy": False,
     }
     if kind == "user":
+        from mockazure.hunting.access_models import HuntingVisibility
+
+        await session.execute(
+            delete(HuntingVisibility).where(
+                HuntingVisibility.tenant_id == tenant,
+                HuntingVisibility.user_id == identifier,
+            )
+        )
         snapshot["manager"] = str(row.manager_id) if row.manager_id else None
         snapshot["roles"] = list(await protected_roles(session, tenant, identifier))
         snapshot["groups"] = [

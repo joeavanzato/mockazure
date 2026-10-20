@@ -953,6 +953,24 @@
       "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/concepts/identity-governance-pim-rules-overview.md",
       "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
       "sha256": "b45cac85b60f4027128130e27b98d6e5f17714acb81aee338eaff5535b6e0a18"
+    },
+    "security-huntingqueryresults": {
+      "path": "sources/api-reference__v1.0__resources__security-huntingqueryresults.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/resources/security-huntingqueryresults.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "5605b271431f058be6d76b4eda444680e5da01d108c572612443da78b8de767d"
+    },
+    "security-singlepropertyschema": {
+      "path": "sources/api-reference__v1.0__resources__security-singlepropertyschema.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/resources/security-singlepropertyschema.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "45ecfa0048593c29d00c64919a944b4f0d425c31f1d482eaf603bd929f0dba3c"
+    },
+    "security-huntingrowresult": {
+      "path": "sources/api-reference__v1.0__resources__security-huntingrowresult.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/resources/security-huntingrowresult.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "924c468f3d2698deb58c758996ad731156505e271e2147adb222da4126fa66c7"
     }
   },
   "operations": [
@@ -3302,24 +3320,37 @@
       "area": "hunting",
       "method": "POST",
       "path": "/v1.0/security/runHuntingQuery",
-      "status": "planned",
+      "status": "existing",
       "request_type": null,
       "response_type": "microsoft.graph.security.huntingQueryResults",
       "permissions": [
         "ThreatHunting.Read.All"
       ],
-      "role_constraints": [],
-      "entitlement_constraints": [],
+      "role_constraints": [
+        "Delegated effective read role or explicit local View Data profile"
+      ],
+      "entitlement_constraints": [
+        "Every input table requires its local service entitlement"
+      ],
       "source_refs": [
         "security-security-runhuntingquery",
         "graph-csdl",
         "docs-license",
         "permission-security-security-runhuntingquery-permissions",
-        "metadata-license"
+        "metadata-license",
+        "security-huntingqueryresults",
+        "security-singlepropertyschema",
+        "security-huntingrowresult"
       ],
-      "supported_variants": [],
+      "supported_variants": [
+        "Application and delegated Graph tokens",
+        "Query/Timespan and generated query/timespan casing",
+        "Tenant-local primary workspace fallback"
+      ],
       "limitations": [
-        "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+        "Twenty local tables; bounded KQL, 30 seconds, 100000 rows, 64 MiB and 1000000 intermediate rows.",
+        "Local delegated table/device visibility is not full Defender unified RBAC.",
+        "No legacy Defender transport or arbitrary Sentinel/Logs workspace."
       ]
     },
     {
