@@ -45,6 +45,20 @@ Give the sender the corresponding read permission as well for population
 readback. POST receipts are manual-reconciliation operations: an uncertain
 outcome must not automatically resend a message.
 
+For a named delegated actor, provision `identity.clients` with
+`delegated_user_id` and one Graph delegated permission set. The selected user must
+be an active imported user with no login credential. The fixture initializes a
+random password and stores it encrypted with the application secret; manifests
+and catalog responses contain neither. It refuses to replace an existing
+credential. Reuse the same named actor for later actions.
+
+This actor performs the existing local authorization-code flow with PKCE,
+consent and current policy enforcement before its service requests. It does not
+mint a token directly or simulate successful MFA. A policy requiring MFA or a
+password change fails the automated login explicitly. Disabled users and
+applications cannot continue sending. Named delegated actors currently support
+Graph only.
+
 No chat-member PATCH exists in the pinned v1.0 reference. Meeting/federated
 chats, migration, policyViolation writes, hosted-content creation and
 visibleHistoryStartDateTime are unsupported. These inputs fail explicitly.

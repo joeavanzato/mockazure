@@ -13,6 +13,7 @@ from mockazure.mail.audit_schemas import public_audit_data
 
 NATIVE_OPERATIONS = (
     {"site.permission.create", "site.permission.delete", "teams.chat.create"}
+    | {f"drive.{action}" for action in ("upload", "update", "copy", "delete")}
     | {
         f"teams.{kind}.member.{action}"
         for kind in ("team", "channel", "chat")

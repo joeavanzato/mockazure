@@ -827,6 +827,78 @@
       "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/chat-delete-members-permissions.md",
       "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
       "sha256": "aadf7f21372e4144f590b3307a5cee85a89944003c61e7b0e3a333e71978bb4a"
+    },
+    "driveitem-put-content": {
+      "path": "sources/api-reference__v1.0__api__driveitem-put-content.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/driveitem-put-content.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "309dd6c08c1d5035a3f5dd4f7782e8f960b745cd7955caadd7442dc00ad0ca25"
+    },
+    "permission-driveitem-put-content-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__driveitem-put-content-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/driveitem-put-content-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2031857f7ad14b67ed272ccc85185af73cb30b58ff4b2262b93d84524986958d"
+    },
+    "driveitem-update": {
+      "path": "sources/api-reference__v1.0__api__driveitem-update.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/driveitem-update.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "0c72cc276b88457df0ade80d5aa40e3280e0c32fbe817255b4f6d0220d67f4f3"
+    },
+    "permission-driveitem-update-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__driveitem-update-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/driveitem-update-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2031857f7ad14b67ed272ccc85185af73cb30b58ff4b2262b93d84524986958d"
+    },
+    "driveitem-move": {
+      "path": "sources/api-reference__v1.0__api__driveitem-move.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/driveitem-move.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "18ee7b87334ffd6f723783a46fc290d9b00fef59413d1ceba5fc8972521595ed"
+    },
+    "permission-driveitem-move-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__driveitem-move-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/driveitem-move-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2031857f7ad14b67ed272ccc85185af73cb30b58ff4b2262b93d84524986958d"
+    },
+    "driveitem-copy": {
+      "path": "sources/api-reference__v1.0__api__driveitem-copy.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/driveitem-copy.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "7f61b5f21c7e210cf128a67a86f51e29f21a27d00543bdbb74692347a8e77810"
+    },
+    "permission-driveitem-copy-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__driveitem-copy-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/driveitem-copy-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2031857f7ad14b67ed272ccc85185af73cb30b58ff4b2262b93d84524986958d"
+    },
+    "driveitem-delete": {
+      "path": "sources/api-reference__v1.0__api__driveitem-delete.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/driveitem-delete.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "11cf9240d66bb5bb263c053ab528e2c28346f9aa97358aaed8b16cd71f117325"
+    },
+    "permission-driveitem-delete-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__driveitem-delete-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/driveitem-delete-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2031857f7ad14b67ed272ccc85185af73cb30b58ff4b2262b93d84524986958d"
+    },
+    "driveitem-createlink": {
+      "path": "sources/api-reference__v1.0__api__driveitem-createlink.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/api/driveitem-createlink.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "bdf8a1d8a73c2e198baef998010f7f9484d7a5f686fddd2cacd12d5a3fe230ac"
+    },
+    "permission-driveitem-createlink-permissions": {
+      "path": "sources/api-reference__v1.0__includes__permissions__driveitem-createlink-permissions.md",
+      "url": "https://raw.githubusercontent.com/microsoftgraph/microsoft-graph-docs-contrib/a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6/api-reference/v1.0/includes/permissions/driveitem-createlink-permissions.md",
+      "revision": "a7edbd4fc55bd2c9e3f1ff41f3704f211483f1f6",
+      "sha256": "2031857f7ad14b67ed272ccc85185af73cb30b58ff4b2262b93d84524986958d"
     }
   },
   "operations": [
@@ -2737,6 +2809,188 @@
       "supported_variants": [],
       "limitations": [
         "Operation inventory only; implementation and permission variants must be qualified against the referenced contract."
+      ]
+    },
+    {
+      "key": "drive.upload",
+      "area": "content",
+      "method": "PUT",
+      "path": "/v1.0/drives/{drive}/items/{item}/content",
+      "status": "existing",
+      "source_refs": [
+        "driveitem-put-content",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-put-content-permissions"
+      ],
+      "permissions": [
+        "Files.ReadWrite (delegated)",
+        "Files.ReadWrite.All",
+        "Sites.ReadWrite.All"
+      ],
+      "limitations": [
+        "Single local files only; same-drive destinations; maximum simple upload 8 MiB.",
+        "No folder writes, upload sessions, version restore, or cross-drive copy/move."
+      ],
+      "role_constraints": [
+        "Current delegated user or selected app must have a write-level site grant."
+      ]
+    },
+    {
+      "key": "drive.upload-new",
+      "area": "content",
+      "method": "PUT",
+      "path": "/v1.0/drives/{drive}/items/{parent}:/{name}:/content",
+      "status": "existing",
+      "source_refs": [
+        "driveitem-put-content",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-put-content-permissions"
+      ],
+      "permissions": [
+        "Files.ReadWrite (delegated)",
+        "Files.ReadWrite.All",
+        "Sites.ReadWrite.All"
+      ],
+      "limitations": [
+        "Single local files only; same-drive destinations; maximum simple upload 8 MiB.",
+        "No folder writes, upload sessions, version restore, or cross-drive copy/move."
+      ],
+      "role_constraints": [
+        "Current delegated user or selected app must have a write-level site grant."
+      ]
+    },
+    {
+      "key": "drive.update",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/drives/{drive}/items/{item}",
+      "status": "existing",
+      "source_refs": [
+        "driveitem-update",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-update-permissions"
+      ],
+      "permissions": [
+        "Files.ReadWrite (delegated)",
+        "Files.ReadWrite.All",
+        "Sites.ReadWrite.All"
+      ],
+      "limitations": [
+        "Single local files only; same-drive destinations; maximum simple upload 8 MiB.",
+        "No folder writes, upload sessions, version restore, or cross-drive copy/move."
+      ],
+      "role_constraints": [
+        "Current delegated user or selected app must have a write-level site grant."
+      ]
+    },
+    {
+      "key": "drive.move",
+      "area": "content",
+      "method": "PATCH",
+      "path": "/v1.0/drives/{drive}/items/{item}",
+      "status": "existing",
+      "source_refs": [
+        "driveitem-move",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-move-permissions"
+      ],
+      "permissions": [
+        "Files.ReadWrite (delegated)",
+        "Files.ReadWrite.All",
+        "Sites.ReadWrite.All"
+      ],
+      "limitations": [
+        "Single local files only; same-drive destinations; maximum simple upload 8 MiB.",
+        "No folder writes, upload sessions, version restore, or cross-drive copy/move."
+      ],
+      "role_constraints": [
+        "Current delegated user or selected app must have a write-level site grant."
+      ]
+    },
+    {
+      "key": "drive.copy",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/drives/{drive}/items/{item}/copy",
+      "status": "existing",
+      "source_refs": [
+        "driveitem-copy",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-copy-permissions"
+      ],
+      "permissions": [
+        "Files.ReadWrite (delegated)",
+        "Files.ReadWrite.All",
+        "Sites.ReadWrite.All"
+      ],
+      "limitations": [
+        "Single local files only; same-drive destinations; maximum simple upload 8 MiB.",
+        "No folder writes, upload sessions, version restore, or cross-drive copy/move.",
+        "202 with persisted, caller-bound 303 completion monitor; bounded copy completes atomically, without a delayed worker."
+      ],
+      "role_constraints": [
+        "Current delegated user or selected app must have a write-level site grant."
+      ]
+    },
+    {
+      "key": "drive.delete",
+      "area": "content",
+      "method": "DELETE",
+      "path": "/v1.0/drives/{drive}/items/{item}",
+      "status": "existing",
+      "source_refs": [
+        "driveitem-delete",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-delete-permissions"
+      ],
+      "permissions": [
+        "Files.ReadWrite (delegated)",
+        "Files.ReadWrite.All",
+        "Sites.ReadWrite.All"
+      ],
+      "limitations": [
+        "Single local files only; same-drive destinations; maximum simple upload 8 MiB.",
+        "No folder writes, upload sessions, version restore, or cross-drive copy/move."
+      ],
+      "role_constraints": [
+        "Current delegated user or selected app must have a write-level site grant."
+      ]
+    },
+    {
+      "key": "drive.create-link",
+      "area": "content",
+      "method": "POST",
+      "path": "/v1.0/drives/{drive}/items/{item}/createLink",
+      "status": "unsupported",
+      "source_refs": [
+        "driveitem-createlink",
+        "graph-csdl",
+        "docs-license",
+        "metadata-license",
+        "permission-driveitem-createlink-permissions"
+      ],
+      "permissions": [
+        "Files.ReadWrite (delegated)",
+        "Files.ReadWrite.All",
+        "Sites.ReadWrite.All"
+      ],
+      "limitations": [
+        "Sharing-link creation remains unsupported. The connected workflow uses existing native site selected-app grants; imported file permissions remain evidence only."
+      ],
+      "role_constraints": [
+        "Current delegated user or selected app must have a write-level site grant."
       ]
     }
   ],

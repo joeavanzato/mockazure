@@ -62,6 +62,7 @@ from mockazure.providers.graph.audit_query_routes import router_for as audit_que
 from mockazure.providers.graph.calendar_routes import router as calendar_router
 from mockazure.providers.graph.calendar_view_routes import router as calendar_view_router
 from mockazure.providers.graph.directory import router_for
+from mockazure.providers.graph.drive_mutation_routes import router as drive_mutation_router
 from mockazure.providers.graph.drive_routes import router as drive_router
 from mockazure.providers.graph.errors import GraphError, graph_error_response
 from mockazure.providers.graph.evidence.routes import router_for as evidence_router_for
@@ -403,6 +404,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(team_mutation_router)
     app.include_router(team_router)
     app.include_router(site_router)
+    app.include_router(drive_mutation_router)
     app.include_router(drive_router)
     app.include_router(calendar_view_router)
     app.include_router(subscription_router)

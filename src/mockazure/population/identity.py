@@ -1,12 +1,18 @@
 """Provision explicit local permissions and resolve server-held credentials."""
 
-from uuid import uuid4
+import asyncio
+import json
+import secrets
+from uuid import UUID, uuid4
 
 from cryptography.fernet import Fernet
 from pydantic import Field, SecretStr
+from sqlalchemy import select
 
 from mockazure.admin.errors import AdminError
+from mockazure.identity.credentials import hash_secret
 from mockazure.identity.keys import read_wrapping_key
+from mockazure.identity.models import User
 from mockazure.identity.repository import IdentityRepository
 from mockazure.identity.types import (
     ApplicationCreate,
@@ -24,6 +30,7 @@ class IdentityFixture(Input):
     id: str = Field(min_length=1, max_length=256, pattern=r"^[a-zA-Z0-9._:-]+$")
     display_name: str = Field(min_length=1, max_length=200)
     permissions: list[RequiredPermission] = Field(default_factory=list, max_length=64)
+    delegated_user_id: UUID | None = None
 
 
 async def resolve_identity(ctx, name):
@@ -34,17 +41,36 @@ async def resolve_identity(ctx, name):
         if row is None:
             raise AdminError(404, "IdentityNotFound", "Named local test identity not found")
         cipher = Fernet(read_wrapping_key(ctx.settings.data_dir))
-        return ClientCredential(
-            row.client_id, SecretStr(cipher.decrypt(row.encrypted_secret.encode()).decode())
-        )
+        clear = cipher.decrypt(row.encrypted_secret.encode()).decode()
+        if row.definition.get("delegated_user_id"):
+            user = await session.get(User, UUID(row.definition["delegated_user_id"]))
+            if user is None or user.tenant_id != ctx.tenant_id:
+                raise AdminError(404, "IdentityNotFound", "Named local user was not found")
+            saved = json.loads(clear)
+            return ClientCredential(
+                row.client_id,
+                SecretStr(saved["client_secret"]),
+                username=user.upn,
+                password=SecretStr(saved["password"]),
+                scopes=tuple(row.definition["permissions"][0]["permissions"]),
+            )
+        return ClientCredential(row.client_id, SecretStr(clear))
 
 
 def adapters():
     def normalize(payload):
         value = IdentityFixture.model_validate(payload)
-        if any(permission.kind != "application" for permission in value.permissions):
+        if value.delegated_user_id is not None:
+            if (
+                len(value.permissions) != 1
+                or value.permissions[0].resource != "graph"
+                or value.permissions[0].kind != "delegated"
+                or not value.permissions[0].permissions
+            ):
+                raise ValueError("Named delegated identities require one explicit Graph scope set")
+        elif any(permission.kind != "application" for permission in value.permissions):
             raise ValueError("Named service identities use application permissions")
-        return value.model_dump(mode="json")
+        return value.model_dump(mode="json", exclude_none=True)
 
     async def write(session, ctx, pending):
         from mockazure.security.repository import lock_security
@@ -54,11 +80,35 @@ def adapters():
         repo = IdentityRepository(session)
         for _, payload in pending:
             value = IdentityFixture.model_validate(payload)
+            password = None
+            if value.delegated_user_id:
+                user = await session.scalar(
+                    select(User)
+                    .where(
+                        User.id == value.delegated_user_id,
+                        User.tenant_id == ctx.tenant_id,
+                        User.enabled.is_(True),
+                        User.deleted_at.is_(None),
+                    )
+                    .with_for_update()
+                )
+                if user is None or user.verifier != "!":
+                    raise AdminError(
+                        422,
+                        "CredentialBootstrapDenied",
+                        "Delegated fixture requires a local imported user without a credential",
+                    )
+                password = secrets.token_urlsafe(32)
+                user.verifier = await asyncio.to_thread(hash_secret, password)
+                user.credential_version += 1
             app = await repo.create_application(
                 ctx.tenant_id,
                 ApplicationCreate(
                     display_name=value.display_name,
                     client_mode="confidential",
+                    redirect_uris=["http://localhost:8123/mockazure-population"]
+                    if value.delegated_user_id
+                    else [],
                     required_permissions=value.permissions,
                 ),
             )
@@ -68,7 +118,11 @@ def adapters():
             for permission in value.permissions:
                 await repo.set_grant(
                     ctx.tenant_id,
-                    GrantCreate(client_id=app.client_id, **permission.model_dump()),
+                    GrantCreate(
+                        client_id=app.client_id,
+                        user_id=value.delegated_user_id,
+                        **permission.model_dump(),
+                    ),
                     uuid4(),
                 )
             session.add(
@@ -76,7 +130,15 @@ def adapters():
                     tenant_id=ctx.tenant_id,
                     name=value.id,
                     client_id=app.client_id,
-                    encrypted_secret=cipher.encrypt(credential["secret"].encode()).decode(),
+                    encrypted_secret=cipher.encrypt(
+                        (
+                            json.dumps(
+                                {"client_secret": credential["secret"], "password": password}
+                            )
+                            if password
+                            else credential["secret"]
+                        ).encode()
+                    ).decode(),
                     definition=payload,
                 )
             )
@@ -104,6 +166,8 @@ def adapters():
                     "on the server.",
                     "Existing identities are create-only; change grants through identity "
                     "management.",
+                    "Optional delegated_user_id bootstraps only credentialless imported users; "
+                    "Graph scopes, consent and ordinary local login/policy checks apply.",
                 ],
             ),
             ReadSpec(LabIdentity, LabIdentity.name, LabIdentity.definition, LabIdentity.revision),
