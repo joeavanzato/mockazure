@@ -5,6 +5,7 @@ import hashlib
 import hmac
 from datetime import UTC, datetime, timedelta
 from urllib.parse import urlsplit
+from uuid import uuid4
 from xml.etree import ElementTree
 
 import pytest
@@ -96,6 +97,7 @@ async def authorize(
             "headers": [(k.lower().encode(), v.encode()) for k, v in (headers or {}).items()],
             "client": ("127.0.0.1", 12345),
             "server": (parsed.hostname, parsed.port),
+            "state": {"request_id": str(uuid4())},
             "app": SimpleNamespace(state=SimpleNamespace(settings=settings)),
         }
     )
