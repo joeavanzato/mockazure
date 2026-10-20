@@ -1,0 +1,8 @@
+{
+  "finance": {"title": "Quarterly budget review", "body": "Review departmental allocations, vendor commitments and forecast variance.", "status": "Internal review", "deliverable": "Approved forecast"},
+  "hr": {"title": "New colleague onboarding", "body": "Confirm equipment, orientation meetings, training and the assigned mentor.", "status": "In progress", "deliverable": "Onboarding checklist"},
+  "engineering": {"title": "Release readiness review", "body": "Review acceptance checks, deployment dependencies and rollback ownership.", "status": "Ready for review", "deliverable": "Release checklist"},
+  "sales": {"title": "Customer account planning", "body": "Summarize requirements, product evaluation milestones and the next demonstration.", "status": "Discovery", "deliverable": "Account action plan"},
+  "operations": {"title": "Service operations handover", "body": "Review capacity, maintenance windows, service ownership and open actions.", "status": "Scheduled", "deliverable": "Handover record"},
+  "support": {"title": "Customer support case review", "body": "Record symptoms, reproduction steps, troubleshooting and the resolution owner.", "status": "Investigating", "deliverable": "Case resolution"}
+}

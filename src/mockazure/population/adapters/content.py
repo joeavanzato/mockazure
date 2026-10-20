@@ -8,6 +8,8 @@ from sqlalchemy import select
 from mockazure.content.models import CHUNK_SIZE, ContentObject
 from mockazure.content.repository import begin_upload, finalize_upload, put_chunk
 from mockazure.population.adapters.browsing import browser
+from mockazure.population.corpus.models import ContentSpec
+from mockazure.population.corpus.render import render
 from mockazure.population.types import (
     BatchResult,
     Input,
@@ -64,19 +66,32 @@ class ContentAdapter:
                 path_template="/_mock/tenants/{tenant}/content/uploads",
                 api_version="local-fixture-v1",
                 input_schema=GeneratedContent.model_json_schema(),
-            )
+            ),
+            OperationDescriptor(
+                key="render",
+                mode="fixture",
+                method="POST",
+                path_template="/_mock/tenants/{tenant}/content/uploads",
+                api_version="local-fixture-v1",
+                input_schema=ContentSpec.model_json_schema(),
+            ),
         ]
         descriptor.limitations = [
             "Generate up to 16 MiB from explicit text; larger/binary files use chunked upload "
             "routes. No server paths or URL fetches."
+            " Render synthetic TXT/CSV/JSON/PDF/DOCX/XLSX/PPTX documents up to 8 MiB."
         ]
         return descriptor
 
     def validate(self, mutation):
+        self.value(mutation).metadata()
+
+    def value(self, mutation):
+        if mutation.operation == "render":
+            return render(ContentSpec.model_validate(mutation.payload))
         if mutation.operation != "generate":
             raise ValueError("Unsupported content operation")
-        value = GeneratedContent.model_validate(mutation.payload)
-        value.metadata()
+        return GeneratedContent.model_validate(mutation.payload)
 
     async def browse(self, ctx, query):
         return await self.base.browse(ctx, query)
@@ -97,8 +112,7 @@ class ContentAdapter:
             )
 
     async def inspect(self, ctx, mutation):
-        self.validate(mutation)
-        value = GeneratedContent.model_validate(mutation.payload)
+        value = self.value(mutation)
         identifier = await self.existing(ctx, value)
         if identifier is None:
             return Inspection(actual_id=None, version=None, exists=False)
@@ -109,8 +123,7 @@ class ContentAdapter:
         if len(mutations) != 1:
             raise ValueError("Generate one content object per checkpoint")
         mutation = mutations[0]
-        self.validate(mutation)
-        value = GeneratedContent.model_validate(mutation.payload)
+        value = self.value(mutation)
         old = await self.existing(ctx, value)
         identifier = old
         if old is None:

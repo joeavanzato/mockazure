@@ -36,6 +36,7 @@ RECIPE_FAMILIES = {
     "queue": ("storage.queues", "create", "service"),
     "table": ("storage.tables", "create", "service"),
     "content": ("content.objects", "generate", "fixture"),
+    "business-content": ("content.objects", "render", "fixture"),
     "blob": ("storage.blobs", "upload", "service"),
     "file": ("storage.files", "upload", "service"),
     "entity": ("storage.entities", "insert", "service"),
@@ -175,6 +176,15 @@ def generate(name, parameters, refs, *, offset, limit):
                 if r["type"] == type_name
             )
             body = {"variables": {"resource": resource["id"]}, "body": resource["body"]}
+        elif kind == "business-content":
+            body = {
+                "logical_key": "document:" + g.label,
+                "format": parameters.get("format", "docx"),
+                "theme": parameters.get("theme", "operations"),
+                "seed": g.seed,
+                "revision": parameters.get("revision", 1),
+                "fields": parameters.get("fields", {}),
+            }
         elif kind == "content":
             body = {
                 "text": "Synthetic " + g.namespace + " evidence.\n",
