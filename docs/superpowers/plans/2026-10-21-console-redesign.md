@@ -12,11 +12,11 @@ Goal: implement the supplied connected console across existing service catalogs 
 - Keep signed previews, server authorization, tenant context, existing upload limits, persisted revisions/runs, optional Inspector and evidence-clock separation.
 
 ## Tasks
-- [ ] Shell and shared state: design tokens/themes, accessible shell/login, hash routes, context cancellation, revision guards. Tests: route roundtrip and obsolete response invalidation, packaged assets.
-- [ ] Explorer/workbench: catalog-driven service/family rail, honest loaded-page search, paging, detail drawer/related/JSON, all existing operations, signed preview/apply, consent and uploads. Narrow API adapter tests cover directory GET/PATCH authorization and concurrency.
-- [ ] Compose/runs: stable three-step draft and summary, full source/revision/import/export, server preview, finite activity, tenant-bound run history/configuration/cancellation/recovery.
-- [ ] Hunting/Inspector: reference rail, typed query result/export invalidation, optional read-only inspector.
-- [ ] Qualification: isolated real local backend/browser checks; both themes, desktop/tablet/320/390px; acceptance evidence map; final review and fixes.
+- [x] Shell and shared state: design tokens/themes, accessible shell/login, hash routes, context cancellation, revision guards. Tests: route roundtrip and obsolete response invalidation, packaged assets.
+- [x] Explorer/workbench: catalog-driven service/family rail, honest loaded-page search, paging, detail drawer/related/JSON, all existing operations, signed preview/apply, consent and uploads. Narrow API adapter tests cover directory GET/PATCH authorization and concurrency.
+- [x] Compose/runs: stable three-step draft and summary, full source/revision/import/export, server preview, finite activity, tenant-bound run history/configuration/cancellation/recovery.
+- [x] Hunting/Inspector: reference rail, typed query result/export invalidation, optional read-only inspector.
+- [x] Qualification: isolated real local backend/browser checks; both themes, desktop/tablet/320/390px; acceptance evidence map; final review and fixes.
 
 Every task: failing behavioral tests before implementation, focused regression checks, coherent commits. Keep run/tenant IDs and request contexts explicit. Never reset focused inputs on summary/poll updates.
 
@@ -27,3 +27,7 @@ Late responses; consent versus proposal edits; history/deep links without replay
 - Baseline 18 unit tests passed (console packaging, population catalog, profile resolution).
 - GitHub CLI currently returns HTTP 401; credentials never printed.
 - Existing preview receipts bind tenant/family/mutation and expected version for one hour. Directory fixture import is create-only, not replacement.
+
+- Implementation and automated qualification complete; see docs/console-redesign-results.md for all commands/results and the two pending manual acceptance checks.
+- Independent review findings fixed: parameter deletion, skip-link route reset, inherited-layer aliasing.
+- GitHub access restored. PR35 is merged; origin/main has the same source tree as the approved base.

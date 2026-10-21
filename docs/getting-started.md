@@ -86,21 +86,31 @@ Per-user premium detail still follows the emulator's licence-assignment rules.
 
 ### Console workflow
 
-1. Sign in, open **Profiles**, select a template and tenant profile. Use **Saved bundle**
+1. Sign in, open **Compose lab**, select a template and tenant profile. Use **Saved bundle**
    and **Load bundle** to reopen a saved composition; the picker pages 50 bundles.
 2. Add/remove/reorder data layers. Choose an existing tenant or **Create a new tenant**.
 3. Set a dataset namespace, user count, days and seed. Additional parameters use
    qualified names, for example `{"volume-signins.records": 2000}`.
 4. **Preview population** shows counts, bounded samples and warnings without applying
    records. **Apply this preview** starts a durable run.
-5. Watch **Runs** until it succeeds. Open **Resources**, select the tenant and service
+5. Watch **Population runs** until it succeeds. Open **Explore resources**, select the tenant and service
    family, inspect a record or prepare an edit. Tables load 50 records at a time.
 
 **Add data** uses the operation shown in the catalog. Fixture operations populate
 validated state. Service operations call actual local public APIs with a named test
 identity and ordinary permission checks. A family with no safe editor is explicitly
-read-only. Existing records need a fresh preview and explicit replacement consent.
-Upload content through the content control; downloaded content is an attachment.
+read-only. Every mutation needs a fresh preview. Fixture replacements additionally require explicit
+replacement consent; API PATCH retains omitted fields. The **API workbench** keeps
+**Emulated API** and **Lab administration** modes separate. User/group reads and
+updates call existing local Graph v1.0 endpoints with the selected identity.
+Upload content through the content control (16 MiB browser limit); downloaded content
+is an attachment. Search in Explore resources applies only to the loaded page.
+
+The console follows the system light/dark preference and supports direct screen,
+tenant, record and run links. **Hunt evidence** requires its own named authorized
+identity; following **View evidence** never changes that identity or runs a query
+automatically. See [console redesign qualification](console-redesign-results.md)
+for tested workflows and review limits.
 
 The optional inspector is a curated, read-only scalar view across service tables.
 Set `console_inspector_enabled: true` in the active API config and restart the API.
