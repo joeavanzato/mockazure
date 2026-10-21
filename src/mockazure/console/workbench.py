@@ -94,12 +94,13 @@ def reads_for(family, adapter):
             "read-list": Action("read-list", "graph", "GET", path, "v1.0"),
             "read-item": Action("read-item", "graph", "GET", path + "/{id}", "v1.0"),
         }
-    # Each action already declares a supported verification read. Reuse that exact
-    # service/path/method/headers and never accept an arbitrary URL from a browser.
+    # Reuse curated collection/resource paths; action suffixes are not read endpoints.
+    # Never accept an arbitrary URL from a browser.
     return {
         key + ":read": replace(
             action,
             key=key + ":read",
+            path=action.path.removesuffix("/register").removesuffix("/restore"),
             method=adapter.read_method(action),
             params=adapter.read_params(action),
             headers=adapter.read_headers(action),

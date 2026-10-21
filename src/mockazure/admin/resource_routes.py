@@ -107,7 +107,7 @@ async def preview(tenant_id: UUID, family: str, request: Request):
             ],
         },
     )
-    before = None
+    before = None if inspection.exists else {}
     if inspection.exists and inspection.actual_id:
         try:
             page = await adapter.browse(

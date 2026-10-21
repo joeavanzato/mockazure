@@ -172,7 +172,10 @@ async def test_fixture_replacement_removes_omitted_properties(database, settings
 
 
 async def test_profile_console_defaults_persist_with_saved_revisions(database, settings):
+    from mockazure.identity.keys import initialize_identity
+
     await context(database, settings)
+    await initialize_identity(settings, database)
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(create_app(settings, database)),
         base_url="https://localhost:8443",
@@ -195,3 +198,71 @@ async def test_profile_console_defaults_persist_with_saved_revisions(database, s
         assert result.status_code == 201, result.text
         saved = (await client.get("/_mock/profiles/" + result.json()["id"])).json()
         assert saved["documents"]["developer-lab"]["consoleDefaults"] == defaults
+
+
+async def test_console_preview_is_bound_to_its_administration_session(database, settings):
+    from mockazure.console.sessions import set_password
+    from tests.integration.test_console_auth import ORIGIN, PASSWORD, browser
+
+    ctx = await context(database, settings)
+    await set_password(database, PASSWORD)
+    async with browser(database, settings) as first, browser(database, settings) as second:
+        headers = []
+        for client in (first, second):
+            login = await client.post(
+                "/_mock/console/login", json={"password": PASSWORD}, headers={"Origin": ORIGIN}
+            )
+            assert login.status_code == 200
+            headers.append({"Origin": ORIGIN, "X-MockAzure-CSRF": login.json()["csrf_token"]})
+        base = f"/_mock/tenants/{ctx.tenant_id}/resources/security.alerts_v2"
+        response = await first.post(
+            base + "/preview",
+            headers=headers[0],
+            json={
+                "operation": "import",
+                "logical_key": "session-test",
+                "payload": {"id": "session-test", "title": "Bound preview"},
+            },
+        )
+        assert response.status_code == 200, response.text
+        prepared = response.json()
+        assert any(c["field"] == "title" and c["kind"] == "added" for c in prepared["changes"])
+        body = {"mutation": prepared["mutation"], "receipt": prepared["receipt"]}
+        rejected = await second.post(base + "/apply", headers=headers[1], json=body)
+        assert (
+            rejected.status_code == 409
+            and rejected.json()["error"]["code"] == "PreviewContextChanged"
+        )
+        assert (await first.post(base + "/apply", headers=headers[0], json=body)).status_code == 200
+
+
+async def test_run_routes_reject_foreign_selected_tenant(database, settings):
+    from datetime import UTC, datetime
+    from uuid import uuid4
+
+    from mockazure.identity.keys import initialize_identity
+    from mockazure.population.planner import preview
+    from mockazure.population.repository import submit_run
+    from tests.integration.test_population_runs import request_for
+
+    ctx = await context(database, settings)
+    await initialize_identity(settings, database)
+    prepared = await preview(database, request_for(ctx.tenant_id), datetime.now(UTC))
+    run = await submit_run(database, prepared.id, prepared.digest, datetime.now(UTC))
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(create_app(settings, database)),
+        base_url="https://localhost:8443",
+        headers={"Authorization": "Bearer " + "A" * 43},
+    ) as client:
+        for suffix in ("", "/manifest", "/steps", "/ground-truth", "/cancel", "/resume"):
+            method = "POST" if suffix in {"/cancel", "/resume"} else "GET"
+            response = await client.request(
+                method,
+                f"/_mock/population/runs/{run.id}{suffix}",
+                params={"tenant_id": str(uuid4())},
+            )
+            assert response.status_code == 404, response.text
+        own = await client.get(
+            f"/_mock/population/runs/{run.id}", params={"tenant_id": str(ctx.tenant_id)}
+        )
+        assert own.status_code == 200 and own.json()["state"] == "pending"
