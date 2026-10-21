@@ -23,6 +23,12 @@ def test_packaged_console_and_builtins():
         "profiles.js",
         "runs.js",
         "inspector.js",
+        "hunting.js",
+        "components.js",
+        "state.js",
+        "resource-detail.js",
+        "uploads.js",
+        "workbench.js",
     ):
         assert base.joinpath(name).read_bytes()
     build = tomllib.loads(Path("pyproject.toml").read_text())["tool"]["hatch"]["build"]["targets"][

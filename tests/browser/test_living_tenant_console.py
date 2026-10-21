@@ -68,8 +68,9 @@ def test_finite_activity_and_related_navigation(tmp_path):
             tenant = page.get_by_label("Tenant", exact=True)
             expect(tenant).to_be_visible()
             tenant.select_option(os.environ["MOCKAZURE_BROWSER_TENANT_ID"])
-            page.get_by_role("button", name="Profiles", exact=False).click()
+            page.get_by_role("button", name="Compose lab", exact=True).click()
             page.get_by_label("Template", exact=True).select_option("living-department")
+            page.get_by_role("button", name="2. Configure", exact=True).click()
             expect(page.get_by_label("Users", exact=True)).to_have_value("250")
             expect(page.get_by_label("Days of activity")).to_have_value("14")
             assert page.locator(".layer-list li").count() == 8
@@ -85,13 +86,16 @@ def test_finite_activity_and_related_navigation(tmp_path):
             }
             editor.fill(json.dumps(source))
             page.get_by_role("button", name="Load editor changes", exact=True).click()
+            page.get_by_role("button", name="1. Choose layers", exact=True).click()
             page.get_by_label("Template", exact=True).select_option("developer-lab")
+            page.get_by_role("button", name="2. Configure", exact=True).click()
             page.get_by_label("Users", exact=True).fill("2")
             page.get_by_label("Dataset namespace").fill("browser-activity-" + uuid4().hex[:8])
             page.get_by_label("Run a finite activity batch").check()
             page.get_by_label("Activity recipe step").fill("calendar")
             page.get_by_label("Action count").fill("2")
             page.get_by_label("Pacing (milliseconds)").fill("60000")
+            page.get_by_role("button", name="3. Review", exact=True).click()
             page.get_by_role("button", name="Preview population", exact=True).click()
             expect(page.get_by_role("heading", name="Review the resolved plan")).to_be_visible(
                 timeout=30000
@@ -106,24 +110,37 @@ def test_finite_activity_and_related_navigation(tmp_path):
                 timeout=90000
             )
             expect(page.locator(".activity-progress")).to_contain_text("2 / 2")
-            expect(page.locator(".activity-progress")).to_contain_text("Data reference")
+            expect(page.locator(".activity-progress")).to_contain_text("Evidence reference")
             page.screenshot(path=str(tmp_path / "finite-activity.png"), full_page=True)
-            page.get_by_role("button", name="Resources", exact=False).click()
-            page.get_by_label("Resource family").select_option("sharepoint.drive")
+            page.get_by_role("button", name="Explore resources", exact=True).click()
+            page.evaluate(
+                "hash=>{location.hash=hash}",
+                "#/resources?tenant="
+                + os.environ["MOCKAZURE_BROWSER_TENANT_ID"]
+                + "&family=sharepoint.drive",
+            )
             page.get_by_role("button", name="Inspect", exact=True).first.click()
             modal = page.get_by_role("dialog")
-            expect(modal.get_by_role("heading", name="Related resources")).to_be_visible()
+            modal.get_by_role("button", name="Related resources", exact=True).click()
             modal.get_by_role("button", name="Inspect", exact=True).first.click()
+            modal.get_by_role("button", name="Raw JSON", exact=True).click()
             expect(modal.locator("pre")).to_contain_text(re.compile(r'"id":'))
             modal.get_by_role("button", name="Close", exact=True).click()
-            page.get_by_label("Resource family").select_option("mail.events")
+            page.evaluate(
+                "hash=>{location.hash=hash}",
+                "#/resources?tenant="
+                + os.environ["MOCKAZURE_BROWSER_TENANT_ID"]
+                + "&family=mail.events",
+            )
             page.get_by_role("button", name="Add data", exact=True).click()
-            modal.get_by_label("Operation", exact=True).select_option("create")
-            expect(modal.get_by_text(re.compile("Public API action using"))).to_be_visible()
-            modal.get_by_label("Operation", exact=True).select_option("import")
+            page.get_by_role("button", name="Emulated API", exact=True).click()
+            page.get_by_label("Operation", exact=True).select_option("create")
             expect(
-                modal.get_by_text(re.compile("Administrative fixture operation"))
+                page.get_by_text(re.compile("Runs against the local emulated API"))
             ).to_be_visible()
+            page.get_by_role("button", name="Lab administration", exact=True).click()
+            page.get_by_label("Operation", exact=True).select_option("import")
+            expect(page.get_by_text(re.compile("Administrative fixture operation"))).to_be_visible()
             assert not errors
             browser.close()
     finally:

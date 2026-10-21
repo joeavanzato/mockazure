@@ -13,6 +13,10 @@ jobs:
           version: "0.12.1"
           python-version: "3.12"
       - run: uv sync --locked --group clients
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test tests/frontend/state.test.mjs
       - run: uv run ruff check .
       - run: uv run python -m tools.check_cloud_coverage --check
       - run: mkdir -p work && uv run python -m pytest tests/unit -q --basetemp=work/ci-unit
@@ -239,7 +243,8 @@ jobs:
           export MOCKAZURE_BROWSER_CONFIG="$PWD/.runtime/instance/native.json"
           export MOCKAZURE_LAB_REPORT="$PWD/work/lab-console.json"
           export MOCKAZURE_BROWSER_TENANT=$(uv run python -c "import json; print(json.load(open('work/lab-console.json'))['profiles']['developer-lab']['request']['target']['create_tenant']['display_name'])")
-          uv run python -m pytest tests/unit/test_lab_console_package.py tests/acceptance/test_lab_console_workflows.py tests/browser/test_lab_console.py -q --basetemp=work/ci-lab
+          export MOCKAZURE_BROWSER_TENANT_ID=$(uv run python -c "import json; print(json.load(open('work/lab-console.json'))['profiles']['developer-lab']['tenant_id'])")
+          uv run python -m pytest tests/unit/test_lab_console_package.py tests/acceptance/test_lab_console_workflows.py tests/browser/test_lab_console.py tests/browser/test_console_redesign.py -q --basetemp=work/ci-lab
       - uses: actions/upload-artifact@v4
         if: always()
         with:

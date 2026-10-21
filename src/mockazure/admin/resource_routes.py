@@ -7,7 +7,8 @@ from fastapi import APIRouter, Query, Request
 from pydantic import Field
 
 from mockazure.admin.errors import AdminError
-from mockazure.population.catalog import get_adapter, list_families
+from mockazure.console.workbench import adapter_for as get_adapter
+from mockazure.population.catalog import list_families
 from mockazure.population.tokens import decode, fingerprint, sign
 from mockazure.population.types import AdapterContext, Input, Mutation, ResourceQuery
 from mockazure.providers.graph.body import read_json
@@ -81,7 +82,17 @@ async def preview(tenant_id: UUID, family: str, request: Request):
             422, "InvalidResource", "Resource does not match the operation contract"
         ) from None
     prepared = mutation.model_copy(update={"expected_version": inspection.version or "absent"})
-    effect = "replace-record" if inspection.exists else "create"
+    operation = next(o for o in adapter.describe().operations if o.key == mutation.operation)
+    base = getattr(adapter, "base", adapter)
+    effect = (
+        "update"
+        if operation.mode == "service" and operation.method == "PATCH"
+        else "replace-record"
+        if inspection.exists and getattr(base, "replace_allowed", False)
+        else "verify-existing"
+        if inspection.exists
+        else "create"
+    )
     receipt = sign(
         ctx.settings,
         "resource-preview",
@@ -90,9 +101,42 @@ async def preview(tenant_id: UUID, family: str, request: Request):
             "family": family,
             "digest": fingerprint(prepared),
             "effect": effect,
+            "management": [
+                request.state.management_identity.method,
+                str(request.state.management_identity.session_id),
+            ],
         },
     )
+    before = None if inspection.exists else {}
+    if inspection.exists and inspection.actual_id:
+        try:
+            page = await adapter.browse(
+                ctx, ResourceQuery(identifier=inspection.actual_id, parent=mutation.parent)
+            )
+            before = page.items[0].properties if page.items else None
+        except (ValueError, AdminError):
+            pass
+    proposed = mutation.payload.get("body", {}) if operation.mode == "service" else mutation.payload
+    changes = []
+    if before is not None:
+        keys = set(proposed) | (set(before) if effect == "replace-record" else set())
+        for key in sorted(keys):
+            if before.get(key) != proposed.get(key) or (key in before) != (key in proposed):
+                changes.append(
+                    {
+                        "field": key,
+                        "before": before.get(key),
+                        "after": proposed.get(key),
+                        "kind": "removed"
+                        if key not in proposed
+                        else "added"
+                        if key not in before
+                        else "changed",
+                    }
+                )
     return {
+        "changes": changes,
+        "warnings": inspection.conflicts,
         "mutation": prepared,
         "receipt": receipt,
         "effect": effect,
@@ -119,6 +163,11 @@ async def apply(tenant_id: UUID, family: str, request: Request):
             fingerprint(value.mutation),
         ):
             raise AdminError(409, "PreviewChanged", "Mutation does not match its preview")
+        identity = request.state.management_identity
+        if receipt.get("management") != [identity.method, str(identity.session_id)]:
+            raise AdminError(
+                409, "PreviewContextChanged", "Preview belongs to another administration session"
+            )
         if receipt.get("effect") == "replace-record" and not value.allow_replace:
             raise AdminError(409, "ReplacementRequired", "Explicit record replacement is required")
         return await adapter.apply(ctx, [value.mutation])

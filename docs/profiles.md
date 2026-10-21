@@ -14,7 +14,7 @@ For linked mail, calendar, project files and Teams history, see
 | --- | --- | --- |
 | `tenant` | Baseline identities, users and entitlements | `parameterDefinitions`, `parameters`, `resources`, `steps` |
 | `data` | Additive service data or evidence | Same as tenant |
-| `template` | Select tenant baseline and ordered layers | `tenantProfile`, `dataProfiles`, `parameters` |
+| `template` | Select tenant baseline and ordered layers | `tenantProfile`, `dataProfiles`, `parameters`, optional `consoleDefaults` |
 
 Each document has `schemaVersion: 1`. Names match `[a-zA-Z0-9][a-zA-Z0-9_-]{0,127}`.
 `extends` references a same-kind document in the bundle; cycles/missing parents fail.
@@ -158,3 +158,19 @@ management access; the console is not a multi-role administration product.
 The [living-tenant presets](living-tenant-profiles.md) add connected directory,
 mail, collaboration, device and Azure data. [Finite activity](finite-activity.md)
 adds fixed-count public actions with pacing, cancellation and safe resume.
+
+## Saved console defaults
+
+A template may include `consoleDefaults` to round-trip the composer's namespace,
+new-tenant slug/domain/display name, and finite-activity inputs. Supported keys are
+`datasetNamespace`, `createTenant`, `tenantSlug`, `tenantDomain`, `displayName`,
+`activityEnabled`, `activityStep`, `actionCount`, and `pacingMs`. These values are
+UI defaults stored in the immutable bundle revision. The CLI and resolver do not
+use them as execution parameters. The console sends the explicit target/activity
+request for server validation at preview time. Existing-tenant selection is never
+saved in a reusable profile; the current tenant selector determines that target.
+
+Composition steps retain live inputs. Source edits must be loaded before changing
+layers or previewing. Save/export includes the configured defaults and parameters;
+loading another bundle replaces the current draft. An inherited layer list is
+copied when reordered, so the parent template remains unchanged.

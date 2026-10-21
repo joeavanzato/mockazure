@@ -113,6 +113,7 @@ def register_writes(router, version):
                     context,
                     datetime.now(UTC),
                     correlation_id=UUID(request.state.request_id),
+                    expected_public_version=request.headers.get("x-mockazure-if-version"),
                 )
                 if action != "create":
                     return Response(status_code=204)
