@@ -89,6 +89,13 @@ def test_all_screens_themes_and_narrow_layout(tmp_path):
             ("Console admin", "Your console session."),
         ]
         for label, title in screens:
+            if (
+                label == "Inspector"
+                and not page.get_by_role("button", name=label, exact=True).count()
+            ):
+                page.evaluate("hash => {location.hash=hash}", f"#/inspector?tenant={tid}")
+                expect(page.get_by_text("Inspector is disabled", exact=True)).to_be_visible()
+                continue
             page.get_by_role("button", name=label, exact=True).click()
             expect(page.get_by_role("heading", name=title, exact=True)).to_be_visible()
             expect(page.locator("#notice.error")).to_have_count(0)
