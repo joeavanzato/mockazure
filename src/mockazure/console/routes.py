@@ -21,7 +21,20 @@ ASSETS = {
     "styles.css": "text/css",
     **{
         name + ".js": "text/javascript"
-        for name in ("app", "api", "resources", "profiles", "runs", "inspector", "hunting")
+        for name in (
+            "app",
+            "api",
+            "resources",
+            "profiles",
+            "runs",
+            "inspector",
+            "hunting",
+            "state",
+            "components",
+            "workbench",
+            "resource-detail",
+            "uploads",
+        )
     },
 }
 PUBLIC_PATHS = {"/_mock/console/login", "/_mock/ui/", *{"/_mock/ui/" + name for name in ASSETS}}
@@ -95,6 +108,7 @@ async def current_session(request: Request):
                 "csrf_token": row.csrf_token,
                 "expires_at": row.expires_at.isoformat(),
                 "inspector_enabled": request.app.state.settings.console_inspector_enabled,
+                "capabilities": {"hunting": True, "relationships": True, "finite_activity": True},
             },
             headers={"Cache-Control": "no-store"},
         )

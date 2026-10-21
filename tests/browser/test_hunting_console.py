@@ -45,9 +45,14 @@ def test_hunting_console_named_identity_types_and_html_escaping(tmp_path):
                 origin + f"/_mock/tenants/{tid}/hunting/tables/DeviceInfo/import",
                 headers=admin_headers,
                 json={
-                    "source_ids": ["browser-" + uuid4().hex],
+                    "source_ids": ["browser-" + uuid4().hex for _ in range(205)],
                     "rows": [
-                        {"Timestamp": timestamp, "DeviceId": "browser-device", "DeviceName": label}
+                        {
+                            "Timestamp": timestamp,
+                            "DeviceId": "browser-device-" + str(i),
+                            "DeviceName": label,
+                        }
+                        for i in range(205)
                     ],
                 },
             )
@@ -87,7 +92,7 @@ def test_hunting_console_named_identity_types_and_html_escaping(tmp_path):
             page.get_by_role("button", name="Sign in", exact=True).click()
             expect(page.get_by_label("Tenant", exact=True)).to_be_visible()
             page.get_by_label("Tenant", exact=True).select_option(tid)
-            page.get_by_role("button", name="Hunting", exact=False).click()
+            page.get_by_role("button", name="Hunt evidence", exact=True).click()
             identity = page.get_by_role("combobox", name="Test identity", exact=True)
             expect(identity).to_be_visible()
             allowed = identity.locator("option").evaluate_all(
@@ -111,7 +116,15 @@ def test_hunting_console_named_identity_types_and_html_escaping(tmp_path):
             expect(results).to_contain_text("String")
             expect(page.get_by_role("button", name="Download JSON", exact=True)).to_be_enabled()
             page.screenshot(path=str(tmp_path / "hunting-console.png"), full_page=True)
+            with page.expect_download() as saved:
+                page.get_by_role("button", name="Download JSON", exact=True).click()
+            import json
+
+            exported = json.loads(Path(saved.value.path()).read_text())
+            assert len(exported["results"]) >= 205 and label in str(exported["results"])
+            assert results.locator("table").first.locator("tbody tr").count() == 200
             identity.select_option(denied)
+            expect(page.get_by_role("button", name="Download JSON", exact=True)).to_be_disabled()
             page.get_by_role("button", name="Run query", exact=True).click()
             expect(results.get_by_role("alert")).to_contain_text("403")
             assert page.get_by_label("Shared lab password").is_hidden()

@@ -74,35 +74,40 @@ def test_console_login_and_resource_browser(tmp_path):
                 label=os.environ.get("MOCKAZURE_BROWSER_TENANT", "Developer native lab")
             )
             selected_tenant = page.get_by_label("Tenant", exact=True).input_value()
-            page.get_by_label("Resource family").select_option("directory.users")
+
+            expect(
+                page.get_by_role("heading", name="Explore your cloud.", exact=True)
+            ).to_be_visible()
             expect(page.get_by_role("table")).to_be_visible()
             assert len([url for url in requests if "resources/directory.users?" in url]) <= 2
             page.screenshot(path=str(tmp_path / "console-desktop.png"), full_page=True)
             page.set_viewport_size({"width": 900, "height": 780})
             page.screenshot(path=str(tmp_path / "console-narrow.png"), full_page=True)
             assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-            page.get_by_role("button", name="Profiles", exact=False).click()
+            page.get_by_role("button", name="Compose lab", exact=True).click()
             page.get_by_label("Template", exact=True).select_option("developer-lab")
             first_layer = page.locator(".layer-list li code").first.inner_text()
-            page.get_by_role("button", name="↓", exact=True).first.click()
+            page.get_by_role("button", name=re.compile("^Move .* down$")).first.click()
             expect(page.locator(".layer-list li code").nth(1)).to_have_text(first_layer)
-            page.get_by_role("button", name="↑", exact=True).nth(1).click()
+            page.get_by_role("button", name=re.compile("^Move .* up$")).nth(1).click()
             expect(page.locator(".layer-list li code").first).to_have_text(first_layer)
             page.get_by_text("Profile source, import & export", exact=True).click()
             page.get_by_role("button", name="Save revision", exact=True).click()
             saved = page.get_by_text(re.compile(r"Saved revision .* · ")).inner_text()
             bundle_id = saved.split(" · ")[-1]
-            page.get_by_role("button", name="Resources", exact=False).click()
-            page.get_by_role("button", name="Profiles", exact=False).click()
+            page.get_by_role("button", name="Explore resources", exact=True).click()
+            page.get_by_role("button", name="Compose lab", exact=True).click()
             page.get_by_label("Saved bundle", exact=True).select_option(bundle_id)
             page.get_by_role("button", name="Load bundle", exact=True).click()
             expect(page.get_by_text("Loaded revision 1 · " + bundle_id)).to_be_visible()
             page.get_by_label("Template", exact=True).select_option("volume-lab")
+            page.get_by_role("button", name="2. Configure", exact=True).click()
             page.get_by_label("Dataset namespace").fill("browser-" + uuid4().hex[:10])
             page.get_by_label("Users", exact=True).fill("60")
             page.get_by_label("Additional parameters JSON").fill(
                 json.dumps({"volume-signins.records": 3})
             )
+            page.get_by_role("button", name="3. Review", exact=True).click()
             page.get_by_role("button", name="Preview population", exact=True).click()
             expect(page.get_by_role("heading", name="Review the resolved plan")).to_be_visible(
                 timeout=20000
@@ -112,20 +117,27 @@ def test_console_login_and_resource_browser(tmp_path):
             expect(page.get_by_role("heading", name="Population complete")).to_be_visible(
                 timeout=90000
             )
-            page.get_by_role("button", name="Resources", exact=False).click()
+            page.get_by_role("button", name="Explore resources", exact=True).click()
+            expect(
+                page.get_by_role("heading", name="Explore your cloud.", exact=True)
+            ).to_be_visible()
             expect(page.get_by_role("table")).to_be_visible()
             expect(page.get_by_role("button", name="Next page", exact=True)).to_be_enabled()
             assert page.locator("tbody tr").count() == 50
             page.get_by_role("button", name="Next page", exact=True).click()
             expect(page.locator("tbody tr").first).to_be_visible()
-            page.get_by_label("Resource family").select_option("directory.groups")
+            page.evaluate(
+                "hash => {location.hash=hash}",
+                f"#/resources?tenant={selected_tenant}&family=directory.groups",
+            )
             page.get_by_role("button", name="Add data", exact=True).click()
-            edit = page.get_by_role("dialog")
+            edit = page.locator("#workspace")
+            page.get_by_text("Advanced request JSON", exact=True).click()
             edit.get_by_label("Resource JSON", exact=True).fill(
                 json.dumps({"id": str(uuid4()), "madeUpGraphField": True})
             )
             edit.get_by_role("button", name="Preview change", exact=True).click()
-            expect(edit.get_by_role("alert")).to_contain_text(
+            expect(page.locator("#notice")).to_contain_text(
                 "Resource does not match", timeout=10000
             )
             group_id = str(uuid4())
@@ -142,7 +154,7 @@ def test_console_login_and_resource_browser(tmp_path):
             edit.get_by_role("button", name="Preview change", exact=True).click()
             expect(edit.get_by_role("button", name="Apply change", exact=True)).to_be_enabled()
             edit.get_by_role("button", name="Apply change", exact=True).click()
-            expect(edit).not_to_be_visible()
+            expect(page.get_by_role("heading", name="Change applied", exact=True)).to_be_visible()
             assert page.evaluate("window.executed") is None
             page.screenshot(path=str(tmp_path / "console-added-data.png"), full_page=True)
             page.get_by_role("button", name="Sign out", exact=True).click()
@@ -167,7 +179,10 @@ def test_console_login_and_resource_browser(tmp_path):
             async with database.sessions() as session:
                 binding = await session.scalar(
                     select(LabIdentity)
-                    .where(LabIdentity.tenant_id == UUID(selected_tenant))
+                    .where(
+                        LabIdentity.tenant_id == UUID(selected_tenant),
+                        LabIdentity.name.like("lab-%"),
+                    )
                     .order_by(LabIdentity.name)
                     .limit(1)
                 )

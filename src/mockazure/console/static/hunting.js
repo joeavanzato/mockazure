@@ -1,16 +1,17 @@
-import {api,el,field,button,table,heading,download} from "./api.js";
+import {el,field,button,table,heading,download} from "./api.js";
+import {Revision} from "./state.js";
 
 export async function hunting(root,ctx){
   const tenant=ctx.tenant();
-  root.replaceChildren(heading("Hunt across your lab","Query connected evidence using a named Graph identity."));
+  root.replaceChildren(heading("Follow the evidence.","Query supported evidence through an explicit, named Graph identity."));
   if(!tenant){root.append(el("p",{class:"hint"},"Select a tenant to open hunting."));return;}
   const base=`/_mock/tenants/${tenant.id}/hunting`;
   const [catalog,cookbook,identities]=await Promise.all([
-    api(base+"/tables"),api(base+"/cookbook"),
-    api(`/_mock/tenants/${tenant.id}/resources/identity.clients?limit=500`)
+    ctx.api(base+"/tables"),ctx.api(base+"/cookbook"),
+    ctx.api(`/_mock/tenants/${tenant.id}/resources/identity.clients?limit=500`)
   ]);
-  let disposed=false,last=null;
-  const identity=el("select",{id:"hunting-identity"},el("option",{value:""},"Choose a test identity"),
+  let disposed=false,last=null;const revision=new Revision();
+  const identity=el("select",{id:"hunting-identity","aria-label":"Test identity"},el("option",{value:""},"Choose a test identity"),
     identities.items.map(item=>el("option",{value:item.id},item.properties.display_name||item.id)));
   const example=el("select",{id:"hunting-example"},cookbook.cases.map(item=>el("option",{value:item.id},item.title)));
   const query=el("textarea",{id:"hunting-query",maxLength:65536,spellcheck:false,rows:8,
@@ -20,12 +21,13 @@ export async function hunting(root,ctx){
   const results=el("section",{"aria-label":"Query results"});
   const execute=button("Run query",async()=>{
     if(!identity.value)throw new Error("Choose a named test identity before running the query.");
+    revision.invalidate();const ticket=revision.capture();
     execute.disabled=true;last=null;exportButton.disabled=true;
     status.textContent="Querying local Graph…";results.replaceChildren();
     try{
       const request={Query:query.value};if(timespan.value)request.Timespan=timespan.value;
-      const response=await api(base+"/query",{method:"POST",json:{identity_ref:identity.value,request}});
-      if(disposed)return;
+      const response=await ctx.api(base+"/query",{method:"POST",json:{identity_ref:identity.value,request}});
+      if(disposed||!ctx.active()||!revision.current(ticket))return;
       last=response.graph;exportButton.disabled=false;
       const count=last.results.length,shown=Math.min(200,count);
       status.textContent=`${count.toLocaleString()} rows returned · ${shown.toLocaleString()} shown · Evidence reference ${response.reference_time}`;
@@ -37,11 +39,15 @@ export async function hunting(root,ctx){
       );
       if(count>shown)results.append(el("p",{class:"hint"},"The display is limited to 200 rows. Download JSON for the complete returned result."));
     }catch(error){
-      if(!disposed){status.textContent="Query failed.";results.replaceChildren(el("p",{class:"error",role:"alert"},error.message));}
+      if(!disposed&&ctx.active()&&revision.current(ticket)){status.textContent="Query failed.";results.replaceChildren(el("p",{class:"error",role:"alert"},error.message));}
     }finally{execute.disabled=false;}
   },"primary");
   const exportButton=button("Download JSON",()=>download("hunting-results.json",last),"small");exportButton.disabled=true;
-  example.addEventListener("change",()=>{query.value=cookbook.cases.find(item=>item.id===example.value).query;});
+  function invalidate(){revision.invalidate();last=null;exportButton.disabled=true;results.replaceChildren();status.textContent="Inputs changed. Run the query to refresh results.";}
+  example.addEventListener("change",()=>{query.value=cookbook.cases.find(item=>item.id===example.value).query;invalidate();});
+  [identity,query,timespan].forEach(input=>input.addEventListener("input",invalidate));
+  identity.value=ctx.drafts.get("hunting-identity:"+tenant.id)||"";
+  identity.addEventListener("change",()=>{ctx.drafts.set("hunting-identity:"+tenant.id,identity.value);invalidate();});
   const selector=el("select",{"aria-label":"Hunting table"},catalog.tables.map(item=>el("option",{value:item.name},item.name)));
   const definition=el("div",{});
   function showSchema(){
@@ -65,5 +71,5 @@ export async function hunting(root,ctx){
         field("Table",selector),definition)
     )
   );
-  return ()=>{disposed=true;};
+  return ()=>{disposed=true;revision.invalidate();};
 }
