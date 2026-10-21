@@ -155,6 +155,8 @@ class PayloadAdapter:
         return all(existing.get(key) == value for key, value in desired.items())
 
     async def matches_mutation(self, session, ctx, old, mutation, payload):
+        if self.replace_allowed and mutation.expected_version:
+            return old.properties == payload
         return self.matches(old.properties, payload)
 
     async def apply(self, ctx, mutations):

@@ -40,6 +40,20 @@ class StepDefinition(ProfileInput):
     override: bool = False
 
 
+class ConsoleDefaults(ProfileInput):
+    """Optional UI defaults, stored with a template; never an execution target."""
+
+    datasetNamespace: str = Field(default="my-lab", max_length=128, pattern=r"^[A-Za-z0-9._-]+$")
+    createTenant: bool = False
+    tenantSlug: str = Field(default="my-lab", max_length=128)
+    tenantDomain: str = Field(default="my-lab.test", max_length=253)
+    displayName: str = Field(default="My lab", max_length=256)
+    activityEnabled: bool = False
+    activityStep: str = Field(default="calendar", max_length=128)
+    actionCount: int = Field(default=10, ge=1, le=100000)
+    pacingMs: int = Field(default=0, ge=0, le=60000)
+
+
 class ProfileDocument(ProfileInput):
     schemaVersion: Literal[1] = 1
     kind: Literal["tenant", "data", "template"]
@@ -51,13 +65,14 @@ class ProfileDocument(ProfileInput):
     steps: dict[str, StepDefinition] = Field(default_factory=dict)
     tenantProfile: str | None = None
     dataProfiles: list[str] = Field(default_factory=list)
+    consoleDefaults: ConsoleDefaults | None = None
 
     @model_validator(mode="after")
     def kind_fields(self):
         forbidden = (
             {"resources", "steps", "parameterDefinitions"}
             if self.kind == "template"
-            else {"tenantProfile", "dataProfiles"}
+            else {"tenantProfile", "dataProfiles", "consoleDefaults"}
         )
         if forbidden & self.model_fields_set:
             raise ValueError("Fields do not apply to this profile kind")

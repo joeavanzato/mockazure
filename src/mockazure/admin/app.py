@@ -37,6 +37,7 @@ from mockazure.config import Settings
 from mockazure.console.boundary import authorize_management
 from mockazure.console.routes import PUBLIC_PATHS
 from mockazure.console.routes import router as console_router
+from mockazure.console.workbench import router as workbench_router
 from mockazure.content.routes import router as content_admin_router
 from mockazure.db.engine import Database, close_database, create_database
 from mockazure.identity.repository import IdentityError
@@ -341,6 +342,7 @@ def create_app(settings: Settings, database: Database | None = None) -> FastAPI:
     app.include_router(maintenance_admin_router)
     app.include_router(router)
     app.include_router(console_router)
+    app.include_router(workbench_router)
     app.include_router(resource_admin_router)
     app.include_router(profile_admin_router)
     app.include_router(population_admin_router)

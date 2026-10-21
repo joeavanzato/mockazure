@@ -237,6 +237,7 @@ async def mutate_directory(
     now: datetime,
     *,
     correlation_id: UUID | None = None,
+    expected_public_version: str | None = None,
 ) -> MutationResult:
     if command.kind not in {"user", "group"}:
         invalid("Unsupported directory kind")
@@ -276,6 +277,32 @@ async def mutate_directory(
     if command.action != "create":
         row = await active_object(session, tenant_id, command.kind, command.target_id)
         before = public_object(row)
+        if expected_public_version is not None:
+            from mockazure.directory.models import ObjectVersion
+            from mockazure.population.tokens import fingerprint
+            from mockazure.providers.graph.errors import GraphError
+
+            revision_value = await session.scalar(
+                select(ObjectVersion.valid_from).where(
+                    ObjectVersion.tenant_id == tenant_id,
+                    ObjectVersion.object_id == row.id,
+                    ObjectVersion.valid_to.is_(None),
+                    ObjectVersion.removed.is_(False),
+                )
+            )
+            actual = fingerprint(
+                [
+                    str(tenant_id),
+                    "directory." + command.kind + "s",
+                    None,
+                    str(row.id),
+                    revision_value,
+                ]
+            )
+            if actual != expected_public_version:
+                raise GraphError(
+                    409, "ResourceConflict", "Resource changed after console preview; preview again"
+                )
         if command.kind == "group":
             if row.profile.get("_anonymous"):
                 invalid("Anonymous Group.Create groups are not modifiable in this profile")
