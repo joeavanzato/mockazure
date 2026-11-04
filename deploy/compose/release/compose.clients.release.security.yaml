@@ -1,4 +1,4 @@
-name: mockazure-m6-arm-clients
+name: mockazure-m6-security-clients
 services:
   powershell:
     image: mcr.microsoft.com/powershell@sha256:042240d57ec9e47e511033b92625a8d95875ee5860af3015992c248b58a8be81
@@ -6,7 +6,6 @@ services:
     command: ["/project/integrations/powershell/Test-NetworkBoundary.ps1"]
     working_dir: /project
     environment:
-      TZ: UTC
       SSL_CERT_FILE: /certs/ca.pem
       PSModulePath: /vendor/modules:/opt/microsoft/powershell/7/Modules
       POWERSHELL_TELEMETRY_OPTOUT: "1"
@@ -16,24 +15,21 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-arm/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/dependencies:/vendor/dependencies:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./.runtime/m6-arm/clients/powershell-state:/state
-      - ./.runtime/m6-arm/clients/powershell-root:/root
-      - ./.runtime/m6-arm/clients/powershell-tmp:/tmp
+      - ../../../.runtime/m6-security/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../.runtime/m6-security/clients/powershell-state:/state
+      - ../../../.runtime/m6-security/clients/powershell-root:/root
+      - ../../../.runtime/m6-security/clients/powershell-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
   python:
-    image: mockazure:m6-arm-python-clients
-    pull_policy: never
+    image: mockazure:m6-security-python-clients
     entrypoint: ["python"]
     command: ["/project/integrations/python/network_boundary.py"]
     working_dir: /project
     environment:
-      TZ: UTC
       SSL_CERT_FILE: /certs/ca.pem
       PYTHONDONTWRITEBYTECODE: "1"
       HTTP_PROXY: ""
@@ -41,17 +37,16 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-arm/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/dependencies:/vendor/dependencies:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./.runtime/m6-arm/clients/python-state:/state
-      - ./.runtime/m6-arm/clients/python-root:/root
-      - ./.runtime/m6-arm/clients/python-tmp:/tmp
+      - ../../../.runtime/m6-security/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../.runtime/m6-security/clients/python-state:/state
+      - ../../../.runtime/m6-security/clients/python-root:/root
+      - ../../../.runtime/m6-security/clients/python-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
 networks:
   isolated:
-    name: mockazure-m6-arm-clients-isolated
+    name: mockazure-m6-security-clients-isolated
     external: true

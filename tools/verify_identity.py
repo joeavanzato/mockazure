@@ -30,11 +30,11 @@ CLIENT_COMPOSE = [
     "docker",
     "compose",
     "-f",
-    "compose.clients.yaml",
+    "deploy/compose/milestones/compose.clients.yaml",
     "-f",
-    "compose.clients.m2.yaml",
+    "deploy/compose/milestones/compose.clients.m2.yaml",
 ]
-M2_COMPOSE = ["docker", "compose", "-f", "compose.m2.yaml"]
+M2_COMPOSE = ["docker", "compose", "-f", "deploy/compose/milestones/compose.m2.yaml"]
 
 
 def sha(path):
@@ -49,9 +49,9 @@ def source_fingerprint():
         ROOT / "Dockerfile",
         ROOT / "integrations/Dockerfile.python",
         ROOT / "deploy/haproxy-m2.cfg",
-        ROOT / "compose.m2.yaml",
-        ROOT / "compose.clients.yaml",
-        ROOT / "compose.clients.m2.yaml",
+        ROOT / "deploy/compose/milestones/compose.m2.yaml",
+        ROOT / "deploy/compose/milestones/compose.clients.yaml",
+        ROOT / "deploy/compose/milestones/compose.clients.m2.yaml",
     ]
     from tools.source_inputs import qualification_files
 

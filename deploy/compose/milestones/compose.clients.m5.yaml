@@ -1,4 +1,4 @@
-name: mockazure-m4-clients
+name: mockazure-m5-clients
 services:
   powershell:
     image: mcr.microsoft.com/powershell@sha256:042240d57ec9e47e511033b92625a8d95875ee5860af3015992c248b58a8be81
@@ -16,19 +16,18 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m4/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/dependencies:/vendor/dependencies:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./work/collector-profiles:/collector-profiles:ro
-      - ./.runtime/m4/clients/powershell-state:/state
-      - ./.runtime/m4/clients/powershell-root:/root
-      - ./.runtime/m4/clients/powershell-tmp:/tmp
+      - ../../../.runtime/m5/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/dependencies:/vendor/dependencies:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../.runtime/m5/clients/powershell-state:/state
+      - ../../../.runtime/m5/clients/powershell-root:/root
+      - ../../../.runtime/m5/clients/powershell-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
   python:
-    image: mockazure:mail-python-clients
+    image: mockazure:arm-python-clients
     pull_policy: never
     entrypoint: ["python"]
     command: ["/project/integrations/python/network_boundary.py"]
@@ -42,18 +41,17 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m4/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/dependencies:/vendor/dependencies:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./work/collector-profiles:/collector-profiles:ro
-      - ./.runtime/m4/clients/python-state:/state
-      - ./.runtime/m4/clients/python-root:/root
-      - ./.runtime/m4/clients/python-tmp:/tmp
+      - ../../../.runtime/m5/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/dependencies:/vendor/dependencies:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../.runtime/m5/clients/python-state:/state
+      - ../../../.runtime/m5/clients/python-root:/root
+      - ../../../.runtime/m5/clients/python-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
 networks:
   isolated:
-    name: mockazure-m4-clients-isolated
+    name: mockazure-m5-clients-isolated
     external: true

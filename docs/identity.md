@@ -172,11 +172,11 @@ state; the original foundation runtime stays separate.
 python tools/prepare_identity.py
 python tools/prepare_clients.py --output work/vendor
 # Create the isolated network and prove it before enabling clients.
-docker compose -f compose.clients.yaml run --rm powershell
+docker compose -f deploy/compose/milestones/compose.clients.yaml run --rm powershell
 # Build the runtime and Python client images.
 docker build -t mockazure:identity .
 docker build -f integrations/Dockerfile.python -t mockazure:identity-python-clients .
-docker compose -f compose.m2.yaml up -d --wait
+docker compose -f deploy/compose/milestones/compose.m2.yaml up -d --wait
 python tools/prepare_identity.py --provision
 ```
 

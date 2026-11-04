@@ -32,7 +32,11 @@ def test_previously_measured_evidence_suite_can_finish(monkeypatch, tmp_path):
 
 
 def test_all_m6_databases_allow_observed_recovery_and_graceful_shutdown():
-    paths = [*Path.cwd().glob("compose.release.*.yaml"), Path("compose.test.m6.yaml")]
+    paths = [
+        *Path("deploy/compose/release").glob("compose.release.*.yaml"),
+        Path("deploy/compose/tests/compose.test.m6.yaml"),
+    ]
+    assert len(paths) == 6
     for path in paths:
         text = path.read_text()
         checks = [line for line in text.splitlines() if "pg_isready" in line]

@@ -77,7 +77,7 @@ that resource discovery works.
 
 ## Isolation and reproducibility
 
-Run preparation with external artifact access, then launch compose.clients.yaml.
+Run preparation with external artifact access, then launch deploy/compose/milestones/compose.clients.yaml.
 Both clients have only an internal network, no inherited proxy, and a failing
 external resolver. Tests check external DNS, direct IPv4 and direct IPv6 sockets.
 Generated state lives in project-owned .runtime/clients; no host trust/DNS changes.

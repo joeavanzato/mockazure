@@ -63,6 +63,14 @@ file. An existing .runtime/postgres database keeps its explicit bind mount. Miss
 legacy database state causes initialization to stop; it is never silently replaced
 with an empty volume. See [storage and recovery](docs/default-runtime.md).
 
+## Compose files
+
+Use `compose.yaml` to run the application and `compose.test.yaml` for the default
+integration-test database. Additional release, milestone and test environments
+live under [`deploy/compose/`](deploy/compose/README.md), with a guide explaining
+which are current and which are retained for reproducibility. Most users need only
+the two root files; the Windows launcher still uses `compose.yaml`.
+
 ## Native development
 
 Python 3.12 and local PostgreSQL are required:

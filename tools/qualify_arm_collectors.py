@@ -126,7 +126,7 @@ def qualify_collectors():
                         "docker",
                         "compose",
                         "-f",
-                        PROFILE.text("compose.clients.m5.yaml"),
+                        PROFILE.text("deploy/compose/milestones/compose.clients.m5.yaml"),
                         "run",
                         "--rm",
                         "powershell",

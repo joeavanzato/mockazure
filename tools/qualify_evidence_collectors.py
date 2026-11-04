@@ -28,7 +28,12 @@ from tools.qualification_profile import profile_for  # noqa: E402
 PROFILE = profile_for("m3b")
 RUNTIME = ROOT / PROFILE.text(".runtime/m3b")
 STATE = RUNTIME / "clients/powershell-state"
-CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m3b.yaml")]
+CLIENTS = [
+    "docker",
+    "compose",
+    "-f",
+    PROFILE.text("deploy/compose/milestones/compose.clients.m3b.yaml"),
+]
 
 
 def host(path):

@@ -23,8 +23,13 @@ from tools.qualification_profile import profile_for  # noqa: E402
 
 PROFILE = profile_for("m5")
 RUNTIME = ROOT / PROFILE.text(".runtime/m5")
-COMPOSE = ["docker", "compose", "-f", PROFILE.text("compose.m5.yaml")]
-CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m5.yaml")]
+COMPOSE = ["docker", "compose", "-f", PROFILE.text("deploy/compose/milestones/compose.m5.yaml")]
+CLIENTS = [
+    "docker",
+    "compose",
+    "-f",
+    PROFILE.text("deploy/compose/milestones/compose.clients.m5.yaml"),
+]
 
 
 def command(args, label, *, env=None, timeout=300):

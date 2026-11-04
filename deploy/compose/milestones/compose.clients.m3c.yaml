@@ -1,4 +1,4 @@
-name: mockazure-m6-evidence-clients
+name: mockazure-m3c-clients
 services:
   powershell:
     image: mcr.microsoft.com/powershell@sha256:042240d57ec9e47e511033b92625a8d95875ee5860af3015992c248b58a8be81
@@ -15,17 +15,17 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-evidence/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./.runtime/m6-evidence/clients/powershell-state:/state
-      - ./.runtime/m6-evidence/clients/powershell-root:/root
-      - ./.runtime/m6-evidence/clients/powershell-tmp:/tmp
+      - ../../../.runtime/m3c/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../.runtime/m3c/clients/powershell-state:/state
+      - ../../../.runtime/m3c/clients/powershell-root:/root
+      - ../../../.runtime/m3c/clients/powershell-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
   python:
-    image: mockazure:m6-evidence-python-clients
+    image: mockazure:security-python-clients
     entrypoint: ["python"]
     command: ["/project/integrations/python/network_boundary.py"]
     working_dir: /project
@@ -37,16 +37,16 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-evidence/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./.runtime/m6-evidence/clients/python-state:/state
-      - ./.runtime/m6-evidence/clients/python-root:/root
-      - ./.runtime/m6-evidence/clients/python-tmp:/tmp
+      - ../../../.runtime/m3c/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../.runtime/m3c/clients/python-state:/state
+      - ../../../.runtime/m3c/clients/python-root:/root
+      - ../../../.runtime/m3c/clients/python-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
 networks:
   isolated:
-    name: mockazure-m6-evidence-clients-isolated
+    name: mockazure-m3c-clients-isolated
     external: true
