@@ -1,23 +1,25 @@
-name: mockazure-m3b
+name: mockazure-m6-evidence
 x-application: &application
-  image: mockazure:evidence
+  image: mockazure:m6-evidence
   volumes:
-    - ./.runtime/m3b/instance:/instance:ro
+    - ../../../.runtime/m6-evidence/instance:/instance:ro
   networks: [internal]
 services:
   db:
+    stop_grace_period: 120s
     init: true
     image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
     environment:
-      POSTGRES_USER: mockazure_m3b
-      POSTGRES_DB: mockazure_m3b
+      POSTGRES_USER: mockazure_m6_evidence
+      POSTGRES_DB: mockazure_m6_evidence
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     secrets: [db_password]
     volumes:
-      - ./.runtime/m3b/postgres:/var/lib/postgresql
+      - postgres-data:/var/lib/postgresql
     networks: [internal]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mockazure_m3b -d mockazure_m3b"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure_m6_evidence -d mockazure_m6_evidence"]
+      start_period: 180s
       interval: 2s
       timeout: 3s
       retries: 30
@@ -30,16 +32,16 @@ services:
     <<: *application
     command: ["identity", "initialize", "--config", "/instance/container.json"]
     volumes:
-      - ./.runtime/m3b/instance:/instance
+      - ../../../.runtime/m6-evidence/instance:/instance
     depends_on:
       migrate: {condition: service_completed_successfully}
   api:
     <<: *application
     entrypoint: ["python", "/project/integrations/trace_server.py"]
     volumes:
-      - ./.runtime/m3b/instance:/instance:ro
-      - ./integrations:/project/integrations:ro
-      - ./.runtime/m3b/api-state:/state
+      - ../../../.runtime/m6-evidence/instance:/instance:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../.runtime/m6-evidence/api-state:/state
     depends_on:
       identity-init: {condition: service_completed_successfully}
     healthcheck:
@@ -51,9 +53,9 @@ services:
     <<: *application
     entrypoint: ["python", "/project/integrations/trace_server.py"]
     volumes:
-      - ./.runtime/m3b/instance:/instance:ro
-      - ./integrations:/project/integrations:ro
-      - ./.runtime/m3b/api2-state:/state
+      - ../../../.runtime/m6-evidence/instance:/instance:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../.runtime/m6-evidence/api2-state:/state
     depends_on:
       identity-init: {condition: service_completed_successfully}
   worker:
@@ -79,7 +81,7 @@ services:
   local-tls:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
-      - ./deploy/haproxy-m3b.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ../../../deploy/haproxy-release-evidence.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     networks:
       internal:
         aliases: [login.mockazure.test, graph.mockazure.test, outlook.mockazure.test, management.mockazure.test]
@@ -88,21 +90,25 @@ services:
   ingress:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
-      - ./deploy/haproxy-m3b.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-    ports: ["127.0.0.1:51443:443", "127.0.0.1:55436:5432", "127.0.0.1:51446:8080"]
+      - ../../../deploy/haproxy-release-evidence.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports: ["127.0.0.1:40443:443", "127.0.0.1:55447:5432", "127.0.0.1:40446:8080"]
     networks: [internal, ingress]
     depends_on:
       api: {condition: service_healthy}
 secrets:
   db_password:
-    file: ./.runtime/m3b/db.password
+    file: ../../../.runtime/m6-evidence/db.password
+volumes:
+  postgres-data:
+    labels:
+      org.mockazure.purpose: release-postgresql
 networks:
   internal:
     external: true
-    name: mockazure-m3b-clients-isolated
+    name: mockazure-m6-evidence-clients-isolated
   ingress:
     driver_opts:
       com.docker.network.bridge.enable_ip_masquerade: "false"
     ipam:
       config:
-        - subnet: 10.231.79.0/24
+        - subnet: 10.231.105.0/24

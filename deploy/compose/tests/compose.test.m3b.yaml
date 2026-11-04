@@ -1,4 +1,4 @@
-name: mockazure-mail-tests
+name: mockazure-evidence-tests
 services:
   db:
     init: true
@@ -20,21 +20,21 @@ services:
   ingress:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
-      - ./deploy/haproxy-test.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-    ports: ["127.0.0.1:55441:5432"]
+      - ../../../deploy/haproxy-test.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports: ["127.0.0.1:55437:5432"]
     networks: [isolated, ingress]
     depends_on:
       db: {condition: service_healthy}
 secrets:
   db_password:
-    file: ./.runtime/test-db.password
+    file: ../../../.runtime/test-db.password
 networks:
   isolated:
     internal: true
     ipam:
-      config: [{subnet: 10.231.92.0/24}]
+      config: [{subnet: 10.231.76.0/24}]
   ingress:
     ipam:
-      config: [{subnet: 10.231.93.0/24}]
+      config: [{subnet: 10.231.77.0/24}]
     driver_opts:
       com.docker.network.bridge.enable_ip_masquerade: "false"

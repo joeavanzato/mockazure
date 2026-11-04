@@ -16,15 +16,15 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-mail/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/dependencies:/vendor/dependencies:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./work/collector-profiles:/collector-profiles:ro
-      - ./.runtime/m6-mail/clients/powershell-state:/state
-      - ./.runtime/m6-mail/clients/powershell-root:/root
-      - ./.runtime/m6-mail/clients/powershell-tmp:/tmp
+      - ../../../.runtime/m6-mail/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/dependencies:/vendor/dependencies:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../work/collector-profiles:/collector-profiles:ro
+      - ../../../.runtime/m6-mail/clients/powershell-state:/state
+      - ../../../.runtime/m6-mail/clients/powershell-root:/root
+      - ../../../.runtime/m6-mail/clients/powershell-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
   python:
@@ -42,15 +42,15 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-mail/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./work/vendor/dependencies:/vendor/dependencies:ro
-      - ./work/vendor/collectors:/vendor/collectors:ro
-      - ./work/collector-profiles:/collector-profiles:ro
-      - ./.runtime/m6-mail/clients/python-state:/state
-      - ./.runtime/m6-mail/clients/python-root:/root
-      - ./.runtime/m6-mail/clients/python-tmp:/tmp
+      - ../../../.runtime/m6-mail/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../work/vendor/dependencies:/vendor/dependencies:ro
+      - ../../../work/vendor/collectors:/vendor/collectors:ro
+      - ../../../work/collector-profiles:/collector-profiles:ro
+      - ../../../.runtime/m6-mail/clients/python-state:/state
+      - ../../../.runtime/m6-mail/clients/python-root:/root
+      - ../../../.runtime/m6-mail/clients/python-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
 networks:

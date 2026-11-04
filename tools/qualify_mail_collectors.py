@@ -352,7 +352,7 @@ def run_collectors(profile="original", labels=None):
                         "docker",
                         "compose",
                         "-f",
-                        PROFILE.text("compose.clients.m4.yaml"),
+                        PROFILE.text("deploy/compose/milestones/compose.clients.m4.yaml"),
                         "run",
                         "--rm",
                         "powershell",

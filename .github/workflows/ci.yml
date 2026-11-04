@@ -21,12 +21,12 @@ jobs:
       - run: uv run python -m tools.check_cloud_coverage --check
       - run: mkdir -p work && uv run python -m pytest tests/unit -q --basetemp=work/ci-unit
       - run: uv run python tools/prepare_tests.py
-      - run: docker compose -f compose.test.m6.yaml up -d --wait
+      - run: docker compose -f deploy/compose/tests/compose.test.m6.yaml up -d --wait
       - run: uv run python -m pytest tests/integration -q --basetemp=work/ci-integration
         env:
           MOCKAZURE_TEST_DB_PORT: "55445"
       - if: always()
-        run: docker compose -f compose.test.m6.yaml stop
+        run: docker compose -f deploy/compose/tests/compose.test.m6.yaml stop
   default-install:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -200,13 +200,13 @@ jobs:
           python-version: "3.12"
       - run: uv sync --locked --group clients
       - run: uv run python tools/prepare_tests.py
-      - run: docker compose -f compose.test.m6.yaml up -d --wait
+      - run: docker compose -f deploy/compose/tests/compose.test.m6.yaml up -d --wait
       - run: uv run python -m tools.build_release --commit "$(git rev-parse HEAD)" --output work/release/candidate
-      - run: uv run python -m tools.verify_cloud_distribution --database-container "$(docker compose -f compose.test.m6.yaml ps -q db)"
+      - run: uv run python -m tools.verify_cloud_distribution --database-container "$(docker compose -f deploy/compose/tests/compose.test.m6.yaml ps -q db)"
         env:
           MOCKAZURE_TEST_DB_PORT: "55445"
       - if: always()
-        run: docker compose -f compose.test.m6.yaml stop
+        run: docker compose -f deploy/compose/tests/compose.test.m6.yaml stop
       - uses: actions/upload-artifact@v4
         if: always()
         with:

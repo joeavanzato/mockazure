@@ -1,25 +1,23 @@
-name: mockazure-m6-mail
+name: mockazure-m3c
 x-application: &application
-  image: mockazure:m6-mail
+  image: mockazure:security
   volumes:
-    - ./.runtime/m6-mail/instance:/instance:ro
+    - ../../../.runtime/m3c/instance:/instance:ro
   networks: [internal]
 services:
   db:
-    stop_grace_period: 120s
     init: true
     image: postgres:18@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336
     environment:
-      POSTGRES_USER: mockazure_m6_mail
-      POSTGRES_DB: mockazure_m6_mail
+      POSTGRES_USER: mockazure_m3c
+      POSTGRES_DB: mockazure_m3c
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     secrets: [db_password]
     volumes:
-      - postgres-data:/var/lib/postgresql
+      - ../../../.runtime/m3c/postgres:/var/lib/postgresql
     networks: [internal]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U mockazure_m6_mail -d mockazure_m6_mail"]
-      start_period: 180s
+      test: ["CMD-SHELL", "pg_isready -U mockazure_m3c -d mockazure_m3c"]
       interval: 2s
       timeout: 3s
       retries: 30
@@ -32,16 +30,16 @@ services:
     <<: *application
     command: ["identity", "initialize", "--config", "/instance/container.json"]
     volumes:
-      - ./.runtime/m6-mail/instance:/instance
+      - ../../../.runtime/m3c/instance:/instance
     depends_on:
       migrate: {condition: service_completed_successfully}
   api:
     <<: *application
     entrypoint: ["python", "/project/integrations/trace_server.py"]
     volumes:
-      - ./.runtime/m6-mail/instance:/instance:ro
-      - ./integrations:/project/integrations:ro
-      - ./.runtime/m6-mail/api-state:/state
+      - ../../../.runtime/m3c/instance:/instance:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../.runtime/m3c/api-state:/state
     depends_on:
       identity-init: {condition: service_completed_successfully}
     healthcheck:
@@ -53,9 +51,9 @@ services:
     <<: *application
     entrypoint: ["python", "/project/integrations/trace_server.py"]
     volumes:
-      - ./.runtime/m6-mail/instance:/instance:ro
-      - ./integrations:/project/integrations:ro
-      - ./.runtime/m6-mail/api2-state:/state
+      - ../../../.runtime/m3c/instance:/instance:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../.runtime/m3c/api2-state:/state
     depends_on:
       identity-init: {condition: service_completed_successfully}
   worker:
@@ -81,7 +79,7 @@ services:
   local-tls:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
-      - ./deploy/haproxy-release-mail.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ../../../deploy/haproxy-m3c.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     networks:
       internal:
         aliases: [login.mockazure.test, graph.mockazure.test, outlook.mockazure.test, management.mockazure.test]
@@ -90,25 +88,21 @@ services:
   ingress:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
-      - ./deploy/haproxy-release-mail.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-    ports: ["127.0.0.1:44443:443", "127.0.0.1:55449:5432", "127.0.0.1:44446:8080"]
+      - ../../../deploy/haproxy-m3c.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    ports: ["127.0.0.1:32443:443", "127.0.0.1:55440:5432", "127.0.0.1:32446:8080"]
     networks: [internal, ingress]
     depends_on:
       api: {condition: service_healthy}
 secrets:
   db_password:
-    file: ./.runtime/m6-mail/db.password
-volumes:
-  postgres-data:
-    labels:
-      org.mockazure.purpose: release-postgresql
+    file: ../../../.runtime/m3c/db.password
 networks:
   internal:
     external: true
-    name: mockazure-m6-mail-clients-isolated
+    name: mockazure-m3c-clients-isolated
   ingress:
     driver_opts:
       com.docker.network.bridge.enable_ip_masquerade: "false"
     ipam:
       config:
-        - subnet: 10.231.109.0/24
+        - subnet: 10.231.91.0/24

@@ -311,7 +311,10 @@ if __name__ == "__main__":
     parser.add_argument(
         "--provision",
         action="store_true",
-        help="Provision identities over HTTPS after starting compose.m2.yaml",
+        help=(
+            "Provision identities over HTTPS after starting "
+            "deploy/compose/milestones/compose.m2.yaml"
+        ),
     )
     args = parser.parse_args()
     os.chdir(ROOT)

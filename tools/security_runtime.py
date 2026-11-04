@@ -24,8 +24,13 @@ from tools.qualification_profile import profile_for  # noqa: E402
 
 PROFILE = profile_for("m3c")
 RUNTIME = ROOT / PROFILE.text(".runtime/m3c")
-COMPOSE = ["docker", "compose", "-f", PROFILE.text("compose.m3c.yaml")]
-CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m3c.yaml")]
+COMPOSE = ["docker", "compose", "-f", PROFILE.text("deploy/compose/milestones/compose.m3c.yaml")]
+CLIENTS = [
+    "docker",
+    "compose",
+    "-f",
+    PROFILE.text("deploy/compose/milestones/compose.clients.m3c.yaml"),
+]
 
 
 def command(args, label, *, env=None, timeout=300):

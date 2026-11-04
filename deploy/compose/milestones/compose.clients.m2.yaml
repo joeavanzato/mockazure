@@ -4,9 +4,9 @@ services:
     environment:
       SSL_CERT_FILE: /certs/ca.pem
     volumes:
-      - ./.runtime/m2/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../.runtime/m2/instance/ca.pem:/certs/ca.pem:ro
   python:
     image: mockazure:identity-python-clients
     command: ["/project/integrations/python/app_only.py"]
     volumes:
-      - ./.runtime/m2/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../.runtime/m2/instance/ca.pem:/certs/ca.pem:ro

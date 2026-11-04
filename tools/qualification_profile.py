@@ -63,12 +63,17 @@ class QualificationProfile:
 
     @property
     def compose(self):
-        return "compose." + ("release." + self.surface if self.release else self.stage) + ".yaml"
+        directory = "release" if self.release else "milestones"
+        filename = (
+            "compose." + ("release." + self.surface if self.release else self.stage) + ".yaml"
+        )
+        return f"deploy/compose/{directory}/{filename}"
 
     @property
     def clients_compose(self):
+        directory = "release" if self.release else "milestones"
         return (
-            "compose.clients."
+            f"deploy/compose/{directory}/compose.clients."
             + ("release." + self.surface if self.release else self.stage)
             + ".yaml"
         )
@@ -92,8 +97,8 @@ class QualificationProfile:
             return template
         old_https, old_db, old_network = STAGES[self.stage][1:]
         substitutions = {
-            f"compose.clients.{self.stage}.yaml": self.clients_compose,
-            f"compose.{self.stage}.yaml": self.compose,
+            f"deploy/compose/milestones/compose.clients.{self.stage}.yaml": self.clients_compose,
+            f"deploy/compose/milestones/compose.{self.stage}.yaml": self.compose,
             f"deploy/haproxy-{self.stage}.cfg": f"deploy/haproxy-release-{self.surface}.cfg",
             f".runtime/{self.stage}": self.runtime_dir,
             f"mockazure-{self.stage}": self.project,

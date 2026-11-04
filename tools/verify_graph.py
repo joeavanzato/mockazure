@@ -27,8 +27,13 @@ from tools.qualification_profile import profile_for  # noqa: E402
 
 PROFILE = profile_for("m3")
 RUNTIME = ROOT / PROFILE.text(".runtime/m3")
-COMPOSE = ["docker", "compose", "-f", PROFILE.text("compose.m3.yaml")]
-CLIENTS = ["docker", "compose", "-f", PROFILE.text("compose.clients.m3.yaml")]
+COMPOSE = ["docker", "compose", "-f", PROFILE.text("deploy/compose/milestones/compose.m3.yaml")]
+CLIENTS = [
+    "docker",
+    "compose",
+    "-f",
+    PROFILE.text("deploy/compose/milestones/compose.clients.m3.yaml"),
+]
 
 
 def sha(path):
@@ -48,8 +53,8 @@ def source_fingerprint():
             "build-requirements.txt",
             "Dockerfile",
             "integrations/Dockerfile.python",
-            PROFILE.text("compose.m3.yaml"),
-            PROFILE.text("compose.clients.m3.yaml"),
+            PROFILE.text("deploy/compose/milestones/compose.m3.yaml"),
+            PROFILE.text("deploy/compose/milestones/compose.clients.m3.yaml"),
             PROFILE.text("deploy/haproxy-m3.cfg"),
         )
     }

@@ -15,12 +15,12 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-graph/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./.runtime/m6-graph/clients/powershell-state:/state
-      - ./.runtime/m6-graph/clients/powershell-root:/root
-      - ./.runtime/m6-graph/clients/powershell-tmp:/tmp
+      - ../../../.runtime/m6-graph/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../.runtime/m6-graph/clients/powershell-state:/state
+      - ../../../.runtime/m6-graph/clients/powershell-root:/root
+      - ../../../.runtime/m6-graph/clients/powershell-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
   python:
@@ -36,12 +36,12 @@ services:
       ALL_PROXY: ""
       NO_PROXY: "*"
     volumes:
-      - ./.runtime/m6-graph/instance/ca.pem:/certs/ca.pem:ro
-      - ./integrations:/project/integrations:ro
-      - ./work/vendor/modules:/vendor/modules:ro
-      - ./.runtime/m6-graph/clients/python-state:/state
-      - ./.runtime/m6-graph/clients/python-root:/root
-      - ./.runtime/m6-graph/clients/python-tmp:/tmp
+      - ../../../.runtime/m6-graph/instance/ca.pem:/certs/ca.pem:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../work/vendor/modules:/vendor/modules:ro
+      - ../../../.runtime/m6-graph/clients/python-state:/state
+      - ../../../.runtime/m6-graph/clients/python-root:/root
+      - ../../../.runtime/m6-graph/clients/python-tmp:/tmp
     dns: [127.0.0.1]
     networks: [isolated]
 networks:

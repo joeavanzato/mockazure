@@ -2,7 +2,7 @@ name: mockazure-m6-security
 x-application: &application
   image: mockazure:m6-security
   volumes:
-    - ./.runtime/m6-security/instance:/instance:ro
+    - ../../../.runtime/m6-security/instance:/instance:ro
   networks: [internal]
 services:
   db:
@@ -32,16 +32,16 @@ services:
     <<: *application
     command: ["identity", "initialize", "--config", "/instance/container.json"]
     volumes:
-      - ./.runtime/m6-security/instance:/instance
+      - ../../../.runtime/m6-security/instance:/instance
     depends_on:
       migrate: {condition: service_completed_successfully}
   api:
     <<: *application
     entrypoint: ["python", "/project/integrations/trace_server.py"]
     volumes:
-      - ./.runtime/m6-security/instance:/instance:ro
-      - ./integrations:/project/integrations:ro
-      - ./.runtime/m6-security/api-state:/state
+      - ../../../.runtime/m6-security/instance:/instance:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../.runtime/m6-security/api-state:/state
     depends_on:
       identity-init: {condition: service_completed_successfully}
     healthcheck:
@@ -53,9 +53,9 @@ services:
     <<: *application
     entrypoint: ["python", "/project/integrations/trace_server.py"]
     volumes:
-      - ./.runtime/m6-security/instance:/instance:ro
-      - ./integrations:/project/integrations:ro
-      - ./.runtime/m6-security/api2-state:/state
+      - ../../../.runtime/m6-security/instance:/instance:ro
+      - ../../../integrations:/project/integrations:ro
+      - ../../../.runtime/m6-security/api2-state:/state
     depends_on:
       identity-init: {condition: service_completed_successfully}
   worker:
@@ -81,7 +81,7 @@ services:
   local-tls:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
-      - ./deploy/haproxy-release-security.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ../../../deploy/haproxy-release-security.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     networks:
       internal:
         aliases: [login.mockazure.test, graph.mockazure.test, outlook.mockazure.test, management.mockazure.test]
@@ -90,14 +90,14 @@ services:
   ingress:
     image: haproxy:3.2-alpine@sha256:254e6370f01cd654e0744edf607c67f33777c1b6a9dc0d4b28bcba7171460122
     volumes:
-      - ./deploy/haproxy-release-security.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ../../../deploy/haproxy-release-security.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     ports: ["127.0.0.1:42443:443", "127.0.0.1:55448:5432", "127.0.0.1:42446:8080"]
     networks: [internal, ingress]
     depends_on:
       api: {condition: service_healthy}
 secrets:
   db_password:
-    file: ./.runtime/m6-security/db.password
+    file: ../../../.runtime/m6-security/db.password
 volumes:
   postgres-data:
     labels:

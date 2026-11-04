@@ -71,8 +71,8 @@ def source_fingerprint(root=ROOT):
             "build-requirements.txt",
             "Dockerfile",
             "integrations/Dockerfile.python",
-            PROFILE.text("compose.m5.yaml"),
-            PROFILE.text("compose.clients.m5.yaml"),
+            PROFILE.text("deploy/compose/milestones/compose.m5.yaml"),
+            PROFILE.text("deploy/compose/milestones/compose.clients.m5.yaml"),
             PROFILE.text("deploy/haproxy-m5.cfg"),
         )
     }
